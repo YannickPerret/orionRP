@@ -7,4 +7,17 @@ version '1.0.0'
 
 resource_type 'gametype' { name = 'My awesome game type!' }
 
-client_script 'player/client.js'
+ui_page 'web/build/index.html'
+
+files {
+    "web/build/index.html",
+    "web/build/main.js"
+}
+
+client_scripts {
+    'client.js',
+    'utils.js',
+    'player/client.js'
+}
+
+server_script 'player/server.js'
