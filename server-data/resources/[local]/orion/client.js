@@ -1,4 +1,4 @@
-import { debugPrint } from "./utils";
+const { debugPrint } = require("./utils");
 
 const toggleNuiFrame = (shouldShow) => {
   SetNuiFocus(shouldShow, shouldShow);
