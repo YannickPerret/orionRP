@@ -11,7 +11,7 @@ ui_page 'web/build/index.html'
 
 files {
     "web/build/index.html",
-    "web/build/main.js"
+    'web/build/**/*',
 }
 
 client_scripts {
