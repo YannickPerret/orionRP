@@ -1,6 +1,6 @@
-import PlayerManager from "./playerManager.js";
-import Player from "./player/player.js";
-import db from "./database.js";
+const PlayerManager = require("./playerManager.js");
+const Player = require("./player/player.js");
+const db = require("./database.js");
 
 on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
