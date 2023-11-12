@@ -113,6 +113,7 @@ onNet("orion:getPlayerData", () => {
   const source = global.source;
   const playerData = PlayerManager.getPlayerBySource(source);
   if (playerData) {
+    console.log("[Orion] Ouverture du menu joueur");
     emitNet("orion:openPlayerMenu", source, {
       firstname: playerData.firstname,
       lastname: playerData.lastname,
