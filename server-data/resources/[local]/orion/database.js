@@ -11,22 +11,22 @@ class Database {
     };
   }
 
-  connect(callback) {
-    if (!globalConnection) {
-      r.connect(this._config, (err, conn) => {
-        if (err) {
-          console.error("Connection to RethinkDB failed:", err);
-          callback(err, null);
-        } else {
-          conn.use(this._config.db);
-          globalConnection = conn;
-          console.log("Connected to RethinkDB");
-          callback(null, conn);
-        }
-      });
-    } else {
-      callback(null, globalConnection);
-    }
+  connect() {
+    return new Promise((resolve, reject) => {
+      if (!this._connection) {
+        r.connect(this._config, (err, conn) => {
+          if (err) {
+            reject(err);
+          } else {
+            conn.use(this._config.db);
+            this._connection = conn;
+            resolve(conn);
+          }
+        });
+      } else {
+        resolve(this._connection);
+      }
+    });
   }
 }
 
