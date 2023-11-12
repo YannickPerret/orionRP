@@ -12,7 +12,6 @@ class PlayerManager {
   }
 
   getPlayerBySource(source) {
-    console.log(source);
     return this.players.get(source);
   }
 
