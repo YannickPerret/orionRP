@@ -65,7 +65,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 
       const result = await db.insert("players", newPlayerData);
 
-      if (result.changes && result.changes.length > 0) {
+      if (result.inserted === 1) {
         const newPlayer = new Player(
           newPlayerData.id,
           source,
