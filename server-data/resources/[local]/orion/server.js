@@ -112,6 +112,7 @@ on("playerDropped", (reason) => {
 
 onNet("orion:getPlayerData", (source) => {
   const playerData = PlayerManager.getPlayerBySource(source);
+  console.log("dd", playerData);
   if (playerData) {
     emitNet("orion:sendPlayerData", source, {
       firstname: playerData.firstname,
