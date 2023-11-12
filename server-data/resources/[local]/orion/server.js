@@ -13,6 +13,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   }
 
   if (steamId) {
+    console.log(`[Orion] ${nomJoueur} (${steamId}) se connecte au serveur`);
     try {
       const playerData = await db
         .getConnection()
