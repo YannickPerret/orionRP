@@ -30,3 +30,15 @@ on("__cfx_nui:getClientData", (data, cb) => {
   const retData = { x: curCoords.x, y: curCoords.y, z: curCoords.z };
   cb(retData);
 });
+
+//open Nui player menu interface when player press F2
+RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
+
+RegisterCommand(
+  "openPlayerMenu",
+  () => {
+    toggleNuiFrame(true);
+    exports("debugPrint")("Show NUI frame");
+  },
+  false
+);

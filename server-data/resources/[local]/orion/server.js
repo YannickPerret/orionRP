@@ -6,6 +6,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
   let license = null;
   let source = global.source;
+
   for (let i = 0; i < GetNumPlayerIdentifiers(source); i++) {
     let identifier = GetPlayerIdentifier(source, i);
     if (identifier.includes("steam:")) {
@@ -63,20 +64,20 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
       };
 
       const result = await db.insert("players", newPlayerData);
+
       if (result.changes && result.changes.length > 0) {
-        const newDatabasePlayer = result.changes[0].new_val;
         const newPlayer = new Player(
-          newDatabasePlayer.id,
+          newPlayerData.id,
           source,
-          newDatabasePlayer.steamId,
-          newDatabasePlayer.firstname,
-          newDatabasePlayer.lastname,
-          newDatabasePlayer.phone,
-          newDatabasePlayer.money,
-          newDatabasePlayer.bank,
-          newDatabasePlayer.position,
-          newDatabasePlayer.license,
-          newDatabasePlayer.discord
+          newPlayerData.steamId,
+          newPlayerData.firstname,
+          newPlayerData.lastname,
+          newPlayerData.phone,
+          newPlayerData.money,
+          newPlayerData.bank,
+          newPlayerData.position,
+          newPlayerData.license,
+          newPlayerData.discord
         );
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
         console.log("[Orion] Nouveau joueur créé : ", newPlayer.license);
