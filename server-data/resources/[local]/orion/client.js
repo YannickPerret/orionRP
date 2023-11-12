@@ -18,7 +18,6 @@ on("playerSpawned", () => {
   emitNet("orion:playerSpawned");
 
   onNet("orion:sendPlayerData", (playerData) => {
-    // Traite les données reçues du serveur
     emit("chat:addMessage", {
       args: ["Welcome back!~"],
     });
