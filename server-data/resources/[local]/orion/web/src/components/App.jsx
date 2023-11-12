@@ -1,31 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './App.css'
-import {debugData} from "../utils/debugData";
-import {fetchNui} from "../utils/fetchNui";
-
-// This will set the NUI to visible if we are
-// developing in browser
-debugData([
-  {
-    action: 'setVisible',
-    data: true,
-  }
-])
-
-
-const ReturnClientDataComp = ({data}) => (
-  <>
-    <h5>Returned Data:</h5>
-    <pre>
-      <code>
-        {JSON.stringify(data, null)}
-      </code>
-    </pre>
-  </>
-)
 
 const App = () => {
-  const [playerData, setPlayerData] = useState(null);
+  const [playerData, setPlayerData] = useState({ firstname: '', lastname: '', money: 0 });
   const [showNui, setShowNui] = useState(false);
 
   useEffect(() => {
@@ -33,15 +10,16 @@ const App = () => {
       const { action, data } = event.data;
       if (action === "setPlayerData") {
         setPlayerData(data);
-        setShowNui(true); // Afficher l'interface utilisateur
+        setShowNui(true);
+      } else if (action === "closeNUI") {
+        setShowNui(false);
       }
     };
-  
+
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  
   if (!showNui) {
     return null;
   }
@@ -53,11 +31,11 @@ const App = () => {
       </header>
       <div>
         <ul>
-          <li>Argent liquide : {playerData.money}</li>
+          <li>Argent liquide : ${playerData.money}</li>
         </ul>
       </div>
     </div>
   );
-}
+};
 
 export default App;
