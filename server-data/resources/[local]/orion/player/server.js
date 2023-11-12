@@ -1,5 +1,3 @@
-const PlayerManager = require("../system/playerManager.js");
-
 onNet("orion:savePlayerPosition", async (x, y, z) => {
   const source = global.source;
   const player = PlayerManager.getPlayerBySource(source);
