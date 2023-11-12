@@ -1,12 +1,14 @@
+const PlayerManager = require("../system/playerManager.js");
 //register event for save position player
-onNet("orion:savePositionPlayer", (x, y, z) => {
+onNet("orion:savePositionPlayer", (position) => {
   const source = global.source;
   const player = PlayerManager.getPlayerBySource(source);
+  console.log(position, player);
   if (player) {
     player.position = {
-      x: x,
-      y: y,
-      z: z,
+      x: position[0],
+      y: position[1],
+      z: position[2],
     };
     player.save();
 

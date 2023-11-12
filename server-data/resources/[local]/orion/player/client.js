@@ -62,7 +62,7 @@ RegisterCommand("tpto", (source, args) => {
   );
 });
 
-RegisterCommand("savePosition", (source, args) => {
-  const pos = GetEntityCoords(GetPlayerPed(-1));
-  emitNet("orion:savePositionPlayer", pos[0], pos[1], pos[2]);
+RegisterCommand("save", (source, args) => {
+  const position = GetEntityCoords(GetPlayerPed(-1));
+  emitNet("orion:savePositionPlayer", position);
 });
