@@ -9,6 +9,7 @@ const App = () => {
     const handleMessage = (event) => {
       const { action, data } = event.data;
       if (action === "setPlayerData") {
+        console.log(data)
         setPlayerData(data);
         setShowNui(true);
       } else if (action === "closeNUI") {
