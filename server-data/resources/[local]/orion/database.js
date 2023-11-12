@@ -28,6 +28,40 @@ class Database {
       }
     });
   }
+
+  insert(table, data) {
+    return this.connect().then((connection) => {
+      return r
+        .table(table)
+        .insert(data)
+        .run(connection)
+        .then((result) => {
+          console.log("document ajouté avec succès:", result);
+          return result;
+        })
+        .catch((err) => {
+          console.error("Erreur lors de l'insertion du document:", err);
+          throw err;
+        });
+    });
+  }
+
+  get(table, id) {
+    return this.connect().then((connection) => {
+      return r
+        .table(table)
+        .get(id)
+        .run(connection)
+        .then((result) => {
+          console.log("document récupéré avec succès:", result);
+          return result;
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la récupération du document:", err);
+          throw err;
+        });
+    });
+  }
 }
 
 const db = new Database({ host: "192.168.1.18", port: 28015, db: "orion" });
