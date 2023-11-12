@@ -110,7 +110,7 @@ on("playerDropped", (reason) => {
   PlayerManager.removePlayer(sourceId);
 });
 
-onNet("orion:getPlayerData", (source) => {
+onNet("orion:getPlayerData", () => {
   const playerData = PlayerManager.getPlayerBySource(source);
   console.log("dd", playerData);
   if (playerData) {
