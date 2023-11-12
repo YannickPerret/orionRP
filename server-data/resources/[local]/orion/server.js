@@ -82,6 +82,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
             .table("players")
             .insert(
               {
+                id: r.uuid(),
                 steamId: steamId,
                 license: license,
                 firstname: "John",
