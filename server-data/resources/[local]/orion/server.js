@@ -51,6 +51,11 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
       );
       PlayerManager.addPlayer(player.source, player);
       console.log("[Orion] Joueur existant récupéré : ", player);
+      emitNet(
+        "orion:showNotification",
+        source,
+        `Bienvenue ${playerData[0].firstname} sur Orion !`
+      );
     } else {
       // Traitement pour un nouveau joueur
       const newPlayerData = {

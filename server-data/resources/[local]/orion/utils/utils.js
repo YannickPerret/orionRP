@@ -16,3 +16,9 @@ exports("debugPrint", (...args) => {
   const message = `[${currentResourceName}] ${appendStr}`;
   console.log(message);
 });
+
+exports("orion:showNotification", (message) => {
+  SetNotificationTextEntry("STRING");
+  AddTextComponentString(message);
+  DrawNotification(false, false);
+});

@@ -9,5 +9,8 @@ onNet("orion:savePositionPlayer", (x, y, z) => {
       z: z,
     };
     player.save();
+
+    //show message for player
+    emitNet("orion:showNotification", source, "Position sauvegardée");
   }
 });
