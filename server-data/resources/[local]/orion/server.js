@@ -25,10 +25,12 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   if (steamId || license) {
     try {
       const connection = await db.connect();
-      const playerData = await connection
+      const cursor = await connection
         .table("players")
         .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(license)))
         .run();
+
+      const playerData = await cursor.toArray();
 
       if (playerData.length > 0) {
         // Joueur existant, récupérez ses informations et créez une instance de Player
@@ -102,7 +104,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 });
 
 on("playerDropped", (reason) => {
-  let sourceId = getSource(); // Obtenez l'ID unique du joueur
+  let sourceId = global.source; // Obtenez l'ID unique du joueur
   // Retirer le joueur de la liste
   PlayerManager.delete(sourceId);
 });

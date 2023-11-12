@@ -1,27 +1,39 @@
 const r = require("rethinkdb");
 
 class Database {
-  constructor() {
+  constructor(config) {
     if (!Database.instance) {
-      this._config = {
+      this._config = config || {
         host: "192.168.1.18",
         port: 28015,
         db: "orion",
       };
+      this._connection = null;
       Database.instance = this;
     }
-
     return Database.instance;
   }
 
   async connect() {
     if (!this._connection) {
-      this._connection = await r.connect(this._config);
+      try {
+        this._connection = await r.connect(this._config);
+        this._connection.use(this._config.db);
+        console.log("Connected to RethinkDB");
+      } catch (err) {
+        console.error("Connection to RethinkDB failed:", err);
+        throw err;
+      }
     }
     return this._connection;
   }
 }
 
-const db = new Database();
+const dbConfig = {
+  host: "192.168.1.18",
+  port: 28015,
+  db: "orion",
+};
+const db = new Database(dbConfig);
 
 module.exports = { db, r };
