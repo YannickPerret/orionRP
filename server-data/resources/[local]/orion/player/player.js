@@ -1,5 +1,5 @@
 //import Inventory from "./inventaire.js";
-const db = require("../system/database.js");
+const { db, r } = require("../system/database.js");
 class Player {
   constructor(
     id,
