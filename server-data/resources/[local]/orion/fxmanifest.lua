@@ -20,4 +20,7 @@ client_scripts {
     'player/client.js'
 }
 
-server_script 'player/server.js'
+server_scripts {
+    'server.js',
+    'player/server.js'
+}

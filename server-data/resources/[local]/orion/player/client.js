@@ -20,3 +20,9 @@ on("onClientGameTypeStart", () => {
   exports.spawnmanager.setAutoSpawn(true);
   exports.spawnmanager.forceRespawn();
 });
+
+on("playerSpawned", () => {
+  emit("chat:addMessage", {
+    args: ["Welcome back!~"],
+  });
+});
