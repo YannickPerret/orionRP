@@ -1,5 +1,43 @@
 let isNuiOpen = false;
 
+on("playerSpawned", () => {
+  //téléporter le player dans un endroit sécurisé
+  const playerId = GetPlayerServerId(PlayerId());
+  const ped = GetPlayerPed(-1);
+  SetEntityCoords(
+    ped,
+    parseFloat(-1037.0),
+    parseFloat(-2738.0),
+    parseFloat(20.0),
+    false,
+    false,
+    false,
+    false
+  );
+
+  emitNet("orion:playerSpawned");
+
+  onNet("orion:sendPlayerData", (playerData) => {
+    // Traite les données reçues du serveur
+    console.log("Données du joueur reçues :", playerData);
+
+    emit("chat:addMessage", {
+      args: ["Welcome back!~"],
+    });
+
+    SetEntityCoords(
+      ped,
+      parseFloat(playerData.position.x),
+      parseFloat(playerData.position.y),
+      parseFloat(playerData.position.z),
+      false,
+      false,
+      false,
+      false
+    );
+  });
+});
+
 RegisterCommand(
   "openPlayerMenu",
   () => {

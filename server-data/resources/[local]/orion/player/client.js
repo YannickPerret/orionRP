@@ -21,12 +21,6 @@ on("onClientGameTypeStart", () => {
   exports.spawnmanager.forceRespawn();
 });
 
-on("playerSpawned", () => {
-  emit("chat:addMessage", {
-    args: ["Welcome back!~"],
-  });
-});
-
 RegisterCommand("pos", (source, args) => {
   const pos = GetEntityCoords(GetPlayerPed(-1));
   emit("chat:addMessage", {

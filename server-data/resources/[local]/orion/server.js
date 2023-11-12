@@ -5,7 +5,7 @@ const { db, r } = require("./system/database.js");
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
 
-on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
+onNet("orion:playerSpawned", async () => {
   let steamId = null;
   let license = null;
   let source = global.source;
@@ -57,6 +57,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         source,
         `Bienvenue ${playerData[0].firstname} sur Orion !`
       );
+      emitNet("orion:sendPlayerData", source, playerData[0].position);
     } else {
       // Traitement pour un nouveau joueur
       const newPlayerData = {
@@ -113,6 +114,7 @@ on("playerDropped", (reason) => {
 
 onNet("orion:getPlayerData", () => {
   const source = global.source;
+  console.log("playerlist", PlayerManager.getPlayers());
   console.log("source", source);
 
   const playerData = PlayerManager.getPlayerBySource(source);
