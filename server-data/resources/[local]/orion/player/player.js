@@ -9,14 +9,17 @@ class Player {
     phone,
     money,
     bank,
-    position
+    position,
+    license,
+    discord
   ) {
     this.id = id;
     this.source = source;
     this.faim = 100;
     this.soif = 100;
     //this.inventaire = new Inventory();
-    this.steamId = steamId;
+    this.vehicules = [];
+    this.steamId = steamId || null;
     this.position = {
       x: position.x || 0,
       y: position.y || 0,
@@ -28,6 +31,8 @@ class Player {
     this.phone = phone;
     this.money = money || 500;
     this.bank = bank || 0;
+    this.license = license || null;
+    this.discord = discord || null;
   }
 
   manger(quantite) {

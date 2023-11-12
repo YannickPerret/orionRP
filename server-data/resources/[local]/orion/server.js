@@ -4,38 +4,51 @@ const db = require("./database.js");
 
 on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
+  let license = null;
+  let source = getSource();
   for (let i = 0; i < GetNumPlayerIdentifiers(source); i++) {
     let identifier = GetPlayerIdentifier(source, i);
     if (identifier.includes("steam:")) {
       steamId = identifier;
       break;
+    } else if (identifier.includes("license:")) {
+      license = identifier;
+      break;
     }
   }
-  console.log(`[Orion] ${nomJoueur} se connecte au serveur`);
+  console.log(
+    `[Orion] ${nomJoueur}, ${
+      steamId ? steamId : license
+    } se connecte au serveur`
+  );
 
-  if (steamId) {
+  if (steamId || license) {
     try {
       const playerData = await db
         .getConnection()
         .table("players")
-        .filter({ steamId: steamId })
+        .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(licenseId)))
         .run();
 
       if (playerData.length > 0) {
         // Joueur existant, récupérez ses informations et créez une instance de Player
         const player = new Player(
           playerData[0].id,
-          playerData[0].source,
+          source,
           steamId,
           playerData[0].firstname,
           playerData[0].lastname,
           playerData[0].phone,
           playerData[0].money,
           playerData[0].bank,
-          playerData[0].position
+          playerData[0].position,
+          playerData[0].license,
+          playerData[0].discord
         );
         // Vous pouvez ajouter ici des logiques supplémentaires pour initialiser le joueur
         PlayerManager.addPlayer(player.source, player);
+
+        console.log("[Orion] Joueur existant récupéré : ", player);
       } else {
         // Nouveau joueur, créez un enregistrement dans la base de données
         const newDatabasePlayer = await db
@@ -43,24 +56,37 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
           .table("joueurs")
           .insert({
             steamId: steamId,
-
-            // Ajoutez ici d'autres informations initiales du joueur
+            license: license,
+            firstname: "John",
+            lastname: "Doe",
+            phone: "5552727",
+            money: 500,
+            bank: 0,
+            position: {
+              x: -275.522,
+              y: 6635.835,
+              z: 7.425,
+            },
+            discord: null,
           })
           .run();
 
         const newPlayer = new Player(
           newDatabasePlayer.id,
-          getSource(),
-          steamId,
+          source,
+          newDatabasePlayer.steamId,
           newDatabasePlayer.firstname,
           newDatabasePlayer.lastname,
           newDatabasePlayer.phone,
           newDatabasePlayer.money,
           newDatabasePlayer.bank,
-          newDatabasePlayer.position
+          newDatabasePlayer.position,
+          newDatabasePlayer.license,
+          newDatabasePlayer.discord
         );
 
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
+        console.log("[Orion] Nouveau joueur créé : ", newPlayer);
       }
     } catch (erreur) {
       console.error(
