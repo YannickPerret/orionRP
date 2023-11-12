@@ -24,22 +24,11 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 
   if (steamId || license) {
     try {
-      const playerData = db
-        .getConnection()
-        .then((connection) => {
-          return connection
-            .table("players")
-            .filter(
-              r.row("steamId").eq(steamId).or(r.row("license").eq(license))
-            )
-            .run();
-        })
-        .then((playerData) => {
-          return playerData.toArray();
-        })
-        .catch((erreur) => {
-          throw erreur;
-        });
+      const connection = db.getConnection();
+      const playerData = await connection
+        .table("players")
+        .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(license)))
+        .run();
 
       if (playerData.length > 0) {
         // Joueur existant, récupérez ses informations et créez une instance de Player
@@ -64,34 +53,25 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         // Nouveau joueur, créez un enregistrement dans la base de données
         const playerPosition = GetEntityCoords(GetPlayerPed(source));
 
-        const newDatabasePlayer = db
-          .getConnection()
-          .then((connection) => {
-            return connection
-              .table("players")
-              .insert({
-                steamId: steamId,
-                license: license,
-                firstname: "John",
-                lastname: "Doe",
-                phone: "5552727",
-                money: 500,
-                bank: 0,
-                position: {
-                  x: playerPosition.x,
-                  y: playerPosition.y,
-                  z: playerPosition.z,
-                },
-                discord: null,
-              })
-              .run();
+        const connection = db.getConnection();
+        const newDatabasePlayer = await connection
+          .table("players")
+          .insert({
+            steamId: steamId,
+            license: license,
+            firstname: "John",
+            lastname: "Doe",
+            phone: "5552727",
+            money: 500,
+            bank: 0,
+            position: {
+              x: playerPosition.x,
+              y: playerPosition.y,
+              z: playerPosition.z,
+            },
+            discord: null,
           })
-          .then((newDatabasePlayer) => {
-            return newDatabasePlayer;
-          })
-          .catch((erreur) => {
-            throw erreur;
-          });
+          .run();
 
         const newPlayer = new Player(
           newDatabasePlayer.id,
