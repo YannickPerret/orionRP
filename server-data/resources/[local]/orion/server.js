@@ -24,7 +24,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 
   if (steamId || license) {
     try {
-      const connection = db.getConnection();
+      const connection = await db.connect();
       const playerData = await connection
         .table("players")
         .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(license)))
