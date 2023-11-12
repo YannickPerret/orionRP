@@ -111,6 +111,7 @@ on("playerDropped", (reason) => {
 
 onNet("orion:getPlayerData", () => {
   const source = global.source;
+  console.log("[Orion] Récupération des données du joueur : ", source);
 
   const playerData = PlayerManager.getPlayerBySource(source);
   if (playerData) {

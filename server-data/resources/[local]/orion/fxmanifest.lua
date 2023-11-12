@@ -14,14 +14,15 @@ files {
     'web/build/**/*',
 }
 
+server_scripts {
+    'server.js',
+    'utils/utils.js',
+    'player/server.js'
+}
+
 client_scripts {
     'client.js',
     'utils/utils.js',
     'player/client.js'
 }
 
-server_scripts {
-    'server.js',
-    'utils/utils.js',
-    'player/server.js'
-}
