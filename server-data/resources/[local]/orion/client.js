@@ -3,7 +3,7 @@ let isNuiOpen = false;
 RegisterCommand(
   "openPlayerMenu",
   () => {
-    emitNet("orion:getPlayerData");
+    emitNet("orion:getPlayerData", );
   },
   false
 );
