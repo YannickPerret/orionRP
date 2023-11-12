@@ -51,7 +51,7 @@ class Database {
         .get(id)
         .run(connection)
         .then((result) => {
-          console.log("document récupéré avec succès:", result);
+          console.log("document récupéré avec succès");
           return result;
         })
         .catch((err) => {

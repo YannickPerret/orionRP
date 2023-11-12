@@ -48,14 +48,13 @@ onNet("orion:playerSpawned", async () => {
         playerData[0].discord
       );
       PlayerManager.addPlayer(player.source, player);
-      console.log(PlayerManager.getPlayers());
       console.log("[Orion] Joueur existant récupéré : ", player);
       emitNet(
         "orion:showNotification",
         source,
         `Bienvenue ${playerData[0].firstname} sur Orion !`
       );
-      emitNet("orion:sendPlayerData", source, playerData[0].position);
+      emitNet("orion:sendPlayerData", source, playerData[0]);
     } else {
       // Traitement pour un nouveau joueur
       const newPlayerData = {
@@ -112,11 +111,8 @@ on("playerDropped", (reason) => {
 
 onNet("orion:getPlayerData", () => {
   const source = global.source;
-  console.log("playerlist", PlayerManager.getPlayers());
-  console.log("source", source);
 
   const playerData = PlayerManager.getPlayerBySource(source);
-  console.log("dd", playerData);
   if (playerData) {
     emitNet("orion:sendPlayerData", source, {
       firstname: playerData.firstname,
