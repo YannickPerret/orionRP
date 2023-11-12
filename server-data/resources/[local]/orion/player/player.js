@@ -75,19 +75,22 @@ class Player {
   }
 
   async save() {
-    await db
-      .getConnection()
-      .table("players")
-      .get(this.id)
-      .update({
-        position: this.position,
-        money: this.money,
-        bank: this.bank,
-        firstname: this.firstname,
-        lastname: this.lastname,
-        phone: this.phone,
-      })
-      .run();
+    const playerData = {
+      id: this.id,
+      steamId: this.steamId,
+      license: this.license,
+      firstname: this.firstname,
+      lastname: this.lastname,
+      phone: this.phone,
+      money: this.money,
+      bank: this.bank,
+      position: this.position,
+      discord: this.discord,
+    };
+    const result = await db.update("players", playerData);
+    if (result.changes && result.changes.length > 0) {
+      console.log("[Orion] Joueur sauvegardé : ", this);
+    }
   }
 }
 
