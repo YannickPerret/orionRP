@@ -1,4 +1,4 @@
-const r = require("rethinkdbdash");
+const r = require("rethinkdb");
 
 class Database {
   constructor() {
