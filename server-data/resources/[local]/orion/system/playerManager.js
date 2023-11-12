@@ -20,4 +20,5 @@ class PlayerManager {
   }
 }
 
-module.exports = new PlayerManager();
+const playerManager = new PlayerManager();
+module.exports = playerManager;

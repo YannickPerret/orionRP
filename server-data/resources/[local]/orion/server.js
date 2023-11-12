@@ -50,6 +50,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         playerData[0].discord
       );
       PlayerManager.addPlayer(player.source, player);
+      console.log(PlayerManager.getPlayers());
       console.log("[Orion] Joueur existant récupéré : ", player);
       emitNet(
         "orion:showNotification",
@@ -111,6 +112,7 @@ on("playerDropped", (reason) => {
 });
 
 onNet("orion:getPlayerData", () => {
+  console.log(PlayerManager.getPlayers());
   const playerData = PlayerManager.getPlayerBySource(source);
   console.log("dd", playerData);
   if (playerData) {
