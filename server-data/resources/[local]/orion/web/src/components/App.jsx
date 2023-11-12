@@ -42,6 +42,7 @@ const App = () => {
 
   useEffect(() => {
     window.addEventListener("message", (event) => {
+      console.log(event)
       const { action } = event.data;
       if (action === "openNUI") {
         setShowNui(true);
