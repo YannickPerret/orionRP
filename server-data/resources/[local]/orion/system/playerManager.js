@@ -12,7 +12,7 @@ class PlayerManager {
   }
 
   getPlayerBySource(source) {
-    return this.players.get(source);
+    return this.players.has(source) ? this.players.get(source) : null;
   }
 
   getPlayers() {
