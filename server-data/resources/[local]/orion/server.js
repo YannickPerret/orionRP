@@ -5,7 +5,7 @@ const db = require("./database.js");
 on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
   let license = null;
-  let source = getSource();
+  let source = global.source;
   for (let i = 0; i < GetNumPlayerIdentifiers(source); i++) {
     let identifier = GetPlayerIdentifier(source, i);
     if (identifier.includes("steam:")) {
