@@ -56,7 +56,7 @@ RegisterCommand(
 
 RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
 
-onNet("openPlayerMenu", (playerData) => {
+onNet("orion:openPlayerMenu", (playerData) => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
   console.log(playerData);

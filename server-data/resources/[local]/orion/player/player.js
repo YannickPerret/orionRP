@@ -12,7 +12,8 @@ class Player {
     bank,
     position,
     license,
-    discord
+    discord,
+    isAdmin
   ) {
     this.id = id;
     this.source = source;
@@ -34,6 +35,7 @@ class Player {
     this.bank = bank || 0;
     this.license = license || null;
     this.discord = discord || null;
+    this.isAdmin = isAdmin || false;
   }
 
   manger(quantite) {

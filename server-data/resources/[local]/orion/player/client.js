@@ -78,8 +78,15 @@ RegisterCommand(
             true
           ); // Ajouté un petit offset pour éviter de se retrouver sous le sol
         } else {
-          console.log(
-            "Impossible de trouver la hauteur du sol. Téléportation annulée."
+          SetEntityCoords(
+            playerPed,
+            coord[0],
+            coord[1],
+            coord[2],
+            false,
+            false,
+            false,
+            true
           );
         }
       }, 1000); // Attendre 1 seconde pour laisser le temps au jeu de charger la hauteur du sol
