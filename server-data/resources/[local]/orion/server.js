@@ -104,3 +104,15 @@ on("playerDropped", (reason) => {
   let sourceId = global.source; // Obtenez l'ID unique du joueur
   PlayerManager.removePlayer(sourceId);
 });
+
+onNet("orion:getPlayerData", (playerServerId) => {
+  const playerData = PlayerManager.getPlayerBySource(playerServerId);
+  if (playerData) {
+    // Envoyer les données du joueur au client spécifique
+    emitNet("orion:sendPlayerData", playerServerId, {
+      firstname: playerData.firstname,
+      lastname: playerData.lastname,
+      money: playerData.money,
+    });
+  }
+});

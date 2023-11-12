@@ -33,16 +33,15 @@ const App = () => {
       const { action, data } = event.data;
       if (action === "setPlayerData") {
         setPlayerData(data);
-        setShowNui(true);
-      } else if (action === "closeNUI") {
-        setShowNui(false);
+        setShowNui(true); // Afficher l'interface utilisateur
       }
     };
-
+  
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
+  
   if (!showNui) {
     return null;
   }
