@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css'
 import {debugData} from "../utils/debugData";
 import {fetchNui} from "../utils/fetchNui";
@@ -25,9 +25,11 @@ const ReturnClientDataComp = ({data}) => (
 )
 
 const App = () => {
-  const [clientData, setClientData] = useState(null)
+  const [showNui, setShowNui] = useState(false);
 
-  const handleGetClientData = () => {
+  //const [clientData, setClientData] = useState(null)
+
+  /*const handleGetClientData = () => {
     fetchNui('getClientData').then(retData => {
       console.log('Got return data from client scripts:')
       console.dir(retData)
@@ -36,18 +38,38 @@ const App = () => {
       console.error('Setting mock data due to error', e)
       setClientData({ x: 500, y: 300, z: 200})
     })
+  }*/
+
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      const { action } = event.data;
+      if (action === "openNUI") {
+        setShowNui(true);
+      }
+    });
+  }, []);
+
+  const handleClose = () => {
+    setShowNui(false);
+    // Envoyer un message au client FiveM pour fermer la NUI
+    fetch(`https://${GetParentResourceName()}/closeNUI`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({ action: "close" })
+    });
+  };
+
+  if (!showNui) {
+    return null;
   }
 
+
   return (
-    <div className="nui-wrapper">
-      <div className='popup-thing'>
-        <div>
-          <h1>This is the NUI Popup!</h1>
-          <p>Exit with the escape key</p>
-          <button onClick={handleGetClientData}>Get Client Data</button>
-          {clientData && <ReturnClientDataComp data={clientData} />}
-        </div>
-      </div>
+    <div className="nui-container">
+      {/* Votre interface NUI ici */}
+      <button onClick={handleClose}>Fermer la NUI</button>
     </div>
   );
 }
