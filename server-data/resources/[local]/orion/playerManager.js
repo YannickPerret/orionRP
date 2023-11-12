@@ -14,6 +14,10 @@ class PlayerManager {
   getPlayerBySource(source) {
     return this.players.get(source);
   }
+
+  getPlayers() {
+    return this.players;
+  }
 }
 
 module.exports = new PlayerManager();

@@ -1,7 +1,5 @@
 const r = require("rethinkdb");
 
-let globalConnection = null;
-
 class Database {
   constructor(config) {
     this._config = config || {
@@ -58,6 +56,42 @@ class Database {
         })
         .catch((err) => {
           console.error("Erreur lors de la récupération du document:", err);
+          throw err;
+        });
+    });
+  }
+
+  update(table, data) {
+    return this.connect().then((connection) => {
+      return r
+        .table(table)
+        .get(data.id)
+        .update(data)
+        .run(connection)
+        .then((result) => {
+          console.log("document mis à jour avec succès:", result);
+          return result;
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la mise à jour du document:", err);
+          throw err;
+        });
+    });
+  }
+
+  remove(table, id) {
+    return this.connect().then((connection) => {
+      return r
+        .table(table)
+        .get(id)
+        .delete()
+        .run(connection)
+        .then((result) => {
+          console.log("document supprimé avec succès:", result);
+          return result;
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la suppression du document:", err);
           throw err;
         });
     });
