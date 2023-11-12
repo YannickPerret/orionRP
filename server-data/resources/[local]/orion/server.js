@@ -29,7 +29,6 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         .table("players")
         .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(license)))
         .run();
-
       const playerData = await cursor.toArray();
 
       if (playerData.length > 0) {

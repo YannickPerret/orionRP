@@ -19,7 +19,6 @@ class Database {
       try {
         this._connection = await r.connect(this._config);
         this._connection.use(this._config.db);
-        console.log("Connected to RethinkDB");
       } catch (err) {
         console.error("Connection to RethinkDB failed:", err);
         throw err;
