@@ -4,10 +4,6 @@ onNet("orion:savePlayerPosition", async (x, y, z) => {
   if (player) {
     player.position = { x, y, z };
     await player.save();
-    TriggerClientEvent(
-      "orion:showNotification",
-      source,
-      "Votre position a été sauvegardée."
-    );
+    emitNet("orion:showNotification", source, "Position sauvegardée !");
   }
 });
