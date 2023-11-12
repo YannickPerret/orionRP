@@ -1,3 +1,4 @@
+//import Inventory from "./inventaire.js";
 class Player {
   constructor(
     id,
@@ -14,7 +15,7 @@ class Player {
     this.source = source;
     this.faim = 100;
     this.soif = 100;
-    this.inventaire = new Inventaire();
+    //this.inventaire = new Inventory();
     this.steamId = steamId;
     this.position = {
       x: position.x || 0,
