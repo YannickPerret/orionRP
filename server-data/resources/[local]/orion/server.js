@@ -8,7 +8,6 @@ const playerPosition = [-530.77, -2113.83, 9.0];
 on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
   let license = null;
-  let source = global.source;
 
   for (let i = 0; i < GetNumPlayerIdentifiers(source); i++) {
     let identifier = GetPlayerIdentifier(source, i);
@@ -106,8 +105,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 });
 
 on("playerDropped", (reason) => {
-  let sourceId = global.source; // Obtenez l'ID unique du joueur
-  PlayerManager.removePlayer(sourceId);
+  PlayerManager.removePlayer(source);
 });
 
 onNet("orion:getPlayerData", (source) => {
