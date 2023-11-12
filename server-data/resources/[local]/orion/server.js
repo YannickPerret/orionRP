@@ -8,6 +8,7 @@ const playerPosition = [-530.77, -2113.83, 9.0];
 on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
   let license = null;
+  let source = global.source;
 
   for (let i = 0; i < GetNumPlayerIdentifiers(source); i++) {
     let identifier = GetPlayerIdentifier(source, i);
@@ -49,7 +50,8 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         playerData[0].discord
       );
       PlayerManager.addPlayer(player.source, player);
-      console.log("[Orion] Joueur existant récupéré : ", player.source);
+      console.log(PlayerManager.getPlayers());
+      console.log("[Orion] Joueur existant récupéré : ", player);
       emitNet(
         "orion:showNotification",
         source,
@@ -105,13 +107,15 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 });
 
 on("playerDropped", (reason) => {
-  PlayerManager.removePlayer(source);
+  let sourceId = global.source; // Obtenez l'ID unique du joueur
+  PlayerManager.removePlayer(sourceId);
 });
 
-onNet("orion:getPlayerData", (source) => {
+onNet("orion:getPlayerData", () => {
+  const source = global.source;
   console.log("source", source);
-  const playerData = PlayerManager.getPlayerBySource(source);
 
+  const playerData = PlayerManager.getPlayerBySource(source);
   console.log("dd", playerData);
   if (playerData) {
     emitNet("orion:sendPlayerData", source, {
