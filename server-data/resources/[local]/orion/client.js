@@ -1,3 +1,7 @@
+// Enregistrer le type de callback NUI
+RegisterNuiCallbackType("hideFrame");
+RegisterNuiCallbackType("getClientData");
+
 const toggleNuiFrame = (shouldShow) => {
   SetNuiFocus(shouldShow, shouldShow);
   exports("SendReactMessage")("setVisible", shouldShow);
@@ -12,26 +16,17 @@ RegisterCommand(
   false
 );
 
-RegisterNUICallback(
-  "hideFrame",
-  () => {
-    toggleNuiFrame(false);
-    debugPrint("Hide NUI frame");
-    cb();
-  },
-  false
-);
+on("__cfx_nui:hideFrame", (data, cb) => {
+  toggleNuiFrame(false);
+  exports("debugPrint")("Hide NUI frame");
+  cb();
+});
 
-RegisterNUICallback(
-  "getClientData",
-  (data, cb) => {
-    debugPrint("Data sent by React", json.encode(data));
+on("__cfx_nui:getClientData", (data, cb) => {
+  exports("debugPrint")("Data sent by React", JSON.stringify(data));
 
-    // Lets send back client coords to the React frame for use
-    const curCoords = GetEntityCoords(PlayerPedId());
-
-    const retData = { x: curCoords.x, y: curCoords.y, z: curCoords.z };
-    cb(retData);
-  },
-  false
-);
+  // Envoyer les coordonnées du joueur à l'interface NUI
+  const curCoords = GetEntityCoords(PlayerPedId());
+  const retData = { x: curCoords.x, y: curCoords.y, z: curCoords.z };
+  cb(retData);
+});
