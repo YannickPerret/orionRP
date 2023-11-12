@@ -1,4 +1,4 @@
-const spawnPos = [686.245, 577.95, 130.461];
+const spawnPos = [-275.522, 6635.835, 7.425];
 
 on("onClientGameTypeStart", () => {
   exports.spawnmanager.setAutoSpawnCallback(() => {
@@ -24,5 +24,16 @@ on("onClientGameTypeStart", () => {
 on("playerSpawned", () => {
   emit("chat:addMessage", {
     args: ["Welcome back!~"],
+  });
+});
+
+RegisterCommand("pos", (source, args) => {
+  const pos = GetEntityCoords(GetPlayerPed(-1));
+  emit("chat:addMessage", {
+    args: [
+      `X: ${pos[0].toFixed(2)}, Y: ${pos[1].toFixed(2)}, Z: ${pos[2].toFixed(
+        2
+      )}`,
+    ],
   });
 });
