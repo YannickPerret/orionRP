@@ -24,12 +24,27 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 
   if (steamId || license) {
     try {
-      const connection = await db.connect();
-      const cursor = await connection
-        .table("players")
-        .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(license)))
-        .run();
-      const playerData = await cursor.toArray();
+      const playerData = db.connect((err, connection) => {
+        if (err) {
+          console.error(
+            "Erreur lors de la connexion à la base de données:",
+            err
+          );
+          return;
+        }
+
+        connection
+          .table("players")
+          .filter(r.row("steamId").eq(steamId).or(r.row("license").eq(license)))
+          .run()
+          .then((cursor) => cursor.toArray())
+          .then((playerData) => {
+            return playerData;
+          })
+          .catch((err) => {
+            throw err;
+          });
+      });
 
       if (playerData.length > 0) {
         // Joueur existant, récupérez ses informations et créez une instance de Player
