@@ -13,6 +13,7 @@ import { isEnvBrowser } from "./misc";
  */
 
 export async function sendNui(eventName, data = null) {
+  const resourceName = "orion";
   const options = {
     method: "post",
     headers: {
