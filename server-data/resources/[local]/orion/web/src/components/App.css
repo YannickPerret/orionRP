@@ -1,34 +1,45 @@
-.nui-wrapper {
-  text-align: center;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-pre {
-  counter-reset:line-numbering;
-  background:#2c3e50;
-  padding:12px 0px 14px 0;
-  color:#ecf0f1;
-  line-height:140%;
-}
-
-.popup-thing {
-  background: #282c34;
-  border-radius: 10px;
-  width: 500px;
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}
-
 .playerInfo {
   display : flex;
   flex-direction: column;
   width: 350px;
-  height: 650px;
-  background-color: azure;
+  height: 350px;
+  background-color: #f3fafab0;
+  border-radius: 10px;
+  margin-left : 3vw;
 }
+
+.playerInfo__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: #f3fafab0;
+  border-radius: 10px 10px 0px 0px;
+  height: 20%;
+}
+
+.playerInfo__body {
+  display : flex;
+  flex-direction: column;
+  height: 75%;
+}
+
+.playerInfo__list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+}
+
+.playerInfo__list__item {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  border: .5px solid #000000;
+  padding : 10px;
+}
+
+.playerInfo__list__item:hover {
+  background-color: #f3fafacc;
+}
+
+

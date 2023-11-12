@@ -2,17 +2,17 @@ import React, {useState, useEffect} from 'react';
 import './App.css'
 
 const App = () => {
-  const [playerData, setPlayerData] = useState({ firstname: '', lastname: '', money: 0 });
+  const [playerData, setPlayerData] = useState({ firstname: 'John', lastname: 'Doe', money: 100 });
   const [showNui, setShowNui] = useState(false);
 
   useEffect(() => {
     const handleMessage = (event) => {
       const { action, data } = event.data;
       if (action === "setPlayerData") {
-        console.log(data)
         setPlayerData(data);
         setShowNui(true);
       } else if (action === "closeNUI") {
+        console.log("closeNUI");
         setShowNui(false);
       }
     };
@@ -27,12 +27,16 @@ const App = () => {
 
   return (
     <div className="playerInfo">
-      <header>
+      <header className='playerInfo__header'>
         <h1>{playerData.firstname} {playerData.lastname}</h1>
       </header>
-      <div>
-        <ul>
-          <li>Argent liquide : ${playerData.money}</li>
+      <div className='playerInfo__body'>
+        <ul className='playerInfo__list'>
+          <li className='playerInfo__list__item'>Argent liquide : ${playerData.money}</li>
+          <li className='playerInfo__list__item'>Carte identité</li>
+          <li className='playerInfo__list__item'>Permis de conduire</li>
+          <li className='playerInfo__list__item'>Permis de port d'arme</li>
+          <li className='playerInfo__list__item'>Sauvegarder</li>
         </ul>
       </div>
     </div>
