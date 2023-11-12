@@ -50,8 +50,8 @@ RegisterCommand(
   "tpto",
   (source, args) => {
     const playerPed = GetPlayerPed(-1);
-    const blip = GetFirstBlipInfoId(8);
-    if (IsBlipOnMap(blip)) {
+    const blip = GetFirstBlipInfoId(8); // ID 8 correspond à un waypoint
+    if (blip !== 0) {
       const coord = GetBlipInfoIdCoord(blip);
 
       // Demander la collision à l'emplacement pour s'assurer que le sol est chargé
@@ -71,11 +71,11 @@ RegisterCommand(
         playerPed,
         coord[0],
         coord[1],
-        groundZ,
+        groundZ + 1.0,
         false,
         false,
         true
-      );
+      ); // Ajouté un petit offset pour éviter de se retrouver sous le sol
     } else {
       console.log("Aucun waypoint trouvé.");
     }
