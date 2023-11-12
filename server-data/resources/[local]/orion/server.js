@@ -21,9 +21,7 @@ onNet("orion:playerSpawned", async () => {
     }
   }
 
-  console.log(
-    `[Orion] ${nomJoueur}, ${steamId || license} se connecte au serveur`
-  );
+  console.log(`[Orion] ${steamId || license} se connecte au serveur`);
 
   if (!steamId && !license) {
     console.error("Erreur lors de la récupération du SteamID ou de la licence");
