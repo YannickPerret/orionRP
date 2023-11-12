@@ -24,3 +24,11 @@ pre {
   align-items: center;
   color: white;
 }
+
+.playerInfo {
+  display : flex;
+  flex-direction: column;
+  width: 350px;
+  height: 650px;
+  background-color: azure;
+}
