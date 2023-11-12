@@ -58,11 +58,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         phone: "5552727",
         money: 500,
         bank: 0,
-        position: {
-          x: playerPosition.x,
-          y: playerPosition.y,
-          z: playerPosition.z,
-        },
+        position: playerPosition,
         discord: null,
       };
 
