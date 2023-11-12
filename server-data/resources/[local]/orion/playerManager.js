@@ -16,4 +16,4 @@ class PlayerManager {
   }
 }
 
-export default new PlayerManager();
+module.exports = new PlayerManager();
