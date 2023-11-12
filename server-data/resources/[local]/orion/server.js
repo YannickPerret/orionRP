@@ -28,9 +28,10 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   }
 
   try {
-    const playerData = await db.get("players", steamId || license);
+    const filters = { steamId: steamId, license: license };
+    const playerData = await db.getByWithFilter("players", filters);
 
-    if (playerData) {
+    if (playerData.length > 0) {
       // Traitement pour un joueur existant
       const player = new Player(
         playerData.id,
