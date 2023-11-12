@@ -83,7 +83,7 @@ class Database {
         .then((cursor) => cursor.toArray())
         .then((results) => {
           if (results.length > 0) {
-            console.log("Documents trouvés :", results);
+            console.log("Documents trouvés");
             return results; // Renvoie tous les documents correspondants
           } else {
             console.log("Aucun document trouvé avec les filtres fournis.");

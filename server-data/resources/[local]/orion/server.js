@@ -34,17 +34,17 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
     if (playerData.length > 0) {
       // Traitement pour un joueur existant
       const player = new Player(
-        playerData.id,
+        playerData[0].id,
         source,
         steamId,
-        playerData.firstname,
-        playerData.lastname,
-        playerData.phone,
-        playerData.money,
-        playerData.bank,
-        playerData.position,
-        playerData.license,
-        playerData.discord
+        playerData[0].firstname,
+        playerData[0].lastname,
+        playerData[0].phone,
+        playerData[0].money,
+        playerData[0].bank,
+        playerData[0].position,
+        playerData[0].license,
+        playerData[0].discord
       );
       PlayerManager.addPlayer(player.source, player);
       console.log("[Orion] Joueur existant récupéré : ", player);
@@ -60,7 +60,11 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         phone: "5552727",
         money: 500,
         bank: 0,
-        position: playerPosition,
+        position: {
+          x: playerPosition[0],
+          y: playerPosition[1],
+          z: playerPosition[2],
+        },
         discord: null,
       };
 
