@@ -69,7 +69,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         // Nouveau joueur, créez un enregistrement dans la base de données
         const playerPosition = GetEntityCoords(GetPlayerPed(source));
 
-        const newDatabasePlayer = db.connect((err, connection) => {
+        db.connect((err, connection) => {
           if (err) {
             console.error(
               "Erreur lors de la connexion à la base de données:",
@@ -102,7 +102,24 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
             .run()
             .then((result) => {
               if (result.changes && result.changes.length > 0) {
-                return result.changes[0].new_val;
+                const newDatabasePlayer = result.changes[0].new_val;
+
+                const newPlayer = new Player(
+                  newDatabasePlayer.id,
+                  source,
+                  newDatabasePlayer.steamId,
+                  newDatabasePlayer.firstname,
+                  newDatabasePlayer.lastname,
+                  newDatabasePlayer.phone,
+                  newDatabasePlayer.money,
+                  newDatabasePlayer.bank,
+                  newDatabasePlayer.position,
+                  newDatabasePlayer.license,
+                  newDatabasePlayer.discord
+                );
+
+                PlayerManager.addPlayer(newPlayer.source, newPlayer);
+                console.log("[Orion] Nouveau joueur créé : ", newPlayer);
               } else {
                 throw new Error("Erreur lors de la création du joueur");
               }
@@ -111,23 +128,6 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
               throw err;
             });
         });
-
-        const newPlayer = new Player(
-          newDatabasePlayer.id,
-          source,
-          newDatabasePlayer.steamId,
-          newDatabasePlayer.firstname,
-          newDatabasePlayer.lastname,
-          newDatabasePlayer.phone,
-          newDatabasePlayer.money,
-          newDatabasePlayer.bank,
-          newDatabasePlayer.position,
-          newDatabasePlayer.license,
-          newDatabasePlayer.discord
-        );
-
-        PlayerManager.addPlayer(newPlayer.source, newPlayer);
-        console.log("[Orion] Nouveau joueur créé : ", newPlayer);
       }
     } catch (erreur) {
       console.error(
