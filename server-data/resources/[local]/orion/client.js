@@ -1,5 +1,4 @@
-const { debugPrint } = require("./utils");
-
+import { debugPrint } from "./utils.js";
 const toggleNuiFrame = (shouldShow) => {
   SetNuiFocus(shouldShow, shouldShow);
   SendReactMessage("setVisible", shouldShow);

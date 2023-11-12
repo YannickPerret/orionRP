@@ -22,5 +22,6 @@ client_scripts {
 
 server_scripts {
     'server.js',
+    'utils.js',
     'player/server.js'
 }
