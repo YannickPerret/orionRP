@@ -37,3 +37,38 @@ RegisterCommand("pos", (source, args) => {
     ],
   });
 });
+
+RegisterCommand("tp", (source, args) => {
+  const ped = GetPlayerPed(-1);
+  SetEntityCoords(
+    ped,
+    parseFloat(args[0]),
+    parseFloat(args[1]),
+    parseFloat(args[2]),
+    false,
+    false,
+    false,
+    false
+  );
+});
+
+RegisterCommand("tpto", (source, args) => {
+  const ped = GetPlayerPed(-1);
+  const blip = GetFirstBlipInfoId(8);
+  const coord = GetBlipInfoIdCoord(blip);
+  SetEntityCoords(
+    ped,
+    coord[0],
+    coord[1],
+    coord[2],
+    false,
+    false,
+    false,
+    false
+  );
+});
+
+RegisterCommand("savePosition", (source, args) => {
+  const pos = GetEntityCoords(GetPlayerPed(-1));
+  emitNet("orion:savePositionPlayer", pos[0], pos[1], pos[2]);
+});

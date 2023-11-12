@@ -1,4 +1,5 @@
 //import Inventory from "./inventaire.js";
+const db = require("../database.js");
 class Player {
   constructor(
     id,
@@ -71,6 +72,22 @@ class Player {
       return;
     }
     this.soif = Math.min(this.soif + 1, 100);
+  }
+
+  async save() {
+    await db
+      .getConnection()
+      .table("players")
+      .get(this.id)
+      .update({
+        position: this.position,
+        money: this.money,
+        bank: this.bank,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        phone: this.phone,
+      })
+      .run();
   }
 }
 
