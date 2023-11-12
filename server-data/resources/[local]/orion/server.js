@@ -53,7 +53,6 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
       console.log("[Orion] Joueur existant récupéré : ", player);
     } else {
       // Traitement pour un nouveau joueur
-      console.log("Position du joueur : ", playerPosition);
       const newPlayerData = {
         id: r.uuid(),
         steamId: steamId,
