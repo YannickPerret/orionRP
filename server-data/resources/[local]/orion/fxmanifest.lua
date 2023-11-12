@@ -16,12 +16,12 @@ files {
 
 client_scripts {
     'client.js',
-    'utils.js',
+    'utils/utils.js',
     'player/client.js'
 }
 
 server_scripts {
     'server.js',
-    'utils.js',
+    'utils/utils.js',
     'player/server.js'
 }
