@@ -69,7 +69,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         // Nouveau joueur, créez un enregistrement dans la base de données
         const playerPosition = GetEntityCoords(GetPlayerPed(source));
 
-        db.connect((err, connection) => {
+        const newDatabasePlayer = db.connect((err, connection) => {
           if (err) {
             console.error(
               "Erreur lors de la connexion à la base de données:",
@@ -80,24 +80,31 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 
           connection
             .table("players")
-            .insert({
-              steamId: steamId,
-              license: license,
-              firstname: "John",
-              lastname: "Doe",
-              phone: "5552727",
-              money: 500,
-              bank: 0,
-              position: {
-                x: playerPosition.x,
-                y: playerPosition.y,
-                z: playerPosition.z,
+            .insert(
+              {
+                steamId: steamId,
+                license: license,
+                firstname: "John",
+                lastname: "Doe",
+                phone: "5552727",
+                money: 500,
+                bank: 0,
+                position: {
+                  x: playerPosition.x,
+                  y: playerPosition.y,
+                  z: playerPosition.z,
+                },
+                discord: null,
               },
-              discord: null,
-            })
+              { return_changes: true }
+            )
             .run()
             .then((result) => {
-              return result;
+              if (result.changes && result.changes.length > 0) {
+                return result.changes[0].new_val;
+              } else {
+                throw new Error("Erreur lors de la création du joueur");
+              }
             })
             .catch((err) => {
               throw err;
