@@ -34,7 +34,7 @@ class Database {
         .insert(data)
         .run(connection)
         .then((result) => {
-          console.log("document ajouté avec succès:", result);
+          console.log("document ajouté avec succès");
           return result;
         })
         .catch((err) => {
@@ -105,7 +105,7 @@ class Database {
         .update(data)
         .run(connection)
         .then((result) => {
-          console.log("document mis à jour avec succès:", result);
+          console.log("document mis à jour avec succès");
           return result;
         })
         .catch((err) => {
@@ -123,7 +123,7 @@ class Database {
         .delete()
         .run(connection)
         .then((result) => {
-          console.log("document supprimé avec succès:", result);
+          console.log("document supprimé avec succès");
           return result;
         })
         .catch((err) => {

@@ -46,20 +46,39 @@ RegisterCommand("tp", (source, args) => {
   );
 });
 
-RegisterCommand("tpto", (source, args) => {
-  const ped = GetPlayerPed(-1);
-  const blip = GetFirstBlipInfoId(8);
-  const coord = GetBlipInfoIdCoord(blip);
-  SetEntityCoords(
-    ped,
-    coord[0],
-    coord[1],
-    coord[2],
-    false,
-    false,
-    false,
-    false
-  );
-});
+RegisterCommand(
+  "tpto",
+  (source, args) => {
+    const playerPed = GetPlayerPed(-1);
+    const blip = GetFirstBlipInfoId(8);
+    if (IsBlipOnMap(blip)) {
+      const coord = GetBlipInfoIdCoord(blip);
 
+      // Demander la collision à l'emplacement pour s'assurer que le sol est chargé
+      RequestCollisionAtCoord(coord[0], coord[1], coord[2]);
 
+      // Trouver la hauteur du sol à cet emplacement
+      const [, groundZ] = GetGroundZFor_3dCoord(
+        coord[0],
+        coord[1],
+        coord[2],
+        0,
+        false
+      );
+
+      // Téléporter le joueur à l'emplacement avec la hauteur du sol correcte
+      SetEntityCoordsNoOffset(
+        playerPed,
+        coord[0],
+        coord[1],
+        groundZ,
+        false,
+        false,
+        true
+      );
+    } else {
+      console.log("Aucun waypoint trouvé.");
+    }
+  },
+  false
+);
