@@ -51,6 +51,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
     } else {
       // Traitement pour un nouveau joueur
       const playerPosition = GetEntityCoords(GetPlayerPed(source));
+      console.log("Position du joueur : ", playerPosition);
       const newPlayerData = {
         id: r.uuid(),
         steamId: steamId,
