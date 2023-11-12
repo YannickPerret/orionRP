@@ -46,7 +46,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
           });
       });
 
-      if (playerData.length > 0) {
+      if (playerData?.length > 0) {
         // Joueur existant, récupérez ses informations et créez une instance de Player
         const player = new Player(
           playerData[0].id,
@@ -69,25 +69,40 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         // Nouveau joueur, créez un enregistrement dans la base de données
         const playerPosition = GetEntityCoords(GetPlayerPed(source));
 
-        const connection = db.getConnection();
-        const newDatabasePlayer = await connection
-          .table("players")
-          .insert({
-            steamId: steamId,
-            license: license,
-            firstname: "John",
-            lastname: "Doe",
-            phone: "5552727",
-            money: 500,
-            bank: 0,
-            position: {
-              x: playerPosition.x,
-              y: playerPosition.y,
-              z: playerPosition.z,
-            },
-            discord: null,
-          })
-          .run();
+        db.connect((err, connection) => {
+          if (err) {
+            console.error(
+              "Erreur lors de la connexion à la base de données:",
+              err
+            );
+            return;
+          }
+
+          connection
+            .table("players")
+            .insert({
+              steamId: steamId,
+              license: license,
+              firstname: "John",
+              lastname: "Doe",
+              phone: "5552727",
+              money: 500,
+              bank: 0,
+              position: {
+                x: playerPosition.x,
+                y: playerPosition.y,
+                z: playerPosition.z,
+              },
+              discord: null,
+            })
+            .run()
+            .then((result) => {
+              return result;
+            })
+            .catch((err) => {
+              throw err;
+            });
+        });
 
         const newPlayer = new Player(
           newDatabasePlayer.id,
@@ -120,5 +135,5 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
 on("playerDropped", (reason) => {
   let sourceId = global.source; // Obtenez l'ID unique du joueur
   // Retirer le joueur de la liste
-  PlayerManager.delete(sourceId);
+  PlayerManager.removePlayer(sourceId);
 });
