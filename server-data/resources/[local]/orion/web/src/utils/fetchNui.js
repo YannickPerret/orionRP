@@ -12,7 +12,7 @@ import { isEnvBrowser } from "./misc";
  * @return returnData - A promise for the data sent back by the NuiCallbacks CB argument
  */
 
-export async function fetchNui(eventName, data = null, mockData = null) {
+export async function sendNui(eventName, data = null) {
   const options = {
     method: "post",
     headers: {
@@ -20,12 +20,6 @@ export async function fetchNui(eventName, data = null, mockData = null) {
     },
     body: JSON.stringify(data),
   };
-
-  if (isEnvBrowser() && mockData) return mockData;
-
-  const resourceName = window.GetParentResourceName
-    ? window.GetParentResourceName()
-    : "nui-frame-app";
 
   const resp = await fetch(`https://${resourceName}/${eventName}`, options);
 

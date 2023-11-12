@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './App.css'
+import {sendNui} from '../utils/fetchNui'
 
 const App = () => {
   const [playerData, setPlayerData] = useState({ firstname: 'John', lastname: 'Doe', money: 100 });
@@ -15,11 +16,26 @@ const App = () => {
         console.log("closeNUI");
         setShowNui(false);
       }
-    };
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "F2") {
+        setShowNui(false);
+        sendNui({ action: "closeNUI" });
+      }
+    });
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, []);
+
+  const handleCloseMenu = () => {
+    setShowNui(false);
+    sendNui({ action: "closeNUI" });
+  }
+  const handleSavePosition = () => {
+    sendNui({ action: "savePosition" });
+  }
 
   if (!showNui) {
     return null;
@@ -36,7 +52,8 @@ const App = () => {
           <li className='playerInfo__list__item'>Carte identité</li>
           <li className='playerInfo__list__item'>Permis de conduire</li>
           <li className='playerInfo__list__item'>Permis de port d'arme</li>
-          <li className='playerInfo__list__item'>Sauvegarder</li>
+          <li className='playerInfo__list__item' onClick={handleSavePosition}>Sauvegarder</li>
+          <li className='playerInfo__list__item' onClick={handleCloseMenu}>Fermer</li>
         </ul>
       </div>
     </div>
