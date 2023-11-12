@@ -25,7 +25,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   if (steamId || license) {
     try {
       const playerData = db
-        .connect()
+        .getConnection()
         .then((connection) => {
           return connection
             .table("players")
@@ -65,7 +65,7 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
         const playerPosition = GetEntityCoords(GetPlayerPed(source));
 
         const newDatabasePlayer = db
-          .connect()
+          .getConnection()
           .then((connection) => {
             return connection
               .table("players")

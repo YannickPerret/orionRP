@@ -1,6 +1,6 @@
 //register event for save position player
-registerNetEvent("orion:savePositionPlayer");
 onNet("orion:savePositionPlayer", (x, y, z) => {
+  const source = global.source;
   const player = PlayerManager.getPlayer(source);
   if (player) {
     player.position = {
