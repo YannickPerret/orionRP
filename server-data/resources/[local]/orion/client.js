@@ -1,13 +1,13 @@
 const toggleNuiFrame = (shouldShow) => {
   SetNuiFocus(shouldShow, shouldShow);
-  SendReactMessage("setVisible", shouldShow);
+  exports("SendReactMessage")("setVisible", shouldShow);
 };
 
 RegisterCommand(
   "toggleui",
   () => {
     toggleNuiFrame(true);
-    debugPrint("Show NUI frame");
+    exports("debugPrint")("Show NUI frame");
   },
   false
 );
