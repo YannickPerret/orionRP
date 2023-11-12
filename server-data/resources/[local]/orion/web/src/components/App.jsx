@@ -20,8 +20,7 @@ const App = () => {
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "F2") {
-        setShowNui(false);
-        sendNui({ action: "closeNUI" });
+        handleCloseMenu();
       }
     });
 
@@ -31,10 +30,10 @@ const App = () => {
 
   const handleCloseMenu = () => {
     setShowNui(false);
-    sendNui({ action: "closeNUI" });
+    sendNui({ action: "__cfx_nui:closeNUI" });
   }
   const handleSavePosition = () => {
-    sendNui({ action: "savePosition" });
+    sendNui({ action: "__cfx_nui:savePosition" });
   }
 
   if (!showNui) {
