@@ -23,6 +23,5 @@ class Database {
 }
 
 const db = new Database();
-Object.freeze(db);
 
 module.exports = { db, r };
