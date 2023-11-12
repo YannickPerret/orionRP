@@ -2,6 +2,9 @@ const PlayerManager = require("./system/playerManager.js");
 const Player = require("./player/player.js");
 const { db, r } = require("./system/database.js");
 
+// Position par défaut du joueur
+const playerPosition = [-530.77, -2113.83, 9.0];
+
 on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
   let steamId = null;
   let license = null;
@@ -50,7 +53,6 @@ on("playerConnecting", async (nomJoueur, setKickReason, deferrals) => {
       console.log("[Orion] Joueur existant récupéré : ", player);
     } else {
       // Traitement pour un nouveau joueur
-      const playerPosition = GetEntityCoords(GetPlayerPed(source));
       console.log("Position du joueur : ", playerPosition);
       const newPlayerData = {
         id: r.uuid(),
