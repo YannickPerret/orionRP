@@ -19,8 +19,6 @@ on("playerSpawned", () => {
 
   onNet("orion:sendPlayerData", (playerData) => {
     // Traite les données reçues du serveur
-    console.log("Données du joueur reçues :", playerData);
-
     emit("chat:addMessage", {
       args: ["Welcome back!~"],
     });
@@ -48,7 +46,7 @@ RegisterCommand(
 
 RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
 
-onNet("orion:sendPlayerData", (playerData) => {
+onNet("openPlayerMenu", (playerData) => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
   console.log(playerData);
