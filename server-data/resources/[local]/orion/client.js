@@ -1,47 +1,52 @@
-// Enregistrer le type de callback NUI
-RegisterNuiCallbackType("hideFrame");
-RegisterNuiCallbackType("getClientData");
-RegisterNuiCallbackType("closeNUI");
+const { getCurrentPlayerBySource } = require("../utils/player.js");
 
-const toggleNuiFrame = (shouldShow) => {
-  SetNuiFocus(shouldShow, shouldShow);
-  exports("SendReactMessage")("setVisible", shouldShow);
+let isNuiOpen = false;
+
+const toggleNui = (source) => {
+  const currentPlayer = getCurrentPlayerBySource(source);
+  if (!currentPlayer) {
+    return; // Aucun joueur trouvé pour cette source
+  }
+
+  isNuiOpen = !isNuiOpen;
+  SetNuiFocus(isNuiOpen, isNuiOpen);
+
+  if (isNuiOpen) {
+    // Envoie les données du joueur à la NUI pour ouvrir l'interface
+    SendNuiMessage(
+      JSON.stringify({
+        action: "setPlayerData",
+        data: {
+          firstname: currentPlayer.firstname,
+          lastname: currentPlayer.lastname,
+          money: currentPlayer.money,
+          bank: currentPlayer.bank,
+        },
+      })
+    );
+  } else {
+    // Ferme l'interface NUI
+    SendNuiMessage(JSON.stringify({ action: "closeNUI" }));
+  }
 };
 
-on("__cfx_nui:hideFrame", (data, cb) => {
-  toggleNuiFrame(false);
-  exports("debugPrint")("Hide NUI frame");
-  cb();
-});
-
-on("__cfx_nui:getClientData", (data, cb) => {
-  exports("debugPrint")("Data sent by React", JSON.stringify(data));
-
-  // Envoyer les coordonnées du joueur à l'interface NUI
-  const curCoords = GetEntityCoords(PlayerPedId());
-  const retData = { x: curCoords.x, y: curCoords.y, z: curCoords.z };
-  cb(retData);
-});
-
-on("__cfx_nui:closeNUI", (data, cb) => {
-  closeNui();
-  cb({ ok: true });
-});
-
-//open Nui player menu interface when player press F2
-RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
-
+// Commande pour ouvrir/fermer la NUI
 RegisterCommand(
-  "openPlayerMenu",
-  () => {
-    SendNuiMessage(JSON.stringify({ action: "openNUI" }));
-    // Permettre l'interaction avec la NUI
-    SetNuiFocus(true, true);
+  "toggleNUI",
+  (source) => {
+    toggleNui(source);
   },
   false
 );
 
-const closeNui = () => {
-  // Réinitialiser le focus
-  SetNuiFocus(false, false);
-};
+// Mappage de touche pour la commande toggleNUI
+RegisterKeyMapping("toggleNUI", "Toggle the NUI", "keyboard", "F2");
+
+// Callback pour fermer la NUI depuis React
+RegisterNuiCallbackType("closeNUI");
+on("__cfx_nui:closeNUI", (data, cb) => {
+  if (isNuiOpen) {
+    toggleNui(global.source); // global.source devrait être la source du joueur actuel
+  }
+  cb({ ok: true });
+});

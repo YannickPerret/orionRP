@@ -25,52 +25,38 @@ const ReturnClientDataComp = ({data}) => (
 )
 
 const App = () => {
+  const [playerData, setPlayerData] = useState(null);
   const [showNui, setShowNui] = useState(false);
 
-  //const [clientData, setClientData] = useState(null)
-
-  /*const handleGetClientData = () => {
-    fetchNui('getClientData').then(retData => {
-      console.log('Got return data from client scripts:')
-      console.dir(retData)
-      setClientData(retData)
-    }).catch(e => {
-      console.error('Setting mock data due to error', e)
-      setClientData({ x: 500, y: 300, z: 200})
-    })
-  }*/
-
   useEffect(() => {
-    window.addEventListener("message", (event) => {
-      const { action } = event.data;
-      if (action === "openNUI") {
-        console.log("openNUI");
+    const handleMessage = (event) => {
+      const { action, data } = event.data;
+      if (action === "setPlayerData") {
+        setPlayerData(data);
         setShowNui(true);
+      } else if (action === "closeNUI") {
+        setShowNui(false);
       }
-    });
-  }, []);
+    };
 
-  const handleClose = () => {
-    setShowNui(false);
-    // Envoyer un message au client FiveM pour fermer la NUI
-    fetch(`https://${GetParentResourceName()}/closeNUI`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({ action: "close" })
-    });
-  };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
   if (!showNui) {
     return null;
   }
 
-
   return (
-    <div className="nui-container">
-      {/* Votre interface NUI ici */}
-      <button onClick={handleClose}>Fermer la NUI</button>
+    <div className="playerInfo">
+      <header>
+        <h1>{playerData.firstname} {playerData.lastname}</h1>
+      </header>
+      <div>
+        <ul>
+          <li>Argent liquide : {playerData.money}</li>
+        </ul>
+      </div>
     </div>
   );
 }
