@@ -110,14 +110,13 @@ on("playerDropped", (reason) => {
   PlayerManager.removePlayer(sourceId);
 });
 
-onNet("orion:getPlayerData", (playerServerId) => {
-  const playerData = PlayerManager.getPlayerBySource(playerServerId);
+onNet("orion:getPlayerData", (source) => {
+  const playerData = PlayerManager.getPlayerBySource(source);
   if (playerData) {
-    emitNet("orion:sendPlayerData", playerServerId, {
+    emitNet("orion:sendPlayerData", source, {
       firstname: playerData.firstname,
       lastname: playerData.lastname,
       money: playerData.money,
-      // Autres données si nécessaire
     });
   }
 });

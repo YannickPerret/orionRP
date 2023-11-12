@@ -3,7 +3,6 @@ let isNuiOpen = false;
 RegisterCommand(
   "openPlayerMenu",
   () => {
-    console.log("openPlayerMenu");
     emitNet("orion:getPlayerData", GetPlayerServerId(PlayerId()));
   },
   false
@@ -14,6 +13,7 @@ RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
 onNet("orion:sendPlayerData", (playerData) => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
+  console.log(playerData);
   SendNuiMessage(
     JSON.stringify({
       action: isNuiOpen ? "setPlayerData" : "closeNUI",
