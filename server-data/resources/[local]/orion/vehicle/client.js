@@ -147,13 +147,6 @@ const playSound = (sound) => {
           DisableControlAction(2, 60);
         }
       }
-
-      if (
-        vehicle != undefined &&
-        GetEntitySpeed(vehicle) <= brakeLightSpeedThresh
-      ) {
-        SetVehicleBrakeLights(vehicle, true);
-      }
     } else {
       if (sealtbelt) {
         sealtbelt = false;
@@ -163,6 +156,21 @@ const playSound = (sound) => {
     }
   }
 })();
+
+async () => {
+  while (true) {
+    let vehicle = GetVehiclePedIsIn(ped, false);
+
+    if (
+      vehicle != undefined &&
+      GetEntitySpeed(vehicle) <= brakeLightSpeedThresh
+    ) {
+      SetVehicleBrakeLights(vehicle, true);
+    }
+
+    await Delay(0);
+  }
+};
 
 RegisterKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
 
