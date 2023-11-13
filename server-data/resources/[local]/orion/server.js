@@ -80,20 +80,20 @@ onNet("orion:playerSpawned", async () => {
       const result = await db.insert("players", newPlayerData);
 
       if (result.inserted === 1) {
-        const newPlayer = new Player(
-          newPlayerData.id,
-          source,
-          newPlayerData.steamId,
-          newPlayerData.firstname,
-          newPlayerData.lastname,
-          newPlayerData.phone,
-          newPlayerData.money,
-          newPlayerData.bank,
-          newPlayerData.position,
-          newPlayerData.license,
-          newPlayerData.discord,
-          newPlayerData.mugshot
-        );
+        const newPlayer = new Player({
+          id: newPlayerData.id,
+          source: source,
+          steamId: newPlayerData.steamId,
+          firstname: newPlayerData.firstname,
+          lastname: newPlayerData.lastname,
+          phone: newPlayerData.phone,
+          money: newPlayerData.money,
+          bank: newPlayerData.bank,
+          position: newPlayerData.position,
+          license: newPlayerData.license,
+          discord: newPlayerData.discord,
+          mugshot: newPlayerData.mugshot,
+        });
 
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
         emitNet("orion:mugshot", source);
