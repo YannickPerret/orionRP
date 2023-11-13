@@ -36,7 +36,7 @@ const toggleSeatbelt = (toggle) => {
         "Vous avez attaché votre ceinture de sécurité."
       );
     }
-    sealtbelt = toggle;
+    sealtbelt = !toggle;
   } else {
     if (toggle) {
       playSound("buckle");
