@@ -78,7 +78,7 @@ const playSound = (sound) => {
   let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
 
   while (true) {
-    await Delay(5);
+    await Delay(0);
     let ped = PlayerPedId();
     let position = GetEntityCoords(ped, true);
 
@@ -118,9 +118,9 @@ const playSound = (sound) => {
             prevVelocity.y,
             prevVelocity.z
           );
-          TaskLeaveAnyVehicle(PlayerPedId(), 0, 320);
+          //TaskLeaveAnyVehicle(PlayerPedId(), 0, 320);
           await Delay(1);
-          SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0);
+          SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0);
         } else {
           prevVelocity = GetEntityVelocity(vehicle);
         }
