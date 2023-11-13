@@ -65,6 +65,7 @@ async () => {
     }
 
     if (IsPedInAnyVehicle(ped, false)) {
+      console.log("test");
       let vehicle = GetVehiclePedIsIn(ped, false);
       let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
