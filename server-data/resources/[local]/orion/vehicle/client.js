@@ -63,6 +63,28 @@ async () => {
       }
       Delay(1000);
     }
+
+    if (IsPedInAnyVehicle(ped, false)) {
+      let vehicle = GetVehiclePedIsIn(ped, false);
+      let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
+      let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
+
+      SendNUIMessage({
+        action: "updateSpeed",
+        data: {
+          speed: speed.toFixed(0),
+          isDriver: isDriver,
+        },
+      });
+    } else {
+      SendNUIMessage({
+        action: "updateSpeed",
+        data: {
+          speed: 0,
+          isDriver: false,
+        },
+      });
+    }
   }
 };
 

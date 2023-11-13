@@ -21,6 +21,8 @@ const App = () => {
   const [showAmountMenu, setShowAmountMenu] = useState(false);
   const [showTextMenu, setShowTextMenu] = useState(false);
   const [showIdentityCard, setShowIdentityCard] = useState(false);
+  const [isDriver, setIsDriver] = useState(false);
+  const [speed, setSpeed] = useState(0);
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -34,6 +36,10 @@ const App = () => {
       }
       else if (action === "playSound") {
         playSound(data.sound, data.volume);
+      }
+      else if (action === 'updateSpeed') {
+        setSpeed(data.speed);
+        setIsDriver(data.isDriver);
       }
     }
 
@@ -101,6 +107,14 @@ const App = () => {
       sendNui('showId', null);
       sendNui('closeNUI',null);
     }
+  }
+
+  if(isDriver) {
+    return (
+      <div className='driver'>
+        <div className='driver__speed'>{speed} km/h</div>
+      </div>
+    )
   }
 
  if (showNui) {
