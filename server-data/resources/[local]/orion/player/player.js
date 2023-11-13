@@ -1,7 +1,7 @@
 const { db, r } = require("../system/database.js");
 const Inventory = require("../inventory/Inventory.js");
 class Player {
-  constructor(
+  constructor({
     id,
     source,
     steamId,
@@ -14,8 +14,8 @@ class Player {
     license,
     discord,
     isAdmin,
-    mugshot
-  ) {
+    mugshot,
+  }) {
     this.id = id;
     this.source = source;
     this.faim = 100;
