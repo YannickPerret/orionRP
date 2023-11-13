@@ -140,16 +140,3 @@ setTick(() => {
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_9"), GetHashKey("PLAYER"));
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));
 });
-
-(async () => {
-  let minimap = RequestScaleformMovie("minimap");
-  SetRadarBigmapEnabled(true, false);
-  await Delay(0);
-  SetRadarBigmapEnabled(false, false);
-  while (true) {
-    BeginScaleformMovieMethod(minimap, "SETUP_HEALTH_ARMOUR");
-    ScaleformMovieMethodAddParamInt(3);
-    EndScaleformMovieMethod();
-    await Delay(0);
-  }
-})();
