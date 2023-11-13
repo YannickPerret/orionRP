@@ -102,7 +102,7 @@ const playSound = (sound) => {
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
           vehAcc > seatbeltEjectAccel * 9.81
         ) {
-          console.log(position, prevVelocity.x);
+          console.log(positionX, prevVelocity.x);
           SetEntityCoords(
             ped,
             positionX,
