@@ -102,7 +102,7 @@ const playSound = (sound) => {
           vehAcc > seatbeltEjectAccel * 9.81
         );
         if (
-          vehIsMovingFwd &&
+          GetEntitySpeedVector(vehicle, true).y > 1.0 &&
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
           vehAcc > seatbeltEjectAccel * 9.81
         ) {
