@@ -94,10 +94,6 @@ const playSound = (sound) => {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
       } else {
-        console.log(
-          "Vitesse du véhicule:",
-          GetEntitySpeedVector(vehicle, true)
-        )["y"];
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
