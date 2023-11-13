@@ -92,7 +92,7 @@ async () => {
 
 RegisterKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
 
-registerCommand(
+RegisterCommand(
   "seatbelt",
   () => {
     if (IsPedInAnyVehicle(ped, false)) {
