@@ -104,7 +104,10 @@ const playSound = (sound) => {
         }
       }
 
-      if (vehicle != nil && GetEntitySpeed(vehicle) <= brakeLightSpeedThresh) {
+      if (
+        vehicle != undefined &&
+        GetEntitySpeed(vehicle) <= brakeLightSpeedThresh
+      ) {
         SetVehicleBrakeLights(vehicle, true);
       }
     } else {
