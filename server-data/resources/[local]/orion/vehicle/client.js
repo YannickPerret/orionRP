@@ -46,27 +46,17 @@ const playSound = (sound) => {
   });
 };
 
-async () => {
+(async () => {
   let ped = PlayerPedId();
 
   while (true) {
-    Delay(10);
-    if (IsPedInAnyVehicle(ped)) {
+    await Delay(10); // Utilisez await avant Delay pour suspendre l'exécution
+    if (IsPedInAnyVehicle(ped, false)) {
       if (sealtbelt) {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
       }
-    } else {
-      if (sealtbelt) {
-        sealtbelt = false;
-        toggleSeatbelt(false);
-      }
-      Delay(1000);
-    }
 
-    console.log(IsPedInAnyVehicle(ped, false));
-    if (IsPedInAnyVehicle(ped, false)) {
-      console.log("test");
       let vehicle = GetVehiclePedIsIn(ped, false);
       let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
@@ -79,16 +69,14 @@ async () => {
         },
       });
     } else {
-      SendNUIMessage({
-        action: "updateSpeed",
-        data: {
-          speed: 0,
-          isDriver: false,
-        },
-      });
+      if (sealtbelt) {
+        sealtbelt = false;
+        toggleSeatbelt();
+      }
+      await Delay(1000); // Attendre ici aussi
     }
   }
-};
+})();
 
 RegisterKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
 
