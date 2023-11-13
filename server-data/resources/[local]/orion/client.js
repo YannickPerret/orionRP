@@ -91,26 +91,6 @@ RegisterCommand(
   false
 );
 
-const setWeaponDrops = () => {
-  let handle,
-    ped = FindFirstPed();
-  let finished = false;
-  while (!finished) {
-    if (!IsEntityDead(ped)) {
-      pedIndex[ped] = {};
-    }
-    [finished, ped] = FindNextPed(handle);
-  }
-  while (!finished);
-  EndFindPed(handle);
-
-  for (let peds in pedIndex) {
-    if (peds !== null) {
-      SetPedDropsWeaponsWhenDead(peds, false);
-    }
-  }
-};
-
 setTick(() => {
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);

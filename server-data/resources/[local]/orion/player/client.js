@@ -81,39 +81,10 @@ RegisterCommand(
 );
 
 onNet("orion:mugshot", async () => {
-  const ped = GetPlayerPed(-1);
-  const mugshot = RegisterPedheadshot(ped);
-
-  const isMugshotReady = new Promise((resolve) => {
-    const checkMugshot = setInterval(() => {
-      if (IsPedheadshotReady(mugshot)) {
-        clearInterval(checkMugshot);
-        resolve();
-      }
-    }, 100); // Vérifie toutes les 100 ms
-  });
-
-  await isMugshotReady;
-
-  const mugshotUrl = GetPedheadshotTxdString(mugshot);
-  emitNet("orion:saveMugshotUrl", mugshotUrl);
+  console.log(exports["MugShotBase64"].GetMugShotBase64(PlayerPedId(), true));
 });
 
 RegisterNuiCallbackType("identityCard");
 on("__cfx_nui:identityCard", (data, cb) => {
-  console.log(data);
-  DrawSprite(
-    data.mugshot,
-    data.mugshot,
-    0.4,
-    0.4,
-    0.09,
-    0.18,
-    0.0,
-    255,
-    255,
-    255,
-    1000
-  );
   cb({ ok: true });
 });
