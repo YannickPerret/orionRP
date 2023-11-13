@@ -96,6 +96,7 @@ const playSound = (sound) => {
       } else {
         let vehIsMovingFwd = GetEntitySpeedVector(vehicle, true).y > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
+        console.log(vehAcc);
         if (
           vehIsMovingFwd &&
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
