@@ -80,13 +80,20 @@ RegisterCommand(
   false
 );
 
-onNet("orion:mugshot", () => {
+onNet("orion:mugshot", async () => {
   const ped = GetPlayerPed(-1);
   const mugshot = RegisterPedheadshot(ped);
 
-  while (!IsPedheadshotReady(mugshot)) {
-    Wait(0);
-  }
+  const isMugshotReady = new Promise((resolve) => {
+    const checkMugshot = setInterval(() => {
+      if (IsPedheadshotReady(mugshot)) {
+        clearInterval(checkMugshot);
+        resolve();
+      }
+    }, 100); // Vérifie toutes les 100 ms
+  });
+
+  await isMugshotReady;
 
   const mugshotUrl = GetPedheadshotTxdString(mugshot);
   emitNet("orion:saveMugshotUrl", mugshotUrl);
