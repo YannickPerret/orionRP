@@ -101,6 +101,7 @@ onNet("orion:mugshot", async () => {
 
 RegisterNuiCallbackType("identityCard");
 on("__cfx_nui:identityCard", (data, cb) => {
+  console.log(data);
   DrawSprite(
     data.mugshot,
     data.mugshot,
