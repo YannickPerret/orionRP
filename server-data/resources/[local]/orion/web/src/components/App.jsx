@@ -4,8 +4,8 @@ import {sendNui} from '../utils/fetchNui'
 import Amount from './amount';
 import IdentityCard from './identityCard';
 import PlayerMenu from './playerMenu/PlayerMenu';
-import bucle from '../assets/sounds/buckle.ogg'
-import unbucle from '../assets/sounds/unbuckle.ogg'
+import {playSound} from '../utils/sound'
+
 
 const player = {
   firstname: 'John',
@@ -34,9 +34,7 @@ const App = () => {
       }
       else if (action === "playSound") {
         console.log("playSound");
-        const audio = new Audio(data.sound);
-        audio.volume = data.volume;
-        audio.play();
+        playSound(data.sound, data.volume);
       }
     }
 
