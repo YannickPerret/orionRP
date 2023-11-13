@@ -84,6 +84,7 @@ const App = () => {
       // Clic gauche
       setShowIdentityCard(true);
       setShowNui(false);
+      sendNui('identityCard', {mugshot: playerData.mugshot})
       setTimeout(() => {
         setShowIdentityCard(false);
         sendNui('closeNUI',null);

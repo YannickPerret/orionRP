@@ -98,3 +98,21 @@ onNet("orion:mugshot", async () => {
   const mugshotUrl = GetPedheadshotTxdString(mugshot);
   emitNet("orion:saveMugshotUrl", mugshotUrl);
 });
+
+RegisterNuiCallbackType("identityCard");
+on("__cfx_nui:identityCard", (data, cb) => {
+  DrawSprite(
+    data.mugshot,
+    data.mugshot,
+    0.4,
+    0.4,
+    0.09,
+    0.18,
+    0.0,
+    255,
+    255,
+    255,
+    1000
+  );
+  cb({ ok: true });
+});
