@@ -20,7 +20,7 @@ class Player {
     this.source = source;
     this.faim = 100;
     this.soif = 100;
-    this.inventaire = new Inventory();
+    //this.inventaire = new Inventory();
     this.vehicules = [];
     this.steamId = steamId || null;
     this.position = {
