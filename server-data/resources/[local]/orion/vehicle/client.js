@@ -22,15 +22,27 @@ const toggleSeatbelt = (toggle) => {
         unknownModifier,
         minDamage
       );
+      emit(
+        "orion:showNotification",
+        "Vous avez détaché votre ceinture de sécurité."
+      );
     } else {
       playSound("buckle");
       SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
+      emit(
+        "orion:showNotification",
+        "Vous avez attaché votre ceinture de sécurité."
+      );
     }
     sealtbelt = toggle;
   } else {
     if (toggle) {
       playSound("buckle");
       SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
+      emit(
+        "orion:showNotification",
+        "Vous avez attaché votre ceinture de sécurité."
+      );
     } else {
       playSound("unbuckle");
       SetFlyThroughWindscreenParams(
@@ -38,6 +50,10 @@ const toggleSeatbelt = (toggle) => {
         unknownEjectVelocity,
         unknownModifier,
         minDamage
+      );
+      emit(
+        "orion:showNotification",
+        "Vous avez détaché votre ceinture de sécurité."
       );
     }
     sealtbelt = toggle;
@@ -74,7 +90,8 @@ async () => {
   }
 };
 
-registerKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "b");
+registerKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
+
 registerCommand(
   "seatbelt",
   () => {
