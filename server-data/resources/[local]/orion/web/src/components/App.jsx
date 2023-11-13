@@ -13,7 +13,7 @@ const player = {
 
 const App = () => {
   const [playerData, setPlayerData] = useState({ firstname: 'John', lastname: 'Doe', money: 100 });
-  const [showNui, setShowNui] = useState(true);
+  const [showNui, setShowNui] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState(false);
   const [showAmountMenu, setShowAmountMenu] = useState(false);
   const [showTextMenu, setShowTextMenu] = useState(false);
