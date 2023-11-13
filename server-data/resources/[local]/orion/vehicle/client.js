@@ -12,53 +12,27 @@ SetFlyThroughWindscreenParams(
   minDamage
 );
 
-const toggleSeatbelt = (toggle) => {
-  console.log("toggleSeatbelt", toggle);
-  console.log("sealtbelt", sealtbelt);
-  if (toggle === undefined) {
-    if (sealtbelt) {
-      playSound("unbuckle");
-      SetFlyThroughWindscreenParams(
-        ejectVelocity,
-        unknownEjectVelocity,
-        unknownModifier,
-        minDamage
-      );
-      emit(
-        "orion:showNotification",
-        "Vous avez détaché votre ceinture de sécurité."
-      );
-    } else {
-      playSound("buckle");
-      SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
-      emit(
-        "orion:showNotification",
-        "Vous avez attaché votre ceinture de sécurité."
-      );
-    }
-    sealtbelt = !toggle;
+const toggleSeatbelt = () => {
+  sealtbelt = !sealtbelt;
+  if (sealtbelt) {
+    playSound("buckle");
+    SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
+    emit(
+      "orion:showNotification",
+      "Vous avez attaché votre ceinture de sécurité."
+    );
   } else {
-    if (toggle) {
-      playSound("buckle");
-      SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
-      emit(
-        "orion:showNotification",
-        "Vous avez attaché votre ceinture de sécurité."
-      );
-    } else {
-      playSound("unbuckle");
-      SetFlyThroughWindscreenParams(
-        ejectVelocity,
-        unknownEjectVelocity,
-        unknownModifier,
-        minDamage
-      );
-      emit(
-        "orion:showNotification",
-        "Vous avez détaché votre ceinture de sécurité."
-      );
-    }
-    sealtbelt = toggle;
+    playSound("unbuckle");
+    SetFlyThroughWindscreenParams(
+      ejectVelocity,
+      unknownEjectVelocity,
+      unknownModifier,
+      minDamage
+    );
+    emit(
+      "orion:showNotification",
+      "Vous avez détaché votre ceinture de sécurité."
+    );
   }
 };
 
@@ -100,8 +74,8 @@ RegisterCommand(
     let ped = PlayerPedId();
     if (IsPedInAnyVehicle(ped, false)) {
       let classVehicle = GetVehicleClass(GetVehiclePedIsIn(ped));
-      if (classVehicle != 8 || classVehicle != 13 || classVehicle != 14) {
-        toggleSeatbelt(true);
+      if (classVehicle !== 8 && classVehicle !== 13 && classVehicle !== 14) {
+        toggleSeatbelt();
       }
     }
   },
