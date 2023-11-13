@@ -59,7 +59,7 @@ RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
 onNet("orion:openPlayerMenu", (playerData) => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
-  console.log("isNuiOpen", isNuiOpen);
+  SetNuiFocusKeepInput(isNuiOpen);
   SendNuiMessage(
     JSON.stringify({
       action: isNuiOpen ? "setPlayerData" : "closeNUI",
@@ -70,7 +70,6 @@ onNet("orion:openPlayerMenu", (playerData) => {
 
 RegisterNuiCallbackType("closeNUI");
 on("__cfx_nui:closeNUI", (data, cb) => {
-  console.log("closeNUI");
   if (isNuiOpen) {
     isNuiOpen = false;
     SetNuiFocus(false, false);

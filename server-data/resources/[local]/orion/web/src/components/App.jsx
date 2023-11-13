@@ -35,6 +35,9 @@ const App = () => {
   const handleSavePosition = () => {
     sendNui('savePosition',null);
   }
+  const handleGiveMoney = () => {
+    sendNui('giveMoney',null);
+  }
 
   if (!showNui) {
     return null;
@@ -47,7 +50,7 @@ const App = () => {
       </header>
       <div className='playerInfo__body'>
         <ul className='playerInfo__list'>
-          <li className='playerInfo__list__item'>Argent liquide : ${playerData.money}</li>
+          <li className='playerInfo__list__item' onClick={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
           <li className='playerInfo__list__item'>Carte identité</li>
           <li className='playerInfo__list__item'>Permis de conduire</li>
           <li className='playerInfo__list__item'>Permis de port d'arme</li>
@@ -57,6 +60,7 @@ const App = () => {
       </div>
     </div>
   );
+  
 };
 
 export default App;
