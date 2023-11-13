@@ -113,14 +113,14 @@ const setWeaponDrops = () => {
 
 setTick(() => {
   //disable weapon drops
-  setWeaponDrops();
+  //setWeaponDrops();
   //remove wanted level
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
     SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
   }
-  /*
+
   SetRelationshipBetweenGroups(0, GetHashKey("COP"), GetHashKey("PLAYER"));
   SetRelationshipBetweenGroups(
     1,
@@ -160,5 +160,5 @@ setTick(() => {
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_1"), GetHashKey("PLAYER"));
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_2"), GetHashKey("PLAYER"));
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_9"), GetHashKey("PLAYER"));
-  SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));*/
+  SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));
 });
