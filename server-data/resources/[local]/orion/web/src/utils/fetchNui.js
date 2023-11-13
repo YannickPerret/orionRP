@@ -10,7 +10,7 @@
  */
 
 export async function sendNui(eventName, data = null) {
-  const resourceName = "orion"; // Remplacez par le nom de votre resource
+  const resourceName = "orion";
 
   const options = {
     method: "post",

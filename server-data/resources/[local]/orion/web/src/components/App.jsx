@@ -30,10 +30,10 @@ const App = () => {
 
   const handleCloseMenu = () => {
     setShowNui(false);
-    sendNui({ action: "closeNUI" });
+    sendNui('closeNUI',null);
   }
   const handleSavePosition = () => {
-    sendNui({ action: "savePosition" });
+    sendNui('savePosition',null);
   }
 
   if (!showNui) {
