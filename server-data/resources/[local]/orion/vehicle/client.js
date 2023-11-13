@@ -99,7 +99,7 @@ RegisterCommand(
     if (IsPedInAnyVehicle(ped, false)) {
       let classVehicle = GetVehicleClass(GetVehiclePedIsIn(ped));
       if (classVehicle != 8 || classVehicle != 13 || classVehicle != 14) {
-        toggleSeatbelt();
+        toggleSeatbelt(true);
       }
     }
   },

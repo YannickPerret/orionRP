@@ -33,7 +33,6 @@ const App = () => {
         setShowNui(false);
       }
       else if (action === "playSound") {
-        console.log("playSound");
         playSound(data.sound, data.volume);
       }
     }
