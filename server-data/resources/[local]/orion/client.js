@@ -111,8 +111,8 @@ const setWeaponDrops = () => {
   }
 };
 
-setTick(async () => {
-  setWeaponDrops();
+setTick(() => {
+  //setWeaponDrops();
   //remove search cops
   for (let i = 1; i <= 15; i++) {
     EnableDispatchService(i, false);
@@ -123,6 +123,4 @@ setTick(async () => {
     SetPlayerWantedLevelNow(PlayerId(), false);
     SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
   }
-
-  await Wait(5000);
 });
