@@ -75,7 +75,7 @@ on("__cfx_nui:closeNUI", (data, cb) => {
     isNuiOpen = false;
     SetNuiFocus(false, false);
   }
-  cb({ ok: true });
+  cb();
 });
 
 RegisterNuiCallbackType("savePosition");
@@ -83,7 +83,7 @@ on("__cfx_nui:savePosition", (data, cb) => {
   const playerPed = GetPlayerPed(-1);
   const position = GetEntityCoords(playerPed, true);
   emitNet("orion:savePlayerPosition", position[0], position[1], position[2]);
-  cb({ ok: true });
+  cb();
 });
 
 RegisterCommand(
