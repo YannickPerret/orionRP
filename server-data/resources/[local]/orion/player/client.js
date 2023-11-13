@@ -94,7 +94,7 @@ on("__cfx_nui:identityCard", (data, cb) => {
   cb({ ok: true });
 });
 
-RegisterCommand("revive", () => {
+RegisterCommand("revive", (source, args) => {
   SetEntityHealth(PlayerPedId(), 200);
   ClearPedBloodDamage(PlayerPedId());
   StopScreenEffect("DeathFailOut");
