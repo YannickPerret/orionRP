@@ -10,7 +10,8 @@
  */
 
 export async function sendNui(eventName, data = null) {
-  const resourceName = "orion";
+  const resourceName = "nomDeVotreResource"; // Remplacez par le nom de votre resource
+
   const options = {
     method: "post",
     headers: {
@@ -19,9 +20,15 @@ export async function sendNui(eventName, data = null) {
     body: JSON.stringify(data),
   };
 
-  const resp = await fetch(`https://${resourceName}/${eventName}`, options);
-
-  const respFormatted = await resp.json();
-
-  return respFormatted;
+  try {
+    const resp = await fetch(`https://${resourceName}/${eventName}`, options);
+    if (!resp.ok) {
+      console.error("Erreur de réponse du serveur:", resp.statusText);
+      return null;
+    }
+    return await resp.json();
+  } catch (err) {
+    console.error("Erreur lors du parsing JSON:", err);
+    return null;
+  }
 }
