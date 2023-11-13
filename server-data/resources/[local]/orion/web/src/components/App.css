@@ -47,11 +47,11 @@
 
 .driver {
   position : absolute;
-  width: 75px;
-  height: 20px;
+  width: 80px;
+  height: 35px;
   background: #000000;
   bottom : 3vh;
-  left : 15vw;
+  left : 20vw;
 }
 
 .driver__speed {
