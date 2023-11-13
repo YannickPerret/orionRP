@@ -3,6 +3,9 @@ import './App.css'
 import {sendNui} from '../utils/fetchNui'
 import Amount from './amount';
 import IdentityCard from './identityCard';
+import PlayerMenu from './playerMenu/PlayerMenu';
+import bucle from '../assets/sounds/buckle.ogg'
+import unbucle from '../assets/sounds/unbuckle.ogg'
 
 const player = {
   firstname: 'John',
@@ -28,6 +31,12 @@ const App = () => {
       } else if (action === "closeNUI") {
         console.log("closeNUI");
         setShowNui(false);
+      }
+      else if (action === "playSound") {
+        console.log("playSound");
+        const audio = new Audio(data.sound);
+        audio.volume = data.volume;
+        audio.play();
       }
     }
 
@@ -99,27 +108,16 @@ const App = () => {
 
  if (showNui) {
   return (
-    <div className="playerInfo">
-      <header className='playerInfo__header'>
-        <h1>{playerData.firstname} {playerData.lastname}</h1>
-      </header>
-      <div className='playerInfo__body'>
-        {showSubMenu ? (
-          <ul className='playerInfo__list'>
-            <li></li>
-          </ul>
-        ):(
-          <ul className='playerInfo__list'>
-            <li className='playerInfo__list__item' onClick={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
-            <li className='playerInfo__list__item' onClick={handleIdentityCardClick} onContextMenu={handleIdentityCardClick}>Carte identité</li>
-            <li className='playerInfo__list__item'>Permis de conduire</li>
-            <li className='playerInfo__list__item'>Permis de port d'arme</li>
-            <li className='playerInfo__list__item' onClick={handleSavePosition}>Sauvegarder</li>
-            <li className='playerInfo__list__item' onClick={handleCloseMenu}>Fermer</li>
-          </ul>
-        )}
-      </div>
-    </div>
+    <PlayerMenu playerData={playerData}>
+      <ul className='playerInfo__list'>
+        <li className='playerInfo__list__item' onClick={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
+        <li className='playerInfo__list__item' onClick={handleIdentityCardClick} onContextMenu={handleIdentityCardClick}>Carte identité</li>
+        <li className='playerInfo__list__item'>Permis de conduire</li>
+        <li className='playerInfo__list__item'>Permis de port d'arme</li>
+        <li className='playerInfo__list__item' onClick={handleSavePosition}>Sauvegarder</li>
+        <li className='playerInfo__list__item' onClick={handleCloseMenu}>Fermer</li>
+      </ul>
+    </PlayerMenu>
   );
   }
   else if (showIdentityCard) {

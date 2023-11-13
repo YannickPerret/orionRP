@@ -17,4 +17,10 @@ exports("debugPrint", (...args) => {
   console.log(message);
 });
 
+function Delay(ms) {
+  return new Promise((res) => {
+    setTimeout(res, ms);
+  });
+}
 
+exports("Delay", Delay);
