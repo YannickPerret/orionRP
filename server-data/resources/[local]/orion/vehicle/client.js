@@ -95,6 +95,7 @@ RegisterKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
 RegisterCommand(
   "seatbelt",
   () => {
+    let ped = PlayerPedId();
     if (IsPedInAnyVehicle(ped, false)) {
       let classVehicle = GetVehicleClass(GetVehiclePedIsIn(ped));
       if (classVehicle != 8 || classVehicle != 13 || classVehicle != 14) {

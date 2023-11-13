@@ -23,4 +23,35 @@ function Delay(ms) {
   });
 }
 
+function getEntityInFrontOfPlayer(player, distance, type) {
+  const [x, y, z] = GetEntityCoords(player, true);
+  const [forwardX, forwardY, forwardZ] = GetEntityForwardVector(player);
+  const endX = x + forwardX * distance;
+  const endY = y + forwardY * distance;
+  const endZ = z + forwardZ * distance;
+  const rayHandle = StartShapeTestRay(
+    x,
+    y,
+    z,
+    endX,
+    endY,
+    endZ,
+    type,
+    player,
+    0
+  );
+  const [hit, endCoords, surfaceNormal, entity] = GetShapeTestResult(rayHandle);
+  return hit ? entity : null;
+}
+
+function getPedInFront(player, distance = 10.0) {
+  return getEntityInFrontOfPlayer(player, distance, 8); // 8 pour les peds
+}
+
+function getVehicleInFront(player, distance = 10.0) {
+  return getEntityInFrontOfPlayer(player, distance, 10); // 10 pour les véhicules
+}
+
+module.exports = { getPedInFront, getVehicleInFront };
+
 exports("Delay", Delay);
