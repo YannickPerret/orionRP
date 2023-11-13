@@ -13,6 +13,8 @@ SetFlyThroughWindscreenParams(
 );
 
 const toggleSeatbelt = (toggle) => {
+  console.log("toggleSeatbelt", toggle);
+  console.log("sealtbelt", sealtbelt);
   if (toggle === undefined) {
     if (sealtbelt) {
       playSound("unbuckle");
