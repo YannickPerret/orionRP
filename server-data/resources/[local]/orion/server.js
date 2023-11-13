@@ -132,7 +132,7 @@ onNet("orion:getPlayerData", () => {
 onNet("orion:saveMugshotUrl", async (mugshotUrl) => {
   const source = global.source;
   const playerData = PlayerManager.getPlayerBySource(source);
-  console.log(exports["MugShotBase64"]:GetMugShotBase64(PlayerPedId(), true))
+  console.log(exports["MugShotBase64"].GetMugShotBase64(PlayerPedId(), true));
   if (playerData) {
     playerData.mugshot = mugshotUrl;
     await playerData.save();
