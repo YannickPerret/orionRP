@@ -19,7 +19,7 @@ server_scripts {
     'utils/utils.js',
     'utils/notification.js',
     'player/server.js',
-    'vehicles/server.js'
+    'vehicle/server.js'
 }
 
 client_scripts {
@@ -27,6 +27,6 @@ client_scripts {
     'utils/utils.js',
     'utils/notification.js',
     'player/client.js',
-    'vehicles/client.js'
+    'vehicle/client.js'
 }
 
