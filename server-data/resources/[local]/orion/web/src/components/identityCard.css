@@ -5,6 +5,10 @@
     height: 350px;
     border: 1px solid #000000;
     z-index: 1;
+    background-color: #f3fafacb;
+    border-radius: 15px;
+    margin-left : 3vw;
+    margin-top : 3vh;
 }
 
 .identityCard__container {

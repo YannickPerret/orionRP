@@ -86,10 +86,13 @@ const App = () => {
       setShowNui(false);
       setTimeout(() => {
         setShowIdentityCard(false);
+        sendNui('closeNUI',null);
+
       }, 15000);
     } else if (e.type === 'contextmenu') {
       // Clic droit
       sendNui('showId', null);
+      sendNui('closeNUI',null);
     }
   }
 
