@@ -102,7 +102,7 @@ const playSound = (sound) => {
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
           vehAcc > seatbeltEjectAccel * 9.81
         ) {
-          console.log("Ejection du véhicule");
+          console.log(position, prevVelocity);
           SetEntityCoords(
             ped,
             position.x,
@@ -118,7 +118,7 @@ const playSound = (sound) => {
             prevVelocity.y,
             prevVelocity.z
           );
-          //TaskLeaveAnyVehicle(PlayerPedId(), 0, 320);
+          TaskLeaveAnyVehicle(PlayerPedId(), 0, 320);
           await Delay(1);
           SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0);
         } else {
