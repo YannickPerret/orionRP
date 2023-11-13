@@ -124,7 +124,7 @@ const playSound = (sound) => {
             prevVelocity.z
           );
           Delay(1);
-          SetPedToRagdoll(player, 1000, 1000, 0, 0, 0, 0);
+          SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0);
         } else {
           prevVelocity = GetEntityVelocity(vehicle);
         }
