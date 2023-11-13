@@ -80,7 +80,7 @@ const playSound = (sound) => {
   while (true) {
     await Delay(0);
     let ped = PlayerPedId();
-    let position = GetEntityCoords(ped, true);
+    let [positionX, positionY, positionZ] = GetEntityCoords(ped, true);
 
     if (IsPedInAnyVehicle(ped, false)) {
       let vehicle = GetVehiclePedIsIn(ped, false);
@@ -102,12 +102,12 @@ const playSound = (sound) => {
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
           vehAcc > seatbeltEjectAccel * 9.81
         ) {
-          console.log(position, prevVelocity);
+          console.log(position, prevVelocity.x);
           SetEntityCoords(
             ped,
-            position.x,
-            position.y,
-            position.z - 0.47,
+            positionX,
+            positionY,
+            positionZ - 0.47,
             true,
             true,
             true
