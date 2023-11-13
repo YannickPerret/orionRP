@@ -64,6 +64,7 @@ async () => {
       Delay(1000);
     }
 
+    console.log(IsPedInAnyVehicle(ped, false));
     if (IsPedInAnyVehicle(ped, false)) {
       console.log("test");
       let vehicle = GetVehiclePedIsIn(ped, false);
