@@ -102,7 +102,7 @@ class Database {
       return r
         .table(table)
         .get(data.id)
-        .update(data)
+        .update(data, { nonAtomic: true })
         .run(connection)
         .then((result) => {
           console.log("document mis à jour avec succès");
