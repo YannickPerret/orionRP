@@ -81,7 +81,12 @@ RegisterCommand(
 );
 
 onNet("orion:mugshot", async () => {
-  console.log(exports["MugShotBase64"].GetMugShotBase64(PlayerPedId(), true));
+  const mugshotUrl = exports["MugShotBase64"].GetMugShotBase64(
+    PlayerPedId(),
+    true
+  );
+
+  emitNet("orion:saveMugshotUrl", mugshotUrl);
 });
 
 RegisterNuiCallbackType("identityCard");
