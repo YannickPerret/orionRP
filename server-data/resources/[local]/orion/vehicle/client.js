@@ -95,7 +95,7 @@ const playSound = (sound) => {
 
       // disable air control
       if (
-        GetPedInVehicleSeat(vehicle, -1) == player &&
+        GetPedInVehicleSeat(vehicle, -1) == ped &&
         vehicleClassDisableControl[vehicleClass]
       ) {
         if (IsEntityInAir(vehicle)) {
