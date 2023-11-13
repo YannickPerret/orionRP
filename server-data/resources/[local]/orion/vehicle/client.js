@@ -94,7 +94,8 @@ const playSound = (sound) => {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
       } else {
-        let vehSpeedVector = GetEntitySpeedVector(vehicle, true).y;
+        let veh = GetVehiclePedIsIn(ped, false);
+        let vehSpeedVector = GetEntitySpeedVector(veh, true).y;
         console.log("Vitesse Y du véhicule:", vehSpeedVector);
         let vehIsMovingFwd = vehSpeedVector > 0.1;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
@@ -104,7 +105,7 @@ const playSound = (sound) => {
           vehAcc > seatbeltEjectAccel * 9.81
         );
         if (
-          GetEntitySpeedVector(vehicle, true).y > 1.0 &&
+          GetEntitySpeedVector(veh, true).y > 1.0 &&
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
           vehAcc > seatbeltEjectAccel * 9.81
         ) {
