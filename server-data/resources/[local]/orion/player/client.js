@@ -1,24 +1,7 @@
 const spawnPos = [-275.522, 6635.835, 7.425];
 
 on("onClientGameTypeStart", () => {
-  exports.spawnmanager.setAutoSpawnCallback(() => {
-    exports.spawnmanager.spawnPlayer(
-      {
-        x: spawnPos[0],
-        y: spawnPos[1],
-        z: spawnPos[2],
-        model: "a_m_m_skater_01",
-      },
-      () => {
-        emit("chat:addMessage", {
-          args: ["Welcome to the party!~"],
-        });
-      }
-    );
-  });
-
-  exports.spawnmanager.setAutoSpawn(true);
-  exports.spawnmanager.forceRespawn();
+  exports.spawnmanager.setAutoSpawn(false);
 });
 
 RegisterCommand("pos", (source, args) => {

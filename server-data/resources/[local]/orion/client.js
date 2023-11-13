@@ -1,4 +1,5 @@
 let isNuiOpen = false;
+let pedIndex = {};
 
 on("playerSpawned", () => {
   //téléporter le player dans un endroit sécurisé
@@ -55,7 +56,6 @@ RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
 onNet("orion:openPlayerMenu", (playerData) => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
-  SetNuiFocusKeepInput(isNuiOpen);
   SendNuiMessage(
     JSON.stringify({
       action: isNuiOpen ? "setPlayerData" : "closeNUI",
@@ -112,15 +112,53 @@ const setWeaponDrops = () => {
 };
 
 setTick(() => {
-  //setWeaponDrops();
-  //remove search cops
-  for (let i = 1; i <= 15; i++) {
-    EnableDispatchService(i, false);
-  }
+  //disable weapon drops
+  setWeaponDrops();
   //remove wanted level
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
     SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
   }
+
+  SetRelationshipBetweenGroups(0, GetHashKey("COP"), GetHashKey("PLAYER"));
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_HILLBILLY"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_BALLAS"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_MEXICAN"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_FAMILY"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_MARABUNTE"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_SALVA"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(
+    1,
+    GetHashKey("AMBIENT_GANG_LOST"),
+    GetHashKey("PLAYER")
+  );
+  SetRelationshipBetweenGroups(1, GetHashKey("GANG_1"), GetHashKey("PLAYER"));
+  SetRelationshipBetweenGroups(1, GetHashKey("GANG_2"), GetHashKey("PLAYER"));
+  SetRelationshipBetweenGroups(1, GetHashKey("GANG_9"), GetHashKey("PLAYER"));
+  SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));
 });
