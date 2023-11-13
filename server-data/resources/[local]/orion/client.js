@@ -70,6 +70,7 @@ onNet("orion:openPlayerMenu", (playerData) => {
 
 RegisterNuiCallbackType("closeNUI");
 on("__cfx_nui:closeNUI", (data, cb) => {
+  console.log("closeNUI");
   if (isNuiOpen) {
     isNuiOpen = false;
     SetNuiFocus(false, false);
