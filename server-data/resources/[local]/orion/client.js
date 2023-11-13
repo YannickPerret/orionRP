@@ -141,7 +141,7 @@ setTick(() => {
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));
 });
 
-async () => {
+(async () => {
   let ped = PlayerPedId();
 
   if (IsPedInAnyVehicle(ped, false)) {
@@ -161,4 +161,4 @@ async () => {
     EndScaleformMovieMethod();
     await Delay(0);
   }
-};
+})();
