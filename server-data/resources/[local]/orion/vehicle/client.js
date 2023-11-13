@@ -40,6 +40,8 @@ SetFlyThroughWindscreenParams(
 const toggleSeatbelt = () => {
   sealtbelt = !sealtbelt;
   if (sealtbelt) {
+    //PlaySoundFrontend(-1, "Faster_Click", "RESPAWN_ONLINE_SOUNDSET", 1)
+
     playSound("buckle");
     SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
     emit(
@@ -99,6 +101,7 @@ const playSound = (sound) => {
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
           vehAcc > seatbeltEjectAccel * 9.81
         ) {
+          console.log("Ejection du véhicule");
           SetEntityCoords(
             ped,
             position.x,
