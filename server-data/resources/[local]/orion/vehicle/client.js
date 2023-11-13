@@ -90,7 +90,7 @@ async () => {
   }
 };
 
-registerKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
+RegisterKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
 
 registerCommand(
   "seatbelt",
