@@ -80,8 +80,6 @@ onNet("orion:playerSpawned", async () => {
       const result = await db.insert("players", newPlayerData);
 
       if (result.inserted === 1) {
-        emitNet("orion:mugshot", source);
-
         const newPlayer = new Player(
           newPlayerData.id,
           source,
@@ -93,9 +91,13 @@ onNet("orion:playerSpawned", async () => {
           newPlayerData.bank,
           newPlayerData.position,
           newPlayerData.license,
-          newPlayerData.discord
+          newPlayerData.discord,
+          newPlayerData.mugshot
         );
+
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
+        emitNet("orion:mugshot", source);
+
         console.log("[Orion] Nouveau joueur créé : ", newPlayer.license);
       } else {
         throw new Error("Erreur lors de la création du joueur");

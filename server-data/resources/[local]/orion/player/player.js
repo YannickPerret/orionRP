@@ -90,6 +90,7 @@ class Player {
       bank: this.bank,
       position: this.position,
       discord: this.discord,
+      mugshot: this.mugshot,
     };
     const result = await db.update("players", playerData);
     if (result.changes && result.changes.length > 0) {
