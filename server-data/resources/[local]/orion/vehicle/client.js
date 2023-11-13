@@ -83,7 +83,7 @@ const playSound = (sound) => {
     let [positionX, positionY, positionZ] = GetEntityCoords(ped, true);
 
     if (IsPedInAnyVehicle(ped, false)) {
-      DisplayRadar(false);
+      DisplayRadar(true);
 
       let vehicle = GetVehiclePedIsIn(ped, false);
       let prevSpeed = currSpeed;
@@ -153,7 +153,7 @@ const playSound = (sound) => {
         }
       }
     } else {
-      DisplayRadar(true);
+      DisplayRadar(false);
       if (sealtbelt) {
         sealtbelt = false;
         toggleSeatbelt();
