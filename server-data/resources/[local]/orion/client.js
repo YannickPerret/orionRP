@@ -142,15 +142,6 @@ setTick(() => {
 });
 
 (async () => {
-  let ped = PlayerPedId();
-
-  if (IsPedInAnyVehicle(ped, false)) {
-    displayRadar(false);
-    console.log("displayRadar(false)");
-  } else {
-    displayRadar(true);
-  }
-
   let minimap = RequestScaleformMovie("minimap");
   SetRadarBigmapEnabled(true, false);
   await Delay(0);
