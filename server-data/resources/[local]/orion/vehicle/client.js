@@ -78,7 +78,7 @@ const playSound = (sound) => {
   let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
 
   while (true) {
-    await Delay(10); // Utilisez await avant Delay pour suspendre l'exécution
+    await Delay(5);
     let ped = PlayerPedId();
     let position = GetEntityCoords(ped, true);
 
@@ -118,10 +118,9 @@ const playSound = (sound) => {
             prevVelocity.y,
             prevVelocity.z
           );
-          Delay(1);
+          await Delay(1);
           SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0);
         } else {
-          console.log("ejection player");
           prevVelocity = GetEntityVelocity(vehicle);
         }
       }
