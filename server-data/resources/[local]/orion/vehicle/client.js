@@ -26,6 +26,8 @@ let vehicleClassDisableControl = {
   [18]: true, //    --emergency
   [19]: false, //    --military
 };
+let brakeLightSpeedThresh = 0.25;
+
 SetFlyThroughWindscreenParams(
   ejectVelocity,
   unknownEjectVelocity,
@@ -100,6 +102,10 @@ const playSound = (sound) => {
           DisableControlAction(2, 59);
           DisableControlAction(2, 60);
         }
+      }
+
+      if (vehicle != nil && GetEntitySpeed(vehicle) <= brakeLightSpeedThresh) {
+        SetVehicleBrakeLights(vehicle, true);
       }
     } else {
       if (sealtbelt) {
