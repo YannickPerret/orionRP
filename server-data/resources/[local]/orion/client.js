@@ -18,10 +18,6 @@ on("playerSpawned", () => {
   emitNet("orion:playerSpawned");
 
   onNet("orion:sendPlayerData", (playerData) => {
-    emit("chat:addMessage", {
-      args: ["Welcome back!~"],
-    });
-
     SetEntityCoords(
       ped,
       parseFloat(playerData.position.x),
@@ -95,15 +91,38 @@ RegisterCommand(
   false
 );
 
-onNet("orion:showNotification", (message) => {
-  SetNotificationTextEntry("STRING");
-  AddTextComponentString(message);
-  DrawNotification(false, false);
-});
+const setWeaponDrops = () => {
+  let handle,
+    ped = FindFirstPed();
+  let finished = false;
+  while (!finished) {
+    if (!IsEntityDead(ped)) {
+      pedIndex[ped] = {};
+    }
+    [finished, ped] = FindNextPed(handle);
+  }
+  while (!finished);
+  EndFindPed(handle);
 
-onNet("orion:showAdvancedNotification", (title, subject, message, icon) => {
-  SetNotificationTextEntry("STRING");
-  AddTextComponentString(message);
-  SetNotificationMessage(icon, icon, true, 4, title, subject);
-  DrawNotification(false, true);
+  for (let peds in pedIndex) {
+    if (peds !== null) {
+      SetPedDropsWeaponsWhenDead(peds, false);
+    }
+  }
+};
+
+setTick(async () => {
+  setWeaponDrops();
+  //remove search cops
+  for (let i = 1; i <= 15; i++) {
+    EnableDispatchService(i, false);
+  }
+  //remove wanted level
+  if (GetPlayerWantedLevel(PlayerId()) > 0) {
+    SetPlayerWantedLevel(PlayerId(), 0, false);
+    SetPlayerWantedLevelNow(PlayerId(), false);
+    SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
+  }
+
+  await Wait(5000);
 });
