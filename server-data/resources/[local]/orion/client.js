@@ -93,6 +93,13 @@ RegisterCommand(
 );
 
 setTick(() => {
+  let player = PlayerId();
+  let isDead = IsEntityDead(GetPlayerPed(-1));
+
+  if (isDead) {
+    emitNet("orion:playerDied", "Vous avez perdu connaissance !");
+  }
+
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);

@@ -93,3 +93,33 @@ RegisterNuiCallbackType("identityCard");
 on("__cfx_nui:identityCard", (data, cb) => {
   cb({ ok: true });
 });
+
+RegisterCommand("revive", () => {
+  SetEntityHealth(PlayerPedId(), 200);
+  ClearPedBloodDamage(PlayerPedId());
+  StopScreenEffect("DeathFailOut");
+
+  let ped = PlayerPedId();
+  let coords = GetEntityCoords(ped, false);
+  let heading = GetEntityHeading(ped);
+  NetworkResurrectLocalPlayer(
+    coords[0],
+    coords[1],
+    coords[2],
+    heading,
+    true,
+    false
+  );
+});
+
+//player died
+onNet("orion:playerDied", (message) => {
+  SetEntityHealth(PlayerPedId(), 0);
+  StartScreenEffect("DeathFailOut", 0, false);
+  SendNUIMessage({
+    action: "showDeathMessage",
+    data: {
+      message,
+    },
+  });
+});

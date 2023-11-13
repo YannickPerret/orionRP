@@ -16,6 +16,8 @@ const player = {
 
 const App = () => {
   const [playerData, setPlayerData] = useState({ firstname: 'John', lastname: 'Doe', money: 100 });
+  const [isPlayerDead, setIsPlayerDead] = useState(false);
+  const [playerDeadMessage, setPlayerDeadMessage] = useState('');
   const [showNui, setShowNui] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState(false);
   const [showAmountMenu, setShowAmountMenu] = useState(false);
@@ -27,6 +29,16 @@ const App = () => {
   useEffect(() => {
     const handleMessage = (event) => {
       const { action, data } = event.data;
+      if (action === "showDeathMessage") {
+        setShowNui(false);
+        setIsPlayerDead(true);
+        setShowSubMenu(false);
+        setShowAmountMenu(false);
+        setShowTextMenu(false);
+        setShowIdentityCard(false);
+        setPlayerDeadMessage(data.message);
+      }
+
       if (action === "setPlayerData") {
         setPlayerData(data);
         setShowNui(true);
@@ -108,6 +120,15 @@ const App = () => {
       sendNui('closeNUI',null);
     }
   }
+
+  if (isPlayerDead) {
+    return (
+      <div className='death'>
+        <div className='death__message'>{playerDeadMessage}</div>
+      </div>
+    )
+  }
+
 
   if(isDriver) {
     return (

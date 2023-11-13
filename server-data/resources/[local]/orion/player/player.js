@@ -15,6 +15,7 @@ class Player {
     discord,
     isAdmin,
     mugshot,
+    isDead,
   }) {
     this.id = id;
     this.source = source;
@@ -38,6 +39,7 @@ class Player {
     this.license = license || null;
     this.discord = discord || null;
     this.isAdmin = isAdmin || false;
+    this.isDead = isDead || false;
   }
 
   manger(quantite) {
