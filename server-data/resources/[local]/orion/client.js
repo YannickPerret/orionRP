@@ -5,6 +5,7 @@ on("playerSpawned", () => {
   //téléporter le player dans un endroit sécurisé
   const playerId = GetPlayerServerId(PlayerId());
   const ped = GetPlayerPed(-1);
+  SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
   SetEntityCoords(
     ped,
     parseFloat(-1037.0),
@@ -139,3 +140,22 @@ setTick(() => {
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_9"), GetHashKey("PLAYER"));
   SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));
 });
+
+async () => {
+  let player = PlayerPedId();
+  if (IsPedInAnyVehicle(player, false)) {
+    displayRadar(false);
+  } else {
+    displayRadar(true);
+  }
+
+  let minimap = RequestScaleformMovie("minimap");
+  SetRadarBigmapEnabled(true, false);
+  await Delay(0);
+  SetRadarBigmapEnabled(false, false);
+  while (true) {
+    BeginScaleformMovieMethod(minimap, "SETUP_HEALTH_ARMOUR");
+    ScaleformMovieMethodAddParamInt(3);
+    EndScaleformMovieMethod();
+  }
+};
