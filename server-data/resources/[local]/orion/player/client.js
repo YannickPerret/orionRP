@@ -79,3 +79,15 @@ RegisterCommand(
   },
   false
 );
+
+onNet("orion:mugshot", () => {
+  const ped = GetPlayerPed(-1);
+  const mugshot = RegisterPedheadshot(ped);
+
+  while (!IsPedheadshotReady(mugshot)) {
+    Wait(0);
+  }
+
+  const mugshotUrl = GetPedheadshotTxdString(mugshot);
+  emitNet("orion:saveMugshotUrl", mugshotUrl);
+});

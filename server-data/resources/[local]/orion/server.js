@@ -34,19 +34,21 @@ onNet("orion:playerSpawned", async () => {
 
     if (playerData.length > 0) {
       // Traitement pour un joueur existant
-      const player = new Player(
-        playerData[0].id,
-        source,
-        steamId,
-        playerData[0].firstname,
-        playerData[0].lastname,
-        playerData[0].phone,
-        playerData[0].money,
-        playerData[0].bank,
-        playerData[0].position,
-        playerData[0].license,
-        playerData[0].discord
-      );
+      const player = new Player({
+        id: playerData[0].id,
+        source: source,
+        steamId: steamId,
+        firstname: playerData[0].firstname,
+        lastname: playerData[0].lastname,
+        phone: playerData[0].phone,
+        money: playerData[0].money,
+        bank: playerData[0].bank,
+        position: playerData[0].position,
+        license: playerData[0].license,
+        discord: playerData[0].discord,
+        mugshot: playerData[0].mugshot,
+      });
+
       PlayerManager.addPlayer(player.source, player);
       console.log("[Orion] Joueur existant récupéré : ", player);
       emitNet(
@@ -72,11 +74,14 @@ onNet("orion:playerSpawned", async () => {
           z: playerPosition[2],
         },
         discord: null,
+        mugshot: null,
       };
 
       const result = await db.insert("players", newPlayerData);
 
       if (result.inserted === 1) {
+        emitNet("orion:mugshot", source);
+
         const newPlayer = new Player(
           newPlayerData.id,
           source,
@@ -117,6 +122,16 @@ onNet("orion:getPlayerData", () => {
       firstname: playerData.firstname,
       lastname: playerData.lastname,
       money: playerData.money,
+      mugshot: playerData.mugshot,
     });
+  }
+});
+
+onNet("orion:saveMugshotUrl", async (mugshotUrl) => {
+  const source = global.source;
+  const playerData = PlayerManager.getPlayerBySource(source);
+  if (playerData) {
+    playerData.mugshot = mugshotUrl;
+    await playerData.save();
   }
 });

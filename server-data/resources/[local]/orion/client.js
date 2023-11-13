@@ -15,6 +15,7 @@ on("playerSpawned", () => {
     false,
     false
   );
+  
 
   emitNet("orion:playerSpawned");
 

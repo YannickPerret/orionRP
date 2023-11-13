@@ -16,3 +16,5 @@ exports("debugPrint", (...args) => {
   const message = `[${currentResourceName}] ${appendStr}`;
   console.log(message);
 });
+
+

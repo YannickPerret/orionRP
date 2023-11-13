@@ -13,7 +13,8 @@ class Player {
     position,
     license,
     discord,
-    isAdmin
+    isAdmin,
+    mugshot
   ) {
     this.id = id;
     this.source = source;
@@ -33,6 +34,7 @@ class Player {
     this.phone = phone;
     this.money = money || 500;
     this.bank = bank || 0;
+    this.mugshot = mugshot || "";
     this.license = license || null;
     this.discord = discord || null;
     this.isAdmin = isAdmin || false;
