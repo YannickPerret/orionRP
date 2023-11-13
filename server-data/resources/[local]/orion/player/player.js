@@ -1,5 +1,5 @@
-//import Inventory from "./inventaire.js";
 const { db, r } = require("../system/database.js");
+const Inventory = require("../inventory/Inventory.js");
 class Player {
   constructor(
     id,
@@ -20,7 +20,7 @@ class Player {
     this.source = source;
     this.faim = 100;
     this.soif = 100;
-    //this.inventaire = new Inventory();
+    this.inventaire = new Inventory();
     this.vehicules = [];
     this.steamId = steamId || null;
     this.position = {
