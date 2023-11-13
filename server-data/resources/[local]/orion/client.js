@@ -142,9 +142,11 @@ setTick(() => {
 });
 
 async () => {
-  let player = PlayerPedId();
-  if (IsPedInAnyVehicle(player, false)) {
+  let ped = PlayerPedId();
+
+  if (IsPedInAnyVehicle(ped, false)) {
     displayRadar(false);
+    console.log("displayRadar(false)");
   } else {
     displayRadar(true);
   }
@@ -157,5 +159,6 @@ async () => {
     BeginScaleformMovieMethod(minimap, "SETUP_HEALTH_ARMOUR");
     ScaleformMovieMethodAddParamInt(3);
     EndScaleformMovieMethod();
+    await Delay(0);
   }
 };

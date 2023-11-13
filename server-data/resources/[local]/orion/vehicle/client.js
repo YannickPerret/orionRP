@@ -161,6 +161,8 @@ const playSound = (sound) => {
 })();
 
 async () => {
+  let ped = PlayerPedId();
+
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
 
