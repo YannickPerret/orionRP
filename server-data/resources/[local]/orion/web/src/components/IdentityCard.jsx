@@ -7,7 +7,7 @@ export default function IdentityCard({player}) {
     <div className='identityCard'>
         <div className='identityCard__container'>
             <div className='identityCard__left'>
-                <image src={player.mugshot} alt='mugshot' />
+                <img src={`nui://${player.mugshot}`} alt='Mugshot' />
             </div>
 
             <div className='identityCard__right'>

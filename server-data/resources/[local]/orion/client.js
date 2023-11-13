@@ -112,9 +112,6 @@ const setWeaponDrops = () => {
 };
 
 setTick(() => {
-  //disable weapon drops
-  //setWeaponDrops();
-  //remove wanted level
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
