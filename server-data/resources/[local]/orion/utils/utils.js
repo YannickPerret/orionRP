@@ -52,6 +52,6 @@ function getVehicleInFront(player, distance = 10.0) {
   return getEntityInFrontOfPlayer(player, distance, 10); // 10 pour les véhicules
 }
 
-module.exports = { getPedInFront, getVehicleInFront };
-
 exports("Delay", Delay);
+exports("getPedInFront", getPedInFront);
+exports("getVehicleInFront", getVehicleInFront);
