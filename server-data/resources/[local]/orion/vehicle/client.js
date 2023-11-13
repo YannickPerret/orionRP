@@ -4,7 +4,28 @@ let unknownModifier = 17.0;
 let minDamage = 2000;
 let volume = 0.25;
 let sealtbelt = false;
-
+let vehicleClassDisableControl = {
+  [0]: true, //     --compacts
+  [1]: true, //     --sedans
+  [2]: true, //     --SUV's
+  [3]: true, //     --coupes
+  [4]: true, //     --muscle
+  [5]: true, //     --sport classic
+  [6]: true, //     --sport
+  [7]: true, //     --super
+  [8]: false, //    --motorcycle
+  [9]: true, //     --offroad
+  [10]: true, //    --industrial
+  [11]: true, //    --utility
+  [12]: true, //    --vans
+  [13]: false, //   --bicycles
+  [14]: false, //   --boats
+  [15]: false, //   --helicopter
+  [16]: false, //   --plane
+  [17]: true, //    --service
+  [18]: true, //    --emergency
+  [19]: false, //    --military
+};
 SetFlyThroughWindscreenParams(
   ejectVelocity,
   unknownEjectVelocity,
@@ -67,6 +88,19 @@ const playSound = (sound) => {
           isDriver: isDriver,
         },
       });
+
+      let vehicleClass = GetVehicleClass(vehicle);
+
+      // disable air control
+      if (
+        GetPedInVehicleSeat(vehicle, -1) == player &&
+        vehicleClassDisableControl[vehicleClass]
+      ) {
+        if (IsEntityInAir(vehicle)) {
+          DisableControlAction(2, 59);
+          DisableControlAction(2, 60);
+        }
+      }
     } else {
       if (sealtbelt) {
         sealtbelt = false;
