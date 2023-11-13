@@ -2,16 +2,41 @@
     display : flex;
     flex-direction: column;
     width: 350px;
-    height: 350px;
+    height: 250px;
     border: 1px solid #000000;
     z-index: 1;
     background-color: #f3fafacb;
     border-radius: 15px;
     margin-left : 3vw;
     margin-top : 3vh;
+    padding : 1vw;
 }
 
 .identityCard__container {
     display : flex;
     flex-direction: row;
+    width: 100%;
+
+}
+
+.identityCard__left {
+    display :flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.identityCard__left img {
+    width: 100%;
+    height: auto;
+}
+
+.identityCard__right {
+    display :flex;
+    flex-direction: column;
+    flex: 3;
+}
+.identityCard__right ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
 }
