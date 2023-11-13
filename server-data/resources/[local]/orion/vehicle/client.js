@@ -27,6 +27,8 @@ let vehicleClassDisableControl = {
   [19]: false, //    --military
 };
 let brakeLightSpeedThresh = 0.25;
+let seatbeltEjectSpeed = 45.0;
+let seatbeltEjectAccel = 100.0;
 
 SetFlyThroughWindscreenParams(
   ejectVelocity,
@@ -70,17 +72,55 @@ const playSound = (sound) => {
 };
 
 (async () => {
-  let ped = PlayerPedId();
+  let currSpeed = 0.0;
+  let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
 
   while (true) {
     await Delay(10); // Utilisez await avant Delay pour suspendre l'exécution
+    let ped = PlayerPedId();
+    let position = GetEntityCoords(ped, true);
+
     if (IsPedInAnyVehicle(ped, false)) {
+      let vehicle = GetVehiclePedIsIn(ped, false);
+      let prevSpeed = currSpeed;
+
+      currSpeed = GetEntitySpeed(vehicle);
+
+      SetPedConfigFlag(PlayerPedId(), 32, true);
+
       if (sealtbelt) {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
+      } else {
+        let vehIsMovingFwd = GetEntitySpeedVector(vehicle, true).y > 1.0;
+        let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
+        if (
+          vehIsMovingFwd &&
+          prevSpeed > seatbeltEjectSpeed / 2.237 &&
+          vehAcc > seatbeltEjectAccel * 9.81
+        ) {
+          SetEntityCoords(
+            ped,
+            position.x,
+            position.y,
+            position.z - 0.47,
+            true,
+            true,
+            true
+          );
+          SetEntityVelocity(
+            ped,
+            prevVelocity.x,
+            prevVelocity.y,
+            prevVelocity.z
+          );
+          Delay(1);
+          SetPedToRagdoll(player, 1000, 1000, 0, 0, 0, 0);
+        } else {
+          prevVelocity = GetEntityVelocity(vehicle);
+        }
       }
 
-      let vehicle = GetVehiclePedIsIn(ped, false);
       let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
       SendNUIMessage({
