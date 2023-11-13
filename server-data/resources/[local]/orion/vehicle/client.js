@@ -60,8 +60,6 @@ const playSound = (sound) => {
       let vehicle = GetVehiclePedIsIn(ped, false);
       let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
-
-      console.log(speed);
       SendNUIMessage({
         action: "updateSpeed",
         data: {

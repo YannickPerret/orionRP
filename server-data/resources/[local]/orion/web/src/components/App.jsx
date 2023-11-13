@@ -38,7 +38,6 @@ const App = () => {
         playSound(data.sound, data.volume);
       }
       else if (action === 'updateSpeed') {
-        console.log(data);
         setSpeed(data.speed);
         setIsDriver(data.isDriver);
       }
