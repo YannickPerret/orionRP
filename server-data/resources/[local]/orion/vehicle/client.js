@@ -118,6 +118,7 @@ const playSound = (sound) => {
             prevVelocity.y,
             prevVelocity.z
           );
+          TaskLeaveAnyVehicle(PlayerPedId(), 0, 320);
           await Delay(1);
           SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0);
         } else {
