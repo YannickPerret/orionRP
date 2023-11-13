@@ -97,11 +97,6 @@ const playSound = (sound) => {
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
-        console.log(
-          vehIsMovingFwd,
-          prevSpeed > seatbeltEjectSpeed / 2.237,
-          vehAcc > seatbeltEjectAccel * 9.81
-        );
         if (
           vehIsMovingFwd &&
           prevSpeed > seatbeltEjectSpeed / 2.237 &&
@@ -126,6 +121,7 @@ const playSound = (sound) => {
           Delay(1);
           SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0);
         } else {
+          console.log("ejection player");
           prevVelocity = GetEntityVelocity(vehicle);
         }
       }
