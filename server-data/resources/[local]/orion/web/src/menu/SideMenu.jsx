@@ -1,22 +1,23 @@
-import React, { useEffect } from 'react'
-import { sendNui } from '../utils/fetchNui'
-import '../styles/SideMenu.css'
+import React, { useState, useEffect } from 'react';
+import '../styles/SideMenu.css';
 
-export const SideMenu = ({handleSideMenuIsOpen, children}) => {
+export const SideMenu = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "F2") {
+      setIsOpen(!isOpen);
+    }
+  };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "F2") {
-        handleSideMenuIsOpen(false);
-        sendNui('closeNUI', null);
-      }
-    };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleSideMenuIsOpen]);
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   return (
     <div className='SideMenu'>

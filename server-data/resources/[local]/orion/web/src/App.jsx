@@ -3,6 +3,8 @@ import './styles/App.css';
 import {playSound} from './utils/sound'
 import PlayerMenu from './menu/playerMenu/PlayerMenu';
 import MainWindow from './window/MainWindow';
+import { sendNui } from './utils/fetchNui';
+import { SideMenu } from './menu/SideMenu';
 
 const initialState = {
   player: {
@@ -13,8 +15,8 @@ const initialState = {
   },
   isPlayerDead: false,
   playerDeadMessage: '',
-  sideMenuUi: false,
-  showPlayerMenu: false,
+  sideMenuUi: true,
+  showPlayerMenu: true,
   mainMenuWindow: false,
   isDriver: false,
   speed: 0
@@ -41,8 +43,6 @@ const App = () => {
   useEffect(() => {
     const handleMessage = (event) => {
       const { action, data } = event.data;
-
-      console.log(action, data);
       switch (action) {
         case "showDeathMessage":
           dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
@@ -71,6 +71,7 @@ const App = () => {
 
   const handleCloseMenu = () => {
     dispatch({ type: 'CLOSE_NUI' });
+    sendNui('closeNUI', null)
   };
 
 
@@ -82,7 +83,14 @@ const App = () => {
     );
   } else if (state.sideMenuUi) {
     return (
-        state.showPlayerMenu && <PlayerMenu playerData={state.player} handleSideMenuIsOpen={handleCloseMenu} />
+        state.showPlayerMenu && (
+          <SideMenu>
+            <header className='SideMenu__header'>
+              <h1>{state.player.firstname} {state.player.lastname}</h1>
+            </header>
+            <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} />
+          </SideMenu>
+        )
     );
   } else if (state.mainMenuWindow) {
     return (

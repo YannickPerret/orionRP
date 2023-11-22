@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { SideMenu } from '../SideMenu'
 import '../../styles/PlayerMenu.css'
 
-export default function PlayerMenu({playerData, sendNui}) {
+export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   const [showIdentityCard, setShowIdentityCard] = useState(false);
 
 
   const handleCloseMenu = () => {
-    sendNui('closeNUI',null);
+    onCloseMenu()
   }
 
   const handleIdentityCardClick = (e) => {
@@ -37,8 +37,6 @@ export default function PlayerMenu({playerData, sendNui}) {
     sendNui('savePosition',null);
   }
   return (
-    <SideMenu handleSideMenuIsOpen={handleCloseMenu}>
-        <h1>{playerData.firstname} {playerData.lastname}</h1>
         <ul className='playerInfo__list'>
             <li className='playerInfo__list__item' onClick={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
             <li className='playerInfo__list__item' onClick={handleIdentityCardClick} onContextMenu={handleIdentityCardClick}>Carte identité</li>
@@ -46,10 +44,6 @@ export default function PlayerMenu({playerData, sendNui}) {
             <li className='playerInfo__list__item'>Permis de port d'arme</li>
             <li className='playerInfo__list__item' onClick={handleSavePosition}>Sauvegarder</li>
             <li className='playerInfo__list__item' onClick={handleCloseMenu}>Fermer</li>
-        </ul>
-          
-    
-    </SideMenu>
-  
+        </ul>  
   )
 }
