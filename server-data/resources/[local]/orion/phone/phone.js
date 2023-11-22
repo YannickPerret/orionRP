@@ -47,3 +47,5 @@ class Phone {
     return number;
   }
 }
+
+module.exports = Phone;

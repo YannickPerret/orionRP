@@ -59,7 +59,7 @@ onNet("orion:openPlayerMenu", (playerData) => {
   SetNuiFocus(isNuiOpen, isNuiOpen);
   SendNuiMessage(
     JSON.stringify({
-      action: isNuiOpen ? "setPlayerData" : "closeNUI",
+      action: isNuiOpen ? "ShowPlayerMenu" : "closeNUI",
       data: playerData,
     })
   );

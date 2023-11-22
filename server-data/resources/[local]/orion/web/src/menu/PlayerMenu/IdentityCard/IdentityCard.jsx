@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './identityCard.css'
 
 export default function IdentityCard({player}) {
-    console.log(player)
+
+
   return (
     <div className='identityCard'>
         <div className='identityCard__container'>
