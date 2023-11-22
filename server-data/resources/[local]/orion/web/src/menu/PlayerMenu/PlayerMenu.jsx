@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { SideMenu } from '../SideMenu'
 import '../../styles/PlayerMenu.css'
+import { sendNui } from '../../utils/fetchNui';
 
 export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
@@ -35,7 +36,9 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   const handleSavePosition = () => {
     sendNui('savePosition',null);
+    handleCloseMenu();
   }
+
   return (
         <ul className='playerInfo__list'>
             <li className='playerInfo__list__item' onClick={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
