@@ -41,6 +41,8 @@ const App = () => {
   useEffect(() => {
     const handleMessage = (event) => {
       const { action, data } = event.data;
+
+      console.log(action, data);
       switch (action) {
         case "showDeathMessage":
           dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
