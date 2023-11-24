@@ -22,8 +22,8 @@ const initialState = {
   },
   isPlayerDead: false,
   playerDeadMessage: '',
-  sideMenuUi: true,
-  showPlayerMenu: true,
+  sideMenuUi: false,
+  showPlayerMenu: false,
   mainMenuWindow: false,
   showJobMenu: false,
   showAmountMenu: false,
@@ -41,6 +41,7 @@ const reducer = (state, action) => {
     case 'SHOW_JOB_MENU':
       return { ...state, sideMenuUi: true, showJobMenu: true };
     case 'SHOW_GIVE_AMOUNT_MENU':
+      console.log('show give amount menu');
       return { ...state, showAmountMenu: true };
     case 'CLOSE_NUI':
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
