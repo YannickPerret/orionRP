@@ -53,5 +53,5 @@ function getVehicleInFront(player, distance = 10.0) {
 }
 
 exports("Delay", Delay);
-exports("getPedInFront", getPedInFront, distance);
+exports("getPedInFront", getPedInFront);
 exports("getVehicleInFront", getVehicleInFront);
