@@ -6,7 +6,7 @@ import MainWindow from './window/MainWindow';
 import { sendNui } from './utils/fetchNui';
 import { SideMenu } from './menu/SideMenu';
 import JobMenu from './menu/JobMenu/JobMenu';
-import Amount from './components/input/amount';
+import Amount from './components/input/amount/Amount';
 
 const initialState = {
   player: {
@@ -43,6 +43,8 @@ const reducer = (state, action) => {
       return { ...state, sideMenuUi: false, showAmountMenu: true };
     case 'CLOSE_NUI':
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
+    case "CLOSE_SIDE_MENU":
+      return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     default:
@@ -62,6 +64,9 @@ const App = () => {
           break;
         case "showGiveAmountMenu" :
           dispatch({type: 'SHOW_GIVE_AMOUNT_MENU', data});
+          break;
+        case "closeSideMenu":
+          dispatch({ type: 'CLOSE_SIDE_MENU' });
           break;
         case "ShowPlayerMenu":
           dispatch({ type: 'SHOW_PLAYER_MENU', data });
@@ -104,7 +109,7 @@ const App = () => {
         <div className='death__message'>{state.playerDeadMessage}</div>
       </div>
     );
-  } else if (state.sideMenuUi) {
+  } else if (state.sideMenuUi && !state.mainMenuWindow && !state.showAmountMenu) {
     return (
       [
         state.showPlayerMenu && (
@@ -127,7 +132,7 @@ const App = () => {
       ]
        
     );
-  } else if (state.mainMenuWindow) {
+  } else if (state.mainMenuWindow && !state.showAmountMenu && !state.sideMenuUi) {
     return (
       <MainWindow>
         test

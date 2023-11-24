@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import './amount.css'
 
 export default function Amount({children, confirm, cancel}) {
     const [amount, setAmount] = useState(0);

@@ -1,0 +1,14 @@
+.amount {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 400px;
+    background-color: #272525cf;    
+    padding : 10%;
+}
+
+.amount__header {
+    
+}

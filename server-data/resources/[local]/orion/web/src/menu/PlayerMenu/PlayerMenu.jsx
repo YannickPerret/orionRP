@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { SideMenu } from '../SideMenu'
 import '../../styles/PlayerMenu.css'
 import { sendNui } from '../../utils/fetchNui';
 
@@ -10,6 +9,11 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   const handleCloseMenu = () => {
     onCloseMenu()
+  }
+
+  const handleCloseSideMenu = () => {
+    dispatch({type:"closeSideMenu"})
+    sendNui('closeNUI', null)
   }
 
   const handleIdentityCardClick = (e) => {
@@ -32,7 +36,6 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   const handleGiveMoney = (e) => {
     if (e.type === 'contextmenu') {
-      sendNui('showAmountMenu', null);
       handleCloseMenu();
       dispatch({type:"showGiveAmountMenu"})
     }
