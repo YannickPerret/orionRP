@@ -19,7 +19,7 @@ export default function Amount({children, confirm, cancel}) {
         </div>
 
         <div className='amount__body'>
-            <input type='number' className='amount__body--input' placeholder='Amount' value={amount} onChange={(e) => setAmount(e.target.value)} />
+            <input type='number' className='amount__body--input' placeholder='Amount' value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
         </div>
 
         <div className='amount__action'>
