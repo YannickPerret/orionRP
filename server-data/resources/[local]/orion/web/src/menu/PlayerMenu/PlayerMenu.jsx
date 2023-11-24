@@ -36,8 +36,9 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   const handleGiveMoney = (e) => {
     if (e.type === 'contextmenu') {
+      console.log('clic droit1')
       handleCloseSideMenu();
-      console.log('clic droit')
+      console.log('clic droit2')
       dispatch({type:"showGiveAmountMenu"})
     }
   }
