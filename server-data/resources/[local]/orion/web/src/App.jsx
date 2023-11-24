@@ -22,8 +22,8 @@ const initialState = {
   },
   isPlayerDead: false,
   playerDeadMessage: '',
-  sideMenuUi: false,
-  showPlayerMenu: false,
+  sideMenuUi: true,
+  showPlayerMenu: true,
   mainMenuWindow: false,
   showJobMenu: false,
   showAmountMenu: false,
@@ -41,7 +41,6 @@ const reducer = (state, action) => {
     case 'SHOW_JOB_MENU':
       return { ...state, sideMenuUi: true, showJobMenu: true };
     case 'SHOW_GIVE_AMOUNT_MENU':
-      console.log('show give amount menu');
       return { ...state, showAmountMenu: true };
     case 'CLOSE_NUI':
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
@@ -65,7 +64,7 @@ const App = () => {
           dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
           break;
         case "showGiveAmountMenu" :
-          dispatch({type: 'SHOW_GIVE_AMOUNT_MENU', data});
+          dispatch({type: 'SHOW_GIVE_AMOUNT_MENU'});
           break;
         case "closeSideMenu":
           dispatch({ type: 'CLOSE_SIDE_MENU' });
@@ -119,7 +118,7 @@ const App = () => {
             <header className='SideMenu__header'>
               <h1>{state.player.firstname} {state.player.lastname}</h1>
             </header>
-            <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} />
+            <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} dispatch={dispatch}/>
           </SideMenu>
         ),
 
