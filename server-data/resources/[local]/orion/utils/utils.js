@@ -44,7 +44,7 @@ function getEntityInFrontOfPlayer(player, distance, type) {
   return hit ? entity : null;
 }
 
-exports.getPedInFront = (player, distance = 10.0) => {
+const getPedInFront = (player, distance = 10.0) => {
   return getEntityInFrontOfPlayer(player, distance, 8); // 8 pour les peds
 };
 
@@ -53,4 +53,5 @@ function getVehicleInFront(player, distance = 10.0) {
 }
 
 exports("Delay", Delay);
+exports("getPedInFront", getPedInFront, distance);
 exports("getVehicleInFront", getVehicleInFront);
