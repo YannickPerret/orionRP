@@ -94,6 +94,15 @@ on("__cfx_nui:identityCard", (data, cb) => {
   cb({ ok: true });
 });
 
+RegisterNuiCallbackType("giveAmount");
+on("__cfx_nui:giveAmount", (data, cb) => {
+  const pedTarget = require("myResource").getPedInFront(1.0, PlayerPedId());
+  if (pedTarget) {
+    emitNet("orion:player:giveAmount", pedTarget, data.amount);
+  }
+  cb({ ok: true });
+});
+
 RegisterCommand("revive", (source, args) => {
   SetEntityHealth(PlayerPedId(), 200);
   ClearPedBloodDamage(PlayerPedId());

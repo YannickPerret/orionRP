@@ -30,8 +30,12 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
     }
   }
 
-  const handleGiveMoney = () => {
-    setShowAmountMenu(true);
+  const handleGiveMoney = (e) => {
+    if (e.type === 'contextmenu') {
+      sendNui('showAmountMenu', null);
+      handleCloseMenu();
+      dispatch({type:"showGiveAmountMenu"})
+    }
   }
 
   const handleSavePosition = () => {
@@ -41,7 +45,7 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   return (
         <ul className='playerInfo__list'>
-            <li className='playerInfo__list__item' onClick={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
+            <li className='playerInfo__list__item' onClick={handleGiveMoney} onContextMenu={handleGiveMoney}>Argent liquide : ${playerData.money}</li>
             <li className='playerInfo__list__item' onClick={handleIdentityCardClick} onContextMenu={handleIdentityCardClick}>Carte identité</li>
             <li className='playerInfo__list__item'>Permis de conduire</li>
             <li className='playerInfo__list__item'>Permis de port d'arme</li>

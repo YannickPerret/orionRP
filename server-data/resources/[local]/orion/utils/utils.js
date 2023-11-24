@@ -44,14 +44,13 @@ function getEntityInFrontOfPlayer(player, distance, type) {
   return hit ? entity : null;
 }
 
-function getPedInFront(player, distance = 10.0) {
+exports.getPedInFront = (player, distance = 10.0) => {
   return getEntityInFrontOfPlayer(player, distance, 8); // 8 pour les peds
-}
+};
 
 function getVehicleInFront(player, distance = 10.0) {
   return getEntityInFrontOfPlayer(player, distance, 10); // 10 pour les véhicules
 }
 
 exports("Delay", Delay);
-exports("getPedInFront", getPedInFront);
 exports("getVehicleInFront", getVehicleInFront);

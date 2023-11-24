@@ -5,6 +5,8 @@ import PlayerMenu from './menu/playerMenu/PlayerMenu';
 import MainWindow from './window/MainWindow';
 import { sendNui } from './utils/fetchNui';
 import { SideMenu } from './menu/SideMenu';
+import JobMenu from './menu/JobMenu/JobMenu';
+import Amount from './components/input/amount';
 
 const initialState = {
   player: {
@@ -13,13 +15,20 @@ const initialState = {
     money: 100,
     phone: '06 06 06 06 06'
   },
+  job:{
+    name: 'Chômeur',
+    grade: 'Aucun',
+    salary: 0
+  },
   isPlayerDead: false,
   playerDeadMessage: '',
-  sideMenuUi: true,
-  showPlayerMenu: true,
+  sideMenuUi: false,
+  showPlayerMenu: false,
   mainMenuWindow: false,
+  showJobMenu: false,
   isDriver: false,
-  speed: 0
+  speed: 0,
+  amount: 0,
 };
 
 const reducer = (state, action) => {
@@ -28,8 +37,12 @@ const reducer = (state, action) => {
       return { ...state, isPlayerDead: true, playerDeadMessage: action.data.message };
     case 'SHOW_PLAYER_MENU':
       return { ...state, sideMenuUi: true, showPlayerMenu: true, player: action.data };
+    case 'SHOW_JOB_MENU':
+      return { ...state, sideMenuUi: true, showJobMenu: true };
+    case 'SHOW_GIVE_AMOUNT_MENU':
+      return { ...state, sideMenuUi: false, showAmountMenu: true };
     case 'CLOSE_NUI':
-      return { ...state, sideMenuUi: false, showPlayerMenu: false };
+      return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     default:
@@ -47,8 +60,14 @@ const App = () => {
         case "showDeathMessage":
           dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
           break;
+        case "showGiveAmountMenu" :
+          dispatch({type: 'SHOW_GIVE_AMOUNT_MENU', data});
+          break;
         case "ShowPlayerMenu":
           dispatch({ type: 'SHOW_PLAYER_MENU', data });
+          break;
+        case "ShowJobMenu":
+          dispatch({ type: 'SHOW_JOB_MENU', data });
           break;
         case "closeNUI":
           dispatch({ type: 'CLOSE_NUI' });
@@ -59,7 +78,6 @@ const App = () => {
         case 'updateSpeed':
           dispatch({ type: 'UPDATE_SPEED', data });
           break;
-        // Autres cas si nécessaire
       }
     };
 
@@ -74,6 +92,11 @@ const App = () => {
     sendNui('closeNUI', null)
   };
 
+  const handleGiveAmount = (amount) => {
+    sendNui('giveAmount', {amount: amount});
+    dispatch({type: 'CLOSE_NUI'});
+  }
+
 
   if (state.isPlayerDead) {
     return (
@@ -83,6 +106,7 @@ const App = () => {
     );
   } else if (state.sideMenuUi) {
     return (
+      [
         state.showPlayerMenu && (
           <SideMenu>
             <header className='SideMenu__header'>
@@ -90,7 +114,18 @@ const App = () => {
             </header>
             <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} />
           </SideMenu>
+        ),
+
+        state.showJobMenu && (
+          <SideMenu>
+            <header className='SideMenu__header'>
+              <h1>{state.job.name}</h1>
+            </header>
+            <JobMenu jobData={state.job} onCloseMenu={handleCloseMenu} />
+          </SideMenu>
         )
+      ]
+       
     );
   } else if (state.mainMenuWindow) {
     return (
@@ -103,6 +138,13 @@ const App = () => {
       <div className='driver'>
         <div className='driver__speed'>{state.speed} km/h</div>
       </div>
+    );
+  }
+  else if (state.showGiveAmountMenu) {
+    return (
+      <Amount confirm={handleGiveAmount}>
+        Donner de l'argent liquide :
+      </Amount>
     );
   }
  
