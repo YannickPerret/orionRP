@@ -42,7 +42,7 @@ function GetCoordsFromCam(distance) {
 }
 
 // Get entity's ID and coords from where player sis targeting
-exports.Target = (Distance, Ped) => {
+exports("targetPlayerAround", (Distance, Ped) => {
   let camCoords = GetGameplayCamCoord();
   let [farCoordsX, farCoordsY, farCoordsZ] = GetCoordsFromCam(Distance);
   let RayHandle = StartShapeTestRay(
@@ -62,7 +62,7 @@ exports.Target = (Distance, Ped) => {
     D,
     Entity = GetRaycastResult(RayHandle);
   return [Entity, farCoordsX, farCoordsY, farCoordsZ];
-};
+});
 
 module.exports = {
   getCurrentPlayerBySource,
