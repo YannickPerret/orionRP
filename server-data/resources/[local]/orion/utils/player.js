@@ -28,7 +28,7 @@ function GetCoordsFromCam(distance) {
   let newCoordZ = coord[2] + Math.sin(tX) * 8.0;
   return [newCoordX, newCoordY, newCoordZ];
 }
-
+/*
 const GetPedInFront = () => {
   let player = PlayerId();
   let plyPed = GetPlayerPed(player);
@@ -52,7 +52,7 @@ const GetPedInFront = () => {
     _,
     ped = GetShapeTestResult(rayHandle);
   return ped;
-};
+};*/
 
 // Get entity's ID and coords from where player sis targeting
 exports('targetPlayerAround', (Distance, Ped) => {
