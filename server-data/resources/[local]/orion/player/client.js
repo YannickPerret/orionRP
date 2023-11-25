@@ -96,7 +96,7 @@ on("__cfx_nui:identityCard", (data, cb) => {
 
 RegisterNuiCallbackType("giveAmount");
 on("__cfx_nui:giveAmount", (data, cb) => {
-  const pedTarget = exports["orion"].getPedInFront(1.0, PlayerPedId());
+  const pedTarget = exports["orion"].getPedInFront(PlayerPedId(), 25.0);
   console.log(pedTarget);
   if (pedTarget) {
     emitNet("orion:player:giveAmount", pedTarget, data.amount);

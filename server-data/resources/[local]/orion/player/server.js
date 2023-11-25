@@ -9,10 +9,21 @@ onNet("orion:savePlayerPosition", async (x, y, z) => {
 });
 
 onNet("orion:player:giveAmount", (target, amount) => {
+  if (isNaN(amount)) {
+    emitNet("orion:showNotification", global.source, "Montant invalide !");
+    return;
+  }
+  amount = parseInt(amount);
+  if (amount <= 0) {
+    emitNet("orion:showNotification", global.source, "Montant invalide !");
+    return;
+  }
   emitNet("orion:showNotification", target, `Vous avez reçu ${amount} $ !`);
   emitNet(
     "orion:showNotification",
     global.source,
     `Vous avez donné ${amount} $ !`
   );
+  emitNet("orion:player:addMoney", target, amount);
+  emitNet("orion:player:removeMoney", global.source, amount);
 });
