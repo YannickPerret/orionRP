@@ -146,7 +146,9 @@ const App = () => {
       </div>
     );
   }
+  console.log(state.showAmountMenu, state.sideMenuUi, state.showPlayerMenu)
   if (state.showAmountMenu && !state.sideMenuUi && !state.showPlayerMenu) {
+  
     return (
       <Amount confirm={handleGiveAmount}>
         Donner de l'argent liquide :

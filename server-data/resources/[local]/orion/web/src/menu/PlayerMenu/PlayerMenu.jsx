@@ -12,8 +12,8 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
   }
 
   const handleCloseSideMenu = () => {
-    dispatch({type:"closeSideMenu"})
-    sendNui('closeNUI', null)
+    dispatch({ type: "CLOSE_SIDE_MENU" });
+    sendNui('closeNUI', null);
   }
 
   const handleIdentityCardClick = (e) => {
@@ -37,7 +37,7 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
   const handleGiveMoney = (e) => {
     if (e.type === 'contextmenu') {
       handleCloseSideMenu();
-      dispatch({type:"showGiveAmountMenu"})
+      dispatch({type:"SHOW_GIVE_AMOUNT_MENU"})
     }
   }
 
