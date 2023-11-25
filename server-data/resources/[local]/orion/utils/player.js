@@ -10,8 +10,13 @@ exports('GetEntInFrontOfPlayer', (Distance, Ped) => {
     B,
     C,
     D,
-    Ent = GetRaycastResult(RayHandle);
-  return Ent;
+    Ent = GetShapeTestResult(RayHandle);
+  // test if entity is a ped
+  if (IsEntityAPed(Ent)) {
+    return Ent;
+  } else {
+    return false;
+  }
 });
 
 //Camera's coords
@@ -28,8 +33,8 @@ function GetCoordsFromCam(distance) {
   let newCoordZ = coord[2] + Math.sin(tX) * 8.0;
   return [newCoordX, newCoordY, newCoordZ];
 }
-/*
-const GetPedInFront = () => {
+
+exports('GetPedInFront', () => {
   let player = PlayerId();
   let plyPed = GetPlayerPed(player);
   let plyPos = GetEntityCoords(plyPed, false);
@@ -46,13 +51,17 @@ const GetPedInFront = () => {
     plyPed,
     7
   );
-  let _,
-    _,
-    _,
-    _,
+  let A,
+    B,
+    C,
+    D,
     ped = GetShapeTestResult(rayHandle);
-  return ped;
-};*/
+  if (IsEntityAPed(ped)) {
+    return ped;
+  } else {
+    return false;
+  }
+});
 
 // Get entity's ID and coords from where player sis targeting
 exports('targetPlayerAround', (Distance, Ped) => {
@@ -73,7 +82,7 @@ exports('targetPlayerAround', (Distance, Ped) => {
     B,
     C,
     D,
-    Entity = GetRaycastResult(RayHandle);
+    Entity = GetShapeTestResult(RayHandle);
   if (IsEntityAPed(Entity)) {
     return Entity;
   } else {

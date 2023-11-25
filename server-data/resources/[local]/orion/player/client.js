@@ -59,7 +59,12 @@ RegisterNuiCallbackType('giveAmount');
 on('__cfx_nui:giveAmount', (data, cb) => {
   const pedTarget = exports['orion'].GetEntInFrontOfPlayer(4.5, PlayerPedId());
 
-  console.log(pedTarget);
+  console.log('GetEntity in front of player', pedTarget);
+
+  console.log('GetPedInFront', exports['orion'].GetPedInFront());
+
+  console.log('targetPlayerAround', exports['orion'].targetPlayerAround(4.5, PlayerPedId()));
+
   if (pedTarget[0] && pedTarget[0] !== PlayerPedId()) {
     emitNet('orion:player:giveAmount', pedTarget, data.amount);
   }
