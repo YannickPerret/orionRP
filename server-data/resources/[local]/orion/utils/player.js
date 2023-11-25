@@ -92,23 +92,32 @@ exports('targetPlayerAround', (Distance, Ped) => {
   }
 });
 
-RegisterNetEvent('NodeRP.Client.ShoutMsg');
-onNet('NodeRP.Client.ShoutMsg', (name, id, msg) => {
-  for (let i = 0; i < 255; i++) {
-    if (NetworkIsPlayerActive(i)) {
-      let player = GetPlayerFromServerId(id);
-      let me = GetPlayerServerId(i);
-      let coords = GetEntityCoords(GetPlayerPed(i));
-      let mycoords = GetEntityCoords(GetPlayerPed(player));
-      let dist = Vdist(mycoords, coords);
+exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
+  const nearbyPlayers = [];
+  const activePlayers = GetActivePlayers(); // Get the list of active players
 
-      if (me == id || dist <= 20) {
-        emit('chat:addMessage', {
-          args: [`${name} ${NodeRP.Locales[Config.Locale]['shout']}: ${msg}`],
-          color: [230, 171, 255],
-        });
-        break;
+  const mainPlayerCoords = GetEntityCoords(GetPlayerPed(mainPlayerId));
+
+  for (let i = 0; i < activePlayers.length; i++) {
+    const playerId = GetPlayerServerId(activePlayers[i]); // Get the server ID of the player
+
+    if (playerId !== mainPlayerId) {
+      const playerCoords = GetEntityCoords(GetPlayerPed(activePlayers[i]));
+      const distance = GetDistanceBetweenCoords(
+        mainPlayerCoords[0],
+        mainPlayerCoords[1],
+        mainPlayerCoords[2],
+        playerCoords[0],
+        playerCoords[1],
+        playerCoords[2],
+        true
+      );
+
+      if (distance <= maxDistance) {
+        nearbyPlayers.push(playerId);
       }
     }
   }
+
+  return nearbyPlayers;
 });
