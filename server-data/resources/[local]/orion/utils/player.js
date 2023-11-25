@@ -116,6 +116,7 @@ exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
       );
 
       if (distance <= maxDistance) {
+        console.log('playerId', playerId);
         nearbyPlayers.push(playerId);
       }
     }
