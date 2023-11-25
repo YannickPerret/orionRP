@@ -61,7 +61,3 @@ exports("targetPlayerAround", (Distance, Ped) => {
     Entity = GetRaycastResult(RayHandle);
   return [Entity, farCoordsX, farCoordsY, farCoordsZ];
 });
-
-module.exports = {
-  getCurrentPlayerBySource,
-};
