@@ -13,7 +13,6 @@ export default function PlayerMenu({playerData, onCloseMenu, dispatch}) {
 
   const handleCloseSideMenu = () => {
     dispatch({ type: "CLOSE_SIDE_MENU" });
-    sendNui('closeNUI', null);
   }
 
   const handleIdentityCardClick = (e) => {

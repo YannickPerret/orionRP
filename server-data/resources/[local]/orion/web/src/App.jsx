@@ -43,6 +43,7 @@ const reducer = (state, action) => {
     case 'SHOW_GIVE_AMOUNT_MENU':
       return { ...state, showAmountMenu: true };
     case 'CLOSE_NUI':
+      sendNui('closeNUI', null);
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
     case "CLOSE_SIDE_MENU":
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
@@ -95,7 +96,6 @@ const App = () => {
 
   const handleCloseMenu = () => {
     dispatch({ type: 'CLOSE_NUI' });
-    sendNui('closeNUI', null)
   };
 
   const handleGiveAmount = (amount) => {
@@ -146,7 +146,6 @@ const App = () => {
       </div>
     );
   }
-  console.log(state.showAmountMenu, state.sideMenuUi, state.showPlayerMenu)
   if (state.showAmountMenu && !state.sideMenuUi && !state.showPlayerMenu) {
   
     return (
