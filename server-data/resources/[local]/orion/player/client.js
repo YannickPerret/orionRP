@@ -1,5 +1,3 @@
-const getPedInFront = require("orion").getPedInFront;
-
 const spawnPos = [-275.522, 6635.835, 7.425];
 
 on("onClientGameTypeStart", () => {
@@ -98,7 +96,8 @@ on("__cfx_nui:identityCard", (data, cb) => {
 
 RegisterNuiCallbackType("giveAmount");
 on("__cfx_nui:giveAmount", (data, cb) => {
-  const pedTarget = getPedInFront(1.0, PlayerPedId());
+  const pedTarget = exports["orion"].getPedInFront(1.0, PlayerPedId());
+  console.log(pedTarget);
   if (pedTarget) {
     emitNet("orion:player:giveAmount", pedTarget, data.amount);
   }
