@@ -11,6 +11,8 @@ exports('GetEntInFrontOfPlayer', (Distance, Ped) => {
     C,
     D,
     Ent = GetShapeTestResult(RayHandle);
+
+  console.log('TEST', Ent);
   // test if entity is a ped
   if (IsEntityAPed(Ent)) {
     return Ent;
