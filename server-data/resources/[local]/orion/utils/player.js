@@ -60,8 +60,8 @@ exports("targetPlayerAround", (Distance, Ped) => {
     D,
     Entity = GetRaycastResult(RayHandle);
   if (IsEntityAPed(Entity)) {
-    return [Entity, farCoordsX, farCoordsY, farCoordsZ];
+    return Entity;
   } else {
-    return [null, null, null, null];
+    return false;
   }
 });
