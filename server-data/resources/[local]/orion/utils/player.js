@@ -91,3 +91,24 @@ exports('targetPlayerAround', (Distance, Ped) => {
     return false;
   }
 });
+
+RegisterNetEvent('NodeRP.Client.ShoutMsg');
+onNet('NodeRP.Client.ShoutMsg', (name, id, msg) => {
+  for (let i = 0; i < 255; i++) {
+    if (NetworkIsPlayerActive(i)) {
+      let player = GetPlayerFromServerId(id);
+      let me = GetPlayerServerId(i);
+      let coords = GetEntityCoords(GetPlayerPed(i));
+      let mycoords = GetEntityCoords(GetPlayerPed(player));
+      let dist = Vdist(mycoords, coords);
+
+      if (me == id || dist <= 20) {
+        emit('chat:addMessage', {
+          args: [`${name} ${NodeRP.Locales[Config.Locale]['shout']}: ${msg}`],
+          color: [230, 171, 255],
+        });
+        break;
+      }
+    }
+  }
+});
