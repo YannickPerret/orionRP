@@ -58,8 +58,9 @@ on('__cfx_nui:identityCard', (data, cb) => {
 RegisterNuiCallbackType('giveAmount');
 on('__cfx_nui:giveAmount', (data, cb) => {
   const amount = parseInt(data.amount);
-  const targetPlayer = exports['orion'].findNearbyPlayers(PlayerId(), 2.0);
-  console.log(targetPlayer);
+  const myPlayer = GetPlayerServerId(PlayerId());
+  const targetPlayer = exports['orion'].findNearbyPlayers(myPlayer, 3.0);
+
   if (targetPlayer[0]) {
     emitNet('orion:player:giveAmount', targetPlayer.source, amount);
   }
