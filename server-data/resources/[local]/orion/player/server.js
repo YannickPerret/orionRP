@@ -9,7 +9,6 @@ onNet('orion:savePlayerPosition', async (x, y, z) => {
 });
 
 onNet('orion:player:giveAmount', (target, amount) => {
-  console.log(target);
   if (isNaN(amount) || amount <= 0) {
     emitNet('orion:showNotification', source, 'Montant invalide !');
     return;
