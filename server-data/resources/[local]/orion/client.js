@@ -23,7 +23,7 @@ let model = `mp_m_freemode_01`;
   console.log(Ped);
   onEmit('spawn:PlayerSpawned');
 };
-*/
+*/ /*
 on('onClientResourceStart', Resource => {
   if (GetCurrentResourceName() != Resource) {
     return;
@@ -34,7 +34,7 @@ on('onClientResourceStart', Resource => {
   }
   isNuiOpen = false;
   //executePlayerLogin();
-});
+});*/
 
 on('playerSpawned', () => {
   const playerId = GetPlayerServerId(PlayerId());
