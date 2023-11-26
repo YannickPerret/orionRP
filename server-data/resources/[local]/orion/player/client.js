@@ -117,18 +117,21 @@ on('orion:createNewPlayer', source => {
   });
 });
 
-RegisterNUICallback('rotateleftheading', data => {
+RegisterNuiCallbackType('rotateleftheading');
+on('__cfx_nui:rotateleftheading', (data, cb) => {
   let currentHeading = GetEntityHeading(GetPlayerPed(-1));
   heading = currentHeading + Number(data.value);
 });
 
-RegisterNUICallback('rotaterightheading', data => {
+RegisterNuiCallbackType('rotaterightheading');
+on('__cfx_nui:rotaterightheading', (data, cb) => {
   let currentHeading = GetEntityHeading(GetPlayerPed(-1));
   heading = currentHeading - Number(data.value);
 });
 
 // Define which part of the body must be zoomed
-RegisterNUICallback('zoom', data => {
+RegisterNuiCallbackType('zoom');
+on('__cfx_nui:zoom', (data, cb) => {
   zoom = data.zoom;
 });
 
