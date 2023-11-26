@@ -120,7 +120,7 @@ exports('findNearbyPlayers', (mainPlayerServerId, maxDistance) => {
         );
 
         if (Number(distance) <= Number(maxDistance)) {
-          closestPlayerIds.push(serverId);
+          closestPlayerIds.push(targetPed);
         }
       }
     }
