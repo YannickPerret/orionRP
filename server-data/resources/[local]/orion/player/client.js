@@ -101,11 +101,11 @@ on('orion:createNewPlayer', source => {
 });
 
 const ShowSkinCreator = enable => {
-  console.log('ShowSkinCreator', enable);
   SetNuiFocus(enable, enable);
   SendNuiMessage(
     JSON.stringify({
-      showSkinCreator: enable,
+      action: 'showSkinCreator',
+      data: enable,
     })
   );
 };
