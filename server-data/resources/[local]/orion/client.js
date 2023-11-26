@@ -109,6 +109,7 @@ setTick(() => {
   HideHudComponentThisFrame(4);
   HideHudComponentThisFrame(13);
   HideHudComponentThisFrame(14);
+  Delay(5);
 });
 
 // UI REGISTER
