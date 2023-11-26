@@ -62,7 +62,7 @@ on('__cfx_nui:giveAmount', (data, cb) => {
   const targetPlayer = exports['orion'].findNearbyPlayers(myPlayer, 10.0);
 
   console.log('allPlayerTarget', targetPlayer);
-  if (targetPlayer[0]) {
+  if (targetPlayer) {
     emitNet('orion:player:giveAmount', targetPlayer.source, amount);
   } else {
     emitNet('orion:showNotification', myPlayer, 'Aucun joueur à proximité');
