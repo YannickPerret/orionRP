@@ -106,6 +106,7 @@ exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
       // Check if it's not the main player
       const [targetPlayerX, targetPlayerY, targetPlayerZ] = GetEntityCoords(targetPlayerId, true); // Get the coordinates of the target player
 
+      console.log('targetPlayerX', targetPlayerX, 'targetPlayerY', targetPlayerY, 'targetPlayerZ', targetPlayerZ);
       const distance = GetDistanceBetweenCoords(
         mainPlayerCoords[0],
         mainPlayerCoords[1],
