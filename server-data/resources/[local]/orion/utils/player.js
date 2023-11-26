@@ -92,7 +92,7 @@ exports('targetPlayerAround', (Distance, Ped) => {
   }
 });
 
-exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
+exports('findNearbyPlayers', (mainPlayerServerId, maxDistance) => {
   let closestPlayerIds = [];
 
   const activePlayers = GetActivePlayers(); // Get the list of active players
