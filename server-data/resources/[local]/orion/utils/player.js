@@ -119,7 +119,9 @@ exports('findNearbyPlayers', maxDistance => {
           targetPlayerCoords[2],
           true
         );
-        
+
+        console.log('targetPlayerCoords', targetPlayerCoords, 'playerCoords', playerCoords);
+        console.log('Distance', distance, 'maxDistance', maxDistance);
 
         if (Number(distance) <= Number(maxDistance)) {
           console.log('Player Target found', targetPlayerId, 'Distance', distance);
