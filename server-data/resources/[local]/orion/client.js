@@ -1,5 +1,4 @@
 let isNuiOpen = false;
-let model = `mp_m_freemode_01`;
 
 /*const executePlayerLogin = () => {
   const Player = GetPlayerServerId(PlayerId());
@@ -35,6 +34,22 @@ on('onClientResourceStart', Resource => {
   isNuiOpen = false;
   //executePlayerLogin();
 });*/
+
+on('onClientResourceStart', async resource => {
+  if (GetCurrentResourceName() !== resource) {
+    return;
+  }
+
+  const model = 'mp_m_freemode_01'; // Remplacez par le nom ou l'hash du modèle approprié
+  RequestModel(model);
+
+  while (!HasModelLoaded(model)) {
+    await new Promise(resolve => setTimeout(resolve, 100)); // Attendez de manière asynchrone
+  }
+
+  isNuiOpen = false;
+  // executePlayerLogin(); // Décommentez ou ajoutez votre logique supplémentaire ici
+});
 
 on('playerSpawned', () => {
   const playerId = GetPlayerServerId(PlayerId());
