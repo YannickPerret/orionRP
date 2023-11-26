@@ -1,25 +1,49 @@
 let isNuiOpen = false;
 let pedIndex = {};
+let model = `mp_m_freemode_01`;
 
-on("playerSpawned", () => {
+/*const executePlayerLogin = () => {
+  let Player = GetPlayerServerId(PlayerId());
+  SetPlayerModel(Player, model);
+  let Ped = PlayerPedId();
+  SetPedRandomComponentVariation(Ped, true);
+  SetEntityCoordsNoOffset(Ped, -312.68, 194.5, 144.37, false, false, false, true);
+  NetworkResurrectLocalPlayer(-312.68, 194.5, 144.37, true, true, false);
+  SetEntityHeading(Ped, 0.0);
+  DisplayRadar(false);
+  FreezeEntityPosition(Ped, true);
+  SetEntityInvincible(Ped, true);
+  SetEntityVisible(Ped, false, false);
+  SetPlayerControl(Ped, false, false);
+  SetEntityHealth(Ped, 100);
+  SetPedArmour(Ped, 0);
+
+  console.log(Ped);
+  onEmit('spawn:PlayerSpawned');
+};
+
+on('onClientResourceStart', Resource => {
+  if (GetCurrentResourceName() != Resource) {
+    return;
+  }
+  RequestModel(model);
+  while (!HasModelLoaded(model)) {
+    Delay(0);
+  }
+  executePlayerLogin();
+});*/
+
+on('playerSpawned', () => {
+  isNuiOpen = false;
   //téléporter le player dans un endroit sécurisé
   const playerId = GetPlayerServerId(PlayerId());
   const ped = GetPlayerPed(-1);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  SetEntityCoords(
-    ped,
-    parseFloat(-1037.0),
-    parseFloat(-2738.0),
-    parseFloat(20.0),
-    false,
-    false,
-    false,
-    false
-  );
+  SetEntityCoords(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, false);
 
-  emitNet("orion:playerSpawned");
+  emitNet('orion:playerSpawned');
 
-  onNet("orion:sendPlayerData", (playerData) => {
+  onNet('orion:sendPlayerData', playerData => {
     SetEntityCoords(
       ped,
       parseFloat(playerData.position.x),
@@ -34,39 +58,34 @@ on("playerSpawned", () => {
     setInterval(() => {
       const playerPed = GetPlayerPed(-1);
       const position = GetEntityCoords(playerPed, true);
-      emitNet(
-        "orion:savePlayerPosition",
-        position[0],
-        position[1],
-        position[2]
-      );
+      emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
     }, 900000);
   });
 });
 
 RegisterCommand(
-  "openPlayerMenu",
+  'openPlayerMenu',
   () => {
-    emitNet("orion:getPlayerData");
+    emitNet('orion:getPlayerData');
   },
   false
 );
 
-RegisterKeyMapping("openPlayerMenu", "Open Player Menu", "keyboard", "F2");
+RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
 
-onNet("orion:openPlayerMenu", (playerData) => {
+onNet('orion:openPlayerMenu', playerData => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
   SendNuiMessage(
     JSON.stringify({
-      action: isNuiOpen ? "ShowPlayerMenu" : "closeNUI",
+      action: isNuiOpen ? 'ShowPlayerMenu' : 'closeNUI',
       data: playerData,
     })
   );
 });
 
-RegisterNuiCallbackType("closeNUI");
-on("__cfx_nui:closeNUI", (data, cb) => {
+RegisterNuiCallbackType('closeNUI');
+on('__cfx_nui:closeNUI', (data, cb) => {
   if (isNuiOpen) {
     isNuiOpen = false;
     SetNuiFocus(false, false);
@@ -74,20 +93,20 @@ on("__cfx_nui:closeNUI", (data, cb) => {
   cb({ ok: true });
 });
 
-RegisterNuiCallbackType("savePosition");
-on("__cfx_nui:savePosition", (data, cb) => {
+RegisterNuiCallbackType('savePosition');
+on('__cfx_nui:savePosition', (data, cb) => {
   const playerPed = GetPlayerPed(-1);
   const position = GetEntityCoords(playerPed, true);
-  emitNet("orion:savePlayerPosition", position[0], position[1], position[2]);
+  emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
   cb({ ok: true });
 });
 
 RegisterCommand(
-  "save",
+  'save',
   async (source, args) => {
     const playerPed = GetPlayerPed(-1);
     const position = GetEntityCoords(playerPed, true);
-    emitNet("orion:savePlayerPosition", position[0], position[1], position[2]);
+    emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
   },
   false
 );
@@ -97,7 +116,7 @@ setTick(() => {
   let isDead = IsEntityDead(GetPlayerPed(-1));
 
   if (isDead) {
-    emitNet("orion:playerDied", "Vous avez perdu connaissance !");
+    emitNet('orion:playerDied', 'Vous avez perdu connaissance !');
   }
 
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
@@ -106,44 +125,16 @@ setTick(() => {
     SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
   }
 
-  SetRelationshipBetweenGroups(0, GetHashKey("COP"), GetHashKey("PLAYER"));
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_HILLBILLY"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_BALLAS"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_MEXICAN"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_FAMILY"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_MARABUNTE"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_SALVA"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(
-    1,
-    GetHashKey("AMBIENT_GANG_LOST"),
-    GetHashKey("PLAYER")
-  );
-  SetRelationshipBetweenGroups(1, GetHashKey("GANG_1"), GetHashKey("PLAYER"));
-  SetRelationshipBetweenGroups(1, GetHashKey("GANG_2"), GetHashKey("PLAYER"));
-  SetRelationshipBetweenGroups(1, GetHashKey("GANG_9"), GetHashKey("PLAYER"));
-  SetRelationshipBetweenGroups(1, GetHashKey("GANG_10"), GetHashKey("PLAYER"));
+  SetRelationshipBetweenGroups(0, GetHashKey('COP'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_HILLBILLY'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_BALLAS'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_MEXICAN'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_FAMILY'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_MARABUNTE'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_SALVA'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_LOST'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('GANG_1'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('GANG_2'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('GANG_9'), GetHashKey('PLAYER'));
+  SetRelationshipBetweenGroups(1, GetHashKey('GANG_10'), GetHashKey('PLAYER'));
 });
