@@ -92,31 +92,32 @@ exports('targetPlayerAround', (Distance, Ped) => {
   }
 });
 
-exports('findNearbyPlayers', (mainPlayerServerId, maxDistance) => {
+exports('findNearbyPlayers', maxDistance => {
   let closestPlayerIds = [];
 
   const activePlayers = GetActivePlayers(); // Get the list of active players
-  const mainPlayerLocalId = GetPlayerFromServerId(mainPlayerServerId);
-  const mainPlayerPed = GetPlayerPed(mainPlayerLocalId);
-  const mainPlayerCoords = GetEntityCoords(mainPlayerPed);
 
-  console.log('activePlayers', activePlayers);
+  const playerPed = PlayerPedId();
+  const playerCoords = GetEntityCoords(playerPed, true);
+
+  console.log('mainPlayerCoords', playerCoords);
+
   for (let i = 0; i < activePlayers.length; i++) {
     const serverId = activePlayers[i];
-
     if (NetworkIsPlayerActive(serverId)) {
-      const targetPlayerId = GetPlayerFromServerId(serverId);
+      const targetPlayerId = GetPlayerServerId(serverId);
 
+      console.log('targetPlayerId', targetPlayerId, 'mainPlayerServerId', mainPlayerServerId);
       if (targetPlayerId !== mainPlayerServerId) {
         const targetPed = GetPlayerPed(targetPlayerId);
-        const [targetPlayerX, targetPlayerY, targetPlayerZ] = GetEntityCoords(targetPed, true); // Get the coordinates of the target player
+        const targetPlayerCoords = GetEntityCoords(targetPed, true); // Get the coordinates of the target player
         const distance = GetDistanceBetweenCoords(
-          mainPlayerCoords[0],
-          mainPlayerCoords[1],
-          mainPlayerCoords[2],
-          targetPlayerX,
-          targetPlayerY,
-          targetPlayerZ,
+          playerCoords[0],
+          playerCoords[1],
+          playerCoords[2],
+          targetPlayerCoords[0],
+          targetPlayerCoords[1],
+          targetPlayerCoords[2],
           true
         );
 
