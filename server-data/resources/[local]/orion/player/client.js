@@ -1,3 +1,5 @@
+//https://github.com/tringuyenk19/skincreator/blob/master/client.lua
+
 let isSkinCreatorOpened = false;
 let cam = -1;
 let heading = 332.219879;
@@ -99,8 +101,9 @@ on('orion:createNewPlayer', source => {
 });
 
 const ShowSkinCreator = enable => {
-  SetNuiFocus(enable);
-  SendNUIMessage(
+  console.log('ShowSkinCreator', enable);
+  SetNuiFocus(enable, enable);
+  SendNuiMessage(
     JSON.stringify({
       showSkinCreator: enable,
     })
