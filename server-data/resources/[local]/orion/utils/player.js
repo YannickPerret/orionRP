@@ -100,28 +100,29 @@ exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
   const mainPlayerCoords = GetEntityCoords(mainPlayerId); // Get the coordinates of the main player
 
   for (let i = 0; i < activePlayers.length; i++) {
-    const targetPlayerId = GetPlayerFromServerId(activePlayers[i]); // Get the server ID of the target player
+    const serverId = activePlayers[i];
 
-    console.log('targetPlayerId', targetPlayerId);
-    if (targetPlayerId !== mainPlayerId) {
-      const targetPed = GetPlayerPed(targetPlayerId);
-      // Check if it's not the main player
-      const [targetPlayerX, targetPlayerY, targetPlayerZ] = GetEntityCoords(targetPlayerId, true); // Get the coordinates of the target player
+    if (NetworkIsPlayerActive(serverId)) {
+      const targetPlayerId = GetPlayerFromServerId(serverId); // Get the server ID of the target player
 
-      console.log('targetPlayerX', targetPlayerX, 'targetPlayerY', targetPlayerY, 'targetPlayerZ', targetPlayerZ);
-      const distance = GetDistanceBetweenCoords(
-        mainPlayerCoords[0],
-        mainPlayerCoords[1],
-        mainPlayerCoords[2],
-        targetPlayerX,
-        targetPlayerY,
-        targetPlayerZ,
-        true
-      );
+      if (targetPlayerId !== mainPlayerId) {
+        const targetPed = GetPlayerPed(targetPlayerId);
+        const [targetPlayerX, targetPlayerY, targetPlayerZ] = GetEntityCoords(targetPed, true); // Get the coordinates of the target player
 
-      console.log('distance', distance, 'closestDistance', closestDistance);
-      if (Number(distance) < Number(closestDistance)) {
-        closestPlayerIds.push(targetPlayerId);
+        console.log('targetPlayerX', targetPlayerX, 'targetPlayerY', targetPlayerY, 'targetPlayerZ', targetPlayerZ);
+        const distance = GetDistanceBetweenCoords(
+          mainPlayerCoords[0],
+          mainPlayerCoords[1],
+          mainPlayerCoords[2],
+          targetPlayerX,
+          targetPlayerY,
+          targetPlayerZ,
+          true
+        );
+
+        if (Number(distance) <= Number(maxDistance)) {
+          closestPlayerIds.push(targetPlayerId);
+        }
       }
     }
   }
