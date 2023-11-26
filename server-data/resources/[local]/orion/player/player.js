@@ -1,5 +1,5 @@
-const { db, r } = require("../system/database.js");
-const Inventory = require("../inventory/Inventory.js");
+const { db, r } = require('../system/database.js');
+const Inventory = require('../inventory/Inventory.js');
 class Player {
   constructor({
     id,
@@ -35,7 +35,7 @@ class Player {
     this.phone = phone;
     this.money = money || 500;
     this.bank = bank || 0;
-    this.mugshot = mugshot || "";
+    this.mugshot = mugshot || '';
     this.license = license || null;
     this.discord = discord || null;
     this.isAdmin = isAdmin || false;
@@ -94,9 +94,9 @@ class Player {
       discord: this.discord,
       mugshot: this.mugshot,
     };
-    const result = await db.update("players", playerData);
+    const result = await db.update('players', playerData);
     if (result.changes && result.changes.length > 0) {
-      console.log("[Orion] Joueur sauvegardé : ", this);
+      console.log('[Orion] Joueur sauvegardé : ', this);
     }
   }
 }
