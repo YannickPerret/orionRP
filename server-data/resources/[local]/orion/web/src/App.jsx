@@ -52,7 +52,7 @@ const reducer = (state, action) => {
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     case 'SHOW_SKIN_CREATOR':
-      return { ...state, showSkinCreator: data };
+      return { ...state, showSkinCreator: true };
     default:
       return state;
   }
