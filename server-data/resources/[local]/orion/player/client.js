@@ -59,7 +59,7 @@ RegisterNuiCallbackType('giveAmount');
 on('__cfx_nui:giveAmount', (data, cb) => {
   const amount = parseInt(data.amount);
   const myPlayer = GetPlayerServerId(PlayerId());
-  const targetPlayer = exports['orion'].findNearbyPlayers(myPlayer, 3.0);
+  const targetPlayer = exports['orion'].findNearbyPlayers(myPlayer, 10.0);
 
   console.log('allPlayerTarget', targetPlayer);
   if (targetPlayer[0]) {
