@@ -13,7 +13,7 @@ class Player {
     position,
     license,
     discord,
-    isAdmin,
+    role,
     mugshot,
     isDead,
   }) {
@@ -38,7 +38,7 @@ class Player {
     this.mugshot = mugshot || '';
     this.license = license || null;
     this.discord = discord || null;
-    this.isAdmin = isAdmin || false;
+    this.role = role || false;
     this.isDead = isDead || false;
   }
 
@@ -50,34 +50,20 @@ class Player {
     this.soif = Math.min(this.soif + quantite, 100);
   }
 
-  diminuerFaim(value = undefined) {
+  changeFaim(value = undefined) {
     if (value) {
-      this.faim = Math.max(this.faim - value, 0);
+      this.faim = Math.max(this.faim + value, 0);
       return;
     }
-    this.faim = Math.max(this.faim - 1, 0);
-  }
-  augmenterFaim(value = undefined) {
-    if (value) {
-      this.faim = Math.min(this.faim + value, 100);
-      return;
-    }
-    this.faim = Math.min(this.faim + 1, 100);
+    return new Error('Valeur invalide');
   }
 
-  diminuerSoif(value = undefined) {
+  changeSoif(value = undefined) {
     if (value) {
-      this.soif = Math.max(this.soif - value, 0);
+      this.soif = Math.max(this.soif + value, 0);
       return;
     }
-    this.soif = Math.max(this.soif - 1, 0);
-  }
-  augmenterSoif(value = undefined) {
-    if (value) {
-      this.soif = Math.min(this.soif + value, 100);
-      return;
-    }
-    this.soif = Math.min(this.soif + 1, 100);
+    return new Error('Valeur invalide');
   }
 
   async save() {

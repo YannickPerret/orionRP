@@ -1,14 +1,5 @@
-const spawnPos = [-275.522, 6635.835, 7.425];
-
 on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);
-});
-
-RegisterCommand('pos', (source, args) => {
-  const pos = GetEntityCoords(GetPlayerPed(-1));
-  emit('chat:addMessage', {
-    args: [`X: ${pos[0].toFixed(2)}, Y: ${pos[1].toFixed(2)}, Z: ${pos[2].toFixed(2)}`],
-  });
 });
 
 RegisterCommand('tp', (source, args) => {
@@ -51,12 +42,6 @@ RegisterCommand(
   false
 );
 
-onNet('orion:mugshot', async () => {
-  const mugshotUrl = exports['MugShotBase64'].GetMugShotBase64(PlayerPedId(), true);
-
-  emitNet('orion:saveMugshotUrl', mugshotUrl);
-});
-
 RegisterNuiCallbackType('identityCard');
 on('__cfx_nui:identityCard', (data, cb) => {
   cb({ ok: true });
@@ -77,6 +62,8 @@ on('__cfx_nui:giveAmount', (data, cb) => {
 });
 
 RegisterCommand('revive', (source, args) => {
+  const myPlayer = GetPlayerServerId(PlayerId());
+
   SetEntityHealth(PlayerPedId(), 200);
   ClearPedBloodDamage(PlayerPedId());
   StopScreenEffect('DeathFailOut');
