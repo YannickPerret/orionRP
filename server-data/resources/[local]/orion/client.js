@@ -37,7 +37,6 @@ on('onClientResourceStart', Resource => {
 });
 
 on('playerSpawned', () => {
-  //téléporter le player dans un endroit sécurisé
   const playerId = GetPlayerServerId(PlayerId());
   const ped = GetPlayerPed(-1);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
@@ -67,16 +66,7 @@ on('playerSpawned', () => {
   });
 });
 
-RegisterCommand(
-  'openPlayerMenu',
-  () => {
-    emitNet('orion:getPlayerData');
-  },
-  false
-);
-
 RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
-
 onNet('orion:openPlayerMenu', playerData => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
@@ -87,33 +77,6 @@ onNet('orion:openPlayerMenu', playerData => {
     })
   );
 });
-
-RegisterNuiCallbackType('closeNUI');
-on('__cfx_nui:closeNUI', (data, cb) => {
-  if (isNuiOpen) {
-    isNuiOpen = false;
-    SetNuiFocus(false, false);
-  }
-  cb({ ok: true });
-});
-
-RegisterNuiCallbackType('savePosition');
-on('__cfx_nui:savePosition', (data, cb) => {
-  const playerPed = GetPlayerPed(-1);
-  const position = GetEntityCoords(playerPed, true);
-  emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
-  cb({ ok: true });
-});
-
-RegisterCommand(
-  'save',
-  async (source, args) => {
-    const playerPed = GetPlayerPed(-1);
-    const position = GetEntityCoords(playerPed, true);
-    emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
-  },
-  false
-);
 
 setTick(() => {
   let player = PlayerId();
@@ -147,3 +110,41 @@ setTick(() => {
   HideHudComponentThisFrame(13);
   HideHudComponentThisFrame(14);
 });
+
+// UI REGISTER
+
+RegisterNuiCallbackType('closeNUI');
+on('__cfx_nui:closeNUI', (data, cb) => {
+  if (isNuiOpen) {
+    isNuiOpen = false;
+    SetNuiFocus(false, false);
+  }
+  cb({ ok: true });
+});
+
+RegisterNuiCallbackType('savePosition');
+on('__cfx_nui:savePosition', (data, cb) => {
+  const playerPed = GetPlayerPed(-1);
+  const position = GetEntityCoords(playerPed, true);
+  emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
+  cb({ ok: true });
+});
+
+// REGISTER COMMANDS
+RegisterCommand(
+  'save',
+  async (source, args) => {
+    const playerPed = GetPlayerPed(-1);
+    const position = GetEntityCoords(playerPed, true);
+    emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
+  },
+  false
+);
+
+RegisterCommand(
+  'openPlayerMenu',
+  () => {
+    emitNet('orion:getPlayerData');
+  },
+  false
+);

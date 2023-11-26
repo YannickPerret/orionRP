@@ -12,8 +12,15 @@ RegisterCommand('pos', (source, args) => {
 });
 
 RegisterCommand('tp', (source, args) => {
-  const ped = GetPlayerPed(-1);
-  SetEntityCoords(ped, parseFloat(args[0]), parseFloat(args[1]), parseFloat(args[2]), false, false, false, false);
+  SetEntityCoordsNoOffset(
+    GetPlayerPed(),
+    parseFloat(args[0]),
+    parseFloat(args[1]),
+    parseFloat(args[2]),
+    false,
+    false,
+    true
+  );
 });
 
 RegisterCommand(
@@ -58,6 +65,7 @@ on('__cfx_nui:identityCard', (data, cb) => {
 RegisterNuiCallbackType('giveAmount');
 on('__cfx_nui:giveAmount', (data, cb) => {
   const amount = parseInt(data.amount);
+  const myPlayer = GetPlayerServerId(PlayerId());
   const nearbyPlayers = exports['orion'].findNearbyPlayers(3);
 
   if (nearbyPlayers.length > 0) {
