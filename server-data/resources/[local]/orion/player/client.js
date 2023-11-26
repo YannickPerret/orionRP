@@ -92,11 +92,19 @@ onNet('orion:playerDied', message => {
   });
 });
 
+on('orion:createNewPlayer', source => {
+  isCameraActive = true;
+  ShowSkinCreator(true);
+  isSkinCreatorOpened = true;
+});
+
 const ShowSkinCreator = enable => {
   SetNuiFocus(enable);
-  SendNUIMessage({
-    openSkinCreator: enable,
-  });
+  SendNUIMessage(
+    JSON.stringify({
+      showSkinCreator: enable,
+    })
+  );
 };
 
 const CloseSkinCreator = () => {
@@ -110,12 +118,6 @@ const CloseSkinCreator = () => {
 
   SetPlayerInvincible(ped, false);
 };
-
-on('orion:createNewPlayer', source => {
-  SendNUIMessage({
-    action: 'showSkinCreator',
-  });
-});
 
 RegisterNuiCallbackType('rotateleftheading');
 on('__cfx_nui:rotateleftheading', (data, cb) => {
