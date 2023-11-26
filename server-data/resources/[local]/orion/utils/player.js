@@ -106,7 +106,7 @@ exports('findNearbyPlayers', (mainPlayerServerId, maxDistance) => {
     if (NetworkIsPlayerActive(serverId)) {
       const targetPlayerId = GetPlayerFromServerId(serverId); // Get the server ID of the target player
 
-      if (targetPlayerId !== mainPlayerId) {
+      if (targetPlayerId !== mainPlayerServerId) {
         const targetPed = GetPlayerPed(targetPlayerId);
         const [targetPlayerX, targetPlayerY, targetPlayerZ] = GetEntityCoords(targetPed, true); // Get the coordinates of the target player
 
