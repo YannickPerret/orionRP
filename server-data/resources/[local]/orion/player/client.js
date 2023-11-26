@@ -64,6 +64,8 @@ on('__cfx_nui:giveAmount', (data, cb) => {
   console.log('allPlayerTarget', targetPlayer);
   if (targetPlayer[0]) {
     emitNet('orion:player:giveAmount', targetPlayer.source, amount);
+  } else {
+    emitNet('orion:showNotification', myPlayer, 'Aucun joueur à proximité');
   }
 
   cb({ ok: true });
