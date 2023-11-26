@@ -94,10 +94,9 @@ exports('targetPlayerAround', (Distance, Ped) => {
 
 exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
   let closestPlayerIds = [];
-  let closestDistance = maxDistance + 1;
 
   const activePlayers = GetActivePlayers(); // Get the list of active players
-  const mainPlayerCoords = GetEntityCoords(mainPlayerId); // Get the coordinates of the main player
+  const mainPlayerCoords = GetEntityCoords(GetPlayerPed(mainPlayerId)); // Get the coordinates of the main player
 
   for (let i = 0; i < activePlayers.length; i++) {
     const serverId = activePlayers[i];
