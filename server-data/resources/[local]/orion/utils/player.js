@@ -100,7 +100,6 @@ exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
 
   for (let i = 0; i < activePlayers.length; i++) {
     const playerId = GetPlayerServerId(activePlayers[i]); // Get the server ID of the player
-    console.log('plyerId', playerId, 'myPlayerId', mainPlayerId);
 
     if (playerId !== mainPlayerId) {
       const playerCoords = GetEntityCoords(GetPlayerPed(activePlayers[i]));
@@ -114,6 +113,7 @@ exports('findNearbyPlayers', (mainPlayerId, maxDistance) => {
         true
       );
 
+      console.log(distance <= maxDistance);
       if (distance <= maxDistance) {
         nearbyPlayers.push(playerId);
       }
