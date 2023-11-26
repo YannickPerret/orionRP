@@ -52,7 +52,7 @@ const reducer = (state, action) => {
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     case 'SHOW_SKIN_CREATOR':
-      return { ...state, showSkinCreator: true };
+      return { ...state, showSkinCreator: data };
     default:
       return state;
   }
@@ -64,6 +64,7 @@ const App = () => {
   useEffect(() => {
     const handleMessage = (event) => {
       const { action, data } = event.data;
+      console.log(action);
       switch (action) {
         case "showDeathMessage":
           dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
@@ -90,7 +91,7 @@ const App = () => {
           dispatch({ type: 'UPDATE_SPEED', data });
           break;
         case 'showSkinCreator':
-          dispatch({ type: 'SHOW_SKIN_CREATOR' });
+          dispatch({ type: 'SHOW_SKIN_CREATOR', data });
           break;
       }
     };
