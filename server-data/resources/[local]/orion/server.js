@@ -54,6 +54,9 @@ onNet('orion:playerSpawned', async () => {
       emitNet('orion:showNotification', source, `Bienvenue ${playerData[0].firstname} sur Orion !`);
       emitNet('orion:sendPlayerData', source, playerData[0]);
     } else {
+      // Emit on client to open new player menu
+      emitNet('orion:createNewPlayer', source);
+
       // Traitement pour un nouveau joueur
       const newPlayerData = {
         id: r.uuid(),
@@ -102,6 +105,10 @@ onNet('orion:playerSpawned', async () => {
   } catch (erreur) {
     console.error('Erreur lors de la récupération/création du joueur : ', erreur);
   }
+});
+
+onNet('orion:player:createNewPlayer', async data => {
+  const source = global.source;
 });
 
 on('playerDropped', reason => {

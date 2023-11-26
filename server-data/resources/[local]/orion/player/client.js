@@ -1,3 +1,9 @@
+let isSkinCreatorOpened = false;
+let cam = -1;
+let heading = 332.219879;
+let zoom = 'visage';
+let isCameraActive;
+
 on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);
 });
@@ -84,4 +90,95 @@ onNet('orion:playerDied', message => {
       message,
     },
   });
+});
+
+const ShowSkinCreator = enable => {
+  SetNuiFocus(enable);
+  SendNUIMessage({
+    openSkinCreator: enable,
+  });
+};
+
+const CloseSkinCreator = () => {
+  let ped = PlayerPedId();
+  isSkinCreatorOpened = false;
+  ShowSkinCreator(false);
+  isCameraActive = false;
+  SetCamActive(cam, false);
+  RenderScriptCams(false, true, 500, true, true);
+  cam = nil;
+
+  SetPlayerInvincible(ped, false);
+};
+
+on('orion:createNewPlayer', source => {
+  SendNUIMessage({
+    action: 'showSkinCreator',
+  });
+});
+
+RegisterNUICallback('rotateleftheading', data => {
+  let currentHeading = GetEntityHeading(GetPlayerPed(-1));
+  heading = currentHeading + Number(data.value);
+});
+
+RegisterNUICallback('rotaterightheading', data => {
+  let currentHeading = GetEntityHeading(GetPlayerPed(-1));
+  heading = currentHeading - Number(data.value);
+});
+
+// Define which part of the body must be zoomed
+RegisterNUICallback('zoom', data => {
+  zoom = data.zoom;
+});
+
+RegisterNuiCallbackType('createNewPlayer');
+on('__cfx_nui:createNewPlayer', (data, cb) => {
+  const firstname = data.firstname;
+  const lastname = data.lastname;
+
+  // Face
+  let genre = Number(data.genre);
+  if (genre == 0) {
+    if (Number(data.dad) == 0) {
+      dad = Number(data.mum);
+    } else {
+      dad = Number(data.dad);
+    }
+  }
+  let mom = Number(data.mom);
+  let dadmumpercent = Number(data.dadmumpercent);
+  let skin = Number(data.skin);
+  let eyecolor = Number(data.eyecolor);
+  let acne = Number(data.acne);
+  let skinproblem = Number(data.skinproblem);
+  let freckle = Number(data.freckle);
+  let wrinkle = Number(data.wrinkle);
+  let wrinkleopacity = Number(data.wrinkleopacity);
+  let hair = Number(data.hair);
+  let haircolor = Number(data.haircolor);
+  let eyebrow = Number(data.eyebrow);
+  let eyebrowopacity = Number(data.eyebrowopacity);
+  let beard = Number(data.beard);
+  let beardopacity = Number(data.beardopacity);
+  let beardcolor = Number(data.beardcolor);
+  // Clothes;
+  let hats = Number(data.hats);
+  let glasses = Number(data.glasses);
+  let ears = Number(data.ears);
+  let tops = Number(data.tops);
+  let pants = Number(data.pants);
+  let shoes = Number(data.shoes);
+  let watches = Number(data.watches);
+
+  if (firstname && lastname && phone) {
+    emitNet('orion:player:createNewPlayer', firstname, lastname, phone);
+    cb({ ok: true });
+  } else {
+    cb({ ok: false });
+  }
+});
+
+RegisterCommand('skin', (source, args) => {
+  ShowSkinCreator(true);
 });

@@ -7,6 +7,7 @@ import { sendNui } from './utils/fetchNui';
 import { SideMenu } from './menu/SideMenu';
 import JobMenu from './menu/JobMenu/JobMenu';
 import Amount from './components/input/amount/Amount';
+import SkinCreator from './window/SkinCreator/SkinCreator';
 
 const initialState = {
   player: {
@@ -28,6 +29,7 @@ const initialState = {
   showJobMenu: false,
   showAmountMenu: false,
   isDriver: false,
+  showSkinCreator: false,
   speed: 0,
   amount: 0,
 };
@@ -49,6 +51,8 @@ const reducer = (state, action) => {
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
+    case 'SHOW_SKIN_CREATOR':
+      return { ...state, showSkinCreator: true };
     default:
       return state;
   }
@@ -85,6 +89,9 @@ const App = () => {
         case 'updateSpeed':
           dispatch({ type: 'UPDATE_SPEED', data });
           break;
+        case 'showSkinCreator':
+          dispatch({ type: 'SHOW_SKIN_CREATOR' });
+          break;
       }
     };
 
@@ -103,6 +110,11 @@ const App = () => {
     dispatch({type: 'CLOSE_NUI'});
   }
 
+  if (state.showSkinCreator) {
+    return (
+      <SkinCreator dispatch={dispatch}/>
+    )
+  }
 
   if (state.isPlayerDead) {
     return (
