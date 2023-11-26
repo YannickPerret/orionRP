@@ -1,12 +1,14 @@
 let isNuiOpen = false;
-let pedIndex = {};
 let model = `mp_m_freemode_01`;
 
 /*const executePlayerLogin = () => {
-  let Player = GetPlayerServerId(PlayerId());
+  const Player = GetPlayerServerId(PlayerId());
+  const Ped = PlayerPedId();
+
+
   SetPlayerModel(Player, model);
-  let Ped = PlayerPedId();
   SetPedRandomComponentVariation(Ped, true);
+
   SetEntityCoordsNoOffset(Ped, -312.68, 194.5, 144.37, false, false, false, true);
   NetworkResurrectLocalPlayer(-312.68, 194.5, 144.37, true, true, false);
   SetEntityHeading(Ped, 0.0);
@@ -21,7 +23,7 @@ let model = `mp_m_freemode_01`;
   console.log(Ped);
   onEmit('spawn:PlayerSpawned');
 };
-
+*/
 on('onClientResourceStart', Resource => {
   if (GetCurrentResourceName() != Resource) {
     return;
@@ -30,16 +32,18 @@ on('onClientResourceStart', Resource => {
   while (!HasModelLoaded(model)) {
     Delay(0);
   }
-  executePlayerLogin();
-});*/
+  isNuiOpen = false;
+  //executePlayerLogin();
+});
 
 on('playerSpawned', () => {
-  isNuiOpen = false;
   //téléporter le player dans un endroit sécurisé
   const playerId = GetPlayerServerId(PlayerId());
   const ped = GetPlayerPed(-1);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  SetEntityCoords(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, false);
+  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
+  NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
+  SetEntityHeading(ped, 0.0);
 
   emitNet('orion:playerSpawned');
 
@@ -137,4 +141,9 @@ setTick(() => {
   SetRelationshipBetweenGroups(1, GetHashKey('GANG_2'), GetHashKey('PLAYER'));
   SetRelationshipBetweenGroups(1, GetHashKey('GANG_9'), GetHashKey('PLAYER'));
   SetRelationshipBetweenGroups(1, GetHashKey('GANG_10'), GetHashKey('PLAYER'));
+
+  HideHudComponentThisFrame(3);
+  HideHudComponentThisFrame(4);
+  HideHudComponentThisFrame(13);
+  HideHudComponentThisFrame(14);
 });

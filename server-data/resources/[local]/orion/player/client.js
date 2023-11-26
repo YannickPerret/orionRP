@@ -58,16 +58,13 @@ on('__cfx_nui:identityCard', (data, cb) => {
 RegisterNuiCallbackType('giveAmount');
 on('__cfx_nui:giveAmount', (data, cb) => {
   const amount = parseInt(data.amount);
-  const myPlayer = GetPlayerServerId(PlayerId());
-  const nearbyPlayers = exports['orion'].findNearbyPlayers(10.0);
+  const nearbyPlayers = exports['orion'].findNearbyPlayers(3);
 
   if (nearbyPlayers.length > 0) {
-    console.log(nearbyPlayers[0]);
     emitNet('orion:player:giveAmount', nearbyPlayers[0], amount);
   } else {
     emit('orion:showNotification', 'Aucun joueur à proximité');
   }
-
   cb({ ok: true });
 });
 

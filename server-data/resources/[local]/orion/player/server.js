@@ -13,9 +13,20 @@ onNet('orion:player:giveAmount', (target, amount) => {
     emitNet('orion:showNotification', source, 'Montant invalide !');
     return;
   }
+
+  if (!target) {
+    emitNet('orion:showNotification', source, 'Joueur invalide !');
+    return;
+  }
+
+  if (PlayerManager.getPlayerBySource(source).money < amount) {
+    emitNet('orion:showNotification', source, "Vous n'avez pas assez d'argent !");
+    return;
+  }
+
   emitNet('orion:showNotification', target, `Vous avez reçu ${amount} $ !`);
   emitNet('orion:showNotification', global.source, `Vous avez donné ${amount} $ !`);
 
-  emitNet('orion:player:addMoney', target, amount);
-  emitNet('orion:player:removeMoney', global.source, amount);
+  PlayerManager.getPlayerBySource(source).money -= amount;
+  PlayerManager.getPlayerBySource(target).money += amount;
 });

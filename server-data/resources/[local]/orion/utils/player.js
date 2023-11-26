@@ -36,62 +36,6 @@ function GetCoordsFromCam(distance) {
   return [newCoordX, newCoordY, newCoordZ];
 }
 
-exports('GetPedInFront', () => {
-  let player = PlayerId();
-  let plyPed = GetPlayerPed(player);
-  let plyPos = GetEntityCoords(plyPed, false);
-  let plyOffset = GetOffsetFromEntityInWorldCoords(plyPed, 0.0, 1.3, 0.0);
-  let rayHandle = StartShapeTestCapsule(
-    plyPos.x,
-    plyPos.y,
-    plyPos.z,
-    plyOffset.x,
-    plyOffset.y,
-    plyOffset.z,
-    1.0,
-    12,
-    plyPed,
-    7
-  );
-  let A,
-    B,
-    C,
-    D,
-    ped = GetShapeTestResult(rayHandle);
-  if (IsEntityAPed(ped)) {
-    return ped;
-  } else {
-    return false;
-  }
-});
-
-// Get entity's ID and coords from where player sis targeting
-exports('targetPlayerAround', (Distance, Ped) => {
-  let camCoords = GetGameplayCamCoord();
-  let [farCoordsX, farCoordsY, farCoordsZ] = GetCoordsFromCam(Distance);
-  let RayHandle = StartShapeTestRay(
-    camCoords[0],
-    camCoords[1],
-    camCoords[2],
-    farCoordsX,
-    farCoordsY,
-    farCoordsZ,
-    -1,
-    Ped,
-    0
-  );
-  let A,
-    B,
-    C,
-    D,
-    Entity = GetShapeTestResult(RayHandle);
-  if (IsEntityAPed(Entity)) {
-    return Entity;
-  } else {
-    return false;
-  }
-});
-
 exports('findNearbyPlayers', maxDistance => {
   let closestPlayerIds = [];
 
@@ -108,7 +52,6 @@ exports('findNearbyPlayers', maxDistance => {
       if (targetPlayerId !== GetPlayerServerId(PlayerId())) {
         const targetPed = GetPlayerPed(targetPlayerId);
         const [targetCoordsX, targetCoordsY, targetCoordsZ] = GetEntityCoords(GetPlayerPed(serverId), true); // Get the coordinates of the target player
-        console.log('targetCoordsX', targetCoordsX, 'targetCoordsY', targetCoordsY, 'targetCoordsZ', targetCoordsZ);
         const distance = GetDistanceBetweenCoords(
           playerCoordsX,
           playerCoordsY,
@@ -119,10 +62,7 @@ exports('findNearbyPlayers', maxDistance => {
           true
         );
 
-        console.log('distance', distance, 'maxDistance', maxDistance);
-
         if (Number(distance) <= Number(maxDistance)) {
-          console.log('Player Target found', targetPlayerId, 'Distance', distance);
           closestPlayerIds.push(targetPlayerId);
         }
       }
