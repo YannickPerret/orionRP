@@ -226,20 +226,19 @@ RegisterCommand(
       SetEntityMaxSpeed(playerPed, flymodeSpeed);
       SetEntityCollision(playerPed, false, false);
 
-      SetEntityVisible(PlayerPedId(), false, false);
-      SetEntityAlpha(PlayerPedId(), 100, false);
-      SetLocalPlayerVisibleLocally(true);
-
-      SetEntityVisible(PlayerPedId(), false, false);
-      SetLocalPlayerVisibleLocally(true);
-      SetEntityAlpha(PlayerPedId(), Number(255 * 0.2), 0);
-
+      SetEntityVisible(playerPed, false, false);
+      SetEntityAlpha(playerPed, 100, false); // Rendre le joueur partiellement transparent localement
       SetEveryoneIgnorePlayer(playerPed, true);
 
       DisableControlAction(0, 22, true); // Disable forward
       DisableControlAction(0, 23, true); // Disable backward
       DisableControlAction(0, 24, true); // Disable left
       DisableControlAction(0, 25, true); // Disable right
+
+      intervalId = setInterval(() => {
+        SetEntityLocallyVisible(playerPed);
+        SetLocalPlayerVisibleLocally(true);
+      }, 0);
 
       // Désactiver certains contrôles...
       emit('orion:showNotification', 'Flymode activé');
@@ -249,16 +248,19 @@ RegisterCommand(
       SetEntityMaxSpeed(playerPed, 20);
       SetEntityCollision(playerPed, true, true);
 
-      SetEntityVisible(PlayerPedId(), true, false);
-      SetEntityAlpha(PlayerPedId(), 255, false);
-      SetLocalPlayerVisibleLocally(false);
-
+      SetEntityVisible(playerPed, true, false);
+      SetEntityAlpha(playerPed, 255, false);
       SetEveryoneIgnorePlayer(playerPed, false);
 
       EnableControlAction(0, 22, true); // Enable forward
       EnableControlAction(0, 23, true); // Enable backward
       EnableControlAction(0, 24, true); // Enable left
       EnableControlAction(0, 25, true); // Enable right
+
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
 
       emit('orion:showNotification', 'Flymode désactivé');
     }
@@ -276,13 +278,13 @@ setInterval(() => {
 
     if (IsControlPressed(0, 32)) {
       // W - Avancer
-      y += speed * Math.cos(((heading - 90) * Math.PI) / 180);
-      x += speed * Math.sin(((heading - 90) * Math.PI) / 180);
+      x += speed * Math.sin((Math.PI / 180) * heading);
+      y += speed * Math.cos((Math.PI / 180) * heading);
     }
     if (IsControlPressed(0, 33)) {
       // S - Reculer
-      y -= speed * Math.cos(((heading - 90) * Math.PI) / 180);
-      x -= speed * Math.sin(((heading - 90) * Math.PI) / 180);
+      x -= speed * Math.sin((Math.PI / 180) * heading);
+      y -= speed * Math.cos((Math.PI / 180) * heading);
     }
     if (IsControlPressed(0, 34)) {
       // A - Gauche (rotation)
