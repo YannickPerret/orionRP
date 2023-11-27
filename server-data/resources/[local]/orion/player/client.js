@@ -180,7 +180,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   SetPedDefaultComponentVariation(GetPlayerPed(-1));
   // Face
-
+  console.log(data);
   SetPedHeadBlendData(
     GetPlayerPed(-1),
     data.dad,
