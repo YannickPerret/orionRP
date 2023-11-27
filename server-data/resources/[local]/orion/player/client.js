@@ -311,16 +311,22 @@ RegisterCommand('skin', (source, args) => {
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
   if (hash == GetEntityModel(GetPlayerPed(playerId))) {
+    console.log(1);
     return;
   }
 
   if (!IsModelInCdimage(hash) || !IsModelValid(hash)) {
+    console.log(2);
+
     return;
   }
+
+  console.log(3);
 
   RequestModel(hash);
 
   while (!HasModelLoaded(hash)) {
+    console.log(4);
     await Delay(0);
   }
 
