@@ -216,7 +216,7 @@ RegisterCommand(
 
 RegisterCommand(
   'admin',
-  () => {
+  async () => {
     const player = PlayerId();
     const ped = GetPlayerPed(player);
 
@@ -229,7 +229,7 @@ RegisterCommand(
       SetEntityVisible(ped, false, false); // Rendre le joueur invisible (optionnel)
       RequestAnimDict('anim@mp_freemode_return@f@idle'); // Charger l'animation T-pose
       while (!HasAnimDictLoaded('anim@mp_freemode_return@f@idle')) {
-        Wait(100);
+        await new Promise(resolve => setTimeout(resolve, 100));
       }
       TaskPlayAnim(ped, 'anim@mp_freemode_return@f@idle', 'idle_a', 8.0, 8.0, -1, 1, 0, false, false, false);
       isTPoseActive = true;
