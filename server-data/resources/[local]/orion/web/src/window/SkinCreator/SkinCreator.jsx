@@ -7,10 +7,9 @@ export default function SkinCreator() {
   useEffect(() => {
   }, []);
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // Logique pour envoyer les données au serveur
-    };
+  const handleSubmit = () => {
+    // Logique pour envoyer les données au serveur
+  };
   return (
     <div className="skinCreator">
      <Morphology />

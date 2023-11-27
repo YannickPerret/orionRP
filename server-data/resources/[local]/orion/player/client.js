@@ -1,5 +1,14 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
 
+/*
+if gent == 0 then
+			characterModel = GetHashKey('mp_m_freemode_01')
+		elseif gent > 1 then
+			characterModel = pedList[gent - 1]
+		else
+			characterModel = GetHashKey('mp_f_freemode_01')
+		end
+    */
 let isSkinCreatorOpened = false;
 let cam = -1;
 let heading = 332.219879;
@@ -140,6 +149,75 @@ on('__cfx_nui:zoom', (data, cb) => {
   zoom = data.zoom;
 });
 
+RegisterNuiCallbackType('updateSkin');
+on('__cfx_nui:updateSkin', (data, cb) => {
+  const  playerPed = PlayerPedId()
+	const characterModel
+
+		if (data.gent == 0){
+      characterModel = GetHashKey('mp_m_freemode_01')
+    }
+		else if (data.gent > 1) {
+			characterModel = pedList[data.gent - 1]
+    }
+		else
+			characterModel = GetHashKey('mp_f_freemode_01')
+
+		RequestModel(characterModel)
+
+  while (!HasModelLoaded(characterModel)) {
+    RequestModel(characterModel);
+    await new Promise(resolve => setTimeout(resolve, 1)); 
+  }
+
+			if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)){
+				SetPlayerModel(PlayerId(), characterModel)
+				
+      }
+
+			SetModelAsNoLongerNeeded(characterModel)
+
+			
+
+		
+		SetPedDefaultComponentVariation(GetPlayerPed(-1))
+		
+		// characterModel = GetHashKey('mp_f_freemode_01')
+		// SetPlayerModel(PlayerId(), characterModel)
+		// SetPedDefaultComponentVariation(GetPlayerPed(-1))
+
+		// Face
+		
+		SetPedHeadBlendData			(GetPlayerPed(-1), dad, dad, dad, skin, skin, skin, dadmumpercent * 0.1, dadmumpercent * 0.1, 1.0, true)
+		SetPedEyeColor				(GetPlayerPed(-1), eyecolor)
+		if (acne == 0)
+			SetPedHeadOverlay		(GetPlayerPed(-1), 0, acne, 0.0)
+		else
+			SetPedHeadOverlay		(GetPlayerPed(-1), 0, acne, 1.0)
+		
+		SetPedHeadOverlay			(GetPlayerPed(-1), 6, skinproblem, 1.0)
+		if (freckle == 0)
+			SetPedHeadOverlay		(GetPlayerPed(-1), 9, freckle, 0.0)
+		else
+			SetPedHeadOverlay		(GetPlayerPed(-1), 9, freckle, 1.0)
+		
+
+		SetPedHeadOverlay       	(GetPlayerPed(-1), 3, wrinkle, wrinkleopacity * 0.1)
+		SetPedComponentVariation	(GetPlayerPed(-1), 2, hair, 0, 2)
+		SetPedHairColor				(GetPlayerPed(-1), haircolor, haircolor)
+		SetPedHeadOverlay       	(GetPlayerPed(-1), 2, eyebrow, eyebrowopacity * 0.1) 
+		SetPedHeadOverlay       	(GetPlayerPed(-1), 1, beard, beardopacity * 0.1)   
+		SetPedHeadOverlayColor  	(GetPlayerPed(-1), 1, 1, beardcolor, beardcolor) 
+		SetPedHeadOverlayColor  	(GetPlayerPed(-1), 2, 1, beardcolor, beardcolor)
+
+    SetPedHeadOverlay       	(GetPlayerPed(-1), 4, 0, 0.0)   	//Lipstick
+		SetPedHeadOverlay       	(GetPlayerPed(-1), 8, 0, 0.0) 		// Makeup
+		SetPedHeadOverlayColor  	(GetPlayerPed(-1), 4, 1, 0, 0)     // Makeup Color
+		SetPedHeadOverlayColor  	(GetPlayerPed(-1), 8, 1, 0, 0)      // Lipstick Color
+		SetPedComponentVariation	(GetPlayerPed(-1), 1,  0,0, 2)    	// Mask
+
+})
+
 RegisterNuiCallbackType('createNewPlayer');
 on('__cfx_nui:createNewPlayer', (data, cb) => {
   const firstname = data.firstname;
@@ -155,7 +233,7 @@ on('__cfx_nui:createNewPlayer', (data, cb) => {
     }
   }
   let mom = Number(data.mom);
-  let dadmumpercent = Number(data.dadmumpercent);
+  let heritage = Number(data.heritage);
   let skin = Number(data.skin);
   let eyecolor = Number(data.eyecolor);
   let acne = Number(data.acne);
@@ -170,23 +248,17 @@ on('__cfx_nui:createNewPlayer', (data, cb) => {
   let beard = Number(data.beard);
   let beardopacity = Number(data.beardopacity);
   let beardcolor = Number(data.beardcolor);
-  // Clothes;
-  let hats = Number(data.hats);
-  let glasses = Number(data.glasses);
-  let ears = Number(data.ears);
-  let tops = Number(data.tops);
-  let pants = Number(data.pants);
-  let shoes = Number(data.shoes);
-  let watches = Number(data.watches);
 
-  if (firstname && lastname && phone) {
-    emitNet('orion:player:createNewPlayer', firstname, lastname, phone);
+  let skinn = {["sex"]:gent,["face"]:dad,["skin"]:skin,["eye_color"]:eyecolor,["complexion_1"]:skinproblem,["complexion_2"]:1,["moles_1"]:freckle,["moles_2"]:1,["age_1"]:wrinkle,["age_2"]:wrinkleopacity,["eyebrows_1"]:eyebrow,["eyebrows_2"]:eyebrowopacity,["beard_1"]:beard,["beard_2"]:beardopacity,["beard_3"]:beardcolor,["beard_4"]:beardcolor,["hair_1"]:hair,["hair_2"]:0,["hair_color_1"]:haircolor,["hair_color_2"]:haircolor,["arms"]:torso,["arms_2"]:torsotext,["pants_1"]:leg,["pants_2"]:legtext,["shoes_1"]:shoes,["shoes_2"]:shoestext,["chain_1"]:accessory,["chain_2"]:accessorytext,["tshirt_1"]:undershirt,["tshirt_2"]:undershirttext,["torso_1"]:torso2,["torso_2"]:torso2text,["helmet_1"]:prop_hat,["helmet_2"]:prop_hat_text,["glasses_1"]:prop_glasses,["glasses_2"]:prop_glasses_text,["ears_1"]:prop_earrings,["ears_2"]:prop_earrings_text,["watches_1"]:prop_watches,["watches_2"]:prop_watches_text}
+
+  if (firstname && lastname) {
+    emitNet('orion:player:createNewPlayer', firstname, lastname, skinn);
     cb({ ok: true });
   } else {
     cb({ ok: false });
   }
 });
 
-RegisterCommand('skin', (source, args) => {
+RegisterCommand('skin', (source, args) :> {
   ShowSkinCreator(true);
 });

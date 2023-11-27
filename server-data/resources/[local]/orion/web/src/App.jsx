@@ -91,7 +91,7 @@ const App = () => {
           dispatch({ type: 'UPDATE_SPEED', data });
           break;
         case 'showSkinCreator':
-          dispatch({ type: 'SHOW_SKIN_CREATOR', data });
+          dispatch({ type: 'SHOW_SKIN_CREATOR' });
           break;
       }
     };

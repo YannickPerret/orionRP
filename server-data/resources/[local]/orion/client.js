@@ -72,6 +72,8 @@ on('playerSpawned', () => {
       false,
       false
     );
+    SetCanAttackFriendly(PlayerPedId(), true, false);
+    NetworkSetFriendlyFireOption(true);
 
     setInterval(() => {
       const playerPed = GetPlayerPed(-1);
