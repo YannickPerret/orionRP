@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Eyes({handleEyesChange}) {
-  const [eyebrowType, setEyebrowType] = useState(0);
+  const [eyeBrow, setEyeBrow] = useState(0);
   const [eyebrowThickness, setEyebrowThickness] = useState(10);
   const [eyeColor, setEyeColor] = useState('0');
 
   const handleEyebrowTypeChange = (e) => {
-    setEyebrowType(e.target.value);
+    setEyeBrow(e.target.value);
   };
 
   const handleEyebrowThicknessChange = (e) => {
@@ -18,8 +18,8 @@ export default function Eyes({handleEyesChange}) {
   };
 
   useEffect(() => {
-    handleEyesChange({eyebrowType, eyebrowThickness, eyeColor});
-  }, [eyebrowType, eyebrowThickness, eyeColor]);
+    handleEyesChange({eyeBrow, eyebrowThickness, eyeColor});
+  }, [eyeBrow, eyebrowThickness, eyeColor]);
   
 
   return (
@@ -27,7 +27,7 @@ export default function Eyes({handleEyesChange}) {
       <div className="input">
         <div className="label">Eyebrow type</div>
         <div className="type-range">
-          <input type="range" className="sourcils" min="0" max="34" value={eyebrowType} onChange={handleEyebrowTypeChange} />
+          <input type="range" className="sourcils" min="0" max="34" value={eyeBrow} onChange={handleEyebrowTypeChange} />
         </div>
       </div>
 

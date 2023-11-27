@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Beard({handleBeardChange}) {
-  const [beardType, setBeardType] = useState(0);
+  const [beard, setBeard] = useState(0);
   const [beardThickness, setBeardThickness] = useState(0);
   const [beardColor, setBeardColor] = useState('0');
 
   const handleBeardTypeChange = (e) => {
-    setBeardType(e.target.value);
+    setBeard(e.target.value);
   };
 
   const handleBeardThicknessChange = (e) => {
@@ -18,15 +18,15 @@ export default function Beard({handleBeardChange}) {
   };
 
   useEffect(() => {
-    handleBeardChange({beardType, beardColor, beardThickness});
-  }, [beardType, beardThickness, beardColor]);
+    handleBeardChange({beard, beardColor, beardThickness});
+  }, [beard, beardThickness, beardColor]);
 
   return (
     <div className="group">
       <div className="input">
         <div className="label">Beard type</div>
         <div className="type-range">
-          <input type="range" className="barbe" min="0" max="28" value={beardType} onChange={handleBeardTypeChange} />
+          <input type="range" className="barbe" min="0" max="28" value={beard} onChange={handleBeardTypeChange} />
         </div>
       </div>
 

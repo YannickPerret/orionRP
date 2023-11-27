@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function Hair({handleHairChange}) {
   const [hairColor, setHairColor] = useState('0');
-  const [hairSlider, setHairSlider] = useState(0);
+  const [hair, setHair] = useState(0);
 
   const hairColors = ['#1D1D1A', '#4B392D', '#7A3B1F', '#A35631', '#A96F49', '#BD8D5E', '#CBA66F', '#E8BE78', '#D09E6A', '#993524', '#9C1611', '#D1381E', '#C85831', '#947A67', '#D8C1AC', '#734F61', '#AD476A', '#FFAEBC', '#089A8D', '#309060', '#A3C015', '#EEC85C', '#FE8B10', '#D40B0E'];
 
@@ -10,13 +10,10 @@ export default function Hair({handleHairChange}) {
     setHairColor(e.target.value);
   };
 
-  const handleHairSliderChange = (e) => {
-    setHairSlider(e.target.value);
-  };
 
   useEffect(() => {
-    handleHairChange({hairColor, hairSlider});
-  }, [hairColor, hairSlider]);
+    handleHairChange({hairColor, hair});
+  }, [hairColor, hair]);
   
 
   return (
@@ -25,7 +22,7 @@ export default function Hair({handleHairChange}) {
         <div className="label">Hair</div>
         <div className="label-value" data-legend="/74"></div>
         <div className="type-range">
-          <input type="range" className="hair" min="0" max="174" value={hairSlider} onChange={handleHairSliderChange} />
+          <input type="range" className="hair" min="0" max="174" value={hair} onChange={(e) => setHair(e.target.value)} />
         </div>
       </div>
 
