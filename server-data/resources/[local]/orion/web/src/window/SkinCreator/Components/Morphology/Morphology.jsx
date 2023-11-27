@@ -52,7 +52,7 @@ export default function Morphology() {
 
     useEffect(() => {
         handleSubmit();
-    }, [dad, mom, sex, heritage, skin, skinColor, eyeColor, eyebrowThickness, hairColor, hair, hairHighlight, eyebrow, eyebrowColor, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
+    }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyebrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
 
   return (
     <div className="sideLeft">
