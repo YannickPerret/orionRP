@@ -226,13 +226,10 @@ RegisterCommand(
       SetEntityMaxSpeed(playerPed, flymodeSpeed);
       SetEntityCollision(playerPed, false);
       SetPedGravity(playerPed, 0);
-      NetWorkSetEntityInvisibleToNetwork(playerPed, true);
+      SetEntityVisible(playerPed, false, false); // Rendre le joueur invisible au réseau
+      SetEntityLocallyVisible(playerPed); // Rendre le joueur visible localement
 
-      DisableControlAction(0, 22, true); // Disable forward
-      DisableControlAction(0, 23, true); // Disable backward
-      DisableControlAction(0, 24, true); // Disable left
-      DisableControlAction(0, 25, true); // Disable right
-
+      // Désactiver certains contrôles...
       emit('orion:showNotification', 'Flymode activé');
     } else {
       isFlymodeEnabled = false;
@@ -240,18 +237,14 @@ RegisterCommand(
       SetEntityMaxSpeed(playerPed, 20);
       SetEntityCollision(playerPed, true);
       SetPedGravity(playerPed, 1);
-      NetWorkSetEntityInvisibleToNetwork(playerPed, false);
+      SetEntityVisible(playerPed, true, false); // Rendre le joueur de nouveau visible au réseau
 
-      EnableControlAction(0, 22, true); // Enable forward
-      EnableControlAction(0, 23, true); // Enable backward
-      EnableControlAction(0, 24, true); // Enable left
-      EnableControlAction(0, 25, true); // Enable right
-
+      // Réactiver certains contrôles...
       emit('orion:showNotification', 'Flymode désactivé');
     }
   },
   0
-); // Mettre à jour à chaque frame
+);
 
 setInterval(() => {
   if (isFlymodeEnabled) {
