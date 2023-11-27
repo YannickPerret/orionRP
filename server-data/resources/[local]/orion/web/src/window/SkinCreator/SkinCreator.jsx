@@ -7,11 +7,8 @@ export default function SkinCreator() {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
 
-  useEffect(() => {
-  }, []);
-
   const handleSubmit = () => {
-    // Logique pour envoyer les données au serveur
+    console.log(firstname, lastname);
   };
   return (
     <div className="skinCreator">

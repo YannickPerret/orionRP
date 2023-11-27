@@ -148,8 +148,8 @@ const ShowSkinCreator = enable => {
   isCameraActive = true;
   SetPlayerInvincible(PlayerPedId(), true);
   isSkinCreatorOpened = true;
-  RenderScriptCams(false, false, 0, 1, 0);
-  SetEntityHeading(GetPlayerPed(-1), 180.0);
+  //RenderScriptCams(false, false, 0, 1, 0);
+  SetEntityHeading(GetPlayerPed(-1), 90.0);
 
   SetNuiFocus(enable, enable);
   SendNuiMessage(
@@ -165,7 +165,7 @@ const CloseSkinCreator = () => {
   isCameraActive = false;
   //SetCamActive(cam, false);
   SetPlayerInvincible(PlayerPedId(), false);
-  RenderScriptCams(false, true, 500, true, true);
+  //RenderScriptCams(false, true, 500, true, true);
   cam = null;
   ShowSkinCreator(false);
 };

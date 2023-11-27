@@ -70,13 +70,13 @@ export default function Morphology() {
         handleSubmit();
     }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyebrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
 
-    useEffect(() => {
+   /* useEffect(() => {
         document.addEventListener('keydown', handleRotatePlayer);
 
         return () => {
             document.removeEventListener('keydown', handleRotatePlayer);
         }
-    }, []);
+    }, []);*/
   return (
     <div className="sideLeft">
         <h2>Morphology</h2>

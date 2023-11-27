@@ -112,7 +112,7 @@ const App = () => {
 
   if (state.showSkinCreator) {
     return (
-      <SkinCreator dispatch={dispatch}/>
+      <SkinCreator/>
     )
   }
 
