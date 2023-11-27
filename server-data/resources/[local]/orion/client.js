@@ -1,5 +1,5 @@
 let isNuiOpen = false;
-const isFlymodeEnabled = false;
+let isFlymodeEnabled = false;
 const flymodeSpeed = 100;
 
 /*const executePlayerLogin = () => {
