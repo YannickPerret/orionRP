@@ -170,7 +170,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   const playerPed = GetPlayerPed(-1);
   let model = data.sex == 0 ? 'mp_m_freemode_01' : 'mp_f_freemode_01';
 
-  ApplyPlayerModelHash(PlayerId(), model);
+  ApplyPlayerModelHash(PlayerId(), GetHashKey(model));
 
   SetPedDefaultComponentVariation(playerPed);
 
