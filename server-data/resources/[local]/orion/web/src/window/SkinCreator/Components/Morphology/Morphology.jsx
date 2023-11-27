@@ -77,10 +77,29 @@ export default function Morphology() {
                 <a href="#" className="arrow arrow-right" >&nbsp;</a>
             </div>
         </div>
-        <SkinTone handleSkinToneChange={{setSkinColor, setAcne, setSkinProblem, setFreckle, setWrinkle, setWrinkleIntensity}}/>
-        <Hair handleHairChange={{setHairColor, setHair}}/>
-        <Eyes handleEyesChange={{setEyebrow, setEyebrowThickness, setEyeColor}}/>
-        <Beard handleBeardChange={{setBeard, setBeardColor}}/>
+        <SkinTone handleSkinToneChange={(skinToneData) => {
+            setSkinColor(skinToneData.skinColor);
+            setAcne(skinToneData.acne);
+            setSkinProblem(skinToneData.skinProblem);
+            setFreckle(skinToneData.freckle);
+            setWrinkle(skinToneData.wrinkle);
+            setWrinkleIntensity(skinToneData.wrinkleIntensity);
+        }} />
+
+        <Hair handleHairChange={(hairData) => {
+            setHairColor(hairData.hairColor);
+            setHair(hairData.hair);
+        }} />
+
+        <Eyes handleEyesChange={(eyes => {
+            setEyeColor(eyes.eyeColor);
+            setEyebrow(eyes.eyebrow);
+            setEyebrowThickness(eyes.eyebrowThickness);
+        })}/>
+        <Beard handleBeardChange={(beard) => {
+            setBeard(beard.beard);
+            setBeardColor(beard.beardColor);
+        }}/>
     </div>
   )
 }
