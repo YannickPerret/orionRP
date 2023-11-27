@@ -229,7 +229,6 @@ RegisterCommand(
       SetEntityInvincible(ped, true); // Rendre le joueur invincible
       SetEntityVisible(ped, true, true); // Assurez-vous que le joueur est visible
       SetEntityCollision(ped, false, false); // Désactiver les collisions
-      SetPedCanRagdoll(ped, false); // Empêcher le joueur de tomber
 
       let newRunSpeed = originalRunSpeed * 3; // Augmenter par un facteur de 3, ajustez selon vos besoins
       SetRunSprintMultiplierForPlayer(player, newRunSpeed);
@@ -243,7 +242,6 @@ RegisterCommand(
       SetEntityInvincible(ped, false); // Rendre le joueur de nouveau vulnérable
       SetEntityVisible(ped, true, true);
       SetEntityCollision(ped, true, true);
-      SetPedCanRagdoll(ped, true);
 
       // Restaurer la vitesse de déplacement originale
       SetRunSprintMultiplierForPlayer(player, originalRunSpeed);
