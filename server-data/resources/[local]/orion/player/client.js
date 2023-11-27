@@ -125,6 +125,7 @@ function getPedAppearance(ped) {
 
 // FUNCTION PED CHANGE
 function setPedHair(ped, hair) {
+  console.log('setPedHair', hair);
   if (!hair) return;
 
   const { style, color, highlight } = hair;
