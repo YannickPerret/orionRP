@@ -1,6 +1,9 @@
 let isNuiOpen = false;
-let isFlyingModeActive = false;
-let originalRunSpeed = 0;
+let isNoclipActive = false;
+let noClippingEntity;
+let previousVelocity = vec(0, 0, 0);
+const speed = 5.0;
+const breakSpeed = 5.0;
 
 /*const executePlayerLogin = () => {
   const Player = GetPlayerServerId(PlayerId());
@@ -217,37 +220,62 @@ RegisterCommand(
 );
 
 RegisterCommand(
-  'flymode',
-  async () => {
+  'noclip',
+  () => {
     const player = PlayerId();
-    const ped = GetPlayerPed(player);
+    const ped = GetPlayerPed(-1);
 
-    if (!isFlyingModeActive) {
-      // Activer le mode de vol
-      originalRunSpeed = GetEntitySpeed(ped);
-
-      SetEntityInvincible(ped, true); // Rendre le joueur invincible
-      SetEntityVisible(ped, true, true); // Assurez-vous que le joueur est visible
-      SetEntityCollision(ped, false, false); // Désactiver les collisions
-
-      let newRunSpeed = originalRunSpeed * 3; // Augmenter par un facteur de 3, ajustez selon vos besoins
-      SetRunSprintMultiplierForPlayer(player, newRunSpeed);
-      SetSwimMultiplierForPlayer(player, newRunSpeed);
-      isFlyingModeActive = true;
-
-      // Logique de déplacement
-      // Vous pouvez ajouter ici une logique personnalisée pour contrôler le déplacement du joueur en mode vol
+    if (!isNoclipActive) {
+      SetEntityCollision(ped, false, false);
+      SetEntityVisible(ped, false, false);
+      isNoclipActive = true;
     } else {
-      // Désactiver le mode de vol
-      SetEntityInvincible(ped, false); // Rendre le joueur de nouveau vulnérable
-      SetEntityVisible(ped, true, true);
       SetEntityCollision(ped, true, true);
-
-      // Restaurer la vitesse de déplacement originale
-      SetRunSprintMultiplierForPlayer(player, originalRunSpeed);
-      SetSwimMultiplierForPlayer(player, originalRunSpeed);
-      isFlyingModeActive = false;
+      SetEntityVisible(ped, true, true);
+      previousVelocity = vec(0, 0, 0);
+      isNoclipActive = false;
     }
   },
   false
 );
+
+// Mettre à jour en boucle
+setInterval(() => {
+  if (isNoclipActive) {
+    let inputX = 0; // Gauche/droite
+    let inputY = 0; // Avant/arrière
+    let inputZ = 0; // Haut/bas
+
+    if (IsControlPressed(0, 32)) {
+      // W
+      inputY = 1;
+    }
+    if (IsControlPressed(0, 33)) {
+      // S
+      inputY = -1;
+    }
+    if (IsControlPressed(0, 34)) {
+      // A
+      inputX = -1;
+    }
+    if (IsControlPressed(0, 35)) {
+      // D
+      inputX = 1;
+    }
+    if (IsControlPressed(0, 22)) {
+      // Espace
+      inputZ = 1;
+    }
+    if (IsControlPressed(0, 36)) {
+      // CTRL
+      inputZ = -1;
+    }
+
+    // Appliquer le mouvement
+    if (IsPedInAnyVehicle(noClippingEntity, false)) {
+      MoveCarInNoClip();
+    } else {
+      MoveInNoClip();
+    }
+  }
+}, 0); // Mettre à jour à chaque frame
