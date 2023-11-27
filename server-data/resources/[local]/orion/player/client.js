@@ -327,7 +327,10 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 };
 
 const ApplyPedHair = (ped, hair) => {
-  console.log('ApplyPedHair', hair, 'ped', ped);
+  if (IsPedComponentVariationValid(ped, 2, hair.HairType, 0, 0) == false) {
+    hair.HairType = 0;
+    console.log('HairType is invalid');
+  }
   SetPedComponentVariation(ped, 2, hair.HairType, 0, 0);
   SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
   SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
@@ -356,7 +359,6 @@ const ApplyPedFaceTrait = (ped, model) => {
 };
 
 const ApplyPlayerBodySkin = (playerId, bodySkin) => {
-  console.log('ApplyPlayerBodySkin', bodySkin);
   ApplyPlayerModelHash(playerId, bodySkin.Model.Hash);
 
   let ped = GetPlayerPed(playerId);
