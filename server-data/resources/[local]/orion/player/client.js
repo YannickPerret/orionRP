@@ -320,13 +320,14 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
   RequestModel(hash);
 
   while (!HasModelLoaded(hash)) {
-    await new Promise(resolve => setTimeout(resolve, 1));
+    await Delay(0);
   }
 
   SetPlayerModel(playerId, hash);
 };
 
 const ApplyPedHair = (ped, hair) => {
+  console.log('ApplyPedHair', hair, 'ped', ped);
   SetPedComponentVariation(ped, 2, hair.HairType, 0, 0);
   SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
   SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
@@ -362,7 +363,7 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
   ClearPedDecorations(ped);
 
   ApplyPedFaceTrait(ped, bodySkin.Model);
-  ApplyPedHair(ped, bodySkin.Hair);
+  ApplyPedHair(PlayerPedId(), bodySkin.Hair);
   //ApplyPedMakeup(ped, bodySkin.Makeup)
   //ApplyPedTattoos(ped, bodySkin.Tattoos || {})
   //ApplyPedProps(ped, bodySkin);
