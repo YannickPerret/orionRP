@@ -168,15 +168,15 @@ RegisterNuiCallbackType('updateSkin');
 on('__cfx_nui:updateSkin', async (data, cb) => {
   const playerPedId = PlayerPedId();
   const playerPed = GetPlayerPed(-1);
-  let model = data.sex == 0 ? 'mp_m_freemode_01' : 'mp_f_freemode_01';
+  let model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
 
-  ApplyPlayerModelHash(PlayerId(), GetHashKey(model));
+  ApplyPlayerModelHash(PlayerId(), model);
 
   SetPedDefaultComponentVariation(playerPed);
 
   ApplyPlayerBodySkin(PlayerId(), {
     Model: {
-      Hash: GetHashKey(model),
+      Hash: model,
       Father: data.dad,
       Mother: data.mom,
       ShapeMix: data.heritage * 0.1,
@@ -334,12 +334,7 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 const ApplyPedHair = (ped, hair) => {
   console.log(GetNumberOfPedDrawableVariations(ped, 2));
 
-  if (IsPedComponentVariationValid(ped, 2, hair.HairType, 0, 0) == false) {
-    hair.HairType = 0;
-    console.log('HairType is invalid');
-  }
-
-  SetPedComponentVariation(ped, 2, hair.HairType, 0, 0);
+  SetPedComponentVariation(PlayerPedId(), 2, 2, 0, 2);
   SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
   SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
   SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
