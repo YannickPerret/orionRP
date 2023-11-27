@@ -228,10 +228,10 @@ RegisterCommand(
       SetEntityGravity(playerPed, 0);
       SetEntityVisible(playerPed, false, false);
 
-      /*DisableControlAction(0, 22, true); // Disable forward
+      DisableControlAction(0, 22, true); // Disable forward
       DisableControlAction(0, 23, true); // Disable backward
       DisableControlAction(0, 24, true); // Disable left
-      DisableControlAction(0, 25, true); // Disable right*/
+      DisableControlAction(0, 25, true); // Disable right
 
       emit('orion:showNotification', 'Flymode activé');
     } else {
@@ -242,13 +242,52 @@ RegisterCommand(
       SetEntityGravity(playerPed, 9.8);
       SetEntityVisible(playerPed, true, false);
 
-      /*EnableControlAction(0, 22, true); // Enable forward
+      EnableControlAction(0, 22, true); // Enable forward
       EnableControlAction(0, 23, true); // Enable backward
       EnableControlAction(0, 24, true); // Enable left
-      EnableControlAction(0, 25, true); // Enable right*/
+      EnableControlAction(0, 25, true); // Enable right
 
       emit('orion:showNotification', 'Flymode désactivé');
     }
   },
   0
 ); // Mettre à jour à chaque frame
+
+setInterval(() => {
+  if (isFlymodeEnabled) {
+    const playerPed = GetPlayerPed(-1);
+    let coords = GetEntityCoords(playerPed);
+    let heading = GetEntityHeading(playerPed);
+
+    const rotationSpeed = 5.0;
+    const speed = 0.5; // Ajustez la vitesse ici
+
+    if (IsControlPressed(0, 32)) {
+      // W - Avancer
+      coords = vector3(coords[0], coords[1] + speed, coords[2]);
+    }
+    if (IsControlPressed(0, 33)) {
+      // S - Reculer
+      coords = vector3(coords[0], coords[1] - speed, coords[2]);
+    }
+    if (IsControlPressed(0, 34)) {
+      // A - Gauche (rotation)
+      heading -= rotationSpeed;
+    }
+    if (IsControlPressed(0, 35)) {
+      // D - Droite (rotation)
+      heading += rotationSpeed;
+    }
+    if (IsControlPressed(0, 22)) {
+      // Espace - Monter
+      coords = vector3(coords[0], coords[1], coords[2] + speed);
+    }
+    if (IsControlPressed(0, 36)) {
+      // Ctrl gauche - Descendre
+      coords = vector3(coords[0], coords[1], coords[2] - speed);
+    }
+
+    SetEntityCoordsNoOffset(playerPed, coords[0], coords[1], coords[2], true, true, true);
+    SetEntityHeading(playerPed, heading);
+  }
+}, 0); // Exécutez cette boucle à chaque frame
