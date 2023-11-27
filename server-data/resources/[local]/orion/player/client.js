@@ -145,8 +145,8 @@ const CloseSkinCreator = () => {
   //SetCamActive(cam, false);
   RenderScriptCams(false, true, 500, true, true);
   SetPlayerInvincible(PlayerPedId(), false);
-
-  cam = nil;
+  SetCamActive(cam, false);
+  cam = null;
   ShowSkinCreator(false);
 };
 
@@ -233,6 +233,24 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   cb({ ok: true });
 });
+
+(async () => {
+  while (true) {
+    if (isCameraActive == true) {
+      RenderScriptCams(false, false, 0, 1, 0);
+      DestroyCam(cam, false);
+      if (!DoesCamExist(cam)) {
+        cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+        SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
+        SetCamRot(cam, 0.0, 0.0, 0.0);
+        SetCamActive(cam, true);
+        RenderScriptCams(true, false, 0, true, true);
+        SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
+      }
+    }
+    await Delay(500);
+  }
+})();
 
 RegisterNuiCallbackType('createNewPlayer');
 on('__cfx_nui:createNewPlayer', (data, cb) => {
