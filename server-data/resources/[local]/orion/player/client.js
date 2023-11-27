@@ -104,14 +104,32 @@ onNet('orion:playerDied', message => {
 });
 
 on('orion:createNewPlayer', source => {
+  ShowSkinCreator(true);
+});
+
+export function getPedAppearance(ped) {
+  const eyeColor = GetPedEyeColor(ped);
+
+  return {
+    model: getPedModel(ped) || 'mp_m_freemode_01',
+    headBlend: getPedHeadBlend(ped),
+    faceFeatures: getPedFaceFeatures(ped),
+    headOverlays: getPedHeadOverlays(ped),
+    components: getPedComponents(ped),
+    props: getPedProps(ped),
+    hair: getPedHair(ped),
+    eyeColor: eyeColor < EYE_COLORS.length ? eyeColor : 0,
+    tattoos: getPedTattoos(),
+  };
+}
+
+const ShowSkinCreator = enable => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), -705.85, -151.68, 37.42, false, false, true);
   isCameraActive = true;
   SetPlayerInvincible(PlayerPedId(), true);
-  ShowSkinCreator(true);
   isSkinCreatorOpened = true;
-});
+  RenderScriptCams(false, false, 0, 1, 0);
 
-const ShowSkinCreator = enable => {
   SetNuiFocus(enable, enable);
   SendNuiMessage(
     JSON.stringify({
@@ -123,13 +141,13 @@ const ShowSkinCreator = enable => {
 
 const CloseSkinCreator = () => {
   isSkinCreatorOpened = false;
-  ShowSkinCreator(false);
   isCameraActive = false;
-  SetCamActive(cam, false);
+  //SetCamActive(cam, false);
   RenderScriptCams(false, true, 500, true, true);
-  cam = nil;
-
   SetPlayerInvincible(PlayerPedId(), false);
+
+  cam = nil;
+  ShowSkinCreator(false);
 };
 
 RegisterNuiCallbackType('rotateHeading');
@@ -200,7 +218,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   else SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 1.0);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleIntensity * 0.1);
-  SetPedComponentVariation(GetPlayerPed(-1), 2, data.hair, 0, 2);
+  SetPedComponentVariation(GetPlayerPed(-1), 2, data.hair, 0, 0);
   SetPedHairColor(GetPlayerPed(-1), data.hairColor, data.hairColor);
   SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1); // icicicici
   SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1); // ICICICI
@@ -299,5 +317,9 @@ on('__cfx_nui:createNewPlayer', (data, cb) => {
 });
 
 RegisterCommand('skin', (source, args) => {
-  ShowSkinCreator(true);
+  if (!isSkinCreatorOpened) {
+    ShowSkinCreator(true);
+  } else {
+    CloseSkinCreator();
+  }
 });
