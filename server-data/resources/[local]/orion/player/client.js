@@ -125,10 +125,12 @@ function getPedAppearance(ped) {
 
 // FUNCTION PED CHANGE
 function setPedHair(ped, hair) {
-  console.log(hair);
   if (!hair) return;
 
   const { style, color, highlight } = hair;
+  if (IsPedComponentVariationValid(ped, 2, style, 0, 0) == false) {
+    console.log('Invalid hair style');
+  }
 
   SetPedComponentVariation(ped, 2, style, 0, 0);
 
