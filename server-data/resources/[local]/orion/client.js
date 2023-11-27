@@ -256,19 +256,20 @@ RegisterCommand(
 setInterval(() => {
   if (isFlymodeEnabled) {
     const playerPed = GetPlayerPed(-1);
-    let coords = GetEntityCoords(playerPed);
+    let [x, y, z] = GetEntityCoords(playerPed, true);
     let heading = GetEntityHeading(playerPed);
-
-    const rotationSpeed = 5.0;
-    const speed = 0.5; // Ajustez la vitesse ici
+    const speed = 0.5; // Vitesse de déplacement
+    const rotationSpeed = 5.0; // Vitesse de rotation
 
     if (IsControlPressed(0, 32)) {
       // W - Avancer
-      coords = vector3(coords[0], coords[1] + speed, coords[2]);
+      y += speed * Math.cos(((heading - 90) * Math.PI) / 180);
+      x += speed * Math.sin(((heading - 90) * Math.PI) / 180);
     }
     if (IsControlPressed(0, 33)) {
       // S - Reculer
-      coords = vector3(coords[0], coords[1] - speed, coords[2]);
+      y -= speed * Math.cos(((heading - 90) * Math.PI) / 180);
+      x -= speed * Math.sin(((heading - 90) * Math.PI) / 180);
     }
     if (IsControlPressed(0, 34)) {
       // A - Gauche (rotation)
@@ -280,14 +281,14 @@ setInterval(() => {
     }
     if (IsControlPressed(0, 22)) {
       // Espace - Monter
-      coords = vector3(coords[0], coords[1], coords[2] + speed);
+      z += speed;
     }
     if (IsControlPressed(0, 36)) {
       // Ctrl gauche - Descendre
-      coords = vector3(coords[0], coords[1], coords[2] - speed);
+      z -= speed;
     }
 
-    SetEntityCoordsNoOffset(playerPed, coords[0], coords[1], coords[2], true, true, true);
+    SetEntityCoordsNoOffset(playerPed, x, y, z, true, true, true);
     SetEntityHeading(playerPed, heading);
   }
-}, 0); // Exécutez cette boucle à chaque frame
+}, 0);
