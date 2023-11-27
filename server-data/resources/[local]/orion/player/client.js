@@ -143,9 +143,10 @@ const CloseSkinCreator = () => {
   isSkinCreatorOpened = false;
   isCameraActive = false;
   //SetCamActive(cam, false);
-  RenderScriptCams(false, true, 500, true, true);
   SetPlayerInvincible(PlayerPedId(), false);
   SetCamActive(cam, false);
+  RenderScriptCams(false, true, 500, true, true);
+  DestroyCam(cam, false);
   cam = null;
   ShowSkinCreator(false);
 };
@@ -243,7 +244,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
       if (!DoesCamExist(cam)) {
         cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
         SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
-        SetCamRot(cam, 0.0, 0.0, 0.0);
+        SetCamRot(cam, 90.0, 0.0, 0.0);
         SetCamActive(cam, true);
         RenderScriptCams(true, false, 0, true, true);
         SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
