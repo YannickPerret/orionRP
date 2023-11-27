@@ -274,25 +274,25 @@ setInterval(() => {
     let [x, y, z] = GetEntityCoords(playerPed, true);
     let heading = GetEntityHeading(playerPed);
     const speed = 0.5; // Vitesse de déplacement
-    const rotationSpeed = 5.0; // Vitesse de rotation
+    const rotationSpeed = 4.0; // Vitesse de rotation
 
     if (IsControlPressed(0, 32)) {
       // W - Avancer
-      x += speed * Math.sin((Math.PI / 180) * heading);
-      y += speed * Math.cos((Math.PI / 180) * heading);
+      x += speed * Math.sin((heading * Math.PI) / 180);
+      y += speed * Math.cos((heading * Math.PI) / 180);
     }
     if (IsControlPressed(0, 33)) {
       // S - Reculer
-      x -= speed * Math.sin((Math.PI / 180) * heading);
-      y -= speed * Math.cos((Math.PI / 180) * heading);
+      x -= speed * Math.sin((heading * Math.PI) / 180);
+      y -= speed * Math.cos((heading * Math.PI) / 180);
     }
     if (IsControlPressed(0, 34)) {
       // A - Gauche (rotation)
-      heading -= rotationSpeed;
+      heading += rotationSpeed;
     }
     if (IsControlPressed(0, 35)) {
       // D - Droite (rotation)
-      heading += rotationSpeed;
+      heading -= rotationSpeed;
     }
     if (IsControlPressed(0, 22)) {
       // Espace - Monter
