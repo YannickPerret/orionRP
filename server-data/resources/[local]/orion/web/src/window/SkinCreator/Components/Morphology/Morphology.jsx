@@ -30,6 +30,7 @@ export default function Morphology() {
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {
+            sex: sex,
             dad: dad,
             mom: mom,
             heritage: heritage,
