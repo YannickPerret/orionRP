@@ -310,7 +310,8 @@ RegisterCommand('skin', (source, args) => {
 });
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
-  if (hash == GetEntityModel(GetPlayerPed(playerId))) {
+  console.log('test', hash, GetEntityModel(GetPlayerPed(-1)));
+  if (hash == GetEntityModel(GetPlayerPed(-1))) {
     console.log(1);
     return;
   }
