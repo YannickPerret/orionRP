@@ -6,6 +6,7 @@ import SkinTone from './Components/Morphology/SkinTone';
 import Hair from './Components/Morphology/Hair';
 import Eyes from './Components/Morphology/Eyes';
 import Beard from './Components/Morphology/Beard';
+import { sendNui } from '../../utils/fetchNui';
 
 export default function SkinCreator() {
 
