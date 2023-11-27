@@ -219,6 +219,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleIntensity * 0.1);
   SetPedComponentVariation(GetPlayerPed(-1), 2, data.hair, 0, 0);
+  console.log(data.hair);
   SetPedHairColor(GetPlayerPed(-1), data.hairColor, data.hairColor);
   SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1); // icicicici
   SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1); // ICICICI
