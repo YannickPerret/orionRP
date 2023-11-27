@@ -259,6 +259,6 @@ on('__cfx_nui:createNewPlayer', (data, cb) => {
   }
 });
 
-RegisterCommand('skin', (source, args) :> {
+RegisterCommand('skin', (source, args) => {
   ShowSkinCreator(true);
 });
