@@ -9,24 +9,24 @@ import Beard from './Beard'
 
 export default function Morphology() {
 
-    const [dad, setDad] = useState('');
-    const [mom, setMom] = useState('');
+    const [dad, setDad] = useState(0);
+    const [mom, setMom] = useState(0);
     const [sex, setSex] = useState(0);
 
     const [heritage, setHeritage] = useState(5);
-    const [skinColor, setSkinColor] = useState('');
+    const [skinColor, setSkinColor] = useState(0);
     const [acne, setAcne] = useState(0);
     const [skinProblem, setSkinProblem] = useState(0);
     const [freckle, setFreckle] = useState(0);
     const [wrinkle, setWrinkle] = useState(0);
     const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
-    const [hairColor, setHairColor] = useState('');
-    const [hair, setHair] = useState('');
-    const [eyebrow, setEyebrow] = useState('');
-    const [eyeColor, setEyeColor] = useState('');
-    const [eyebrowThickness, setEyebrowThickness] = useState('');
-    const [beard, setBeard] = useState('');
-    const [beardColor, setBeardColor] = useState('');
+    const [hairColor, setHairColor] = useState(0);
+    const [hair, setHair] = useState(0);
+    const [eyebrow, setEyebrow] = useState(0);
+    const [eyeColor, setEyeColor] = useState(0);
+    const [eyebrowThickness, setEyebrowThickness] = useState(0);
+    const [beard, setBeard] = useState(0);
+    const [beardColor, setBeardColor] = useState(0);
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {

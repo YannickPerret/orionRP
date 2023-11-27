@@ -197,11 +197,11 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   );
 
   SetPedEyeColor(GetPlayerPed(-1), data.eyecolor);
-  if (acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
+  if (data.acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
   else SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 1.0);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 6, data.skinproblem, 1.0);
-  if (freckle == 0) SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 0.0);
+  if (data.freckle == 0) SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 0.0);
   else SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 1.0);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleopacity * 0.1);
