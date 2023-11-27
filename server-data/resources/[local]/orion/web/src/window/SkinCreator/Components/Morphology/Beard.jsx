@@ -18,7 +18,7 @@ export default function Beard({handleBeardChange}) {
   };
 
   useEffect(() => {
-    handleBeardChange({beardType, beardThickness, beardColor});
+    handleBeardChange({beardType, beardColor, beardThickness});
   }, [beardType, beardThickness, beardColor]);
 
   return (

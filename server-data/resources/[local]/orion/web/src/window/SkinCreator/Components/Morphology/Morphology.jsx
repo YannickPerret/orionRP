@@ -27,6 +27,7 @@ export default function Morphology() {
     const [eyebrowThickness, setEyebrowThickness] = useState(0);
     const [beard, setBeard] = useState(0);
     const [beardColor, setBeardColor] = useState(0);
+    const [beardThickness, setBeardThickness] = useState(0);
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {
@@ -46,7 +47,8 @@ export default function Morphology() {
             eyebrow: eyebrow,
             eyebrowThickness: eyebrowThickness,
             beard: beard,
-            beardColor: beardColor
+            beardColor: beardColor,
+            beardThickness: beardThickness
         });
 
     }
@@ -100,6 +102,7 @@ export default function Morphology() {
         <Beard handleBeardChange={(beard) => {
             setBeard(beard.beard);
             setBeardColor(beard.beardColor);
+            setBeardThickness(beard.beardThickness);
         }}/>
     </div>
   )

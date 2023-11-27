@@ -163,7 +163,6 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   const hash = GetEntityModel(PlayerPedId());
 
-  console.log(hash, GetHashKey(characterModel));
   if (hash != GetHashKey(characterModel)) {
     RequestModel(characterModel);
 
@@ -190,27 +189,27 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
     data.skin,
     data.skin,
     data.skin,
-    data.dadmumpercent * 0.1,
-    data.dadmumpercent * 0.1,
+    data.heritage * 0.1,
+    data.heritage * 0.1,
     1.0,
     true
   );
 
-  SetPedEyeColor(GetPlayerPed(-1), data.eyecolor);
+  SetPedEyeColor(GetPlayerPed(-1), data.eyeColor);
   if (data.acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
   else SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 1.0);
 
-  SetPedHeadOverlay(GetPlayerPed(-1), 6, data.skinproblem, 1.0);
+  SetPedHeadOverlay(GetPlayerPed(-1), 6, data.skinProblem, 1.0);
   if (data.freckle == 0) SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 0.0);
   else SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 1.0);
 
-  SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleopacity * 0.1);
+  SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleIntensity * 0.1);
   SetPedComponentVariation(GetPlayerPed(-1), 2, data.hair, 0, 2);
-  SetPedHairColor(GetPlayerPed(-1), data.haircolor, data.haircolor);
-  SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowopacity * 0.1);
-  SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardopacity * 0.1);
-  SetPedHeadOverlayColor(GetPlayerPed(-1), 1, 1, data.beardcolor, data.beardcolor);
-  SetPedHeadOverlayColor(GetPlayerPed(-1), 2, 1, data.beardcolor, data.beardcolor);
+  SetPedHairColor(GetPlayerPed(-1), data.hairColor, data.hairColor);
+  SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1); // icicicici
+  SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1); // ICICICI
+  SetPedHeadOverlayColor(GetPlayerPed(-1), 1, 1, data.beardColor, data.beardColor);
+  SetPedHeadOverlayColor(GetPlayerPed(-1), 2, 1, data.beardColor, data.beardColor);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 4, 0, 0.0); //Lipstick
   SetPedHeadOverlay(GetPlayerPed(-1), 8, 0, 0.0); // Makeup
