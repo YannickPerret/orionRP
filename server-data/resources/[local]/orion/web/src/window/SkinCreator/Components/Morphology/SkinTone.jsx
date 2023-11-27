@@ -1,79 +1,80 @@
-import React from 'react'
+import React, { useState } from 'react';
 
 export default function SkinTone() {
+  const [skinColor, setSkinColor] = useState('12');
+  const [acne, setAcne] = useState(0);
+  const [skinProblem, setSkinProblem] = useState(0);
+  const [freckle, setFreckle] = useState(0);
+  const [wrinkle, setWrinkle] = useState(0);
+  const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
+
+  const skinColorOptions = [
+    { value: '12', color: '#ecc8ae' },
+    { value: '25', color: '#ce9874' },
+    { value: '19', color: '#925a41' },
+    { value: '14', color: '#4e3a26' }
+  ];
+
   return (
-    <div class="group">
-    <div class="input">
-      <div class="label">Skin tone</div>
-      <div class="type-radio">
-        <label for="p1">
-          <input type="radio" name="peaucolor" class="peaucolor" value="12" id="p1" checked />
-          <span class="color" data-color="#ecc8ae"></span>
-        </label>
-        <label for="p2">
-          <input type="radio" name="peaucolor" class="peaucolor" value="25" id="p2" />
-          <span class="color" data-color="#ce9874"></span>
-        </label>
-        <label for="p3">
-          <input type="radio" name="peaucolor" class="peaucolor" value="19" id="p3" />
-          <span class="color" data-color="#925a41"></span>
-        </label>
-        <label for="p4">
-          <input type="radio" name="peaucolor" class="peaucolor" value="14" id="p4" />
-          <span class="color" data-color="#4e3a26"></span>
-        </label>
+    <div className="group">
+      <div className="input">
+        <div className="label">Skin tone</div>
+        <div className="type-radio">
+        {skinColorOptions.map((option, index) => (
+            <label htmlFor={`peaucolor${option.value}`} key={index}>
+              <input 
+                type="radio" 
+                name="peaucolor" 
+                className="peaucolor" 
+                value={option.value} 
+                id={`peaucolor${option.value}`} 
+                checked={skinColor === option.value} 
+                onChange={() => setSkinColor(option.value)} />
+              <span className="color" style={{ backgroundColor: option.color }}></span>
+            </label>
+          ))}
+        </div>
       </div>
-    </div>
 
-    <div class="input">
-      <div class="label">Acne</div>
-      <div class="label-value" data-legend="/23"></div>
-      <div class="type-range">
-        <a href="#" class="arrow arrow-left">&nbsp;</a>
-        <input value="0" type="range" class="acne" min="0" max="23" />
-        <a href="#" class="arrow arrow-right">&nbsp;</a>
+      <div className="input">
+        <div className="label">Acne</div>
+        <div className="label-value" data-legend="/23"></div>
+        <div className="type-range">
+          <input type="range" className="acne" min="0" max="23" value={acne} onChange={(e) => setAcne(e.target.value)} />
+        </div>
       </div>
-    </div>
 
-    <div class="input">
-      <div class="label">Skin problems</div>
-      <div class="label-value" data-legend="/11"></div>
-      <div class="type-range">
-        <a href="#" class="arrow arrow-left">&nbsp;</a>
-        <input value="0" type="range" class="pbpeau" min="0" max="11" />
-        <a href="#" class="arrow arrow-right">&nbsp;</a>
+      <div className="input">
+        <div className="label">Skin problems</div>
+        <div className="label-value" data-legend="/11"></div>
+        <div className="type-range">
+          <input type="range" className="pbpeau" min="0" max="11" value={skinProblem} onChange={(e) => setSkinProblem(e.target.value)} />
+        </div>
       </div>
-    </div>
 
-    <div class="input">
-      <div class="label">Cruel</div>
-      <div class="label-value" data-legend="/17"></div>
-      <div class="type-range">
-        <a href="#" class="arrow arrow-left">&nbsp;</a>
-        <input value="0" type="range" class="tachesrousseur" min="0" max="17" />
-        <a href="#" class="arrow arrow-right">&nbsp;</a>
+      <div className="input">
+        <div className="label">Freckles</div>
+        <div className="label-value" data-legend="/17"></div>
+        <div className="type-range">
+          <input type="range" className="tachesrousseur" min="0" max="17" value={freckle} onChange={(e) => setFreckle(e.target.value)} />
+        </div>
       </div>
-    </div>
 
-    <div class="input">
-      <div class="label">Wrinkles</div>
-      <div class="label-value" data-legend="/14"></div>
-      <div class="type-range">
-        <a href="#" class="arrow arrow-left">&nbsp;</a>
-        <input value="0" type="range" class="rides" min="0" max="14" />
-        <a href="#" class="arrow arrow-right">&nbsp;</a>
+      <div className="input">
+        <div className="label">Wrinkles</div>
+        <div className="label-value" data-legend="/14"></div>
+        <div className="type-range">
+          <input type="range" className="rides" min="0" max="14" value={wrinkle} onChange={(e) => setWrinkle(e.target.value)} />
+        </div>
       </div>
-    </div>
 
-    <div class="input">
-      <div class="label">Wrinkles intensity</div>
-      <div class="label-value" data-legend="/10"></div>
-      <div class="type-range">
-        <a href="#" class="arrow arrow-left">&nbsp;</a>
-        <input value="10" type="range" class="intensiterides" min="0" max="10" />
-        <a href="#" class="arrow arrow-right">&nbsp;</a>
+      <div className="input">
+        <div className="label">Wrinkles intensity</div>
+        <div className="label-value" data-legend="/10"></div>
+        <div className="type-range">
+          <input type="range" className="intensiterides" min="0" max="10" value={wrinkleIntensity} onChange={(e) => setWrinkleIntensity(e.target.value)} />
+        </div>
       </div>
     </div>
-  </div>
-  )
+  );
 }

@@ -10,7 +10,7 @@ export default function Morphology() {
 
     const [dad, setDad] = useState('');
     const [mom, setMom] = useState('');
-    const [genre, setGenre] = useState();
+    const [sex, setSex] = useState(0);
 
     const [heritage, setHeritage] = useState(5);
     const [skin, setSkin] = useState('');
@@ -48,26 +48,26 @@ export default function Morphology() {
     }, []);
 
   return (
-    <div class="group">
+    <div className="sideLeft">
         <h2>Morphology</h2>
-        <div class="input">
-            <div class="label">Sex</div>
-            <div class="label-value" data-legend="" style="display:none;"></div>
-            <div class="type-range">
-                <a href="#" class="arrow arrow-left">&nbsp;</a>
-                <input value="0" type="range" class="gent" min="0" max="1" />
-                <a href="#" class="arrow arrow-right">&nbsp;</a>
+        <div className="input">
+            <div className="label">Sex</div>
+            <div className="label-value" data-legend=""></div>
+            <div className="type-range">
+                <a href="#" className="arrow arrow-left">&nbsp;</a>
+                <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
+                <a href="#" className="arrow arrow-right">&nbsp;</a>
             </div>
         </div>
         <Father handleFather={setDad} />
         <Mother handleMother={setMom}/>
-        <div class="input">
-            <div class="label">Parent Genetic rate</div>
-            <div class="label-value" data-legend="" style="display:none;"></div>
-            <div class="type-range">
-                <a href="#" class="arrow arrow-left">&nbsp;</a>
-                <input value={heritage} type="range" class="morphologie" min="0" max="10" onChange={setHeritage} />
-                <a href="#" class="arrow arrow-right">&nbsp;</a>
+        <div className="input">
+            <div className="label">Parent Genetic rate</div>
+            <div className="label-value" data-legend=""></div>
+            <div className="type-range">
+                <a href="#" className="arrow arrow-left">&nbsp;</a>
+                    <input value={heritage} type="range" className="morphologie" min="0" max="10" onChange={(e) => setHeritage(e.target.value)} />
+                <a href="#" className="arrow arrow-right" >&nbsp;</a>
             </div>
         </div>
         <SkinTone />

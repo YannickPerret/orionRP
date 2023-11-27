@@ -213,3 +213,33 @@ RegisterCommand(
   },
   false
 );
+
+RegisterCommand(
+  'admin',
+  () => {
+    const player = PlayerId();
+    const ped = GetPlayerPed(player);
+
+    // Activer/désactiver le mode T-pose et traverser les murs
+    let isTPoseActive = false;
+
+    if (!isTPoseActive) {
+      // Activer la T-pose et permettre de traverser les murs
+      SetEntityCollision(ped, false, false); // Désactiver les collisions
+      SetEntityVisible(ped, false, false); // Rendre le joueur invisible (optionnel)
+      RequestAnimDict('anim@mp_freemode_return@f@idle'); // Charger l'animation T-pose
+      while (!HasAnimDictLoaded('anim@mp_freemode_return@f@idle')) {
+        Wait(100);
+      }
+      TaskPlayAnim(ped, 'anim@mp_freemode_return@f@idle', 'idle_a', 8.0, 8.0, -1, 1, 0, false, false, false);
+      isTPoseActive = true;
+    } else {
+      // Désactiver la T-pose et le mode traverser les murs
+      SetEntityCollision(ped, true, true); // Activer les collisions
+      SetEntityVisible(ped, true, true); // Rendre le joueur visible
+      ClearPedTasksImmediately(ped); // Arrêter l'animation
+      isTPoseActive = false;
+    }
+  },
+  false
+);

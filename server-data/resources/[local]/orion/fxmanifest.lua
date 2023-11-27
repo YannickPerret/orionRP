@@ -1,8 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author 'An awesome dude'
-description 'An awesome, but short, description'
+author 'Tchoune'
+description 'The good description'
 version '1.0.0'
 
 resource_type 'Roleplay' { name = 'My awesome game type!' }
