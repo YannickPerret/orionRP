@@ -107,7 +107,7 @@ on('orion:createNewPlayer', source => {
   ShowSkinCreator(true);
 });
 
-export function getPedAppearance(ped) {
+function getPedAppearance(ped) {
   const eyeColor = GetPedEyeColor(ped);
 
   return {
