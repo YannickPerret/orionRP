@@ -224,10 +224,22 @@ RegisterCommand(
       isFlymodeEnabled = true;
       SetEntityInvincible(playerPed, true);
       SetEntityMaxSpeed(playerPed, flymodeSpeed);
-      SetEntityCollision(playerPed, false);
-      SetPedGravity(playerPed, 0);
-      SetEntityVisible(playerPed, false, false); // Rendre le joueur invisible au réseau
-      SetEntityLocallyVisible(playerPed); // Rendre le joueur visible localement
+      SetEntityCollision(playerPed, false, false);
+
+      SetEntityVisible(PlayerPedId(), false, false);
+      SetEntityAlpha(PlayerPedId(), 100, false);
+      SetLocalPlayerVisibleLocally(true);
+
+      SetEntityVisible(PlayerPedId(), false, false);
+      SetLocalPlayerVisibleLocally(true);
+      SetEntityAlpha(PlayerPedId(), Number(255 * 0.2), 0);
+
+      SetEveryoneIgnorePlayer(playerPed, true);
+
+      DisableControlAction(0, 22, true); // Disable forward
+      DisableControlAction(0, 23, true); // Disable backward
+      DisableControlAction(0, 24, true); // Disable left
+      DisableControlAction(0, 25, true); // Disable right
 
       // Désactiver certains contrôles...
       emit('orion:showNotification', 'Flymode activé');
@@ -235,11 +247,19 @@ RegisterCommand(
       isFlymodeEnabled = false;
       SetEntityInvincible(playerPed, false);
       SetEntityMaxSpeed(playerPed, 20);
-      SetEntityCollision(playerPed, true);
-      SetPedGravity(playerPed, 1);
-      SetEntityVisible(playerPed, true, false); // Rendre le joueur de nouveau visible au réseau
+      SetEntityCollision(playerPed, true, true);
 
-      // Réactiver certains contrôles...
+      SetEntityVisible(PlayerPedId(), true, false);
+      SetEntityAlpha(PlayerPedId(), 255, false);
+      SetLocalPlayerVisibleLocally(false);
+
+      SetEveryoneIgnorePlayer(playerPed, false);
+
+      EnableControlAction(0, 22, true); // Enable forward
+      EnableControlAction(0, 23, true); // Enable backward
+      EnableControlAction(0, 24, true); // Enable left
+      EnableControlAction(0, 25, true); // Enable right
+
       emit('orion:showNotification', 'Flymode désactivé');
     }
   },
