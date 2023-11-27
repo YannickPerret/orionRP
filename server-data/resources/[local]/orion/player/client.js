@@ -198,23 +198,20 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
     characterModel = GetHashKey('mp_f_freemode_01');
   }
 
-  const hash = GetEntityModel(PlayerPedId());
+  RequestModel(characterModel);
 
-  if (hash != GetHashKey(characterModel)) {
+  while (!HasModelLoaded(characterModel)) {
     RequestModel(characterModel);
-
-    while (!HasModelLoaded(characterModel)) {
-      RequestModel(characterModel);
-      await new Promise(resolve => setTimeout(resolve, 1));
-    }
-
-    if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)) {
-      SetPlayerModel(PlayerId(), characterModel);
-      SetPedDefaultComponentVariation(playerPed);
-    }
-
-    SetModelAsNoLongerNeeded(characterModel);
+    await new Promise(resolve => setTimeout(resolve, 1));
   }
+
+  if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)) {
+    SetPlayerModel(PlayerId(), characterModel);
+  }
+
+  SetModelAsNoLongerNeeded(characterModel);
+
+  SetPedDefaultComponentVariation(playerPed);
 
   // Face
   SetPedHeadBlendData(
