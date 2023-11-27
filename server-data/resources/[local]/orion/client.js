@@ -230,7 +230,6 @@ RegisterCommand(
       SetEntityVisible(ped, true, true); // Assurez-vous que le joueur est visible
       SetEntityCollision(ped, false, false); // Désactiver les collisions
       SetPedCanRagdoll(ped, false); // Empêcher le joueur de tomber
-      FreezeEntityPosition(ped, true); // Geler la position du joueur pour empêcher la chute
 
       let newRunSpeed = originalRunSpeed * 3; // Augmenter par un facteur de 3, ajustez selon vos besoins
       SetRunSprintMultiplierForPlayer(player, newRunSpeed);
@@ -245,7 +244,6 @@ RegisterCommand(
       SetEntityVisible(ped, true, true);
       SetEntityCollision(ped, true, true);
       SetPedCanRagdoll(ped, true);
-      FreezeEntityPosition(ped, false);
 
       // Restaurer la vitesse de déplacement originale
       SetRunSprintMultiplierForPlayer(player, originalRunSpeed);
