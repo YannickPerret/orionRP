@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function Beard() {
+export default function Beard({handleBeardChange}) {
   const [beardType, setBeardType] = useState(0);
   const [beardThickness, setBeardThickness] = useState(0);
   const [beardColor, setBeardColor] = useState('0');
@@ -16,6 +16,10 @@ export default function Beard() {
   const handleBeardColorChange = (e) => {
     setBeardColor(e.target.value);
   };
+
+  useEffect(() => {
+    handleBeardChange({beardType, beardThickness, beardColor});
+  }, [beardType, beardThickness, beardColor]);
 
   return (
     <div className="group">

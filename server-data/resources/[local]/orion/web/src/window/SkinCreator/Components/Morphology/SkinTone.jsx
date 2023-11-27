@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function SkinTone() {
+export default function SkinTone({handleSkinToneChange}) {
   const [skinColor, setSkinColor] = useState('12');
   const [acne, setAcne] = useState(0);
   const [skinProblem, setSkinProblem] = useState(0);
@@ -14,6 +14,15 @@ export default function SkinTone() {
     { value: '19', color: '#925a41' },
     { value: '14', color: '#4e3a26' }
   ];
+
+
+  const handleSkinToneChanged = (e) => {
+    handleSkinToneChange({skinColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity});
+  }
+
+  useEffect(() => {
+    handleSkinToneChanged();
+  }, [skinColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
 
   return (
     <div className="group">

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-export default function Mother() {
+export default function Mother({handleMotherChange}) {
   const [mother, setMother] = useState('21');
   const [showMotherTab, setShowMotherTab] = useState(false);
 
-  const handleMotherChange = (e) => {
+  const handleMotherChanged = (e) => {
     setMother(e.target.value);
+    handleMotherChange(e.target.value);
   };
 
   const createRadioButtons = () => {
@@ -20,7 +21,7 @@ export default function Mother() {
             value={i.toString()} 
             id={`mere${i}`} 
             checked={mother === i.toString()}
-            onChange={handleMotherChange}
+            onChange={handleMotherChanged}
           />
           <div className="img">
             <img src={`src/assets/images/skinCreator/heritage/Face-${i}.jpg`} alt={`Face ${i}`} />

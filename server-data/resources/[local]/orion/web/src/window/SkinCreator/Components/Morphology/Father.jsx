@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-export default function Father() {
+export default function Father({handleFatherChange}) {
   const [father, setFather] = useState('0');
   const [showFatherTab, setShowFatherTab] = useState(false);
 
 
-  const handleFatherChange = (e) => {
+  const handleFatherChanged = (e) => {
     setFather(e.target.value);
+    handleFatherChange(e.target.value);
   };
 
   const createRadioButtons = () => {
@@ -21,7 +22,7 @@ export default function Father() {
             value={i.toString()} 
             id={`pere${i}`} 
             checked={father === i.toString()}
-            onChange={handleFatherChange}
+            onChange={handleFatherChanged}
           />
           <div className="img">
             <img src={`src/assets/images/skinCreator/heritage/Face-${i}.jpg`} alt={`Face ${i}`} />

@@ -5,6 +5,7 @@ import Hair from './Hair'
 import Eyes from './Eyes'
 import SkinTone from './SkinTone'
 import { sendNui } from '../../../../utils/fetchNui'
+import Beard from './Beard'
 
 export default function Morphology() {
 
@@ -13,30 +14,36 @@ export default function Morphology() {
     const [sex, setSex] = useState(0);
 
     const [heritage, setHeritage] = useState(5);
-    const [skin, setSkin] = useState('');
     const [skinColor, setSkinColor] = useState('');
-    const [eyeColor, setEyeColor] = useState('');
+    const [acne, setAcne] = useState(0);
+    const [skinProblem, setSkinProblem] = useState(0);
+    const [freckle, setFreckle] = useState(0);
+    const [wrinkle, setWrinkle] = useState(0);
+    const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
     const [hairColor, setHairColor] = useState('');
     const [hair, setHair] = useState('');
-    const [hairHighlight, setHairHighlight] = useState('');
     const [eyebrow, setEyebrow] = useState('');
-    const [eyebrowColor, setEyebrowColor] = useState('');
+    const [eyeColor, setEyeColor] = useState('');
+    const [eyebrowThickness, setEyebrowThickness] = useState('');
     const [beard, setBeard] = useState('');
     const [beardColor, setBeardColor] = useState('');
 
     const handleSubmit = async () => {
-        sendNui('updateSkin', {
+        await sendNui('updateSkin', {
             dad: dad,
             mom: mom,
             heritage: heritage,
-            skin: skin,
-            skinColor: skinColor,
+            skin: skinColor,
+            acne: acne,
+            skinProblem: skinProblem,
+            freckle: freckle,
+            wrinkle: wrinkle,
+            wrinkleIntensity: wrinkleIntensity,
             eyeColor: eyeColor,
             hairColor: hairColor,
             hair: hair,
-            hairHighlight: hairHighlight,
             eyebrow: eyebrow,
-            eyebrowColor: eyebrowColor,
+            eyebrowThickness: eyebrowThickness,
             beard: beard,
             beardColor: beardColor
         });
@@ -44,8 +51,8 @@ export default function Morphology() {
     }
 
     useEffect(() => {
-
-    }, []);
+        handleSubmit();
+    }, [dad, mom, sex, heritage, skin, skinColor, eyeColor, eyebrowThickness, hairColor, hair, hairHighlight, eyebrow, eyebrowColor, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
 
   return (
     <div className="sideLeft">
@@ -59,8 +66,8 @@ export default function Morphology() {
                 <a href="#" className="arrow arrow-right">&nbsp;</a>
             </div>
         </div>
-        <Father handleFather={setDad} />
-        <Mother handleMother={setMom}/>
+        <Father handleFatherChange={setDad} />
+        <Mother handleMotherChange={setMom} />
         <div className="input">
             <div className="label">Parent Genetic rate</div>
             <div className="label-value" data-legend=""></div>
@@ -70,9 +77,10 @@ export default function Morphology() {
                 <a href="#" className="arrow arrow-right" >&nbsp;</a>
             </div>
         </div>
-        <SkinTone />
-        <Hair />
-        <Eyes />
+        <SkinTone handleSkinToneChange={{setSkinColor, setAcne, setSkinProblem, setFreckle, setWrinkle, setWrinkleIntensity}}/>
+        <Hair handleHairChange={{setHairColor, setHair}}/>
+        <Eyes handleEyesChange={{setEyebrow, setEyebrowThickness, setEyeColor}}/>
+        <Beard handleBeardChange={{setBeard, setBeardColor}}/>
     </div>
   )
 }

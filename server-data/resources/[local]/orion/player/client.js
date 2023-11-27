@@ -104,6 +104,7 @@ onNet('orion:playerDied', message => {
 });
 
 on('orion:createNewPlayer', source => {
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), -705.85, -151.68, 37.42, false, false, true);
   isCameraActive = true;
   ShowSkinCreator(true);
   isSkinCreatorOpened = true;
@@ -154,67 +155,70 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   const playerPed = PlayerPedId();
   let characterModel;
 
-  if (data.gent == 0) {
+  if (data.sex == 0) {
     characterModel = GetHashKey('mp_m_freemode_01');
-  } else if (data.gent > 1) {
-    characterModel = pedList[data.gent - 1];
+  } else if (data.sex > 1) {
+    characterModel = pedList[data.sex - 1];
   } else characterModel = GetHashKey('mp_f_freemode_01');
 
-  RequestModel(characterModel);
+  const hash = GetEntityModel(PlayerPedId());
 
-  while (!HasModelLoaded(characterModel)) {
+  if (!hash === GetHashKey(characterModel)) {
     RequestModel(characterModel);
-    await new Promise(resolve => setTimeout(resolve, 1));
-  }
 
-  if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)) {
-    SetPlayerModel(PlayerId(), characterModel);
-  }
+    while (!HasModelLoaded(characterModel)) {
+      RequestModel(characterModel);
+      await new Promise(resolve => setTimeout(resolve, 1));
+    }
 
-  SetModelAsNoLongerNeeded(characterModel);
+    if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)) {
+      SetPlayerModel(PlayerId(), characterModel);
+    }
+
+    SetModelAsNoLongerNeeded(characterModel);
+  }
 
   SetPedDefaultComponentVariation(GetPlayerPed(-1));
-
-  // characterModel = GetHashKey('mp_f_freemode_01')
-  // SetPlayerModel(PlayerId(), characterModel)
-  // SetPedDefaultComponentVariation(GetPlayerPed(-1))
-
   // Face
+  console.log(data);
 
   SetPedHeadBlendData(
     GetPlayerPed(-1),
-    dad,
-    dad,
-    dad,
-    skin,
-    skin,
-    skin,
-    dadmumpercent * 0.1,
-    dadmumpercent * 0.1,
+    data.dad,
+    data.mom,
+    data.mom,
+    data.skin,
+    data.skin,
+    data.skin,
+    data.dadmumpercent * 0.1,
+    data.dadmumpercent * 0.1,
     1.0,
     true
   );
-  SetPedEyeColor(GetPlayerPed(-1), eyecolor);
-  if (acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, acne, 0.0);
-  else SetPedHeadOverlay(GetPlayerPed(-1), 0, acne, 1.0);
 
-  SetPedHeadOverlay(GetPlayerPed(-1), 6, skinproblem, 1.0);
-  if (freckle == 0) SetPedHeadOverlay(GetPlayerPed(-1), 9, freckle, 0.0);
-  else SetPedHeadOverlay(GetPlayerPed(-1), 9, freckle, 1.0);
+  SetPedEyeColor(GetPlayerPed(-1), data.eyecolor);
+  if (acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
+  else SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 1.0);
 
-  SetPedHeadOverlay(GetPlayerPed(-1), 3, wrinkle, wrinkleopacity * 0.1);
-  SetPedComponentVariation(GetPlayerPed(-1), 2, hair, 0, 2);
-  SetPedHairColor(GetPlayerPed(-1), haircolor, haircolor);
-  SetPedHeadOverlay(GetPlayerPed(-1), 2, eyebrow, eyebrowopacity * 0.1);
-  SetPedHeadOverlay(GetPlayerPed(-1), 1, beard, beardopacity * 0.1);
-  SetPedHeadOverlayColor(GetPlayerPed(-1), 1, 1, beardcolor, beardcolor);
-  SetPedHeadOverlayColor(GetPlayerPed(-1), 2, 1, beardcolor, beardcolor);
+  SetPedHeadOverlay(GetPlayerPed(-1), 6, data.skinproblem, 1.0);
+  if (freckle == 0) SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 0.0);
+  else SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 1.0);
+
+  SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleopacity * 0.1);
+  SetPedComponentVariation(GetPlayerPed(-1), 2, data.hair, 0, 2);
+  SetPedHairColor(GetPlayerPed(-1), data.haircolor, data.haircolor);
+  SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowopacity * 0.1);
+  SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardopacity * 0.1);
+  SetPedHeadOverlayColor(GetPlayerPed(-1), 1, 1, data.beardcolor, data.beardcolor);
+  SetPedHeadOverlayColor(GetPlayerPed(-1), 2, 1, data.beardcolor, data.beardcolor);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 4, 0, 0.0); //Lipstick
   SetPedHeadOverlay(GetPlayerPed(-1), 8, 0, 0.0); // Makeup
   SetPedHeadOverlayColor(GetPlayerPed(-1), 4, 1, 0, 0); // Makeup Color
   SetPedHeadOverlayColor(GetPlayerPed(-1), 8, 1, 0, 0); // Lipstick Color
   SetPedComponentVariation(GetPlayerPed(-1), 1, 0, 0, 2); // Mask
+
+  cb({ ok: true });
 });
 
 RegisterNuiCallbackType('createNewPlayer');

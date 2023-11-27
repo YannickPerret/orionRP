@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function Hair() {
+export default function Hair({handleHairChange}) {
   const [hairColor, setHairColor] = useState('0');
   const [hairSlider, setHairSlider] = useState(0);
 
@@ -13,6 +13,11 @@ export default function Hair() {
   const handleHairSliderChange = (e) => {
     setHairSlider(e.target.value);
   };
+
+  useEffect(() => {
+    handleHairChange({hairColor, hairSlider});
+  }, [hairColor, hairSlider]);
+  
 
   return (
     <div className="group">

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function Eyes() {
+export default function Eyes({handleEyesChange}) {
   const [eyebrowType, setEyebrowType] = useState(0);
   const [eyebrowThickness, setEyebrowThickness] = useState(10);
   const [eyeColor, setEyeColor] = useState('0');
@@ -16,6 +16,11 @@ export default function Eyes() {
   const handleEyeColorChange = (e) => {
     setEyeColor(e.target.value);
   };
+
+  useEffect(() => {
+    handleEyesChange({eyebrowType, eyebrowThickness, eyeColor});
+  }, [eyebrowType, eyebrowThickness, eyeColor]);
+  
 
   return (
     <div className="group">
