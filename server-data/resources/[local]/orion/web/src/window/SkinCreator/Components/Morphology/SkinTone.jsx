@@ -49,7 +49,7 @@ export default function SkinTone({handleSkinToneChange}) {
         <div className="label">Acne</div>
         <div className="label-value" data-legend="/23"></div>
         <div className="type-range">
-          <input type="range" className="acne" min="0" max="23" value={acne} onChange={(e) => setAcne(e.target.value)} />
+          <input type="range" className="acne" min="0" max="23" value={acne} onInput={(e) => setAcne(e.target.value)} />
         </div>
       </div>
 
@@ -57,7 +57,7 @@ export default function SkinTone({handleSkinToneChange}) {
         <div className="label">Skin problems</div>
         <div className="label-value" data-legend="/11"></div>
         <div className="type-range">
-          <input type="range" className="pbpeau" min="0" max="11" value={skinProblem} onChange={(e) => setSkinProblem(e.target.value)} />
+          <input type="range" className="pbpeau" min="0" max="11" value={skinProblem} onInput={(e) => setSkinProblem(e.target.value)} />
         </div>
       </div>
 
@@ -65,7 +65,7 @@ export default function SkinTone({handleSkinToneChange}) {
         <div className="label">Freckles</div>
         <div className="label-value" data-legend="/17"></div>
         <div className="type-range">
-          <input type="range" className="tachesrousseur" min="0" max="17" value={freckle} onChange={(e) => setFreckle(e.target.value)} />
+          <input type="range" className="tachesrousseur" min="0" max="17" value={freckle} onInput={(e) => setFreckle(e.target.value)} />
         </div>
       </div>
 
@@ -73,7 +73,7 @@ export default function SkinTone({handleSkinToneChange}) {
         <div className="label">Wrinkles</div>
         <div className="label-value" data-legend="/14"></div>
         <div className="type-range">
-          <input type="range" className="rides" min="0" max="14" value={wrinkle} onChange={(e) => setWrinkle(e.target.value)} />
+          <input type="range" className="rides" min="0" max="14" value={wrinkle} onInput={(e) => setWrinkle(e.target.value)} />
         </div>
       </div>
 
@@ -81,7 +81,7 @@ export default function SkinTone({handleSkinToneChange}) {
         <div className="label">Wrinkles intensity</div>
         <div className="label-value" data-legend="/10"></div>
         <div className="type-range">
-          <input type="range" className="intensiterides" min="0" max="10" value={wrinkleIntensity} onChange={(e) => setWrinkleIntensity(e.target.value)} />
+          <input type="range" className="intensiterides" min="0" max="10" value={wrinkleIntensity} onInput={(e) => setWrinkleIntensity(e.target.value)} />
         </div>
       </div>
     </div>
