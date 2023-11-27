@@ -334,7 +334,7 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 const ApplyPedHair = (ped, hair) => {
   console.log(GetNumberOfPedDrawableVariations(ped, 2));
 
-  SetPedComponentVariation(PlayerPedId(), 2, 2, 0, 2);
+  SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
   SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
   SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
   SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
