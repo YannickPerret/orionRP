@@ -226,7 +226,7 @@ RegisterCommand(
       SetEntityMaxSpeed(playerPed, flymodeSpeed);
       SetEntityCollision(playerPed, false);
       SetPedGravity(playerPed, 0);
-      SetEntityVisible(playerPed, false, false);
+      NetWorkSetEntityInvisibleToNetwork(playerPed, true);
 
       DisableControlAction(0, 22, true); // Disable forward
       DisableControlAction(0, 23, true); // Disable backward
@@ -240,7 +240,7 @@ RegisterCommand(
       SetEntityMaxSpeed(playerPed, 20);
       SetEntityCollision(playerPed, true);
       SetPedGravity(playerPed, 1);
-      SetEntityVisible(playerPed, true, false);
+      NetWorkSetEntityInvisibleToNetwork(playerPed, false);
 
       EnableControlAction(0, 22, true); // Enable forward
       EnableControlAction(0, 23, true); // Enable backward
