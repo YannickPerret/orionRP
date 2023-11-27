@@ -189,32 +189,16 @@ RegisterNuiCallbackType('updateSkin');
 on('__cfx_nui:updateSkin', async (data, cb) => {
   const playerPedId = PlayerPedId();
   const playerPed = GetPlayerPed(-1);
+  let model = data.sex == 0 ? 'mp_m_freemode_01' : 'mp_f_freemode_01';
 
-  let characterModel;
+  ApplyPlayerModelHash(playerPedId, model);
 
-  if (data.sex == 0) {
-    characterModel = GetHashKey('mp_m_freemode_01');
-  } else {
-    characterModel = GetHashKey('mp_f_freemode_01');
-  }
+  /*SetModelAsNoLongerNeeded(characterModel);
 
-  RequestModel(characterModel);
-
-  while (!HasModelLoaded(characterModel)) {
-    RequestModel(characterModel);
-    await new Promise(resolve => setTimeout(resolve, 1));
-  }
-
-  if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)) {
-    SetPlayerModel(PlayerId(), characterModel);
-  }
-
-  SetModelAsNoLongerNeeded(characterModel);
-
-  SetPedDefaultComponentVariation(playerPed);
+  SetPedDefaultComponentVariation(playerPed);*/
 
   // Face
-  SetPedHeadBlendData(
+  /*SetPedHeadBlendData(
     playerPed,
     data.dad,
     data.mom,
@@ -226,9 +210,29 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
     data.heritage * 0.1,
     1.0,
     true
-  );
+  );*/
 
-  if (data.acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
+  ApplyPlayerBodySkin(playerPedId, {
+    Model: {
+      Hash: model,
+    },
+    Hair: {
+      HairType: data.hair,
+      HairColor: data.hairColor,
+      HairSecondaryColor: data.highlight,
+      EyebrowType: data.eyebrow,
+      EyebrowOpacity: data.eyebrowThickness,
+      EyebrowColor: data.eyebrowColor,
+      BeardType: data.beard,
+      BeardOpacity: data.beardThickness,
+      BeardColor: data.beardColor,
+      //ChestHairType: data.chestHair,
+      //ChestHairOpacity: data.chestHairOpacity,
+      //ChestHairColor: data.chestHairColor,
+    },
+  });
+
+  /*if (data.acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
   else SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 1.0);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 6, data.skinProblem, 1.0);
@@ -251,7 +255,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   SetPedHeadOverlayColor(GetPlayerPed(-1), 4, 1, 0, 0); // Makeup Color
   SetPedHeadOverlayColor(GetPlayerPed(-1), 8, 1, 0, 0); // Lipstick Color
   SetPedComponentVariation(GetPlayerPed(-1), 1, 0, 0, 2); // Mask
-
+*/
   cb({ ok: true });
 });
 
@@ -362,3 +366,47 @@ RegisterCommand('skin', (source, args) => {
     CloseSkinCreator();
   }
 });
+
+const ApplyPlayerModelHash = async (playerId, hash) => {
+  if (hash == GetEntityModel(GetPlayerPed(playerId))) {
+    return;
+  }
+
+  if (!IsModelInCdimage(hash) || !IsModelValid(hash)) {
+    return;
+  }
+
+  RequestModel(hash);
+
+  while (!HasModelLoaded(hash)) {
+    await new Promise(resolve => setTimeout(resolve, 1));
+  }
+
+  SetPlayerModel(playerId, hash);
+};
+
+const ApplyPedHair = (ped, hair) => {
+  SetPedComponentVariation(ped, 2, hair.HairType, 0, 0);
+  SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
+  SetPedHeadOverlay(ped, 2, hair.EyebrowType, (hair.EyebrowOpacity || 0) + 0.0 || 1.0);
+  SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
+
+  // SetPedHeadOverlay(ped, HeadOverlayType.FacialHair, hair.BeardType, (hair.BeardOpacity || 0) + 0.0 || 1.0);
+  //SetPedHeadOverlayColor(ped, HeadOverlayType.FacialHair, 1, hair.BeardColor, 0);
+  //SetPedHeadOverlay(ped, HeadOverlayType.ChestHair, hair.ChestHairType, (hair.ChestHairOpacity || 0) + 0.0 || 1.0);
+  //SetPedHeadOverlayColor(ped, HeadOverlayType.ChestHair, 1, hair.ChestHairColor, 0);
+};
+
+const ApplyPlayerBodySkin = (playerId, bodySkin) => {
+  console.log('ApplyPlayerBodySkin', bodySkin);
+  ApplyPlayerModelHash(playerId, bodySkin.Model.Hash);
+
+  let ped = GetPlayerPed(playerId);
+  ClearPedDecorations(ped);
+
+  //ApplyPedFaceTrait(ped, bodySkin.FaceTrait, bodySkin.Model)
+  ApplyPedHair(ped, bodySkin.Hair);
+  //ApplyPedMakeup(ped, bodySkin.Makeup)
+  //ApplyPedTattoos(ped, bodySkin.Tattoos || {})
+  //ApplyPedProps(ped, bodySkin);
+};

@@ -60,6 +60,7 @@ on('playerSpawned', () => {
   SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
   NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
   SetEntityHeading(ped, 0.0);
+  SetCanAttackFriendly(PlayerPedId(), true, false);
 
   emitNet('orion:playerSpawned');
 
