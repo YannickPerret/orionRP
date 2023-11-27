@@ -55,13 +55,13 @@ export default function Morphology() {
  const handleRotatePlayer = async (e) => {
     console.log(e.key)
     if (e.key === 'a') {
-        await sendNui('rotaterightheading', {
+        await sendNui('rotateHeading', {
             value: 10
         });
     }
     if (e.key === 'd') {
-        await sendNui('rotateleftheading', {
-            value: 10
+        await sendNui('rotateHeading', {
+            value: -10
         });
     }
 }

@@ -106,6 +106,7 @@ onNet('orion:playerDied', message => {
 on('orion:createNewPlayer', source => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), -705.85, -151.68, 37.42, false, false, true);
   isCameraActive = true;
+  SetPlayerInvincible(PlayerPedId(), true);
   ShowSkinCreator(true);
   isSkinCreatorOpened = true;
 });
@@ -121,7 +122,6 @@ const ShowSkinCreator = enable => {
 };
 
 const CloseSkinCreator = () => {
-  let ped = PlayerPedId();
   isSkinCreatorOpened = false;
   ShowSkinCreator(false);
   isCameraActive = false;
@@ -129,19 +129,15 @@ const CloseSkinCreator = () => {
   RenderScriptCams(false, true, 500, true, true);
   cam = nil;
 
-  SetPlayerInvincible(ped, false);
+  SetPlayerInvincible(PlayerPedId(), false);
 };
 
-RegisterNuiCallbackType('rotateleftheading');
-on('__cfx_nui:rotateleftheading', (data, cb) => {
+RegisterNuiCallbackType('rotateHeading');
+on('__cfx_nui:rotateHeading', (data, cb) => {
   let currentHeading = GetEntityHeading(GetPlayerPed(-1));
   heading = currentHeading + Number(data.value);
-});
 
-RegisterNuiCallbackType('rotaterightheading');
-on('__cfx_nui:rotaterightheading', (data, cb) => {
-  let currentHeading = GetEntityHeading(GetPlayerPed(-1));
-  heading = currentHeading - Number(data.value);
+  SetEntityHeading(GetPlayerPed(-1), heading);
 });
 
 // Define which part of the body must be zoomed
