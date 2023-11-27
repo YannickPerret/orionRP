@@ -225,7 +225,7 @@ RegisterCommand(
       SetEntityInvincible(playerPed, true);
       SetEntityMaxSpeed(playerPed, flymodeSpeed);
       SetEntityCollision(playerPed, false);
-      SetEntityGravity(playerPed, 0);
+      SetPedGravity(playerPed, 0);
       SetEntityVisible(playerPed, false, false);
 
       DisableControlAction(0, 22, true); // Disable forward
@@ -239,7 +239,7 @@ RegisterCommand(
       SetEntityInvincible(playerPed, false);
       SetEntityMaxSpeed(playerPed, 20);
       SetEntityCollision(playerPed, true);
-      SetEntityGravity(playerPed, 9.8);
+      SetPedGravity(playerPed, 1);
       SetEntityVisible(playerPed, true, false);
 
       EnableControlAction(0, 22, true); // Enable forward
