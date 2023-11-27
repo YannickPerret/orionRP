@@ -328,6 +328,18 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 };
 
 const ApplyPedHair = (ped, hair) => {
+  console.log(
+    'ApplyPedHair',
+    hair,
+    'ped',
+    ped,
+    'hair.HairType',
+    hair.HairType,
+    'hair.HairColor',
+    hair.HairColor,
+    'hair.HairSecondaryColor',
+    hair.HairSecondaryColor
+  );
   if (IsPedComponentVariationValid(ped, 2, hair.HairType, 0, 0) == false) {
     hair.HairType = 0;
     console.log('HairType is invalid');
