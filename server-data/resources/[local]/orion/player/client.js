@@ -123,6 +123,7 @@ function getPedAppearance(ped) {
   };
 }
 
+// FUNCTION PED CHANGE
 function setPedHair(ped, hair) {
   if (!hair) return;
 
@@ -131,6 +132,12 @@ function setPedHair(ped, hair) {
   SetPedComponentVariation(ped, 2, style, 0, 0);
 
   SetPedHairColor(ped, color, highlight);
+}
+
+function setPedEyeColor(ped, eyeColor) {
+  if (!eyeColor) return;
+
+  SetPedEyeColor(ped, eyeColor);
 }
 
 const ShowSkinCreator = enable => {
@@ -220,7 +227,6 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
     true
   );
 
-  SetPedEyeColor(GetPlayerPed(-1), data.eyeColor);
   if (data.acne == 0) SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 0.0);
   else SetPedHeadOverlay(GetPlayerPed(-1), 0, data.acne, 1.0);
 
@@ -230,6 +236,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleIntensity * 0.1);
   setPedHair(playerPed, { style: data.hair, color: data.hairColor, highlight: data.highlight });
+  setPedEyeColor(playerPed, data.eyeColor);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1);
   SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1);
