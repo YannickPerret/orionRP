@@ -191,7 +191,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   const playerPed = GetPlayerPed(-1);
   let model = data.sex == 0 ? 'mp_m_freemode_01' : 'mp_f_freemode_01';
 
-  ApplyPlayerModelHash(playerPedId, model);
+  ApplyPlayerModelHash(PlayerId(), model);
 
   /*SetModelAsNoLongerNeeded(characterModel);
 
@@ -212,7 +212,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
     true
   );*/
 
-  ApplyPlayerBodySkin(playerPedId, {
+  ApplyPlayerBodySkin(PlayerId(), {
     Model: {
       Hash: model,
     },
@@ -398,7 +398,6 @@ const ApplyPedHair = (ped, hair) => {
 };
 
 const ApplyPlayerBodySkin = (playerId, bodySkin) => {
-  console.log('ApplyPlayerBodySkin', bodySkin);
   ApplyPlayerModelHash(playerId, bodySkin.Model.Hash);
 
   let ped = GetPlayerPed(playerId);
