@@ -157,10 +157,11 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   if (data.sex == 0) {
     characterModel = GetHashKey('mp_m_freemode_01');
-  } else if (data.sex > 1) {
-    characterModel = pedList[data.sex - 1];
-  } else characterModel = GetHashKey('mp_f_freemode_01');
+  } else {
+    characterModel = GetHashKey('mp_f_freemode_01');
+  }
 
+  console.log(characterModel);
   const hash = GetEntityModel(PlayerPedId());
 
   if (!hash === GetHashKey(characterModel)) {
