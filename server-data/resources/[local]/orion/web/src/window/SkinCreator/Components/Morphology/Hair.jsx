@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Hair({handleHairChange}) {
-  const [hairColor, setHairColor] = useState('0');
+  const [hairColor, setHairColor] = useState(0);
   const [hair, setHair] = useState(0);
+  const [hairHighlight, setHairHighlight] = useState(0);
 
   const hairColors = ['#1D1D1A', '#4B392D', '#7A3B1F', '#A35631', '#A96F49', '#BD8D5E', '#CBA66F', '#E8BE78', '#D09E6A', '#993524', '#9C1611', '#D1381E', '#C85831', '#947A67', '#D8C1AC', '#734F61', '#AD476A', '#FFAEBC', '#089A8D', '#309060', '#A3C015', '#EEC85C', '#FE8B10', '#D40B0E'];
 

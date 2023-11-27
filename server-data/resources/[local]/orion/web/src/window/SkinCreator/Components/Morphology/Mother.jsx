@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Mother({handleMotherChange}) {
-  const [mother, setMother] = useState('21');
+  const [mother, setMother] = useState(21);
   const [showMotherTab, setShowMotherTab] = useState(false);
 
   const handleMotherChanged = (e) => {

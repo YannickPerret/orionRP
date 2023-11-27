@@ -44,6 +44,7 @@ export default function Morphology() {
             eyeColor: eyeColor,
             hairColor: hairColor,
             hair: hair,
+            highlight: 0,
             eyebrow: eyebrow,
             eyebrowThickness: eyebrowThickness,
             beard: beard,

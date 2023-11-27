@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 export default function SkinTone({handleSkinToneChange}) {
-  const [skinColor, setSkinColor] = useState('12');
+  const [skinColor, setSkinColor] = useState(12);
   const [acne, setAcne] = useState(0);
   const [skinProblem, setSkinProblem] = useState(0);
   const [freckle, setFreckle] = useState(0);

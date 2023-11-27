@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 export default function Beard({handleBeardChange}) {
   const [beard, setBeard] = useState(0);
   const [beardThickness, setBeardThickness] = useState(0);
-  const [beardColor, setBeardColor] = useState('0');
+  const [beardColor, setBeardColor] = useState(0);
 
   const handleBeardTypeChange = (e) => {
     setBeard(e.target.value);

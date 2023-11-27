@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 export default function Eyes({handleEyesChange}) {
   const [eyeBrow, setEyeBrow] = useState(0);
   const [eyebrowThickness, setEyebrowThickness] = useState(10);
-  const [eyeColor, setEyeColor] = useState('0');
+  const [eyeColor, setEyeColor] = useState(0);
 
   const handleEyebrowTypeChange = (e) => {
     setEyeBrow(e.target.value);

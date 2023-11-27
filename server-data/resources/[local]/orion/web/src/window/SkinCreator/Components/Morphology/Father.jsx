@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Father({handleFatherChange}) {
-  const [father, setFather] = useState('0');
+  const [father, setFather] = useState(0);
   const [showFatherTab, setShowFatherTab] = useState(false);
 
 

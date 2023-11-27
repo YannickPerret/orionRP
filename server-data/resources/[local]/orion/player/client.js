@@ -123,6 +123,16 @@ function getPedAppearance(ped) {
   };
 }
 
+function setPedHair(ped, hair) {
+  if (!hair) return;
+
+  const { style, color, highlight } = hair;
+
+  SetPedComponentVariation(ped, 2, style, 0, 0);
+
+  SetPedHairColor(ped, color, highlight);
+}
+
 const ShowSkinCreator = enable => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), -705.85, -151.68, 37.42, false, false, true);
   isCameraActive = true;
@@ -145,9 +155,7 @@ const CloseSkinCreator = () => {
   isCameraActive = false;
   //SetCamActive(cam, false);
   SetPlayerInvincible(PlayerPedId(), false);
-  SetCamActive(cam, false);
   RenderScriptCams(false, true, 500, true, true);
-  DestroyCam(cam, false);
   cam = null;
   ShowSkinCreator(false);
 };
@@ -168,7 +176,9 @@ on('__cfx_nui:zoom', (data, cb) => {
 
 RegisterNuiCallbackType('updateSkin');
 on('__cfx_nui:updateSkin', async (data, cb) => {
-  const playerPed = PlayerPedId();
+  const playerPedId = PlayerPedId();
+  const playerPed = GetPlayerPed(-1);
+
   let characterModel;
 
   if (data.sex == 0) {
@@ -189,14 +199,13 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
     if (IsModelInCdimage(characterModel) && IsModelValid(characterModel)) {
       SetPlayerModel(PlayerId(), characterModel);
+      SetPedDefaultComponentVariation(playerPed);
     }
 
     SetModelAsNoLongerNeeded(characterModel);
   }
 
-  SetPedDefaultComponentVariation(GetPlayerPed(-1));
   // Face
-  console.log(data);
   SetPedHeadBlendData(
     GetPlayerPed(-1),
     data.dad,
@@ -220,11 +229,10 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   else SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 1.0);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleIntensity * 0.1);
-  SetPedComponentVariation(GetPlayerPed(-1), 2, data.hair, 0, 0);
-  console.log(data.hair);
-  SetPedHairColor(GetPlayerPed(-1), data.hairColor, data.hairColor);
-  SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1); // icicicici
-  SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1); // ICICICI
+  setPedHair(playerPed, { style: data.hair, color: data.hairColor, highlight: data.highlight });
+
+  SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1);
+  SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1);
   SetPedHeadOverlayColor(GetPlayerPed(-1), 1, 1, data.beardColor, data.beardColor);
   SetPedHeadOverlayColor(GetPlayerPed(-1), 2, 1, data.beardColor, data.beardColor);
 
