@@ -1,4 +1,6 @@
 let isNuiOpen = false;
+let isFlyingModeActive = false;
+let originalRunSpeed = 0;
 
 /*const executePlayerLogin = () => {
   const Player = GetPlayerServerId(PlayerId());
@@ -215,23 +217,40 @@ RegisterCommand(
 );
 
 RegisterCommand(
-  'admin',
+  'flymode',
   async () => {
     const player = PlayerId();
     const ped = GetPlayerPed(player);
 
-    // Activer/désactiver le mode T-pose et traverser les murs
-    let isTPoseActive = false;
+    if (!isFlyingModeActive) {
+      // Activer le mode de vol
+      originalRunSpeed = GetEntitySpeed(ped);
 
-    if (!isTPoseActive) {
-      // Activer la T-pose et permettre de traverser les murs
+      SetEntityInvincible(ped, true); // Rendre le joueur invincible
+      SetEntityVisible(ped, true, true); // Assurez-vous que le joueur est visible
       SetEntityCollision(ped, false, false); // Désactiver les collisions
-      SetEntityVisible(ped, false, false); // Rendre le joueur invisible (optionnel)
+      SetPedCanRagdoll(ped, false); // Empêcher le joueur de tomber
+      FreezeEntityPosition(ped, true); // Geler la position du joueur pour empêcher la chute
+
+      let newRunSpeed = originalRunSpeed * 3; // Augmenter par un facteur de 3, ajustez selon vos besoins
+      SetRunSprintMultiplierForPlayer(player, newRunSpeed);
+      SetSwimMultiplierForPlayer(player, newRunSpeed);
+      isFlyingModeActive = true;
+
+      // Logique de déplacement
+      // Vous pouvez ajouter ici une logique personnalisée pour contrôler le déplacement du joueur en mode vol
     } else {
-      // Désactiver la T-pose et le mode traverser les murs
-      SetEntityCollision(ped, true, true); // Activer les collisions
-      SetEntityVisible(ped, true, true); // Rendre le joueur visible
-      isTPoseActive = false;
+      // Désactiver le mode de vol
+      SetEntityInvincible(ped, false); // Rendre le joueur de nouveau vulnérable
+      SetEntityVisible(ped, true, true);
+      SetEntityCollision(ped, true, true);
+      SetPedCanRagdoll(ped, true);
+      FreezeEntityPosition(ped, false);
+
+      // Restaurer la vitesse de déplacement originale
+      SetRunSprintMultiplierForPlayer(player, originalRunSpeed);
+      SetSwimMultiplierForPlayer(player, originalRunSpeed);
+      isFlyingModeActive = false;
     }
   },
   false
