@@ -177,21 +177,22 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   ApplyPlayerBodySkin(PlayerId(), {
     Model: {
       Hash: model,
-      Father: data.dad,
-      Mother: data.mom,
-      ShapeMix: data.heritage * 0.1,
-      SkinMix: data.heritage * 0.1,
+      Father: Number(data.dad),
+      Mother: Number(data.mom),
+      ShapeMix: Number(data.heritage) * 0.1,
+      SkinMix: Number(data.heritage) * 0.1,
+      Skin: Number(data.skin),
     },
     Hair: {
-      HairType: data.hair,
-      HairColor: data.hairColor,
-      HairSecondaryColor: data.highlight,
-      EyebrowType: data.eyebrow,
-      EyebrowOpacity: data.eyebrowThickness,
-      EyebrowColor: data.eyebrowColor,
-      BeardType: data.beard,
-      BeardOpacity: data.beardThickness,
-      BeardColor: data.beardColor,
+      HairType: Number(data.hair),
+      HairColor: Number(data.hairColor),
+      HairSecondaryColor: Number(data.highlight),
+      EyebrowType: Number(data.eyebrow),
+      EyebrowOpacity: Number(data.eyebrowThickness),
+      EyebrowColor: Number(data.eyebrowColor),
+      BeardType: Number(data.beard),
+      BeardOpacity: Number(data.beardThickness),
+      BeardColor: Number(data.beardColor),
       //ChestHairType: data.chestHair,
       //ChestHairOpacity: data.chestHairOpacity,
       //ChestHairColor: data.chestHairColor,
@@ -333,13 +334,13 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 
 const ApplyPedHair = (ped, hair) => {
   console.log('type', hair.HairType);
-  SetPedComponentVariation(PlayerPedId(), 2, Number(hair.HairType), 0, 2);
-  SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
+  SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
+  SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
   SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
   SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
+  SetPedHeadOverlay(ped, 1, hair.BeardType, hair.BeardOpacity || 1.0);
+  SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
 
-  // SetPedHeadOverlay(ped, HeadOverlayType.FacialHair, hair.BeardType, (hair.BeardOpacity || 0) + 0.0 || 1.0);
-  //SetPedHeadOverlayColor(ped, HeadOverlayType.FacialHair, 1, hair.BeardColor, 0);
   //SetPedHeadOverlay(ped, HeadOverlayType.ChestHair, hair.ChestHairType, (hair.ChestHairOpacity || 0) + 0.0 || 1.0);
   //SetPedHeadOverlayColor(ped, HeadOverlayType.ChestHair, 1, hair.ChestHairColor, 0);
 };
@@ -350,8 +351,8 @@ const ApplyPedFaceTrait = (ped, model) => {
     model.Father,
     model.Mother,
     0,
-    model.Father,
-    model.Mother,
+    model.Skin,
+    model.Skin,
     0,
     model.ShapeMix,
     model.SkinMix,
