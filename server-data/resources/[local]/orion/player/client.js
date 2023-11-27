@@ -161,10 +161,10 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
     characterModel = GetHashKey('mp_f_freemode_01');
   }
 
-  console.log(characterModel);
   const hash = GetEntityModel(PlayerPedId());
 
-  if (!hash === GetHashKey(characterModel)) {
+  console.log(hash, GetHashKey(characterModel));
+  if (hash != GetHashKey(characterModel)) {
     RequestModel(characterModel);
 
     while (!HasModelLoaded(characterModel)) {
@@ -181,7 +181,6 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   SetPedDefaultComponentVariation(GetPlayerPed(-1));
   // Face
-  console.log(data);
 
   SetPedHeadBlendData(
     GetPlayerPed(-1),
