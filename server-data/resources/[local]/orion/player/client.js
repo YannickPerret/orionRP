@@ -129,6 +129,7 @@ const ShowSkinCreator = enable => {
   SetPlayerInvincible(PlayerPedId(), true);
   isSkinCreatorOpened = true;
   RenderScriptCams(false, false, 0, 1, 0);
+  SetEntityHeading(GetPlayerPed(-1), 90.0);
 
   SetNuiFocus(enable, enable);
   SendNuiMessage(
