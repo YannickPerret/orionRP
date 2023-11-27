@@ -1,9 +1,6 @@
 let isNuiOpen = false;
-let isNoclipActive = false;
-let noClippingEntity;
-let previousVelocity = vec(0, 0, 0);
-const speed = 5.0;
-const breakSpeed = 5.0;
+const isFlymodeEnabled = false;
+const flymodeSpeed = 100;
 
 /*const executePlayerLogin = () => {
   const Player = GetPlayerServerId(PlayerId());
@@ -222,60 +219,36 @@ RegisterCommand(
 RegisterCommand(
   'noclip',
   () => {
-    const player = PlayerId();
-    const ped = GetPlayerPed(-1);
+    const playerPed = GetPlayerPed(-1);
+    if (!isFlymodeEnabled) {
+      isFlymodeEnabled = true;
+      SetEntityInvincible(playerPed, true);
+      SetEntityMaxSpeed(playerPed, flymodeSpeed);
+      SetEntityCollision(playerPed, false);
+      SetEntityGravity(playerPed, 0);
+      SetEntityVisible(playerPed, false, false);
 
-    if (!isNoclipActive) {
-      SetEntityCollision(ped, false, false);
-      SetEntityVisible(ped, false, false);
-      isNoclipActive = true;
+      /*DisableControlAction(0, 22, true); // Disable forward
+      DisableControlAction(0, 23, true); // Disable backward
+      DisableControlAction(0, 24, true); // Disable left
+      DisableControlAction(0, 25, true); // Disable right*/
+
+      emit('orion:showNotification', 'Flymode activé');
     } else {
-      SetEntityCollision(ped, true, true);
-      SetEntityVisible(ped, true, true);
-      previousVelocity = vec(0, 0, 0);
-      isNoclipActive = false;
+      isFlymodeEnabled = false;
+      SetEntityInvincible(playerPed, false);
+      SetEntityMaxSpeed(playerPed, 20);
+      SetEntityCollision(playerPed, true);
+      SetEntityGravity(playerPed, 9.8);
+      SetEntityVisible(playerPed, true, false);
+
+      /*EnableControlAction(0, 22, true); // Enable forward
+      EnableControlAction(0, 23, true); // Enable backward
+      EnableControlAction(0, 24, true); // Enable left
+      EnableControlAction(0, 25, true); // Enable right*/
+
+      emit('orion:showNotification', 'Flymode désactivé');
     }
   },
-  false
-);
-
-// Mettre à jour en boucle
-setInterval(() => {
-  if (isNoclipActive) {
-    let inputX = 0; // Gauche/droite
-    let inputY = 0; // Avant/arrière
-    let inputZ = 0; // Haut/bas
-
-    if (IsControlPressed(0, 32)) {
-      // W
-      inputY = 1;
-    }
-    if (IsControlPressed(0, 33)) {
-      // S
-      inputY = -1;
-    }
-    if (IsControlPressed(0, 34)) {
-      // A
-      inputX = -1;
-    }
-    if (IsControlPressed(0, 35)) {
-      // D
-      inputX = 1;
-    }
-    if (IsControlPressed(0, 22)) {
-      // Espace
-      inputZ = 1;
-    }
-    if (IsControlPressed(0, 36)) {
-      // CTRL
-      inputZ = -1;
-    }
-
-    // Appliquer le mouvement
-    if (IsPedInAnyVehicle(noClippingEntity, false)) {
-      MoveCarInNoClip();
-    } else {
-      MoveInNoClip();
-    }
-  }
-}, 0); // Mettre à jour à chaque frame
+  0
+); // Mettre à jour à chaque frame
