@@ -274,17 +274,19 @@ setInterval(() => {
     let [x, y, z] = GetEntityCoords(playerPed, true);
     let heading = GetEntityHeading(playerPed);
     const speed = 0.5; // Vitesse de déplacement
-    const rotationSpeed = 4.0; // Vitesse de rotation
+    const rotationSpeed = 5.0; // Vitesse de rotation
+
+    const radianAngle = (heading * Math.PI) / 180;
 
     if (IsControlPressed(0, 32)) {
       // W - Avancer
-      x += speed * Math.sin((heading * Math.PI) / 180);
-      y += speed * Math.cos((heading * Math.PI) / 180);
+      x += speed * Math.sin(radianAngle);
+      y += speed * Math.cos(radianAngle);
     }
     if (IsControlPressed(0, 33)) {
       // S - Reculer
-      x -= speed * Math.sin((heading * Math.PI) / 180);
-      y -= speed * Math.cos((heading * Math.PI) / 180);
+      x -= speed * Math.sin(radianAngle);
+      y -= speed * Math.cos(radianAngle);
     }
     if (IsControlPressed(0, 34)) {
       // A - Gauche (rotation)
