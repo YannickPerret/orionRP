@@ -215,7 +215,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   // Face
   SetPedHeadBlendData(
-    GetPlayerPed(-1),
+    playerPedId,
     data.dad,
     data.mom,
     data.mom,
@@ -236,8 +236,8 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   else SetPedHeadOverlay(GetPlayerPed(-1), 9, data.freckle, 1.0);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 3, data.wrinkle, data.wrinkleIntensity * 0.1);
-  setPedHair(playerPed, { style: data.hair, color: data.hairColor, highlight: data.highlight });
-  setPedEyeColor(playerPed, data.eyeColor);
+  setPedHair(playerPedId, { style: data.hair, color: data.hairColor, highlight: data.highlight });
+  setPedEyeColor(playerPedId, data.eyeColor);
 
   SetPedHeadOverlay(GetPlayerPed(-1), 2, data.eyebrow, data.eyebrowThickness * 0.1);
   SetPedHeadOverlay(GetPlayerPed(-1), 1, data.beard, data.beardThickness * 0.1);
