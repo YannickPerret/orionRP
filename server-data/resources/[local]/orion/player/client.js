@@ -193,9 +193,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   ApplyPlayerModelHash(PlayerId(), model);
 
-  /*SetModelAsNoLongerNeeded(characterModel);
-
-  SetPedDefaultComponentVariation(playerPed);*/
+  SetPedDefaultComponentVariation(playerPed);
 
   // Face
   /*SetPedHeadBlendData(
@@ -388,7 +386,7 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 const ApplyPedHair = (ped, hair) => {
   SetPedComponentVariation(ped, 2, hair.HairType, 0, 0);
   SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0);
-  SetPedHeadOverlay(ped, 2, hair.EyebrowType, (hair.EyebrowOpacity || 0) + 0.0 || 1.0);
+  SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
   SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
 
   // SetPedHeadOverlay(ped, HeadOverlayType.FacialHair, hair.BeardType, (hair.BeardOpacity || 0) + 0.0 || 1.0);
