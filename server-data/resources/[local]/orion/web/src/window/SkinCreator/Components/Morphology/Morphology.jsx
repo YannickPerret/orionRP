@@ -52,11 +52,30 @@ export default function Morphology() {
         });
 
     }
+ const handleRotatePlayer = async (e) => {
+    if (e.key === 'A') {
+        await sendNui('rotaterightheading', {
+            value: 10
+        });
+    }
+    if (e.key === 'D') {
+        await sendNui('rotateleftheading', {
+            value: 10
+        });
+    }
+}
 
     useEffect(() => {
         handleSubmit();
     }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyebrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
 
+    useEffect(() => {
+        document.addEventListener('keydown', handleRotatePlayer);
+
+        return () => {
+            document.removeEventListener('keydown', handleRotatePlayer);
+        }
+    }, []);
   return (
     <div className="sideLeft">
         <h2>Morphology</h2>
