@@ -25,7 +25,7 @@ export default function Father({handleFatherChange}) {
             onChange={handleFatherChanged}
           />
           <div className="img">
-            <img src={`/images/skinCreator/heritage/Face-${i}.jpg`} alt={`Face ${i}`} />
+            <img src={`./images/skinCreator/heritage/Face-${i}.jpg`} alt={`Face ${i}`} />
           </div>
         </label>
       );
