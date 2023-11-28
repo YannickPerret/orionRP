@@ -130,6 +130,8 @@ const ShowSkinCreator = enable => {
   SetPlayerInvincible(PlayerPedId(), true);
   SetEntityHeading(GetPlayerPed(-1), 139.73);
 
+  createCamInFrontOfPlayer();
+
   SetNuiFocus(enable, enable);
   SendNuiMessage(
     JSON.stringify({
@@ -201,25 +203,20 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   cb({ ok: true });
 });
+const createCamInFrontOfPlayer = () => {
+  const playerPed = GetPlayerPed(-1);
+  const playerCoords = GetEntityCoords(playerPed, false);
+  const playerHeading = GetEntityHeading(playerPed);
 
-(async () => {
-  while (true) {
-    console.log(isCameraActive);
-    if (isCameraActive == true) {
-      cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-      DisableIdleCamera(true);
+  const camCoords = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 0.5, 0.65);
+  const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
-      let camCoords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, 0.65);
-      let playerCoords = GetEntityCoords(PlayerPedId(), false);
-      SetCamCoord(cam, camCoords);
-      PointCamAtCoord(cam, playerCoords['x'], playerCoords['y'], playerCoords['z'] + 0.65);
-
-      SetCamActive(cam, true);
-      RenderScriptCams(true, true, 500, true, true);
-    }
-    await Delay(10);
-  }
-})();
+  SetCamCoord(cam, camCoords);
+  PointCamAtCoord(cam, playerCoords['x'], playerCoords['y'], playerCoords['z'] + 0.65);
+  SetCamRot(cam, -10.0, 0.0, playerHeading, 2);
+  SetCamActive(cam, true);
+  RenderScriptCams(true, true, 500, true, true);
+};
 
 RegisterNuiCallbackType('createNewPlayer');
 on('__cfx_nui:createNewPlayer', (data, cb) => {
