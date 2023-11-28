@@ -360,9 +360,7 @@ function CreateFullBodyCam() {
   cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
   SetCamCoord(cam, 0.0, 0.0, 0.0);
   SetCamRot(cam, 0, 0, 0);
-  SetCamFov(cam, 70.0);
-  SetCamNearClip(cam, 0.1);
-  SetCamFarClip(cam, 1000.0);
+  SetCamFov(cam, 90.0);
 
   // Affichez la caméra
   RenderScriptCams(true, false, 0, true, false);
@@ -391,7 +389,7 @@ setInterval(() => {
       cam = null; // Réinitialiser la variable cam
     }
   }
-}, 500);
+}, 400);
 
 /*setInterval(() => {
   if (isSkinCreatorOpened) {
