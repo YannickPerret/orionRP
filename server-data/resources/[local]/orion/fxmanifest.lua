@@ -13,6 +13,7 @@ files {
     "web/build/index.html",
     'web/build/**/*',
     'web/public/images/**/*',
+    'web/public/images/**/**/*',
 }
 
 server_scripts {
