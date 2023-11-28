@@ -178,8 +178,8 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
       Hash: model,
       Father: Number(data.dad),
       Mother: Number(data.mom),
-      WeightFace: Number(data.heritage * 0.1),
-      WeightSkin: Number(data.heritage * 0.1),
+      WeightFace: Number(data.heritage * 0.1).toFixed(2),
+      WeightSkin: Number(data.heritage * 0.1).toFixed(2),
       Skin: Number(data.skin),
     },
     Hair: {
@@ -212,6 +212,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
         SetCamRot(cam, 180.0, 0.0, 0.0);
         SetCamActive(cam, true);
         //RenderScriptCams(true, false, 0, true, true);
+        FreezePedCameraRotation(PlayerPedId());
       }
     }
     await Delay(500);
