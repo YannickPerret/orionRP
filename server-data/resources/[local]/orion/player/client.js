@@ -146,7 +146,7 @@ const CloseSkinCreator = () => {
   isCameraActive = false;
   //SetCamActive(cam, false);
   SetPlayerInvincible(PlayerPedId(), false);
-  DisableIdleCamera(false);
+  //DisableIdleCamera(false);
   //RenderScriptCams(false, true, 500, true, true);
   cam = null;
   ShowSkinCreator(false);
@@ -215,6 +215,7 @@ const createCamInFrontOfPlayer = () => {
 
   // Créer et positionner la caméra
   const camCoords = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 0.5, 0.15);
+
   const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
   SetCamCoord(cam, camCoords);
 
