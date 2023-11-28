@@ -358,7 +358,7 @@ function CreateFullBodyCam() {
 
   // Créez la caméra
   cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-  SetCamCoord(cam, 0.0, 0.0, 0.0);
+  SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)) + Vector3(10.0, 0.0, 1.0));
   SetCamRot(cam, 0, 0, 0);
   SetCamFov(cam, 90.0);
 
