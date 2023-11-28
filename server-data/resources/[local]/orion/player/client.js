@@ -208,7 +208,7 @@ const createCamInFrontOfPlayer = () => {
   const playerCoords = GetEntityCoords(playerPed, false);
   const playerHeading = GetEntityHeading(playerPed);
 
-  const camCoords = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 0.5, 0.65);
+  const camCoords = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 0.5, 0.45);
   const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
   SetCamCoord(cam, camCoords);
