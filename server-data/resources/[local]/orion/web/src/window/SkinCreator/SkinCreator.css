@@ -57,9 +57,10 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start; 
-  width: 35vw;
+  width: 30vw;
   height: 75vh;
   overflow-y: scroll;
+  left : 3vw;
 
 }
 
