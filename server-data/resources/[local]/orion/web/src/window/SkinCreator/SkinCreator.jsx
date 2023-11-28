@@ -95,7 +95,7 @@ export default function SkinCreator() {
             <div className="label-value" data-legend=""></div>
             <div className="type-range">
                 <a href="#" className="arrow arrow-left">&nbsp;</a>
-                    <input value={heritage} type="range" className="morphologie" min="0" max="10" onChange={(e) => setHeritage(e.target.value)} />
+                    <input value={heritage} type="range" className="morphologie" min="0" max="100" onChange={(e) => setHeritage(e.target.value)} />
                 <a href="#" className="arrow arrow-right" >&nbsp;</a>
             </div>
         </div>

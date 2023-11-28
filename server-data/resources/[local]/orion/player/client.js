@@ -11,7 +11,6 @@ if gent == 0 then
     */
 let isSkinCreatorOpened = false;
 let cam = -1;
-let heading = 332.219879;
 let zoom = 'visage';
 let isCameraActive;
 
@@ -124,12 +123,12 @@ function getPedAppearance(ped) {
 }
 
 const ShowSkinCreator = enable => {
-  SetEntityCoordsNoOffset(GetPlayerPed(-1), -705.85, -151.68, 37.42, false, false, true);
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), 1.17, -1508.81, 29.84, false, false, true);
   isCameraActive = true;
   SetPlayerInvincible(PlayerPedId(), true);
   isSkinCreatorOpened = true;
   //RenderScriptCams(false, false, 0, 1, 0);
-  SetEntityHeading(GetPlayerPed(-1), 90.0);
+  SetEntityHeading(GetPlayerPed(-1), 139.73);
 
   SetNuiFocus(enable, enable);
   SendNuiMessage(
@@ -153,7 +152,7 @@ const CloseSkinCreator = () => {
 RegisterNuiCallbackType('rotateHeading');
 on('__cfx_nui:rotateHeading', (data, cb) => {
   let currentHeading = GetEntityHeading(GetPlayerPed(-1));
-  heading = currentHeading + Number(data.value);
+  let heading = currentHeading + Number(data.value);
 
   SetEntityHeading(GetPlayerPed(-1), heading);
 });
@@ -179,8 +178,8 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
       Hash: model,
       Father: Number(data.dad),
       Mother: Number(data.mom),
-      ShapeMix: Number(data.heritage) * 0.1,
-      SkinMix: Number(data.heritage) * 0.1,
+      WeightFace: Number(data.heritage * 0.1),
+      WeightSkin: Number(data.heritage * 0.1),
       Skin: Number(data.skin),
     },
     Hair: {
@@ -343,20 +342,20 @@ const ApplyPedHair = (ped, hair) => {
   //SetPedHeadOverlayColor(ped, HeadOverlayType.ChestHair, 1, hair.ChestHairColor, 0);
 };
 
-const ApplyPedFaceTrait = (ped, model) => {
+const ApplyPedFaceTrait = model => {
   console.log(model);
   SetPedHeadBlendData(
     PlayerPedId(),
-    model.Father,
     model.Mother,
+    model.Father,
     0,
-    model.Skin,
-    model.Skin,
+    model.Mother,
+    model.Father,
     0,
-    model.ShapeMix,
-    model.SkinMix,
-    1.0,
-    true
+    model.WeightFace,
+    model.WeightSkin,
+    0.0,
+    false
   );
 };
 
@@ -366,7 +365,7 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
   let ped = GetPlayerPed(-1);
   ClearPedDecorations(ped);
 
-  ApplyPedFaceTrait(ped, bodySkin.Model);
+  ApplyPedFaceTrait(bodySkin.Model);
   ApplyPedHair(PlayerPedId(), bodySkin.Hair);
   //ApplyPedMakeup(ped, bodySkin.Makeup)
   //ApplyPedTattoos(ped, bodySkin.Tattoos || {})
