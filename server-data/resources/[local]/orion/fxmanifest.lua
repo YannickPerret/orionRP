@@ -12,8 +12,7 @@ ui_page 'web/build/index.html'
 files {
     "web/build/index.html",
     'web/build/**/*',
-    'web/public/images/**/*',
-    'web/public/images/**/**/*',
+    'web/build/images/skinCreator/heritage/*',
 }
 
 server_scripts {

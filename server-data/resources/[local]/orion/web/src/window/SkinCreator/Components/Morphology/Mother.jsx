@@ -24,7 +24,7 @@ export default function Mother({handleMotherChange}) {
             onChange={handleMotherChanged}
           />
           <div className="img">
-            <img src={`../public/images/skinCreator/heritage/Face-${i}.jpg`} alt={`Face ${i}`} />
+            <img src={`Face-${i}.jpg`} alt={`Face ${i}`} />
           </div>
         </label>
       );
