@@ -1,11 +1,13 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "./",
+  base: './',
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.svg', '**/*.ico'],
   build: {
-    outDir: "build",
+    outDir: 'build',
+    assetsDir: './assets',
   },
 });
