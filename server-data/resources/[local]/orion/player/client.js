@@ -380,6 +380,7 @@ setInterval(() => {
   if (isCameraActive) {
     // Si la caméra existe déjà, détruisez-la
     if (!DoesCamExist(cam)) {
+      console.log('Create cam');
       CreateFullBodyCam(); // Créer la caméra
       SetCamActive(cam, true);
     }
