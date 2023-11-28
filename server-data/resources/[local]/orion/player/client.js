@@ -123,7 +123,7 @@ function getPedAppearance(ped) {
 }
 
 const ShowSkinCreator = enable => {
-  SetEntityCoordsNoOffset(GetPlayerPed(-1), 1.17, -1508.81, 29.84, false, false, true);
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), 1.17, -1508.81, 29.84, true, false, true);
   isCameraActive = true;
   SetPlayerInvincible(PlayerPedId(), true);
   isSkinCreatorOpened = true;
@@ -204,14 +204,14 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 (async () => {
   while (true) {
     if (isCameraActive == true) {
-      RenderScriptCams(false, false, 0, 1, 0);
+      //RenderScriptCams(false, false, 0, 1, 0);
       DestroyCam(cam, false);
       if (!DoesCamExist(cam)) {
         cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
         SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
         SetCamRot(cam, 90.0, 0.0, 0.0);
         SetCamActive(cam, true);
-        RenderScriptCams(true, false, 0, true, true);
+        //RenderScriptCams(true, false, 0, true, true);
         SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
       }
     }
@@ -318,8 +318,6 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
   if (!IsModelInCdimage(hash) || !IsModelValid(hash)) {
     return;
   }
-
-  console.log(3);
 
   RequestModel(hash);
 
