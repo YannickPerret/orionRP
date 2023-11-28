@@ -360,9 +360,9 @@ function CreateFullBodyCam() {
   cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
   const playerPed = GetPlayerPed(-1);
   const playerCoords = GetEntityCoords(playerPed);
-  const newX = playerCoords[0] + 120.0; // Ajout de 120 à la coordonnée X
-  const newY = playerCoords[1] + 20.0; // Ajout de 20 à la coordonnée Y
-  const newZ = playerCoords[2] + 20.0; // Ajout de 20 à la coordonnée Z
+  const newX = playerCoords[0] + 20.0; // Ajout de 120 à la coordonnée X
+  const newY = playerCoords[1] + 0.0; // Ajout de 20 à la coordonnée Y
+  const newZ = playerCoords[2] + 0.0; // Ajout de 20 à la coordonnée Z
 
   SetCamCoord(cam, newX, newY, newZ);
   SetCamRot(cam, 0, 0, 0);
