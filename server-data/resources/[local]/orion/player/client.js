@@ -355,7 +355,7 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
 };
 
 setInterval(() => {
-  Delay(500);
+  Delay(700);
   if (isCameraActive) {
     let playerPed = GetPlayerPed(-1);
     let camCoords = GetEntityCoords(playerPed);
@@ -370,8 +370,8 @@ setInterval(() => {
   }
 }, 0);
 
-setInterval(() => {
+/*setInterval(() => {
   if (isSkinCreatorOpened) {
     SetEntityHeading(GetPlayerPed(-1), heading);
   }
-}, 1);
+}, 1);*/
