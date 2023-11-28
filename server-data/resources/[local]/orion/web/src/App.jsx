@@ -29,7 +29,7 @@ const initialState = {
   showJobMenu: false,
   showAmountMenu: false,
   isDriver: false,
-  showSkinCreator: true,
+  showSkinCreator: false,
   speed: 0,
   amount: 0,
 };
