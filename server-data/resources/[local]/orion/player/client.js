@@ -212,10 +212,9 @@ const createCamInFrontOfPlayer = () => {
   const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
   SetCamCoord(cam, camCoords);
-  PointCamAtCoord(cam, playerCoords['x'], playerCoords['y'], playerCoords['z'] + 0.65);
+  PointCamAtCoord(cam, playerCoords['x'] + 20.0, playerCoords['y'], playerCoords['z'] + 0.65);
   SetCamRot(cam, -10.0, 0.0, playerHeading, 2);
   SetCamActive(cam, true);
-  RenderScriptCams(true, true, 500, true, true);
 };
 
 RegisterNuiCallbackType('createNewPlayer');
