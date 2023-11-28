@@ -311,7 +311,6 @@ RegisterCommand('skin', (source, args) => {
 });
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
-  console.log('test', hash, GetEntityModel(GetPlayerPed(-1)));
   if (hash == GetEntityModel(GetPlayerPed(-1))) {
     console.log(1);
     return;
@@ -333,7 +332,6 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
 };
 
 const ApplyPedHair = (ped, hair) => {
-  console.log('type', hair.HairType);
   SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
   SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
   SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
@@ -346,8 +344,9 @@ const ApplyPedHair = (ped, hair) => {
 };
 
 const ApplyPedFaceTrait = (ped, model) => {
+  console.log(model);
   SetPedHeadBlendData(
-    ped,
+    PlayerPedId(),
     model.Father,
     model.Mother,
     0,
