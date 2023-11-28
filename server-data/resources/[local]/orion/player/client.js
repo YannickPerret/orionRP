@@ -202,32 +202,6 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 
   cb({ ok: true });
 });
-const createCamInFrontOfPlayer = () => {
-  const playerPed = GetPlayerPed(-1);
-  const playerCoords = GetEntityCoords(playerPed, false);
-  let playerHeading = GetEntityHeading(playerPed);
-
-  // Calcul pour avancer la caméra de 20 unités devant le joueur
-  const radians = (playerHeading * Math.PI) / 180; // Convertir en radians
-  const forwardX = playerCoords['x'] + Math.sin(radians) * 20;
-  const forwardY = playerCoords['y'] + Math.cos(radians) * 20;
-
-  // Créer et positionner la caméra
-  const camCoords = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 0.5, 0.15);
-
-  const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-  SetCamCoord(cam, camCoords);
-
-  // Pointer la caméra vers la nouvelle position devant le joueur
-  PointCamAtCoord(cam, forwardX, forwardY, playerCoords['z'] + 0.65);
-
-  // Rotation de la caméra de 180 degrés pour regarder derrière
-  playerHeading = (playerHeading + 180) % 360;
-  SetCamRot(cam, -10.0, 0.0, playerHeading, 2);
-
-  SetCamActive(cam, true);
-  RenderScriptCams(true, true, 500, true, true);
-};
 
 RegisterNuiCallbackType('createNewPlayer');
 on('__cfx_nui:createNewPlayer', (data, cb) => {
@@ -381,6 +355,7 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
 };
 
 setInterval(() => {
+  Delay(500);
   if (isCameraActive) {
     let playerPed = GetPlayerPed(-1);
     let camCoords = GetEntityCoords(playerPed);
@@ -391,7 +366,6 @@ setInterval(() => {
       SetCamCoord(cam, camCoords.x, camCoords.y, camCoords.z);
       SetCamRot(cam, 0.0, 0.0, 0.0);
       SetCamActive(cam, true);
-      RenderScriptCams(true, false, 0, true, true);
     }
   }
 }, 0);
