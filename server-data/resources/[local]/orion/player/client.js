@@ -360,25 +360,26 @@ setInterval(() => {
     let playerPed = GetPlayerPed(-1);
     let camCoords = GetEntityCoords(playerPed);
     let cam;
+    DestroyCam(cam, false);
 
     if (!DoesCamExist(cam)) {
-      cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-      setCamCoord(cam, -1.62, -1512.9, 31.71);
-      setCamRot(cam, 0.0, 0.0, 321.22);
-
-      /*cam = CreateCamWithParams(
-        'DEFAULT_SCRIPTED_CAMERA',
-        camCoords.x + 20.0,
-        camCoords.y,
-        camCoords.z,
-        0.0,
-        0.0,
-        0.0,
-        90.0,
+      cam = CreateCamWithParams(
+        {
+          x: 0.0,
+          y: 0.0,
+          z: 0.0,
+          fov: 70.0,
+          nearClip: 0.1,
+          farClip: 1000.0,
+        },
+        false,
         true,
-        0
-      );*/
-      SetCamActive(cam, true);
+        false
+      );
+      cam.SetLookAt(GetPlayerPed(-1), GetPlayerPed(-1) + Vector3(0.0, 0.0, 0.5));
+
+      // Affichez la caméra
+      RenderScriptCams(true, false, 0, true, false);
     }
   }
 }, 0);
