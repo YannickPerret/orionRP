@@ -354,32 +354,42 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
   //ApplyPedProps(ped, bodySkin);
 };
 
+function CreateFullBodyCam() {
+  // Créez une variable pour la caméra
+
+  // Créez la caméra
+  cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+  SetCamCoord(cam, 0.0, 0.0, 0.0);
+  SetCamRot(cam, 0, 0, 0);
+  SetCamFov(cam, 70.0);
+  SetCamNearClip(cam, 0.1);
+  SetCamFarClip(cam, 1000.0);
+
+  // Affichez la caméra
+  RenderScriptCams(true, false, 0, true, false);
+
+  return cam;
+}
+
+function ZoomToHead(cam) {
+  // Obtenez la distance entre la caméra et la tête du joueur
+  let distance = GetDistanceBetweenEntities(cam.entity, GetPlayerPed(-1) + Vector3(0.0, 0.0, 0.8));
+
+  // Définissez le champ de vision de la caméra en fonction de la distance
+  cam.SetFov(30.0 - distance / 100.0);
+}
+
 setInterval(() => {
   Delay(500);
   if (isCameraActive) {
-    let playerPed = GetPlayerPed(-1);
-    let camCoords = GetEntityCoords(playerPed);
-    let cam;
-    DestroyCam(cam, false);
-
+    // Si la caméra existe déjà, détruisez-la
     if (!DoesCamExist(cam)) {
-      cam = CreateCamWithParams(
-        {
-          x: 0.0,
-          y: 0.0,
-          z: 0.0,
-          fov: 70.0,
-          nearClip: 0.1,
-          farClip: 1000.0,
-        },
-        false,
-        true,
-        false
-      );
-      cam.SetLookAt(GetPlayerPed(-1), GetPlayerPed(-1) + Vector3(0.0, 0.0, 0.5));
-
-      // Affichez la caméra
-      RenderScriptCams(true, false, 0, true, false);
+      CreateFullBodyCam(); // Créer la caméra
+    }
+  } else {
+    if (DoesCamExist(cam)) {
+      DestroyCam(cam, false); // Détruire la caméra si elle existe
+      cam = null; // Réinitialiser la variable cam
     }
   }
 }, 0);
