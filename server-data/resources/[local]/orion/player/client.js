@@ -125,12 +125,11 @@ function getPedAppearance(ped) {
 
 const ShowSkinCreator = enable => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), 1.17, -1508.81, 29.84, true, false, true);
-  isCameraActive = true;
-  isSkinCreatorOpened = true;
-
   SetPlayerInvincible(PlayerPedId(), true);
   SetEntityHeading(GetPlayerPed(-1), 139.73);
 
+  isCameraActive = true;
+  isSkinCreatorOpened = true;
   SetNuiFocus(enable, enable);
   SendNuiMessage(
     JSON.stringify({
@@ -380,11 +379,11 @@ function ZoomToHead(cam) {
 }
 
 setInterval(() => {
-  Delay(500);
   if (isCameraActive) {
     // Si la caméra existe déjà, détruisez-la
     if (!DoesCamExist(cam)) {
       CreateFullBodyCam(); // Créer la caméra
+      SetCamActive(cam, true);
     }
   } else {
     if (DoesCamExist(cam)) {
@@ -392,7 +391,7 @@ setInterval(() => {
       cam = null; // Réinitialiser la variable cam
     }
   }
-}, 0);
+}, 500);
 
 /*setInterval(() => {
   if (isSkinCreatorOpened) {
