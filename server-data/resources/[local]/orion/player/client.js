@@ -206,15 +206,27 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
 const createCamInFrontOfPlayer = () => {
   const playerPed = GetPlayerPed(-1);
   const playerCoords = GetEntityCoords(playerPed, false);
-  const playerHeading = GetEntityHeading(playerPed);
+  let playerHeading = GetEntityHeading(playerPed);
 
+  // Calcul pour avancer la caméra de 20 unités devant le joueur
+  const radians = (playerHeading * Math.PI) / 180; // Convertir en radians
+  const forwardX = playerCoords['x'] + Math.sin(radians) * 20;
+  const forwardY = playerCoords['y'] + Math.cos(radians) * 20;
+
+  // Créer et positionner la caméra
   const camCoords = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 0.5, 0.15);
   const cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-
   SetCamCoord(cam, camCoords);
-  PointCamAtCoord(cam, playerCoords['x'] + 20.0, playerCoords['y'], playerCoords['z'] + 0.65);
+
+  // Pointer la caméra vers la nouvelle position devant le joueur
+  PointCamAtCoord(cam, forwardX, forwardY, playerCoords['z'] + 0.65);
+
+  // Rotation de la caméra de 180 degrés pour regarder derrière
+  playerHeading = (playerHeading + 180) % 360;
   SetCamRot(cam, -10.0, 0.0, playerHeading, 2);
+
   SetCamActive(cam, true);
+  RenderScriptCams(true, true, 500, true, true);
 };
 
 RegisterNuiCallbackType('createNewPlayer');
