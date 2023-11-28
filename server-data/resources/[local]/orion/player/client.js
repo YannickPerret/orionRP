@@ -209,7 +209,7 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
       if (!DoesCamExist(cam)) {
         cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
         SetCamCoord(cam, GetEntityCoords(GetPlayerPed(-1)));
-        SetCamRot(cam, 0.0, 0.0, 0.0);
+        SetCamRot(cam, -180.0, 0.0, 0.0);
         DisableIdleCamera(true);
         SetCamActive(cam, true);
         //RenderScriptCams(true, false, 0, true, true);
