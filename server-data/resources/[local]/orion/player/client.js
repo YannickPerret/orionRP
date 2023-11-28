@@ -362,9 +362,11 @@ setInterval(() => {
     let cam;
 
     if (!DoesCamExist(cam)) {
-      //cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+      cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+      setCamCoord(cam, -1.62, -1512.9, 31.71);
+      setCamRot(cam, 0.0, 0.0, 321.22);
 
-      cam = CreateCamWithParams(
+      /*cam = CreateCamWithParams(
         'DEFAULT_SCRIPTED_CAMERA',
         camCoords.x + 20.0,
         camCoords.y,
@@ -375,7 +377,7 @@ setInterval(() => {
         90.0,
         true,
         0
-      );
+      );*/
       SetCamActive(cam, true);
     }
   }
