@@ -13,6 +13,7 @@ let isSkinCreatorOpened = false;
 let cam = -1;
 let zoom = 'visage';
 let isCameraActive;
+let heading = 332.219879;
 
 on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);
@@ -129,8 +130,6 @@ const ShowSkinCreator = enable => {
 
   SetPlayerInvincible(PlayerPedId(), true);
   SetEntityHeading(GetPlayerPed(-1), 139.73);
-
-  createCamInFrontOfPlayer();
 
   SetNuiFocus(enable, enable);
   SendNuiMessage(
@@ -380,3 +379,25 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
   //ApplyPedTattoos(ped, bodySkin.Tattoos || {})
   //ApplyPedProps(ped, bodySkin);
 };
+
+setInterval(() => {
+  if (isCameraActive) {
+    let playerPed = GetPlayerPed(-1);
+    let camCoords = GetEntityCoords(playerPed);
+    let cam;
+
+    if (!DoesCamExist(cam)) {
+      cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+      SetCamCoord(cam, camCoords.x, camCoords.y, camCoords.z);
+      SetCamRot(cam, 0.0, 0.0, 0.0);
+      SetCamActive(cam, true);
+      RenderScriptCams(true, false, 0, true, true);
+    }
+  }
+}, 0);
+
+setInterval(() => {
+  if (isSkinCreatorOpened) {
+    SetEntityHeading(GetPlayerPed(-1), heading);
+  }
+}, 1);
