@@ -208,14 +208,15 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
       DestroyCam(cam, false);
       if (!DoesCamExist(cam)) {
         cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-        FreezePedCameraRotation(PlayerPedId());
-
-        let camCoords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 90.0, 0.0, 0.0);
-        SetCamCoord(cam, camCoords);
         DisableIdleCamera(true);
 
+        let camCoords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 0.5, 0.65);
+        let playerCoords = GetEntityCoords(PlayerPedId(), false);
+        SetCamCoord(cam, camCoords);
+        PointCamAtCoord(cam, coordsPly['x'], coordsPly['y'], coordsPly['z'] + 0.65);
+
         SetCamActive(cam, true);
-        //RenderScriptCams(true, false, 0, true, true);
+        RenderScriptCams(true, true, 500, true, true);
       }
     }
     await Delay(500);
