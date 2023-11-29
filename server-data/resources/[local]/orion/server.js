@@ -1,3 +1,5 @@
+const PlayerManager = require('./core/playerManager');
+
 on('playerDropped', reason => {
   let sourceId = global.source; // Obtenez l'ID unique du joueur
   PlayerManager.removePlayer(sourceId);
