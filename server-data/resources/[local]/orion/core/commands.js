@@ -26,6 +26,7 @@ RegisterCommand('pos', (source, args) => {
 
 RegisterCommand('veh', (source, args) => {
   const model = args[0];
+  console.log(model);
   const ped = GetPlayerPed(-1);
   const coords = GetEntityCoords(ped);
   RequestModel(model);
