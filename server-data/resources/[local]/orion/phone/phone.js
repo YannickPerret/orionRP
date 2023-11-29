@@ -1,4 +1,3 @@
-const { generatePhoneNumber } = require('../utils/phone.js');
 const { db, r } = require('../system/database.js');
 
 class Phone {
