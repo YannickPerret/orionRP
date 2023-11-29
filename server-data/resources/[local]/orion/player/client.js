@@ -361,7 +361,7 @@ function CreateFullBodyCam() {
   const playerPed = GetPlayerPed(-1);
   const playerCoords = GetEntityCoords(playerPed);
   const newX = playerCoords[0] - 1.0; // Ajout de 120 à la coordonnée X
-  const newY = playerCoords[1] - 2.3; // Ajout de 20 à la coordonnée Y
+  const newY = playerCoords[1] - 1.3; // Ajout de 20 à la coordonnée Y
   const newZ = playerCoords[2] + 1.0; // Ajout de 20 à la coordonnée Z
 
   SetCamCoord(cam, newX, newY, newZ);
