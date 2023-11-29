@@ -18,7 +18,6 @@ X: 3619.749, Y: 2742.740, Z: 28.690
 https://forum.cfx.re/t/list-of-all-online-interiors/1449619
 */
 
-const gasStations = require('./station/gasStation.js');
 let isNuiOpen = false;
 
 on('onClientResourceStart', async resource => {
