@@ -104,9 +104,8 @@ onNet('orion:playerSpawned', async () => {
       });
 
       PlayerManager.addPlayer(player.source, player);
-      console.log('[Orion] Joueur existant récupéré : ', player);
       emitNet('orion:showNotification', source, `Bienvenue ${playerData[0].firstname} sur Orion !`);
-      emitNet('orion:sendPlayerData', source, playerData[0]);
+      emitNet('orion:playerConnected', source, playerData[0]);
     } else {
       // Emit on client to open new player menu
       emitNet('orion:createNewPlayer', source);

@@ -34,6 +34,7 @@ client_scripts {
     'utils/notification.js',
     'player/client.js',
     'vehicle/client.js',
-    'phone/client.js'
+    'phone/client.js',
+    'events/winter/client.js',
 }
 

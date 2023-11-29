@@ -14,6 +14,8 @@ X: 514.34, Y: 4887.00, Z: -62.59
 Humane Labs (intérieur) :
 
 X: 3619.749, Y: 2742.740, Z: 28.690
+
+https://forum.cfx.re/t/list-of-all-online-interiors/1449619
 */
 
 let isNuiOpen = false;
@@ -23,48 +25,46 @@ on('onClientResourceStart', async resource => {
     return;
   }
 
-  const model = 'mp_m_freemode_01'; // Remplacez par le nom ou l'hash du modèle approprié
+  const model = 'mp_m_freemode_01';
   RequestModel(model);
 
   while (!HasModelLoaded(model)) {
-    await new Promise(resolve => setTimeout(resolve, 100)); // Attendez de manière asynchrone
+    await new Promise(resolve => setTimeout(resolve, 100));
   }
 
   SetEntityCoords(GetPlayerPed(-1), 514.34, 4887.0, -62.59, false, false, false, true);
-
   isNuiOpen = false;
-  // executePlayerLogin(); // Décommentez ou ajoutez votre logique supplémentaire ici
 });
 
 on('playerSpawned', () => {
   const ped = GetPlayerPed(-1);
+  SetPlayerInvincible(ped, false);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
   SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
   NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
 
   SetEntityHeading(ped, 0.0);
   SetCanAttackFriendly(PlayerPedId(), true, false);
-  SetCanAttackFriendly(PlayerPedId(), true, false);
   NetworkSetFriendlyFireOption(true);
 
   emitNet('orion:playerSpawned');
+});
 
-  onNet('orion:sendPlayerData', playerData => {
-    SetEntityCoords(
-      ped,
-      parseFloat(playerData.position.x),
-      parseFloat(playerData.position.y),
-      parseFloat(playerData.position.z),
-      false,
-      false,
-      false,
-      false
-    );
+onNet('orion:playerConnected', playerData => {
+  SetEntityCoords(
+    ped,
+    parseFloat(playerData.position.x),
+    parseFloat(playerData.position.y),
+    parseFloat(playerData.position.z),
+    false,
+    false,
+    false,
+    false
+  );
 
-    setInterval(() => {
-      emitNet('orion:savePlayerPosition', GetEntityCoords(ped, true));
-    }, 900000);
-  });
+  setInterval(() => {
+    emitNet('orion:savePlayerPosition', GetEntityCoords(ped, true));
+  }, 900000);
 });
 
 RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');

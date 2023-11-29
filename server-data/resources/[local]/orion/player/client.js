@@ -107,22 +107,6 @@ on('orion:createNewPlayer', source => {
   ShowSkinCreator(true);
 });
 
-function getPedAppearance(ped) {
-  const eyeColor = GetPedEyeColor(ped);
-
-  return {
-    model: getPedModel(ped) || 'mp_m_freemode_01',
-    headBlend: getPedHeadBlend(ped),
-    faceFeatures: getPedFaceFeatures(ped),
-    headOverlays: getPedHeadOverlays(ped),
-    components: getPedComponents(ped),
-    props: getPedProps(ped),
-    hair: getPedHair(ped),
-    eyeColor: eyeColor < EYE_COLORS.length ? eyeColor : 0,
-    tattoos: getPedTattoos(),
-  };
-}
-
 const ShowSkinCreator = enable => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), 1.17, -1508.81, 29.84, true, false, true);
   SetPlayerInvincible(PlayerPedId(), true);
@@ -142,7 +126,7 @@ const ShowSkinCreator = enable => {
 const CloseSkinCreator = () => {
   isSkinCreatorOpened = false;
   isCameraActive = false;
-  //SetCamActive(cam, false);
+  SetCamActive(cam, false);
   SetPlayerInvincible(PlayerPedId(), false);
   //DisableIdleCamera(false);
   //RenderScriptCams(false, true, 500, true, true);
