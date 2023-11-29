@@ -21,7 +21,7 @@ client_scripts{
     'core/player.js',
     'core/commands.js',
     'admin/commands.js',
-    'events/winter/client.js
+    'events/winter/client.js',
 }
 
 server_scripts{
