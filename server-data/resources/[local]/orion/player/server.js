@@ -28,7 +28,7 @@ function getIdentifier(source) {
     }
   }
 
-  return { steamId, license };
+  return [steamId, license];
 }
 
 /*onNet('orion:savePlayerPosition', async (x, y, z) => {
@@ -66,8 +66,7 @@ onNet('orion:player:giveAmount', (target, amount) => {
 
 onNet('orion:playerSpawned', async () => {
   let source = global.source;
-  let steamId,
-    license = getIdentifier(source);
+  let [steamId, license] = getIdentifier(source);
 
   console.log(`[Orion] ${steamId || license} se connecte au serveur`);
 
@@ -117,8 +116,7 @@ onNet('orion:player:createNewPlayer', async data => {
   const firstname = data.firstname;
   const lastname = data.lastname;
 
-  let steamId,
-    license = getIdentifier(source);
+  let [steamId, license] = getIdentifier(source);
 
   const newPlayerData = {
     id: r.uuid(),
