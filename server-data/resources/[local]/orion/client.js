@@ -1,41 +1,22 @@
+/*
+Bureau FIB :
+
+X: 136.85, Y: -761.65, Z: 45.75
+Appartement de luxe :
+
+X: -786.8663, Y: 315.7642, Z: 217.6385
+Club de strip-tease (back room) :
+
+X: 116.91, Y: -1296.95, Z: 29.50
+Sous-marin :
+
+X: 514.34, Y: 4887.00, Z: -62.59
+Humane Labs (intérieur) :
+
+X: 3619.749, Y: 2742.740, Z: 28.690
+*/
+
 let isNuiOpen = false;
-let isFlymodeEnabled = false;
-const flymodeSpeed = 100;
-
-/*const executePlayerLogin = () => {
-  const Player = GetPlayerServerId(PlayerId());
-  const Ped = PlayerPedId();
-
-
-  SetPlayerModel(Player, model);
-  SetPedRandomComponentVariation(Ped, true);
-
-  SetEntityCoordsNoOffset(Ped, -312.68, 194.5, 144.37, false, false, false, true);
-  NetworkResurrectLocalPlayer(-312.68, 194.5, 144.37, true, true, false);
-  SetEntityHeading(Ped, 0.0);
-  DisplayRadar(false);
-  FreezeEntityPosition(Ped, true);
-  SetEntityInvincible(Ped, true);
-  SetEntityVisible(Ped, false, false);
-  SetPlayerControl(Ped, false, false);
-  SetEntityHealth(Ped, 100);
-  SetPedArmour(Ped, 0);
-
-  console.log(Ped);
-  onEmit('spawn:PlayerSpawned');
-};
-*/ /*
-on('onClientResourceStart', Resource => {
-  if (GetCurrentResourceName() != Resource) {
-    return;
-  }
-  RequestModel(model);
-  while (!HasModelLoaded(model)) {
-    Delay(0);
-  }
-  isNuiOpen = false;
-  //executePlayerLogin();
-});*/
 
 on('onClientResourceStart', async resource => {
   if (GetCurrentResourceName() !== resource) {
@@ -49,18 +30,22 @@ on('onClientResourceStart', async resource => {
     await new Promise(resolve => setTimeout(resolve, 100)); // Attendez de manière asynchrone
   }
 
+  SetEntityCoords(GetPlayerPed(-1), 514.34, 4887.0, -62.59, false, false, false, true);
+
   isNuiOpen = false;
   // executePlayerLogin(); // Décommentez ou ajoutez votre logique supplémentaire ici
 });
 
 on('playerSpawned', () => {
-  const playerId = GetPlayerServerId(PlayerId());
   const ped = GetPlayerPed(-1);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
   SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
   NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
+
   SetEntityHeading(ped, 0.0);
   SetCanAttackFriendly(PlayerPedId(), true, false);
+  SetCanAttackFriendly(PlayerPedId(), true, false);
+  NetworkSetFriendlyFireOption(true);
 
   emitNet('orion:playerSpawned');
 
@@ -75,13 +60,9 @@ on('playerSpawned', () => {
       false,
       false
     );
-    SetCanAttackFriendly(PlayerPedId(), true, false);
-    NetworkSetFriendlyFireOption(true);
 
     setInterval(() => {
-      const playerPed = GetPlayerPed(-1);
-      const position = GetEntityCoords(playerPed, true);
-      emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
+      emitNet('orion:savePlayerPosition', GetEntityCoords(ped, true));
     }, 900000);
   });
 });
@@ -98,8 +79,23 @@ onNet('orion:openPlayerMenu', playerData => {
   );
 });
 
+// UI REGISTER
+RegisterNuiCallbackType('closeNUI');
+on('__cfx_nui:closeNUI', (data, cb) => {
+  if (isNuiOpen) {
+    isNuiOpen = false;
+    SetNuiFocus(false, false);
+  }
+  cb({ ok: true });
+});
+
+RegisterNuiCallbackType('savePosition');
+on('__cfx_nui:savePosition', (data, cb) => {
+  emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
+  cb({ ok: true });
+});
+
 setTick(() => {
-  let player = PlayerId();
   let isDead = IsEntityDead(GetPlayerPed(-1));
 
   if (isDead) {
@@ -131,144 +127,6 @@ setTick(() => {
   HideHudComponentThisFrame(14);
   Delay(5);
 });
-
-// UI REGISTER
-
-RegisterNuiCallbackType('closeNUI');
-on('__cfx_nui:closeNUI', (data, cb) => {
-  if (isNuiOpen) {
-    isNuiOpen = false;
-    SetNuiFocus(false, false);
-  }
-  cb({ ok: true });
-});
-
-RegisterNuiCallbackType('savePosition');
-on('__cfx_nui:savePosition', (data, cb) => {
-  const playerPed = GetPlayerPed(-1);
-  const position = GetEntityCoords(playerPed, true);
-  emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
-  cb({ ok: true });
-});
-
-// REGISTER COMMANDS
-RegisterCommand(
-  'save',
-  async (source, args) => {
-    const playerPed = GetPlayerPed(-1);
-    const position = GetEntityCoords(playerPed, true);
-    emitNet('orion:savePlayerPosition', position[0], position[1], position[2]);
-  },
-  false
-);
-
-RegisterCommand(
-  'openPlayerMenu',
-  () => {
-    emitNet('orion:getPlayerData');
-  },
-  false
-);
-
-RegisterCommand('pos', (source, args) => {
-  const pos = GetEntityCoords(GetPlayerPed(-1));
-  const heading = GetEntityHeading(GetPlayerPed(-1));
-  emit('chat:addMessage', {
-    args: [`X: ${pos[0].toFixed(2)}, Y: ${pos[1].toFixed(2)}, Z: ${pos[2].toFixed(2)}, Heading: ${heading.toFixed(2)}`],
-  });
-});
-
-RegisterCommand('tp', (source, args) => {
-  SetEntityCoordsNoOffset(
-    GetPlayerPed(),
-    parseFloat(args[0]),
-    parseFloat(args[1]),
-    parseFloat(args[2]),
-    false,
-    false,
-    true
-  );
-});
-
-RegisterCommand(
-  'tpto',
-  (source, args) => {
-    const playerPed = GetPlayerPed(-1);
-    const blip = GetFirstBlipInfoId(8); // ID 8 correspond à un waypoint
-    if (blip !== 0) {
-      const coord = GetBlipInfoIdCoord(blip);
-      RequestCollisionAtCoord(coord[0], coord[1], coord[2]);
-
-      // Attendre que la hauteur du sol soit chargée
-      let groundZ = 0;
-      let groundCheck = false;
-
-      setTimeout(() => {
-        [groundCheck, groundZ] = GetGroundZFor_3dCoord(coord[0], coord[1], coord[2], 0, false);
-        if (groundCheck) {
-          SetEntityCoordsNoOffset(playerPed, coord[0], coord[1], groundZ + 1.0, false, false, true); // Ajouté un petit offset pour éviter de se retrouver sous le sol
-        } else {
-          SetEntityCoords(playerPed, coord[0], coord[1], coord[2], false, false, false, true);
-        }
-      }, 1000); // Attendre 1 seconde pour laisser le temps au jeu de charger la hauteur du sol
-    } else {
-      console.log('Aucun waypoint trouvé.');
-    }
-  },
-  false
-);
-
-RegisterCommand(
-  'noclip',
-  () => {
-    const playerPed = GetPlayerPed(-1);
-    if (!isFlymodeEnabled) {
-      isFlymodeEnabled = true;
-      SetEntityInvincible(playerPed, true);
-      SetEntityMaxSpeed(playerPed, flymodeSpeed);
-      SetEntityCollision(playerPed, false, false);
-
-      SetEntityVisible(playerPed, false, false);
-      SetEntityAlpha(playerPed, 100, false); // Rendre le joueur partiellement transparent localement
-      SetEveryoneIgnorePlayer(playerPed, true);
-
-      DisableControlAction(0, 22, true); // Disable forward
-      DisableControlAction(0, 23, true); // Disable backward
-      DisableControlAction(0, 24, true); // Disable left
-      DisableControlAction(0, 25, true); // Disable right
-
-      intervalId = setInterval(() => {
-        SetEntityLocallyVisible(playerPed);
-        SetLocalPlayerVisibleLocally(true);
-      }, 0);
-
-      // Désactiver certains contrôles...
-      emit('orion:showNotification', 'Flymode activé');
-    } else {
-      isFlymodeEnabled = false;
-      SetEntityInvincible(playerPed, false);
-      SetEntityMaxSpeed(playerPed, 20);
-      SetEntityCollision(playerPed, true, true);
-
-      SetEntityVisible(playerPed, true, false);
-      SetEntityAlpha(playerPed, 255, false);
-      SetEveryoneIgnorePlayer(playerPed, false);
-
-      EnableControlAction(0, 22, true); // Enable forward
-      EnableControlAction(0, 23, true); // Enable backward
-      EnableControlAction(0, 24, true); // Enable left
-      EnableControlAction(0, 25, true); // Enable right
-
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-
-      emit('orion:showNotification', 'Flymode désactivé');
-    }
-  },
-  0
-);
 
 setInterval(() => {
   if (isFlymodeEnabled) {

@@ -21,13 +21,16 @@ server_scripts {
     'utils/notification.js',
     'player/server.js',
     'vehicle/server.js',
-    'phone/server.js'
+    'phone/server.js',
+
+
 }
 
 client_scripts {
     'client.js',
     'utils/utils.js',
     'utils/player.js',
+    'system/commands.js',
     'utils/notification.js',
     'player/client.js',
     'vehicle/client.js',
