@@ -886,3 +886,5 @@ exports('gasStations', [
     ],
   },
 ]);
+
+module.exports = gasStations;
