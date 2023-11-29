@@ -23,6 +23,7 @@ client_scripts{
     'admin/commands.js',
     'events/winter/client.js',
     'vehicle/client.js',
+    'station/client.js',
 }
 
 server_scripts{
@@ -31,6 +32,7 @@ server_scripts{
     'core/utils.js',
     'core/notifications.js',
     'vehicle/server.js',
+    'station/server.js',
 }
 
 
