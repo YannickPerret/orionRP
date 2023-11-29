@@ -1,4 +1,4 @@
-module.exports = gasStation = [
+const gasStation = [
   {
     coordinates: {
       X: 49.418720245361328,
@@ -886,3 +886,5 @@ module.exports = gasStation = [
     ],
   },
 ];
+
+module.exports = gasStation;
