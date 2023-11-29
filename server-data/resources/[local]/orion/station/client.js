@@ -888,7 +888,6 @@ const gazStationsBlips = [
 ];
 
 (async () => {
-  console.log('gasStations', gazStationsBlips);
   for (let i = 0; i < gazStationsBlips.length; i++) {
     const station = gazStationsBlips[i];
     createBlip(station.coordinates, 361, 1, 1, 'Station essence');
