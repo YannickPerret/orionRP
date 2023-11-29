@@ -365,7 +365,7 @@ function CreateFullBodyCam() {
   const newZ = playerCoords[2] + 1.0; // Ajout de 20 à la coordonnée Z
 
   SetCamCoord(cam, newX, newY, newZ);
-  SetCamRot(cam, 90, 0, 0);
+  SetCamRot(cam, 0, 0, 90);
   SetCamFov(cam, 90.0);
 
   // Affichez la caméra
