@@ -1,4 +1,4 @@
-import Player from './player';
+const { player } = require('player.js');
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
 const enableDiscordWhitelist = true;
