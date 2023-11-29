@@ -46,7 +46,7 @@ exports('Delay', Delay);
 exports('getVehicleInFront', getVehicleInFront);
 
 function createBlip(coords, sprite, color, scale, text) {
-  let blip = AddBlipForCoord(coords.x, coords.y, coords.z);
+  let blip = AddBlipForCoord(coords.X, coords.Y, coords.Z);
   SetBlipSprite(blip, sprite);
   SetBlipDisplay(blip, 2);
   SetBlipScale(blip, scale);
