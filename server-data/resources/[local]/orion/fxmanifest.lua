@@ -14,15 +14,15 @@ files {
 }
 
 client_scripts{
+    'player/player.js',
     'client.js',
     'player/client.js',
-    'player/player.js',
 }
 
 server_scripts{
+    'player/player.js',
     'server.js',
     'player/server.js',
-    'player/player.js',
 }
 
 /*
