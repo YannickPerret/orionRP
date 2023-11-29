@@ -1,4 +1,3 @@
-const { db, r } = require('../system/database.js');
 const Inventory = require('../inventory/Inventory.js');
 class Player {
   constructor({
