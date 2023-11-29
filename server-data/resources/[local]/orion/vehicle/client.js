@@ -143,6 +143,10 @@ async () => {
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
 
+    if (vehicle != undefined && GetVehicleEngineHealth(vehicle) <= 300) {
+      SetVehicleEngineOn(vehicle, false, false, true);
+    }
+
     if (vehicle != undefined && GetEntitySpeed(vehicle) <= brakeLightSpeedThresh) {
       SetVehicleBrakeLights(vehicle, true);
     }
