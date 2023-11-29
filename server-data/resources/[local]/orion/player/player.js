@@ -15,7 +15,6 @@ class Player {
     discord,
     role,
     mugshot,
-    isDead,
     skin,
   }) {
     this.id = id;
@@ -40,8 +39,17 @@ class Player {
     this.license = license || null;
     this.discord = discord || null;
     this.role = role || false;
-    this.isDead = isDead || false;
     this.skin = skin || null;
+  }
+
+  #isDead = false;
+
+  get isDead() {
+    return this.#isDead;
+  }
+
+  set isDead(value) {
+    this.#isDead = value;
   }
 
   manger(quantite) {

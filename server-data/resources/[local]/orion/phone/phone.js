@@ -1,5 +1,5 @@
-const { generatePhoneNumber } = require("../utils/phone.js");
-const { db, r } = require("../system/database.js");
+const { generatePhoneNumber } = require('../utils/phone.js');
+const { db, r } = require('../system/database.js');
 
 class Phone {
   constructor(number, player) {
@@ -38,13 +38,19 @@ class Phone {
     return this.messages;
   }
 
-  generatePhoneNumber() {
-    //use utils generate number and check is not already used with players.phone
-    const number = generatePhoneNumber();
-    //check if number is already used
+  static async generateNewNumber() {
+    let number = '555';
+    const phonesNumber = await db.getByWithFilter('players', phone);
 
-    this.number = number;
-    return number;
+    for (let i = 0; i < 5; i++) {
+      number += Math.floor(Math.random() * 10);
+    }
+
+    if (phonesNumber.includes(number)) {
+      generatePhoneNumber();
+    } else {
+      return number;
+    }
   }
 }
 

@@ -209,40 +209,36 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
   cb({ ok: true });
 });
 
-RegisterNuiCallbackType('createNewPlayer');
-on('__cfx_nui:createNewPlayer', (data, cb) => {
+RegisterNuiCallbackType('validateSkin');
+on('__cfx_nui:validateSkin', (data, cb) => {
   const firstname = data.firstname;
   const lastname = data.lastname;
 
   // Face
-  let genre = Number(data.genre);
-  if (genre == 0) {
-    if (Number(data.dad) == 0) {
-      dad = Number(data.mum);
-    } else {
-      dad = Number(data.dad);
-    }
-  }
-  let mom = Number(data.mom);
-  let heritage = Number(data.heritage);
-  let skin = Number(data.skin);
-  let eyecolor = Number(data.eyecolor);
-  let acne = Number(data.acne);
-  let skinproblem = Number(data.skinproblem);
-  let freckle = Number(data.freckle);
-  let wrinkle = Number(data.wrinkle);
-  let wrinkleopacity = Number(data.wrinkleopacity);
-  let hair = Number(data.hair);
-  let haircolor = Number(data.haircolor);
-  let eyebrow = Number(data.eyebrow);
-  let eyebrowopacity = Number(data.eyebrowopacity);
-  let beard = Number(data.beard);
-  let beardopacity = Number(data.beardopacity);
-  let beardcolor = Number(data.beardcolor);
+  const genre = Number(data.sex);
+  const dad = Number(data.dad);
+  const mom = Number(data.mom);
+  const heritage = Number(data.heritage);
+  const skin = Number(data.skin);
+  const eyecolor = Number(data.eyecolor);
+  const acne = Number(data.acne);
+  const skinproblem = Number(data.skinproblem);
+  const freckle = Number(data.freckle);
+  const wrinkle = Number(data.wrinkle);
+  const wrinkleopacity = Number(data.wrinkleIntensity);
+  const hair = Number(data.hair);
+  const haircolor = Number(data.haircolor);
+  const eyebrow = Number(data.eyebrow);
+  const eyebrowopacity = Number(data.eyebrowThickness);
+  const beard = Number(data.beard);
+  const beardopacity = Number(data.beardThickness);
+  const beardcolor = Number(data.beardcolor);
 
-  let skinn = {
-    ['sex']: gent,
-    ['face']: dad,
+  const finalSkin = {
+    ['sex']: genre,
+    ['face1']: dad,
+    ['face2']: mom,
+    ['heritage']: heritage,
     ['skin']: skin,
     ['eye_color']: eyecolor,
     ['complexion_1']: skinproblem,
@@ -261,30 +257,11 @@ on('__cfx_nui:createNewPlayer', (data, cb) => {
     ['hair_2']: 0,
     ['hair_color_1']: haircolor,
     ['hair_color_2']: haircolor,
-    ['arms']: torso,
-    ['arms_2']: torsotext,
-    ['pants_1']: leg,
-    ['pants_2']: legtext,
-    ['shoes_1']: shoes,
-    ['shoes_2']: shoestext,
-    ['chain_1']: accessory,
-    ['chain_2']: accessorytext,
-    ['tshirt_1']: undershirt,
-    ['tshirt_2']: undershirttext,
-    ['torso_1']: torso2,
-    ['torso_2']: torso2text,
-    ['helmet_1']: prop_hat,
-    ['helmet_2']: prop_hat_text,
-    ['glasses_1']: prop_glasses,
-    ['glasses_2']: prop_glasses_text,
-    ['ears_1']: prop_earrings,
-    ['ears_2']: prop_earrings_text,
-    ['watches_1']: prop_watches,
-    ['watches_2']: prop_watches_text,
+    ['acne_1']: acne,
   };
 
-  if (firstname && lastname) {
-    emitNet('orion:player:createNewPlayer', firstname, lastname, skinn);
+  if (firstname?.length >= 3 && lastname?.length >= 3) {
+    emitNet('orion:player:createNewPlayer', firstname, lastname, finalSkin);
     cb({ ok: true });
   } else {
     cb({ ok: false });
@@ -327,8 +304,6 @@ const ApplyPedHair = (ped, hair) => {
   SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
 
   SetPedHeadOverlay(ped, 0, hair.acne);
-  //SetPedHeadOverlay(ped, HeadOverlayType.ChestHair, hair.ChestHairType, (hair.ChestHairOpacity || 0) + 0.0 || 1.0);
-  //SetPedHeadOverlayColor(ped, HeadOverlayType.ChestHair, 1, hair.ChestHairColor, 0);
 };
 
 const applyPedFace = (ped, face) => {

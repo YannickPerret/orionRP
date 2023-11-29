@@ -71,6 +71,58 @@ export default function SkinCreator() {
     }
   }
 
+  const handleReset = async () => {
+    setFirstname('');
+    setLastname('');
+    setDad(0);
+    setMom(0);
+    setSex(0);
+    setHeritage(5);
+    setSkinColor(0);
+    setAcne(0);
+    setSkinProblem(0);
+    setFreckle(0);
+    setWrinkle(0);
+    setWrinkleIntensity(10);
+    setHairColor(0);
+    setHair(0);
+    setEyebrow(0);
+    setEyeColor(0);
+    setEyebrowThickness(0);
+    setBeard(0);
+    setBeardColor(0);
+    setBeardThickness(0);
+    await sendNui('resetSkin');
+   }
+
+    const handleValidate = async () => {
+        if (window.confirm('Êtes-vous sûr de vouloir valider votre personnage ?')) {
+            await sendNui('validateSkin', {
+                firstname: firstname,
+                lastname: lastname,
+                dad: dad,
+                mom: mom,
+                sex: sex,
+                heritage: heritage,
+                skin: skinColor,
+                acne: acne,
+                skinProblem: skinProblem,
+                freckle: freckle,
+                wrinkle: wrinkle,
+                wrinkleIntensity: wrinkleIntensity,
+                eyeColor: eyeColor,
+                hairColor: hairColor,
+                hair: hair,
+                highlight: 0,
+                eyebrow: eyebrow,
+                eyebrowThickness: eyebrowThickness,
+                beard: beard,
+                beardColor: beardColor,
+                beardThickness: beardThickness
+            });
+        }
+    }
+
   useEffect(() => {
     handleSubmit();
   }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyebrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
@@ -87,7 +139,7 @@ export default function SkinCreator() {
                 <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
                 <a href="#" className="arrow arrow-right">&nbsp;</a>
             </div>
-        </div>
+        </div>xw
         <Father handleFatherChange={setDad} />
         <Mother handleMotherChange={setMom} />
         <div className="input">
@@ -131,8 +183,8 @@ export default function SkinCreator() {
      </div>
 
       <div className='skinCreator__valid'>
-        <button>Reset</button>
-        <button onClick={handleSubmit}>Valider</button>
+        <button onClick={handleReset}>Reset</button>
+        <button onClick={handleValidate}>Valider</button>
       </div>
     </div>
   );
