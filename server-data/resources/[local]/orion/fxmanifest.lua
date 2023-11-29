@@ -16,7 +16,6 @@ files {
 server_scripts{
     'server.js',
     'player/server.js',
-
     'core/utils.js',
     'core/notifications.js',
 }
@@ -25,8 +24,8 @@ client_scripts{
     'client.js',
     'player/client.js',
     'core/utils.js',
-    'core/player.js',
     'core/notifications.js',
+    'core/player.js',
     'core/commands.js',
     'admin/commands.js',
     'events/winter/client.js
