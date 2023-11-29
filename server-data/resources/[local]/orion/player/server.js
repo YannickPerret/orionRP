@@ -1,5 +1,4 @@
-//const Player = require('./player.js');
-
+const Player = require('./player.js');
 const { db, r } = require('./core/database.js');
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
