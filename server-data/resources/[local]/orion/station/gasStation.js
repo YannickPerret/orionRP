@@ -1,4 +1,4 @@
-const gasStation = [
+exports('gasStations', [
   {
     coordinates: {
       X: 49.418720245361328,
@@ -885,6 +885,4 @@ const gasStation = [
       },
     ],
   },
-];
-
-module.exports = gasStation;
+]);
