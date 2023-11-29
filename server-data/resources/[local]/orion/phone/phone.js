@@ -1,5 +1,3 @@
-const { db, r } = require('../system/database.js');
-
 class Phone {
   constructor(number, player) {
     this.contacts = new Map();
