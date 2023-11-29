@@ -62,9 +62,9 @@ onNet('orion:playerConnected', playerData => {
     false
   );
 
-  setInterval(() => {
+  /*setInterval(() => {
     emitNet('orion:savePlayerPosition', GetEntityCoords(ped, true));
-  }, 900000);
+  }, 900000);*/
 });
 
 RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
