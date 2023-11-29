@@ -197,6 +197,13 @@ on('__cfx_nui:updateSkin', async (data, cb) => {
       //ChestHairOpacity: data.chestHairOpacity,
       //ChestHairColor: data.chestHairColor,
     },
+    Face: {
+      Acne: Number(data.acne),
+      SkinProblem: Number(data.skinProblem),
+      Freckle: Number(data.freckle),
+      Wrinkle: Number(data.wrinkle),
+      WrinkleOpacity: Number(data.wrinkleOpacity),
+    },
   });
 
   cb({ ok: true });
@@ -319,8 +326,20 @@ const ApplyPedHair = (ped, hair) => {
   SetPedHeadOverlay(ped, 1, hair.BeardType, hair.BeardOpacity || 1.0);
   SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
 
+  SetPedHeadOverlay(ped, 0, hair.acne);
   //SetPedHeadOverlay(ped, HeadOverlayType.ChestHair, hair.ChestHairType, (hair.ChestHairOpacity || 0) + 0.0 || 1.0);
   //SetPedHeadOverlayColor(ped, HeadOverlayType.ChestHair, 1, hair.ChestHairColor, 0);
+};
+
+const applyPedFace = (ped, face) => {
+  if (face.Acne == 0) {
+    SetPedHeadOverlay(ped, 0, face.Acne, 0.0);
+  } else SetPedHeadOverlay(ped, 0, face.Acne, 1.0);
+  SetPedHeadOverlay(ped, 6, face.SkinProblem, 1.0);
+  if (face.Freckle == 0) {
+    SetPedHeadOverlay(ped, 9, face.Freckle, 0.0);
+  } else SetPedHeadOverlay(ped, 9, face.Freckle, 1.0);
+  SetPedHeadOverlay(ped, 3, face.Wrinkle, face.WrinkleOpacity);
 };
 
 const ApplyPedFaceTrait = model => {
@@ -347,6 +366,7 @@ const ApplyPlayerBodySkin = (playerId, bodySkin) => {
   ClearPedDecorations(ped);
 
   ApplyPedFaceTrait(bodySkin.Model);
+  applyPedFace(ped, bodySkin.Face);
   ApplyPedHair(PlayerPedId(), bodySkin.Hair);
   //ApplyPedMakeup(ped, bodySkin.Makeup)
   //ApplyPedTattoos(ped, bodySkin.Tattoos || {})
@@ -400,12 +420,6 @@ setInterval(() => {
     }
   }
 }, 400);
-
-/*setInterval(() => {
-  if (isSkinCreatorOpened) {
-    SetEntityHeading(GetPlayerPed(-1), heading);
-  }
-}, 1);*/
 
 RegisterCommand(
   'zoom',
