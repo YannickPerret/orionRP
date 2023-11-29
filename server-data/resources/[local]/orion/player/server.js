@@ -1,4 +1,5 @@
 //const Player = require('./player.js');
+const PlayerManager = require('../core/playerManager.js');
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
 const enableDiscordWhitelist = true;
@@ -77,7 +78,6 @@ onNet('orion:playerSpawned', async () => {
   }
 
   try {
-    console.log(getIdentifier(source));
     const filters = { steamId: steamId, license: license };
     const playerData = await db.getByWithFilter('players', filters);
 
