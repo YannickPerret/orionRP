@@ -1,4 +1,3 @@
-const PlayerManager = require('./core/playerManager.js');
 const { db, r } = require('./core/database.js');
 
 on('playerDropped', reason => {
