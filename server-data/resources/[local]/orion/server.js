@@ -1,5 +1,5 @@
-const PlayerManager = require('./system/playerManager.js');
-const { db, r } = require('./system/database.js');
+const PlayerManager = require('./core/playerManager.js');
+const { db, r } = require('./core/database.js');
 
 on('playerDropped', reason => {
   let sourceId = global.source; // Obtenez l'ID unique du joueur

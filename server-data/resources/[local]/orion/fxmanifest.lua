@@ -14,12 +14,19 @@ files {
 }
 
 server_scripts{
+    'core/notifications.js',
+    'core/playerManager.js',
+    'core/database.js',
     'server.js',
     'player/player.js',
     'player/server.js',
 }
 
 client_scripts{
+    'core/utils.js',
+    'core/player.js',
+    'core/notifications.js',
+    'core/commands.js',
     'client.js',
     'player/player.js',
     'player/client.js',
