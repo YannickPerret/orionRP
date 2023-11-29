@@ -24,12 +24,14 @@ RegisterCommand('pos', (source, args) => {
   });
 });
 
-RegisterCommand('veh', (source, args) => {
+RegisterCommand('veh', async (source, args) => {
   const model = args[0];
-  console.log(model);
   const ped = GetPlayerPed(-1);
   const coords = GetEntityCoords(ped);
   RequestModel(model);
+  while (!HasModelLoaded(model)) {
+    await Delay(400);
+  }
   const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   SetPedIntoVehicle(ped, vehicle, -1);
   SetEntityAsNoLongerNeeded(vehicle);
