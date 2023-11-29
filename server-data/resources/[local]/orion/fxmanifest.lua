@@ -14,7 +14,14 @@ files {
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
 }
+server_scripts{
+    '**/*.js'
+}
+client_scripts{
+    '**/*.js'
+}
 
+/*
 server_scripts {
     'server.js',
     'utils/utils.js',
@@ -38,5 +45,5 @@ client_scripts {
     'vehicle/client.js',
     'phone/client.js',
     'events/winter/client.js',
-}
+}*/
 
