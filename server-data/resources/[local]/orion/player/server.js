@@ -77,6 +77,7 @@ onNet('orion:playerSpawned', async () => {
   }
 
   try {
+    console.log(steamId, license);
     const filters = { steamId: steamId, license: license };
     const playerData = await db.getByWithFilter('players', filters);
 
