@@ -13,13 +13,6 @@ files {
     'web/build/images/skinCreator/heritage/*',
 }
 
-server_scripts{
-    'server.js',
-    'player/server.js',
-    'core/utils.js',
-    'core/notifications.js',
-}
-
 client_scripts{
     'client.js',
     'player/client.js',
@@ -30,6 +23,15 @@ client_scripts{
     'admin/commands.js',
     'events/winter/client.js
 }
+
+server_scripts{
+    'server.js',
+    'player/server.js',
+    'core/utils.js',
+    'core/notifications.js',
+}
+
+
 
 
 
