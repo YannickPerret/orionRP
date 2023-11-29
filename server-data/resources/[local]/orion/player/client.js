@@ -381,7 +381,8 @@ function ZoomToHead(cam) {
 
   SetCamCoord(distance);
   // Définissez le champ de vision de la caméra en fonction de la distance
-  cam.SetFov(30.0 - distance / 100.0);
+
+  //SetFov(30.0 - distance / 100.0);
 }
 
 setInterval(() => {
