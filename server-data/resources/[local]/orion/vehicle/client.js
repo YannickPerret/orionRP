@@ -35,8 +35,6 @@ SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifi
 const toggleSeatbelt = () => {
   sealtbelt = !sealtbelt;
   if (sealtbelt) {
-    //PlaySoundFrontend(-1, "Faster_Click", "RESPAWN_ONLINE_SOUNDSET", 1)
-
     playSound('buckle');
     SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
     emit('orion:showNotification', 'Vous avez attaché votre ceinture de sécurité.');
@@ -123,6 +121,13 @@ const playSound = sound => {
       }
     } else {
       DisplayRadar(false);
+      SendNUIMessage({
+        action: 'updateSpeed',
+        data: {
+          speed: 0,
+          isDriver: false,
+        },
+      });
       if (sealtbelt) {
         sealtbelt = false;
         toggleSeatbelt();
