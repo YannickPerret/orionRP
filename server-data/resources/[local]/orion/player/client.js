@@ -377,7 +377,7 @@ function CreateFullBodyCam() {
 function ZoomToHead(cam) {
   // Obtenez la distance entre la caméra et la tête du joueur
 
-  let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), GetPlayerPed(-1) + Vector3(0.0, 0.0, 0.8));
+  let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), (GetEntityCoords(GetPlayerPed(-1)) + 0.0, 0.0, 0.8));
 
   SetCamCoord(distance);
   // Définissez le champ de vision de la caméra en fonction de la distance
