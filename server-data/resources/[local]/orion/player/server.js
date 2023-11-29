@@ -83,7 +83,7 @@ onNet('orion:playerSpawned', async () => {
 
     if (playerData.length > 0) {
       // Traitement pour un joueur existant
-      const player = new Player({
+      const newPlayer = new Player({
         id: playerData[0].id,
         source: source,
         steamId: steamId,
@@ -99,7 +99,7 @@ onNet('orion:playerSpawned', async () => {
         skin: playerData[0].skin,
       });
 
-      PlayerManager.addPlayer(player.source, player);
+      PlayerManager.addPlayer(newPlayer.source, newPlayer);
       emitNet('orion:showNotification', source, `Bienvenue ${playerData[0].firstname} sur Orion !`);
       emitNet('orion:playerConnected', source, playerData[0]);
     } else {
