@@ -28,7 +28,7 @@ function getIdentifier(source) {
     }
   }
 
-  return steamId, license;
+  return { steamId, license };
 }
 
 /*onNet('orion:savePlayerPosition', async (x, y, z) => {
