@@ -18,7 +18,6 @@ server_scripts{
     'core/playerManager.js',
     'core/database.js',
     'server.js',
-    'player/player.js',
     'player/server.js',
 }
 
@@ -28,7 +27,6 @@ client_scripts{
     'core/notifications.js',
     'core/commands.js',
     'client.js',
-    'player/player.js',
     'player/client.js',
 }
 
