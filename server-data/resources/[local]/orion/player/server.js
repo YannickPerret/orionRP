@@ -1,4 +1,3 @@
-const PlayerManager = require('../system/playerManager.js');
 const Player = require('../player/player.js');
 const { db, r } = require('../system/database.js');
 const Phone = require('../phone/phone.js');
