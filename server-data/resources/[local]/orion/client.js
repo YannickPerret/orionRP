@@ -51,7 +51,7 @@ on('playerSpawned', () => {
 
 onNet('orion:playerConnected', playerData => {
   SetEntityCoords(
-    ped,
+    GetPlayerPed(-1),
     parseFloat(playerData.position.x),
     parseFloat(playerData.position.y),
     parseFloat(playerData.position.z),
