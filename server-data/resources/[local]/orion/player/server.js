@@ -99,9 +99,11 @@ onNet('orion:playerSpawned', async () => {
       });
 
       PlayerManager.addPlayer(newPlayer.source, newPlayer);
-      emitNet('orion:showNotification', source, `Bienvenue ${playerData[0].firstname} sur Orion !`);
-      emitNet('orion:playerConnected', source, playerData[0]);
+      console.log(`Bonjour ${newPlayer.firstname} ${newPlayer.lastname} !`);
+      emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
+      emitNet('orion:playerConnected', source, newPlayer);
     } else {
+      console.log("Le joueur n'existe pas, création en cours...");
       // Emit on client to open new player menu
       emitNet('orion:createNewPlayer', source);
     }
