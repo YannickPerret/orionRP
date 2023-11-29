@@ -128,7 +128,7 @@ setTick(() => {
   Delay(5);
 });
 
-setInterval(() => {
+SetTick(() => {
   if (isFlymodeEnabled) {
     const playerPed = GetPlayerPed(-1);
     let [x, y, z] = GetEntityCoords(playerPed, true);

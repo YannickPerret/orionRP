@@ -30,42 +30,31 @@ let brakeLightSpeedThresh = 0.25;
 let seatbeltEjectSpeed = 45.0;
 let seatbeltEjectAccel = 100.0;
 
-SetFlyThroughWindscreenParams(
-  ejectVelocity,
-  unknownEjectVelocity,
-  unknownModifier,
-  minDamage
-);
+SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
 
 const toggleSeatbelt = () => {
   sealtbelt = !sealtbelt;
   if (sealtbelt) {
     //PlaySoundFrontend(-1, "Faster_Click", "RESPAWN_ONLINE_SOUNDSET", 1)
 
-    playSound("buckle");
+    playSound('buckle');
     SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
-    emit(
-      "orion:showNotification",
-      "Vous avez attaché votre ceinture de sécurité."
-    );
+    emit('orion:showNotification', 'Vous avez attaché votre ceinture de sécurité.');
   } else {
-    playSound("unbuckle");
-    SetFlyThroughWindscreenParams(
-      ejectVelocity,
-      unknownEjectVelocity,
-      unknownModifier,
-      minDamage
-    );
-    emit(
-      "orion:showNotification",
-      "Vous avez détaché votre ceinture de sécurité."
-    );
+    playSound('unbuckle');
+    SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
+    emit('orion:showNotification', 'Vous avez détaché votre ceinture de sécurité.');
   }
+
+  SendNUIMessage({
+    action: 'seatbelt',
+    data: sealtbelt,
+  });
 };
 
-const playSound = (sound) => {
+const playSound = sound => {
   SendNUIMessage({
-    action: "playSound",
+    action: 'playSound',
     data: {
       sound,
       volume,
@@ -99,27 +88,10 @@ const playSound = (sound) => {
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
-        if (
-          vehIsMovingFwd &&
-          prevSpeed > seatbeltEjectSpeed / 2.237 &&
-          vehAcc > seatbeltEjectAccel * 9.81
-        ) {
+        if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
           console.log(positionX, prevVelocity.x);
-          SetEntityCoords(
-            ped,
-            positionX,
-            positionY,
-            positionZ - 0.47,
-            true,
-            true,
-            true
-          );
-          SetEntityVelocity(
-            ped,
-            prevVelocity.x,
-            prevVelocity.y,
-            prevVelocity.z
-          );
+          SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
+          SetEntityVelocity(ped, prevVelocity.x, prevVelocity.y, prevVelocity.z);
           await Delay(1);
           SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0);
         } else {
@@ -133,7 +105,7 @@ const playSound = (sound) => {
       let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
       SendNUIMessage({
-        action: "updateSpeed",
+        action: 'updateSpeed',
         data: {
           speed: speed.toFixed(0),
           isDriver: isDriver,
@@ -143,10 +115,7 @@ const playSound = (sound) => {
       let vehicleClass = GetVehicleClass(vehicle);
 
       // disable air control
-      if (
-        GetPedInVehicleSeat(vehicle, -1) == ped &&
-        vehicleClassDisableControl[vehicleClass]
-      ) {
+      if (GetPedInVehicleSeat(vehicle, -1) == ped && vehicleClassDisableControl[vehicleClass]) {
         if (IsEntityInAir(vehicle)) {
           DisableControlAction(2, 59);
           DisableControlAction(2, 60);
@@ -169,10 +138,7 @@ async () => {
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
 
-    if (
-      vehicle != undefined &&
-      GetEntitySpeed(vehicle) <= brakeLightSpeedThresh
-    ) {
+    if (vehicle != undefined && GetEntitySpeed(vehicle) <= brakeLightSpeedThresh) {
       SetVehicleBrakeLights(vehicle, true);
     }
 
@@ -180,10 +146,10 @@ async () => {
   }
 };
 
-RegisterKeyMapping("seatbelt", "Attacher sa ceinture", "keyboard", "N");
+RegisterKeyMapping('seatbelt', 'Attacher sa ceinture', 'keyboard', 'N');
 
 RegisterCommand(
-  "seatbelt",
+  'seatbelt',
   () => {
     let ped = PlayerPedId();
     if (IsPedInAnyVehicle(ped, false)) {

@@ -8,6 +8,7 @@ import { SideMenu } from './menu/SideMenu';
 import JobMenu from './menu/JobMenu/JobMenu';
 import Amount from './components/input/amount/Amount';
 import SkinCreator from './window/SkinCreator/SkinCreator';
+import Seatbelt from './components/vehicle/Seatbelt';
 
 const initialState = {
   player: {
@@ -29,7 +30,8 @@ const initialState = {
   showJobMenu: false,
   showAmountMenu: false,
   isDriver: false,
-  showSkinCreator: false,
+  showSkinCreator: true,
+  haveSeatbelt: false,
   speed: 0,
   amount: 0,
 };
@@ -53,6 +55,8 @@ const reducer = (state, action) => {
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     case 'SHOW_SKIN_CREATOR':
       return { ...state, showSkinCreator: true };
+    case 'SEATBELT':
+      return { ...state, haveSeatbelt: action.data };
     default:
       return state;
   }
@@ -91,6 +95,9 @@ const App = () => {
           break;
         case 'showSkinCreator':
           dispatch({ type: 'SHOW_SKIN_CREATOR' });
+          break;
+        case 'seatbelt':
+          dispatch({type: 'SEATBELT', data});
           break;
       }
     };
@@ -153,9 +160,12 @@ const App = () => {
     );
   } else if (state.isDriver) {
     return (
+      <>
       <div className='driver'>
         <div className='driver__speed'>{state.speed} km/h</div>
       </div>
+      {state.haveSeatbelt && <Seatbelt />}
+      </>
     );
   }
   if (state.showAmountMenu && !state.sideMenuUi && !state.showPlayerMenu) {

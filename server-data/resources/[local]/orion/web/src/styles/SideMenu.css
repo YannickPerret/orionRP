@@ -7,6 +7,7 @@
     border-radius: 10px;
     margin-left : 3vw;
     z-index: 0;
+    overflow-y: scroll;
   }
   
   .SideMenu__header {
