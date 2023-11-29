@@ -11,7 +11,7 @@ const loadAnimDict = animDict => {
   }
 };
 
-SetTick(() => {
+setInterval(() => {
   if (
     !IsPedInAnyVehicle(PlayerPedId(), true) &&
     !IsPedUsingAnyScenario(PlayerId()) &&
