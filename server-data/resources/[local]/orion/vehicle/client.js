@@ -30,6 +30,30 @@ let brakeLightSpeedThresh = 0.25;
 let seatbeltEjectSpeed = 45.0;
 let seatbeltEjectAccel = 100.0;
 
+const createVehicle = async (model, coords) => {
+  RequestModel(model);
+  while (!HasModelLoaded(model)) {
+    await Delay(400);
+  }
+  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+  SetEntityAsNoLongerNeeded(vehicle);
+  SetModelAsNoLongerNeeded(model);
+};
+
+const createVehiclePedInside = async model => {
+  const ped = PlayerPedId();
+  const coords = GetEntityCoords(ped);
+  RequestModel(model);
+  while (!HasModelLoaded(model)) {
+    await Delay(400);
+  }
+  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+  SetPedIntoVehicle(ped, vehicle, -1);
+  SetEntityAsNoLongerNeeded(vehicle);
+  SetModelAsNoLongerNeeded(model);
+  emitNet('orion:vehicle:createVehicle', vehicle);
+};
+
 SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
 
 const toggleSeatbelt = () => {
@@ -171,5 +195,11 @@ RegisterCommand(
   false
 );
 
-// setTick to consume fuel of vehicles when it's moving
-setTick(async () => {});
+RegisterCommand(
+  'veh',
+  async (source, args) => {
+    const model = args[0];
+    createVehiclePedInside(model);
+  },
+  false
+);

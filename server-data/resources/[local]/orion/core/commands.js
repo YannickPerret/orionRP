@@ -23,17 +23,3 @@ RegisterCommand('pos', (source, args) => {
     args: [`X: ${pos[0].toFixed(2)}, Y: ${pos[1].toFixed(2)}, Z: ${pos[2].toFixed(2)}, Heading: ${heading.toFixed(2)}`],
   });
 });
-
-RegisterCommand('veh', async (source, args) => {
-  const model = args[0];
-  const ped = GetPlayerPed(-1);
-  const coords = GetEntityCoords(ped);
-  RequestModel(model);
-  while (!HasModelLoaded(model)) {
-    await Delay(400);
-  }
-  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
-  SetPedIntoVehicle(ped, vehicle, -1);
-  SetEntityAsNoLongerNeeded(vehicle);
-  SetModelAsNoLongerNeeded(model);
-});
