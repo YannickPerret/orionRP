@@ -22,6 +22,7 @@ server_scripts {
     'player/server.js',
     'vehicle/server.js',
     'phone/server.js',
+    'phone/phone.js',
 
 
 }
