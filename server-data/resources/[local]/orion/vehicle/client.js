@@ -172,12 +172,4 @@ RegisterCommand(
 );
 
 // setTick to consume fuel of vehicles when it's moving
-setTick(async () => {
-  // Get all vehicles from the vehicleManager
-  const vehicles = vehicleManager.getVehicles();
-
-  // Update the fuel of each vehicle
-  for (const vehicle of vehicles) {
-    vehicle.consumeFuel();
-  }
-});
+setTick(async () => {});

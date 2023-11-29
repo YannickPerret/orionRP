@@ -25,7 +25,6 @@ RegisterCommand('pos', (source, args) => {
 });
 
 RegisterCommand('veh', (source, args) => {
-  //spawn vehicle by name
   const model = args[0];
   const ped = GetPlayerPed(-1);
   const coords = GetEntityCoords(ped);
