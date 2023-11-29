@@ -139,7 +139,7 @@ export default function SkinCreator() {
                 <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
                 <a href="#" className="arrow arrow-right">&nbsp;</a>
             </div>
-        </div>xw
+        </div>
         <Father handleFatherChange={setDad} />
         <Mother handleMotherChange={setMom} />
         <div className="input">
