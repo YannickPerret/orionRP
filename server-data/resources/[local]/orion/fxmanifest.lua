@@ -13,17 +13,19 @@ files {
     'web/build/images/skinCreator/heritage/*',
 }
 
-client_scripts{
+server_scripts{
+    'server.js',
     'player/player.js',
+    'player/server.js',
+}
+
+client_scripts{
     'client.js',
+    'player/player.js',
     'player/client.js',
 }
 
-server_scripts{
-    'player/player.js',
-    'server.js',
-    'player/server.js',
-}
+
 
 /*
 server_scripts {
