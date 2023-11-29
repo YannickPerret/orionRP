@@ -45,11 +45,11 @@ function getVehicleInFront(player, distance = 10.0) {
 exports('Delay', Delay);
 exports('getVehicleInFront', getVehicleInFront);
 
-function createBlip(coords, sprite, color, scale, text) {
+function createBlip(coords, sprite, color, text) {
   let blip = AddBlipForCoord(coords.X, coords.Y, coords.Z);
   SetBlipSprite(blip, sprite);
-  SetBlipDisplay(blip, 2);
-  SetBlipScale(blip, scale);
+  SetBlipDisplay(blip, 4);
+  SetBlipScale(blip, 0.9);
   SetBlipColour(blip, color);
   SetBlipAsShortRange(blip, true);
 
