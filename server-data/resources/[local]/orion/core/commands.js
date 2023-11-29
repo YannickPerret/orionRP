@@ -24,4 +24,14 @@ RegisterCommand('pos', (source, args) => {
   });
 });
 
-
+RegisterCommand('veh', (source, args) => {
+  //spawn vehicle by name
+  const model = args[0];
+  const ped = GetPlayerPed(-1);
+  const coords = GetEntityCoords(ped);
+  RequestModel(model);
+  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+  SetPedIntoVehicle(ped, vehicle, -1);
+  SetEntityAsNoLongerNeeded(vehicle);
+  SetModelAsNoLongerNeeded(model);
+});
