@@ -403,3 +403,15 @@ setInterval(() => {
     SetEntityHeading(GetPlayerPed(-1), heading);
   }
 }, 1);*/
+
+RegisterCommand(
+  'zoom',
+  (source, args) => {
+    if (isCameraActive) {
+      if (cam) {
+        ZoomToHead(cam);
+      }
+    }
+  },
+  false
+);
