@@ -1,4 +1,5 @@
 (async () => {
+  const test = JSON.parse('./gasStations.json');
   const gasStations = exports.orion.gasStations;
   console.log('gasStations', gasStations);
   for (let i = 0; i < gasStations.length; i++) {
