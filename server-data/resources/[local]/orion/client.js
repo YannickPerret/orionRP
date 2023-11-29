@@ -32,7 +32,6 @@ on('onClientResourceStart', async resource => {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
-  SetEntityCoords(GetPlayerPed(-1), 514.34, 4887.0, -62.59, false, false, false, true);
   isNuiOpen = false;
 });
 

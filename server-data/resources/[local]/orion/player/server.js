@@ -28,7 +28,7 @@ function getIdentifier(source) {
     }
   }
 
-  return { steamId, license };
+  return steamId, license;
 }
 
 /*onNet('orion:savePlayerPosition', async (x, y, z) => {
@@ -116,7 +116,8 @@ onNet('orion:player:createNewPlayer', async data => {
   const firstname = data.firstname;
   const lastname = data.lastname;
 
-  const { steamId, license } = getIdentifier(source);
+  let steamId,
+    license = getIdentifier(source);
 
   const newPlayerData = {
     id: r.uuid(),
