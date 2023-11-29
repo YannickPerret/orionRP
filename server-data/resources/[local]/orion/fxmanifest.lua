@@ -20,6 +20,7 @@ server_scripts {
     'utils/utils.js',
     'utils/notification.js',
     'player/server.js',
+    'player/player.js',
     'vehicle/server.js',
     'phone/server.js',
     'phone/phone.js',
