@@ -1,4 +1,3 @@
-const Inventory = require('../inventory/Inventory.js');
 class Player {
   constructor({
     id,
@@ -95,3 +94,5 @@ class Player {
     }
   }
 }
+
+module.exports = Player;
