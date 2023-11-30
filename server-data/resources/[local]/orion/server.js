@@ -1,6 +1,3 @@
-const Player = require('./player/player.js');
-const Vehicle = require('./vehicle/vehicle.js');
-
 on('playerDropped', reason => {
   let sourceId = global.source; // Obtenez l'ID unique du joueur
   PlayerManager.removePlayer(sourceId);
