@@ -43,6 +43,7 @@ class Phone {
       number = '555' + Math.floor(1000 + Math.random() * 9000);
     } while (phonesNumbers.includes(number));
 
+    console.log('New phone number generated : ', number);
     return number;
   }
 }

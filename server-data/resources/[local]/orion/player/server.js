@@ -131,7 +131,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
     license: license,
     firstname: firstname,
     lastname: lastname,
-    phone: Phone.generateNewNumber(),
+    phone: Number(Phone.generateNewNumber()),
     money: 500,
     bank: 0,
     position: {
