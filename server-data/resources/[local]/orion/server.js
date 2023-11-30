@@ -1,8 +1,8 @@
-const PlayerManager = require('./core/playerManager.js');
+const PlayerManagerServer = require('./core/playerManager.js');
 
 on('playerDropped', reason => {
   let sourceId = global.source; // Obtenez l'ID unique du joueur
-  PlayerManager.removePlayer(sourceId);
+  PlayerManagerServer.removePlayer(sourceId);
 });
 
 const getPlayerCoords = player => {
@@ -14,7 +14,7 @@ const getPlayerCoords = player => {
 // save all player position every 15 minutes
 setInterval(async () => {
   // Get all players from the playerManager
-  const players = playerManager.getPlayers();
+  const players = PlayerManagerServer.getPlayers();
 
   // Update the position of each player
   for (const player of players) {
