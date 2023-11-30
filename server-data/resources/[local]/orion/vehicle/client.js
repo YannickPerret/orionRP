@@ -59,8 +59,8 @@ const createVehiclePedInside = async model => {
   vehicle.secondaryColor = GetVehicleColours(vehicle.id)[1];
   vehicle.pearlescentColor = GetVehicleExtraColours(vehicle.id)[1];
 
-  SetPedIntoVehicle(ped, vehicle, -1);
-  SetEntityAsNoLongerNeeded(vehicle);
+  SetPedIntoVehicle(ped, vehicle.id, -1);
+  SetEntityAsNoLongerNeeded(vehicle.id);
   SetModelAsNoLongerNeeded(model);
   emitNet('orion:vehicle:createVehicle', vehicle);
 };
