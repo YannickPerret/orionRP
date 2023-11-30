@@ -43,7 +43,7 @@ const createVehicle = async (model, coords) => {
 const createVehiclePedInside = async model => {
   const ped = PlayerPedId();
   const coords = GetEntityCoords(ped);
-  let vehicle = null;
+  let vehicle = {};
   RequestModel(model);
   while (!HasModelLoaded(model)) {
     await Delay(400);
