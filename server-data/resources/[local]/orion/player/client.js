@@ -238,7 +238,7 @@ on('__cfx_nui:validateSkin', (data, cb) => {
 
   if (firstname?.length >= 3 && lastname?.length >= 3) {
     console.log('create new player');
-    emitNet('orion:player:s:createNewPlayer', firstname, lastname, finalSkin);
+    emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
     cb({ ok: true });
   } else {
     cb({ ok: false });
