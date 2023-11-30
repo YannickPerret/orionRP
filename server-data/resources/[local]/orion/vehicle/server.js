@@ -1,5 +1,4 @@
 onNet('orion:vehicle:createVehicle', async vehicle => {
-  console.log('vehicle', vehicle);
   let vehicleObj = new Vehicle({
     id: vehicle.id,
     model: vehicle.model,
@@ -11,7 +10,7 @@ onNet('orion:vehicle:createVehicle', async vehicle => {
     secondaryColor: vehicle.secondaryColor,
     pearlescentColor: vehicle.pearlescentColor,
   });
-  VehicleManager.addVehicle(vehicle.source, vehicleObj);
+  VehicleManager.addVehicle(vehicle.id, vehicleObj);
 });
 
 onNet('orion:vehicle:saveVehicle', async vehicle => {

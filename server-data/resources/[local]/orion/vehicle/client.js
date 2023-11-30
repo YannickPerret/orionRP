@@ -180,6 +180,7 @@ async () => {
 
     //if ped is in a vehicle consume fuel
     if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
+      console.log(VehicleManager.getVehicles());
       let fuel = GetVehicleFuelLevel(vehicle);
       let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
