@@ -12,12 +12,17 @@ files {
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
 }
+shared_scripts {
+    'core/config.js',
+    'core/playerManager.js',
+    'core/vehicleManager.js',
+    'core/notifications.js',
+}
 
 client_scripts{
     'client.js',
     'player/client.js',
     'core/utils.js',
-    'core/notifications.js',
     'core/player.js',
     'core/commands.js',
     'admin/commands.js',
@@ -30,7 +35,6 @@ server_scripts{
     'server.js',
     'player/server.js',
     'core/utils.js',
-    'core/notifications.js',
     'vehicle/server.js',
     'station/server.js',
 }
