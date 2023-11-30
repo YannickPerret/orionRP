@@ -66,9 +66,8 @@ onNet('orion:playerConnected', playerData => {
   }, 900000);*/
 });
 
-RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
+RegisterKeyMapping('orion:openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
 onNet('orion:openPlayerMenu', playerData => {
-  console.log('teeeeeeest');
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
   SendNuiMessage(
