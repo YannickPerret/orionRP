@@ -21,12 +21,7 @@ shared_scripts {
 }
 
 client_scripts{
-    'client.js',
-    'player/client.js',
-    'core/player.js',
-    'core/commands.js',
-    'admin/commands.js',
-    
+
 }
 
 server_scripts{
