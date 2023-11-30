@@ -1,7 +1,3 @@
-const getCurrentPlayerBySource = source => {
-  return PlayerManager.getPlayerBySource(source);
-};
-
 exports('GetEntInFrontOfPlayer', (Distance, Ped) => {
   let CoA = GetEntityCoords(Ped, true);
   let CoB = GetOffsetFromEntityInWorldCoords(Ped, 0.0, Distance, 0.0);
@@ -12,7 +8,6 @@ exports('GetEntInFrontOfPlayer', (Distance, Ped) => {
     D,
     Ent = GetShapeTestResult(RayHandle);
 
-  console.log('TEST', Ent);
   // test if entity is a ped
   if (IsEntityAPed(Ent)) {
     return Ent;
