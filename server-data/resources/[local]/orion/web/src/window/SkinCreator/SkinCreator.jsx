@@ -10,8 +10,8 @@ import { sendNui } from '../../utils/fetchNui';
 
 export default function SkinCreator() {
 
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastname] = useState('');
 
   const [dad, setDad] = useState(0);
   const [mom, setMom] = useState(0);

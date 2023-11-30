@@ -116,7 +116,8 @@ onNet('orion:playerSpawned', async () => {
   }
 });
 
-onNet('orion:player:createNewPlayer', async data => {
+onNet('orion:player:s:createNewPlayer', async data => {
+  console.log(data);
   const source = global.source;
   const skin = data.finalSkin;
   const firstname = data.firstname;
