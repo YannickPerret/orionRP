@@ -106,6 +106,7 @@ const ShowSkinCreator = enable => {
 
   isCameraActive = true;
   isSkinCreatorOpened = true;
+
   SetNuiFocus(enable, enable);
   SendNuiMessage(
     JSON.stringify({
@@ -384,7 +385,7 @@ setInterval(() => {
       cam = null; // Réinitialiser la variable cam
     }
   }
-}, 400);
+}, 200);
 
 RegisterCommand(
   'zoom',

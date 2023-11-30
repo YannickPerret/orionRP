@@ -113,7 +113,7 @@ export default function SkinCreator() {
             hairColor: hairColor,
             hair: hair,
             highlight: 0,
-            eyebrow: eyebrow,
+            eyebrow: eyeBrow,
             eyebrowThickness: eyebrowThickness,
             beard: beard,
             beardColor: beardColor,
@@ -123,7 +123,7 @@ export default function SkinCreator() {
 
   useEffect(() => {
     handleSubmit();
-  }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyebrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
+  }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyeBrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
 
   return (
     <div className="skinCreator">
