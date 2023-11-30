@@ -1,4 +1,4 @@
-/*(async () => {
+(async () => {
   try {
     const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/gasStations.json');
     const gazStationsBlips = JSON.parse(gazStationsString);
@@ -10,4 +10,4 @@
   } catch (error) {
     console.log(error);
   }
-})();*/
+})();
