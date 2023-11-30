@@ -1,4 +1,3 @@
-const VehicleManager = require('./core/vehicleManager.js');
 const Player = require('./player/player.js');
 const Vehicle = require('./vehicle/vehicle.js');
 
