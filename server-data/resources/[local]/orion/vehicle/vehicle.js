@@ -8,7 +8,7 @@ class Vehicle {
     model,
     owner,
     plate,
-    position,
+    position, 
     state,
     primaryColor,
     secondaryColor,
