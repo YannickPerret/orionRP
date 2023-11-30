@@ -1,4 +1,4 @@
-class VehicleManager {
+class VehicleManagerClass {
   constructor() {
     this.vehicles = new Map();
   }
@@ -15,5 +15,4 @@ class VehicleManager {
     return this.vehicles;
   }
 }
-const vehicleManager = new VehicleManager();
-module.exports = vehicleManager;
+module.exports = new VehicleManagerClass();
