@@ -16,11 +16,7 @@ files {
 }
 shared_scripts {
     'core/config.js',
-    'core/playerManager.js',
-    'core/vehicleManager.js',
     'core/notifications.js',
-    'player/player.js',
-    'vehicle/vehicle.js',
 }
 
 client_scripts{
@@ -36,6 +32,10 @@ client_scripts{
 }
 
 server_scripts{
+    'core/playerManager.js',
+    'core/vehicleManager.js',
+    'player/player.js',
+    'vehicle/vehicle.js',
     'server.js',
     'player/server.js',
     'core/utils.js',
