@@ -95,7 +95,7 @@ onNet('orion:playerDied', message => {
   });
 });
 
-on('orion:createNewPlayer', source => {
+onNet('orion:c:player:createNewPlayer', source => {
   ShowSkinCreator(true);
 });
 

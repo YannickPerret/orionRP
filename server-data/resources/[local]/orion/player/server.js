@@ -109,7 +109,7 @@ onNet('orion:playerSpawned', async () => {
     } else {
       console.log("Le joueur n'existe pas, création en cours...");
       // Emit on client to open new player menu
-      emitNet('orion:createNewPlayer', source);
+      emitNet('orion:c:player:createNewPlayer', source);
     }
   } catch (erreur) {
     console.error('Erreur lors de la récupération/création du joueur : ', erreur);
