@@ -96,6 +96,7 @@ export default function SkinCreator() {
    }
 
     const handleValidate = async () => {
+        console.log("validate")
         if (window.confirm('Êtes-vous sûr de vouloir valider votre personnage ?')) {
             await sendNui('validateSkin', {
                 firstname: firstname,
