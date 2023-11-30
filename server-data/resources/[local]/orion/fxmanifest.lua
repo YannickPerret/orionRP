@@ -13,6 +13,7 @@ files {
     "web/build/index.html",
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
+    'station/gasStations.json',
 }
 shared_scripts {
     'core/config.js',
