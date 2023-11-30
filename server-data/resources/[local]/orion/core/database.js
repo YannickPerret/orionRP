@@ -97,6 +97,20 @@ class Database {
     });
   }
 
+  getFieldValues(table, field) {
+    return this.connect().then(connection => {
+      return r
+        .table(table)
+        .map(doc => doc(field))
+        .run(connection)
+        .then(cursor => cursor.toArray())
+        .catch(err => {
+          console.error(`Erreur lors de la récupération des valeurs du champ ${field}:`, err);
+          throw err;
+        });
+    });
+  }
+
   update(table, data) {
     return this.connect().then(connection => {
       return r

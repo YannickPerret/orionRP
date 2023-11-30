@@ -211,31 +211,33 @@ on('__cfx_nui:validateSkin', (data, cb) => {
   const beardopacity = Number(data.beardThickness);
   const beardcolor = Number(data.beardColor);
 
-  const finalSkin = {
-    ['sex']: genre,
-    ['face1']: dad,
-    ['face2']: mom,
-    ['heritage']: heritage,
-    ['skin']: skin,
-    ['eye_color']: eyecolor,
-    ['complexion_1']: skinproblem,
-    ['complexion_2']: 1,
-    ['moles_1']: freckle,
-    //['moles_2']: 1,
-    ['age_1']: wrinkle,
-    ['age_2']: wrinkleopacity,
-    ['eyebrows_1']: eyebrow,
-    ['eyebrows_2']: eyebrowopacity,
-    ['beard_1']: beard,
-    ['beard_2']: beardopacity,
-    ['beard_3']: beardcolor,
-    ['beard_4']: beardcolor,
-    ['hair_1']: hair,
-    ['hair_2']: 0,
-    ['hair_color_1']: haircolor,
-    ['hair_color_2']: haircolor,
-    ['acne_1']: acne,
-  };
+  const finalSkin = [
+    {
+      ['sex']: genre,
+      ['face1']: dad,
+      ['face2']: mom,
+      ['heritage']: heritage,
+      ['skin']: skin,
+      ['eye_color']: eyecolor,
+      ['complexion_1']: skinproblem,
+      ['complexion_2']: 1,
+      ['moles_1']: freckle,
+      //['moles_2']: 1,
+      ['age_1']: wrinkle,
+      ['age_2']: wrinkleopacity,
+      ['eyebrows_1']: eyebrow,
+      ['eyebrows_2']: eyebrowopacity,
+      ['beard_1']: beard,
+      ['beard_2']: beardopacity,
+      ['beard_3']: beardcolor,
+      ['beard_4']: beardcolor,
+      ['hair_1']: hair,
+      ['hair_2']: 0,
+      ['hair_color_1']: haircolor,
+      ['hair_color_2']: haircolor,
+      ['acne_1']: acne,
+    },
+  ];
 
   if (firstname?.length >= 3 && lastname?.length >= 3) {
     console.log('create new player');

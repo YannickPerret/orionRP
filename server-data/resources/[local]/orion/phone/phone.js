@@ -36,19 +36,14 @@ class Phone {
   }
 
   static async generateNewNumber() {
-    let number = '555';
-    const phonesNumber = await db.getByWithFilter('players', 'phone');
-    if (phonesNumber.length === 0) return number + '0000';
+    const phonesNumbers = await db.getFieldValues('players', 'phone');
 
-    for (let i = 0; i < 5; i++) {
-      number += Math.floor(Math.random() * 10);
-    }
+    let number;
+    do {
+      number = '555' + Math.floor(1000 + Math.random() * 9000);
+    } while (phonesNumbers.includes(number));
 
-    if (phonesNumber.includes(number)) {
-      generatePhoneNumber();
-    } else {
-      return number;
-    }
+    return number;
   }
 }
 
