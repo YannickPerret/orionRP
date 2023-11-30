@@ -15,6 +15,7 @@ files {
 shared_scripts {
     'core/config.js',
     'core/playerManager.js',
+    'core/vehicleManager.js',
     'core/notifications.js',
 }
 
