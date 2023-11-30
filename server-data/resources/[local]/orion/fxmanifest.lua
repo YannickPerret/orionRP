@@ -28,6 +28,8 @@ client_scripts{
     'admin/commands.js',
     'events/winter/client.js',
     'vehicle/client.js',
+
+    'station/gasStations.json',
     'station/client.js',
 }
 
