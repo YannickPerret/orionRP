@@ -54,6 +54,7 @@ const reducer = (state, action) => {
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
     case "CLOSE_SIDE_MENU":
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
+      sendNui('closeNUI', null);
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     case 'SHOW_SKIN_CREATOR':
@@ -128,7 +129,7 @@ const App = () => {
 
   if (state.showSkinCreator) {
     return (
-      <SkinCreator/>
+      <SkinCreator showSkinCreator={handleCloseMenu}/>
     )
   }
 

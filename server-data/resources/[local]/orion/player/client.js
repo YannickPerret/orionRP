@@ -401,6 +401,6 @@ RegisterCommand(
   false
 );
 
-onNet('orion:player:teleport', coords => {
-  SetEntityCoordsNoOffset(GetPlayerPed(-1), coords[0], coords[1], coords[2], true, false, true);
+onNet('orion:player:c:teleport', coords => {
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
 });

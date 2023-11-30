@@ -124,8 +124,9 @@ onNet('orion:player:s:createNewPlayer', async data => {
 
   let [steamId, license] = getIdentifier(source);
 
-  const newPlayerData = {
+  const newPlayer = new Player({
     id: r.uuid(),
+    source: source,
     steamId: steamId,
     license: license,
     firstname: firstname,
@@ -141,30 +142,14 @@ onNet('orion:player:s:createNewPlayer', async data => {
     discord: null,
     mugshot: null,
     skin: skin,
-  };
-  const result = await db.insert('players', newPlayerData);
+  });
 
-  if (result.inserted === 1) {
-    const newPlayer = new Player({
-      id: newPlayerData.id,
-      source: source,
-      steamId: newPlayerData.steamId,
-      firstname: newPlayerData.firstname,
-      lastname: newPlayerData.lastname,
-      phone: newPlayerData.phone,
-      money: newPlayerData.money,
-      bank: newPlayerData.bank,
-      position: newPlayerData.position,
-      license: newPlayerData.license,
-      discord: newPlayerData.discord,
-      mugshot: newPlayerData.mugshot,
-      skin: newPlayerData.skin,
-    });
-
+  if (newPlayer.save()) {
+    //const result = await db.insert('players', newPlayerData);
     PlayerManager.addPlayer(source, newPlayer);
 
     emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);
-    emitNet('orion:player:teleport', source, playerPosition);
+    emitNet('orion:player:c:teleport', source, playerPosition);
   } else {
     emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
     throw new Error('Erreur lors de la création du joueur');
