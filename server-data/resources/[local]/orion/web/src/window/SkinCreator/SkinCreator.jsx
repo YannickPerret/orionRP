@@ -113,7 +113,7 @@ export default function SkinCreator() {
             hairColor: hairColor,
             hair: hair,
             highlight: 0,
-            eyebrow: eyeBrow,
+            eyeBrow: eyeBrow,
             eyebrowThickness: eyebrowThickness,
             beard: beard,
             beardColor: beardColor,
