@@ -32,6 +32,8 @@ client_scripts{
 }
 
 server_scripts{
+    'core/playerManager.js',
+    'core/vehicleManager.js',
     'server.js',
     'player/server.js',
     'vehicle/server.js',
