@@ -43,11 +43,22 @@ const createVehicle = async (model, coords) => {
 const createVehiclePedInside = async model => {
   const ped = PlayerPedId();
   const coords = GetEntityCoords(ped);
+  let vehicle = null;
   RequestModel(model);
   while (!HasModelLoaded(model)) {
     await Delay(400);
   }
-  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+  vehicle.id = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+  vehicle.model = model;
+  vehicle.owner = GetPlayerServerId(PlayerId());
+  vehicle.plate = GetVehicleNumberPlateText(vehicle.id);
+  vehicle.position = coords;
+  vehicle.fuel = GetVehicleFuelLevel(vehicle.id);
+  vehicle.state = 'good';
+  vehicle.primaryColor = GetVehicleColours(vehicle.id)[0];
+  vehicle.secondaryColor = GetVehicleColours(vehicle.id)[1];
+  vehicle.pearlescentColor = GetVehicleExtraColours(vehicle.id)[1];
+
   SetPedIntoVehicle(ped, vehicle, -1);
   SetEntityAsNoLongerNeeded(vehicle);
   SetModelAsNoLongerNeeded(model);
@@ -166,6 +177,34 @@ async () => {
 
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
+
+    //if ped is in a vehicle consume fuel
+    if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
+      let fuel = GetVehicleFuelLevel(vehicle);
+      let speed = GetEntitySpeed(vehicle);
+      let consumption = 0.0;
+
+      if (speed > 0) {
+        consumption = speed * 0.0001;
+      } else {
+        consumption = 0.0;
+      }
+
+      if (fuel - consumption <= fuel * 0.9) {
+        SendNUIMessage({
+          action: 'updateFuel',
+          data: {
+            fuel: (fuel - consumption).toFixed(0),
+          },
+        });
+      }
+
+      if (fuel - consumption > 0) {
+        SetVehicleFuelLevel(vehicle, fuel - consumption);
+      } else {
+        SetVehicleFuelLevel(vehicle, 0);
+      }
+    }
 
     if (vehicle != undefined && GetVehicleEngineHealth(vehicle) <= 300) {
       SetVehicleEngineOn(vehicle, false, false, true);

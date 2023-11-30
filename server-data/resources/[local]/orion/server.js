@@ -1,4 +1,5 @@
 const PlayerManager = require('./core/playerManager.js');
+const VehicleManager = require('./core/vehicleManager.js');
 const Player = require('./player/player.js');
 
 on('playerDropped', reason => {
