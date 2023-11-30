@@ -1,4 +1,5 @@
 const gazStationsString = LoadResourceFile(GetCurrentResourceName(), './gasStations.json');
+console.log(gazStationsString);
 const gazStationsBlips = JSON.parse(gazStationsString);
 
 (async () => {
