@@ -196,19 +196,19 @@ on('__cfx_nui:validateSkin', (data, cb) => {
   const mom = Number(data.mom);
   const heritage = Number(data.heritage);
   const skin = Number(data.skin);
-  const eyecolor = Number(data.eyecolor);
+  const eyecolor = Number(data.eyeColor);
   const acne = Number(data.acne);
-  const skinproblem = Number(data.skinproblem);
+  const skinproblem = Number(data.skinProblem);
   const freckle = Number(data.freckle);
   const wrinkle = Number(data.wrinkle);
   const wrinkleopacity = Number(data.wrinkleIntensity);
   const hair = Number(data.hair);
-  const haircolor = Number(data.haircolor);
-  const eyebrow = Number(data.eyebrow);
+  const haircolor = Number(data.hairColor);
+  const eyebrow = Number(data.eyeBrow);
   const eyebrowopacity = Number(data.eyebrowThickness);
   const beard = Number(data.beard);
   const beardopacity = Number(data.beardThickness);
-  const beardcolor = Number(data.beardcolor);
+  const beardcolor = Number(data.beardColor);
 
   const finalSkin = {
     ['sex']: genre,
@@ -220,7 +220,7 @@ on('__cfx_nui:validateSkin', (data, cb) => {
     ['complexion_1']: skinproblem,
     ['complexion_2']: 1,
     ['moles_1']: freckle,
-    ['moles_2']: 1,
+    //['moles_2']: 1,
     ['age_1']: wrinkle,
     ['age_2']: wrinkleopacity,
     ['eyebrows_1']: eyebrow,

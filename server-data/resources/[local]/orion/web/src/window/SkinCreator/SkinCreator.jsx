@@ -10,8 +10,8 @@ import { sendNui } from '../../utils/fetchNui';
 
 export default function SkinCreator() {
 
-  const [firstName, setFirstname] = useState('');
-  const [lastName, setLastname] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
 
   const [dad, setDad] = useState(0);
   const [mom, setMom] = useState(0);
@@ -26,7 +26,7 @@ export default function SkinCreator() {
   const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
   const [hairColor, setHairColor] = useState(0);
   const [hair, setHair] = useState(0);
-  const [eyebrow, setEyebrow] = useState(0);
+  const [eyeBrow, setEyeBrow] = useState(0);
   const [eyeColor, setEyeColor] = useState(0);
   const [eyebrowThickness, setEyebrowThickness] = useState(0);
   const [beard, setBeard] = useState(0);
@@ -50,7 +50,7 @@ export default function SkinCreator() {
             hairColor: hairColor,
             hair: hair,
             highlight: 0,
-            eyebrow: eyebrow,
+            eyeBrow: eyeBrow,
             eyebrowThickness: eyebrowThickness,
             beard: beard,
             beardColor: beardColor,
@@ -86,7 +86,7 @@ export default function SkinCreator() {
     setWrinkleIntensity(10);
     setHairColor(0);
     setHair(0);
-    setEyebrow(0);
+    setEyeBrow(0);
     setEyeColor(0);
     setEyebrowThickness(0);
     setBeard(0);
@@ -165,7 +165,7 @@ export default function SkinCreator() {
 
         <Eyes handleEyesChange={(eyes => {
             setEyeColor(eyes.eyeColor);
-            setEyebrow(eyes.eyebrow);
+            setEyeBrow(eyes.eyeBrow);
             setEyebrowThickness(eyes.eyebrowThickness);
         })}/>
         <Beard handleBeardChange={(beard) => {

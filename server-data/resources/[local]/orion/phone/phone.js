@@ -37,7 +37,8 @@ class Phone {
 
   static async generateNewNumber() {
     let number = '555';
-    const phonesNumber = await db.getByWithFilter('players', phone);
+    const phonesNumber = await db.getByWithFilter('players', 'phone');
+    if (phonesNumber.length === 0) return number + '0000';
 
     for (let i = 0; i < 5; i++) {
       number += Math.floor(Math.random() * 10);
