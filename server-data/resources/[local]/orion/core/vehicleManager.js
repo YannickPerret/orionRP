@@ -16,3 +16,4 @@ class VehicleManager {
   }
 }
 const vehicleManager = new VehicleManager();
+module.exports = vehicleManager;
