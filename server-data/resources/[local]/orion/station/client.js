@@ -1,4 +1,5 @@
-const gazStationsBlips = LoadResourceFile('orion', 'gasStations.json');
+const gazStationsString = LoadResourceFile('orion', 'gasStations.json');
+const gazStationsBlips = JSON.parse(gazStationsString);
 
 (async () => {
   console.log(gazStationsBlips);
