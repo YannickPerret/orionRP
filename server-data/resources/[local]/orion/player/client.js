@@ -11,6 +11,15 @@ on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);
 });
 
+on('onResourceStart', resourceName => {
+  if (GetCurrentResourceName() !== resourceName) {
+    return;
+  }
+
+  exports.spawnmanager.setAutoSpawn(false);
+  isSkinCreatorOpened = false;
+});
+
 RegisterCommand('tp', (source, args) => {
   SetEntityCoordsNoOffset(
     GetPlayerPed(),
