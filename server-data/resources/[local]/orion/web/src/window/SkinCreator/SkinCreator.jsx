@@ -96,32 +96,29 @@ export default function SkinCreator() {
    }
 
     const handleValidate = async () => {
-        console.log("validate")
-        if (window.confirm('Êtes-vous sûr de vouloir valider votre personnage ?')) {
-            await sendNui('validateSkin', {
-                firstname: firstname,
-                lastname: lastname,
-                dad: dad,
-                mom: mom,
-                sex: sex,
-                heritage: heritage,
-                skin: skinColor,
-                acne: acne,
-                skinProblem: skinProblem,
-                freckle: freckle,
-                wrinkle: wrinkle,
-                wrinkleIntensity: wrinkleIntensity,
-                eyeColor: eyeColor,
-                hairColor: hairColor,
-                hair: hair,
-                highlight: 0,
-                eyebrow: eyebrow,
-                eyebrowThickness: eyebrowThickness,
-                beard: beard,
-                beardColor: beardColor,
-                beardThickness: beardThickness
-            });
-        }
+        await sendNui('validateSkin', {
+            firstname: firstname,
+            lastname: lastname,
+            dad: dad,
+            mom: mom,
+            sex: sex,
+            heritage: heritage,
+            skin: skinColor,
+            acne: acne,
+            skinProblem: skinProblem,
+            freckle: freckle,
+            wrinkle: wrinkle,
+            wrinkleIntensity: wrinkleIntensity,
+            eyeColor: eyeColor,
+            hairColor: hairColor,
+            hair: hair,
+            highlight: 0,
+            eyebrow: eyebrow,
+            eyebrowThickness: eyebrowThickness,
+            beard: beard,
+            beardColor: beardColor,
+            beardThickness: beardThickness
+        });
     }
 
   useEffect(() => {
