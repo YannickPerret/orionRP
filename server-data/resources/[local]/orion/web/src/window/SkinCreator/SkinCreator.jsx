@@ -183,8 +183,8 @@ export default function SkinCreator() {
      </div>
 
       <div className='skinCreator__valid'>
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={handleValidate}>Valider</button>
+        <button onClick={() => handleReset}>Reset</button>
+        <button onClick={() => handleValidate}>Valider</button>
       </div>
     </div>
   );

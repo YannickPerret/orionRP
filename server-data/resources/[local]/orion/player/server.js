@@ -1,6 +1,7 @@
 const { db, r } = require('./core/database.js');
 const PlayerManager = require('./core/playerManager.js');
 const Player = require('./player/player.js');
+const Phone = require('./phone/phone.js');
 
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
@@ -163,6 +164,7 @@ onNet('orion:player:createNewPlayer', async data => {
     PlayerManager.addPlayer(source, newPlayer);
 
     emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);
+    emitNet('orion:player:teleport', source, playerPosition);
   } else {
     emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
     throw new Error('Erreur lors de la création du joueur');

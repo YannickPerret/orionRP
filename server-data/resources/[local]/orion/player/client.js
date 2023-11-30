@@ -237,6 +237,7 @@ on('__cfx_nui:validateSkin', (data, cb) => {
   };
 
   if (firstname?.length >= 3 && lastname?.length >= 3) {
+    console.log('create new player');
     emitNet('orion:player:createNewPlayer', firstname, lastname, finalSkin);
     cb({ ok: true });
   } else {
@@ -396,3 +397,7 @@ RegisterCommand(
   },
   false
 );
+
+onNet('orion:player:teleport', coords => {
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), coords[0], coords[1], coords[2], true, false, true);
+});
