@@ -62,7 +62,7 @@ onNet('orion:playerConnected', playerData => {
   );
 
   setInterval(() => {
-    emitNet('orion:savePlayerPosition', GetEntityCoords(ped, true));
+    emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
   }, 900000);
 });
 
