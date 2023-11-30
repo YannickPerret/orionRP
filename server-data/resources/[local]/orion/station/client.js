@@ -1,6 +1,7 @@
+const gazStationsString = LoadResourceFile(GetCurrentResourceName(), './gasStations.json');
+const gazStationsBlips = JSON.parse(gazStationsString);
+
 (async () => {
-  const gazStationsString = LoadResourceFile(GetCurrentResourceName(), './gasStations.json');
-  const gazStationsBlips = JSON.parse(gazStationsString);
   console.log(gazStationsBlips);
   for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
     const station = gazStationsBlips.GasStations[i];
