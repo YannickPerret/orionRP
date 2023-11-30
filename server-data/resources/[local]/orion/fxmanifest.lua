@@ -35,37 +35,7 @@ server_scripts{
     'server.js',
     'player/server.js',
     'core/utils.js',
+    'vehicle/vehicle.js',
     'vehicle/server.js',
     'station/server.js',
 }
-
-
-
-
-
-/*
-server_scripts {
-    'server.js',
-    'utils/utils.js',
-    'utils/notification.js',
-    'player/server.js',
-    'player/player.js',
-    'vehicle/server.js',
-    'phone/server.js',
-    'phone/phone.js',
-
-
-}
-
-client_scripts {
-    'client.js',
-    'utils/utils.js',
-    'utils/player.js',
-    'system/commands.js',
-    'utils/notification.js',
-    'player/client.js',
-    'vehicle/client.js',
-    'phone/client.js',
-    'events/winter/client.js',
-}*/
-
