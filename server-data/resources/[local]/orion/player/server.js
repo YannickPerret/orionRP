@@ -1,5 +1,5 @@
 const { db, r } = require('./core/database.js');
-const PlayerManagerClass = require('../core/playerManager.js');
+const PlayerManager = require('../core/playerManager.js');
 
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
@@ -55,7 +55,7 @@ onNet('orion:player:giveAmount', (target, amount) => {
     return;
   }
 
-  if (PlayerManagerClass.getPlayerBySource(source).money < amount) {
+  if (PlayerManager.getPlayerBySource(source).money < amount) {
     emitNet('orion:showNotification', source, "Vous n'avez pas assez d'argent !");
     return;
   }
@@ -63,8 +63,8 @@ onNet('orion:player:giveAmount', (target, amount) => {
   emitNet('orion:showNotification', target, `Vous avez reçu ${amount} $ !`);
   emitNet('orion:showNotification', global.source, `Vous avez donné ${amount} $ !`);
 
-  PlayerManagerClass.getPlayerBySource(source).money -= amount;
-  PlayerManagerClass.getPlayerBySource(target).money += amount;
+  PlayerManager.getPlayerBySource(source).money -= amount;
+  PlayerManager.getPlayerBySource(target).money += amount;
 });
 
 onNet('orion:playerSpawned', async () => {
@@ -100,7 +100,7 @@ onNet('orion:playerSpawned', async () => {
         skin: playerData[0].skin,
       });
 
-      PlayerManagerClass.addPlayer(newPlayer.source, newPlayer);
+      PlayerManager.addPlayer(newPlayer.source, newPlayer);
       console.log(`Bonjour ${newPlayer.firstname} ${newPlayer.lastname} !`);
       emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
       emitNet('orion:playerConnected', source, newPlayer);

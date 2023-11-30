@@ -1,4 +1,4 @@
-class PlayerManager {
+class PlayerManagerClass {
   constructor() {
     this.players = new Map();
   }
@@ -20,5 +20,4 @@ class PlayerManager {
   }
 }
 
-const playerManagerInstance = new PlayerManager();
-module.exports = playerManagerInstance;
+module.exports = new PlayerManagerClass();
