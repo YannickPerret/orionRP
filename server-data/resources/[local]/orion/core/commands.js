@@ -8,13 +8,7 @@ RegisterCommand(
   false
 );
 
-RegisterCommand(
-  'openPlayerMenu',
-  () => {
-    emitNet('orion:getPlayerData');
-  },
-  false
-);
+
 
 RegisterCommand('pos', (source, args) => {
   const pos = GetEntityCoords(GetPlayerPed(-1));

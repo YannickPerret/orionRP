@@ -5,6 +5,7 @@ var cam = -1;
 var zoom = 'visage';
 var isCameraActive;
 var heading = 332.219879;
+var handsUp = false;
 
 on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);
@@ -355,7 +356,20 @@ function ZoomToHead(cam) {
   //SetFov(30.0 - distance / 100.0);
 }
 
+RegisterKeyMapping('handsup', 'Hands Up', 'keyboard', 'i');
+RegisterCommand(
+  'handsup',
+  () => {
+    handsUp != handsUp;
+  },
+  false
+);
+
 setInterval(() => {
+  if (handsUp) {
+    TaskHandsUp(PlayerPedId(), 250, PlayerPedId(), -1, true);
+  }
+
   if (isCameraActive) {
     // Si la caméra existe déjà, détruisez-la
     if (!DoesCamExist(cam)) {
