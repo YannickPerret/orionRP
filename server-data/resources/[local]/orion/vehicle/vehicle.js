@@ -33,26 +33,6 @@ class Vehicle {
     this.maxFuel = maxFuel || MAX_FUEL;
     this.fuel = fuel || MAX_FUEL;
     this.consumption = fuel_consumption || FUEL_CONSUMPTION;
-
-    this.startVehicle();
-  }
-
-  consumeFuel() {
-    // Si le véhicule est arrêté avec moteur allumé, on consomme du fuel
-    if (!this.isEngineOn) {
-      this.consumption = IDLE_FUEL_CONSUMPTION;
-    } else {
-      this.consumption = FUEL_CONSUMPTION;
-    }
-
-    // Consommation de fuel
-    this.fuel -= this.consumption;
-
-    // Si le réservoir est vide, le véhicule s'arrête
-    if (this.fuel <= 0) {
-      this.fuel = 0;
-      this.stopVehicle(this);
-    }
   }
 
   fillTank(value) {
@@ -63,15 +43,6 @@ class Vehicle {
 
   getFuel() {
     return this.fuel;
-  }
-
-  startVehicle() {
-    SetVehicleEngineOn(this, true, true, false);
-  }
-
-  // Méthode pour arrêter le véhicule
-  stopVehicle() {
-    SetVehicleEngineOn(this, false, false, true);
   }
 
   async save() {
