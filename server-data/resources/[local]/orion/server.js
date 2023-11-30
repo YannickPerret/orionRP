@@ -7,12 +7,12 @@ on('playerDropped', reason => {
 
 const getPlayerCoords = player => {
   const ped = GetPlayerPed(player);
-  const [playerX, playerY, playerZ] = GetEntityCoords(ped, true);
+  const [playerX, playerY, playerZ] = GetEntityCoords(ped);
   return { x: playerX, y: playerY, z: playerZ };
 };
 
 // save all player position every 15 minutes
-setInterval(async () => {
+/*setInterval(async () => {
   // Get all players from the playerManager
   const players = PlayerManagerServer.getPlayers();
 
@@ -22,4 +22,4 @@ setInterval(async () => {
     await player.save();
     emitNet('orion:showNotification', source, 'Position sauvegardée !');
   }
-}, 900000);
+}, 900000);*/

@@ -1,19 +1,10 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
 
-/*
-if gent == 0 then
-			characterModel = GetHashKey('mp_m_freemode_01')
-		elseif gent > 1 then
-			characterModel = pedList[gent - 1]
-		else
-			characterModel = GetHashKey('mp_f_freemode_01')
-		end
-    */
-let isSkinCreatorOpened = false;
-let cam = -1;
-let zoom = 'visage';
-let isCameraActive;
-let heading = 332.219879;
+var isSkinCreatorOpened = false;
+var cam = -1;
+var zoom = 'visage';
+var isCameraActive;
+var heading = 332.219879;
 
 on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);

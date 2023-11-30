@@ -35,7 +35,7 @@ function getIdentifier(source) {
   return [steamId, license];
 }
 
-/*onNet('orion:savePlayerPosition', async (x, y, z) => {
+onNet('orion:savePlayerPosition', async (x, y, z) => {
   const source = global.source;
   const player = PlayerManager.getPlayerBySource(source);
   if (player) {
@@ -43,7 +43,7 @@ function getIdentifier(source) {
     await player.save();
     emitNet('orion:showNotification', source, 'Position sauvegardée !');
   }
-});*/
+});
 
 onNet('orion:player:giveAmount', (target, amount) => {
   if (isNaN(amount) || amount <= 0) {
