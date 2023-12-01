@@ -46,10 +46,11 @@ on('onClientResourceStart', async resource => {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
-  /*SendNuiMessage({
-    action: 'closeNUI',
-  });*/
-});
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'closeNUI',
+  })
+);
 
 on('playerSpawned', () => {
   spawnLogin();
