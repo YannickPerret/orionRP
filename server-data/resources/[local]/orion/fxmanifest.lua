@@ -12,6 +12,16 @@ files {
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
     'station/gasStations.json',
+
+    'core/playerManager.js',
+    'core/vehicleManager.js',
+    'phone/phone.js',
+    'player/player.js',
+    'vehicle/vehicle.js',
+    'server.js',
+    'player/server.js',
+    'vehicle/server.js',
+    'station/server.js',
 }
 shared_scripts {
     'core/config.js',
@@ -31,17 +41,7 @@ client_scripts{
     'station/client.js',
 }
 
-server_scripts{
-    'core/playerManager.js',
-    'core/vehicleManager.js',
-    'phone/phone.js',
-    'player/player.js',
-    'vehicle/vehicle.js',
-    'server.js',
-    'player/server.js',
-    'vehicle/server.js',
-    'station/server.js',
-}
+
 
 
 
