@@ -191,7 +191,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
 
   console.log('Création du joueur : ', newPlayer);
 
-  if (newPlayer.save()) {
+  if (await newPlayer.save()) {
     PlayerManager.addPlayer(source, newPlayer);
 
     emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);
