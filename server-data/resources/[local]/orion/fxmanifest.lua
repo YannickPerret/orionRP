@@ -22,6 +22,7 @@ files {
     'player/server.js',
     'vehicle/server.js',
     'station/server.js',
+    
 }
 shared_scripts {
     'core/config.js',
