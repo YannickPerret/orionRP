@@ -22,7 +22,6 @@ files {
     
 }
 shared_scripts {
-    'core/config.js',
     'core/notifications.js',
     'core/utils.js',
 

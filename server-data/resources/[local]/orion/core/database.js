@@ -2,7 +2,7 @@ const r = require('rethinkdb');
 
 class Database {
   constructor({ host, port, db }) {
-    this._config = config || {
+    this._config = {
       host: host || '192.168.1.18',
       port: port || 28015,
       db: db || 'orion',
