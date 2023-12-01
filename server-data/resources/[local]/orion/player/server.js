@@ -69,7 +69,52 @@ onNet('orion:player:giveAmount', (target, amount) => {
   PlayerManager.getPlayerBySource(target).money += amount;
 });
 
-onNet('orion:playerSpawned', async () => {
+onNet('orion:player:s:playerSpawned', async () => {
+  /*
+  let sourceId = global.source; // Obtenez l'ID unique du joueur
+  let identifiers = getIdentifier(sourceId); // Obtenez les identifiants du joueur
+  let steamId = identifiers[0];
+  let license = identifiers[1];
+
+  // Vérifiez si le joueur est sur la liste blanche
+  if (enableDiscordWhitelist) {
+    let isWhitelisted = false;
+    let isBlacklisted = false;
+    let isInGuild = false;
+
+    if (steamId) {
+      isWhitelisted = await isSteamIdWhitelisted(steamId);
+      isBlacklisted = await isSteamIdBlacklisted(steamId);
+      isInGuild = await isSteamIdInGuild(steamId);
+    } else if (license) {
+      isWhitelisted = await isLicenseWhitelisted(license);
+      isBlacklisted = await isLicenseBlacklisted(license);
+      isInGuild = await isLicenseInGuild(license);
+    }
+
+    if (!isInGuild) {
+      deferrals.done(discordNotInGuildMessage);
+      return;
+    }
+
+    if (isBlacklisted) {
+      deferrals.done(discordBlacklistedMessage);
+      return;
+    }
+
+    if (!isWhitelisted) {
+      deferrals.done(discordNotWhitelistedMessage);
+      return;
+    }
+  }
+
+  // Vérifiez si le joueur est déjà connecté
+  if (PlayerManagerServer.isPlayerConnected(sourceId)) {
+    deferrals.done('Vous êtes déjà connecté !');
+    return;
+  }
+  */
+
   let source = global.source;
   let [steamId, license] = getIdentifier(source);
 
@@ -145,7 +190,6 @@ onNet('orion:player:s:createNewPlayer', async data => {
   });
 
   if (newPlayer.save()) {
-    //const result = await db.insert('players', newPlayerData);
     PlayerManager.addPlayer(source, newPlayer);
 
     emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);

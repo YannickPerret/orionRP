@@ -6,6 +6,7 @@ var zoom = 'visage';
 var isCameraActive;
 var heading = 332.219879;
 var handsUp = false;
+var isDead = false;
 
 on('onClientGameTypeStart', () => {
   exports.spawnmanager.setAutoSpawn(false);
@@ -39,11 +40,11 @@ RegisterCommand(
       setTimeout(() => {
         [groundCheck, groundZ] = GetGroundZFor_3dCoord(coord[0], coord[1], coord[2], 0, false);
         if (groundCheck) {
-          SetEntityCoordsNoOffset(playerPed, coord[0], coord[1], groundZ + 1.0, false, false, true); // Ajouté un petit offset pour éviter de se retrouver sous le sol
+          SetEntityCoordsNoOffset(playerPed, coord[0], coord[1], groundZ + 1.0, false, false, true);
         } else {
           SetEntityCoords(playerPed, coord[0], coord[1], coord[2], false, false, false, true);
         }
-      }, 1000); // Attendre 1 seconde pour laisser le temps au jeu de charger la hauteur du sol
+      }, 1000);
     } else {
       console.log('Aucun waypoint trouvé.');
     }
@@ -256,6 +257,12 @@ RegisterCommand('skin', (source, args) => {
   }
 });
 
+RegisterNuiCallbackType('savePosition');
+on('__cfx_nui:savePosition', (data, cb) => {
+  emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
+  cb({ ok: true });
+});
+
 const ApplyPlayerModelHash = async (playerId, hash) => {
   if (hash == GetEntityModel(GetPlayerPed(-1))) {
     console.log(1);
@@ -369,7 +376,25 @@ RegisterCommand(
   false
 );
 
+onNet('orion:player:c:playerDied', message => {
+  SetEntityHealth(PlayerPedId(), 0);
+  StartScreenEffect('DeathFailOut', 0, false);
+
+  SendNUIMessage({
+    action: 'showDeathMessage',
+    data: {
+      message,
+    },
+  });
+});
+
 setInterval(() => {
+  isDead = IsPlayerDead(GetPlayerPed(-1));
+
+  if (isDead) {
+    emitNet('orion:player:c:playerDied', 'Vous avez perdu connaissance !');
+  }
+
   if (handsUp) {
     TaskHandsUp(PlayerPedId(), 250, PlayerPedId(), -1, true);
   }
@@ -404,3 +429,9 @@ RegisterCommand(
 onNet('orion:player:c:teleport', coords => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
 });
+
+(async () => {
+  for (var i = 1; i <= 15; i++) {
+    EnableDispatchService(i, false);
+  }
+})();

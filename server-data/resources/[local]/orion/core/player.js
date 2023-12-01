@@ -1,36 +1,3 @@
-exports('GetEntInFrontOfPlayer', (Distance, Ped) => {
-  let CoA = GetEntityCoords(Ped, true);
-  let CoB = GetOffsetFromEntityInWorldCoords(Ped, 0.0, Distance, 0.0);
-  let RayHandle = StartShapeTestRay(CoA[0], CoA[1], CoA[2], CoB[0], CoB[1], CoB[2], -1, Ped, 0);
-  let A,
-    B,
-    C,
-    D,
-    Ent = GetShapeTestResult(RayHandle);
-
-  // test if entity is a ped
-  if (IsEntityAPed(Ent)) {
-    return Ent;
-  } else {
-    return false;
-  }
-});
-
-//Camera's coords
-function GetCoordsFromCam(distance) {
-  let rot = GetGameplayCamRot(2);
-  let coord = GetGameplayCamCoord();
-
-  let tZ = rot[2] * 0.0174532924;
-  let tX = rot[0] * 0.0174532924;
-  let num = Math.abs(Math.cos(tX));
-
-  let newCoordX = coord[0] + -Math.sin(tZ) * (num + distance);
-  let newCoordY = coord[1] + Math.cos(tZ) * (num + distance);
-  let newCoordZ = coord[2] + Math.sin(tX) * 8.0;
-  return [newCoordX, newCoordY, newCoordZ];
-}
-
 exports('findNearbyPlayers', maxDistance => {
   let closestPlayerIds = [];
 

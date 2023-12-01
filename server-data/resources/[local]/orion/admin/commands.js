@@ -1,4 +1,5 @@
 let isFlymodeEnabled = false;
+let isBlackout = false;
 const flymodeSpeed = 100;
 
 RegisterCommand('tp', (source, args) => {
@@ -92,4 +93,13 @@ RegisterCommand(
     }
   },
   0
+);
+
+RegisterCommand(
+  'blackout',
+  () => {
+    isBlackout = !isBlackout;
+    SetArtificialLightsState(isBlackout);
+  },
+  false
 );

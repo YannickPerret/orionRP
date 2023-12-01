@@ -20,6 +20,20 @@ https://forum.cfx.re/t/list-of-all-online-interiors/1449619
 
 let isNuiOpen = false;
 
+const spawnLogin = () => {
+  const ped = GetPlayerPed(-1);
+  SetPlayerInvincible(ped, false);
+  SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
+  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
+  NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
+
+  SetEntityHeading(ped, 0.0);
+  SetCanAttackFriendly(PlayerPedId(), true, false);
+  NetworkSetFriendlyFireOption(true);
+
+  emitNet('orion:player:s:playerSpawned');
+};
+
 on('onClientResourceStart', async resource => {
   if (GetCurrentResourceName() !== resource) {
     return;
@@ -32,21 +46,13 @@ on('onClientResourceStart', async resource => {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
-  isNuiOpen = false;
+  SendNuiMessage({
+    action: 'closeNUI',
+  });
 });
 
 on('playerSpawned', () => {
-  const ped = GetPlayerPed(-1);
-  SetPlayerInvincible(ped, false);
-  SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
-  NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
-
-  SetEntityHeading(ped, 0.0);
-  SetCanAttackFriendly(PlayerPedId(), true, false);
-  NetworkSetFriendlyFireOption(true);
-
-  emitNet('orion:playerSpawned');
+  spawnLogin();
 });
 
 onNet('orion:playerConnected', playerData => {
@@ -96,19 +102,8 @@ on('__cfx_nui:closeNUI', (data, cb) => {
   cb({ ok: true });
 });
 
-RegisterNuiCallbackType('savePosition');
-on('__cfx_nui:savePosition', (data, cb) => {
-  emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
-  cb({ ok: true });
-});
 
 setTick(() => {
-  let isDead = IsEntityDead(GetPlayerPed(-1));
-
-  if (isDead) {
-    emitNet('orion:playerDied', 'Vous avez perdu connaissance !');
-  }
-
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
@@ -133,9 +128,7 @@ setTick(() => {
   HideHudComponentThisFrame(13);
   HideHudComponentThisFrame(14);
   Delay(5);
-});
 
-setInterval(() => {
   if (isFlymodeEnabled) {
     const playerPed = GetPlayerPed(-1);
     let [x, y, z] = GetEntityCoords(playerPed, true);
@@ -175,4 +168,12 @@ setInterval(() => {
     SetEntityCoordsNoOffset(playerPed, x, y, z, true, true, true);
     SetEntityHeading(playerPed, heading);
   }
-}, 0);
+});
+
+RegisterCommand(
+  'login',
+  () => {
+    spawnLogin();
+  },
+  false
+);

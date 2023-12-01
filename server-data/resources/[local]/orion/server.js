@@ -1,3 +1,5 @@
+// Ajouter les serveurs au file dans manifest
+
 const PlayerManagerServer = require('./core/playerManager.js');
 
 on('playerDropped', reason => {
@@ -5,21 +7,6 @@ on('playerDropped', reason => {
   PlayerManagerServer.removePlayer(sourceId);
 });
 
-const getPlayerCoords = player => {
-  const ped = GetPlayerPed(player);
-  const [playerX, playerY, playerZ] = GetEntityCoords(ped);
-  return { x: playerX, y: playerY, z: playerZ };
-};
-
-// save all player position every 15 minutes
-/*setInterval(async () => {
-  // Get all players from the playerManager
-  const players = PlayerManagerServer.getPlayers();
-
-  // Update the position of each player
-  for (const player of players) {
-    player.position = getPlayerCoords(player.source);
-    await player.save();
-    emitNet('orion:showNotification', source, 'Position sauvegardée !');
-  }
-}, 900000);*/
+on('playerConnecting', async (name, setKickReason, deferrals) => {
+  emit('orion:player:s:playerSpawned');
+});

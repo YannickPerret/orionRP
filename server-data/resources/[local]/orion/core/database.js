@@ -1,11 +1,11 @@
 const r = require('rethinkdb');
 
 class Database {
-  constructor(config) {
+  constructor({ host, port, db }) {
     this._config = config || {
-      host: '192.168.1.18',
-      port: 28015,
-      db: 'orion',
+      host: host || '192.168.1.18',
+      port: port || 28015,
+      db: db || 'orion',
     };
   }
 
@@ -24,6 +24,53 @@ class Database {
       } else {
         resolve(this._connection);
       }
+    });
+  }
+
+  createDb(dbName) {
+    return this.connect().then(connection => {
+      return r
+        .dbCreate(dbName)
+        .run(connection)
+        .then(result => {
+          console.log('Base de données créée avec succès');
+          return result;
+        })
+        .catch(err => {
+          console.error('Erreur lors de la création de la base de données:', err);
+          throw err;
+        });
+    });
+  }
+
+  createTable(tableName) {
+    //check if table exists before creating it
+    return this.connect().then(connection => {
+      return r
+        .tableList()
+        .run(connection)
+        .then(list => {
+          if (!list.includes(tableName)) {
+            return r
+              .tableCreate(tableName)
+              .run(connection)
+              .then(result => {
+                console.log('Table créée avec succès');
+                return result;
+              })
+              .catch(err => {
+                console.error('Erreur lors de la création de la table:', err);
+                throw err;
+              });
+          } else {
+            console.log('La table existe déjà');
+            return Promise.resolve();
+          }
+        })
+        .catch(err => {
+          console.error('Erreur lors de la récupération de la liste des tables:', err);
+          throw err;
+        });
     });
   }
 
