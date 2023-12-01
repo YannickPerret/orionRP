@@ -46,9 +46,9 @@ on('onClientResourceStart', async resource => {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
-  SendNuiMessage({
+  /*SendNuiMessage({
     action: 'closeNUI',
-  });
+  });*/
 });
 
 on('playerSpawned', () => {
