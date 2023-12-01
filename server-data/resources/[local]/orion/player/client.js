@@ -241,7 +241,6 @@ on('__cfx_nui:validateSkin', (data, cb) => {
   ];
 
   if (firstname?.length >= 3 && lastname?.length >= 3) {
-    console.log('create new player');
     emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
     cb({ ok: true });
   } else {
@@ -265,7 +264,6 @@ on('__cfx_nui:savePosition', (data, cb) => {
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
   if (hash == GetEntityModel(GetPlayerPed(-1))) {
-    console.log(1);
     return;
   }
 
@@ -305,7 +303,6 @@ const applyPedFace = (ped, face) => {
 };
 
 const ApplyPedFaceTrait = model => {
-  console.log(model);
   SetPedHeadBlendData(
     PlayerPedId(),
     model.Mother,
@@ -402,7 +399,6 @@ setInterval(() => {
   if (isCameraActive) {
     // Si la caméra existe déjà, détruisez-la
     if (!DoesCamExist(cam)) {
-      console.log('Create cam');
       CreateFullBodyCam(); // Créer la caméra
       SetCamActive(cam, true);
     }

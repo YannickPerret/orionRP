@@ -119,6 +119,7 @@ const App = () => {
   }, []);
 
   const handleCloseMenu = () => {
+    console.log("close menu")
     dispatch({ type: 'CLOSE_NUI' });
   };
 

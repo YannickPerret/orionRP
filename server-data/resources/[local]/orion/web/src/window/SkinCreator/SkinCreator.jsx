@@ -96,6 +96,7 @@ export default function SkinCreator({ handleShowSkinCreator }) {
    }
 
     const handleValidate = async () => {
+        console.log('validate');
         handleShowSkinCreator(false);
         await sendNui('validateSkin', {
             firstname: firstname,
