@@ -18,10 +18,7 @@ files {
     'phone/phone.js',
     'player/player.js',
     'vehicle/vehicle.js',
-    'server.js',
-    'player/server.js',
-    'vehicle/server.js',
-    'station/server.js',
+    
     
 }
 shared_scripts {
@@ -40,6 +37,13 @@ client_scripts{
     'events/winter/client.js',
     'vehicle/client.js',
     'station/client.js',
+}
+
+server_scripts{
+    'server.js',
+    'player/server.js',
+    'vehicle/server.js',
+    'station/server.js',
 }
 
 
