@@ -39,7 +39,7 @@ const initialState = {
   fuel: 0
 };
 
-const reducer = async (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case 'SHOW_DEATH_MESSAGE':
       return { ...state, isPlayerDead: true, playerDeadMessage: action.data.message };
@@ -50,10 +50,8 @@ const reducer = async (state, action) => {
     case 'SHOW_GIVE_AMOUNT_MENU':
       return { ...state, showAmountMenu: true };
     case 'CLOSE_NUI':
-      await sendNui('closeNUI');
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
     case "CLOSE_SIDE_MENU":
-      await sendNui('closeNUI');
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
@@ -73,7 +71,7 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const handleMessage = (event) => {
+    const handleMessage = async (event) => {
       const { action, data } = event.data;
       switch (action) {
         case "showDeathMessage":
@@ -92,6 +90,7 @@ const App = () => {
           dispatch({ type: 'SHOW_JOB_MENU', data });
           break;
         case "closeNUI":
+          await sendNui('closeNUI');
           dispatch({ type: 'CLOSE_NUI' });
           break;
         case "playSound":
