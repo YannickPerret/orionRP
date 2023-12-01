@@ -39,7 +39,7 @@ const initialState = {
   fuel: 0
 };
 
-const reducer = async (state, action) => {
+const reducer =  (state, action) => {
   switch (action.type) {
     case 'SHOW_DEATH_MESSAGE':
       return { ...state, isPlayerDead: true, playerDeadMessage: action.data.message };
@@ -50,10 +50,10 @@ const reducer = async (state, action) => {
     case 'SHOW_GIVE_AMOUNT_MENU':
       return { ...state, showAmountMenu: true };
     case 'CLOSE_NUI':
-      await sendNui('closeNUI');
+      //await sendNui('closeNUI');
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
     case "CLOSE_SIDE_MENU":
-      await sendNui('closeNUI');
+      //await sendNui('closeNUI');
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
