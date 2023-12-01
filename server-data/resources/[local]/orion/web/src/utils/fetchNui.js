@@ -10,12 +10,13 @@
  */
 
 export async function sendNui(eventName, data = null) {
-  const resourceName = "orion";
+  const resourceName = 'orion';
 
+  console.log(`Sending NUI message ${eventName} to ${resourceName}`);
   const options = {
-    method: "post",
+    method: 'post',
     headers: {
-      "Content-Type": "application/json; charset=UTF-8",
+      'Content-Type': 'application/json; charset=UTF-8',
     },
     body: JSON.stringify(data),
   };
@@ -23,12 +24,12 @@ export async function sendNui(eventName, data = null) {
   try {
     const resp = await fetch(`https://${resourceName}/${eventName}`, options);
     if (!resp.ok) {
-      console.error("Erreur de réponse du serveur:", resp.statusText);
+      console.error('Erreur de réponse du serveur:', resp.statusText);
       return null;
     }
     return await resp.json();
   } catch (err) {
-    console.error("Erreur lors du parsing JSON:", err);
+    console.error('Erreur lors du parsing JSON:', err);
     return null;
   }
 }
