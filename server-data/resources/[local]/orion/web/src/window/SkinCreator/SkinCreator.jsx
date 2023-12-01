@@ -34,7 +34,6 @@ export default function SkinCreator({ handleShowSkinCreator }) {
   const [beardThickness, setBeardThickness] = useState(0);
 
   const handleSubmit = async () => {
-    console.log('submit');
         await sendNui('updateSkin', {
             sex: sex,
             dad: dad,
