@@ -49,8 +49,9 @@ on('onClientResourceStart', async resource => {
   SendNuiMessage(
     JSON.stringify({
       action: 'closeNUI',
-  })
-);
+    })
+  );
+});
 
 on('playerSpawned', () => {
   spawnLogin();
