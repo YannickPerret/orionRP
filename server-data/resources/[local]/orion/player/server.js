@@ -148,7 +148,6 @@ onNet('orion:player:s:playerSpawned', async () => {
       });
 
       PlayerManager.addPlayer(newPlayer.source, newPlayer);
-      console.log(`Bonjour ${newPlayer.firstname} ${newPlayer.lastname} !`);
       emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
       emitNet('orion:playerConnected', source, newPlayer);
     } else {
@@ -189,8 +188,6 @@ onNet('orion:player:s:createNewPlayer', async data => {
     mugshot: null,
     skin: skin,
   });
-
-  console.log('Création du joueur : ', newPlayer);
 
   if (await newPlayer.save()) {
     PlayerManager.addPlayer(source, newPlayer);

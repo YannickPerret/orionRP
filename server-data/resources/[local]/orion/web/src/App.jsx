@@ -129,7 +129,7 @@ const App = () => {
 
   if (state.showSkinCreator) {
     return (
-      <SkinCreator showSkinCreator={handleCloseMenu}/>
+      <SkinCreator handleShowSkinCreator={handleCloseMenu}/>
     )
   }
 
