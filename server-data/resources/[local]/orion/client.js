@@ -102,7 +102,6 @@ on('__cfx_nui:closeNUI', (data, cb) => {
   cb({ ok: true });
 });
 
-
 setTick(() => {
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
