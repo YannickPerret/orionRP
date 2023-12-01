@@ -189,6 +189,8 @@ onNet('orion:player:s:createNewPlayer', async data => {
     skin: skin,
   });
 
+  console.log('Création du joueur : ', newPlayer);
+
   if (newPlayer.save()) {
     PlayerManager.addPlayer(source, newPlayer);
 
