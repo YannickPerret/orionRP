@@ -44,6 +44,7 @@ class Phone {
     } while (phonesNumbers.includes(number));
 
     console.log('New phone number generated : ', number);
+    
     return number;
   }
 }

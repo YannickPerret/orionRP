@@ -166,6 +166,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
   const skin = data.finalSkin;
   const firstname = data.firstname;
   const lastname = data.lastname;
+  const phoneNumber = await Phone.generateNewNumber();
 
   let [steamId, license] = getIdentifier(source);
 
@@ -176,7 +177,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
     license: license,
     firstname: firstname,
     lastname: lastname,
-    phone: Number(Phone.generateNewNumber()),
+    phone: Number(phoneNumber),
     money: 500,
     bank: 0,
     position: {
