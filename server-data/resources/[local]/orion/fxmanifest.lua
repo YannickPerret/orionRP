@@ -36,6 +36,7 @@ client_scripts{
     'events/winter/client.js',
     'vehicle/client.js',
     'station/client.js',
+    'customization/client.js',
 }
 
 server_scripts{

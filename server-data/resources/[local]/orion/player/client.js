@@ -97,64 +97,15 @@ onNet('orion:playerDied', message => {
 });
 
 onNet('orion:c:player:createNewPlayer', source => {
-  ShowSkinCreator(true);
-});
-
-const ShowSkinCreator = enable => {
-  SetEntityCoordsNoOffset(GetPlayerPed(-1), 1.17, -1508.81, 29.84, true, false, true);
-  SetPlayerInvincible(PlayerPedId(), true);
-  SetEntityHeading(GetPlayerPed(-1), 139.73);
-
-  if (enable) {
-    if (cam === -1) {
-      cam = CreateFullBodyCam(); // Créez et stockez la référence de la caméra
-    }
-    SetCamActive(cam, true);
-    RenderScriptCams(true, false, 0, true, true);
-  }
-
-  SetNuiFocus(enable, enable);
-  SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: enable }));
-
-  isCameraActive = enable;
-  isSkinCreatorOpened = enable;
-};
-
-const CloseSkinCreator = () => {
-  isSkinCreatorOpened = false;
-  isCameraActive = false;
-  SetCamActive(cam, false);
-  SetPlayerInvincible(PlayerPedId(), false);
-  //RenderScriptCams(false, true, 500, true, true);
-  cam = null;
-  ShowSkinCreator(false);
-};
-
-RegisterNuiCallbackType('rotateHeading');
-on('__cfx_nui:rotateHeading', (data, cb) => {
-  let currentHeading = GetEntityHeading(GetPlayerPed(-1));
-  let heading = currentHeading + Number(data.value);
-
-  SetEntityHeading(GetPlayerPed(-1), heading);
-});
-
-// Define which part of the body must be zoomed
-RegisterNuiCallbackType('zoom');
-on('__cfx_nui:zoom', (data, cb) => {
-  zoom = data.zoom;
+  exports['orion'].ShowSkinCreator(true);
 });
 
 RegisterNuiCallbackType('updateSkin');
 on('__cfx_nui:updateSkin', async (data, cb) => {
-  const playerPedId = PlayerPedId();
   const playerPed = GetPlayerPed(-1);
   let model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
 
-  ApplyPlayerModelHash(PlayerId(), model);
-
-  SetPedDefaultComponentVariation(playerPed);
-
-  ApplyPlayerBodySkin(PlayerId(), {
+  exports['orion'].applySkin({
     Model: {
       Hash: model,
       Father: Number(data.dad),
@@ -243,7 +194,7 @@ on('__cfx_nui:validateSkin', (data, cb) => {
   ];
 
   if (firstname?.length >= 3 && lastname?.length >= 3 && finalSkin?.length > 0) {
-    ShowSkinCreator(false);
+    exports['orion'].ShowSkinCreator(false);
     emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
     cb({ ok: true });
   } else {
@@ -255,121 +206,11 @@ on('__cfx_nui:validateSkin', (data, cb) => {
   }
 });
 
-RegisterCommand('skin', (source, args) => {
-  if (!isSkinCreatorOpened) {
-    ShowSkinCreator(true);
-  } else {
-    CloseSkinCreator();
-  }
-});
-
 RegisterNuiCallbackType('savePosition');
 on('__cfx_nui:savePosition', (data, cb) => {
   emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
   cb({ ok: true });
 });
-
-const ApplyPlayerModelHash = async (playerId, hash) => {
-  if (hash == GetEntityModel(GetPlayerPed(-1))) {
-    return;
-  }
-
-  if (!IsModelInCdimage(hash) || !IsModelValid(hash)) {
-    return;
-  }
-
-  RequestModel(hash);
-
-  while (!HasModelLoaded(hash)) {
-    await Delay(0);
-  }
-
-  SetPlayerModel(playerId, hash);
-};
-
-const ApplyPedHair = (ped, hair) => {
-  SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
-  SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
-  SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
-  SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
-  SetPedHeadOverlay(ped, 1, hair.BeardType, hair.BeardOpacity || 1.0);
-  SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
-
-  SetPedHeadOverlay(ped, 0, hair.acne);
-};
-
-const applyPedFace = (ped, face) => {
-  if (face.Acne == 0) {
-    SetPedHeadOverlay(ped, 0, face.Acne, 0.0);
-  } else SetPedHeadOverlay(ped, 0, face.Acne, 1.0);
-  SetPedHeadOverlay(ped, 6, face.SkinProblem, 1.0);
-  if (face.Freckle == 0) {
-    SetPedHeadOverlay(ped, 9, face.Freckle, 0.0);
-  } else SetPedHeadOverlay(ped, 9, face.Freckle, 1.0);
-  SetPedHeadOverlay(ped, 3, face.Wrinkle, face.WrinkleOpacity);
-};
-
-const ApplyPedFaceTrait = model => {
-  SetPedHeadBlendData(
-    PlayerPedId(),
-    model.Mother,
-    model.Father,
-    0,
-    model.Mother,
-    model.Father,
-    0,
-    model.WeightFace,
-    model.WeightSkin,
-    0.0,
-    false
-  );
-};
-
-const ApplyPlayerBodySkin = (playerId, bodySkin) => {
-  ApplyPlayerModelHash(playerId, bodySkin.Model.Hash);
-
-  let ped = GetPlayerPed(-1);
-  ClearPedDecorations(ped);
-
-  ApplyPedFaceTrait(bodySkin.Model);
-  applyPedFace(ped, bodySkin.Face);
-  ApplyPedHair(PlayerPedId(), bodySkin.Hair);
-  //ApplyPedMakeup(ped, bodySkin.Makeup)
-  //ApplyPedTattoos(ped, bodySkin.Tattoos || {})
-  //ApplyPedProps(ped, bodySkin);
-};
-
-function CreateFullBodyCam() {
-  // Créez une variable pour la caméra
-
-  // Créez la caméra
-  cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-  const playerPed = GetPlayerPed(-1);
-  const playerCoords = GetEntityCoords(playerPed);
-  const newX = playerCoords[0] - 1.2; // Ajout de 120 à la coordonnée X
-  const newY = playerCoords[1] - 1.0; // Ajout de 20 à la coordonnée Y
-  const newZ = playerCoords[2] + 0.4; // Ajout de 20 à la coordonnée Z
-
-  SetCamCoord(cam, newX, newY, newZ);
-  SetCamRot(cam, 0, 0, -40);
-  SetCamFov(cam, 90.0);
-
-  // Affichez la caméra
-  RenderScriptCams(true, false, 0, true, false);
-
-  return cam;
-}
-
-function ZoomToHead(cam) {
-  // Obtenez la distance entre la caméra et la tête du joueur
-
-  let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), (GetEntityCoords(GetPlayerPed(-1)) + 0.0, 0.0, 0.8));
-
-  SetCamCoord(distance);
-  // Définissez le champ de vision de la caméra en fonction de la distance
-
-  //SetFov(30.0 - distance / 100.0);
-}
 
 RegisterKeyMapping('hanidsup', 'Hands Up', 'keyboard', 'i');
 RegisterCommand(
@@ -403,51 +244,16 @@ setInterval(() => {
     console.log('handsUp');
     TaskHandsUp(PlayerPedId(), 250, PlayerPedId(), -1, true);
   }
-
-  if (isCameraActive) {
-    // Si la caméra existe déjà, détruisez-la
-    if (!DoesCamExist(cam)) {
-      CreateFullBodyCam(); // Créer la caméra
-      SetCamActive(cam, true);
-    }
-  }
-}, 200);
-
-RegisterCommand(
-  'zoom',
-  (source, args) => {
-    if (isCameraActive) {
-      if (cam) {
-        ZoomToHead(cam);
-      }
-    }
-  },
-  false
-);
+}, 100);
 
 onNet('orion:player:c:teleport', coords => {
   SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
 });
 
-(async () => {
-  for (var i = 1; i <= 15; i++) {
-    EnableDispatchService(i, false);
-  }
-})();
-
 onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
-  SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: false }));
+  exports['orion'].ShowSkinCreator(false);
+  exports['orion'].applySkin(skin);
 
-  if (DoesCamExist(cam)) {
-    RenderScriptCams(false, true, 500, true, true);
-    SetCamActive(cam, false);
-    DestroyCam(cam, true);
-    cam = -1; // Réinitialiser la référence de la caméra
-  }
-  console.log('cam destroy');
-
-  SetPlayerInvincible(PlayerPedId(), false);
-  ApplyPlayerBodySkin(PlayerId(), skin);
   SetEntityCoordsNoOffset(GetPlayerPed(-1), position.x, position.y, position.z, true, false, true);
 
   emit('orion:showNotification', `Bienvenue ${firstname} ${lastname} sur Orion !`);

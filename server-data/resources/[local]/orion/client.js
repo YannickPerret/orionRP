@@ -178,3 +178,9 @@ RegisterCommand(
   },
   false
 );
+
+(async () => {
+  for (var i = 1; i <= 15; i++) {
+    EnableDispatchService(i, false);
+  }
+})();
