@@ -105,16 +105,19 @@ const ShowSkinCreator = enable => {
   SetPlayerInvincible(PlayerPedId(), true);
   SetEntityHeading(GetPlayerPed(-1), 139.73);
 
-  isCameraActive = true;
-  isSkinCreatorOpened = true;
+  if (enable) {
+    if (cam === -1) {
+      cam = CreateFullBodyCam(); // Créez et stockez la référence de la caméra
+    }
+    SetCamActive(cam, true);
+    RenderScriptCams(true, false, 0, true, true);
+  }
 
   SetNuiFocus(enable, enable);
-  SendNuiMessage(
-    JSON.stringify({
-      action: 'showSkinCreator',
-      data: enable,
-    })
-  );
+  SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: enable }));
+
+  isCameraActive = enable;
+  isSkinCreatorOpened = enable;
 };
 
 const CloseSkinCreator = () => {
@@ -407,11 +410,6 @@ setInterval(() => {
       CreateFullBodyCam(); // Créer la caméra
       SetCamActive(cam, true);
     }
-  } else {
-    if (DoesCamExist(cam)) {
-      DestroyCam(cam, false); // Détruire la caméra si elle existe
-      cam = null; // Réinitialiser la variable cam
-    }
   }
 }, 200);
 
@@ -438,18 +436,14 @@ onNet('orion:player:c:teleport', coords => {
 })();
 
 onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
-  SendNuiMessage(
-    JSON.stringify({
-      action: 'showSkinCreator',
-    })
-  );
+  SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: false }));
 
-  isCameraActive = false;
-  isSkinCreatorOpened = false;
-  SetCamActive(cam, false);
-  DestroyCam(cam, true);
-  cam = null;
-  RenderScriptCams(false, false, 0, true, true);
+  if (cam !== -1) {
+    SetCamActive(cam, false);
+    RenderScriptCams(false, false, 0, true, true);
+    DestroyCam(cam, true);
+    cam = -1; // Réinitialiser la référence de la caméra
+  }
 
   SetPlayerInvincible(PlayerPedId(), false);
   ApplyPlayerBodySkin(PlayerId(), skin);
