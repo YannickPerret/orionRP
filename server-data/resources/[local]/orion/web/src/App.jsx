@@ -50,7 +50,7 @@ const reducer = (state, action) => {
     case 'SHOW_GIVE_AMOUNT_MENU':
       return { ...state, showAmountMenu: true };
     case 'CLOSE_NUI':
-      return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false };
+      return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false, showSkinCreator: false };
     case "CLOSE_SIDE_MENU":
       return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
     case 'UPDATE_SPEED':

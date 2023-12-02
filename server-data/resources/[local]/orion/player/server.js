@@ -191,6 +191,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
     });
 
     if (await newPlayer.save()) {
+      console.log('Joueur créé !');
       PlayerManager.addPlayer(source, newPlayer);
 
       emitNet('orion:player:c:completRegister', playerPosition, firstname, lastname, skin);

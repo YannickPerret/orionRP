@@ -240,10 +240,15 @@ on('__cfx_nui:validateSkin', (data, cb) => {
     },
   ];
 
-  if (firstname?.length >= 3 && lastname?.length >= 3) {
+  if (firstname?.length >= 3 && lastname?.length >= 3 && finalSkin?.length > 0) {
+    ShowSkinCreator(false);
     emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
     cb({ ok: true });
   } else {
+    emitNet(
+      'orion:showNotification',
+      'Veuillez entrer un prénom et un nom de famille valide ainsi que créer un personnage.'
+    );
     cb({ ok: false });
   }
 });
@@ -434,13 +439,12 @@ onNet('orion:player:c:teleport', coords => {
 })();
 
 onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
-  SetEntityCoordsNoOffset(GetPlayerPed(-1), position.x, position.y, position.z, true, false, true);
-  isSkinCreatorOpened = false;
   isCameraActive = false;
   SetCamActive(cam, false);
   SetPlayerInvincible(PlayerPedId(), false);
   cam = null;
   ApplyPlayerBodySkin(PlayerId(), skin);
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), position.x, position.y, position.z, true, false, true);
 
   emit('orion:showNotification', `Bienvenue ${firstname} ${lastname} sur Orion !`);
 });
