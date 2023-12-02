@@ -121,7 +121,7 @@ exports('ShowSkinCreator', enable => {
       true
     );
     SetPlayerInvincible(PlayerPedId(), true);
-    SetEntityHeading(GetPlayerPed(-1), heading);
+    //SetEntityHeading(GetPlayerPed(-1), heading);
 
     if (cam === -1) {
       CreateFullBodyCam();
@@ -139,6 +139,7 @@ exports('ShowSkinCreator', enable => {
   }
 
   SetNuiFocus(enable, enable);
+  console.log('ShowSkinCreator', enable);
   SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: enable }));
 
   isCameraActive = enable;
