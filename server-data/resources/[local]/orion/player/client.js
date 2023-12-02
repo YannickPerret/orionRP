@@ -1,10 +1,5 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
 
-var isSkinCreatorOpened = false;
-var cam = -1;
-var zoom = 'visage';
-var isCameraActive;
-var heading = 332.219879;
 var handsUp = false;
 var isDead = false;
 

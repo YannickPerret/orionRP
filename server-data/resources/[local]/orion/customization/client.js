@@ -1,9 +1,9 @@
-let isSkinCreatorOpened = false;
-let cam = -1;
-let zoom = 'visage';
-let isCameraActive;
-let heading = 139.73;
-let positionNewPlayer = {
+var isSkinCreatorOpened = false;
+var cam = -1;
+var zoom = 'visage';
+var isCameraActive;
+var heading = 139.73;
+var positionNewPlayer = {
   x: 1.17,
   y: -1508.81,
   z: 29.84,
