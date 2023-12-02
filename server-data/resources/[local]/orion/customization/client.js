@@ -111,7 +111,6 @@ exports('ShowSkinCreator', enable => {
   if (enable) {
     cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
-    console.log(positionNewPlayer.x, positionNewPlayer.y, positionNewPlayer.z);
     SetEntityCoordsNoOffset(
       GetPlayerPed(-1),
       positionNewPlayer.x,
@@ -138,8 +137,9 @@ exports('ShowSkinCreator', enable => {
     SetPlayerInvincible(PlayerPedId(), false);
   }
 
-  SetNuiFocus(enable, enable);
   console.log('ShowSkinCreator', enable);
+
+  SetNuiFocus(enable, enable);
   SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: enable }));
 
   isCameraActive = enable;
