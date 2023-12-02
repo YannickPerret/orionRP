@@ -117,14 +117,13 @@ const App = () => {
     };
   }, []);
 
-  const handleCloseMenu = () => {
-    console.log("close menu")
+  const handleCloseMenu = async () => {
     dispatch({ type: 'CLOSE_NUI' });
-    sendNui('closeNUI');
+    await sendNui('closeNUI');
   };
 
-  const handleGiveAmount = (amount) => {
-    sendNui('giveAmount', {amount: amount});
+  const handleGiveAmount = async (amount) => {
+    await sendNui('giveAmount', {amount: amount});
     dispatch({type: 'CLOSE_NUI'});
   }
 

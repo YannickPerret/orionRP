@@ -432,3 +432,15 @@ onNet('orion:player:c:teleport', coords => {
     EnableDispatchService(i, false);
   }
 })();
+
+onNet('orion:player:c:completRegister', position, firstname, lastname, skin => {
+  SetEntityCoordsNoOffset(GetPlayerPed(-1), position.x, position.y, position.z, true, false, true);
+  isSkinCreatorOpened = false;
+  isCameraActive = false;
+  SetCamActive(cam, false);
+  SetPlayerInvincible(PlayerPedId(), false);
+  cam = null;
+  ApplyPlayerBodySkin(PlayerId(), skin);
+
+  emit('orion:showNotification', `Bienvenue ${firstname} ${lastname} sur Orion !`);
+});

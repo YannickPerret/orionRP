@@ -193,8 +193,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
     if (await newPlayer.save()) {
       PlayerManager.addPlayer(source, newPlayer);
 
-      emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);
-      emitNet('orion:player:c:teleport', source, playerPosition);
+      emitNet('orion:player:c:completRegister', playerPosition, firstname, lastname, skin);
     } else {
       emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
       throw new Error('Erreur lors de la création du joueur');

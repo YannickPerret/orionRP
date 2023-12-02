@@ -95,7 +95,6 @@ export default function SkinCreator({ onCloseMenu }) {
    }
 
     const handleValidate = async () => {
-        console.log('validate');
         onCloseMenu();
         await sendNui('validateSkin', {
             firstname: firstname,
