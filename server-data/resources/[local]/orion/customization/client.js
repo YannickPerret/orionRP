@@ -111,6 +111,7 @@ exports('ShowSkinCreator', enable => {
   if (enable) {
     cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
+    console.log(positionNewPlayer.x, positionNewPlayer.y, positionNewPlayer.z);
     SetEntityCoordsNoOffset(
       GetPlayerPed(-1),
       positionNewPlayer.x,
@@ -121,11 +122,10 @@ exports('ShowSkinCreator', enable => {
       true
     );
     SetPlayerInvincible(PlayerPedId(), true);
-    //SetEntityHeading(GetPlayerPed(-1), heading);
+    SetEntityHeading(GetPlayerPed(-1), heading);
 
-    if (cam === -1) {
-      CreateFullBodyCam();
-    }
+    CreateFullBodyCam();
+
     SetCamActive(cam, true);
     RenderScriptCams(true, false, 0, true, true);
   } else {
