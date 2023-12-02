@@ -56,8 +56,8 @@ const reducer = (state, action) => {
     case 'UPDATE_SPEED':
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     case 'SHOW_SKIN_CREATOR':
-      return { ...state, showSkinCreator: !showSkinCreator };
-    case 'SEATBELT':
+      return { ...state, showSkinCreator: !state.showSkinCreator };
+      case 'SEATBELT':
       return { ...state, haveSeatbelt: action.data };
       case 'UPDATE_FUEL':
         return { ...state, fuel: action.data.fuel, showFuel: true };

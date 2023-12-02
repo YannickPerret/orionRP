@@ -440,7 +440,7 @@ onNet('orion:player:c:teleport', coords => {
 onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
   SendNuiMessage(
     JSON.stringify({
-      action: 'SHOW_SKIN_CREATOR',
+      action: 'showSkinCreator',
     })
   );
 
