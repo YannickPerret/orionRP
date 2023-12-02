@@ -438,12 +438,12 @@ onNet('orion:player:c:teleport', coords => {
 onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
   SendNuiMessage(JSON.stringify({ action: 'showSkinCreator', data: false }));
 
-  if (cam !== -1) {
+  if (DoesCamExist(cam)) {
+    RenderScriptCams(false, true, 500, true, true);
     SetCamActive(cam, false);
     DestroyCam(cam, true);
     cam = -1; // Réinitialiser la référence de la caméra
   }
-  RenderScriptCams(false, false, 1, true, true);
   console.log('cam destroy');
 
   SetPlayerInvincible(PlayerPedId(), false);
