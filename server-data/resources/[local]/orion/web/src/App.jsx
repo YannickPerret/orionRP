@@ -119,7 +119,7 @@ const App = () => {
 
   const handleCloseMenu = async () => {
     dispatch({ type: 'CLOSE_NUI' });
-    await sendNui('closeNUI');
+    console.log(showSkinCreator)
   };
 
   const handleGiveAmount = async (amount) => {

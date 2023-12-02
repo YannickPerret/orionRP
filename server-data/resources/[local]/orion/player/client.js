@@ -122,7 +122,6 @@ const CloseSkinCreator = () => {
   isCameraActive = false;
   SetCamActive(cam, false);
   SetPlayerInvincible(PlayerPedId(), false);
-  //DisableIdleCamera(false);
   //RenderScriptCams(false, true, 500, true, true);
   cam = null;
   ShowSkinCreator(false);
@@ -440,9 +439,13 @@ onNet('orion:player:c:teleport', coords => {
 
 onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
   isCameraActive = false;
+  isSkinCreatorOpened = false;
   SetCamActive(cam, false);
-  SetPlayerInvincible(PlayerPedId(), false);
+  DestroyCam(cam, true);
   cam = null;
+  RenderScriptCams(false, false, 0, true, true);
+
+  SetPlayerInvincible(PlayerPedId(), false);
   ApplyPlayerBodySkin(PlayerId(), skin);
   SetEntityCoordsNoOffset(GetPlayerPed(-1), position.x, position.y, position.z, true, false, true);
 
