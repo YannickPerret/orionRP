@@ -95,7 +95,6 @@ export default function SkinCreator({ dispatch }) {
    }
 
     const handleValidate = async () => {
-        dispatch({ type: 'CLOSE_NUI' });
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,
