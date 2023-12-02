@@ -440,10 +440,10 @@ onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) =>
 
   if (cam !== -1) {
     SetCamActive(cam, false);
-    RenderScriptCams(false, false, 0, true, true);
     DestroyCam(cam, true);
     cam = -1; // Réinitialiser la référence de la caméra
   }
+  RenderScriptCams(false, false, 1, true, true);
 
   SetPlayerInvincible(PlayerPedId(), false);
   ApplyPlayerBodySkin(PlayerId(), skin);
