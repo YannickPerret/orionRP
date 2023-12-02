@@ -196,12 +196,3 @@ on('__cfx_nui:rotateHeading', (data, cb) => {
 });
 
 // Interval et async
-
-setInterval(() => {
-  if (isCameraActive) {
-    if (!DoesCamExist(cam)) {
-      CreateFullBodyCam(); // Créer la caméra
-      SetCamActive(cam, true);
-    }
-  }
-}, 200);
