@@ -364,7 +364,7 @@ function ZoomToHead(cam) {
   //SetFov(30.0 - distance / 100.0);
 }
 
-RegisterKeyMapping('handsup', 'Hands Up', 'keyboard', 'i');
+RegisterKeyMapping('hanidsup', 'Hands Up', 'keyboard', 'i');
 RegisterCommand(
   'handsup',
   () => {
@@ -393,6 +393,7 @@ setInterval(() => {
   }
 
   if (handsUp) {
+    console.log('handsUp');
     TaskHandsUp(PlayerPedId(), 250, PlayerPedId(), -1, true);
   }
 

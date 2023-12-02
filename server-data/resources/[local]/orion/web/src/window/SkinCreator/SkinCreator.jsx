@@ -8,7 +8,7 @@ import Eyes from './Components/Morphology/Eyes';
 import Beard from './Components/Morphology/Beard';
 import { sendNui } from '../../utils/fetchNui';
 
-export default function SkinCreator({ handleShowSkinCreator }) {
+export default function SkinCreator({ onCloseMenu }) {
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -96,7 +96,7 @@ export default function SkinCreator({ handleShowSkinCreator }) {
 
     const handleValidate = async () => {
         console.log('validate');
-        handleShowSkinCreator(false);
+        onCloseMenu();
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,

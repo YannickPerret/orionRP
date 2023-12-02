@@ -11,8 +11,6 @@
 
 export async function sendNui(eventName, data = null) {
   const resourceName = 'orion';
-
-  console.log(`Sending NUI message ${eventName} to ${resourceName}`);
   const options = {
     method: 'post',
     headers: {

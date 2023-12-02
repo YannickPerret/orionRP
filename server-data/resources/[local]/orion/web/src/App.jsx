@@ -120,6 +120,7 @@ const App = () => {
   const handleCloseMenu = () => {
     console.log("close menu")
     dispatch({ type: 'CLOSE_NUI' });
+    sendNui('closeNUI');
   };
 
   const handleGiveAmount = (amount) => {
@@ -129,7 +130,7 @@ const App = () => {
 
   if (state.showSkinCreator) {
     return (
-      <SkinCreator handleShowSkinCreator={handleCloseMenu}/>
+      <SkinCreator onCloseMenu={handleCloseMenu}/>
     )
   }
 

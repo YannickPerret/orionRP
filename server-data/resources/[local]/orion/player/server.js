@@ -115,7 +115,7 @@ onNet('orion:player:s:playerSpawned', async () => {
   }
   */
 
-  let source = global.source;
+  const source = global.source;
   let [steamId, license] = getIdentifier(source);
 
   console.log(`[Orion] ${steamId || license} se connecte au serveur`);
@@ -165,38 +165,42 @@ onNet('orion:player:s:createNewPlayer', async data => {
   const skin = data.finalSkin;
   const firstname = data.firstname;
   const lastname = data.lastname;
-  const phoneNumber = await Phone.generateNewNumber();
+  try {
+    const phoneNumber = await Phone.generateNewNumber();
 
-  let [steamId, license] = getIdentifier(source);
+    let [steamId, license] = getIdentifier(source);
 
-  const newPlayer = new Player({
-    id: r.uuid(),
-    source: source,
-    steamId: steamId,
-    license: license,
-    firstname: firstname,
-    lastname: lastname,
-    phone: Number(phoneNumber),
-    money: 500,
-    bank: 0,
-    position: {
-      x: playerPosition[0],
-      y: playerPosition[1],
-      z: playerPosition[2],
-    },
-    discord: null,
-    mugshot: null,
-    skin: skin,
-  });
+    const newPlayer = new Player({
+      id: r.uuid(),
+      source: source,
+      steamId: steamId,
+      license: license,
+      firstname: firstname,
+      lastname: lastname,
+      phone: Number(phoneNumber),
+      money: 500,
+      bank: 0,
+      position: {
+        x: playerPosition[0],
+        y: playerPosition[1],
+        z: playerPosition[2],
+      },
+      discord: null,
+      mugshot: null,
+      skin: skin,
+    });
 
-  if (await newPlayer.save()) {
-    PlayerManager.addPlayer(source, newPlayer);
+    if (await newPlayer.save()) {
+      PlayerManager.addPlayer(source, newPlayer);
 
-    emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);
-    emitNet('orion:player:c:teleport', source, playerPosition);
-  } else {
-    emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
-    throw new Error('Erreur lors de la création du joueur');
+      emitNet('orion:showNotification', source, `Bienvenue ${firstname} sur Orion !`);
+      emitNet('orion:player:c:teleport', source, playerPosition);
+    } else {
+      emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
+      throw new Error('Erreur lors de la création du joueur');
+    }
+  } catch (erreur) {
+    console.error(erreur);
   }
 });
 
