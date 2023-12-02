@@ -129,7 +129,7 @@ const App = () => {
 
   if (state.showSkinCreator) {
     return (
-      <SkinCreator onCloseMenu={handleCloseMenu}/>
+      <SkinCreator dispatch={dispatch}/>
     )
   }
 
