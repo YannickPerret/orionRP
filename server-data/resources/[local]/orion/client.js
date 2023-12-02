@@ -24,7 +24,7 @@ const spawnLogin = () => {
   const ped = GetPlayerPed(-1);
   SetPlayerInvincible(ped, false);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  //SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
+  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
   NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
 
   SetEntityHeading(ped, 0.0);

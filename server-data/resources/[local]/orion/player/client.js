@@ -97,7 +97,6 @@ onNet('orion:c:player:createNewPlayer', source => {
 
 RegisterNuiCallbackType('updateSkin');
 on('__cfx_nui:updateSkin', async (data, cb) => {
-  const playerPed = GetPlayerPed(-1);
   let model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
 
   exports['orion'].applySkin({
