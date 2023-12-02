@@ -39,18 +39,20 @@ on('onClientResourceStart', async resource => {
     return;
   }
 
-  const model = 'mp_m_freemode_01';
-  RequestModel(model);
+  const model1 = 'mp_m_freemode_01';
+  RequestModel(model1);
 
-  while (!HasModelLoaded(model)) {
+  while (!HasModelLoaded(model1)) {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
+  /*
   SendNuiMessage(
     JSON.stringify({
       action: 'closeNUI',
     })
   );
+  */
 });
 
 on('playerSpawned', () => {
