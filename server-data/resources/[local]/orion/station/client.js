@@ -84,15 +84,19 @@ const grabPipeFromPump = async (ped, pump) => {
   }
 
   rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
+
   while (!rope) {
     await Delay(0);
   }
   ActivatePhysics(rope);
   await Delay(50);
+
   pipeLocation = GetEntityCoords(pipeProps);
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
+
   let pumpHandle;
   pumpModels.map(hash => {
+    console.log(hash);
     pumpHandle = GetClosestObjectOfType(pipeLocation.x, pipeLocation.y, pipeLocation.z, 0.8, hash, true, true, true);
   });
   console.log(pumpHandle);
