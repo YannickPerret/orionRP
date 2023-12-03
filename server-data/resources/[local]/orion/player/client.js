@@ -192,7 +192,7 @@ on('__cfx_nui:validateSkin', (data, cb) => {
     emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
     cb({ ok: true });
   } else {
-    emitNet(
+    emit(
       'orion:showNotification',
       'Veuillez entrer un prénom et un nom de famille valide ainsi que créer un personnage.'
     );

@@ -8,7 +8,7 @@ import Eyes from './Components/Morphology/Eyes';
 import Beard from './Components/Morphology/Beard';
 import { sendNui } from '../../utils/fetchNui';
 
-export default function SkinCreator({ dispatch }) {
+export default function SkinCreator() {
 
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
