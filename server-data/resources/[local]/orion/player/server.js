@@ -41,6 +41,8 @@ onNet('orion:savePlayerPosition', async (x, y, z) => {
   const player = PlayerManager.getPlayerBySource(source);
   if (player) {
     player.position = { x, y, z };
+
+    console.log('Position sauvegardée : ', player.position);
     await player.save();
     emitNet('orion:showNotification', source, 'Position sauvegardée !');
   }
