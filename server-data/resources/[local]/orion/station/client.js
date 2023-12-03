@@ -3,6 +3,7 @@ const gazStationsBlips = JSON.parse(gazStationsString);
 var playerHavePipe = false;
 var pipeProps = null;
 var fuelDecor = '_ANDY_FUEL_DECORE_';
+var pedCoords;
 
 let pipeDropped = false;
 let holdingPipe = true;
@@ -46,6 +47,17 @@ const vehicleInFront = () => {
   let [A, B, C, D, entity] = GetRaycastResult(rayHandle);
   if (IsEntityAVehicle(entity)) {
     return entity;
+  }
+};
+
+const nearPump = coords => {
+  let entity;
+  pumpModels.map(hash => {
+    entity = GetClosestObjectOfType(coords.x, coords.y, coords.z, 0.8, hash, true, true, true);
+    if (entity != 0) return;
+  });
+  if (pumpModels[GetEntityModel(entity)]) {
+    return GetEntityCoords(entity), entity;
   }
 };
 
@@ -95,7 +107,6 @@ const grabPipeFromPump = async (ped, pump) => {
   pipeLocation = GetEntityCoords(pipeProps);
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
 
-  let pumpHandle;
   pumpModels.map(hash => {
     console.log(hash);
     pumpHandle = GetClosestObjectOfType(pipeLocation.x, pipeLocation.y, pipeLocation.z, 0.8, hash, true, true, true);
@@ -254,7 +265,7 @@ const returnPipeToPump = () => {
             true
           );
 
-          if (!pipeDropped) {
+          if (pipeDropped) {
             if (pipeLocation - stationPumpCoords > 6.0) {
               dropPipe();
             } else if (stationPumpCoords - playerCoords > 100.0) {
@@ -268,41 +279,8 @@ const returnPipeToPump = () => {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
                 if (IsControlJustReleased(0, 38)) {
-                  // DeleteEntity(pipeProps);
                   playerHavePipe = true;
-
-                  //LoadAnimDict('anim@mp_snowball');
-                  //TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-                  //await Delay(700);
                   grabPipeFromPump(playerPed, stationPumpCoords);
-                  //ClearPedTasks(playerPed);
-
-                  /*
-                  pipeProps = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
-
-                  AttachEntityToEntity(
-                    pipeProps,
-                    playerPed,
-                    GetPedBoneIndex(playerPed, 28422),
-                    0.15, // Ajustez ces valeurs pour positionner correctement le tuyau
-                    -0.15,
-                    0,
-                    0,
-                    0,
-                    90, // Ajustez l'angle si nécessaire
-                    true,
-                    true,
-                    false,
-                    false,
-                    0,
-                    true
-                  );
-
-                  // Configurez ces paramètres selon vos besoins
-                  SetEntityCollision(pipeProps, true, true);
-                  SetEntityDynamic(pipeProps, true);
-                  SetEntityVisible(pipeProps, true, true);
-                  */
                 }
               } else {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
@@ -324,6 +302,15 @@ const returnPipeToPump = () => {
     console.log(error);
   }
 })();
+
+setTick(async () => {
+  while (true) {
+    pedCoords = GetEntityCoords(ped);
+    [pump, pumpHandle] = nearPump(pedCoords);
+    //veh = GetVehiclePedIsIn(ped, true);
+    await Delay(500);
+  }
+});
 
 function DrawText3Ds(x, y, z, text) {
   // Implémentez la fonction pour afficher le texte en 3D aux coordonnées spécifiées
