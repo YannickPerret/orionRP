@@ -20,7 +20,7 @@ class Player {
     this.faim = 100;
     this.soif = 100;
     //this.inventaire = new Inventory();
-    this.vehicules = [];
+    //this.vehicules = [];
     this.steamId = steamId || null;
     this.position = {
       x: position.x || 0,
@@ -77,6 +77,7 @@ class Player {
   async save() {
     //if id exists in database
     if (await db.get('players', this.id)) {
+      console.log(this);
       const result = await db.update('players', this.id, this);
       return result;
     } else {
