@@ -125,7 +125,7 @@ const playSound = sound => {
         exports['orion'].requestNewModel(sealtbeltPropModel);
 
         // Attach seatbelt prop on player
-        seatbeltProp = CreateObject(GetHashKey(sealtbeltPropModel), GetPedBonePosition(ped, 28933), true, false, false);
+        seatbeltProp = CreateObject(GetHashKey(sealtbeltPropModel), GetPedBoneIndex(ped, 28933), true, false, false);
         AttachEntityToEntity(
           seatbeltProp,
           ped,
