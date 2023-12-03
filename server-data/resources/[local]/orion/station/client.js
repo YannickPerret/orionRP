@@ -23,9 +23,9 @@ const gazStationsBlips = JSON.parse(gazStationsString);
             playerCoords[0],
             playerCoords[1],
             playerCoords[2],
-            pump.x,
-            pump.y,
-            pump.z,
+            pump.X,
+            pump.Y,
+            pump.Z,
             true
           );
 
