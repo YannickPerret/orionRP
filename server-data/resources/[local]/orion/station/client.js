@@ -119,7 +119,6 @@ const grabPipeFromPump = async (ped, pump) => {
   holdingNozzle = true;
   nozzleInVehicle = false;
   vehicleFueling = false;
-  usedPump = pumpHandle;
 };
 
 //attach the nozzle to the player.
