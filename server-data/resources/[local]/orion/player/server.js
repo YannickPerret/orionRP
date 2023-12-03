@@ -46,7 +46,7 @@ onNet('orion:savePlayerPosition', async (x, y, z) => {
   }
 });
 
-onNet('orion:player:giveAmount', (target, amount) => {
+onNet('orion:player:s:giveAmount', (target, amount) => {
   if (isNaN(amount) || amount <= 0) {
     emitNet('orion:showNotification', source, 'Montant invalide !');
     return;
@@ -62,11 +62,14 @@ onNet('orion:player:giveAmount', (target, amount) => {
     return;
   }
 
-  emitNet('orion:showNotification', target, `Vous avez reçu ${amount} $ !`);
-  emitNet('orion:showNotification', global.source, `Vous avez donné ${amount} $ !`);
-
   PlayerManager.getPlayerBySource(source).money -= amount;
   PlayerManager.getPlayerBySource(target).money += amount;
+
+  PlayerManager.getPlayerBySource(source).save();
+  PlayerManager.getPlayerBySource(target).save();
+
+  emitNet('orion:showNotification', target, `Vous avez reçu ${amount} $ !`);
+  emitNet('orion:showNotification', global.source, `Vous avez donné ${amount} $ !`);
 });
 
 onNet('orion:player:s:playerSpawned', async () => {

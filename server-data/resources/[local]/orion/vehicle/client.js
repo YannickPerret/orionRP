@@ -238,9 +238,6 @@ const playSound = sound => {
       } else {
         consumption = 0.0;
       }
-
-      console.log(fuel - consumption <= fuel * 0.9, fuel);
-
       SendNUIMessage({
         action: 'updateFuel',
         data: {
