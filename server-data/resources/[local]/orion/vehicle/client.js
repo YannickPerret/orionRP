@@ -32,7 +32,8 @@ let vehicleSeat = 0;
 let brakeLightSpeedThresh = 0.25;
 let seatbeltEjectSpeed = 45.0;
 let seatbeltEjectAccel = 100.0;
-let sealtbeltProps = 'prop_cs_seatbelt_01';
+let sealtbeltPropModel = 'prop_cs_seatbelt_01';
+let seatbeltProp = null;
 
 const createVehicle = async (model, coords) => {
   RequestModel(model);
@@ -121,11 +122,11 @@ const playSound = sound => {
       if (sealtbelt) {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
-        exports['orion'].requestNewModel(sealtbeltProps);
+        exports['orion'].requestNewModel(sealtbeltPropModel);
 
         // Attach seatbelt prop on player
-        if (!DoesEntityExist(sealtbeltProps)) {
-          let seatbeltProp = CreateObject(GetHashKey(sealtbeltProps), 0, 0, 0, true, true, false);
+        if (!DoesEntityExist(sealtbeltPropModel)) {
+          seatbeltProp = CreateObject(GetHashKey(sealtbeltPropModel), 0, 0, 0, true, true, false);
           AttachEntityToEntity(
             seatbeltProp,
             ped,
@@ -144,7 +145,7 @@ const playSound = sound => {
             true
           );
         }
-        SetModelAsNoLongerNeeded(sealtbeltProps);
+        SetModelAsNoLongerNeeded(sealtbeltPropModel);
 
         SetPedConfigFlag(GetPlayerPed(-1), 184, true);
         if (GetIsTaskActive(GetPlayerPed(-1), 165)) {
@@ -156,9 +157,9 @@ const playSound = sound => {
         }
       } else {
         SetPedConfigFlag(ped, 184, false);
-        if (DoesEntityExist(sealtbeltProps)) {
-          DeleteEntity(sealtbeltProps);
-          ClearPedProp(ped, GetPedBoneIndex(ped, 57005));
+        if (DoesEntityExist(seatbeltProp)) {
+          DeleteObject(seatbeltProp);
+          //ClearPedProp(ped, GetPedBoneIndex(ped, 57005));
         }
 
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
