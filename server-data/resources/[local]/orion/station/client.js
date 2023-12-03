@@ -66,9 +66,8 @@ var pipeProps = null;
                 }
               } else {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
-                playerHavePipe = false;
-
                 if (IsControlJustReleased(0, 38)) {
+                  playerHavePipe = false;
                   DeleteEntity(pipeProps);
                 }
               }
