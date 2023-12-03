@@ -48,13 +48,13 @@ const vehicleInFront = () => {
   }
 };
 
-const grabNozzleFromPump = async () => {
+const grabPipeFromPump = async (ped, pump) => {
   LoadAnimDict('anim@am_hold_up@male');
   TaskPlayAnim(ped, 'anim@am_hold_up@male', 'shoplift_high', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
   await Delay(300);
-  pipe = CreateObject(`prop_cs_fuel_nozle`, 0, 0, 0, true, true, true);
+  pipeProps = CreateObject(`prop_cs_fuel_nozle`, 0, 0, 0, true, true, true);
   AttachEntityToEntity(
-    pipe,
+    pipeProps,
     ped,
     GetPedBoneIndex(ped, 0x49d9),
     0.11,
@@ -85,18 +85,18 @@ const grabNozzleFromPump = async () => {
   }
   ActivatePhysics(rope);
   await Delay(50);
-  let nozzlePos = GetEntityCoords(nozzle);
-  nozzlePos = GetOffsetFromEntityInWorldCoords(nozzle, 0.0, -0.033, -0.195);
+  pipeLocation = GetEntityCoords(pipeProps);
+  pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
   AttachEntitiesToRope(
     rope,
     pumpHandle,
-    nozzle,
+    pipeProps,
     pump.x,
     pump.y,
     pump.z + 1.45,
-    nozzlePos.x,
-    nozzlePos.y,
-    nozzlePos.z,
+    pipeLocation.x,
+    pipeLocation.y,
+    pipeLocation.z,
     5.0,
     false,
     false,
@@ -108,15 +108,6 @@ const grabNozzleFromPump = async () => {
   nozzleInVehicle = false;
   vehicleFueling = false;
   usedPump = pumpHandle;
-  /*SendNUIMessage({
-        type = "status",
-        status = true
-    })
-    SendNUIMessage({
-        type = "update",
-        fuelCost = "0.00",
-        fuelTank = "0.00"
-    })*/
 };
 
 //attach the nozzle to the player.
@@ -255,9 +246,8 @@ const returnPipeToPump = () => {
             }
           }
 
-          if (distance < 3) {
+          if (distance <= 2) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
-              //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
               if (!pipeProps) {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
@@ -268,7 +258,7 @@ const returnPipeToPump = () => {
                   LoadAnimDict('anim@mp_snowball');
                   TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
                   await Delay(700);
-                  grabExistingNozzle(playerPed);
+                  grabPipeFromPump(playerPed, stationPumpCoords);
                   ClearPedTasks(playerPed);
 
                   /*
