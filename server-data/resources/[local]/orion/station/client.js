@@ -11,6 +11,7 @@ let vehicleFueling = false;
 let usedPump;
 let pipe;
 let pipeLocation;
+let rope;
 
 const SetFuel = (vehicle, fuel) => {
   if (Number(fuel) && fuel >= 0 && fuel <= 100) {
@@ -81,7 +82,7 @@ const grabPipeFromPump = async (ped, pump) => {
     await Delay(0);
   }
 
-  let rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
+  rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
   while (!rope) {
     await Delay(0);
   }
@@ -90,7 +91,7 @@ const grabPipeFromPump = async (ped, pump) => {
   pipeLocation = GetEntityCoords(pipeProps);
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
 
-  pumpHandle = GetClosestObjectOfType(
+  let pumpHandle = GetClosestObjectOfType(
     pipeLocation.x,
     pipeLocation.y,
     pipeLocation.z,
@@ -100,6 +101,7 @@ const grabPipeFromPump = async (ped, pump) => {
     true,
     true
   );
+  console.log(pumpHandle);
 
   AttachEntitiesToRope(
     rope,
