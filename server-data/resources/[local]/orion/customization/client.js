@@ -9,6 +9,22 @@ var positionNewPlayer = {
   z: 29.84,
 };
 
+const loadNewModel = async modelHash => {
+  if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
+    return;
+  }
+
+  if (!IsModelInCdimage(modelHash) || !IsModelValid(modelHash)) {
+    return;
+  }
+
+  RequestModel(modelHash);
+
+  while (!HasModelLoaded(modelHash)) {
+    await Delay(0);
+  }
+};
+
 const zoomToPartBody = body => {
   if (isCameraActive) {
     if (DoesCamExist(cam)) {
@@ -90,21 +106,9 @@ const ApplyPedHair = (ped, hair) => {
 };
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
-  if (hash == GetEntityModel(GetPlayerPed(-1))) {
-    return;
-  }
-
-  if (!IsModelInCdimage(hash) || !IsModelValid(hash)) {
-    return;
-  }
-
-  RequestModel(hash);
-
-  while (!HasModelLoaded(hash)) {
-    await Delay(0);
-  }
-
+  await loadNewModel(hash);
   SetPlayerModel(playerId, hash);
+  SetModelAsNoLongerNeeded(hash);
 };
 
 exports('ShowSkinCreator', enable => {
@@ -166,6 +170,10 @@ exports('applySkin', skin => {
 
 exports('skinCreatorZoom', body => {
   zoomToPartBody(body);
+});
+
+exports('requestNewModel', hash => {
+  loadNewModel(hash);
 });
 
 // REGISTER COMMANDS
