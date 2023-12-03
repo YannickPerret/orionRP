@@ -9,7 +9,6 @@ let holdingPipe = true;
 let pipeInVehicle = false;
 let vehicleFueling = false;
 let usedPump;
-let pump;
 let pipe;
 let pipeLocation;
 
@@ -53,6 +52,7 @@ const grabPipeFromPump = async (ped, pump) => {
   TaskPlayAnim(ped, 'anim@am_hold_up@male', 'shoplift_high', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
   await Delay(300);
   pipeProps = CreateObject(`prop_cs_fuel_nozle`, 0, 0, 0, true, true, true);
+
   AttachEntityToEntity(
     pipeProps,
     ped,
@@ -70,6 +70,7 @@ const grabPipeFromPump = async (ped, pump) => {
     1,
     true
   );
+
   RopeLoadTextures();
   while (!RopeAreTexturesLoaded()) {
     await Delay(0);
@@ -79,6 +80,7 @@ const grabPipeFromPump = async (ped, pump) => {
   while (!pump) {
     await Delay(0);
   }
+
   let rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
   while (!rope) {
     await Delay(0);
