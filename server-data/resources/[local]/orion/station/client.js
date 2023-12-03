@@ -112,8 +112,8 @@ const grabPipeFromPump = async (ped, pump) => {
     5.0,
     false,
     false,
-    nil,
-    nil
+    null,
+    null
   );
   nozzleDropped = false;
   holdingNozzle = true;
