@@ -302,6 +302,7 @@ const returnPipeToPump = () => {
               } else {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
                 if (IsControlJustReleased(0, 38)) {
+                  console.log('ranger pipee');
                   playerHavePipe = false;
                   dropPipe();
                 }
