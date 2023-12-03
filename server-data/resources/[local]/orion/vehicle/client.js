@@ -26,6 +26,9 @@ let vehicleClassDisableControl = {
   [18]: true, //    --emergency
   [19]: false, //    --military
 };
+
+let vehicleSeat = 0;
+
 let brakeLightSpeedThresh = 0.25;
 let seatbeltEjectSpeed = 45.0;
 let seatbeltEjectAccel = 100.0;
@@ -117,7 +120,18 @@ const playSound = sound => {
       if (sealtbelt) {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
+
+        SetPedConfigFlag(GetPlayerPed(-1), 184, true);
+        if (GetIsTaskActive(GetPlayerPed(-1), 165)) {
+          vehicleSeat = 0;
+          if (GetPedInVehicleSeat(currentvehicle, -1) == GetPlayerPed(-1)) {
+            vehicleSeat = -1;
+          }
+          SetPedIntoVehicle(GetPlayerPed(-1), currentvehicle, seat);
+        }
       } else {
+        SetPedConfigFlag(ped, 184, false);
+
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
