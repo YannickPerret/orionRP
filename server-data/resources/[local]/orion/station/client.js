@@ -12,7 +12,7 @@ let usedPump;
 let pipe;
 let pipeLocation;
 let rope;
-let pumpModels = [[-2007231801], [1339433404], [1694452750], [1933174915], [-462817101], [-469694731], [-164877493]];
+let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731, -164877493];
 
 const SetFuel = (vehicle, fuel) => {
   if (Number(fuel) && fuel >= 0 && fuel <= 100) {
