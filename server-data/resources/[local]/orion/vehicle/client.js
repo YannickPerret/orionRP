@@ -127,7 +127,7 @@ const playSound = sound => {
           if (GetPedInVehicleSeat(vehicle, -1) == GetPlayerPed(-1)) {
             vehicleSeat = -1;
           }
-          SetPedIntoVehicle(GetPlayerPed(-1), vehicle, seat);
+          SetPedIntoVehicle(GetPlayerPed(-1), vehicle, vehicleSeat);
         }
       } else {
         SetPedConfigFlag(ped, 184, false);
