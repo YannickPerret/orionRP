@@ -305,7 +305,7 @@ const returnPipeToPump = () => {
 
 setTick(async () => {
   while (true) {
-    pedCoords = GetEntityCoords(ped);
+    pedCoords = GetEntityCoords(PlayerPedId());
     [pump, pumpHandle] = nearPump(pedCoords);
     //veh = GetVehiclePedIsIn(ped, true);
     await Delay(500);
