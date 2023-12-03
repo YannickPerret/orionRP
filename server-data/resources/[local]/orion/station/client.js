@@ -233,45 +233,29 @@ const returnPipeToPump = () => {
       const playerCoords = GetEntityCoords(playerPed, false);
 
       for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
-        const station = gazStationsBlips.GasStations[i];
-        const stationCoords = station.pumps;
+        const stationCoords = gazStationsBlips.GasStations[i].pumps;
 
         for (let j = 0; j < stationCoords.length; j++) {
-          const pump = stationCoords[j];
+          const stationPumpCoords = stationCoords[j];
           const distance = GetDistanceBetweenCoords(
             playerCoords[0],
             playerCoords[1],
             playerCoords[2],
-            pump.X,
-            pump.Y,
-            pump.Z,
+            stationPumpCoords.X,
+            stationPumpCoords.Y,
+            stationPumpCoords.Z,
             true
           );
-          if (pump) {
-            pumpCoords = GetEntityCoords(usedPump);
-          }
-          if (pumpCoords) {
-            pipeLocation = GetEntityCoords(pipe);
 
-            if (pipeLocation - pumpCoords > 6.0) {
+          if (!pipeDropped) {
+            if (pipeLocation - stationPumpCoords > 6.0) {
               dropNozzle();
-            } else if (pumpCoords - playerCoords > 100.0) {
+            } else if (stationPumpCoords - playerCoords > 100.0) {
               returnPipeToPump();
             }
+          }
 
-            if (distance < 2) {
-              if (pipeDropped && pipeLocation - playerCoords < 1.5) {
-                DrawText3D(pipeLocation.x, pipeLocation.y, pipeLocation.z, 'Grab Nozzle [E]');
-                if (IsControlJustPressed(0, 51)) {
-                  LoadAnimDict('anim@mp_snowball');
-                  TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-                  Wait(700);
-                  grabExistingNozzle();
-                  ClearPedTasks(ped);
-                }
-              }
-            }
-
+          if (distance < 3) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
               //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
               if (!pipeProps) {
@@ -283,7 +267,7 @@ const returnPipeToPump = () => {
 
                   LoadAnimDict('anim@mp_snowball');
                   TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-                  Wait(700);
+                  await Delay(700);
                   grabExistingNozzle();
                   ClearPedTasks(ped);
 
