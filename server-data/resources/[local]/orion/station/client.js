@@ -259,7 +259,7 @@ const returnPipeToPump = () => {
 
           if (distance <= 2) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
-              if (!pipeProps) {
+              if (!playerHavePipe) {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
                 if (IsControlJustReleased(0, 38)) {
