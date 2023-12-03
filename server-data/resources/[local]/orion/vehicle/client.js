@@ -213,7 +213,7 @@ const playSound = sound => {
   }
 })();
 
-async () => {
+(async () => {
   let ped = PlayerPedId();
 
   while (true) {
@@ -259,7 +259,7 @@ async () => {
 
     await Delay(0);
   }
-};
+})();
 
 RegisterKeyMapping('seatbelt', 'Attacher sa ceinture', 'keyboard', 'N');
 
