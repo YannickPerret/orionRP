@@ -87,6 +87,18 @@ const grabPipeFromPump = async (ped, pump) => {
   await Delay(50);
   pipeLocation = GetEntityCoords(pipeProps);
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
+
+  pumpHandle = GetClosestObjectOfType(
+    pipeLocation.x,
+    pipeLocation.y,
+    pipeLocation.z,
+    0.8,
+    -2007231801,
+    true,
+    true,
+    true
+  );
+
   AttachEntitiesToRope(
     rope,
     pumpHandle,
