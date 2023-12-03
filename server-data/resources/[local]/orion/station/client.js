@@ -197,6 +197,7 @@ const putNozzleInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPositi
 
 const dropPipe = () => {
   DetachEntity(pipeProps, true, true);
+  DeleteEntity(pipeProps);
   pipeDropped = true;
   holdingPipe = false;
   pipeInVehicle = false;
