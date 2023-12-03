@@ -241,14 +241,12 @@ const playSound = sound => {
 
       console.log(fuel - consumption <= fuel * 0.9, fuel);
 
-      if (fuel - consumption <= fuel * 0.9) {
-        SendNUIMessage({
-          action: 'updateFuel',
-          data: {
-            fuel: (fuel - consumption).toFixed(0),
-          },
-        });
-      }
+      SendNUIMessage({
+        action: 'updateFuel',
+        data: {
+          fuel: (fuel - consumption).toFixed(0),
+        },
+      });
 
       if (fuel - consumption > 0) {
         SetVehicleFuelLevel(vehicle, fuel - consumption);

@@ -5,6 +5,7 @@ export default function Fuel({fuel}) {
   console.log(fuel)
   return (
     <div className="progress">
+      test
         <div className="progress-bar" role="progressbar" style={{width: fuel + '%'}} aria-valuenow={fuel} aria-valuemin="0" aria-valuemax="100"></div>
     </div>
   )
