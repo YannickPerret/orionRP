@@ -266,10 +266,10 @@ const returnPipeToPump = () => {
                   playerHavePipe = true;
 
                   LoadAnimDict('anim@mp_snowball');
-                  TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+                  TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
                   await Delay(700);
                   grabExistingNozzle();
-                  ClearPedTasks(ped);
+                  ClearPedTasks(playerPed);
 
                   /*
                   pipeProps = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
