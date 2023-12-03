@@ -219,6 +219,7 @@ async () => {
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
 
+    console.log(vehicle);
     //if ped is in a vehicle consume fuel
     if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
       console.log(VehicleManager.getVehicles());

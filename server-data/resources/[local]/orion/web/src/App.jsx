@@ -60,7 +60,9 @@ const reducer = (state, action) => {
       case 'SEATBELT':
       return { ...state, haveSeatbelt: action.data };
       case 'UPDATE_FUEL':
-        return { ...state, fuel: action.data.fuel, showFuel: true };
+        return { ...state, fuel: action.data.fuel };
+      case 'SHOW_FUEL':
+        return { ...state, showFuel: !state.showFuel };
 
     default:
       return state;
