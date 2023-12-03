@@ -110,6 +110,9 @@ const App = () => {
         case 'updateFuel':
           dispatch({type: 'UPDATE_FUEL', data});
           break;
+        case 'showFuel':
+          dispatch({type: 'SHOW_FUEL'});
+          break;
       }
     };
 

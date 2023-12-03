@@ -112,6 +112,10 @@ const playSound = sound => {
     if (IsPedInAnyVehicle(ped, false)) {
       DisplayRadar(true);
 
+      SendNUIMessage({
+        action: 'showFuel',
+      });
+
       let vehicle = GetVehiclePedIsIn(ped, false);
       let prevSpeed = currSpeed;
 
@@ -195,6 +199,9 @@ const playSound = sound => {
       }
     } else {
       CancelEvent('SeatShuffle');
+      SendNUIMessage({
+        action: 'showFuel',
+      });
 
       DisplayRadar(false);
       SendNUIMessage({
@@ -224,6 +231,7 @@ const playSound = sound => {
       let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
 
+      console.log(speed);
       if (speed > 0) {
         consumption = speed * 0.0001;
       } else {
