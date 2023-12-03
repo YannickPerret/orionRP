@@ -1,5 +1,7 @@
 const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/gasStations.json');
 const gazStationsBlips = JSON.parse(gazStationsString);
+var playerHavePipe = false;
+var PipeProps = null;
 
 (async () => {
   try {
@@ -32,10 +34,11 @@ const gazStationsBlips = JSON.parse(gazStationsString);
           if (distance < 2) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
               //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
-              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
+              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
               if (IsControlJustReleased(0, 38)) {
-                const props = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
+                playerHavePipe = true;
+                PipeProps = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
 
                 AttachEntityToEntity(
                   props,
@@ -60,6 +63,13 @@ const gazStationsBlips = JSON.parse(gazStationsString);
                 SetEntityDynamic(props, true);
                 SetEntityVisible(props, true, true);
               }
+            }
+          } else {
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
+            playerHavePipe = false;
+
+            if (IsControlJustReleased(0, 38)) {
+              DeleteEntity(PipeProps);
             }
           }
         }
