@@ -29,11 +29,10 @@ const gazStationsBlips = JSON.parse(gazStationsString);
             true
           );
 
-          console.log(distance);
           if (distance < 2) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
               //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
-              exports['orion'].showText('Appuyez sur ~g~E~w~ pour prendre un tuyau');
+              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
 
               if (IsControlJustReleased(0, 38)) {
                 const props = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
