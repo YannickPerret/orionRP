@@ -122,7 +122,7 @@ const grabNozzleFromPump = async () => {
 //attach the nozzle to the player.
 const grabExistingNozzle = () => {
   AttachEntityToEntity(
-    nozzle,
+    pipe,
     ped,
     GetPedBoneIndex(ped, 0x49d9),
     0.11,
@@ -138,9 +138,9 @@ const grabExistingNozzle = () => {
     1,
     true
   );
-  nozzleDropped = false;
-  holdingNozzle = true;
-  nozzleInVehicle = false;
+  pipeDropped = false;
+  holdingPipe = true;
+  pipeInVehicle = false;
   vehicleFueling = false;
 };
 
