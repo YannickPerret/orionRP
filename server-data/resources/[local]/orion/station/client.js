@@ -54,6 +54,7 @@ const nearPump = coords => {
   let entity;
   pumpModels.map(hash => {
     entity = GetClosestObjectOfType(coords.x, coords.y, coords.z, 0.8, hash, true, true, true);
+    console.log('kjj', entity);
     if (entity != 0) return;
   });
   if (pumpModels[GetEntityModel(entity)]) {
