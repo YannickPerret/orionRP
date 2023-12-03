@@ -29,6 +29,7 @@ const gazStationsBlips = JSON.parse(gazStationsString);
             true
           );
 
+          console.log(distance);
           if (distance < 2) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
               //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
