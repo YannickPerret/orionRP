@@ -21,7 +21,7 @@ class Player {
     this.soif = 100;
     //this.inventaire = new Inventory();
     //this.vehicules = [];
-    this.steamId = steamId || null;
+    this.steamId = steamId || '';
     this.position = {
       x: position.x || 0,
       y: position.y || 0,
@@ -34,10 +34,10 @@ class Player {
     this.money = money || 500;
     this.bank = bank || 0;
     this.mugshot = mugshot || '';
-    this.license = license || null;
-    this.discord = discord || null;
+    this.license = license || '';
+    this.discord = discord || '';
     this.role = role || false;
-    this.skin = skin || null;
+    this.skin = skin || [];
   }
 
   #isDead = false;
