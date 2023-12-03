@@ -155,8 +155,7 @@ const playSound = sound => {
         }
       } else {
         SetPedConfigFlag(ped, 184, false);
-        DeleteObject(seatbeltProp);
-        //ClearPedProp(ped, GetPedBoneIndex(ped, 57005));
+        ClearPedProp(ped, GetPedBoneIndex(ped, 28933));
 
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
         let vehIsMovingFwd = speedY > 1.0;
