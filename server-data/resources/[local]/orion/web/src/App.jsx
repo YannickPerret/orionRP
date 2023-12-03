@@ -112,6 +112,8 @@ const App = () => {
           break;
         case 'showFuel':
           dispatch({type: 'SHOW_FUEL'});
+          console.log(showFuel)
+
           break;
       }
     };

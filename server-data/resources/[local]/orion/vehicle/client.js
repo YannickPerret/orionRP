@@ -231,7 +231,6 @@ const playSound = sound => {
       let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
 
-      console.log(speed);
       if (speed > 0) {
         consumption = speed * 0.0001;
       } else {
