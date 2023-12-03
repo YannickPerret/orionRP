@@ -30,34 +30,36 @@ const gazStationsBlips = JSON.parse(gazStationsString);
           );
 
           if (distance < 2) {
-            //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
-            exports['orion'].showText('Appuyez sur ~g~E~w~ pour prendre un tuyau');
+            if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
+              //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
+              exports['orion'].showText('Appuyez sur ~g~E~w~ pour prendre un tuyau');
 
-            if (IsControlJustReleased(0, 38)) {
-              const props = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
+              if (IsControlJustReleased(0, 38)) {
+                const props = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
 
-              AttachEntityToEntity(
-                props,
-                playerPed,
-                GetPedBoneIndex(playerPed, 28422),
-                0.15, // Ajustez ces valeurs pour positionner correctement le tuyau
-                -0.15,
-                0,
-                0,
-                0,
-                90, // Ajustez l'angle si nécessaire
-                true,
-                true,
-                false,
-                false,
-                0,
-                true
-              );
+                AttachEntityToEntity(
+                  props,
+                  playerPed,
+                  GetPedBoneIndex(playerPed, 28422),
+                  0.15, // Ajustez ces valeurs pour positionner correctement le tuyau
+                  -0.15,
+                  0,
+                  0,
+                  0,
+                  90, // Ajustez l'angle si nécessaire
+                  true,
+                  true,
+                  false,
+                  false,
+                  0,
+                  true
+                );
 
-              // Configurez ces paramètres selon vos besoins
-              SetEntityCollision(props, true, true);
-              SetEntityDynamic(props, true);
-              SetEntityVisible(props, true, true);
+                // Configurez ces paramètres selon vos besoins
+                SetEntityCollision(props, true, true);
+                SetEntityDynamic(props, true);
+                SetEntityVisible(props, true, true);
+              }
             }
           }
         }
