@@ -122,15 +122,12 @@ const playSound = sound => {
         DisableControlAction(27, 75, true);
 
         SetPedConfigFlag(GetPlayerPed(-1), 184, true);
-        vehicleSeat = 0;
-        if (GetPedInVehicleSeat(vehicle, -1) == ped) {
-          vehicleSeat = -1;
-        }
-        if (GetPedInVehicleSeat(vehicle, -1) == ped) {
-          TaskShuffleToNextVehicleSeat(ped, vehicle);
-        }
-        while (GetPedInVehicleSeat(vehicle, seat) == ped) {
-          Delay(0);
+        if (GetIsTaskActive(GetPlayerPed(-1), 165)) {
+          vehicleSeat = 0;
+          if (GetPedInVehicleSeat(vehicle, -1) == GetPlayerPed(-1)) {
+            vehicleSeat = -1;
+          }
+          SetPedIntoVehicle(GetPlayerPed(-1), vehicle, vehicleSeat);
         }
       } else {
         SetPedConfigFlag(ped, 184, false);
@@ -172,7 +169,6 @@ const playSound = sound => {
         }
       }
     } else {
-      SetPedConfigFlag(ped, 184, false);
       CancelEvent('SeatShuffle');
 
       DisplayRadar(false);
