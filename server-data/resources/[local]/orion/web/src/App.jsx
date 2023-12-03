@@ -36,7 +36,7 @@ const initialState = {
   haveSeatbelt: false,
   speed: 0,
   amount: 0,
-  fuel: 0
+  fuel: 64
 };
 
 const reducer = (state, action) => {
@@ -184,6 +184,7 @@ const App = () => {
       </>
     );
   }
+
   if (state.showAmountMenu && !state.sideMenuUi && !state.showPlayerMenu) {
   
     return (
