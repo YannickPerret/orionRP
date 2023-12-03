@@ -83,6 +83,7 @@ const grabPipeFromPump = async (ped, pump) => {
     await Delay(0);
   }
 
+  console.log(pump);
   rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
 
   while (!rope) {
@@ -226,6 +227,7 @@ const returnPipeToPump = () => {
 };
 
 (async () => {
+  DecorRegister(fuelDecor, 1);
   try {
     for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
       const station = gazStationsBlips.GasStations[i];
