@@ -1,7 +1,7 @@
 const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/gasStations.json');
 const gazStationsBlips = JSON.parse(gazStationsString);
 var playerHavePipe = false;
-var PipeProps = null;
+var pipeProps = null;
 
 (async () => {
   try {
@@ -34,43 +34,44 @@ var PipeProps = null;
           if (distance < 2) {
             if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
               //DrawText3Ds(pump.x, pump.y, pump.z, 'Appuyez sur ~g~E~w~ pour prendre un tuyau');
-              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+              if (!pipeProps) {
+                emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+                if (IsControlJustReleased(0, 38)) {
+                  DeleteEntity(pipeProps);
+                  playerHavePipe = true;
+                  pipeProps = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
 
-              if (IsControlJustReleased(0, 38)) {
-                DeleteEntity(PipeProps);
-                playerHavePipe = true;
-                PipeProps = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
+                  AttachEntityToEntity(
+                    pipeProps,
+                    playerPed,
+                    GetPedBoneIndex(playerPed, 28422),
+                    0.15, // Ajustez ces valeurs pour positionner correctement le tuyau
+                    -0.15,
+                    0,
+                    0,
+                    0,
+                    90, // Ajustez l'angle si nécessaire
+                    true,
+                    true,
+                    false,
+                    false,
+                    0,
+                    true
+                  );
 
-                AttachEntityToEntity(
-                  PipeProps,
-                  playerPed,
-                  GetPedBoneIndex(playerPed, 28422),
-                  0.15, // Ajustez ces valeurs pour positionner correctement le tuyau
-                  -0.15,
-                  0,
-                  0,
-                  0,
-                  90, // Ajustez l'angle si nécessaire
-                  true,
-                  true,
-                  false,
-                  false,
-                  0,
-                  true
-                );
+                  // Configurez ces paramètres selon vos besoins
+                  SetEntityCollision(pipeProps, true, true);
+                  SetEntityDynamic(pipeProps, true);
+                  SetEntityVisible(pipeProps, true, true);
+                }
+              } else {
+                emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
+                playerHavePipe = false;
 
-                // Configurez ces paramètres selon vos besoins
-                SetEntityCollision(PipeProps, true, true);
-                SetEntityDynamic(PipeProps, true);
-                SetEntityVisible(PipeProps, true, true);
+                if (IsControlJustReleased(0, 38)) {
+                  DeleteEntity(pipeProps);
+                }
               }
-            }
-          } else {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
-            playerHavePipe = false;
-
-            if (IsControlJustReleased(0, 38)) {
-              DeleteEntity(PipeProps);
             }
           }
         }
