@@ -195,7 +195,7 @@ const putNozzleInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPositi
   vehicleFueling = vehicle;
 };
 
-const dropNozzle = () => {
+const dropPipe = () => {
   DetachEntity(pipe, true, true);
   pipeDropped = true;
   holdingPipe = false;
@@ -251,7 +251,7 @@ const returnPipeToPump = () => {
 
           if (!pipeDropped) {
             if (pipeLocation - stationPumpCoords > 6.0) {
-              dropNozzle();
+              dropPipe();
             } else if (stationPumpCoords - playerCoords > 100.0) {
               returnPipeToPump();
             }
@@ -303,7 +303,7 @@ const returnPipeToPump = () => {
                 emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
                 if (IsControlJustReleased(0, 38)) {
                   playerHavePipe = false;
-                  DeleteEntity(pipeProps);
+                  dropPipe();
                 }
               }
             }
