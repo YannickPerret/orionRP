@@ -37,11 +37,12 @@ var PipeProps = null;
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
               if (IsControlJustReleased(0, 38)) {
+                DeleteEntity(PipeProps);
                 playerHavePipe = true;
                 PipeProps = CreateObject(GetHashKey('prop_gascyl_01a'), pump.x, pump.y, pump.z, true, true, true);
 
                 AttachEntityToEntity(
-                  props,
+                  PipeProps,
                   playerPed,
                   GetPedBoneIndex(playerPed, 28422),
                   0.15, // Ajustez ces valeurs pour positionner correctement le tuyau
@@ -59,9 +60,9 @@ var PipeProps = null;
                 );
 
                 // Configurez ces paramètres selon vos besoins
-                SetEntityCollision(props, true, true);
-                SetEntityDynamic(props, true);
-                SetEntityVisible(props, true, true);
+                SetEntityCollision(PipeProps, true, true);
+                SetEntityDynamic(PipeProps, true);
+                SetEntityVisible(PipeProps, true, true);
               }
             }
           } else {
