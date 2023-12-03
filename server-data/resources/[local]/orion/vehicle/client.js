@@ -114,6 +114,7 @@ const playSound = sound => {
 
       SendNUIMessage({
         action: 'showFuel',
+        data: true,
       });
 
       let vehicle = GetVehiclePedIsIn(ped, false);
@@ -201,6 +202,7 @@ const playSound = sound => {
       CancelEvent('SeatShuffle');
       SendNUIMessage({
         action: 'showFuel',
+        data: false,
       });
 
       DisplayRadar(false);

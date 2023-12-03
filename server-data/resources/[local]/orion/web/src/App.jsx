@@ -62,7 +62,7 @@ const reducer = (state, action) => {
       case 'UPDATE_FUEL':
         return { ...state, fuel: action.data.fuel };
       case 'SHOW_FUEL':
-        return { ...state, showFuel: !state.showFuel };
+        return { ...state, showFuel: action.data };
 
     default:
       return state;
@@ -111,9 +111,7 @@ const App = () => {
           dispatch({type: 'UPDATE_FUEL', data});
           break;
         case 'showFuel':
-          dispatch({type: 'SHOW_FUEL'});
-          console.log(showFuel)
-
+          dispatch({type: 'SHOW_FUEL', data});
           break;
       }
     };
