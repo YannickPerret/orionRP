@@ -231,13 +231,14 @@ const dropPipe = () => {
 
 // delete nozzle and rope, and hide ui.
 const returnPipeToPump = async () => {
+  let ped = PlayerPedId();
   LoadAnimDict('anim@mp_snowball');
-  TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+  TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
   await Delay(700);
   DeleteEntity(pipe);
   RopeUnloadTextures();
   DeleteRope(rope);
-  ClearPedTasks(playerPed);
+  ClearPedTasks(ped);
 };
 
 (async () => {
