@@ -113,8 +113,9 @@ const createRope = () => {
 const createNozzle = async () => {
   let ped = PlayerPedId();
 
-  LoadAnimDict('timetable@gardener@filling_can');
-  TaskPlayAnim(ped, 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+  LoadAnimDict('anim@mp_snowball');
+  TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+  await Delay(700);
 
   let prop = 'prop_cs_fuel_nozle';
   let model = GetHashKey(prop);
