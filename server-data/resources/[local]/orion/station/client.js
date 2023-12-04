@@ -11,6 +11,7 @@ let pipe;
 let pipeLocation;
 let rope;
 let pump;
+let ropeAnchor;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -46,6 +47,40 @@ const vehicleInFront = () => {
   if (IsEntityAVehicle(entity)) {
     return entity;
   }
+};
+
+const getAttachmentPoint = entity => {
+  let bone = GetPedBoneIndex(PlayerPedId(), 4089);
+  return GetWorldPositionOfEntityBone(PlayerPedId(), bone);
+};
+
+const getClosestPumpHandle = () => {
+  let ped = PlayerPedId();
+  let pedCoords = GetEntityCoords(ped, false);
+  let distance = 10.0;
+
+  for (let model of pumpModels) {
+    const handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 2.0, model, false, false, false);
+    if (handle !== 0) {
+      console.log(handle);
+
+      let objcoords = GetEntityCoords(handle);
+      let objDistance = GetDistanceBetweenCoords(
+        pedCoords.x,
+        pedCoords.y,
+        pedCoords.z,
+        objcoords.x,
+        objcoords.y,
+        objcoords.z,
+        true
+      );
+      if (objDistance < distance) {
+        distance = objDistance;
+        pump = handle;
+      }
+    }
+  }
+  return pump;
 };
 
 const createRope = () => {
@@ -109,37 +144,40 @@ const createNozzle = async () => {
   );
 
   rope = createRope();
+
+  //attach rope to nozzle
+  pipeLocation = getAttachmentPoint(PlayerPedId());
+  AttachEntitiesToRope(
+    rope,
+    PlayerPedId(),
+    ropeAnchor,
+    pipeLocation.x,
+    pipeLocation.y,
+    pipeLocation.z,
+    anchorPos.x,
+    anchorPos.y,
+    anchorPos.z + 2.2,
+    13.0,
+    false,
+    false,
+    '',
+    ''
+  );
+  await Wait(0);
 };
 
-const getClosestPumpHandle = () => {
-  let ped = PlayerPedId();
-  let pedCoords = GetEntityCoords(ped, false);
-  let distance = 10.0;
+const grabRope = () => {
+  let prop = 'w_at_scope_small';
+  let anchorPos = GetOffsetFromEntityInWorldCoords(pump, 0.0, 0.0, 0.0);
+  ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
 
-  for (let model of pumpModels) {
-    const handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 2.0, model, false, false, false);
-    if (handle !== 0) {
-      console.log(handle);
-
-      let objcoords = GetEntityCoords(handle);
-      let objDistance = GetDistanceBetweenCoords(
-        pedCoords.x,
-        pedCoords.y,
-        pedCoords.z,
-        objcoords.x,
-        objcoords.y,
-        objcoords.z,
-        true
-      );
-      if (objDistance < distance) {
-        distance = objDistance;
-        pump = handle;
-      }
+  while (rope != null) {
+    let distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ropeAnchor), true);
+    if (distance > 10.0) {
+      returnPipeToPump();
     }
   }
-  return pump;
 };
-
 // attach nozzle to vehicle.
 const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
   if (isBike) {
