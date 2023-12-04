@@ -75,14 +75,14 @@ class Player {
   }
 
   async save() {
+    let result;
     //if id exists in database
     if (await db.get('players', this.id)) {
-      const result = await db.update('players', this);
-      return result;
+      result = await db.update('players', this);
     } else {
-      const result = await db.insert('players', this);
-      return result;
+      result = await db.insert('players', this);
     }
+    return result;
   }
 }
 

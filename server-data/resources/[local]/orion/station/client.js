@@ -54,7 +54,6 @@ const nearPump = coords => {
   let entity;
   pumpModels.map(hash => {
     entity = GetClosestObjectOfType(coords.x, coords.y, coords.z, 0.8, hash, true, true, true);
-    console.log('kjj', entity);
     if (entity != 0) return;
   });
   if (pumpModels[GetEntityModel(entity)]) {
@@ -96,8 +95,7 @@ const grabPipeFromPump = async (ped, pump) => {
     await Delay(0);
   }
 
-  console.log(pump);
-  rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
+  rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 6.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
 
   while (!rope) {
     await Delay(0);
@@ -105,12 +103,11 @@ const grabPipeFromPump = async (ped, pump) => {
   ActivatePhysics(rope);
   await Delay(50);
 
-  pipeLocation = GetEntityCoords(pipeProps);
+  //pipeLocation = GetEntityCoords(pipeProps);
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
-
+  let playerCoords = GetEntityCoords(ped, false);
   pumpModels.map(hash => {
-    console.log(hash);
-    pumpHandle = GetClosestObjectOfType(pipeLocation.x, pipeLocation.y, pipeLocation.z, 0.8, hash, true, true, true);
+    pumpHandle = GetClosestObjectOfType(playerCoords, 0.8, hash, true, true, true);
   });
   console.log(pumpHandle);
 
@@ -130,9 +127,8 @@ const grabPipeFromPump = async (ped, pump) => {
     null,
     null
   );
-  nozzleDropped = false;
-  holdingNozzle = true;
-  nozzleInVehicle = false;
+  holdingPipe = true;
+  pipeInVehicle = false;
   vehicleFueling = false;
 };
 
@@ -162,10 +158,10 @@ const grabExistingNozzle = ped => {
 };
 
 // attach nozzle to vehicle.
-const putNozzleInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
+const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
   if (isBike) {
     AttachEntityToEntity(
-      nozzle,
+      pipe,
       vehicle,
       ptankBone,
       0.0 + newTankPosition.x,
@@ -183,7 +179,7 @@ const putNozzleInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPositi
     );
   } else {
     AttachEntityToEntity(
-      nozzle,
+      pipe,
       vehicle,
       ptankBone,
       -0.18 + newTankPosition.x,
@@ -200,12 +196,12 @@ const putNozzleInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPositi
       true
     );
   }
-  if (!dontClear && IsEntityPlayingAnim(ped, 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 3)) {
+  if (IsEntityPlayingAnim(ped, 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 3)) {
     ClearPedTasks(ped);
   }
-  nozzleDropped = false;
-  holdingNozzle = false;
-  nozzleInVehicle = true;
+
+  holdingPipe = false;
+  pipeInVehicle = true;
   wastingFuel = false;
   vehicleFueling = vehicle;
 };
@@ -213,14 +209,10 @@ const putNozzleInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPositi
 const dropPipe = () => {
   DetachEntity(pipeProps, true, true);
   DeleteEntity(pipeProps);
-  pipeDropped = true;
+  playerHavePipe = true;
   holdingPipe = false;
   pipeInVehicle = false;
   vehicleFueling = false;
-  /*SendNUIMessage({
-        type = "status",
-        status = false
-    })*/
 };
 
 // delete nozzle and rope, and hide ui.
@@ -228,96 +220,79 @@ const returnPipeToPump = () => {
   DeleteEntity(pipe);
   RopeUnloadTextures();
   DeleteRope(rope);
-  pipeDropped = false;
+  playerHavePipe = false;
   holdingPipe = false;
   pipeInVehicle = false;
   vehicleFueling = false;
-  /*SendNUIMessage({
-        type = "status",
-        status = false
-    })*/
 };
 
 (async () => {
   DecorRegister(fuelDecor, 1);
-  try {
+  for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
+    const station = gazStationsBlips.GasStations[i];
+    createBlip(station.coordinates, 361, 0, 'Station essence');
+    //CreateObject(GetHashKey(pumps.hash), pumps.x, pumps.y, pumps.z - 1.0, true, true, true);
+  }
+
+  while (true) {
+    await Wait(0); // Important pour éviter de surcharger le thread
+    const playerPed = PlayerPedId();
+    const playerCoords = GetEntityCoords(playerPed, false);
+
     for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
-      const station = gazStationsBlips.GasStations[i];
-      createBlip(station.coordinates, 361, 0, 'Station essence');
-    }
+      const stationCoords = gazStationsBlips.GasStations[i].pumps;
 
-    while (true) {
-      await Wait(0); // Important pour éviter de surcharger le thread
-      const playerPed = PlayerPedId();
-      const playerCoords = GetEntityCoords(playerPed, false);
+      for (let j = 0; j < stationCoords.length; j++) {
+        const stationPumpCoords = stationCoords[j];
+        const distance = GetDistanceBetweenCoords(
+          playerCoords[0],
+          playerCoords[1],
+          playerCoords[2],
+          stationPumpCoords.X,
+          stationPumpCoords.Y,
+          stationPumpCoords.Z,
+          true
+        );
 
-      for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
-        const stationCoords = gazStationsBlips.GasStations[i].pumps;
-
-        for (let j = 0; j < stationCoords.length; j++) {
-          const stationPumpCoords = stationCoords[j];
-          const distance = GetDistanceBetweenCoords(
-            playerCoords[0],
-            playerCoords[1],
-            playerCoords[2],
-            stationPumpCoords.X,
-            stationPumpCoords.Y,
-            stationPumpCoords.Z,
-            true
-          );
-
-          if (pipeDropped) {
-            if (pipeLocation - stationPumpCoords > 6.0) {
-              dropPipe();
-            } else if (stationPumpCoords - playerCoords > 100.0) {
-              returnPipeToPump();
-            }
+        if (playerHavePipe) {
+          if (GetDistanceBetweenCoords(pipeLocation - stationPumpCoords) > 6.0) {
+            dropPipe();
+          } else if (stationPumpCoords - playerCoords > 100.0) {
+            returnPipeToPump();
           }
+        }
 
-          if (distance <= 2) {
-            if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
-              if (!playerHavePipe) {
-                emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+        if (distance <= 2) {
+          if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
+            if (!playerHavePipe) {
+              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
-                if (IsControlJustReleased(0, 38)) {
-                  playerHavePipe = true;
-                  grabPipeFromPump(playerPed, stationPumpCoords);
-                }
-              } else {
-                emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
-                if (IsControlJustReleased(0, 38)) {
-                  playerHavePipe = false;
-                  LoadAnimDict('anim@mp_snowball');
-                  TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-                  await Delay(700);
-                  dropPipe();
-                  ClearPedTasks(playerPed);
-                }
+              if (IsControlJustReleased(0, 38)) {
+                playerHavePipe = true;
+                grabPipeFromPump(playerPed, stationPumpCoords);
+              }
+            } else {
+              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
+              if (IsControlJustReleased(0, 38)) {
+                playerHavePipe = false;
+                LoadAnimDict('anim@mp_snowball');
+                TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+                await Delay(700);
+                dropPipe();
+                ClearPedTasks(playerPed);
               }
             }
           }
         }
       }
     }
-  } catch (error) {
-    console.log(error);
+
+    if (playerHavePipe && vehicleInFront()) {
+      emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
+      if (IsControlJustReleased(0, 38)) {
+        putPipeInVehicle(vehicleInFront(), 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
+      }
+    }
   }
 })();
-
-setTick(async () => {
-  while (true) {
-    pedCoords = GetEntityCoords(PlayerPedId());
-    //[pump, pumpHandle] =
-    console.log(nearPump(pedCoords));
-    //veh = GetVehiclePedIsIn(ped, true);
-    await Delay(500);
-  }
-});
-
-function DrawText3Ds(x, y, z, text) {
-  // Implémentez la fonction pour afficher le texte en 3D aux coordonnées spécifiées
-}
-
-function Wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));

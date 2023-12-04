@@ -1,6 +1,6 @@
-var MAX_FUEL = 100; // Quantité maximale de fuel dans le réservoir
-var FUEL_CONSUMPTION = 0.5; // Consommation de fuel par seconde
-var IDLE_FUEL_CONSUMPTION = 0.1; // Consommation de fuel par seconde au ralenti
+const MAX_FUEL = 100; // Quantité maximale de fuel dans le réservoir
+const FUEL_CONSUMPTION = 0.5; // Consommation de fuel par seconde
+const IDLE_FUEL_CONSUMPTION = 0.1; // Consommation de fuel par seconde au ralenti
 
 class Vehicle {
   constructor({
@@ -47,23 +47,13 @@ class Vehicle {
 
   async save() {
     try {
-      const filters = { id: this.id };
-      const data = {
-        id: this.id,
-        model: this.model,
-        owner: this.owner,
-        plate: this.plate,
-        position: this.position,
-        state: this.state,
-        primaryColor: this.primaryColor,
-        secondaryColor: this.secondaryColor,
-        pearlescentColor: this.pearlescentColor,
-        customizations: this.customizations,
-      };
-      const result = await db.update('vehicles', filters, data);
-      if (result.changes && result.changes.length > 0) {
-        console.log('[Orion] Véhicule sauvegardé : ', this);
+      let result;
+      if (await db.get('vehicles', this.id)) {
+        result = await db.update('vehicles', this);
+      } else {
+        result = await db.insert('vehicles', this);
       }
+      return result;
     } catch (e) {
       console.error(e);
     }
