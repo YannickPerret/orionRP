@@ -159,19 +159,19 @@ const createNozzle = async pump => {
   AttachEntitiesToRope(
     rope,
     ped,
-    ropeAnchor,
-    anchorPos.x,
-    anchorPos.y,
-    anchorPos.z,
-
-    pipeLocationX,
-    pipeLocationY,
-    pipeLocationZ,
-    5.0,
+    GetPedBoneIndex(ped, 0x49d9),
+    0.11,
+    0.02,
+    0.02,
+    -80.0,
+    -90.0,
+    15.0,
+    true,
+    true,
     false,
-    false,
-    null,
-    null
+    true,
+    1,
+    true
   );
   await Wait(0);
 };
