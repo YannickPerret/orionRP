@@ -74,13 +74,13 @@ const getClosestPumpHandle = () => {
 
 const grabRope = pump => {
   const prop = 'w_at_scope_small';
-  const [anchorPosX, anchorPosY, anchorPosZ] = GetEntityCoords(pump);
-  ropeAnchor = CreateObject(GetHashKey(prop), anchorPosX, anchorPosY, anchorPosZ + 3.2, true, true, true);
+  const [pumpPosX, pumpPosY, pumpPosZ] = GetEntityCoords(pump);
+  ropeAnchor = CreateObject(GetHashKey(prop), pumpPosX, pumpPosY, pumpPosZ + 3.2, true, true, true);
 
-  return { x: anchorPosX, y: anchorPosY, z: anchorPosZ };
+  return { x: pumpPosX, y: pumpPosY, z: pumpPosZ };
 };
 
-const createRope = () => {
+const createRope = async () => {
   RopeLoadTextures();
   let ped = PlayerPedId();
   const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
@@ -105,6 +105,11 @@ const createRope = () => {
     false
   );
 
+  while (!pump) {
+    await Delay(0);
+  }
+  ActivatePhysics(repoEntity);
+  await Wait(50);
   return repoEntity;
 };
 
@@ -128,12 +133,12 @@ const createNozzle = async pump => {
     pipe,
     ped,
     GetPedBoneIndex(ped, 0x49d9),
-    0.22,
-    0.05,
-    0.04,
-    0.0,
-    90.0,
-    90.0,
+    0.11,
+    0.02,
+    0.02,
+    -80.0,
+    -90.0,
+    15.0,
     true,
     true,
     false,
@@ -144,8 +149,8 @@ const createNozzle = async pump => {
 
   //isok
 
-  rope = createRope();
-  ActivatePhysics(rope);
+  rope = await createRope();
+
   const anchorPos = grabRope(pump);
 
   //attach rope to nozzle
@@ -155,17 +160,18 @@ const createNozzle = async pump => {
     rope,
     ped,
     ropeAnchor,
+    anchorPos.x,
+    anchorPos.y,
+    anchorPos.z,
+
     pipeLocationX,
     pipeLocationY,
     pipeLocationZ,
-    anchorPos.x,
-    anchorPos.y,
-    anchorPos.z + 2.2,
-    13.0,
+    5.0,
     false,
     false,
-    '',
-    ''
+    null,
+    null
   );
   await Wait(0);
 };
