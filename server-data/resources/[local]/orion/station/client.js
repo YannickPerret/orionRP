@@ -10,8 +10,7 @@ let usedPump;
 let pipe;
 let pipeLocation;
 let rope;
-let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731, -164877493];
-
+let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const SetFuel = (vehicle, fuel) => {
@@ -22,11 +21,9 @@ const SetFuel = (vehicle, fuel) => {
 };
 
 const LoadAnimDict = async dict => {
-  if (!HasAnimDictLoaded(dict)) {
-    RequestAnimDict(dict);
-    while (!HasAnimDictLoaded(dict)) {
-      await Delay(1);
-    }
+  RequestAnimDict(dict);
+  while (!HasAnimDictLoaded(dict)) {
+    await Delay(0);
   }
 };
 
