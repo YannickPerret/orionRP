@@ -57,6 +57,7 @@ const getClosestPumpHandle = () => {
   let ped = PlayerPedId();
   let pedCoords = GetEntityCoords(ped, false);
   let distance = 10.0;
+  let pump = 0;
 
   for (let model of pumpModels) {
     const handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 2.0, model, false, false, false);
