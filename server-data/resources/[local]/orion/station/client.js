@@ -104,7 +104,7 @@ const getClosestPumpHandle = () => {
   return pump;
 };
 
-const grabPipeFromPump = async () => {
+const grabPipeFromPump = async pump => {
   let ped = PlayerPedId();
 
   LoadAnimDict('anim@am_hold_up@male');
@@ -285,8 +285,8 @@ const returnPipeToPump = () => {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
               if (IsControlJustReleased(0, 38)) {
-                playerHavePipe = true;
-                grabPipeFromPump(playerPed, stationPumpCoords);
+                //playerHavePipe = true;
+                //grabPipeFromPump(playerPed, stationPumpCoords);
               }
             } else {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
@@ -315,4 +315,12 @@ const returnPipeToPump = () => {
 
 (async () => {
   let pump = getClosestPumpHandle();
+
+  if (pump && !playerHavePipe) {
+    emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+    if (IsControlJustReleased(0, 38)) {
+      playerHavePipe = true;
+      grabPipeFromPump();
+    }
+  }
 })();
