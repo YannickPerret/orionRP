@@ -327,13 +327,13 @@ setInterval(() => {
     const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
 
     // Si vous avez un offset spécifique pour le pistolet, ajustez-le ici
-    const [nozzleX, nozzleY, nozzleZ] = GetOffsetFromEntityInWorldCoords(pipe, 0.0, -0.033, -0.195);
+    const [nozzleX, nozzleY, nozzleZ] = GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.033, -0.195);
 
     // Mise à jour de la position de la corde
     AttachEntitiesToRope(
       rope,
       usedPump,
-      pipe,
+      GetPedBoneIndex(ped, 0x49d9),
       pumpCoords.x,
       pumpCoords.y,
       pumpCoords.z + 1.45,
