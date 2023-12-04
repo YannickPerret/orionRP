@@ -12,6 +12,7 @@ let pipeLocation;
 let rope;
 let pump;
 let ropeAnchor;
+let anchorPos;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -169,7 +170,7 @@ const createNozzle = async () => {
 
 const grabRope = () => {
   let prop = 'w_at_scope_small';
-  let anchorPos = GetOffsetFromEntityInWorldCoords(pump, 0.0, 0.0, 0.0);
+  anchorPos = GetOffsetFromEntityInWorldCoords(pump, 0.0, 0.0, 0.0);
   ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
 
   while (rope != null) {
