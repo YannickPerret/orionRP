@@ -78,7 +78,7 @@ const grabRope = pump => {
   const [anchorPosX, anchorPosY, anchorPosZ] = GetEntityCoords(pump);
   ropeAnchor = CreateObject(GetHashKey(prop), anchorPosX, anchorPosY, anchorPosZ + 3.2, true, true, true);
 
-  return anchorPos;
+  return [anchorPosX, anchorPosY, anchorPosZ];
 };
 
 const createRope = () => {
