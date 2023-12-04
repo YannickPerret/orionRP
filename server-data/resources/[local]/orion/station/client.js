@@ -310,8 +310,8 @@ const returnPipeToPump = () => {
 })();
 
 setImmediate(() => {
-  gazStationsBlips.forEach(station => {
-    station.pumps.forEach(pump => {
+  for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
+    for (let j = 0; j < gazStationsBlips.GasStations[i].pumps.length; j++) {
       const hash = GetHashKey('prop_gas_pump_1a');
       RequestModel(hash);
 
@@ -331,6 +331,6 @@ setImmediate(() => {
 
       // Libérer le modèle
       SetModelAsNoLongerNeeded(hash);
-    });
-  });
+    }
+  }
 });
