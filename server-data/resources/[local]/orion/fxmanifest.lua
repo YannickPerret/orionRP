@@ -12,12 +12,14 @@ files {
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
     'station/gasStations.json',
+    'bank/bank.json',
 
     'core/playerManager.js',
     'core/vehicleManager.js',
     'phone/phone.js',
     'player/player.js',
     'vehicle/vehicle.js',
+    'bank/bank.js',
     
     
 }
@@ -37,6 +39,7 @@ client_scripts{
     'vehicle/client.js',
     'station/client.js',
     'customization/client.js',
+    'bank/client.js',
 }
 
 server_scripts{
@@ -44,6 +47,7 @@ server_scripts{
     'player/server.js',
     'vehicle/server.js',
     'station/server.js',
+    'bank/server.js',
 }
 
 
