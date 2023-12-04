@@ -5,6 +5,7 @@ let pistoletObject = null;
 let rope = null;
 let ropeAnchor = null;
 let pump = null;
+let pistoletInVehicle = false;
 const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -210,13 +211,10 @@ const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition
       true
     );
   }
-  if (IsEntityPlayingAnim(ped, 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 3)) {
-    ClearPedTasks(ped);
+  if (IsEntityPlayingAnim(PlayerPedId(), 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 3)) {
+    ClearPedTasks(PlayerPedId());
   }
-
-  pipeInVehicle = true;
-  wastingFuel = false;
-  vehicleFueling = vehicle;
+  pistoletInVehicle = true;
 };
 
 const dropPipe = () => {
