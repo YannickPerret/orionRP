@@ -81,36 +81,38 @@ const createRope = async () => {
   let ped = PlayerPedId();
   const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
   const [pedRotationX, pedRotationY, pedRotationZ] = GetEntityRotation(ped, 2);
+  const [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(pump);
   let repoEntity;
   repoEntity = AddRope(
-    playerX,
-    playerY,
-    playerZ,
-    pedRotationX,
-    pedRotationY,
-    pedRotationZ,
-    7.0,
-    1,
-    2.0,
+    pumpCoordsX,
+    pumpCoordsY,
+    pumpCoordsZ,
     0.0,
-    10.0,
+    0.0,
+    0.0,
+    3.0,
     1,
-    1,
+    1000.0,
+    0.0,
     1.0,
     false,
-    false
+    false,
+    false,
+    1.0,
+    true
   );
 
-  while (!pump) {
+  while (!repoEntity) {
     await Delay(0);
   }
   ActivatePhysics(repoEntity);
-  await Wait(50);
+  await Wait(100);
   return repoEntity;
 };
 
 const createNozzle = async () => {
   let ped = PlayerPedId();
+  const lefthand = GetPedBoneIndex(ped, 18905);
 
   LoadAnimDict('anim@mp_snowball');
   TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
@@ -128,7 +130,7 @@ const createNozzle = async () => {
   AttachEntityToEntity(
     pistoletObject,
     ped,
-    GetPedBoneIndex(ped, 0x49d9),
+    lefthand,
     0.11,
     0.02,
     0.02,
@@ -146,6 +148,8 @@ const createNozzle = async () => {
   //isok
 
   rope = await createRope();
+  let nozzlePos = GetEntityCoords(pistoletObject);
+  nozzlePos = GetOffsetFromEntityInWorldCoords(pistoletObject, -0.005, 0.185, -0.05);
 
   const anchorPos = createRopeAnchor();
 
@@ -155,19 +159,18 @@ const createNozzle = async () => {
   AttachEntitiesToRope(
     rope,
     pump,
-    GetPedBoneIndex(ped, 0x49d9),
+    pistoletObject,
     anchorPos.x,
     anchorPos.y,
-    anchorPos.z + 1.45,
-    pistoletPositionX,
-    pistoletPositionY,
-    pistoletPositionZ,
-    true,
-    true,
+    anchorPos.z + 1.76,
+    nozzlePos[0],
+    nozzlePos[1],
+    nozzlePos[2],
+    5.0,
     false,
-    true,
-    1,
-    true
+    false,
+    null,
+    null
   );
   await Wait(0);
 };
