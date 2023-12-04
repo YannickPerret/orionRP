@@ -5,8 +5,6 @@ var pipeProps = null;
 var fuelDecor = '_ANDY_FUEL_DECORE_';
 var pedCoords;
 
-let pipeDropped = false;
-let holdingPipe = true;
 let pipeInVehicle = false;
 let vehicleFueling = false;
 let usedPump;
@@ -107,10 +105,10 @@ const grabPipeFromPump = async (ped, pump) => {
   await Delay(50);
 
   //pipeLocation = GetEntityCoords(pipeProps);
+
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
-  let playerCoords = GetEntityCoords(ped, false);
   pumpModels.map(hash => {
-    pumpHandle = GetClosestObjectOfType(playerCoords, 1.5, hash, true, true, true);
+    pumpHandle = GetClosestObjectOfType(GetEntityCoords(ped, false), 1.5, hash, true, true, true);
   });
   console.log(pumpHandle);
 
@@ -131,7 +129,6 @@ const grabPipeFromPump = async (ped, pump) => {
     null
   );
 
-  holdingPipe = true;
   pipeInVehicle = false;
   vehicleFueling = false;
 };
@@ -155,8 +152,6 @@ const grabExistingNozzle = ped => {
     1,
     true
   );
-  pipeDropped = false;
-  holdingPipe = true;
   pipeInVehicle = false;
   vehicleFueling = false;
 };
@@ -204,7 +199,6 @@ const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition
     ClearPedTasks(ped);
   }
 
-  holdingPipe = false;
   pipeInVehicle = true;
   wastingFuel = false;
   vehicleFueling = vehicle;
@@ -214,7 +208,6 @@ const dropPipe = () => {
   DetachEntity(pipeProps, true, true);
   DeleteEntity(pipeProps);
   playerHavePipe = false;
-  holdingPipe = false;
   pipeInVehicle = false;
   vehicleFueling = false;
 };
@@ -225,7 +218,6 @@ const returnPipeToPump = () => {
   RopeUnloadTextures();
   DeleteRope(rope);
   playerHavePipe = false;
-  holdingPipe = false;
   pipeInVehicle = false;
   vehicleFueling = false;
 };
