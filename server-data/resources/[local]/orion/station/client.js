@@ -3,6 +3,7 @@ const gazStationsBlips = JSON.parse(gazStationsString);
 var playerHavePipe = false;
 var pipeProps = null;
 var pedCoords;
+var pump;
 
 let pipeInVehicle = false;
 let vehicleFueling = false;
@@ -55,7 +56,7 @@ const getClosestPumpHandle = () => {
   let ped = PlayerPedId();
   const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
   let distance = 10.0;
-  let pump = 0;
+  let pumph = 0;
 
   for (let model of pumpModels) {
     let handle = GetClosestObjectOfType(playerX, playerY, playerZ, 2.0, model, false, false, false);
@@ -64,14 +65,14 @@ const getClosestPumpHandle = () => {
       let objDistance = GetDistanceBetweenCoords(playerX, playerY, playerZ, objCoordsX, objCoordsY, objcoordsZ, true);
       if (objDistance < distance) {
         distance = objDistance;
-        pump = handle;
+        pumph = handle;
       }
     }
   }
-  return pump;
+  return pumph;
 };
 
-const createRopeAnchor = pump => {
+const createRopeAnchor = () => {
   const prop = 'w_at_scope_small';
   const [pumpPosX, pumpPosY, pumpPosZ] = GetEntityCoords(pump);
   ropeAnchor = CreateObject(GetHashKey(prop), pumpPosX, pumpPosY, pumpPosZ + 3.2, true, true, true);
@@ -79,7 +80,7 @@ const createRopeAnchor = pump => {
   return { x: pumpPosX, y: pumpPosY, z: pumpPosZ };
 };
 
-const createRope = async pump => {
+const createRope = async () => {
   RopeLoadTextures();
   let ped = PlayerPedId();
   const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
@@ -137,7 +138,7 @@ const updateRopePosition = () => {
   }
 };
 
-const createNozzle = async pump => {
+const createNozzle = async () => {
   let ped = PlayerPedId();
 
   LoadAnimDict('anim@mp_snowball');
@@ -173,9 +174,9 @@ const createNozzle = async pump => {
 
   //isok
 
-  rope = await createRope(pump);
+  rope = await createRope();
 
-  const anchorPos = createRopeAnchor(pump);
+  const anchorPos = createRopeAnchor();
 
   //attach rope to nozzle
   const [pistoletPositionX, pistoletPositionY, pistoletPositionZ] = getAttachmentPoint(ped);
@@ -297,7 +298,7 @@ const returnPipeToPump = async () => {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = true;
-                let pump = getClosestPumpHandle();
+                pump = getClosestPumpHandle();
                 await createNozzle(pump);
               }
             } else {
@@ -332,7 +333,7 @@ setInterval(() => {
     // Mise à jour de la position de la corde
     AttachEntitiesToRope(
       rope,
-      usedPump,
+      pump,
       GetPedBoneIndex(ped, 0x49d9),
       pumpCoords.x,
       pumpCoords.y,
