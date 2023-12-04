@@ -107,9 +107,9 @@ const grabPipeFromPump = async (ped, pump) => {
   //pipeLocation = GetEntityCoords(pipeProps);
 
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
-  console.log('pipeLocation', pipeLocation);
+
   pumpModels.map(hash => {
-    pumpHandle = GetClosestObjectOfType(GetEntityCoords(ped, false), 1.5, hash, true, true, true);
+    pumpHandle = GetClosestObjectOfType(GetEntityCoords(ped, false), 3.0, GetHashKey(hash), true, true, true);
   });
   console.log(pumpHandle);
 
