@@ -275,6 +275,7 @@ const returnPipeToPump = () => {
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = true;
                 let pump = getClosestPumpHandle();
+                console.log(pump);
                 createNozzle(pump);
               }
             } else {
