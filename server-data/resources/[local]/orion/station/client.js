@@ -115,6 +115,7 @@ const createRope = async pump => {
 
 const updateRopePosition = () => {
   if (playerHavePipe && rope) {
+    console.log('updateRopePosition', rope, ropeAnchor);
     const [playerX, playerY, playerZ] = GetEntityCoords(PlayerPedId(), false);
     const pipeLocation = getAttachmentPoint(PlayerPedId());
     const [pumpX, pumpY, pumpZ] = GetEntityCoords(ropeAnchor);
