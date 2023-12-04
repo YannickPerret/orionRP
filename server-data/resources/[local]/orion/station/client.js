@@ -12,6 +12,15 @@ let pipe;
 let pipeLocation;
 let rope;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731, -164877493];
+let pumpModelsWithoutHash = [
+  GetHashKey('prop_gas_pump_1a'),
+  GetHashKey('prop_gas_pump_1b'),
+  GetHashKey('prop_gas_pump_1c'),
+  GetHashKey('prop_vintage_pump'),
+  GetHashKey('prop_gas_pump_1d'),
+  GetHashKey('prop_gas_pump_old2'),
+  GetHashKey('prop_gas_pump_old3'),
+];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const SetFuel = (vehicle, fuel) => {
@@ -59,6 +68,32 @@ const nearPump = coords => {
   if (pumpModels[GetEntityModel(entity)]) {
     return GetEntityCoords(entity), entity;
   }
+};
+const getClosestPumpHandle = coords => {
+  let closestPumpHandle = null;
+  let closestDistance = Infinity;
+
+  pumpModels.forEach(hash => {
+    const handle = GetClosestObjectOfType(coords.x, coords.y, coords.z, 3.0, hash, true, true, true);
+    if (handle !== 0) {
+      const handleCoords = GetEntityCoords(handle, false);
+      const distance = GetDistanceBetweenCoords(
+        coords.x,
+        coords.y,
+        coords.z,
+        handleCoords[0],
+        handleCoords[1],
+        handleCoords[2],
+        true
+      );
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestPumpHandle = handle;
+      }
+    }
+  });
+
+  return closestPumpHandle;
 };
 
 const grabPipeFromPump = async (ped, pump) => {
@@ -108,9 +143,8 @@ const grabPipeFromPump = async (ped, pump) => {
 
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
 
-  pumpModels.map(hash => {
-    pumpHandle = GetClosestObjectOfType(GetEntityCoords(ped, false), 3.0, GetHashKey(hash), true, true, true);
-  });
+  pumpHandle = getClosestPumpHandle(GetEntityCoords(ped, false));
+
   console.log(pumpHandle);
 
   AttachEntitiesToRope(
@@ -228,7 +262,6 @@ const returnPipeToPump = () => {
   for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
     const station = gazStationsBlips.GasStations[i];
     createBlip(station.coordinates, 361, 0, 'Station essence');
-    //CreateObject(GetHashKey(pumps.hash), pumps.x, pumps.y, pumps.z - 1.0, true, true, true);
   }
 
   while (true) {
