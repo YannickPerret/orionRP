@@ -47,6 +47,33 @@ const vehicleInFront = () => {
   }
 };
 
+const createRope = () => {
+  RopeLoadTextures();
+  let ped = PlayerPedId();
+  let pedCoords = GetEntityCoords(ped, false);
+  let pedRotation = GetEntityRotation(ped, 2);
+  let repoEntity;
+  repoEntity = AddRope(
+    pedCoords.x,
+    pedCoords.y,
+    pedCoords.z,
+    pedRotation.x,
+    pedRotation.y,
+    pedRotation.z,
+    7.0,
+    1,
+    2.0,
+    0.0,
+    10.0,
+    1,
+    1,
+    1.0,
+    false,
+    0
+  );
+  return repoEntity;
+};
+
 const getClosestPumpHandle = () => {
   let ped = PlayerPedId();
   let pedCoords = GetEntityCoords(ped, false);
@@ -76,11 +103,20 @@ const getClosestPumpHandle = () => {
   return pump;
 };
 
-const grabPipeFromPump = async (ped, pump) => {
+const grabPipeFromPump = async () => {
+  let ped = PlayerPedId();
+
   LoadAnimDict('anim@am_hold_up@male');
   TaskPlayAnim(ped, 'anim@am_hold_up@male', 'shoplift_high', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-  await Delay(300);
-  pipeProps = CreateObject(`prop_cs_fuel_nozle`, 0, 0, 0, true, true, true);
+
+  let prop = 'prop_cs_fuel_nozle';
+  let model = GetHashKey(prop);
+  RequestModel(model);
+  while (!HasModelLoaded(model)) {
+    await Delay(0);
+  }
+
+  pipeProps = CreateObject(model, 0, 0, 0, true, true, true);
 
   AttachEntityToEntity(
     pipeProps,
@@ -100,26 +136,7 @@ const grabPipeFromPump = async (ped, pump) => {
     true
   );
 
-  RopeLoadTextures();
-  while (!RopeAreTexturesLoaded()) {
-    await Delay(0);
-  }
-
-  RopeLoadTextures();
-  while (!pump) {
-    await Delay(0);
-  }
-
-  rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 6.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
-  console.log('rope', rope);
-
-  while (!rope) {
-    await Delay(0);
-  }
-  ActivatePhysics(rope);
-  await Delay(50);
-
-  //pipeLocation = GetEntityCoords(pipeProps);
+  rope = createRope();
 
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
 
