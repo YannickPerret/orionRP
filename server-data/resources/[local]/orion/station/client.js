@@ -60,7 +60,8 @@ const getClosestPumpHandle = () => {
   let pump = 0;
 
   for (let model of pumpModels) {
-    const handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 2.0, model, false, false, false);
+    let handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 3.0, model, false, false, false);
+    console.log('handle', handle);
     if (handle !== 0) {
       console.log(handle);
 
@@ -81,6 +82,14 @@ const getClosestPumpHandle = () => {
     }
   }
   return pump;
+};
+
+const grabRope = pump => {
+  let prop = 'w_at_scope_small';
+  let anchorPos = GetEntityCoords(pump);
+  ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
+
+  return anchorPos;
 };
 
 const createRope = () => {
@@ -169,13 +178,6 @@ const createNozzle = async pump => {
   await Wait(0);
 };
 
-const grabRope = pump => {
-  let prop = 'w_at_scope_small';
-  let anchorPos = GetEntityCoords(pump);
-  ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
-
-  return anchorPos;
-};
 // attach nozzle to vehicle.
 const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
   if (isBike) {
