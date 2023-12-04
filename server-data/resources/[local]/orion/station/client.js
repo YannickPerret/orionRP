@@ -115,9 +115,7 @@ const createRope = async pump => {
 
 const updateRopePosition = () => {
   if (playerHavePipe && rope) {
-    console.log('updateRopePosition', rope, ropeAnchor);
     const [playerX, playerY, playerZ] = GetEntityCoords(PlayerPedId(), false);
-    const pipeLocation = getAttachmentPoint(PlayerPedId());
     const [pumpX, pumpY, pumpZ] = GetEntityCoords(ropeAnchor);
 
     // Mise à jour des points d'attache de la corde
@@ -125,12 +123,12 @@ const updateRopePosition = () => {
       rope,
       PlayerPedId(),
       ropeAnchor,
+      playerX,
+      playerY,
+      playerZ,
       pumpX,
       pumpY,
       pumpZ,
-      pipeLocation.x,
-      pipeLocation.y,
-      pipeLocation.z,
       5.0,
       false,
       false,
@@ -186,14 +184,12 @@ const createNozzle = async pump => {
   console.log(anchorPos.x, anchorPos.y, anchorPos.z + 1.45, pipeLocationX, pipeLocationY, pipeLocationZ);
   AttachEntitiesToRope(
     rope,
-    ped,
+    pump,
     GetPedBoneIndex(ped, 0x49d9),
     anchorPos.x,
     anchorPos.y,
     anchorPos.z + 1.45,
-    pipeLocationX,
-    pipeLocationY,
-    pipeLocationZ,
+    GetEntityCoords(ped, false),
     true,
     true,
     false,
