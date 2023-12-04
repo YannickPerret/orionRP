@@ -313,6 +313,6 @@ const returnPipeToPump = () => {
   }
 })();
 
-async(() => {
+(async () => {
   let pump = getClosestPumpHandle();
 })();
