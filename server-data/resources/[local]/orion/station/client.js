@@ -156,6 +156,7 @@ const createNozzle = async pump => {
   //attach rope to nozzle
   const [pipeLocationX, pipeLocationY, pipeLocationZ] = getAttachmentPoint(ped);
 
+  console.log(anchorPos.x, anchorPos.y, anchorPos.z + 1.45, pipeLocationX, pipeLocationY, pipeLocationZ);
   AttachEntitiesToRope(
     rope,
     ped,
