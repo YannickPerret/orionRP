@@ -174,12 +174,6 @@ const grabRope = () => {
   let anchorPos = GetOffsetFromEntityInWorldCoords(pump, 0.0, 0.0, 0.0);
   ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
 
-  while (rope != null) {
-    let distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ropeAnchor), true);
-    if (distance > 10.0) {
-      returnPipeToPump();
-    }
-  }
   return anchorPos;
 };
 // attach nozzle to vehicle.
