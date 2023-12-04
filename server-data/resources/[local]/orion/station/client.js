@@ -98,6 +98,7 @@ const grabPipeFromPump = async (ped, pump) => {
   }
 
   rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 6.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
+  console.log('rope', rope);
 
   while (!rope) {
     await Delay(0);
@@ -109,7 +110,7 @@ const grabPipeFromPump = async (ped, pump) => {
   pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
   let playerCoords = GetEntityCoords(ped, false);
   pumpModels.map(hash => {
-    pumpHandle = GetClosestObjectOfType(playerCoords, 0.8, hash, true, true, true);
+    pumpHandle = GetClosestObjectOfType(playerCoords, 1.5, hash, true, true, true);
   });
   console.log(pumpHandle);
 
@@ -266,7 +267,6 @@ const returnPipeToPump = () => {
 
         if (distance <= 2) {
           if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
-            console.log(playerHavePipe);
             if (!playerHavePipe) {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
