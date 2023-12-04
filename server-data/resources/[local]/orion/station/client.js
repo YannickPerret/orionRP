@@ -171,7 +171,7 @@ const createNozzle = async () => {
 
 const grabRope = () => {
   let prop = 'w_at_scope_small';
-  let anchorPos = GetOffsetFromEntityInWorldCoords(pump, 0.0, 0.0, 0.0);
+  let anchorPos = GetEntityCoords(pump);
   ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
 
   return anchorPos;
