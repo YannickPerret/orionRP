@@ -12,15 +12,7 @@ let pipe;
 let pipeLocation;
 let rope;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731, -164877493];
-let pumpModelsWithoutHash = [
-  GetHashKey('prop_gas_pump_1a'),
-  GetHashKey('prop_gas_pump_1b'),
-  GetHashKey('prop_gas_pump_1c'),
-  GetHashKey('prop_vintage_pump'),
-  GetHashKey('prop_gas_pump_1d'),
-  GetHashKey('prop_gas_pump_old2'),
-  GetHashKey('prop_gas_pump_old3'),
-];
+
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const SetFuel = (vehicle, fuel) => {
@@ -309,10 +301,11 @@ const returnPipeToPump = () => {
   }
 })();
 
-setImmediate(() => {
+(async () => {
   for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
     for (let j = 0; j < gazStationsBlips.GasStations[i].pumps.length; j++) {
       let pump = gazStationsBlips.GasStations[i].pumps[j];
+      console.log(pump);
       const hash = GetHashKey('prop_gas_pump_1a');
       RequestModel(hash);
 
@@ -334,4 +327,4 @@ setImmediate(() => {
       SetModelAsNoLongerNeeded(hash);
     }
   }
-});
+})();
