@@ -312,6 +312,7 @@ const returnPipeToPump = () => {
 setImmediate(() => {
   for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
     for (let j = 0; j < gazStationsBlips.GasStations[i].pumps.length; j++) {
+      let pump = gazStationsBlips.GasStations[i].pumps[j];
       const hash = GetHashKey('prop_gas_pump_1a');
       RequestModel(hash);
 
