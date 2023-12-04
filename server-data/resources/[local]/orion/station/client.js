@@ -321,4 +321,30 @@ const returnPipeToPump = async () => {
   }
 })();
 
-setInterval(updateRopePosition, 100);
+setInterval(() => {
+  if (playerHavePipe && rope) {
+    const ped = PlayerPedId();
+    const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
+
+    // Si vous avez un offset spécifique pour le pistolet, ajustez-le ici
+    const [nozzleX, nozzleY, nozzleZ] = GetOffsetFromEntityInWorldCoords(pipe, 0.0, -0.033, -0.195);
+
+    // Mise à jour de la position de la corde
+    AttachEntitiesToRope(
+      rope,
+      usedPump,
+      pipe,
+      pumpCoords.x,
+      pumpCoords.y,
+      pumpCoords.z + 1.45,
+      nozzleX,
+      nozzleY,
+      nozzleZ,
+      5.0,
+      false,
+      false,
+      null,
+      null
+    );
+  }
+}, 100);
