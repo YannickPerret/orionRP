@@ -80,7 +80,7 @@ const grabRope = pump => {
   return { x: pumpPosX, y: pumpPosY, z: pumpPosZ };
 };
 
-const createRope = async () => {
+const createRope = async pump => {
   RopeLoadTextures();
   let ped = PlayerPedId();
   const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
@@ -149,7 +149,7 @@ const createNozzle = async pump => {
 
   //isok
 
-  rope = await createRope();
+  rope = await createRope(pump);
 
   const anchorPos = grabRope(pump);
 
