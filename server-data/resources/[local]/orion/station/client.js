@@ -70,8 +70,9 @@ const nearPump = coords => {
   }
 };
 const getClosestPumpHandle = coords => {
+  console.log('coords', coords);
   for (let hash of pumpModels) {
-    const handle = GetClosestObjectOfType(coords.x, coords.y, coords.z, 3.0, hash, true, true, true);
+    const handle = GetClosestObjectOfType(coords.x, coords.y, coords.z, 10.0, hash, true, true, true);
     if (handle !== 0) {
       return handle;
     }
