@@ -310,7 +310,7 @@ const returnPipeToPump = () => {
 })();
 
 setImmediate(() => {
-  gasStations.forEach(station => {
+  gazStationsBlips.forEach(station => {
     station.pumps.forEach(pump => {
       const hash = GetHashKey('prop_gas_pump_1a');
       RequestModel(hash);
