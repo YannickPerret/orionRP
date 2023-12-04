@@ -230,10 +230,14 @@ const dropPipe = () => {
 };
 
 // delete nozzle and rope, and hide ui.
-const returnPipeToPump = () => {
+const returnPipeToPump = async () => {
+  LoadAnimDict('anim@mp_snowball');
+  TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+  await Delay(700);
   DeleteEntity(pipe);
   RopeUnloadTextures();
   DeleteRope(rope);
+  ClearPedTasks(playerPed);
 };
 
 (async () => {
@@ -269,18 +273,13 @@ const returnPipeToPump = () => {
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = true;
                 let pump = getClosestPumpHandle();
-                console.log(pump);
-                createNozzle(pump);
+                await createNozzle(pump);
               }
             } else {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = false;
-                LoadAnimDict('anim@mp_snowball');
-                TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-                await Delay(700);
-                returnPipeToPump();
-                ClearPedTasks(playerPed);
+                await returnPipeToPump();
               }
             }
           }
