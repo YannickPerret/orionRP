@@ -70,30 +70,13 @@ const nearPump = coords => {
   }
 };
 const getClosestPumpHandle = coords => {
-  let closestPumpHandle = null;
-  let closestDistance = Infinity;
-
-  pumpModels.forEach(hash => {
+  for (let hash of pumpModels) {
     const handle = GetClosestObjectOfType(coords.x, coords.y, coords.z, 3.0, hash, true, true, true);
     if (handle !== 0) {
-      const handleCoords = GetEntityCoords(handle, false);
-      const distance = GetDistanceBetweenCoords(
-        coords.x,
-        coords.y,
-        coords.z,
-        handleCoords[0],
-        handleCoords[1],
-        handleCoords[2],
-        true
-      );
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestPumpHandle = handle;
-      }
+      return handle;
     }
-  });
-
-  return closestPumpHandle;
+  }
+  return null;
 };
 
 const grabPipeFromPump = async (ped, pump) => {
