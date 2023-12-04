@@ -12,7 +12,7 @@ const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const SetFuel = (vehicle, fuel) => {
   if (Number(fuel) && fuel >= 0 && fuel <= 100) {
     SetVehicleFuelLevel(vehicle, fuel);
-    DecorSetFloat(vehicle, fuelDecor, GetVehicleFuelLevel(vehicle));
+    //DecorSetFloat(vehicle, fuelDecor, GetVehicleFuelLevel(vehicle));
   }
 };
 
@@ -292,6 +292,8 @@ const handleVehicleInteraction = vehicle => {
   if (IsControlJustReleased(0, 38)) {
     // 38 est le code pour la touche E
     putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
+    SetFuel(vehicle, 100);
+    playerHavePipe = false;
   }
 };
 
