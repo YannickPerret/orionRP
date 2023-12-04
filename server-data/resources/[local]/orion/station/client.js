@@ -149,6 +149,7 @@ const createNozzle = async () => {
 
   //attach rope to nozzle
   pipeLocation = getAttachmentPoint(PlayerPedId());
+  console.log(anchorPos);
   AttachEntitiesToRope(
     rope,
     PlayerPedId(),
