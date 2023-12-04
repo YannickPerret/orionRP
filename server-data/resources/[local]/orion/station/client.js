@@ -34,10 +34,11 @@ const LoadAnimDict = async dict => {
 
 const vehicleInFront = () => {
   let offset = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0);
+  let playerCoords = GetEntityCoords(PlayerPedId(), false);
   let rayHandle = CastRayPointToPoint(
-    pedCoords.x,
-    pedCoords.y,
-    pedCoords.z - 1.3,
+    playerCoords.x,
+    playerCoords.y,
+    playerCoords.z - 1.3,
     offset.x,
     offset.y,
     offset.z,
