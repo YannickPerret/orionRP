@@ -143,8 +143,6 @@ const grabPipeFromPump = async () => {
 
   pumpHandle = getClosestPumpHandle(GetEntityCoords(ped, false));
 
-  console.log(pumpHandle);
-
   AttachEntitiesToRope(
     rope,
     pumpHandle,
@@ -262,7 +260,6 @@ const returnPipeToPump = () => {
   }
 
   while (true) {
-    console.log(getClosestPumpHandle());
     await Wait(0); // Important pour éviter de surcharger le thread
     const playerPed = PlayerPedId();
     const playerCoords = GetEntityCoords(playerPed, false);
