@@ -256,16 +256,17 @@ const returnPipeToPump = () => {
           true
         );
 
-        if (playerHavePipe) {
+        /*if (playerHavePipe) {
           if (GetDistanceBetweenCoords(pipeLocation - stationPumpCoords) > 6.0) {
             dropPipe();
           } else if (stationPumpCoords - playerCoords > 100.0) {
             returnPipeToPump();
           }
-        }
+        }*/
 
         if (distance <= 2) {
           if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
+            console.log(playerHavePipe);
             if (!playerHavePipe) {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
 
