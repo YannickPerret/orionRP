@@ -102,8 +102,11 @@ const createRope = () => {
     1,
     1.0,
     false,
-    0
+    false
   );
+
+  rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
+
   return repoEntity;
 };
 
@@ -144,6 +147,7 @@ const createNozzle = async pump => {
   //isok
 
   rope = createRope();
+  ActivatePhysics(rope);
   const anchorPos = grabRope(pump);
 
   //attach rope to nozzle
