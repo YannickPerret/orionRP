@@ -130,6 +130,7 @@ const grabPipeFromPump = async (ped, pump) => {
     null,
     null
   );
+
   holdingPipe = true;
   pipeInVehicle = false;
   vehicleFueling = false;
