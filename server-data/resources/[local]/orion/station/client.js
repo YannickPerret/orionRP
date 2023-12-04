@@ -217,11 +217,8 @@ const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition
 };
 
 const dropPipe = () => {
-  DetachEntity(pipeProps, true, true);
-  DeleteEntity(pipeProps);
-  playerHavePipe = false;
-  pipeInVehicle = false;
-  vehicleFueling = false;
+  DetachEntity(pipe, true, true);
+  DeleteEntity(pipe);
 };
 
 // delete nozzle and rope, and hide ui.
@@ -229,9 +226,6 @@ const returnPipeToPump = () => {
   DeleteEntity(pipe);
   RopeUnloadTextures();
   DeleteRope(rope);
-  playerHavePipe = false;
-  pipeInVehicle = false;
-  vehicleFueling = false;
 };
 
 (async () => {
@@ -277,7 +271,7 @@ const returnPipeToPump = () => {
                 LoadAnimDict('anim@mp_snowball');
                 TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
                 await Delay(700);
-                dropPipe();
+                returnPipeToPump();
                 ClearPedTasks(playerPed);
               }
             }
