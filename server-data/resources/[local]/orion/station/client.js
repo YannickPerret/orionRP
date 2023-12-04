@@ -105,8 +105,6 @@ const createRope = () => {
     false
   );
 
-  rope = AddRope(pump.x, pump.y, pump.z, 0.0, 0.0, 0.0, 3.0, 1, 1000.0, 0.0, 1.0, false, false, false, 1.0, true);
-
   return repoEntity;
 };
 
