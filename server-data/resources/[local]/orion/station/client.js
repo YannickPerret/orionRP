@@ -6,8 +6,7 @@ var pedCoords;
 
 let pipeInVehicle = false;
 let vehicleFueling = false;
-let usedPump;
-let pipe;
+let pistoletObject;
 let rope;
 let ropeAnchor;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
@@ -145,17 +144,17 @@ const createNozzle = async pump => {
   TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
   await Delay(700);
 
-  let prop = 'prop_cs_fuel_nozle';
-  let model = GetHashKey(prop);
+  let pistoletProps = 'prop_cs_fuel_nozle';
+  let model = GetHashKey(pistoletProps);
   RequestModel(model);
   while (!HasModelLoaded(model)) {
     await Delay(0);
   }
 
-  pipe = CreateObject(model, 0, 0, 0, true, true, true);
+  pistoletObject = CreateObject(model, 0, 0, 0, true, true, true);
 
   AttachEntityToEntity(
-    pipe,
+    pistoletObject,
     ped,
     GetPedBoneIndex(ped, 0x49d9),
     0.11,
@@ -179,16 +178,18 @@ const createNozzle = async pump => {
   const anchorPos = createRopeAnchor(pump);
 
   //attach rope to nozzle
-  const [pipeLocationX, pipeLocationY, pipeLocationZ] = getAttachmentPoint(ped);
+  const [pistoletPositionX, pistoletPositionY, pistoletPositionZ] = getAttachmentPoint(ped);
 
   AttachEntitiesToRope(
     rope,
     pump,
-    ped,
+    GetPedBoneIndex(ped, 0x49d9),
     anchorPos.x,
     anchorPos.y,
     anchorPos.z + 1.45,
-    GetEntityCoords(ped, false),
+    pistoletPositionX,
+    pistoletPositionY,
+    pistoletPositionZ,
     true,
     true,
     false,
@@ -203,7 +204,7 @@ const createNozzle = async pump => {
 const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
   if (isBike) {
     AttachEntityToEntity(
-      pipe,
+      pistoletObject,
       vehicle,
       ptankBone,
       0.0 + newTankPosition.x,
@@ -221,7 +222,7 @@ const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition
     );
   } else {
     AttachEntityToEntity(
-      pipe,
+      pistoletObject,
       vehicle,
       ptankBone,
       -0.18 + newTankPosition.x,
@@ -248,8 +249,8 @@ const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition
 };
 
 const dropPipe = () => {
-  DetachEntity(pipe, true, true);
-  DeleteEntity(pipe);
+  DetachEntity(pistoletObject, true, true);
+  DeleteEntity(pistoletObject);
 };
 
 // delete nozzle and rope, and hide ui.
@@ -258,7 +259,7 @@ const returnPipeToPump = async () => {
   LoadAnimDict('anim@mp_snowball');
   TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
   await Delay(700);
-  DeleteEntity(pipe);
+  DeleteEntity(pistoletObject);
   RopeUnloadTextures();
   DeleteRope(rope);
   ClearPedTasks(ped);
