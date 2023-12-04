@@ -8,7 +8,6 @@ let pipeInVehicle = false;
 let vehicleFueling = false;
 let usedPump;
 let pipe;
-let pipeLocation;
 let rope;
 let ropeAnchor;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
@@ -112,7 +111,7 @@ const createNozzle = async pump => {
   let ped = PlayerPedId();
 
   LoadAnimDict('anim@mp_snowball');
-  TaskPlayAnim(PlayerPedId(), 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+  TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
   await Delay(700);
 
   let prop = 'prop_cs_fuel_nozle';
@@ -145,14 +144,14 @@ const createNozzle = async pump => {
   //isok
 
   rope = createRope();
-  let anchorPos = grabRope(pump);
+  const anchorPos = grabRope(pump);
 
   //attach rope to nozzle
-  const [pipeLocationX, pipeLocationY, pipeLocationZ] = getAttachmentPoint(PlayerPedId());
-  console.log('anchorpos', anchorPos);
+  const [pipeLocationX, pipeLocationY, pipeLocationZ] = getAttachmentPoint(ped);
+
   AttachEntitiesToRope(
     rope,
-    PlayerPedId(),
+    ped,
     ropeAnchor,
     pipeLocationX,
     pipeLocationY,
@@ -268,6 +267,7 @@ const returnPipeToPump = () => {
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = true;
                 let pump = getClosestPumpHandle();
+                console.log(pump);
                 createNozzle(pump);
               }
             } else {
