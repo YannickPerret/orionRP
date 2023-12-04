@@ -55,7 +55,7 @@ const getAttachmentPoint = entity => {
 
 const getClosestPumpHandle = () => {
   let ped = PlayerPedId();
-  let pedCoords = GetEntityCoords(ped, false);
+  let pedCoords = GetEntityCoords(GetPlayerPed(-1), false);
   let distance = 10.0;
   let pump = 0;
 
