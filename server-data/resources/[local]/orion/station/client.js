@@ -1,16 +1,11 @@
 const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/gasStations.json');
 const gazStationsBlips = JSON.parse(gazStationsString);
-var playerHavePipe = false;
-var pipeProps = null;
-var pedCoords;
-var pump;
-
-let pipeInVehicle = false;
-let vehicleFueling = false;
-let pistoletObject;
-let rope;
-let ropeAnchor;
-let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
+let playerHavePipe = false;
+let pistoletObject = null;
+let rope = null;
+let ropeAnchor = null;
+let pump = null;
+const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const SetFuel = (vehicle, fuel) => {
@@ -267,75 +262,70 @@ const returnPipeToPump = async () => {
 };
 
 (async () => {
-  for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
-    const station = gazStationsBlips.GasStations[i];
+  for (const station of gazStationsBlips.GasStations) {
     createBlip(station.coordinates, 361, 0, 'Station essence');
   }
 
   while (true) {
-    await Wait(0); // Important pour éviter de surcharger le thread
+    await Wait(0);
     const playerPed = PlayerPedId();
     const playerCoords = GetEntityCoords(playerPed, false);
 
-    for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
-      const stationCoords = gazStationsBlips.GasStations[i].pumps;
-
-      for (let j = 0; j < stationCoords.length; j++) {
-        const stationPumpCoords = stationCoords[j];
+    for (const station of gazStationsBlips.GasStations) {
+      for (const pumpCoords of station.pumps) {
         const distance = GetDistanceBetweenCoords(
           playerCoords[0],
           playerCoords[1],
           playerCoords[2],
-          stationPumpCoords.X,
-          stationPumpCoords.Y,
-          stationPumpCoords.Z,
+          pumpCoords.X,
+          pumpCoords.Y,
+          pumpCoords.Z,
           true
         );
 
-        if (distance <= 2) {
-          if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
-            if (!playerHavePipe) {
-              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
-              if (IsControlJustReleased(0, 38)) {
-                playerHavePipe = true;
-                pump = getClosestPumpHandle();
-                await createNozzle(pump);
-              }
-            } else {
-              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
-              if (IsControlJustReleased(0, 38)) {
-                playerHavePipe = false;
-                await returnPipeToPump();
-              }
-            }
-          }
+        if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
+          handlePumpInteraction(playerPed, pumpCoords);
         }
       }
     }
 
     if (playerHavePipe && vehicleInFront()) {
-      emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
-      if (IsControlJustReleased(0, 38)) {
-        putPipeInVehicle(vehicleInFront(), 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
-      }
+      handleVehicleInteraction();
     }
   }
 })();
 
-setInterval(() => {
+function handlePumpInteraction(playerPed, pumpCoords) {
+  if (!playerHavePipe) {
+    emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+    if (IsControlJustReleased(0, 38)) {
+      // 38 est le code pour la touche E
+      playerHavePipe = true;
+      pump = getClosestPumpHandle();
+      createNozzle(pump);
+    }
+  } else {
+    emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
+    if (IsControlJustReleased(0, 38)) {
+      playerHavePipe = false;
+      returnPipeToPump();
+    }
+  }
+}
+
+setInterval(updateRopePosition, 100);
+
+function updateRopePosition() {
   if (playerHavePipe && rope) {
     const ped = PlayerPedId();
     const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
     const [pumpX, pumpY, pumpZ] = GetEntityCoords(pump);
 
-    // Si vous avez un offset spécifique pour le pistolet, ajustez-le ici
-    const [nozzleX, nozzleY, nozzleZ] = GetOffsetFromEntityInWorldCoords(ped, 0.0, -0.033, -0.195);
-
-    // Mise à jour de la position de la corde
+    const [nozzleX, nozzleY, nozzleZ] = GetOffsetFromEntityInWorldCoords(pistoletObject, 0.0, -0.033, -0.195);
     AttachEntitiesToRope(
       rope,
       pump,
-      GetPedBoneIndex(ped, 0x49d9),
+      pistoletObject,
       pumpX,
       pumpY,
       pumpZ + 1.45,
@@ -349,4 +339,4 @@ setInterval(() => {
       null
     );
   }
-}, 100);
+}
