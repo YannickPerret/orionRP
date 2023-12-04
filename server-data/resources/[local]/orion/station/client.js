@@ -211,7 +211,7 @@ const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition
 const dropPipe = () => {
   DetachEntity(pipeProps, true, true);
   DeleteEntity(pipeProps);
-  playerHavePipe = true;
+  playerHavePipe = false;
   holdingPipe = false;
   pipeInVehicle = false;
   vehicleFueling = false;
