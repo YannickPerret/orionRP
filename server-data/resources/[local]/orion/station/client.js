@@ -23,15 +23,15 @@ const LoadAnimDict = async dict => {
 };
 
 const vehicleInFront = () => {
-  let offset = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0);
-  let playerCoords = GetEntityCoords(PlayerPedId(), false);
+  const [offsetX, offsetY, offsetZ] = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0);
+  const [playerCoordsX, playerCoordsY, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
   let rayHandle = CastRayPointToPoint(
-    playerCoords.x,
-    playerCoords.y,
-    playerCoords.z - 1.3,
-    offset.x,
-    offset.y,
-    offset.z,
+    playerCoordsX,
+    playerCoordsY,
+    playerCoordsZ - 1.3,
+    offsetX,
+    offsetY,
+    offsetZ,
     10,
     PlayerPedId(),
     0
@@ -263,14 +263,15 @@ const returnPipeToPump = async () => {
         }
       }
     }
+    let vehicle = vehicleInFront();
 
-    if (playerHavePipe && vehicleInFront()) {
-      handleVehicleInteraction();
+    if (playerHavePipe && vehicle) {
+      handleVehicleInteraction(vehicle);
     }
   }
 })();
 
-function handlePumpInteraction(playerPed, pumpCoords) {
+const handlePumpInteraction = (playerPed, pumpCoords) => {
   if (!playerHavePipe) {
     emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
     if (IsControlJustReleased(0, 38)) {
@@ -286,7 +287,15 @@ function handlePumpInteraction(playerPed, pumpCoords) {
       returnPipeToPump();
     }
   }
-}
+};
+
+const handleVehicleInteraction = vehicle => {
+  emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
+  if (IsControlJustReleased(0, 38)) {
+    // 38 est le code pour la touche E
+    putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
+  }
+};
 
 setInterval(updateRopePosition, 100);
 
