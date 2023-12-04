@@ -108,31 +108,6 @@ const createRope = async () => {
   return repoEntity;
 };
 
-const updateRopePosition = () => {
-  if (playerHavePipe && rope) {
-    const [playerX, playerY, playerZ] = GetEntityCoords(PlayerPedId(), false);
-    const [pumpX, pumpY, pumpZ] = GetEntityCoords(ropeAnchor);
-
-    // Mise à jour des points d'attache de la corde
-    AttachEntitiesToRope(
-      rope,
-      PlayerPedId(),
-      ropeAnchor,
-      playerX,
-      playerY,
-      playerZ,
-      pumpX,
-      pumpY,
-      pumpZ,
-      5.0,
-      false,
-      false,
-      null,
-      null
-    );
-  }
-};
-
 const createNozzle = async () => {
   let ped = PlayerPedId();
 
