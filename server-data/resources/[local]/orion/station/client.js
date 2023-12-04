@@ -293,7 +293,7 @@ const handleVehicleInteraction = vehicle => {
     // 38 est le code pour la touche E
     putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
     SetFuel(vehicle, 100);
-    playerHavePipe = false;
+    pistoletInVehicle = false;
   }
 };
 
