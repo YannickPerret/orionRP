@@ -55,13 +55,12 @@ const getAttachmentPoint = entity => {
 
 const getClosestPumpHandle = () => {
   let ped = PlayerPedId();
-  let pedCoords = GetEntityCoords(GetPlayerPed(-1), false);
+  const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
   let distance = 10.0;
   let pump = 0;
 
   for (let model of pumpModels) {
-    console.log('ped', pedCoords.x, pedCoords.y, pedCoords.z);
-    let handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 3.0, model, false, false, false);
+    let handle = GetClosestObjectOfType(playerX, playerY, playerZ, 3.0, model, false, false, false);
     console.log('handle', handle);
     if (handle !== 0) {
       console.log(handle);
