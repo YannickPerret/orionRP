@@ -60,6 +60,7 @@ const getClosestPumpHandle = () => {
   let pump = 0;
 
   for (let model of pumpModels) {
+    console.log('ped', pedCoords.x, pedCoords.y, pedCoords.z);
     let handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 3.0, model, false, false, false);
     console.log('handle', handle);
     if (handle !== 0) {
