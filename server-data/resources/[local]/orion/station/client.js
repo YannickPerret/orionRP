@@ -43,7 +43,7 @@ const vehicleInFront = () => {
     offset.y,
     offset.z,
     10,
-    ped,
+    PlayerPedId(),
     0
   );
   let [A, B, C, D, entity] = GetRaycastResult(rayHandle);
