@@ -2,7 +2,6 @@ const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/ga
 const gazStationsBlips = JSON.parse(gazStationsString);
 var playerHavePipe = false;
 var pipeProps = null;
-var fuelDecor = '_ANDY_FUEL_DECORE_';
 var pedCoords;
 
 let pipeInVehicle = false;
@@ -51,25 +50,32 @@ const vehicleInFront = () => {
   }
 };
 
-const nearPump = coords => {
-  let entity;
-  pumpModels.map(hash => {
-    entity = GetClosestObjectOfType(coords.x, coords.y, coords.z, 0.8, hash, true, true, true);
-    if (entity != 0) return;
-  });
-  if (pumpModels[GetEntityModel(entity)]) {
-    return GetEntityCoords(entity), entity;
-  }
-};
-const getClosestPumpHandle = coords => {
-  console.log('coords', coords);
-  for (let hash of pumpModels) {
-    const handle = GetClosestObjectOfType(coords.x, coords.y, coords.z, 10.0, hash, true, true, true);
+const getClosestPumpHandle = () => {
+  let ped = PlayerPedId();
+  let pedCoords = GetEntityCoords(ped, false);
+  let pump;
+  let distance = 10.0;
+
+  for (let model of pumpModels) {
+    const handle = GetClosestObjectOfType(pedCoords.x, pedCoords.y, pedCoords.z, 2.0, model, false, false, false);
     if (handle !== 0) {
-      return handle;
+      let objcoords = GetEntityCoords(handle);
+      let objDistance = GetDistanceBetweenCoords(
+        pedCoords.x,
+        pedCoords.y,
+        pedCoords.z,
+        objcoords.x,
+        objcoords.y,
+        objcoords.z,
+        true
+      );
+      if (objDistance < distance) {
+        distance = objDistance;
+        pump = handle;
+      }
     }
   }
-  return null;
+  return pump;
 };
 
 const grabPipeFromPump = async (ped, pump) => {
@@ -234,12 +240,13 @@ const returnPipeToPump = () => {
 };
 
 (async () => {
-  DecorRegister(fuelDecor, 1);
   for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
     const station = gazStationsBlips.GasStations[i];
+    createBlip(station.coordinates, 361, 0, 'Station essence');
   }
 
   while (true) {
+    console.log(getClosestPumpHandle());
     await Wait(0); // Important pour éviter de surcharger le thread
     const playerPed = PlayerPedId();
     const playerCoords = GetEntityCoords(playerPed, false);
@@ -258,14 +265,6 @@ const returnPipeToPump = () => {
           stationPumpCoords.Z,
           true
         );
-
-        /*if (playerHavePipe) {
-          if (GetDistanceBetweenCoords(pipeLocation - stationPumpCoords) > 6.0) {
-            dropPipe();
-          } else if (stationPumpCoords - playerCoords > 100.0) {
-            returnPipeToPump();
-          }
-        }*/
 
         if (distance <= 2) {
           if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
@@ -301,30 +300,9 @@ const returnPipeToPump = () => {
   }
 })();
 
-(async () => {
-  for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
-    for (let j = 0; j < gazStationsBlips.GasStations[i].pumps.length; j++) {
-      let pump = gazStationsBlips.GasStations[i].pumps[j];
-      console.log(pump);
-      const hash = GetHashKey('prop_gas_pump_1a');
-      RequestModel(hash);
-
-      // Vérifier si le modèle est chargé
-      while (!HasModelLoaded(hash)) {
-        RequestModel(hash);
-        Wait(10);
-      }
-
-      // Créer l'objet de la pompe
-      const pumpObject = CreateObject(hash, pump.X, pump.Y, pump.Z, true, true, true);
-
-      // S'assurer que l'objet est bien créé
-      if (pumpObject) {
-        console.log(`Pompe à essence créée à [${pump.X}, ${pump.Y}, ${pump.Z}]`);
-      }
-
-      // Libérer le modèle
-      SetModelAsNoLongerNeeded(hash);
-    }
+async(() => {
+  let pump = getClosestPumpHandle();
+  if (pump) {
+    console.log(pump);
   }
 })();
