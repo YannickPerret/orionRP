@@ -10,7 +10,6 @@ let usedPump;
 let pipe;
 let pipeLocation;
 let rope;
-let pump;
 let ropeAnchor;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -110,7 +109,7 @@ const createRope = () => {
   return repoEntity;
 };
 
-const createNozzle = async () => {
+const createNozzle = async pump => {
   let ped = PlayerPedId();
 
   LoadAnimDict('anim@mp_snowball');
@@ -145,7 +144,7 @@ const createNozzle = async () => {
   );
 
   rope = createRope();
-  let anchorPos = grabRope();
+  let anchorPos = grabRope(pump);
 
   //attach rope to nozzle
   pipeLocation = getAttachmentPoint(PlayerPedId());
@@ -169,9 +168,8 @@ const createNozzle = async () => {
   await Wait(0);
 };
 
-const grabRope = () => {
+const grabRope = pump => {
   let prop = 'w_at_scope_small';
-  console.log(pump);
   let anchorPos = GetEntityCoords(pump);
   ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
 
@@ -275,8 +273,8 @@ const returnPipeToPump = () => {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = true;
-                pump = getClosestPumpHandle();
-                createNozzle();
+                let pump = getClosestPumpHandle();
+                createNozzle(pump);
               }
             } else {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
