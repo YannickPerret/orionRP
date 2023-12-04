@@ -83,6 +83,7 @@ const createRope = async () => {
   const [pedRotationX, pedRotationY, pedRotationZ] = GetEntityRotation(ped, 2);
   const [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(pump);
   let repoEntity;
+  console.log(pumpCoordsX, pumpCoordsY, pumpCoordsZ);
   repoEntity = AddRope(
     pumpCoordsX,
     pumpCoordsY,
