@@ -72,7 +72,7 @@ const getClosestPumpHandle = () => {
   return pump;
 };
 
-const grabRope = pump => {
+const createRopeAnchor = pump => {
   const prop = 'w_at_scope_small';
   const [pumpPosX, pumpPosY, pumpPosZ] = GetEntityCoords(pump);
   ropeAnchor = CreateObject(GetHashKey(prop), pumpPosX, pumpPosY, pumpPosZ + 3.2, true, true, true);
@@ -151,7 +151,7 @@ const createNozzle = async pump => {
 
   rope = await createRope(pump);
 
-  const anchorPos = grabRope(pump);
+  const anchorPos = createRopeAnchor(pump);
 
   //attach rope to nozzle
   const [pipeLocationX, pipeLocationY, pipeLocationZ] = getAttachmentPoint(ped);
@@ -160,12 +160,12 @@ const createNozzle = async pump => {
     rope,
     ped,
     GetPedBoneIndex(ped, 0x49d9),
-    0.11,
-    0.02,
-    0.02,
-    -80.0,
-    -90.0,
-    15.0,
+    anchorPos.x,
+    anchorPos.y,
+    anchorPos.z + 1.45,
+    pipeLocationX,
+    pipeLocationY,
+    pipeLocationZ,
     true,
     true,
     false,
