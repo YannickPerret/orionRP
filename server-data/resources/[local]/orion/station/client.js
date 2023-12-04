@@ -245,7 +245,6 @@ const returnPipeToPump = () => {
   DecorRegister(fuelDecor, 1);
   for (let i = 0; i < gazStationsBlips.GasStations.length; i++) {
     const station = gazStationsBlips.GasStations[i];
-    createBlip(station.coordinates, 361, 0, 'Station essence');
   }
 
   while (true) {
@@ -309,3 +308,29 @@ const returnPipeToPump = () => {
     }
   }
 })();
+
+setImmediate(() => {
+  gasStations.forEach(station => {
+    station.pumps.forEach(pump => {
+      const hash = GetHashKey('prop_gas_pump_1a');
+      RequestModel(hash);
+
+      // Vérifier si le modèle est chargé
+      while (!HasModelLoaded(hash)) {
+        RequestModel(hash);
+        Wait(10);
+      }
+
+      // Créer l'objet de la pompe
+      const pumpObject = CreateObject(hash, pump.X, pump.Y, pump.Z, true, true, true);
+
+      // S'assurer que l'objet est bien créé
+      if (pumpObject) {
+        console.log(`Pompe à essence créée à [${pump.X}, ${pump.Y}, ${pump.Z}]`);
+      }
+
+      // Libérer le modèle
+      SetModelAsNoLongerNeeded(hash);
+    });
+  });
+});
