@@ -10,6 +10,7 @@ let usedPump;
 let pipe;
 let pipeLocation;
 let rope;
+let pump;
 let pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -74,10 +75,45 @@ const createRope = () => {
   return repoEntity;
 };
 
+const createNozzle = async () => {
+  let ped = PlayerPedId();
+
+  LoadAnimDict('timetable@gardener@filling_can');
+  TaskPlayAnim(ped, 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+
+  let prop = 'prop_cs_fuel_nozle';
+  let model = GetHashKey(prop);
+  RequestModel(model);
+  while (!HasModelLoaded(model)) {
+    await Delay(0);
+  }
+
+  pipe = CreateObject(model, 0, 0, 0, true, true, true);
+
+  AttachEntityToEntity(
+    pipe,
+    ped,
+    GetPedBoneIndex(ped, 0x49d9),
+    0.22,
+    0.05,
+    0.04,
+    0.0,
+    90.0,
+    90.0,
+    true,
+    true,
+    false,
+    true,
+    1,
+    true
+  );
+
+  rope = createRope();
+};
+
 const getClosestPumpHandle = () => {
   let ped = PlayerPedId();
   let pedCoords = GetEntityCoords(ped, false);
-  let pump;
   let distance = 10.0;
 
   for (let model of pumpModels) {
@@ -102,89 +138,6 @@ const getClosestPumpHandle = () => {
     }
   }
   return pump;
-};
-
-const grabPipeFromPump = async pump => {
-  let ped = PlayerPedId();
-
-  LoadAnimDict('anim@am_hold_up@male');
-  TaskPlayAnim(ped, 'anim@am_hold_up@male', 'shoplift_high', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-
-  let prop = 'prop_cs_fuel_nozle';
-  let model = GetHashKey(prop);
-  RequestModel(model);
-  while (!HasModelLoaded(model)) {
-    await Delay(0);
-  }
-
-  pipeProps = CreateObject(model, 0, 0, 0, true, true, true);
-
-  AttachEntityToEntity(
-    pipeProps,
-    ped,
-    GetPedBoneIndex(ped, 0x49d9),
-    0.11,
-    0.02,
-    0.02,
-    -80.0,
-    -90.0,
-    15.0,
-    true,
-    true,
-    false,
-    true,
-    1,
-    true
-  );
-
-  rope = createRope();
-
-  pipeLocation = GetOffsetFromEntityInWorldCoords(pipeProps, 0.0, -0.033, -0.195);
-
-  pumpHandle = getClosestPumpHandle(GetEntityCoords(ped, false));
-
-  AttachEntitiesToRope(
-    rope,
-    pumpHandle,
-    pipeProps,
-    pump.x,
-    pump.y,
-    pump.z + 1.45,
-    pipeLocation.x,
-    pipeLocation.y,
-    pipeLocation.z,
-    5.0,
-    false,
-    false,
-    null,
-    null
-  );
-
-  pipeInVehicle = false;
-  vehicleFueling = false;
-};
-
-//attach the nozzle to the player.
-const grabExistingNozzle = ped => {
-  AttachEntityToEntity(
-    pipe,
-    ped,
-    GetPedBoneIndex(ped, 0x49d9),
-    0.11,
-    0.02,
-    0.02,
-    -80.0,
-    -90.0,
-    15.0,
-    true,
-    true,
-    false,
-    true,
-    1,
-    true
-  );
-  pipeInVehicle = false;
-  vehicleFueling = false;
 };
 
 // attach nozzle to vehicle.
@@ -283,10 +236,10 @@ const returnPipeToPump = () => {
           if (!IsPedInAnyVehicle(PlayerPedId(), false)) {
             if (!playerHavePipe) {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
-
               if (IsControlJustReleased(0, 38)) {
-                //playerHavePipe = true;
-                //grabPipeFromPump(playerPed, stationPumpCoords);
+                playerHavePipe = true;
+                pump = getClosestPumpHandle();
+                createNozzle();
               }
             } else {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
@@ -309,18 +262,6 @@ const returnPipeToPump = () => {
       if (IsControlJustReleased(0, 38)) {
         putPipeInVehicle(vehicleInFront(), 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
       }
-    }
-  }
-})();
-
-(async () => {
-  let pump = getClosestPumpHandle();
-
-  if (pump && !playerHavePipe) {
-    emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
-    if (IsControlJustReleased(0, 38)) {
-      playerHavePipe = true;
-      grabPipeFromPump();
     }
   }
 })();
