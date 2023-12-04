@@ -74,9 +74,9 @@ const getClosestPumpHandle = () => {
 };
 
 const grabRope = pump => {
-  let prop = 'w_at_scope_small';
-  let anchorPos = GetEntityCoords(pump);
-  ropeAnchor = CreateObject(GetHashKey(prop), anchorPos.x, anchorPos.y, anchorPos.z + 3.2, true, true, true);
+  const prop = 'w_at_scope_small';
+  const [anchorPosX, anchorPosY, anchorPosZ] = GetEntityCoords(pump);
+  ropeAnchor = CreateObject(GetHashKey(prop), anchorPosX, anchorPosY, anchorPosZ + 3.2, true, true, true);
 
   return anchorPos;
 };
@@ -84,16 +84,16 @@ const grabRope = pump => {
 const createRope = () => {
   RopeLoadTextures();
   let ped = PlayerPedId();
-  let pedCoords = GetEntityCoords(ped, false);
-  let pedRotation = GetEntityRotation(ped, 2);
+  const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
+  const [pedRotationX, pedRotationY, pedRotationZ] = GetEntityRotation(ped, 2);
   let repoEntity;
   repoEntity = AddRope(
-    pedCoords.x,
-    pedCoords.y,
-    pedCoords.z,
-    pedRotation.x,
-    pedRotation.y,
-    pedRotation.z,
+    playerX,
+    playerY,
+    playerZ,
+    pedRotationX,
+    pedRotationY,
+    pedRotationZ,
     7.0,
     1,
     2.0,
@@ -142,19 +142,21 @@ const createNozzle = async pump => {
     true
   );
 
+  //isok
+
   rope = createRope();
   let anchorPos = grabRope(pump);
 
   //attach rope to nozzle
-  pipeLocation = getAttachmentPoint(PlayerPedId());
-  console.log(anchorPos);
+  const [pipeLocationX, pipeLocationY, pipeLocationZ] = getAttachmentPoint(PlayerPedId());
+  console.log('anchorpos', anchorPos);
   AttachEntitiesToRope(
     rope,
     PlayerPedId(),
     ropeAnchor,
-    pipeLocation.x,
-    pipeLocation.y,
-    pipeLocation.z,
+    pipeLocationX,
+    pipeLocationY,
+    pipeLocationZ,
     anchorPos.x,
     anchorPos.y,
     anchorPos.z + 2.2,
@@ -266,7 +268,6 @@ const returnPipeToPump = () => {
               if (IsControlJustReleased(0, 38)) {
                 playerHavePipe = true;
                 let pump = getClosestPumpHandle();
-                console.log(pump);
                 createNozzle(pump);
               }
             } else {
