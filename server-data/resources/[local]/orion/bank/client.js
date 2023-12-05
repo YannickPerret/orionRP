@@ -31,6 +31,8 @@
   }
 })();
 
+const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 // créer une interaction pour chaque banque
 // créer un interaction pour chaque atm
 
