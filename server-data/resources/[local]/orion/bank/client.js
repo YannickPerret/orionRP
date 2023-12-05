@@ -11,9 +11,11 @@ const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
   while (true) {
     await Wait(0);
     const playerCoords = GetEntityCoords(PlayerPedId());
+    console.log(playerCoords);
     for (let i = 0; i < atmModelHash.length; i++) {
       const atmHash = atmModelHash[i];
       const atmPosition = GetClosestObjectOfType(playerCoords, 2, atmHash, false, false, false);
+      console.log(atmPosition);
       if (GetDistanceBetweenCoords(playerCoords, atmPosition, true) < 2) {
         DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
         if (IsControlJustReleased(0, 51)) {
