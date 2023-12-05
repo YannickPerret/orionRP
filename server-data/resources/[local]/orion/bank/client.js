@@ -9,7 +9,7 @@
   }
   //create interaction input for each model atm and bank
   // get model for atm and create deisplay help text for each atm
-  while (true) {
+  /*while (true) {
     await Wait(0);
     var [playerCoordsX, playerCoordsX, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
     for (let i = 0; i < atmModelHash.length; i++) {
@@ -43,7 +43,7 @@
         }
       }
     }
-  }
+  }*/
 })();
 
 // créer une interaction pour chaque banque
