@@ -1,4 +1,4 @@
-async(() => {
+(async () => {
   const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/gasStations.json');
   const gazStationsBlips = JSON.parse(gazStationsString);
   let playerHavePipe = false;
