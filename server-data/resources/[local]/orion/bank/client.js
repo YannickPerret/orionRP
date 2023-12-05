@@ -1,6 +1,7 @@
 (async () => {
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
+  let bankIsOpen = false
 
   const bankBlips = [];
   for (const bankCoords of bankCoordsJson.bank) {
@@ -10,20 +11,26 @@
   //create interaction input for each model atm and bank
   // get model for atm and create deisplay help text for each atm
   while (true) {
-    await Wait(0);
+    await Wait(1000);
     let [playerCoordsX, playerCoordsY, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
-    for (let i = 0; i < atmModelHash.length; i++) {
-      const atmHash = atmModelHash[i];
+    for (const atmHash of atmModelHash) {
       const atmHandle = GetClosestObjectOfType(playerCoordsX,playerCoordsY,playerCoordsZ,2.0,atmHash,false,false,false);
 
-      if (atmHandle !== 0) 
-      {
-        if (GetDistanceBetweenCoords(playerCoordsX,playerCoordsX,playerCoordsZ,atmPositionX,atmPositionY,atmPositionZ,true) <= 2)
-        {
-          DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
-          if (IsControlJustReleased(0, 51)) 
-          {
-            console.log('bank atm');
+      if (atmHandle !== 0) {
+        console.log(atmHandle)
+
+        if (GetDistanceBetweenCoords(playerCoordsX,playerCoordsX,playerCoordsZ,atmPositionX,atmPositionY,atmPositionZ,true) <= 2){
+          if (bankIsOpen) {
+            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
+            if (IsControlJustReleased(0, 51)) {
+              console.log('bank atm open');
+            }
+          }
+          else {
+            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour fermer à la banque');
+            if (IsControlJustReleased(0, 51)) {
+              console.log('bank atm close');
+            }
           }
         }
       }
