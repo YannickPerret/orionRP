@@ -10,11 +10,19 @@ const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
   // get model for atm and create deisplay help text for each atm
   while (true) {
     await Wait(0);
-    const playerCoords = GetEntityCoords(PlayerPedId(), false);
-    console.log('ped', playerCoords);
+    var [playerCoordsX, playerCoordsX, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
     for (let i = 0; i < atmModelHash.length; i++) {
       const atmHash = atmModelHash[i];
-      const atmPosition = GetClosestObjectOfType(playerCoords, 2, atmHash, false, false, false);
+      const atmPosition = GetClosestObjectOfType(
+        playerCoordsX,
+        playerCoordsX,
+        playerCoordsZ,
+        2.0,
+        atmHash,
+        false,
+        false,
+        false
+      );
       console.log(atmPosition);
       if (GetDistanceBetweenCoords(playerCoords, atmPosition, true) < 2) {
         DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
