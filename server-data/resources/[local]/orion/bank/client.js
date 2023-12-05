@@ -9,41 +9,26 @@
   }
   //create interaction input for each model atm and bank
   // get model for atm and create deisplay help text for each atm
-  /*while (true) {
+  while (true) {
     await Wait(0);
-    var [playerCoordsX, playerCoordsX, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
+    let [playerCoordsX, playerCoordsY, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
     for (let i = 0; i < atmModelHash.length; i++) {
       const atmHash = atmModelHash[i];
-      let atmHandle = GetClosestObjectOfType(
-        playerCoordsX,
-        playerCoordsX,
-        playerCoordsZ,
-        2.0,
-        atmHash,
-        false,
-        false,
-        false
-      );
-      if (atmHandle != 0) {
-        if (
-          GetDistanceBetweenCoords(
-            playerCoordsX,
-            playerCoordsX,
-            playerCoordsZ,
-            atmPositionX,
-            atmPositionY,
-            atmPositionZ,
-            true
-          ) < 2
-        ) {
+      const atmHandle = GetClosestObjectOfType(playerCoordsX,playerCoordsY,playerCoordsZ,2.0,atmHash,false,false,false);
+
+      if (atmHandle !== 0) 
+      {
+        if (GetDistanceBetweenCoords(playerCoordsX,playerCoordsX,playerCoordsZ,atmPositionX,atmPositionY,atmPositionZ,true) <= 2)
+        {
           DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
-          if (IsControlJustReleased(0, 51)) {
+          if (IsControlJustReleased(0, 51)) 
+          {
             console.log('bank atm');
           }
         }
       }
     }
-  }*/
+  }
 })();
 
 // créer une interaction pour chaque banque
