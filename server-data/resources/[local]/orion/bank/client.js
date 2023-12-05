@@ -1,6 +1,7 @@
-const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
-const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
 (async () => {
+  const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
+  const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
+
   const bankBlips = [];
   for (const bankCoords of bankCoordsJson.bank) {
     createBlip(bankCoords.coords, 108, 0, 'Banque');
