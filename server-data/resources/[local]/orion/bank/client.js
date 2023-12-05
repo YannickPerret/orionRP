@@ -10,8 +10,8 @@ const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
   // get model for atm and create deisplay help text for each atm
   while (true) {
     await Wait(0);
-    const playerCoords = GetEntityCoords(PlayerPedId());
-    console.log(playerCoords);
+    const playerCoords = GetEntityCoords(PlayerPedId(), false);
+    console.log('ped', playerCoords);
     for (let i = 0; i < atmModelHash.length; i++) {
       const atmHash = atmModelHash[i];
       const atmPosition = GetClosestObjectOfType(playerCoords, 2, atmHash, false, false, false);
