@@ -56,7 +56,7 @@
 
     const bankBlips = [];
     for (const bankCoords of bankCoordsJson.bank) {
-      createBlip(bankCoords.coords, 108, 0, 'Banque');
+      exports['orion'].createBlip(bankCoords.coords, 108, 0, 'Banque');
       bankBlips.push(bankCoords.coords);
     }
 

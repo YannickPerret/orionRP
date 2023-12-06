@@ -237,7 +237,7 @@
 
   (async () => {
     for (const station of gazStationsBlips.GasStations) {
-      createBlip(station.coordinates, 361, 0, 'Station essence');
+      exports['orion'].createBlip(station.coordinates, 361, 0, 'Station essence');
     }
 
     while (true) {
