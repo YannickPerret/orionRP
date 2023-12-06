@@ -4,6 +4,7 @@
 
   let bankIsOpen = false
   let showBankInterface = false;
+  let showConseillerInterface = false;
 
   const showATMdisplay = () => {
 
@@ -17,6 +18,13 @@
     SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
     SetNuiFocus(showBankInterface, showBankInterface);
   }
+  
+  const showConseillerDisplay = () => {
+    showConseillerInterface = !showConseillerInterface;
+    SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
+    SetNuiFocus(showConseillerInterface, showConseillerInterface);
+  }
+
 
   const renewCard = () => {
     console.log('renewCard');
@@ -53,7 +61,7 @@
     while (true) {
       await Wait(0);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
-      for (const bankCoords of bankCoordsJson.bank) {
+      for (let bankCoords of bankCoordsJson.bank) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords[0], bankCoords.coords[1], bankCoords.coords[2], true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
@@ -72,7 +80,7 @@
         }
       }
 
-      for (const atmCoords of bankCoordsJson.atm) {
+      for (let atmCoords of bankCoordsJson.atm) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
@@ -90,6 +98,20 @@
           }
         }
       }
+
+      for (const mangement of bankCoordsJson.mangement) {
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords[0], mangement.coords[1], mangement.coords[2], true)
+        if ( distance <= 2) {
+          if (!bankIsOpen) {
+            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder au conseiller');
+            if (IsControlJustReleased(0, 51)) {
+              showConseillerDisplay();
+            }
+          }
+        }
+      }
+
+      
     }
   })
 
