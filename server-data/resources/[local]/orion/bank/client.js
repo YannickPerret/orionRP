@@ -5,15 +5,41 @@
   let bankIsOpen = false
   let showBankInterface = false;
 
-  const showATMInterface = () => {
+  const showATMdisplay = () => {
 
     showBankInterface = !showBankInterface;
     SendNuiMessage(JSON.stringify({ showATMInterface: showBankInterface }));
     SetNuiFocus(showBankInterface, showBankInterface);
   }
 
+  const showBankDisplay = () => {
+    showBankInterface = !showBankInterface;
+    SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
+    SetNuiFocus(showBankInterface, showBankInterface);
+  }
+
   const renewCard = () => {
     console.log('renewCard');
+    // create new item cards with id
+    // set new card id into account
+    // delete old card
+    // save new account
+  }
+
+  const topUpMoneyBank = (bank, amount) => {
+    console.log('topUpMoneyBank', bank, amount);
+  }
+
+  const withdrawMoneyBank = (bank, amount) => {
+    console.log('withdrawMoneyBank', bank, amount);
+  }
+
+  const transferMoneyBank = (bank, amount) => {
+    console.log('transferMoneyBank', bank, amount);
+  }
+
+  const createAccountBank = (bank, amount) => {
+    emitNet('orion:bank:s:createAccount', bank, amount);
   }
 
   setTick(async () => {
@@ -27,20 +53,38 @@
     while (true) {
       await Wait(0);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
-  
-      for (const atmCoords of bankCoordsJson.atm) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true)
+      for (const bankCoords of bankCoordsJson.bank) {
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords[0], bankCoords.coords[1], bankCoords.coords[2], true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
             DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
             if (IsControlJustReleased(0, 51)) {
-              console.log('bank atm open');
+              showBankDisplay();
               bankIsOpen = true;
             }
           } else {
             DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour fermer la banque');
             if (IsControlJustReleased(0, 51)) {
-              console.log('bank atm close');
+              showBankDisplay();
+              bankIsOpen = false;
+            }
+          }
+        }
+      }
+
+      for (const atmCoords of bankCoordsJson.atm) {
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true)
+        if ( distance <= 2) {
+          if (!bankIsOpen) {
+            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à l\'ATM');
+            if (IsControlJustReleased(0, 51)) {
+              showATMdisplay();
+              bankIsOpen = true;
+            }
+          } else {
+            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour fermer l\'ATM');
+            if (IsControlJustReleased(0, 51)) {
+              showATMdisplay();
               bankIsOpen = false;
             }
           }

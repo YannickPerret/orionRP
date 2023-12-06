@@ -19,6 +19,7 @@ files {
     'phone/phone.js',
     'player/player.js',
     'vehicle/vehicle.js',
+    'bank/account.js',
     'bank/bank.js',
     
     
