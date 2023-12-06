@@ -13,8 +13,6 @@ exports('SendReactMessage', (action, data) => {
 
 let currentResourceName = GetCurrentResourceName();
 
-let debugIsEnabled = GetConvarInt(`${currentResourceName}-debugMode`, 0) == 1;
-
 exports('debugPrint', (...args) => {
   if (!debugIsEnabled) return false;
 
