@@ -35,6 +35,9 @@ let seatbeltEjectAccel = 100.0;
 let sealtbeltPropModel = 'prop_seatbelt_01';
 let seatbeltProp = null;
 
+const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+
 const createVehicle = async (model, coords) => {
   RequestModel(model);
   while (!HasModelLoaded(model)) {
@@ -302,4 +305,3 @@ RegisterCommand(
   false
 );
 
-const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
