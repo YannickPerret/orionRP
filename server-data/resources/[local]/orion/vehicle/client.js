@@ -38,7 +38,7 @@ let seatbeltProp = null;
 const createVehicle = async (model, coords) => {
   RequestModel(model);
   while (!HasModelLoaded(model)) {
-    await Delay(400);
+    await Wait(400);
   }
   const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   SetEntityAsNoLongerNeeded(vehicle);
