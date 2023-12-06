@@ -62,7 +62,7 @@
       await Wait(0);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
       for (let bankCoords of bankCoordsJson.bank) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords[0], bankCoords.coords[1], bankCoords.coords[2], true)
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
             DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
@@ -81,8 +81,7 @@
       }
 
       for (let atmCoords of bankCoordsJson.atm) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true)
-        console.log(distance)
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
             DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à l\'ATM');
@@ -101,7 +100,7 @@
       }
 
       for (const mangement of bankCoordsJson.management) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords[0], mangement.coords[1], mangement.coords[2], true)
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
             DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder au conseiller');
