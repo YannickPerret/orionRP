@@ -1,6 +1,6 @@
 class Account {
     constructor(id, balance, owner, observer, freeze, history, cardId) {
-        this.id = id || uuidv4();
+        this.id = id;
         this.balance = balance;
         this.playerId = owner;
         this.observer = new Map(observer);
