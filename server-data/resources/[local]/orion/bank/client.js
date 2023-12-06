@@ -20,9 +20,11 @@
   }
   
   const showConseillerDisplay = () => {
-    showConseillerInterface = !showConseillerInterface;
-    SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
-    SetNuiFocus(showConseillerInterface, showConseillerInterface);
+    //showConseillerInterface = !showConseillerInterface;
+    /*SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
+    SetNuiFocus(showConseillerInterface, showConseillerInterface);*/
+
+    emitNet('orion:bank:c:showConseillerInterface');
   }
 
 
@@ -66,19 +68,13 @@
         if ( distance <= 2) {
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
-
             if (IsControlJustReleased(0, 51)) {
               showBankDisplay();
               bankIsOpen = true;
+              const player = PlayerManager.getPlayerBySource(GetPlayerServerId(PlayerId()));
+              console.log(player);
             }
-          } else {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour fermer la banque');
-
-            if (IsControlJustReleased(0, 51)) {
-              showBankDisplay();
-              bankIsOpen = false;
-            }
-          }
+          } 
         }
       }
 
@@ -91,13 +87,6 @@
             if (IsControlJustReleased(0, 51)) {
               showATMdisplay();
               bankIsOpen = true;
-            }
-          } else {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour fermer l\'ATM');
-
-            if (IsControlJustReleased(0, 51)) {
-              showATMdisplay();
-              bankIsOpen = false;
             }
           }
         }

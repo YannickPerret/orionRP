@@ -2,11 +2,12 @@ class Account {
     constructor(id, balance, owner, observer, freeze, history, cardId) {
         this.id = id || uuidv4();
         this.balance = balance;
-        this.owner = owner;
+        this.playerId = owner;
         this.observer = new Map(observer);
         this.freeze = freeze;
         this.history = history;
         this.cardId = cardId;
+        this.maxCardWithdraw = 10000;
     }
 
     getBalance() {
@@ -47,6 +48,15 @@ class Account {
 
     setNewCardId(cardId) {
         this.cardId = cardId;
+    }
+    async save() {
+        let result;
+        if (await db.get('accounts', this.id)) {
+          result = await db.update('accounts', this);
+        } else {
+          result = await db.insert('accounts', this);
+        }
+        return result;
     }
 }
 

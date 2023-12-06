@@ -136,6 +136,7 @@ onNet('orion:player:s:playerSpawned', async () => {
     const playerData = await db.getByWithFilter('players', filters);
 
     if (playerData.length > 0) {
+
       // Traitement pour un joueur existant
       const newPlayer = new Player({
         id: playerData[0].id,
@@ -145,7 +146,7 @@ onNet('orion:player:s:playerSpawned', async () => {
         lastname: playerData[0].lastname,
         phone: playerData[0].phone,
         money: playerData[0].money,
-        bank: playerData[0].bank,
+        accountId: playerData[0].accountId,
         position: playerData[0].position,
         license: playerData[0].license,
         discord: playerData[0].discord,
@@ -153,9 +154,10 @@ onNet('orion:player:s:playerSpawned', async () => {
         skin: playerData[0].skin,
       });
 
-      PlayerManager.addPlayer(newPlayer.source, newPlayer);
-      emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
-      emitNet('orion:playerConnected', source, newPlayer);
+        PlayerManager.addPlayer(newPlayer.source, newPlayer);
+        emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
+        emitNet('orion:playerConnected', source, newPlayer);
+      
     } else {
       console.log("Le joueur n'existe pas, création en cours...");
       // Emit on client to open new player menu
@@ -185,7 +187,7 @@ onNet('orion:player:s:createNewPlayer', async data => {
       lastname: lastname,
       phone: Number(phoneNumber),
       money: 500,
-      bank: 0,
+      accountId: null,
       position: {
         x: playerPosition[0],
         y: playerPosition[1],
@@ -198,7 +200,6 @@ onNet('orion:player:s:createNewPlayer', async data => {
 
     if (await newPlayer.save()) {
       PlayerManager.addPlayer(source, newPlayer);
-
       emitNet('orion:player:c:completRegister', playerPosition, firstname, lastname, skin);
     } else {
       emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);

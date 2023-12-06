@@ -1,3 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
+
+
+exports('uuid', uuidv4);
+
+
 exports('SendReactMessage', (action, data) => {
   SendNUIMessage({
     action: action,

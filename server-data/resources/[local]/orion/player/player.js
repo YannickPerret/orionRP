@@ -2,12 +2,12 @@ class Player {
   constructor({
     id,
     source,
+    accountId,
     steamId,
     firstname,
     lastname,
     phone,
     money,
-    bank,
     position,
     license,
     discord,
@@ -17,10 +17,9 @@ class Player {
   }) {
     this.id = id;
     this.source = source;
+    this.account = accountId || false;
     this.faim = 100;
     this.soif = 100;
-    //this.inventaire = new Inventory();
-    //this.vehicules = [];
     this.steamId = steamId || '';
     this.position = {
       x: position.x || 0,
@@ -32,7 +31,6 @@ class Player {
     this.lastname = lastname;
     this.phone = phone;
     this.money = money || 500;
-    this.bank = bank || 0;
     this.mugshot = mugshot || '';
     this.license = license || '';
     this.discord = discord || '';
