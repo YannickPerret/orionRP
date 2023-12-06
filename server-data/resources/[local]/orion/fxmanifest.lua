@@ -14,6 +14,7 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
 
+    'core/utils.js',
     'core/playerManager.js',
     'core/vehicleManager.js',
     'phone/phone.js',
@@ -26,7 +27,6 @@ files {
 }
 shared_scripts {
     'core/notifications.js',
-    'core/utils.js',
 
 }
 
