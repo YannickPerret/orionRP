@@ -1,25 +1,36 @@
 (async () => {
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
-  let bankIsOpen = false
 
-  const bankBlips = [];
-  for (const bankCoords of bankCoordsJson.bank) {
-    createBlip(bankCoords.coords, 108, 0, 'Banque');
-    bankBlips.push(bankCoords.coords);
+  let bankIsOpen = false
+  let showBankInterface = false;
+
+  const showATMInterface = () => {
+
+    showBankInterface = !showBankInterface;
+    SendNuiMessage(JSON.stringify({ showATMInterface: showBankInterface }));
+    SetNuiFocus(showBankInterface, showBankInterface);
   }
 
+  const renewCard = () => {
+    console.log('renewCard');
+  }
+
+  setTick(async () => {
+
+    const bankBlips = [];
+    for (const bankCoords of bankCoordsJson.bank) {
+      createBlip(bankCoords.coords, 108, 0, 'Banque');
+      bankBlips.push(bankCoords.coords);
+    }
+
+    while (true) {
+      await Wait(0);
+      let playerCoords = GetEntityCoords(PlayerPedId(), false);
   
-  while (true) {
-    await Wait(1000);
-    let playerCoords = GetEntityCoords(PlayerPedId(), false);
-
-    for (const atmHash of atmModelHash) {
-      const atmHandle = GetClosestObjectOfType(playerCoords[0], playerCoords[1], playerCoords[2], 2.0, atmHash, false, false, false);
-
-      if (atmHandle !== 0) {
-        let atmCoords = GetEntityCoords(atmHandle, false);
-        if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true) <= 2) {
+      for (const atmCoords of bankCoordsJson.atm) {
+        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true)
+        if ( distance <= 2) {
           if (!bankIsOpen) {
             DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
             if (IsControlJustReleased(0, 51)) {
@@ -36,7 +47,13 @@
         }
       }
     }
-  }
+  })
+
+
+  RegisterCommand('bank', async () => {
+    showATMInterface();
+  }, false);
+  
 })();
 
 const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
