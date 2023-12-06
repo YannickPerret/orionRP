@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+const uuidv4 = require('uuid/v4');
 
 
 exports('uuid', uuidv4);
