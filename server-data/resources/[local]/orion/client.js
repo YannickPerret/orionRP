@@ -106,7 +106,7 @@ on('__cfx_nui:closeNUI', (data, cb) => {
   cb({ ok: true });
 });
 
-setTick(() => {
+setTick(async () => {
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
@@ -130,7 +130,7 @@ setTick(() => {
   HideHudComponentThisFrame(4);
   HideHudComponentThisFrame(13);
   HideHudComponentThisFrame(14);
-  Delay(5);
+  await Delay(5);
 
   if (isFlymodeEnabled) {
     const playerPed = GetPlayerPed(-1);
@@ -186,3 +186,5 @@ RegisterCommand(
     EnableDispatchService(i, false);
   }
 })();
+
+const Delay = ms => new Promise(res => setTimeout(res, ms));
