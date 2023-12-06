@@ -65,13 +65,15 @@
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
-            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à la banque');
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
+
             if (IsControlJustReleased(0, 51)) {
               showBankDisplay();
               bankIsOpen = true;
             }
           } else {
-            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour fermer la banque');
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour fermer la banque');
+
             if (IsControlJustReleased(0, 51)) {
               showBankDisplay();
               bankIsOpen = false;
@@ -84,13 +86,15 @@
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
-            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder à l\'ATM');
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
+
             if (IsControlJustReleased(0, 51)) {
               showATMdisplay();
               bankIsOpen = true;
             }
           } else {
-            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour fermer l\'ATM');
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour fermer l\'ATM');
+
             if (IsControlJustReleased(0, 51)) {
               showATMdisplay();
               bankIsOpen = false;
@@ -103,7 +107,7 @@
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
-            DisplayHelpText('Appuyez sur ~INPUT_CONTEXT~ pour accéder au conseiller');
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
             if (IsControlJustReleased(0, 51)) {
               showConseillerDisplay();
             }
