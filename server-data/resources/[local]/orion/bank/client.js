@@ -101,7 +101,7 @@
         }
       }
 
-      for (const mangement of bankCoordsJson.mangement) {
+      for (const mangement of bankCoordsJson.management) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords[0], mangement.coords[1], mangement.coords[2], true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
