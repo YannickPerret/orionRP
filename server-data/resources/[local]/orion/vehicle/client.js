@@ -301,3 +301,5 @@ RegisterCommand(
   },
   false
 );
+
+const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
