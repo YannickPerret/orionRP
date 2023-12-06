@@ -1,4 +1,4 @@
-const Account = require('./account.js');
+const Account = require('./bank/account.js');
 
 (async () => {
     const PlayerManager = require('./core/playerManager.js');
