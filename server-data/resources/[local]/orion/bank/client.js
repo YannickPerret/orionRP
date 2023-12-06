@@ -62,6 +62,7 @@
       await Wait(0);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
       for (let bankCoords of bankCoordsJson.bank) {
+        console.log("bank", bankCoords)
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords[0], bankCoords.coords[1], bankCoords.coords[2], true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
@@ -81,6 +82,7 @@
       }
 
       for (let atmCoords of bankCoordsJson.atm) {
+        console.log("atm", atmCoords)
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords[0], atmCoords[1], atmCoords[2], true)
         if ( distance <= 2) {
           if (!bankIsOpen) {
