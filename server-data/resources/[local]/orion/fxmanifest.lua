@@ -24,6 +24,12 @@ files {
     'bank/account.js',
     'bank/bank.js',
     'bank/card.js',
+
+    'server.js',
+    'player/server.js',
+    'vehicle/server.js',
+    'station/server.js',
+    'bank/server.js',
     
 }
 shared_scripts {
@@ -44,13 +50,6 @@ client_scripts{
     'bank/client.js',
 }
 
-server_scripts{
-    'server.js',
-    'player/server.js',
-    'vehicle/server.js',
-    'station/server.js',
-    'bank/server.js',
-}
 
 
 
