@@ -20,7 +20,7 @@ files {
 
     'player/player.js',
     'vehicle/vehicle.js',
-    'bank/account.js',
+    'bank/classaccount.js',
     'bank/class/bank.js',
     'bank/class/card.js',
 
