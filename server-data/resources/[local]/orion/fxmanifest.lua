@@ -13,8 +13,6 @@ files {
     'web/build/images/skinCreator/heritage/*',
     'station/gasStations.json',
     'bank/bank.json',
-
-    '
     'core/lib/playerManager.js',
     'core/lib/vehicleManager.js',
     'phone/phone.js',
