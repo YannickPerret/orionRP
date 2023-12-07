@@ -52,6 +52,10 @@
     emitNet('orion:bank:s:createAccount', bank, amount);
   }
 
+  const createInvoice = (name, price) => {
+    emitNet('orion:bank:s:createInvoice', name, price);
+  }
+
   setTick(async () => {
 
     const bankBlips = [];

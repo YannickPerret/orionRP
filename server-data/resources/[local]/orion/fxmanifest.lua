@@ -11,16 +11,19 @@ files {
     "web/build/index.html",
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
+
     'station/gasStations.json',
     'bank/bank.json',
+
     'core/lib/playerManager.js',
     'core/lib/vehicleManager.js',
+
     'phone/phone.js',
     'player/player.js',
     'vehicle/vehicle.js',
     'bank/account.js',
     'bank/bank.js',
-    
+    'bank/card.js',
     
 }
 shared_scripts {

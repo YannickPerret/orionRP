@@ -8,8 +8,6 @@ RegisterCommand(
   false
 );
 
-
-
 RegisterCommand('pos', (source, args) => {
   const pos = GetEntityCoords(GetPlayerPed(-1));
   const heading = GetEntityHeading(GetPlayerPed(-1));
