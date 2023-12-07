@@ -18,7 +18,6 @@ files {
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
 
-    'phone/phone.js',
     'player/player.js',
     'vehicle/vehicle.js',
     'bank/account.js',
