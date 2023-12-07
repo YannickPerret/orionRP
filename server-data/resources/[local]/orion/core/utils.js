@@ -1,6 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
 
-exports('uuid', uuidv4);
 
 function Delay(ms) {
   return new Promise(res => {
