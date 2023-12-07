@@ -41,10 +41,7 @@ onNet('orion:savePlayerPosition', async (x, y, z) => {
   const player = PlayerManager.getPlayerBySource(source);
   if (player) {
     player.position = { x, y, z };
-
     await player.save();
-    console.log('Position sauvegardée : ', player.position);
-
     emitNet('orion:showNotification', source, 'Position sauvegardée !');
   }
 });
@@ -77,50 +74,6 @@ onNet('orion:player:s:giveAmount', (target, amount) => {
 
 onNet('orion:player:s:playerSpawned', async () => {
   deferrals.defer();
-  /*
-  let sourceId = global.source; // Obtenez l'ID unique du joueur
-  let identifiers = getIdentifier(sourceId); // Obtenez les identifiants du joueur
-  let steamId = identifiers[0];
-  let license = identifiers[1];
-
-  // Vérifiez si le joueur est sur la liste blanche
-  if (enableDiscordWhitelist) {
-    let isWhitelisted = false;
-    let isBlacklisted = false;
-    let isInGuild = false;
-
-    if (steamId) {
-      isWhitelisted = await isSteamIdWhitelisted(steamId);
-      isBlacklisted = await isSteamIdBlacklisted(steamId);
-      isInGuild = await isSteamIdInGuild(steamId);
-    } else if (license) {
-      isWhitelisted = await isLicenseWhitelisted(license);
-      isBlacklisted = await isLicenseBlacklisted(license);
-      isInGuild = await isLicenseInGuild(license);
-    }
-
-    if (!isInGuild) {
-      deferrals.done(discordNotInGuildMessage);
-      return;
-    }
-
-    if (isBlacklisted) {
-      deferrals.done(discordBlacklistedMessage);
-      return;
-    }
-
-    if (!isWhitelisted) {
-      deferrals.done(discordNotWhitelistedMessage);
-      return;
-    }
-  }
-
-  // Vérifiez si le joueur est déjà connecté
-  if (PlayerManagerServer.isPlayerConnected(sourceId)) {
-    deferrals.done('Vous êtes déjà connecté !');
-    return;
-  }
-  */
 
   const source = global.source;
   let [steamId, license] = getIdentifier(source);
