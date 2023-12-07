@@ -25,19 +25,18 @@ files {
     'bank/bank.js',
     'bank/card.js',
 
-    'server.js',
     'player/server.js',
     'vehicle/server.js',
     'station/server.js',
     'bank/server.js',
-    
 }
+
 shared_scripts {
     'core/shared/notifications.js',
 }
 
 client_scripts{
-    'client.js',
+    'core/client/client.js',
     'player/client.js',
     'core/client/player.js',
     'core/client/utils.js',
@@ -50,8 +49,6 @@ client_scripts{
     'bank/client.js',
 }
 
-
-
-
-
-
+server_scripts{
+    'core/server/server.js',
+}

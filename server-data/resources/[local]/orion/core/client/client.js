@@ -1,23 +1,3 @@
-/*
-Bureau FIB :
-
-X: 136.85, Y: -761.65, Z: 45.75
-Appartement de luxe :
-
-X: -786.8663, Y: 315.7642, Z: 217.6385
-Club de strip-tease (back room) :
-
-X: 116.91, Y: -1296.95, Z: 29.50
-Sous-marin :
-
-X: 514.34, Y: 4887.00, Z: -62.59
-Humane Labs (intérieur) :
-
-X: 3619.749, Y: 2742.740, Z: 28.690
-
-https://forum.cfx.re/t/list-of-all-online-interiors/1449619
-*/
-
 let isNuiOpen = false;
 
 const spawnLogin = () => {
@@ -25,35 +5,13 @@ const spawnLogin = () => {
   SetPlayerInvincible(ped, false);
   SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
   SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
-  NetworkResurrectLocalPlayer(-1037.0, -2738.0, 20.0, true, true, false);
 
-  SetEntityHeading(ped, 0.0);
   SetCanAttackFriendly(PlayerPedId(), true, false);
   NetworkSetFriendlyFireOption(true);
 
   emitNet('orion:player:s:playerSpawned');
 };
 
-on('onClientResourceStart', async resource => {
-  if (GetCurrentResourceName() !== resource) {
-    return;
-  }
-
-  const model1 = 'mp_m_freemode_01';
-  RequestModel(model1);
-
-  while (!HasModelLoaded(model1)) {
-    await new Promise(resolve => setTimeout(resolve, 100));
-  }
-
-  /*
-  SendNuiMessage(
-    JSON.stringify({
-      action: 'closeNUI',
-    })
-  );
-  */
-});
 
 on('playerSpawned', () => {
   spawnLogin();
@@ -107,6 +65,7 @@ on('__cfx_nui:closeNUI', (data, cb) => {
 });
 
 setTick(async () => {
+    
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
@@ -172,6 +131,7 @@ setTick(async () => {
     SetEntityHeading(playerPed, heading);
   }
 });
+
 
 RegisterCommand(
   'login',
