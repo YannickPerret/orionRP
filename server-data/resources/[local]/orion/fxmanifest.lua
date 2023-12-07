@@ -30,6 +30,10 @@ files {
     'bank/server/server.js',
 }
 
+server_scripts{
+    'core/server/server.js',
+}
+
 shared_scripts {
     'core/shared/notifications.js',
 }
@@ -48,6 +52,3 @@ client_scripts{
     'bank/client/client.js',
 }
 
-server_scripts{
-    'core/server/server.js',
-}
