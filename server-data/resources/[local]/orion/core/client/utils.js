@@ -1,10 +1,6 @@
 
 
-function Delay(ms) {
-  return new Promise(res => {
-    setTimeout(res, ms);
-  });
-}
+function Delay(ms) { return new Promise(res => { setTimeout(res, ms); });}
 
 function getEntityInFrontOfPlayer(player, distance, type) {
   const [x, y, z] = GetEntityCoords(player, true);
@@ -25,9 +21,6 @@ function getVehicleInFront(player, distance = 10.0) {
   return getEntityInFrontOfPlayer(player, distance, 10); // 10 pour les véhicules
 }
 
-exports('Delay', Delay);
-exports('getVehicleInFront', getVehicleInFront);
-
 function createBlip(coords, sprite, color, text) {
   let blip = AddBlipForCoord(coords.X, coords.Y, coords.Z);
   SetBlipSprite(blip, sprite);
@@ -44,4 +37,8 @@ function createBlip(coords, sprite, color, text) {
 
   return blip;
 }
+
+
 exports('createBlip', createBlip);
+exports('Delay', Delay);
+exports('getVehicleInFront', getVehicleInFront);

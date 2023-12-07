@@ -15,8 +15,8 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
 
-    'core/lib/playerManager.js',
-    'core/lib/vehicleManager.js',
+    'core/server/playerManager.js',
+    'core/server/vehicleManager.js',
 
     'phone/phone.js',
     'player/player.js',
@@ -39,9 +39,9 @@ shared_scripts {
 client_scripts{
     'client.js',
     'player/client.js',
-    'core/player.js',
-    'core/utils.js',
-    'core/commands.js',
+    'core/client/player.js',
+    'core/client/utils.js',
+    'core/client/commands.js',
     'admin/commands.js',
     'events/winter/client.js',
     'vehicle/client.js',
