@@ -195,6 +195,6 @@ class Database {
   }
 }
 
-const db = new Database({ host: '192.168.1.18', port: 28015, db: 'orion' });
+const db = new Database({ host: '127.0.0.1', port: 28015, db: 'orion' });
 
 module.exports = { db, r };
