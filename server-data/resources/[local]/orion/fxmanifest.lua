@@ -9,6 +9,11 @@ ui_page 'web/build/index.html'
 
 
 
+
+server_scripts{
+    'core/server/server.js',
+}
+
 client_scripts{
     'core/client/client.js',
     'player/client.js',
@@ -21,10 +26,6 @@ client_scripts{
     'station/client.js',
     'customization/client.js',
     'bank/client/client.js',
-}
-
-server_scripts{
-    'core/server/server.js',
 }
 
 shared_scripts {
