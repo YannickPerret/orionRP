@@ -14,6 +14,7 @@ const spawnLogin = () => {
 
 
 on('playerSpawned', () => {
+  console.log("playerSpawned")
   spawnLogin();
 });
 
