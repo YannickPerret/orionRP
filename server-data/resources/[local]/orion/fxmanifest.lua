@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'Tchoune'
-description 'The good description'
+description 'Orion-core'
 version '1.0.0'
 
 ui_page 'web/build/index.html'
