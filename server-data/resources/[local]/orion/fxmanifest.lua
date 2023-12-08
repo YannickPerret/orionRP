@@ -8,6 +8,7 @@ version '1.0.0'
 ui_page 'web/build/index.html'
 
 
+
 client_scripts{
     'core/client/client.js',
     'player/client.js',
@@ -20,6 +21,14 @@ client_scripts{
     'station/client.js',
     'customization/client.js',
     'bank/client/client.js',
+}
+
+server_scripts{
+    'core/server/server.js',
+}
+
+shared_scripts {
+    'core/shared/notifications.js',
 }
 
 files {
@@ -45,13 +54,7 @@ files {
     'bank/server/server.js',
 }
 
-server_scripts{
-    'core/server/server.js',
-}
 
-shared_scripts {
-    'core/shared/notifications.js',
-}
 
 
 
