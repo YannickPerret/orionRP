@@ -2,6 +2,8 @@
 (async () => {
     const Account = require('./bank/class/account.js');
     const PlayerManager = require('./core/server/playerManager.js');
+    const { v4: uuidv4 } = require('uuid');
+
 
     onNet('orion:bank:s:createAccount', () => {
         const source = global.source;
@@ -15,9 +17,9 @@
                 return;
             }
             if (itemProcuration) {
-                let uuid = exports['orion'].uuid();
+                let uuid = uuidv4( )
                 const account = new Account(uuid, 100, player.id, [], false, [], null);
-                uuid = exports['orion'].uuid();
+                uuid = uuidv4()
                 const card = new Card(uuid, account.id, 1111);
                 card.save();
                 account.setNewCardId(card.id);
