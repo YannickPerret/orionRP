@@ -18,6 +18,7 @@ files {
 
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
+    'core/server/utils.js',
 
     'player/player.js',
     'vehicle/vehicle.js',
