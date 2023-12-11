@@ -24,7 +24,9 @@
     /*SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
     SetNuiFocus(showConseillerInterface, showConseillerInterface);*/
 
+    console.log('showConseillerDisplay')
     emitNet('orion:bank:c:showConseillerInterface');
+    emitNet('orion:bank:s:createAccount');
   }
 
 
