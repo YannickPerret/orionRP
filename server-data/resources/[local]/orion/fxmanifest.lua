@@ -18,7 +18,6 @@ files {
 
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
-    'core/server/utils.js',
 
     'player/player.js',
     'vehicle/vehicle.js',
@@ -47,6 +46,7 @@ client_scripts{
 }
 
 server_scripts{
+    'core/server/utils.js',
     'server.js',
     'player/server.js',
     'vehicle/server.js',
