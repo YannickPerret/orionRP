@@ -3,7 +3,7 @@
   const crypto = require('node:crypto');
   require('dotenv').config()
   
-  
+  const uuid = uuidv4();
   
   const cryptHash = (string) => {
     return crypto.createHash('sha256', process.env(HASH_CRYO)).update(string).digest('hex');
@@ -15,7 +15,7 @@
     });
   }
   
-  exports('uuid', uuidv4());
+  exports('uuid', uuid);
   exports('cryptHash', cryptHash);
   exports('Delay', Delay);
 })()
