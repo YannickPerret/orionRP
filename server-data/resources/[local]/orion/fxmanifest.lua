@@ -19,18 +19,14 @@ files {
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
 
-    'server.js',
-
     'player/player.js',
     'vehicle/vehicle.js',
     'bank/class/account.js',
     'bank/class/bank.js',
     'bank/class/card.js',
-
-    'player/server.js',
-    'vehicle/server.js',
-    'station/server.js',
-    'bank/server/server.js',
+}
+shared_scripts {
+    'core/shared/notifications.js',
 }
 
 
@@ -49,9 +45,15 @@ client_scripts{
     'bank/client/client.js',
 }
 
-shared_scripts {
-    'core/shared/notifications.js',
+server_scripts{
+    'server.js',
+    'player/server.js',
+    'vehicle/server.js',
+    'station/server.js',
+    'bank/server/server.js',
 }
+
+
 
 
 
