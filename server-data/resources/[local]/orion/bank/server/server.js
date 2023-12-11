@@ -1,7 +1,7 @@
 
 (async () => {
     const Account = require('./bank/class/account.js');
-    const PlayerManager = require('./core/playerManager.js');
+    const PlayerManager = require('./core/server/playerManager.js');
 
     onNet('orion:bank:s:createAccount', () => {
         const source = global.source;
