@@ -1,23 +1,5 @@
 let isNuiOpen = false;
 
-const spawnLogin = () => {
-  const ped = GetPlayerPed(-1);
-  SetPlayerInvincible(ped, false);
-  SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
-
-  SetCanAttackFriendly(PlayerPedId(), true, false);
-  NetworkSetFriendlyFireOption(true);
-
-  emitNet('orion:player:s:playerSpawned');
-};
-
-
-on('playerSpawned', () => {
-  console.log("playerSpawned")
-  spawnLogin();
-});
-
 onNet('orion:playerConnected', playerData => {
   SetEntityCoords(
     GetPlayerPed(-1),
@@ -137,7 +119,7 @@ setTick(async () => {
 RegisterCommand(
   'login',
   () => {
-    spawnLogin();
+    exports['orion'].spawnLogin();
   },
   false
 );
