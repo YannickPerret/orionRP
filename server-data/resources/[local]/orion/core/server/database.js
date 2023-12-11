@@ -81,7 +81,6 @@ class Database {
         .insert(data)
         .run(connection)
         .then(result => {
-          console.log('document ajouté avec succès');
           return result;
         })
         .catch(err => {
@@ -98,7 +97,6 @@ class Database {
         .get(id)
         .run(connection)
         .then(result => {
-          console.log('document récupéré avec succès');
           return result;
         })
         .catch(err => {
@@ -130,7 +128,6 @@ class Database {
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            console.log('Documents trouvés');
             return results; // Renvoie tous les documents correspondants
           } else {
             console.log('Aucun document trouvé avec les filtres fournis.');
