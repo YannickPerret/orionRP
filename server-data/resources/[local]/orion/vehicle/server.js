@@ -1,4 +1,4 @@
-const VehicleManager = require('./core/vehicleManager.js');
+const VehicleManager = require('./core/server/vehicleManager.js');
 const Vehicle = require('./vehicle/vehicle.js');
 
 onNet('orion:vehicle:createVehicle', async vehicle => {
