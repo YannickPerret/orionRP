@@ -2,6 +2,7 @@
 (async () => {
     const Account = require('./bank/class/account.js');
     const PlayerManager = require('./core/server/playerManager.js');
+    const Card = require('./bank/class/card.js');
     const { v4: uuidv4 } = require('uuid');
 
 
