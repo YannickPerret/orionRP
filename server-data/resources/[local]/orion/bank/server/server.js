@@ -9,8 +9,29 @@
     onNet('orion:bank:s:createAccount', () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        //const itemProcuration = player.inventory.find(item => item.name === 'procuration');
+
+        if (player) {
+            if (player.accountId) {
+                emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
+                return;
+            }
+            let uuid = uuidv4( )
+            const account = new Account(uuid, 100, player.id, [], false, [], null);
+            uuid = uuidv4()
+            const card = new Card(uuid, account.id, Card.getRandomCode());
+            card.save();
+            account.setNewCardId(card.id);
+            account.save();
+            itemProcuration = false;
+            emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
+        }
+    })
+
+    onNet('orion:bank:s:renewCard', async () => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
         let itemProcuration = true;
+        //const itemProcuration = player.inventory.find(item => item.name === 'procuration');
 
         if (player) {
             if (player.accountId) {
@@ -18,13 +39,13 @@
                 return;
             }
             if (itemProcuration) {
-                let uuid = uuidv4( )
-                const account = new Account(uuid, 100, player.id, [], false, [], null);
-                uuid = uuidv4()
-                const card = new Card(uuid, account.id, 1111);
+                let uuid = uuidv4()
+                const card = new Card(uuid, player.accountId, Card.getRandomCode());
+                const account = await Account.getById(player.accountId);
                 card.save();
                 account.setNewCardId(card.id);
                 account.save();
+                
                 itemProcuration = false;
                 emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
             }

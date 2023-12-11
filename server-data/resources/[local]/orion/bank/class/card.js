@@ -23,6 +23,11 @@ class Card {
         }
     }
 
+    static getRandomCode() {
+        return Math.floor(Math.random() * 1000);
+    }
+
+
     async save() {
         let result;
         if (await db.get('cards', this.id)) {

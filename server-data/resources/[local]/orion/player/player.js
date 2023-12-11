@@ -17,7 +17,7 @@ class Player {
   }) {
     this.id = id;
     this.source = source;
-    this.account = accountId || false;
+    this.accountId = accountId || false;
     this.faim = 100;
     this.soif = 100;
     this.steamId = steamId || '';
