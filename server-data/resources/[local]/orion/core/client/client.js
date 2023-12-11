@@ -1,21 +1,6 @@
 let isNuiOpen = false;
 
-onNet('orion:playerConnected', playerData => {
-  SetEntityCoords(
-    GetPlayerPed(-1),
-    parseFloat(playerData.position.x),
-    parseFloat(playerData.position.y),
-    parseFloat(playerData.position.z),
-    false,
-    false,
-    false,
-    false
-  );
 
-  setInterval(() => {
-    emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
-  }, 900000);
-});
 
 RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
 RegisterCommand(

@@ -17,3 +17,20 @@ const spawnLogin = () => {
     console.log("playerSpawned")
     spawnLogin();
   });
+
+  onNet('orion:playerConnected', playerData => {
+    SetEntityCoords(
+      GetPlayerPed(-1),
+      parseFloat(playerData.position.x),
+      parseFloat(playerData.position.y),
+      parseFloat(playerData.position.z),
+      false,
+      false,
+      false,
+      false
+    );
+  
+    setInterval(() => {
+      emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
+    }, 900000);
+  });
