@@ -34,7 +34,6 @@ files {
 
 server_scripts{
     'server.js',
-    'core/server/server.js',
 }
 
 client_scripts{
