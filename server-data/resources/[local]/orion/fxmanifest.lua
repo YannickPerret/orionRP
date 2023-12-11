@@ -19,6 +19,8 @@ files {
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
 
+    'server.js',
+
     'player/player.js',
     'vehicle/vehicle.js',
     'bank/class/account.js',
@@ -31,10 +33,6 @@ files {
     'bank/server/server.js',
 }
 
-
-server_scripts{
-    'server.js',
-}
 
 client_scripts{
     'client.js',
