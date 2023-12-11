@@ -8,30 +8,6 @@ version '1.0.0'
 ui_page 'web/build/index.html'
 
 
-
-
-server_scripts{
-    'core/server/server.js',
-}
-
-client_scripts{
-    'core/client/client.js',
-    'player/client.js',
-    'core/client/player.js',
-    'core/client/utils.js',
-    'core/client/commands.js',
-    'admin/commands.js',
-    'events/winter/client.js',
-    'vehicle/client.js',
-    'station/client.js',
-    'customization/client.js',
-    'bank/client/client.js',
-}
-
-shared_scripts {
-    'core/shared/notifications.js',
-}
-
 files {
     "web/build/index.html",
     'web/build/**/*',
@@ -54,6 +30,33 @@ files {
     'station/server.js',
     'bank/server/server.js',
 }
+
+
+server_scripts{
+    'server.js',
+    'core/server/server.js',
+}
+
+client_scripts{
+    'client.js',
+    'core/client/client.js',
+    'player/client.js',
+    'core/client/player.js',
+    'core/client/utils.js',
+    'core/client/commands.js',
+    'admin/commands.js',
+    'events/winter/client.js',
+    'vehicle/client.js',
+    'station/client.js',
+    'customization/client.js',
+    'bank/client/client.js',
+}
+
+shared_scripts {
+    'core/shared/notifications.js',
+}
+
+
 
 
 
