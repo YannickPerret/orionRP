@@ -2,6 +2,7 @@
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
 
+
   let bankIsOpen = false
   let showBankInterface = false;
   let showConseillerInterface = false;
@@ -54,9 +55,7 @@
     emitNet('orion:bank:s:createAccount', bank, amount);
   }
 
-  const createInvoice = (name, price) => {
-    emitNet('orion:bank:s:createInvoice', name, price);
-  }
+
 
   setTick(async () => {
 
@@ -77,8 +76,6 @@
             if (IsControlJustReleased(0, 38)) {
               showBankDisplay();
               bankIsOpen = true;
-              const player = PlayerManager.getPlayerBySource(GetPlayerServerId(PlayerId()));
-              console.log(player);
             }
           } 
         }
@@ -109,11 +106,8 @@
           }
         }
       }
-
-      
     }
   })
-
 
   RegisterCommand('bank', async () => {
     showATMInterface();

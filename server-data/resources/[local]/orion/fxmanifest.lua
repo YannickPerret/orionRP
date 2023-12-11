@@ -43,6 +43,7 @@ client_scripts{
     'station/client.js',
     'customization/client.js',
     'bank/client/client.js',
+    'bank/client/invoice.js',
 }
 
 server_scripts{

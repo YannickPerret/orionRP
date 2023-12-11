@@ -55,4 +55,19 @@
             }
         }
     })
+
+    onNet('orion:invoice:s:create', (targetPlayer, price) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const target = PlayerManager.getPlayerBySource(targetPlayer);
+        const invoice = new Invoice(uuidv4(), player.id, target.id, price, false);
+
+        if (player) {
+            if (target) {
+                emitNet('orion:showNotification', targetPlayer, `Vous avez reçu une facture de ${price}€`);
+                emitNet('orion:showNotification', source, `Vous avez envoyé une facture de ${price}€ à ${target.firstname} ${target.lastname}`);
+            }
+        }
+    })
+
 })();
