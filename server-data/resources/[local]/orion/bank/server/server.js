@@ -25,6 +25,7 @@
                 card.save();
                 account.setNewCardId(card.id);
                 account.save();
+                itemProcuration = false;
                 emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
             }
             else {
