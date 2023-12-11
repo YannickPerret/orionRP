@@ -69,10 +69,10 @@
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
       for (let bankCoords of bankCoordsJson.bank) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
-        if ( distance <= 2) {
+        if ( distance <= 1.3) {
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
-            if (IsControlJustReleased(0, 51)) {
+            if (IsControlJustReleased(0, 38)) {
               showBankDisplay();
               bankIsOpen = true;
               const player = PlayerManager.getPlayerBySource(GetPlayerServerId(PlayerId()));
@@ -88,7 +88,7 @@
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
 
-            if (IsControlJustReleased(0, 51)) {
+            if (IsControlJustReleased(0, 38)) {
               showATMdisplay();
               bankIsOpen = true;
             }
@@ -101,7 +101,7 @@
         if ( distance <= 2) {
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
-            if (IsControlJustReleased(0, 51)) {
+            if (IsControlJustReleased(0, 38)) {
               showConseillerDisplay();
             }
           }
