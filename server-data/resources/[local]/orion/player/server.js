@@ -72,7 +72,7 @@ onNet('orion:player:s:giveAmount', (target, amount) => {
 });
 
 onNet('orion:player:s:playerSpawned', async () => {
-  deferrals.defer();
+  //deferrals.defer();
 
   const source = global.source;
   let [steamId, license] = getIdentifier(source);
@@ -111,14 +111,14 @@ onNet('orion:player:s:playerSpawned', async () => {
       
           emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
           emitNet('orion:playerConnected', source, newPlayer);
-          deferrals.done();
+          //deferrals.done();
     } else {
       console.log("Le joueur n'existe pas, création en cours...");
       // Emit on client to open new player menu
       emitNet('orion:c:player:createNewPlayer', source);
     }
   } catch (erreur) {
-    deferalls.done('Erreur lors de la récupération/création du joueur');
+   // deferalls.done('Erreur lors de la récupération/création du joueur');
     console.error(erreur);
   }
 });
