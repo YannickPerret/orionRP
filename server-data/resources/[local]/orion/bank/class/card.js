@@ -33,3 +33,5 @@ class Card {
         return result;
     }
 }
+
+module.exports = Card;
