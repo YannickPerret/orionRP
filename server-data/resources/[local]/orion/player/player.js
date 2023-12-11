@@ -72,6 +72,10 @@ class Player {
     return new Error('Valeur invalide');
   }
 
+  setAccountId(accountId) {
+    this.accountId = accountId;
+  }
+
   async save() {
     let result;
     //if id exists in database
