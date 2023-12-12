@@ -3,12 +3,12 @@
 
     onNet('orion:invoice:c:waitToPay', (invoiceId) => {
         const timer = setTimeout(() => {
-            exports['orion'].showNotification('Vous n\'avez pas payé la facture à temps, elle a été annulée');
+            emit('orion:showNotification', 'Vous n\'avez pas payé la facture à temps, elle a été annulée');
             emitNet('orion:invoice:s:cancel', invoiceId);
             clearTimeout(timer);
         }, 30000);
 
-        exports['orion'].showNotification('Vous avez reçu une facture, appuyez sur ~g~Y~w~ pour la payer ou ~r~N~w~ pour la refuser');
+        emit('orion:showNotification', 'Vous avez reçu une facture, appuyez sur ~g~Y~w~ pour la payer ou ~r~N~w~ pour la refuser');
         if (IsControlJustPressed(0, 246)) {
             emitNet('orion:invoice:s:pay', invoiceId);
             clearTimeout(timer);
@@ -27,7 +27,7 @@
                 emit('orion:invoice:c:waitToPay', invoiceId);
             });
         };
-        exports['orion'].showNotification('Vous devez être proche d\'un joueur pour lui faire une facture');
+        emit('orion:showNotification', 'Vous devez être proche d\'un joueur pour lui faire une facture');
         
     }
     exports('createInvoice', createInvoice);
