@@ -68,24 +68,24 @@
         const amount = parseInt(price);
         let invoice;
         try {
-            if (type == 0) {
-                invoice = new Invoice(uuidv4(), player.id, target.id, amount);
-            }
-            else if (type == 1) {
-                invoice = new Invoice(uuidv4(), player.job.id, target.id, amount);
-            }
-            else {
-                throw new Error(`Le type de facture est incorrect`);
-            }
-            
-            if (typeof amount != Number && amount <= 0) {
-                throw new Error(`Le montant de la facture est incorrect`);
-            }
-
-            
             if (player) {
-    
                 if (target) {
+
+                    if (type == 0) {
+                        invoice = new Invoice(uuidv4(), player.id, target.id, amount);
+                    }
+                    else if (type == 1) {
+                        invoice = new Invoice(uuidv4(), player.job.id, target.id, amount);
+                    }
+                    else {
+                        throw new Error(`Le type de facture est incorrect`);
+                    }
+                    
+                    if (typeof amount != Number && amount <= 0) {
+                        throw new Error(`Le montant de la facture est incorrect`);
+                    }
+
+
                     if (invoice) {
                         await invoice.save();
                         invoiceId(invoice.id);
