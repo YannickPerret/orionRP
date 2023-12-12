@@ -1,4 +1,5 @@
 class Invoice {
+
     constructor(id, playerId, targetId, price) {
         this.id = id;
         this.playerId = playerId;
@@ -28,3 +29,5 @@ class Invoice {
         return result;
     }
 }
+
+module.exports = Invoice;
