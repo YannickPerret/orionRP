@@ -65,9 +65,10 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const target = PlayerManager.getPlayerBySource(targetPlayer);
-        const amount = parseInt(price);
+        const amount = Number(price);
         let invoice;
         try {
+            if (!amount || amount <= 0) throw new Error(`Le montant de la facture est incorrect`);
             if (player) {
                 if (target) {
 
