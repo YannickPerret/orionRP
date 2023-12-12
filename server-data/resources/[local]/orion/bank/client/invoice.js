@@ -1,5 +1,6 @@
 
-(() => {
+(async () => {
+
     onNet('orion:invoice:c:waitToPay' = (invoiceId) => {
         const timer = setTimeout(() => {
             exports['orion'].showNotification('Vous n\'avez pas payé la facture à temps, elle a été annulée');
@@ -30,11 +31,12 @@
         
     }
     exports('createInvoice', createInvoice);
+
+
+    RegisterCommand('invoice:create', async (source, args) => {
+        const price = args[0];
+        createInvoice(price);
+    }, false);
 })()
 
 
-RegisterCommand('invoice:create', async (source, args) => {
-    const price = args[0];
-    createInvoice(price);
-}
-, false);
