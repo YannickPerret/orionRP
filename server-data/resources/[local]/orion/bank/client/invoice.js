@@ -19,24 +19,25 @@
         }
     })
 
-    const createInvoice = (price) => {
+    const createInvoice = (price, type) => {
         const player = exports['orion'].getPlayerServerId();
         const targetPlayer = exports['orion'].findNearbyPlayers(3);
         console.log(targetPlayer);
         if (targetPlayer.length > 0) {
-            emitNet('orion:invoice:s:create', targetPlayer[0], price, (invoiceId) => {
+            emitNet('orion:invoice:s:create', targetPlayer[0], price, type, (invoiceId) => {
                 emit('orion:invoice:c:waitToPay', invoiceId);
             });
-        };
-        emit('orion:showNotification', 'Vous devez être proche d\'un joueur pour lui faire une facture');
-        
+        }
+        else{
+            emit('orion:showNotification', 'Vous devez être proche d\'un joueur pour lui faire une facture');
+        }
     }
     exports('createInvoice', createInvoice);
 
 
     RegisterCommand('invoice:create', async (source, args) => {
         const price = args[0];
-        createInvoice(price);
+        createInvoice(price, 0);
     }, false);
 })()
 
