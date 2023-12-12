@@ -47,12 +47,12 @@ client_scripts{
 }
 
 server_scripts{
-   /* 'core/server/utils.js',
+   'core/server/utils.js',
    'server.js',
     'player/server.js',
     'vehicle/server.js',
     'station/server.js',
-    'bank/server/server.js',*/
+    'bank/server/server.js',
 }
 
 
