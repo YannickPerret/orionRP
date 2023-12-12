@@ -66,7 +66,7 @@
     }
 
     while (true) {
-      await Wait(0);
+      await exports['orion'].delay(5);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
       for (let bankCoords of bankCoordsJson.bank) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)

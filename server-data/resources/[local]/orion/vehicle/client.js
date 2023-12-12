@@ -53,7 +53,7 @@ const createVehiclePedInside = async model => {
   let vehicle = {};
   RequestModel(model);
   while (!HasModelLoaded(model)) {
-    await Wait(400);
+    await exports['orion'].delay(400)
   }
   vehicle.id = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   vehicle.model = model;
@@ -107,7 +107,7 @@ const playSound = sound => {
   let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
 
   while (true) {
-    await Wait(0);
+    await exports['orion'].delay(0);
     let ped = PlayerPedId();
     let [positionX, positionY, positionZ] = GetEntityCoords(ped, true);
 
@@ -171,7 +171,7 @@ const playSound = sound => {
           console.log(positionX, prevVelocity.x);
           SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
           SetEntityVelocity(ped, prevVelocity.x, prevVelocity.y, prevVelocity.z);
-          await Wait(1);
+          await exports['orion'].delay(1);
           SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0);
         } else {
           let [velX, velY, velZ] = GetEntityVelocity(vehicle);
@@ -219,7 +219,7 @@ const playSound = sound => {
         sealtbelt = false;
         toggleSeatbelt();
       }
-      await Wait(1000); // Attendre ici aussi
+      await exports['orion'].delay(1000);
     }
   }
 })();
@@ -261,8 +261,7 @@ const playSound = sound => {
     if (vehicle != undefined && GetEntitySpeed(vehicle) <= brakeLightSpeedThresh) {
       SetVehicleBrakeLights(vehicle, true);
     }
-
-    await Wait(0);
+    await exports['orion'].delay(0);
   }
 })();
 

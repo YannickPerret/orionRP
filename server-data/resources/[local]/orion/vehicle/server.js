@@ -1,27 +1,40 @@
-const VehicleManager = require('./core/server/vehicleManager.js');
-const Vehicle = require('./vehicle/vehicle.js');
+(() => {
+  const VehicleManager = require('./core/server/vehicleManager.js');
+  const Vehicle = require('./vehicle/vehicle.js');
+  
+  onNet('orion:vehicle:createVehicle', async vehicle => {
+    const source = global.source;
+    const player = PlayerManagerServer.getPlayerBySource(source);
+  
+    
+    const vehicleCreated = createVehicle(vehicle.model, vehicle.position, 0.0, true, true);
+    if( vehicleCreated == undefined ) return;
 
-onNet('orion:vehicle:createVehicle', async vehicle => {
-  let vehicleObj = new Vehicle({
-    id: vehicle.id,
-    model: vehicle.model,
-    owner: vehicle.owner,
-    plate: vehicle.plate,
-    position: vehicle.position,
-    state: vehicle.state,
-    primaryColor: vehicle.primaryColor,
-    secondaryColor: vehicle.secondaryColor,
-    pearlescentColor: vehicle.pearlescentColor,
+    let vehicleObj = new Vehicle({
+      id: vehicleCreated,
+      model: vehicle.model,
+      owner: player.source,
+      plate: vehicle.plate,
+      position: vehicle.position,
+      state: vehicle.state,
+      primaryColor: vehicle.primaryColor,
+      secondaryColor: vehicle.secondaryColor,
+      pearlescentColor: vehicle.pearlescentColor,
+    });
+    VehicleManager.addVehicle(vehicle.id, vehicleObj);
+  
   });
-  VehicleManager.addVehicle(vehicle.id, vehicleObj);
-});
+  
+  onNet('orion:vehicle:saveVehicle', async vehicle => {
+    let vehicleObj = VehicleManager.getVehicleBySource(vehicle.source);
+    await vehicleObj.save();
+  });
+  
+  onNet('orion:vehicle:deleteVehicle', async vehicle => {
+    let vehicleObj = VehicleManager.getVehicleBySource(vehicle.source);
+    await vehicleObj.delete();
+  });
+  
 
-onNet('orion:vehicle:saveVehicle', async vehicle => {
-  let vehicleObj = VehicleManager.getVehicleBySource(vehicle.source);
-  await vehicleObj.save();
-});
+})()
 
-onNet('orion:vehicle:deleteVehicle', async vehicle => {
-  let vehicleObj = VehicleManager.getVehicleBySource(vehicle.source);
-  await vehicleObj.delete();
-});

@@ -4,11 +4,10 @@
   let playerHavePipe = false;
   let pistoletObject = null;
   let rope = null;
-  let ropeAnchor = null;
+  let ropeAnchor;
   let pump = null;
   let pistoletInVehicle = false;
   const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
-  const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   const SetFuel = (vehicle, fuel) => {
     if (Number(fuel) && fuel >= 0 && fuel <= 100) {
@@ -106,7 +105,7 @@
 
     }
     ActivatePhysics(repoEntity);
-    await Wait(100);
+    await exports['orion'].delay(100);
     return repoEntity;
   };
 
@@ -155,6 +154,16 @@
 
     //attach rope to nozzle
     const [pistoletPositionX, pistoletPositionY, pistoletPositionZ] = getAttachmentPoint(ped);
+    const length = GetDistanceBetweenCoords(
+      pistoletPositionX,
+      pistoletPositionY,
+      pistoletPositionZ,
+      anchorPos.x,
+      anchorPos.y,
+      anchorPos.z,
+      true
+    );
+
 
     AttachEntitiesToRope(
       rope,
@@ -166,13 +175,16 @@
       nozzlePos[0],
       nozzlePos[1],
       nozzlePos[2],
-      5.0,
+      length,
       false,
       false,
       null,
       null
     );
-    await Wait(0);
+    StopRopeUnwindingFront(rope)
+    StartRopeWinding(rope)
+    RopeForceLength(rope, length)
+    await exports['orion'].delay(0);
   };
 
   // attach nozzle to vehicle.
@@ -243,7 +255,7 @@
     }
 
     while (true) {
-      await Wait(0);
+      await exports['orion'].delay(5);
       const playerPed = PlayerPedId();
       const playerCoords = GetEntityCoords(playerPed, false);
 
@@ -291,31 +303,4 @@
     }
   };
 
-  setInterval(updateRopePosition, 100);
-
-  function updateRopePosition() {
-    if (playerHavePipe && rope) {
-      const ped = PlayerPedId();
-      const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
-      const [pumpX, pumpY, pumpZ] = GetEntityCoords(pump);
-
-      const [nozzleX, nozzleY, nozzleZ] = GetOffsetFromEntityInWorldCoords(pistoletObject, 0.0, -0.033, -0.195);
-      AttachEntitiesToRope(
-        rope,
-        pump,
-        pistoletObject,
-        pumpX,
-        pumpY,
-        pumpZ + 1.45,
-        playerX,
-        playerY,
-        playerZ,
-        5.0,
-        false,
-        false,
-        null,
-        null
-      );
-    }
-  }
 })();
