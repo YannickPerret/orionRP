@@ -31,6 +31,7 @@ exports('findNearbyPlayers', maxDistance => {
     }
   }
 
+  console.log("targetPlayerId", targetPed);
   return closestPlayerIds;
 });
 
