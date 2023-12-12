@@ -1,7 +1,7 @@
 
 (async () => {
 
-    onNet('orion:invoice:c:waitToPay' = (invoiceId) => {
+    onNet('orion:invoice:c:waitToPay', (invoiceId) => {
         const timer = setTimeout(() => {
             exports['orion'].showNotification('Vous n\'avez pas payé la facture à temps, elle a été annulée');
             emitNet('orion:invoice:s:cancel', invoiceId);
