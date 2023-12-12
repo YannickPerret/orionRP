@@ -22,6 +22,7 @@
     const createInvoice = (price) => {
         const player = exports['orion'].getPlayerServerId();
         const targetPlayer = exports['orion'].findNearbyPlayers(2);
+        console.log(targetPlayer);
         if (targetPlayer.length > 0) {
             emitNet('orion:invoice:s:create', targetPlayer[0], price, (invoiceId) => {
                 emit('orion:invoice:c:waitToPay', invoiceId);
