@@ -1,7 +1,7 @@
 let UnzoomSkyCam = null;
 let ZoomSkyCam = null;
 
-const StartUnzoomSkyCam = () => {
+const StartUnzoomSkyCam = async () => {
   SetCloudHatOpacity(0.0);
   SetWeatherTypePersist('CLEAR');
   SetWeatherTypeNowPersist('CLEAR');
@@ -30,7 +30,7 @@ const StartUnzoomSkyCam = () => {
   SetEntityCoords(PlayerPedId(), -421.0049, 1155.414, 324.8574 - 0.9, 0, 0, 0, false);
   SetEntityHeading(PlayerPedId(), 80);
   FreezeEntityPosition(PlayerPedId(), true);
-  Delay(4500);
+  await exports['orion'].delay(4500);
 };
 
 const StopUnzoomSkyCam = () => {
@@ -64,7 +64,7 @@ const StartZoomSkyCam = () => {
   RenderScriptCams(true, false, 3000, 1, 1);
 };
 
-const StopZoomSkyCam = () => {
+const StopZoomSkyCam = async () => {
   if (DoesCamExist(ZoomSkyCam)) {
     RenderScriptCams(false, true, 4500, true, true);
     let waiting = true;
@@ -72,11 +72,11 @@ const StopZoomSkyCam = () => {
       while (waiting) {
         DisableControlAction(0, 1, true);
         DisableControlAction(0, 2, true);
-        Delay(0);
+        await exports['orion'].delay(0);
+
       }
     });
-
-    Delay(4500);
+    await exports['orion'].delay(4500);
     SetCamActive(ZoomSkyCam, false);
     DestroyCam(ZoomSkyCam, true);
     ClearFocus();

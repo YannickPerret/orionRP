@@ -105,8 +105,6 @@
             console.error(e);
             emitNet('orion:showNotification', source, e);
         }
-
-        
     })
 
     onNet('orion:invoice:s:pay', async (invoiceId) => {

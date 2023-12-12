@@ -21,7 +21,7 @@ const loadNewModel = async modelHash => {
   RequestModel(modelHash);
 
   while (!HasModelLoaded(modelHash)) {
-    await Delay(0);
+    await exports['orion'].delay(0);
   }
 };
 

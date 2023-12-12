@@ -35,13 +35,12 @@ let seatbeltEjectAccel = 100.0;
 let sealtbeltPropModel = 'prop_seatbelt_01';
 let seatbeltProp = null;
 
-const Wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 
 const createVehicle = async (model, coords) => {
   RequestModel(model);
   while (!HasModelLoaded(model)) {
-    await Wait(400);
+    await exports['orion'].delay(400)
   }
   const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   SetEntityAsNoLongerNeeded(vehicle);

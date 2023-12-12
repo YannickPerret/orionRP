@@ -1,7 +1,5 @@
 let isNuiOpen = false;
 
-
-
 RegisterKeyMapping('openPlayerMenu', 'Open Player Menu', 'keyboard', 'F2');
 RegisterCommand(
   'openPlayerMenu',
@@ -57,7 +55,7 @@ setTick(async () => {
   HideHudComponentThisFrame(4);
   HideHudComponentThisFrame(13);
   HideHudComponentThisFrame(14);
-  await Delay(5);
+  await exports['orion'].delay(5);
 
   if (isFlymodeEnabled) {
     const playerPed = GetPlayerPed(-1);

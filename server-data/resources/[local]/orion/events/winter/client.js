@@ -4,10 +4,10 @@ const snowBall = {
   AnimName: 'pickup_snowball',
 };
 
-const loadAnimDict = animDict => {
+const loadAnimDict = async animDict => {
   RequestAnimDict(animDict);
   while (!HasAnimDictLoaded(animDict)) {
-    Delay(0);
+    await exports['orion'].delay(0);
   }
 };
 

@@ -9,7 +9,7 @@
     return crypto.createHash('sha256', process.env(HASH_CRYO)).update(string).digest('hex');
   }
   
-  const Delay = (ms) => {
+  const delay = (ms) => {
     return new Promise(res => {
       setTimeout(res, ms);
     });
@@ -17,6 +17,6 @@
   
   exports('uuid', uuid);
   exports('cryptHash', cryptHash);
-  exports('Delay', Delay);
+  exports('delay', delay);
 })()
 

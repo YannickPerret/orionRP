@@ -1,6 +1,6 @@
 
 
-function Delay(ms) { return new Promise(res => { setTimeout(res, ms); });}
+function delay(ms) { return new Promise(res => { setTimeout(res, ms); });}
 
 function getEntityInFrontOfPlayer(player, distance, type) {
   const [x, y, z] = GetEntityCoords(player, true);
@@ -40,5 +40,5 @@ function createBlip(coords, sprite, color, text) {
 
 
 exports('createBlip', createBlip);
-exports('Delay', Delay);
+exports('delay', delay);
 exports('getVehicleInFront', getVehicleInFront);

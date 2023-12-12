@@ -20,7 +20,8 @@
   const LoadAnimDict = async dict => {
     RequestAnimDict(dict);
     while (!HasAnimDictLoaded(dict)) {
-      await Delay(0);
+      await exports['orion'].delay(0);
+
     }
   };
 
@@ -101,7 +102,8 @@
     );
 
     while (!repoEntity) {
-      await Delay(0);
+      await exports['orion'].delay(0);
+
     }
     ActivatePhysics(repoEntity);
     await Wait(100);
@@ -114,13 +116,13 @@
 
     LoadAnimDict('anim@mp_snowball');
     TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-    await Delay(700);
+    await exports['orion'].delay(700);
 
     let pistoletProps = 'prop_cs_fuel_nozle';
     let model = GetHashKey(pistoletProps);
     RequestModel(model);
     while (!HasModelLoaded(model)) {
-      await Delay(0);
+      await exports['orion'].delay(0);
     }
 
     pistoletObject = CreateObject(model, 0, 0, 0, true, true, true);
@@ -228,7 +230,7 @@
     let ped = PlayerPedId();
     LoadAnimDict('anim@mp_snowball');
     TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-    await Delay(700);
+    await exports['orion'].delay(700);
     DeleteEntity(pistoletObject);
     RopeUnloadTextures();
     DeleteRope(rope);

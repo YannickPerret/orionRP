@@ -1,20 +1,5 @@
 class Player {
-  constructor({
-    id,
-    source,
-    accountId,
-    steamId,
-    firstname,
-    lastname,
-    phone,
-    money,
-    position,
-    license,
-    discord,
-    role,
-    mugshot,
-    skin,
-  }) {
+  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin}) {
     this.id = id;
     this.source = source;
     this.accountId = accountId || false;
