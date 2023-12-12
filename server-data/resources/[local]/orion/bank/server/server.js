@@ -1,3 +1,5 @@
+// permettre de faire une facture par un joueur pour aller sur son compte 
+// permettre de faire une facture par une entreprise pour aller sur le compte entreprise
 
 (async () => {
     const Account = require('./bank/class/account.js');
@@ -6,7 +8,7 @@
     const { v4: uuidv4 } = require('uuid');
 
 
-    onNet('orion:bank:s:createAccount', () => {
+    onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
 
@@ -19,11 +21,11 @@
             const account = new Account(uuid, 100, player.id, [], false, [], null);
             uuid = uuidv4()
             const card = new Card(uuid, account.id, Card.getRandomCode());
-            card.save();
+            await card.save();
             account.setNewCardId(card.id);
-            account.save();
+            await account.save();
             player.setAccountId(account.id);
-            player.save();
+            await player.save();
             emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
         }
     })
@@ -43,9 +45,9 @@
                 let uuid = uuidv4()
                 const card = new Card(uuid, player.accountId, Card.getRandomCode());
                 const account = await Account.getById(player.accountId);
-                card.save();
+                await card.save();
                 account.setNewCardId(card.id);
-                account.save();
+                await account.save();
 
                 itemProcuration = false;
                 emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
@@ -56,16 +58,90 @@
         }
     })
 
-    onNet('orion:invoice:s:create', (targetPlayer, price) => {
+    onNet('orion:invoice:s:create', async (targetPlayer, price, type, invoiceId) => {
+        // type = 0 => player
+        // type = 1 => entreprise
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const target = PlayerManager.getPlayerBySource(targetPlayer);
-        const invoice = new Invoice(uuidv4(), player.id, target.id, price, false);
+        const amount = parseInt(price);
+        let invoice;
+        try {
+            if (type == 0) {
+                invoice = new Invoice(uuidv4(), player.id, target.id, amount);
+            }
+            else if (type == 1) {
+                invoice = new Invoice(uuidv4(), player.job.id, target.id, amount);
+            }
+            else {
+                throw new Error(`Le type de facture est incorrect`);
+            }
+            
+            if (typeof amount != Number && amount <= 0) {
+                throw new Error(`Le montant de la facture est incorrect`);
+            }
+
+            
+            if (player) {
+    
+                if (target) {
+                    if (invoice) {
+                        await invoice.save();
+                        invoiceId(invoice.id);
+                    }
+                    else {
+                        throw new Error(`Une erreur est survenue`);
+                    }
+                }
+                else {
+                    throw new Error(`Le joueur n'est pas connecté`);
+                }
+            }
+            else {
+                throw new Error(`Vous n'êtes pas connecté`);
+            }
+        }
+        catch (e) {
+            console.error(e);
+            emitNet('orion:showNotification', source, e);
+        }
+
+        
+    })
+
+    onNet('orion:invoice:s:pay', async (invoiceId) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const invoice = Invoice.getById(invoiceId);
+        const account = await Account.getById(player.accountId);
+        const targetId = invoice.targetId;
 
         if (player) {
-            if (target) {
-                emitNet('orion:showNotification', targetPlayer, `Vous avez reçu une facture de ${price}€`);
-                emitNet('orion:showNotification', source, `Vous avez envoyé une facture de ${price}€ à ${target.firstname} ${target.lastname}`);
+            if (invoice) {
+                if (account.balance >= invoice.price) {
+                    account.setBalence(-invoice.price);
+                    await account.save();
+                    invoice.paid(true);
+                    await invoice.save();
+                    emitNet('orion:showNotification', source, `Vous avez payé la facture`);
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur votre compte`);
+                }
+            }
+        }
+    })
+
+    onNet('orion:invoice:s:cancel',async  (invoiceId) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const invoice = Invoice.getById(invoiceId);
+
+        if (player) {
+            if (invoice) {
+                invoice.paid(false);
+                await invoice.save();
+                emitNet('orion:showNotification', source, `Vous avez refusé la facture de ${invoice.price}€`);
             }
         }
     })

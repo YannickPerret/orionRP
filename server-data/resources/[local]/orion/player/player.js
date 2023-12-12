@@ -36,6 +36,7 @@ class Player {
     this.discord = discord || '';
     this.role = role || false;
     this.skin = skin || [];
+    this.job = false;
   }
 
   #isDead = false;

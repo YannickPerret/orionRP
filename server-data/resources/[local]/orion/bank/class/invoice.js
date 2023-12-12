@@ -1,11 +1,21 @@
 class Invoice {
-    constructor(id, name, playerId, targetId, price) {
+    constructor(id, playerId, targetId, price) {
         this.id = id;
-        this.name = name;
         this.playerId = playerId;
         this.targetId = targetId;
         this.price = price;
         this.isPaid = false;
+        this.dateEmission = new Date();
+    }
+
+    paid (value) {
+      if (value) {
+        this.isPaid = true;
+        this.datePayment = new Date();
+      }
+      else {
+          this.isPaid = false;
+      }
     }
 
     async save() {

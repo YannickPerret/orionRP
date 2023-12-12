@@ -15,7 +15,7 @@ class Account {
     }
 
     setBalance(balance) {
-        this.balance = balance;
+        this.balance += balance;
     }
 
     getOwner() {

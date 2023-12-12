@@ -33,3 +33,11 @@ exports('findNearbyPlayers', maxDistance => {
 
   return closestPlayerIds;
 });
+
+exports('getPlayer', () => {
+  return PlayerId();
+});
+
+exports('getPlayerServerId', () => {
+  return GetPlayerServerId(PlayerId());
+});
