@@ -59,7 +59,7 @@
         }
     })
 
-    onNet('orion:invoice:s:create', async (targetPlayer, price, type, invoiceId) => {
+    onNet('orion:invoice:s:create', async (targetPlayer, price, type) => {
         // type = 0 => player
         // type = 1 => entreprise
         const source = global.source;
@@ -88,9 +88,8 @@
 
 
                     if (invoice) {
-                        console.log(invoice);
                         await invoice.save();
-                        invoiceId(invoice.id);
+                        onNet('orion:invoice:c:waitToPay', invoice.id);
                     }
                     else {
                         throw new Error(`Une erreur est survenue`);

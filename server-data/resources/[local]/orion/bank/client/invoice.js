@@ -23,9 +23,7 @@
         const player = exports['orion'].getPlayerServerId();
         const targetPlayer = exports['orion'].findNearbyPlayers(3);
         if (targetPlayer.length > 0) {
-            emitNet('orion:invoice:s:create', targetPlayer[0], price, type, (invoiceId) => {
-                emit('orion:invoice:c:waitToPay', invoiceId);
-            });
+            emitNet('orion:invoice:s:create', targetPlayer[0], price, type);
         }
         else{
             emit('orion:showNotification', 'Vous devez être proche d\'un joueur pour lui faire une facture');
