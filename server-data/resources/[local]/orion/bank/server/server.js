@@ -87,6 +87,7 @@
 
 
                     if (invoice) {
+                        console.log(invoice);
                         await invoice.save();
                         invoiceId(invoice.id);
                     }
