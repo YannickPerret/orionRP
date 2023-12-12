@@ -32,7 +32,7 @@ shared_scripts {
 
 client_scripts{
     'client.js',
-    /*'core/client/client.js',
+    'core/client/client.js',
     'player/client.js',
     'core/client/player.js',
     'core/client/utils.js',
@@ -43,7 +43,7 @@ client_scripts{
     'station/client.js',
     'customization/client.js',
     'bank/client/client.js',
-    'bank/client/invoice.js',*/
+    'bank/client/invoice.js',
 }
 
 server_scripts{
