@@ -89,7 +89,7 @@
 
                     if (invoice) {
                         await invoice.save();
-                        onNet('orion:invoice:c:waitToPay', invoice.id);
+                        emitNet('orion:invoice:c:waitToPay', invoice.id);
                     }
                     else {
                         throw new Error(`Une erreur est survenue`);
