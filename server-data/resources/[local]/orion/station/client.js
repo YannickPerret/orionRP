@@ -1,12 +1,21 @@
 (async () => {
   const gazStationsString = LoadResourceFile(GetCurrentResourceName(), 'station/gasStations.json');
   const gazStationsBlips = JSON.parse(gazStationsString);
-  let playerHavePipe = false;
+  let playerPickupPump = false;
+  let playerBone = null;
+
   let pistoletObject = null;
+  let pistoletProps = null;
+
   let rope = null;
-  let ropeAnchor;
+
   let pump = null;
+  let pumpProps = null;
+  let pumpObj = null;
+  
+  let ropeAnchor = null;
   let pistoletInVehicle = false;
+
   const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 
   const SetFuel = (vehicle, fuel) => {
@@ -250,45 +259,50 @@
   };
 
   (async () => {
+
+    const playerPed = PlayerPedId();
+
     for (const station of gazStationsBlips.GasStations) {
       exports['orion'].createBlip(station.coordinates, 361, 0, 'Station essence');
     }
 
     while (true) {
       await exports['orion'].delay(5);
-      const playerPed = PlayerPedId();
       const playerCoords = GetEntityCoords(playerPed, false);
 
       for (const station of gazStationsBlips.GasStations) {
         for (const pumpCoords of station.pumps) {
           const distance = GetDistanceBetweenCoords( playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
-          if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
+          if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false) && !playerPickupPump) {
             handlePumpInteraction(playerPed, pumpCoords);
           }
         }
       }
       let vehicle = vehicleInFront();
 
-      if (playerHavePipe && vehicle) {
+      if (playerPickupPump && vehicle) {
         handleVehicleInteraction(vehicle);
       }
     }
   })();
 
   const handlePumpInteraction = (playerPed, pumpCoords) => {
-    if (!playerHavePipe) {
+    if (!playerPickupPump) {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
       if (IsControlJustReleased(0, 38)) {
         // 38 est le code pour la touche E
-        playerHavePipe = true;
+        playerPickupPump = true;
         pump = getClosestPumpHandle();
-        createNozzle(pump);
+        emit('orion:station:c:pickUpPump')
+        //createNozzle(pump);
       }
     } else {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
       if (IsControlJustReleased(0, 38)) {
-        playerHavePipe = false;
-        returnPipeToPump();
+        playerPickupPump = false;
+        emit('orion:station:c:pickUpPump')
+
+        //returnPipeToPump();
       }
     }
   };
@@ -302,5 +316,89 @@
       pistoletInVehicle = false;
     }
   };
+
+
+
+
+
+  // new code 
+
+  onNet('orion:station:c:pickUpPump', async () => {
+
+    if(playerPickupPump) {
+      emitNet('orion:station:s:detachRope', PlayerPedId());
+    }
+    else {
+      let player = PlayerPedId();
+      RequestModel('prop_cs_fuel_nozle')
+      while(!HasModelLoaded('prop_cs_fuel_nozle')) {
+        await exports['orion'].delay(1);
+      }
+
+      pumpProps = CreateObject(GetHashKey('prop_cs_fuel_nozle'), 1.0, 1.0, 1.0, true, true, false);
+      
+      let bone = GetPedBoneIndex(player, 60309);
+
+      AttachEntityToEntity(pumpProps, player, bone, 0.0549, 0.049, 0.0, -50.0, -90.0, -50.0, true, true, false, false, 0, true);
+
+      RopeLoadTextures();
+      while (!RopeAreTexturesLoaded()) {
+        await exports['orion'].delay(1);
+      }
+
+      let pumpCoords = GetEntityCoords(pump);
+      let netIdProp = ObjToNet(pumpProps);
+
+      SetNetworkIdExistsOnAllMachines(netIdProp, true)
+      NetworkSetNetworkIdDynamic(netIdProp, true)
+      SetNetworkIdCanMigrate(netIdProp, false)
+
+      emitNet('orion:station:s:attachRope', netIdProp, pumpCoords, GetEntityModel(pump));
+
+      playerPickupPump = true;
+    }
+
+  });
+
+  
+
+  onNet('orion:station:c:AttachRope', (netIdProp, posPump, model, playerId) => {
+    const object = GetHashKey('bkr_prop_bkr_cash_roll_01');
+    RequestModel(object);
+    while (!HasModelLoaded(object)) {
+      exports['orion'].delay(1);
+    }
+    pumpObj = createObject(object, posPump.x, posPump.y, posPump.z, true, true, false);
+    SetEntityRecordsCollisions(pumpObj, false);
+    SetEntityLoadCollisionFlag(pumpObj, false);
+    let timeout = 0;
+    let IdProp;
+    while (true) {
+      if (timeout > 50) {
+        break;
+      }
+      if (NetworkDoesEntityExistWithNetworkId(netIdProp)) {
+        IdProp = NetworkGetEntityFromNetworkId(netIdProp);
+        break;
+      } else {
+        exports['orion'].delay(100);
+        timeout = timeout + 1;
+      }
+    }
+
+    let pumpPropCoords = GetOffsetFromEntityInWorldCoords(IdProp, 0.0, -0.019, -0.1749);
+    rope = AddRope(posPump.x, posPump.y, posPump.z + 1.76, 0.0, 0.0, 0.0, 5.0, 1, 1000.0, 0.5, 1.0, false, false, false, 5.0, false, 0);
+    AttachEntitiesToRope(rope, IdProp, pumpObj, pumpPropCoords.x, pumpPropCoords.y, pumpPropCoords.z, posPump.x, posPump.y, posPump.z + 1.76, 30.0, 0, 0);
+  })
+
+  on('onResourceStop', async (resourceName) => {
+    if (GetCurrentResourceName() !== resourceName) {
+      return;
+    }
+    if (pumpProps) {
+      DetachEntity(pumpProps, true, true);
+      DeleteEntity(pumpProps);
+    }
+  })
 
 })();
