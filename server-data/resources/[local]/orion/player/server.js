@@ -1,6 +1,10 @@
+(async () => {
+
 const { db, r } = require('./core/server/database.js');
 const PlayerManager = require('./core/server/playerManager.js');
 const Player = require('./player/player.js');
+const Phone = require('./phone/phone.js');
+
 
 // Position par défaut du joueur
 const playerPosition = [-530.77, -2113.83, 9.0];
@@ -187,3 +191,5 @@ onNet('orion:saveMugshotUrl', async mugshotUrl => {
     await playerData.save();
   }
 });
+
+})

@@ -391,6 +391,16 @@
     AttachEntitiesToRope(rope, IdProp, pumpObj, pumpPropCoords.x, pumpPropCoords.y, pumpPropCoords.z, posPump.x, posPump.y, posPump.z + 1.76, 30.0, 0, 0);
   })
 
+  onNet('orion:station:c:DetachRope', (playerId) => {
+    DetachRopeFromEntity(rope, pumpObj);
+    DeleteRope(rope);
+    DeleteEntity(pumpObj);
+    ClearPedTasks(PlayerPedId());
+    playerPickupPump = false;
+  }
+  )
+
+
   on('onResourceStop', async (resourceName) => {
     if (GetCurrentResourceName() !== resourceName) {
       return;
@@ -400,5 +410,8 @@
       DeleteEntity(pumpProps);
     }
   })
+
+
+
 
 })();
