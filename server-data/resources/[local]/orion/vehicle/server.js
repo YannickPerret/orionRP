@@ -26,13 +26,13 @@
         bodyHealth: GetVehicleBodyHealth(vehicleSpawn),
         dirtLevel: GetVehicleDirtLevel(vehicleSpawn),
         doorsBroken: [
-          IsVehicleDoorDamaged(vehicleSpawn, 0),
-          IsVehicleDoorDamaged(vehicleSpawn, 1),
-          IsVehicleDoorDamaged(vehicleSpawn, 2),
-          IsVehicleDoorDamaged(vehicleSpawn, 3),
-          IsVehicleDoorDamaged(vehicleSpawn, 4),
-          IsVehicleDoorDamaged(vehicleSpawn, 5),
-          IsVehicleDoorDamaged(vehicleSpawn, 6),
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
         ],
       });
 
