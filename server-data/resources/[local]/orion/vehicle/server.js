@@ -7,29 +7,29 @@
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
-    let vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], pedHead, true, false);
-    console.log(vehicle);
+    let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords, pedHead);
+    console.log(vehicleSpawn);
    //TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicle, -1);
 
-    SetEntityDistanceCullingRadius(vehicle, 1000.0);
+    SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
   
     let vehicleObj = new Vehicle({
-      id: vehicle,
+      id: vehicleSpawn,
       model: model,
       owner: player.id,
-      plate: GetVehicleNumberPlateText(vehicle),
+      plate: GetVehicleNumberPlateText(vehicleSpawn),
       position: coords,
       state: 'good',
-      primaryColor:  GetVehicleColours(vehicle)[0],
-      secondaryColor: GetVehicleColours(vehicle)[1],
-      pearlescentColor: GetVehicleExtraColours(vehicle)[1],
+      primaryColor:  GetVehicleColours(vehicleSpawn)[0],
+      secondaryColor: GetVehicleColours(vehicleSpawn)[1],
+      pearlescentColor: GetVehicleExtraColours(vehicleSpawn)[1],
     });
 
     exports['orion'].delay(1000).then(() => {
-      SetPedIntoVehicle(GetPlayerPed(source), vehicle, -1);
+      SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
     });
 
-    VehicleManager.addVehicle(vehicle, vehicleObj);
+    VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
     emitNet('orion:vehicle:c:createVehicle', source,  vehicleObj);
   
   });
