@@ -368,15 +368,16 @@
 
     RequestModel(object);
     while (!HasModelLoaded(object)) {
-      exports['orion'].delay(1);
+      await exports['orion'].delay(1);
     }
 
     currentPumpObj[playerId] = createObject(object, posPump[0], posPump[1], posPump[2], true, true, false);
     SetEntityRecordsCollisions(currentPumpObj[playerId], false);
     SetEntityLoadCollisionFlag(currentPumpObj[playerId], false);
-    /*
     let timeout = 0;
     let IdProp;
+
+
     while (true) {
       if (timeout > 50) {
         break;
@@ -385,7 +386,7 @@
         IdProp = NetworkGetEntityFromNetworkId(netIdProp);
         break;
       } else {
-        exports['orion'].delay(100);
+        await exports['orion'].delay(100);
         timeout = timeout + 1;
       }
     }
@@ -396,7 +397,7 @@
     AttachEntitiesToRope(currentRope, IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76, 30.0, 0, 0);
 
     console.log("attach rope")
-    console.log(pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76)*/
+    console.log(pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76)
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
