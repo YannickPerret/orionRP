@@ -414,9 +414,9 @@
     if (GetCurrentResourceName() !== resourceName) {
       return;
     }
-    if (pumpProps) {
-      DetachEntity(pumpProps, true, true);
-      DeleteEntity(pumpProps);
+    if (currentPumpProp) {
+      DetachEntity(currentPumpProp, true, true);
+      DeleteEntity(currentPumpProp);
     }
   })
 
