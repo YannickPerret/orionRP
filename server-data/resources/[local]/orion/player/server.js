@@ -192,4 +192,4 @@ onNet('orion:saveMugshotUrl', async mugshotUrl => {
   }
 });
 
-})
+})()
