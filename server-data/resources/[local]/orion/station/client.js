@@ -291,15 +291,14 @@
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
       if (IsControlJustReleased(0, 38)) {
         // 38 est le code pour la touche E
-        playerPickupPump = true;
         pump = getClosestPumpHandle();
+        console.log(pump);
         emit('orion:station:c:pickUpPump')
         //createNozzle(pump);
       }
     } else {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
       if (IsControlJustReleased(0, 38)) {
-        playerPickupPump = false;
         emit('orion:station:c:pickUpPump')
 
         //returnPipeToPump();
