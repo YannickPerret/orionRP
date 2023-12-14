@@ -347,18 +347,17 @@
         await exports['orion'].delay(1);
       }
 
-      let [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(currentPump);
+      let pumpCoords = GetEntityCoords(currentPump);
+      console.log(pumpCoords);
       let netIdProp = ObjToNet(currentPumpProp);
 
       SetNetworkIdExistsOnAllMachines(netIdProp, true)
       NetworkSetNetworkIdDynamic(netIdProp, true)
       SetNetworkIdCanMigrate(netIdProp, false)
 
-      console.log(pumpCoordsX, pumpCoordsY, pumpCoordsZ, "fdfdfdf", GetEntityModel(currentPumpProp))
-
-      emitNet('orion:station:s:attachRope', netIdProp, pumpCoordsX, pumpCoordsY, pumpCoordsZ, GetEntityModel(currentPumpProp));
-
       playerPickupPump = true;
+
+      emitNet('orion:station:s:attachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
     }
 
   });
