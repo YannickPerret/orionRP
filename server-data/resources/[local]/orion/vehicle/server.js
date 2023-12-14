@@ -8,9 +8,10 @@
     const player = PlayerManager.getPlayerBySource(source);
 
     let vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], pedHead, true, false);
-    SetEntityDistanceCullingRadius(vehicle, 1000.0);
-
     console.log(vehicle);
+    console.log(GetNetworkIdFromEntity(vehicle));
+
+    SetEntityDistanceCullingRadius(vehicle, 1000.0);
   
     let vehicleObj = new Vehicle({
       id: vehicle,
