@@ -3,6 +3,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
     
+        console.log("server-attach rope")
         emitNet('orion:station:c:AttachRope', source, netIdProp, coordPumps, model, player.id);
     })
     
