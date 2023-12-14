@@ -349,7 +349,7 @@
       }
 
       let [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(currentPump);
-      let netIdProp = ObjToNet(pumpProps);
+      let netIdProp = ObjToNet(currentPumpProp);
 
       console.log("netIdProp: " + netIdProp)
 
