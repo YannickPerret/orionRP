@@ -273,7 +273,7 @@
       for (const station of gazStationsBlips.GasStations) {
         for (const pumpCoords of station.pumps) {
           const distance = GetDistanceBetweenCoords( playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
-          if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false) && !playerPickupPump) {
+          if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
             handlePumpInteraction(playerPed, pumpCoords);
           }
         }
