@@ -348,7 +348,7 @@
         await exports['orion'].delay(1);
       }
 
-      let [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(pump);
+      let [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(currentPump);
       let netIdProp = ObjToNet(pumpProps);
 
       console.log("netIdProp: " + netIdProp)
