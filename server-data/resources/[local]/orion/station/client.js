@@ -355,8 +355,8 @@
 
       playerPickupPump = true;
 
-      console.log("okokok")
-      emitNet('orion:station:s:attachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
+      console.log(netIdProp, pumpCoords, GetEntityModel(currentPumpProp))
+      emitNet('orion:station:s:AttachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
     }
 
   });
