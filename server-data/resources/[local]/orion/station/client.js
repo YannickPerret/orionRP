@@ -326,8 +326,6 @@
     TaskPlayAnim(player, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
     await exports['orion'].delay(700);
 
-    console.log("playerPickupPump: ", playerPickupPump)
-
     if(playerPickupPump) {
       emitNet('orion:station:s:detachRope', player);
     }
@@ -396,10 +394,10 @@
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
-    console.log("detach rope")
     DetachRopeFromEntity(rope, pumpObj);
-    DeleteRope(rope);
     DeleteEntity(pumpObj);
+    RopeUnloadTextures();
+    DeleteRope(rope);
     ClearPedTasks(PlayerPedId());
     playerPickupPump = false;
   }
