@@ -5,7 +5,7 @@ class VehicleManagerClass {
   addVehicle(source, vehicle) {
     this.vehicles.set(source, vehicle);
   }
-  removeVehicle(source) {
+  remove(source) {
     this.vehicles.delete(source);
   }
   getVehicleBySource(source) {

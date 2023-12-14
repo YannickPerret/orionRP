@@ -29,7 +29,9 @@
   
   onNet('orion:vehicle:deleteVehicle', async vehicle => {
     let vehicleObj = VehicleManager.getVehicleBySource(vehicle.source);
-    await vehicleObj.delete();
+
+    VehicleManager.remove(vehicle.source);
+    delete vehicleObj;
   });
   
 
