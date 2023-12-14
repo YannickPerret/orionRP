@@ -259,8 +259,8 @@
 
     console.log('detach rope')
 
-    DetachRopeFromEntity(currentRope[playerId][0], currentPumpProp)
-    DeleteRope(currentRope[playerId][0])
+    DetachRopeFromEntity(currentRope[playerId], currentPumpProp)
+    DeleteRope(currentRope[playerId])
     
     console.log(currentPumpObj[playerId])
     DeleteEntity(currentPumpObj[playerId])      
