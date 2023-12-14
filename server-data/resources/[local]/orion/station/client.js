@@ -217,8 +217,6 @@
 
   });
 
-  
-
   onNet('orion:station:c:attachRope', async (netIdProp, posPump, model, playerId) => {
 
     const object = GetHashKey('w_at_scope_small');
@@ -256,8 +254,6 @@
   })
 
   onNet('orion:station:c:detachRope', (playerId) => {
-
-    console.log(currentRope[playerId])
     DetachRopeFromEntity(currentRope[playerId][0], currentPumpProp)
     DeleteRope(currentRope[playerId][0])
     
