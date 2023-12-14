@@ -1,6 +1,7 @@
 const MAX_FUEL = 100; // Quantité maximale de fuel dans le réservoir
 const FUEL_CONSUMPTION = 0.5; // Consommation de fuel par seconde
 const IDLE_FUEL_CONSUMPTION = 0.1; // Consommation de fuel par seconde au ralenti
+const {db, r} = require('./core/server/database.js');
 
 class Vehicle {
   constructor({
