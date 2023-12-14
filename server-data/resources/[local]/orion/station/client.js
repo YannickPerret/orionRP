@@ -291,7 +291,6 @@
       if (IsControlJustReleased(0, 38)) {
         // 38 est le code pour la touche E
         currentPump = getClosestPumpHandle();
-        console.log(currentPump);
         emit('orion:station:c:pickUpPump')
         //createNozzle(pump);
       }
@@ -356,6 +355,7 @@
 
       playerPickupPump = true;
 
+      console.log("okokok")
       emitNet('orion:station:s:attachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
     }
 
