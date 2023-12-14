@@ -398,6 +398,8 @@
     DeleteEntity(pumpObj);
     RopeUnloadTextures();
     DeleteRope(rope);
+    DetachEntity(pumpProps, true, true);
+    DeleteEntity(pumpProps);
     ClearPedTasks(PlayerPedId());
     playerPickupPump = false;
   }
