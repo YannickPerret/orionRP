@@ -3,22 +3,26 @@
   const Vehicle = require('./vehicle/vehicle.js');
   const PlayerManager = require('./core/server/playerManager.js');
   
-  onNet('orion:vehicle:createVehicle', async vehicle => {
+  onNet('orion:vehicle:s:spawnVehicle', (model, coords, pedHead) => {
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
+
+    let vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], pedHead, true, false);
   
     let vehicleObj = new Vehicle({
-      id: vehicle.id,
-      model: vehicle.model,
-      owner: player.source,
-      plate: vehicle.plate,
-      position: vehicle.position,
-      state: vehicle.state,
-      primaryColor: vehicle.primaryColor,
-      secondaryColor: vehicle.secondaryColor,
-      pearlescentColor: vehicle.pearlescentColor,
+      id: vehicle,
+      model: model,
+      owner: player.id,
+      plate: GetVehicleNumberPlateText(vehicle),
+      position: coords,
+      state: 'good',
+      primaryColor:  GetVehicleColours(vehicle)[0],
+      secondaryColor: GetVehicleColours(vehicle)[1],
+      pearlescentColor: GetVehicleExtraColours(vehicle)[1],
     });
-    VehicleManager.addVehicle(vehicle.id, vehicleObj);
+
+    VehicleManager.addVehicle(vehicle, vehicleObj);
+    emitNet('orion:vehicle:c:createVehicle', source,  vehicleObj);
   
   });
   

@@ -42,7 +42,14 @@ const createVehicle = async (model, coords) => {
   while (!HasModelLoaded(model)) {
     await exports['orion'].delay(400)
   }
-  const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+
+/*
+  // Check if there's a vehicle blocking the spawn location
+  if (! IsAnyVehicleNearPoint(location.X, location.Y, location.Z, distance))
+  {
+  }*/
+
+  //const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   SetEntityAsNoLongerNeeded(vehicle);
   SetModelAsNoLongerNeeded(model);
 };
@@ -51,11 +58,15 @@ const createVehiclePedInside = async model => {
   const ped = PlayerPedId();
   const coords = GetEntityCoords(ped);
   let vehicle = {};
+
   RequestModel(model);
   while (!HasModelLoaded(model)) {
     await exports['orion'].delay(400)
   }
-  vehicle.id = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
+
+  emitNet('orion:vehicle:s:spawnVehicle', model, coords, GetEntityHeading(ped));
+
+  /*vehicle.id = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   vehicle.model = model;
   vehicle.owner = GetPlayerServerId(PlayerId());
   vehicle.plate = GetVehicleNumberPlateText(vehicle.id);
@@ -69,7 +80,7 @@ const createVehiclePedInside = async model => {
   SetPedIntoVehicle(ped, vehicle.id, -1);
   SetEntityAsNoLongerNeeded(vehicle.id);
   SetModelAsNoLongerNeeded(model);
-  emitNet('orion:vehicle:createVehicle', vehicle);
+  emitNet('orion:vehicle:createVehicle', vehicle);*/
 };
 
 SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
