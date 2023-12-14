@@ -7,6 +7,8 @@ const spawnLogin = () => {
     SetCanAttackFriendly(PlayerPedId(), true, false);
     NetworkSetFriendlyFireOption(true);
   
+    console.log("playerSpawned")
+
     emitNet('orion:player:s:playerSpawned');
   };
 
@@ -14,7 +16,6 @@ const spawnLogin = () => {
   
   
   on('playerSpawned', () => {
-    console.log("playerSpawned")
     spawnLogin();
   });
 
