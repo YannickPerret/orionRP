@@ -24,6 +24,10 @@
       pearlescentColor: GetVehicleExtraColours(vehicle)[1],
     });
 
+    exports['orion'].delay(1000).then(() => {
+      SetPedIntoVehicle(GetPlayerPed(source), vehicle, -1);
+    });
+
     VehicleManager.addVehicle(vehicle, vehicleObj);
     emitNet('orion:vehicle:c:createVehicle', source,  vehicleObj);
   
