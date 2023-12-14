@@ -412,6 +412,8 @@
       DetachEntity(currentPumpProp, true, true);
       DeleteEntity(currentPumpProp);
     }
+    ClearPedTasks(PlayerPedId());
+
   })
 
 })();
