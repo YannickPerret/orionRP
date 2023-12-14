@@ -9,7 +9,7 @@
 
     let vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], pedHead, true, false);
     console.log(vehicle);
-    console.log(GetNetworkIdFromEntity(vehicle));
+    console.log(NetworkGetNetworkIdFromEntity(vehicle));
 
     SetEntityDistanceCullingRadius(vehicle, 1000.0);
   
