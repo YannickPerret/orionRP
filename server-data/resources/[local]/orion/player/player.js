@@ -1,3 +1,4 @@
+const db = require('./core/server/database.js');
 class Player {
   constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin}) {
     this.id = id;
