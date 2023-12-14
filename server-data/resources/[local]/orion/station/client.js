@@ -212,14 +212,14 @@
 
       playerPickupPump = true;
 
-      emitNet('orion:station:s:AttachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
+      emitNet('orion:station:s:attachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
     }
 
   });
 
   
 
-  onNet('orion:station:c:AttachRope', async (netIdProp, posPump, model, playerId) => {
+  onNet('orion:station:c:attachRope', async (netIdProp, posPump, model, playerId) => {
 
     const object = GetHashKey('w_at_scope_small');
 
