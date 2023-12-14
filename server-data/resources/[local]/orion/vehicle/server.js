@@ -8,7 +8,7 @@
     const player = PlayerManager.getPlayerBySource(source);
 
     console.log(model, coords, pedHead);
-    let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords, pedHead);
+    let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords[0], coords[1], coords[2], pedHead);
     console.log(vehicleSpawn);
    //TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicle, -1);
 
