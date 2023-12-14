@@ -355,7 +355,6 @@
 
       playerPickupPump = true;
 
-      console.log(netIdProp, pumpCoords, GetEntityModel(currentPumpProp))
       emitNet('orion:station:s:AttachRope', netIdProp, pumpCoords, GetEntityModel(currentPumpProp));
     }
 
