@@ -371,7 +371,7 @@
       await exports['orion'].delay(1);
     }
 
-    currentPumpObj[playerId] = createObject(object, posPump[0], posPump[1], posPump[2], true, true, false);
+    currentPumpObj[playerId] = CreateObject(object, posPump[0], posPump[1], posPump[2], true, true, false);
     SetEntityRecordsCollisions(currentPumpObj[playerId], false);
     SetEntityLoadCollisionFlag(currentPumpObj[playerId], false);
     let timeout = 0;
