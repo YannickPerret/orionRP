@@ -10,7 +10,6 @@
     console.log(model, coords, pedHead);
     let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords[0], coords[1], coords[2], pedHead);
     console.log(vehicleSpawn);
-   //TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicle, -1);
 
     SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
   
@@ -26,8 +25,9 @@
       pearlescentColor: GetVehicleExtraColours(vehicleSpawn)[1],
     });
 
-    exports['orion'].delay(1000).then(() => {
-      SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
+    exports['orion'].delay(100).then(() => {
+      TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
+      //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
     });
 
     VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
