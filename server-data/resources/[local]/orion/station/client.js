@@ -7,14 +7,15 @@
   let pistoletObject = null;
   let pistoletProps = null;
 
-  let rope = null;
+  let currentRope = {};
 
-  let pump = null;
-  let pumpProps = null;
-  let pumpObj = null;
+  let currentPump = null;
+  let currentPumpProp = null;
+
+  let currentPumpObj = {};
   
-  let ropeAnchor = null;
-  let pistoletInVehicle = false;
+//  let ropeAnchor = null;
+ // let pistoletInVehicle = false;
 
   const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 
@@ -291,8 +292,8 @@
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
       if (IsControlJustReleased(0, 38)) {
         // 38 est le code pour la touche E
-        pump = getClosestPumpHandle();
-        console.log(pump);
+        currentPump = getClosestPumpHandle();
+        console.log(currentPump);
         emit('orion:station:c:pickUpPump')
         //createNozzle(pump);
       }
@@ -320,40 +321,43 @@
   // new code 
 
   onNet('orion:station:c:pickUpPump', async () => {
-    let player = PlayerPedId();
+    let playerPed = PlayerPedId();
 
     LoadAnimDict('anim@mp_snowball');
-    TaskPlayAnim(player, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+    TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
     await exports['orion'].delay(700);
 
     if(playerPickupPump) {
-      emitNet('orion:station:s:detachRope', player);
+      emitNet('orion:station:s:detachRope', playerPed);
     }
+
     else {
       RequestModel('prop_cs_fuel_nozle')
       while(!HasModelLoaded('prop_cs_fuel_nozle')) {
         await exports['orion'].delay(1);
       }
 
-      pumpProps = CreateObject(GetHashKey('prop_cs_fuel_nozle'), 1.0, 1.0, 1.0, true, true, false);
+      currentPumpProp = CreateObject(GetHashKey('prop_cs_fuel_nozle'), 1.0, 1.0, 1.0, true, true, false);
       
-      let bone = GetPedBoneIndex(player, 60309);
+      playerBone = GetPedBoneIndex(playerPed, 60309);
 
-      AttachEntityToEntity(pumpProps, player, bone, 0.0549, 0.049, 0.0, -50.0, -90.0, -50.0, true, true, false, false, 0, true);
+      AttachEntityToEntity(currentPumpProp, playerPed, playerBone, 0.0549, 0.049, 0.0, -50.0, -90.0, -50.0, true, true, false, false, 0, true);
 
       RopeLoadTextures();
       while (!RopeAreTexturesLoaded()) {
         await exports['orion'].delay(1);
       }
 
-      let pumpCoords = GetEntityCoords(pump);
+      let [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(pump);
       let netIdProp = ObjToNet(pumpProps);
+
+      console.log("netIdProp: " + netIdProp)
 
       SetNetworkIdExistsOnAllMachines(netIdProp, true)
       NetworkSetNetworkIdDynamic(netIdProp, true)
       SetNetworkIdCanMigrate(netIdProp, false)
 
-      emitNet('orion:station:s:attachRope', netIdProp, pumpCoords, GetEntityModel(pump));
+      emitNet('orion:station:s:attachRope', netIdProp, pumpCoordsX, pumpCoordsY, pumpCoordsZ, GetEntityModel(currentPumpProp));
 
       playerPickupPump = true;
     }
