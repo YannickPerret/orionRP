@@ -16,6 +16,7 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
 
+    'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
 
