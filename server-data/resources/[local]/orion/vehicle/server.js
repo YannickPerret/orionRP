@@ -2,7 +2,7 @@
   const VehicleManager = require('./core/server/vehicleManager.js');
   const Vehicle = require('./vehicle/vehicle.js');
   const PlayerManager = require('./core/server/playerManager.js');
-  const db = require('./core/server/database.js');
+  const {db} = require('./core/server/database.js');
   
   onNet('orion:vehicle:s:spawnNewVehicle', async (model, coords, pedHead) => {
     const source = global.source;
