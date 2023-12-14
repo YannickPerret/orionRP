@@ -399,11 +399,20 @@
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
-    returnPipeToPump();
+
+    DetachRopeFromEntity(currentRope[playerId], currentPumpProp)
+    DeleteRope(currentRope[playerId])
+    
+    DeleteEntity(currentPumpObj[playerId])      
+    DetachEntity(currentPumpProp, true, true)
+    DeleteEntity(currentPumpProp)
+    
+    currentPumpProp = null
+    currentPump = null
+    playerBone = null
 
     playerPickupPump = false;
-  }
-  )
+  })
 
 
   on('onResourceStop', async (resourceName) => {
