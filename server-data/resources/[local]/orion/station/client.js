@@ -250,6 +250,7 @@
   // delete nozzle and rope, and hide ui.
   const returnPipeToPump = async () => {
     let ped = PlayerPedId();
+    DetachEntity(currentPumpProp, true, true);
     DeleteEntity(currentPumpProp);
     RopeUnloadTextures();
     DeleteRope(currentRope);
@@ -349,11 +350,11 @@
       let [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(currentPump);
       let netIdProp = ObjToNet(currentPumpProp);
 
-      console.log("netIdProp: " + netIdProp)
-
       SetNetworkIdExistsOnAllMachines(netIdProp, true)
       NetworkSetNetworkIdDynamic(netIdProp, true)
       SetNetworkIdCanMigrate(netIdProp, false)
+
+      console.log(pumpCoordsX, pumpCoordsY, pumpCoordsZ, "fdfdfdf", GetEntityModel(currentPumpProp))
 
       emitNet('orion:station:s:attachRope', netIdProp, pumpCoordsX, pumpCoordsY, pumpCoordsZ, GetEntityModel(currentPumpProp));
 
