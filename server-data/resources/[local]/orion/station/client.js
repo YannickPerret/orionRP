@@ -299,6 +299,7 @@
     } else {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
       if (IsControlJustReleased(0, 38)) {
+        console.log("detach rope button pressed")
         emit('orion:station:c:pickUpPump')
 
         //returnPipeToPump();
@@ -316,13 +317,15 @@
     }
   };
 
-
-
-
-
   // new code 
 
   onNet('orion:station:c:pickUpPump', async () => {
+
+    LoadAnimDict('anim@mp_snowball');
+    TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+    await exports['orion'].delay(700);
+
+    console.log("playerPickupPump: ", playerPickupPump)
 
     if(playerPickupPump) {
       emitNet('orion:station:s:detachRope', PlayerPedId());
@@ -362,11 +365,6 @@
   
 
   onNet('orion:station:c:AttachRope', async (netIdProp, posPump, model, playerId) => {
-
-    console.log("posPump", posPump);
-    LoadAnimDict('anim@mp_snowball');
-    TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-    await exports['orion'].delay(700);
 
     const object = GetHashKey('bkr_prop_bkr_cash_roll_01');
     RequestModel(object);
