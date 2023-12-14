@@ -364,7 +364,7 @@
 
   onNet('orion:station:c:AttachRope', async (netIdProp, posPump, model, playerId) => {
 
-    const object = GetHashKey('bkr_prop_bkr_cash_roll_01');
+    const object = GetHashKey('w_at_scope_small');
 
     RequestModel(object);
     while (!HasModelLoaded(object)) {
