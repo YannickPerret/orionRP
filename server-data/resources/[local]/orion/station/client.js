@@ -374,6 +374,7 @@
     currentPumpObj[playerId] = createObject(object, posPump[0], posPump[1], posPump[2], true, true, false);
     SetEntityRecordsCollisions(currentPumpObj[playerId], false);
     SetEntityLoadCollisionFlag(currentPumpObj[playerId], false);
+    /*
     let timeout = 0;
     let IdProp;
     while (true) {
@@ -395,7 +396,7 @@
     AttachEntitiesToRope(currentRope, IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76, 30.0, 0, 0);
 
     console.log("attach rope")
-    console.log(pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76)
+    console.log(pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76)*/
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
