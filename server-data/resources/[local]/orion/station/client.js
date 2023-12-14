@@ -398,6 +398,7 @@
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
+    console.log("detach rope")
     DetachRopeFromEntity(rope, pumpObj);
     DeleteRope(rope);
     DeleteEntity(pumpObj);
