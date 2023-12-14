@@ -365,6 +365,7 @@
   onNet('orion:station:c:AttachRope', async (netIdProp, posPump, model, playerId) => {
 
     const object = GetHashKey('bkr_prop_bkr_cash_roll_01');
+
     RequestModel(object);
     while (!HasModelLoaded(object)) {
       exports['orion'].delay(1);
@@ -379,7 +380,7 @@
       if (timeout > 50) {
         break;
       }
-      if (NetworkDoesEntityExistWithNetworkId(netIdProp)) {
+      else if (NetworkDoesEntityExistWithNetworkId(netIdProp)) {
         IdProp = NetworkGetEntityFromNetworkId(netIdProp);
         break;
       } else {
@@ -388,6 +389,7 @@
       }
     }
 
+    console.log('idprop', IdProp)
     let [pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ] = GetOffsetFromEntityInWorldCoords(IdProp, 0.0, -0.019, -0.1749);
     rope = AddRope(posPump[0], posPump[1], posPump[2] + 1.76, 0.0, 0.0, 0.0, 5.0, 1, 1000.0, 0.5, 1.0, false, false, false, 5.0, false, 0);
     AttachEntitiesToRope(currentRope, IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76, 30.0, 0, 0);
