@@ -250,12 +250,9 @@
   // delete nozzle and rope, and hide ui.
   const returnPipeToPump = async () => {
     let ped = PlayerPedId();
-    LoadAnimDict('anim@mp_snowball');
-    TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-    await exports['orion'].delay(700);
-    DeleteEntity(pistoletObject);
+    DeleteEntity(currentPumpProp);
     RopeUnloadTextures();
-    DeleteRope(rope);
+    DeleteRope(currentRope);
     ClearPedTasks(ped);
   };
 
@@ -398,13 +395,8 @@
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
-    DetachRopeFromEntity(rope, pumpObj);
-    DeleteEntity(pumpObj);
-    RopeUnloadTextures();
-    DeleteRope(rope);
-    DetachEntity(pumpProps, true, true);
-    DeleteEntity(pumpProps);
-    ClearPedTasks(PlayerPedId());
+    returnPipeToPump();
+
     playerPickupPump = false;
   }
   )
