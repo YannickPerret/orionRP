@@ -255,7 +255,7 @@
     AttachEntitiesToRope(currentRope[playerId][0], IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2]+1, 30.0, 0, 0);
   })
 
-  onNet('orion:station:c:DetachRope', (playerId) => {
+  onNet('orion:station:c:detachRope', (playerId) => {
 
     console.log('detach rope')
 

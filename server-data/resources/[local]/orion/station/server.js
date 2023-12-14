@@ -5,7 +5,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
     
-        emitNet('orion:station:c:AttachRope',source , netIdProp, coordPumps, model, player.id);
+        emitNet('orion:station:c:attachRope',source , netIdProp, coordPumps, model, player.id);
     })
     
     onNet('orion:station:s:detachRope', (netIdProp) => {
@@ -13,7 +13,7 @@
         const player = PlayerManager.getPlayerBySource(source);
     
         console.log('detach rope')
-        emitNet('orion:station:c:DetachRope', source, netIdProp, player.id);
+        emitNet('orion:station:c:detachRope', source, netIdProp, player.id);
     })
 
 })()
