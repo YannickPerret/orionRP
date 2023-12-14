@@ -34,6 +34,26 @@
     }
   };
 
+  const getClosestPumpHandle = () => {
+    let ped = PlayerPedId();
+    const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
+    let distance = 10.0;
+    let pumph = 0;
+
+    for (let model of pumpModels) {
+      let handle = GetClosestObjectOfType(playerX, playerY, playerZ, 2.0, model, false, false, false);
+      if (handle !== 0) {
+        const [objCoordsX, objCoordsY, objcoordsZ] = GetEntityCoords(handle);
+        let objDistance = GetDistanceBetweenCoords(playerX, playerY, playerZ, objCoordsX, objCoordsY, objcoordsZ, true);
+        if (objDistance < distance) {
+          distance = objDistance;
+          pumph = handle;
+        }
+      }
+    }
+    return pumph;
+  };
+
   const vehicleInFront = () => {
     const [offsetX, offsetY, offsetZ] = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0);
     const [playerCoordsX, playerCoordsY, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
