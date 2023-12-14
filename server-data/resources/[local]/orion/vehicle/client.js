@@ -57,30 +57,13 @@ const createVehicle = async (model, coords) => {
 const createVehiclePedInside = async model => {
   const ped = PlayerPedId();
   const coords = GetEntityCoords(ped);
-  let vehicle = {};
 
   RequestModel(model);
   while (!HasModelLoaded(model)) {
     await exports['orion'].delay(400)
   }
 
-  emitNet('orion:vehicle:s:spawnVehicle', GetHashKey(model), coords, GetEntityHeading(ped));
-
-  /*vehicle.id = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
-  vehicle.model = model;
-  vehicle.owner = GetPlayerServerId(PlayerId());
-  vehicle.plate = GetVehicleNumberPlateText(vehicle.id);
-  vehicle.position = coords;
-  vehicle.fuel = GetVehicleFuelLevel(vehicle.id);
-  vehicle.state = 'good';
-  vehicle.primaryColor = GetVehicleColours(vehicle.id)[0];
-  vehicle.secondaryColor = GetVehicleColours(vehicle.id)[1];
-  vehicle.pearlescentColor = GetVehicleExtraColours(vehicle.id)[1];
-
-  SetPedIntoVehicle(ped, vehicle.id, -1);
-  SetEntityAsNoLongerNeeded(vehicle.id);
-  SetModelAsNoLongerNeeded(model);
-  emitNet('orion:vehicle:createVehicle', vehicle);*/
+  emitNet('orion:vehicle:s:spawnNewVehicle', GetHashKey(model), coords, GetEntityHeading(ped));
 };
 
 SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);

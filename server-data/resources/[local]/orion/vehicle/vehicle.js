@@ -5,6 +5,7 @@ const IDLE_FUEL_CONSUMPTION = 0.1; // Consommation de fuel par seconde au ralent
 class Vehicle {
   constructor({
     id,
+    netId,
     model,
     owner,
     plate,
@@ -18,13 +19,19 @@ class Vehicle {
     maxFuel,
     fuel,
     fuel_consumption,
+    dirtLevel,
+    doorsBroken,
+    bodyHealth,
   }) {
     this.id = id;
+    this.netId = netId;
     this.model = model;
     this.owner = owner;
     this.plate = plate;
     this.position = position;
     this.state = state;
+    this.dirtLevel = dirtLevel || 0.0;
+    this.bodyHealth = bodyHealth || 1000.0;
     this.primaryColor = primaryColor;
     this.secondaryColor = secondaryColor;
     this.pearlescentColor = pearlescentColor;
@@ -33,6 +40,7 @@ class Vehicle {
     this.maxFuel = maxFuel || MAX_FUEL;
     this.fuel = fuel || MAX_FUEL;
     this.consumption = fuel_consumption || FUEL_CONSUMPTION;
+    this.doorsBroken = doorsBroken || [];
   }
 
   fillTank(value) {
