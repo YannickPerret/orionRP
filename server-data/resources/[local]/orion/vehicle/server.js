@@ -1,10 +1,11 @@
 (() => {
   const VehicleManager = require('./core/server/vehicleManager.js');
   const Vehicle = require('./vehicle/vehicle.js');
+  const PlayerManager = require('./core/server/playerManager.js');
   
   onNet('orion:vehicle:createVehicle', async vehicle => {
     const source = global.source;
-    const player = PlayerManagerServer.getPlayerBySource(source);
+    const player = PlayerManager.getPlayerBySource(source);
   
     
     const vehicleCreated = createVehicle(vehicle.model, vehicle.position, 0.0, true, true);
