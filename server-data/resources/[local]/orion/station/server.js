@@ -14,4 +14,4 @@
         emitNet('orion:station:c:DetachRope', source, netIdProp, player.id);
     })
 
-})
+})()
