@@ -8,11 +8,10 @@
     const player = PlayerManager.getPlayerBySource(source);
   
     
-    const vehicleCreated = createVehicle(vehicle.model, vehicle.position, 0.0, true, true);
     if( vehicleCreated == undefined ) return;
 
     let vehicleObj = new Vehicle({
-      id: vehicleCreated,
+      id: vehicle.id,
       model: vehicle.model,
       owner: player.source,
       plate: vehicle.plate,
