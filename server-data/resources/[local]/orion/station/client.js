@@ -54,149 +54,6 @@
     }
   };
 
-  const getAttachmentPoint = entity => {
-    let bone = GetPedBoneIndex(PlayerPedId(), 4089);
-    return GetWorldPositionOfEntityBone(PlayerPedId(), bone);
-  };
-
-  const getClosestPumpHandle = () => {
-    let ped = PlayerPedId();
-    const [playerX, playerY, playerZ] = GetEntityCoords(ped, false);
-    let distance = 10.0;
-    let pumph = 0;
-
-    for (let model of pumpModels) {
-      let handle = GetClosestObjectOfType(playerX, playerY, playerZ, 2.0, model, false, false, false);
-      if (handle !== 0) {
-        const [objCoordsX, objCoordsY, objcoordsZ] = GetEntityCoords(handle);
-        let objDistance = GetDistanceBetweenCoords(playerX, playerY, playerZ, objCoordsX, objCoordsY, objcoordsZ, true);
-        if (objDistance < distance) {
-          distance = objDistance;
-          pumph = handle;
-        }
-      }
-    }
-    return pumph;
-  };
-
-  const createRopeAnchor = () => {
-    const prop = 'w_at_scope_small';
-    const [pumpPosX, pumpPosY, pumpPosZ] = GetEntityCoords(pump);
-    ropeAnchor = CreateObject(GetHashKey(prop), pumpPosX, pumpPosY, pumpPosZ + 3.2, true, true, true);
-
-    return { x: pumpPosX, y: pumpPosY, z: pumpPosZ };
-  };
-
-  const createRope = async () => {
-    RopeLoadTextures();
-    const [pumpCoordsX, pumpCoordsY, pumpCoordsZ] = GetEntityCoords(pump);
-    let repoEntity;
-    repoEntity = AddRope(
-      pumpCoordsX,
-      pumpCoordsY,
-      pumpCoordsZ,
-      0.0,
-      0.0,
-      0.0,
-      3.0,
-      1,
-      1000.0,
-      0.0,
-      1.0,
-      false,
-      false,
-      false,
-      1.0,
-      true
-    );
-
-    while (!repoEntity) {
-      await exports['orion'].delay(0);
-
-    }
-    ActivatePhysics(repoEntity);
-    await exports['orion'].delay(100);
-    return repoEntity;
-  };
-
-  const createNozzle = async () => {
-    let ped = PlayerPedId();
-    const lefthand = GetPedBoneIndex(ped, 18905);
-
-    LoadAnimDict('anim@mp_snowball');
-    TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
-    await exports['orion'].delay(700);
-
-    let pistoletProps = 'prop_cs_fuel_nozle';
-    let model = GetHashKey(pistoletProps);
-    RequestModel(model);
-    while (!HasModelLoaded(model)) {
-      await exports['orion'].delay(0);
-    }
-
-    pistoletObject = CreateObject(model, 0, 0, 0, true, true, true);
-
-    AttachEntityToEntity(
-      pistoletObject,
-      ped,
-      lefthand,
-      0.11,
-      0.02,
-      0.02,
-      -80.0,
-      -90.0,
-      15.0,
-      true,
-      true,
-      false,
-      true,
-      1,
-      true
-    );
-
-    //isok
-
-    rope = await createRope();
-    let nozzlePos = GetEntityCoords(pistoletObject);
-    nozzlePos = GetOffsetFromEntityInWorldCoords(pistoletObject, -0.005, 0.185, -0.05);
-
-    const anchorPos = createRopeAnchor();
-
-    //attach rope to nozzle
-    const [pistoletPositionX, pistoletPositionY, pistoletPositionZ] = getAttachmentPoint(ped);
-    const length = GetDistanceBetweenCoords(
-      pistoletPositionX,
-      pistoletPositionY,
-      pistoletPositionZ,
-      anchorPos.x,
-      anchorPos.y,
-      anchorPos.z,
-      true
-    );
-
-
-    AttachEntitiesToRope(
-      rope,
-      pump,
-      pistoletObject,
-      anchorPos.x,
-      anchorPos.y,
-      anchorPos.z + 1.76,
-      nozzlePos[0],
-      nozzlePos[1],
-      nozzlePos[2],
-      length,
-      false,
-      false,
-      null,
-      null
-    );
-    StopRopeUnwindingFront(rope)
-    StartRopeWinding(rope)
-    RopeForceLength(rope, length)
-    await exports['orion'].delay(0);
-  };
-
   // attach nozzle to vehicle.
   const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
     if (isBike) {
@@ -242,20 +99,6 @@
     pistoletInVehicle = true;
   };
 
-  const dropPipe = () => {
-    DetachEntity(pistoletObject, true, true);
-    DeleteEntity(pistoletObject);
-  };
-
-  // delete nozzle and rope, and hide ui.
-  const returnPipeToPump = async () => {
-    let ped = PlayerPedId();
-    DetachEntity(currentPumpProp, true, true);
-    DeleteEntity(currentPumpProp);
-    RopeUnloadTextures();
-    DeleteRope(currentRope);
-    ClearPedTasks(ped);
-  };
 
   (async () => {
 
@@ -289,18 +132,13 @@
     if (!playerPickupPump) {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
       if (IsControlJustReleased(0, 38)) {
-        // 38 est le code pour la touche E
         currentPump = getClosestPumpHandle();
         emit('orion:station:c:pickUpPump')
-        //createNozzle(pump);
       }
     } else {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
       if (IsControlJustReleased(0, 38)) {
-        console.log("detach rope button pressed")
         emit('orion:station:c:pickUpPump')
-
-        //returnPipeToPump();
       }
     }
   };
@@ -325,7 +163,6 @@
     await exports['orion'].delay(700);
 
     if(playerPickupPump) {
-      console.log("action to detach rope")
       emitNet('orion:station:s:detachRope', playerPed);
     }
 
@@ -400,9 +237,12 @@
 
   onNet('orion:station:c:DetachRope', (playerId) => {
 
-    DetachRopeFromEntity(currentRope[playerId], currentPumpProp)
-    DeleteRope(currentRope[playerId])
+    console.log('detach rope')
+
+    DetachRopeFromEntity(currentRope[playerId][0], currentPumpProp)
+    DeleteRope(currentRope[playerId][0])
     
+    console.log(currentPumpObj[playerId])
     DeleteEntity(currentPumpObj[playerId])      
     DetachEntity(currentPumpProp, true, true)
     DeleteEntity(currentPumpProp)
