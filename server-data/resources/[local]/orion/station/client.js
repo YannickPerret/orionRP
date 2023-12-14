@@ -325,6 +325,7 @@
     await exports['orion'].delay(700);
 
     if(playerPickupPump) {
+      console.log("action to detach rope")
       emitNet('orion:station:s:detachRope', playerPed);
     }
 
