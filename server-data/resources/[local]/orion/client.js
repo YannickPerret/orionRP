@@ -32,6 +32,7 @@ const spawnLogin = () => {
     );
   
     setInterval(() => {
-      emitNet('orion:savePlayerPosition', GetEntityCoords(GetPlayerPed(-1), true));
+      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
+      emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
     }, 900000);
   });
