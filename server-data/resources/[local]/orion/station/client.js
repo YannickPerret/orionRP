@@ -361,12 +361,19 @@
 
   
 
-  onNet('orion:station:c:AttachRope', (netIdProp, posPump, model, playerId) => {
+  onNet('orion:station:c:AttachRope', async (netIdProp, posPump, model, playerId) => {
+
+    console.log("posPump", posPump);
+    LoadAnimDict('anim@mp_snowball');
+    TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+    await exports['orion'].delay(700);
+
     const object = GetHashKey('bkr_prop_bkr_cash_roll_01');
     RequestModel(object);
     while (!HasModelLoaded(object)) {
       exports['orion'].delay(1);
     }
+
     pumpObj = createObject(object, posPump.x, posPump.y, posPump.z, true, true, false);
     SetEntityRecordsCollisions(pumpObj, false);
     SetEntityLoadCollisionFlag(pumpObj, false);
@@ -385,9 +392,9 @@
       }
     }
 
-    let pumpPropCoords = GetOffsetFromEntityInWorldCoords(IdProp, 0.0, -0.019, -0.1749);
+    let [pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ] = GetOffsetFromEntityInWorldCoords(IdProp, 0.0, -0.019, -0.1749);
     rope = AddRope(posPump.x, posPump.y, posPump.z + 1.76, 0.0, 0.0, 0.0, 5.0, 1, 1000.0, 0.5, 1.0, false, false, false, 5.0, false, 0);
-    AttachEntitiesToRope(rope, IdProp, pumpObj, pumpPropCoords.x, pumpPropCoords.y, pumpPropCoords.z, posPump.x, posPump.y, posPump.z + 1.76, 30.0, 0, 0);
+    AttachEntitiesToRope(rope, IdProp, pumpObj, pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump.x, posPump.y, posPump.z + 1.76, 30.0, 0, 0);
   })
 
   onNet('orion:station:c:DetachRope', (playerId) => {
@@ -409,8 +416,5 @@
       DeleteEntity(pumpProps);
     }
   })
-
-
-
 
 })();
