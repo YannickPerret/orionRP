@@ -372,6 +372,7 @@
     }
 
     currentPumpObj[playerId] = CreateObject(object, posPump[0], posPump[1], posPump[2], true, true, false);
+
     SetEntityRecordsCollisions(currentPumpObj[playerId], false);
     SetEntityLoadCollisionFlag(currentPumpObj[playerId], false);
     let timeout = 0;
@@ -390,9 +391,11 @@
         timeout = timeout + 1;
       }
     }
-
-    console.log('idprop', IdProp)
     let [pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ] = GetOffsetFromEntityInWorldCoords(IdProp, 0.0, -0.019, -0.1749);
+
+    console.log(posPump[0], posPump[1], posPump[2] + 1.76, 0.0, 0.0, 0.0, 5.0, 1, 1000.0, 0.5, 1.0, false, false, false, 5.0, false, 0)
+
+
     rope = AddRope(posPump[0], posPump[1], posPump[2] + 1.76, 0.0, 0.0, 0.0, 5.0, 1, 1000.0, 0.5, 1.0, false, false, false, 5.0, false, 0);
     AttachEntitiesToRope(currentRope, IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1.76, 30.0, 0, 0);
 
