@@ -320,18 +320,18 @@
   // new code 
 
   onNet('orion:station:c:pickUpPump', async () => {
+    let player = PlayerPedId();
 
     LoadAnimDict('anim@mp_snowball');
-    TaskPlayAnim(ped, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
+    TaskPlayAnim(player, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
     await exports['orion'].delay(700);
 
     console.log("playerPickupPump: ", playerPickupPump)
 
     if(playerPickupPump) {
-      emitNet('orion:station:s:detachRope', PlayerPedId());
+      emitNet('orion:station:s:detachRope', player);
     }
     else {
-      let player = PlayerPedId();
       RequestModel('prop_cs_fuel_nozle')
       while(!HasModelLoaded('prop_cs_fuel_nozle')) {
         await exports['orion'].delay(1);
