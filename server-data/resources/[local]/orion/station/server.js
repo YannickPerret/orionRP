@@ -12,6 +12,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
     
+        console.log('detach rope')
         emitNet('orion:station:c:DetachRope', source, netIdProp, player.id);
     })
 
