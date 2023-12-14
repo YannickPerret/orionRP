@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import './styles/App.css';
-import {playSound} from './utils/sound'
+import { playSound } from './utils/sound'
 import PlayerMenu from './menu/playerMenu/PlayerMenu';
 import MainWindow from './window/MainWindow';
 import { sendNui } from './utils/fetchNui';
@@ -10,15 +10,19 @@ import Amount from './components/input/amount/Amount';
 import SkinCreator from './window/SkinCreator/SkinCreator';
 import Seatbelt from './components/vehicle/Seatbelt';
 import Fuel from './components/vehicle/fuel';
+import Bank from './window/bank/Bank';
 
 const initialState = {
   player: {
     firstname: 'John',
     lastname: 'Doe',
-    money: 100,
     phone: '06 06 06 06 06'
   },
-  job:{
+  account: {
+    money: 100,
+    bank: 1000
+  },
+  job: {
     name: 'Chômeur',
     grade: 'Aucun',
     salary: 0
@@ -36,7 +40,8 @@ const initialState = {
   haveSeatbelt: false,
   speed: 0,
   amount: 0,
-  fuel: 64
+  fuel: 64,
+  showBankInterface: false
 };
 
 const reducer = (state, action) => {
@@ -57,12 +62,14 @@ const reducer = (state, action) => {
       return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
     case 'SHOW_SKIN_CREATOR':
       return { ...state, showSkinCreator: !state.showSkinCreator };
-      case 'SEATBELT':
+    case 'SEATBELT':
       return { ...state, haveSeatbelt: action.data };
-      case 'UPDATE_FUEL':
-        return { ...state, fuel: action.data.fuel };
-      case 'SHOW_FUEL':
-        return { ...state, showFuel: action.data };
+    case 'UPDATE_FUEL':
+      return { ...state, fuel: action.data.fuel };
+    case 'SHOW_FUEL':
+      return { ...state, showFuel: action.data };
+    case 'SHOW_BANK_INTERFACE':
+      return { ...state, showBankInterface: !state.showBankInterface, mainMenuWindow: !state.mainMenuWindow };
 
     default:
       return state;
@@ -79,8 +86,8 @@ const App = () => {
         case "showDeathMessage":
           dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
           break;
-        case "showGiveAmountMenu" :
-          dispatch({type: 'SHOW_GIVE_AMOUNT_MENU'});
+        case "showGiveAmountMenu":
+          dispatch({ type: 'SHOW_GIVE_AMOUNT_MENU' });
           break;
         case "closeSideMenu":
           dispatch({ type: 'CLOSE_SIDE_MENU' });
@@ -105,13 +112,16 @@ const App = () => {
           dispatch({ type: 'SHOW_SKIN_CREATOR' });
           break;
         case 'seatbelt':
-          dispatch({type: 'SEATBELT', data});
+          dispatch({ type: 'SEATBELT', data });
           break;
         case 'updateFuel':
-          dispatch({type: 'UPDATE_FUEL', data});
+          dispatch({ type: 'UPDATE_FUEL', data });
           break;
         case 'showFuel':
-          dispatch({type: 'SHOW_FUEL', data});
+          dispatch({ type: 'SHOW_FUEL', data });
+          break;
+        case 'showBankInterface':
+          dispatch({ type: 'SHOW_BANK_INTERFACE', data });
           break;
       }
     };
@@ -128,13 +138,13 @@ const App = () => {
   };
 
   const handleGiveAmount = async (amount) => {
-    await sendNui('giveAmount', {amount: amount});
-    dispatch({type: 'CLOSE_NUI'});
+    await sendNui('giveAmount', { amount: amount });
+    dispatch({ type: 'CLOSE_NUI' });
   }
 
   if (state.showSkinCreator) {
     return (
-      <SkinCreator dispatch={dispatch}/>
+      <SkinCreator dispatch={dispatch} />
     )
   }
 
@@ -152,7 +162,7 @@ const App = () => {
             <header className='SideMenu__header'>
               <h1>{state.player.firstname} {state.player.lastname}</h1>
             </header>
-            <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} dispatch={dispatch}/>
+            <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} dispatch={dispatch} />
           </SideMenu>
         ),
 
@@ -165,35 +175,35 @@ const App = () => {
           </SideMenu>
         )
       ]
-       
+
     );
   } else if (state.mainMenuWindow && !state.showAmountMenu && !state.sideMenuUi) {
     return (
       <MainWindow>
-        test
+        {state.showBankInterface && <Bank player={state.player} />}
       </MainWindow>
     );
   } else if (state.isDriver) {
     return (
       <>
-      <div className='driver'>
-        <div className='driver__speed'>{state.speed} km/h</div>
-      </div>
-      {state.haveSeatbelt && <Seatbelt />}
-      {state.showFuel && <Fuel fuel={state.fuel}/>}
+        <div className='driver'>
+          <div className='driver__speed'>{state.speed} km/h</div>
+        </div>
+        {state.haveSeatbelt && <Seatbelt />}
+        {state.showFuel && <Fuel fuel={state.fuel} />}
       </>
     );
   }
 
   if (state.showAmountMenu && !state.sideMenuUi && !state.showPlayerMenu) {
-  
+
     return (
       <Amount confirm={handleGiveAmount}>
         Donner de l'argent liquide :
       </Amount>
     );
   }
- 
+
 };
 
 export default App;

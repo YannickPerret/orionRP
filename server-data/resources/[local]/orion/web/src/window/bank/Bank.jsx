@@ -1,7 +1,7 @@
 import React from 'react'
 import style from '../../styles/bank.module.css'
 
-export default function Bank({ player, account }) {
+export default function Bank({ player }) {
     return (
         <div className={style.bank}>
             <div className={style.bank__container}>
@@ -16,7 +16,7 @@ export default function Bank({ player, account }) {
             <div className={style.bank__content}>
                 <div>
                     <h2>Compte courant</h2>
-                    <p>Montant : {account.money} $</p>
+                    <p>Montant : {player.account.money} $</p>
                 </div>
 
                 <div>
