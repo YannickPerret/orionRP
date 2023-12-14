@@ -9,7 +9,7 @@
 
     let vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], pedHead, true, false);
     console.log(vehicle);
-    console.log(NetworkGetNetworkIdFromEntity(vehicle));
+   //TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicle, -1);
 
     SetEntityDistanceCullingRadius(vehicle, 1000.0);
   

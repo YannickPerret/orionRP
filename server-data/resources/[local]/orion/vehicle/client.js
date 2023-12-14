@@ -64,7 +64,7 @@ const createVehiclePedInside = async model => {
     await exports['orion'].delay(400)
   }
 
-  emitNet('orion:vehicle:s:spawnVehicle', model, coords, GetEntityHeading(ped));
+  emitNet('orion:vehicle:s:spawnVehicle', GetHashKey(model), coords, GetEntityHeading(ped));
 
   /*vehicle.id = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   vehicle.model = model;
