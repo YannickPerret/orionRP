@@ -7,9 +7,6 @@
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
   
-    
-    if( vehicleCreated == undefined ) return;
-
     let vehicleObj = new Vehicle({
       id: vehicle.id,
       model: vehicle.model,
