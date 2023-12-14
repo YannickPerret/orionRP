@@ -258,10 +258,9 @@
   onNet('orion:station:c:detachRope', (playerId) => {
 
     console.log(currentRope[playerId])
-    DetachRopeFromEntity(currentRope[playerId], currentPumpProp)
-    DeleteRope(currentRope[playerId])
+    DetachRopeFromEntity(currentRope[playerId][0], currentPumpProp)
+    DeleteRope(currentRope[playerId][0])
     
-    console.log(currentPumpObj[playerId])
     DeleteEntity(currentPumpObj[playerId])      
     DetachEntity(currentPumpProp, true, true)
     DeleteEntity(currentPumpProp)
