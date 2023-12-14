@@ -16,7 +16,7 @@
     let vehicleObj = new Vehicle({
       id: vehicleSpawn,
       model: model,
-      owner: player.id,
+      owner: source,
       plate: GetVehicleNumberPlateText(vehicleSpawn),
       position: coords,
       state: 'good',
