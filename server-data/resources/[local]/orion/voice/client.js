@@ -12,13 +12,14 @@
 
     setTick(async () => {
         inputMicrophone = GetProfileSetting(724);
+        console.log(inputMicrophone)
         if (inputMicrophone == 0) {
             //send message disconnect because microphone is not set up 30 seconds, 15 seconds, 5 seconds and after disconnect
-            exports['orion'].showNotification('Veuillez configurer votre microphone dans les paramètres de FiveM, sinon vous serez déconnecté dans 30 secondes');
+            exports['orion'].showNotification('Configurer votre microphone sinon vous serez déconnecté dans 30 secondes');
             await exports['orion'].delay(15000);
-            exports['orion'].showNotification('Veuillez configurer votre microphone dans les paramètres de FiveM, sinon vous serez déconnecté dans 15 secondes');
+            exports['orion'].showNotification('Configurer votre microphone sinon vous serez déconnecté dans 15 secondes');
             await exports['orion'].delay(10000);
-            exports['orion'].showNotification('Veuillez configurer votre microphone dans les paramètres de FiveM, sinon vous serez déconnecté dans 5 secondes');
+            exports['orion'].showNotification('Configurer votre microphone sinon vous serez déconnecté dans 5 secondes');
             await exports['orion'].delay(5000);
             exports['orion'].showNotification('Vous avez été déconnecté pour ne pas avoir configuré votre microphone');
             await exports['orion'].delay(1000);
