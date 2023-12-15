@@ -16,8 +16,6 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
 
-    'voice/client.js',
-
     'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
@@ -48,6 +46,8 @@ client_scripts{
     'customization/client.js',
     'bank/client/client.js',
     'bank/client/invoice.js',
+    'voice/client.js',
+
 }
 
 server_scripts{
