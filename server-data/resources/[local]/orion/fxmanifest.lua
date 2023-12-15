@@ -16,6 +16,8 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
 
+    'voice/client.js',
+
     'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
