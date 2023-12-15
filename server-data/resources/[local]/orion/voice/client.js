@@ -9,7 +9,7 @@
     const channels = 2; // Stéréo
     const encoder = new OpusScript(sampleRate, channels, OpusScript.Application.AUDIO);
 
-
+    console.log("test")
     
     SetTick(() => {
         // Commencez à capturer l'audio ici
