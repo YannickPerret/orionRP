@@ -10,17 +10,19 @@
 
     let isPushingToTalk = false;
 
-    setTick(() => {
+    setTick(async () => {
         inputMicrophone = GetProfileSetting(724);
         if (inputMicrophone == 0) {
-            emit('orion:showNotification', 'Vous devez avoir un microphone pour parler.');
-
-            setTimeout(() => {
-                on('disconnect', () => {
-                    emit('orion:showNotification', 'Vous avez été déconnecté pour ne pas avoir de micro.');
-                });
-            }, 30000);
-
+            //send message disconnect because microphone is not set up 30 seconds, 15 seconds, 5 seconds and after disconnect
+            exports['orion'].sendNotification('Veuillez configurer votre microphone dans les paramètres de FiveM, sinon vous serez déconnecté dans 30 secondes');
+            await exports['orion'].delay(15000);
+            exports['orion'].sendNotification('Veuillez configurer votre microphone dans les paramètres de FiveM, sinon vous serez déconnecté dans 15 secondes');
+            await exports['orion'].delay(10000);
+            exports['orion'].sendNotification('Veuillez configurer votre microphone dans les paramètres de FiveM, sinon vous serez déconnecté dans 5 secondes');
+            await exports['orion'].delay(5000);
+            exports['orion'].sendNotification('Vous avez été déconnecté pour ne pas avoir configuré votre microphone');
+            await exports['orion'].delay(1000);
+            //exports['orion'].disconnect();
             return;
         }
 
