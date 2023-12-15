@@ -2,15 +2,16 @@ class VehicleManagerClass {
   constructor() {
     this.vehicles = new Map();
   }
-  addVehicle(source, vehicle) {
-    this.vehicles.set(source, vehicle);
+  addVehicle(id, vehicle) {
+    this.vehicles.set(id, vehicle);
   }
-  remove(source) {
-    this.vehicles.delete(source);
+  remove(id) {
+    this.vehicles.delete(id);
   }
-  getVehicleBySource(source) {
-    return this.vehicles.get(source);
+  getVehicleById(id) {
+    return this.vehicles.get(id);
   }
+
   getVehicles() {
     return this.vehicles;
   }

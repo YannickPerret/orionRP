@@ -12,8 +12,7 @@ class Vehicle {
     plate,
     position,
     state,
-    primaryColor,
-    secondaryColor,
+    colours,
     pearlescentColor,
     customizations,
     isEngineOn,
@@ -33,8 +32,7 @@ class Vehicle {
     this.state = state;
     this.dirtLevel = dirtLevel || 0.0;
     this.bodyHealth = bodyHealth || 1000.0;
-    this.primaryColor = primaryColor;
-    this.secondaryColor = secondaryColor;
+    this.colours = colours || [];
     this.pearlescentColor = pearlescentColor;
     this.customizations = customizations || [];
     this.isEngineOn = isEngineOn || true;
