@@ -10,7 +10,7 @@
 
     let isPushingToTalk = false;
 
-    SetTick(() => {
+    setTick(() => {
         inputMicrophone = GetProfileSetting(724);
         if (inputMicrophone == 0) {
             emit('orion:showNotification', 'Vous devez avoir un microphone pour parler.');
