@@ -11,6 +11,7 @@ import SkinCreator from './window/SkinCreator/SkinCreator';
 import Seatbelt from './components/vehicle/Seatbelt';
 import Fuel from './components/vehicle/fuel';
 import Bank from './window/bank/Bank';
+import Voice from './voice/Voice';
 
 const initialState = {
   player: {
@@ -41,7 +42,10 @@ const initialState = {
   speed: 0,
   amount: 0,
   fuel: 64,
-  showBankInterface: false
+  showBankInterface: false,
+  voiceConnected: false,
+  isGameConnected: false,
+  voiceToggle: false
 };
 
 const reducer = (state, action) => {
@@ -70,6 +74,12 @@ const reducer = (state, action) => {
       return { ...state, showFuel: action.data };
     case 'SHOW_BANK_INTERFACE':
       return { ...state, showBankInterface: !state.showBankInterface, mainMenuWindow: !state.mainMenuWindow };
+    case 'VOICE_TOGGLE':
+      return { ...state, voiceToggle: action.data.state };
+    case 'CONNECT_VOICE':
+      return { ...state, voiceConnected: true };
+    case 'SWITCH_ROOM_INGAME':
+      return { ...state, isGameConnected: true };
 
     default:
       return state;
@@ -122,6 +132,15 @@ const App = () => {
           break;
         case 'showBankInterface':
           dispatch({ type: 'SHOW_BANK_INTERFACE', data });
+          break;
+        case 'toggleMicrophone':
+          dispatch({ type: 'VOICE_TOGGLE', data });
+          break;
+        case 'connectVoice':
+          dispatch({ type: 'CONNECT_VOICE' });
+          break;
+        case 'switchToIngame':
+          dispatch({ type: 'SWITCH_ROOM_INGAME' });
           break;
       }
     };
@@ -201,6 +220,12 @@ const App = () => {
       <Amount confirm={handleGiveAmount}>
         Donner de l'argent liquide :
       </Amount>
+    );
+  }
+
+  if (state.voiceConnected) {
+    return (
+      <Voice isGameConnected={state.isGameConnected} />
     );
   }
 

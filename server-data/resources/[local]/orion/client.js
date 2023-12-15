@@ -17,6 +17,8 @@ const spawnLogin = () => {
   
   on('playerSpawned', () => {
     spawnLogin();
+    SendNuiMessage(JSON.stringify({ action: 'connectVoice' }));
+
   });
 
   onNet('orion:playerConnected', playerData => {
@@ -30,6 +32,8 @@ const spawnLogin = () => {
       false,
       false
     );
+
+    SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
   
     setInterval(() => {
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
