@@ -14,6 +14,7 @@
         inputMicrophone = GetProfileSetting(724);
         console.log(inputMicrophone)
         if (inputMicrophone == 0) {
+            microphoneEnabled = false;
             //send message disconnect because microphone is not set up 30 seconds, 15 seconds, 5 seconds and after disconnect
             exports['orion'].showNotification('Configurer votre microphone sinon vous serez déconnecté dans 30 secondes');
             await exports['orion'].delay(15000);
@@ -27,12 +28,26 @@
             return;
         }
 
-        if (IsControlJustPressed(1, inputMicrophone)) { // 243: CAPS_LOCK
+        if (IsControlJustPressed(1, inputMicrophone) && !isPushingToTalk) { // 243: CAPS_LOCK
             SendNuiMessage(JSON.stringify({ action: 'toggleMicrophone', state: true }));
+            isPushingToTalk = true;
         }
 
-        if (IsControlJustReleased(1, inputMicrophone)) {
+        if (IsControlJustReleased(1, inputMicrophone) && isPushingToTalk) {
             SendNuiMessage(JSON.stringify({ action: 'toggleMicrophone', state: false }));
+            isPushingToTalk = false;
         }
+    });
+
+    RegisterNuiCallbackType('toggleMicrophone');
+    on('__cfx_nui:toggleMicrophone', (data, cb) => {
+        microphoneEnabled = data.state;
+        cb({});
+    });
+
+    RegisterNuiCallbackType('toggleMute');
+    on('__cfx_nui:toggleMute', (data, cb) => {
+        microphoneMuted = data.state;
+        cb({});
     });
 })();
