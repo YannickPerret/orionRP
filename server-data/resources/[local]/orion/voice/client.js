@@ -14,8 +14,6 @@
         inputMicrophone = GetProfileSetting(724);
         if (inputMicrophone == 0) {
             emit('orion:showNotification', 'Vous devez avoir un microphone pour parler.');
-            FreezeEntityPosition(PlayerPedId(), true);
-            emit('orion:showNotification', 'Vous allez être déconnecté dans 1 minute.');
 
             setTimeout(() => {
                 on('disconnect', () => {
@@ -24,9 +22,6 @@
             }, 30000);
 
             return;
-        }
-        else {
-            FreezeEntityPosition(PlayerPedId(), false);
         }
 
         if (IsControlJustPressed(1, inputMicrophone)) { // 243: CAPS_LOCK
