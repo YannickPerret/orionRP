@@ -37,3 +37,9 @@ onNet('draw3DText', (x, y, z, text) => {
   AddTextComponentString(text);
   DrawText(_x, _y);
 });
+
+exports('showNotification', (message) => {
+  SetNotificationTextEntry('STRING');
+  AddTextComponentString(message);
+  DrawNotification(false, false);
+});
