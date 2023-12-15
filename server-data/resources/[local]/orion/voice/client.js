@@ -23,6 +23,7 @@
 
     RegisterKeyMapping('Talk', 'Talk', 'keyboard', 'N');
     RegisterCommand('Talk', () => {
+        console.log("ddsdsdsd")
         let inputMicrophone = GetProfileSetting(724);
         if (inputMicrophone == 0) {
             emit('orion:showNotification', 'Vous devez avoir un microphone pour parler.');
