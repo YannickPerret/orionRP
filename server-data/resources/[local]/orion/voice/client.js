@@ -10,6 +10,58 @@
 
     let isPushingToTalk = false;
 
+    let voice = {default : 5.0, shout : 12.0, whisper : 1.0, current : 0, level : null}
+
+
+    on('ResourceStart', async (resourceName) => {
+        if (GetCurrentResourceName() !== resourceName) {
+            return;
+        }
+        console.log('Voice started');
+
+       if (voice.current == 0) {
+            voice.level = voice.default;
+            NetworkSetTalkerProximity(voice.level);
+        } else if (voice.current == 1) {
+            voice.level = voice.shout;
+            NetworkSetTalkerProximity(voice.level);
+        }
+        else if (voice.current == 2) {
+            voice.level = voice.whisper;
+            NetworkSetTalkerProximity(voice.level);
+        }
+        else {
+            voice.level = voice.default;
+            NetworkSetTalkerProximity(voice.level);
+        }
+    });
+
+    on("PlayerSpawned", () => {
+        NetworkSetTalkerProximity(7.0);
+    })
+
+    setTick(async () => {
+        RequestAnimDict("mp_facial");
+        RequestAnimDict("facials@gen_male@variations@normal");
+
+        while (true) {
+            await exports['orion'].delay(300);
+            let playerId = PlayerId();
+
+            for (let player = 0; player < GetActivePlayers().length; i++) {
+                let boolTalking = NetworkIsPlayerTalking(player);
+                if (player != playerId) {
+                    if (boolTalking) {
+                        PlayFacialAnim(GetPlayerPed(player), "mic_chatter", "mp_facial");
+                    }
+                    else if (!boolTalking) {
+                        PlayFacialAnim(GetPlayerPed(player), "mood_normal_1", "facials@gen_male@variations@normal");
+                    }
+                }
+            }
+        }
+    })
+
     setTick(async () => {
         inputMicrophone = GetProfileSetting(724);
         console.log(inputMicrophone)
@@ -28,14 +80,15 @@
             return;
         }
 
-        if (IsControlJustPressed(1, inputMicrophone) && !isPushingToTalk) { // 243: CAPS_LOCK
-            SendNuiMessage(JSON.stringify({ action: 'toggleMicrophone', state: true }));
+        if (NetworkIsPlayerTalking(PlayerId()) && !isPushingToTalk) {
+            console.log('Player started talking');
             isPushingToTalk = true;
+            NetworkSetVoiceActive(true);
         }
-
-        if (IsControlJustReleased(1, inputMicrophone) && isPushingToTalk) {
-            SendNuiMessage(JSON.stringify({ action: 'toggleMicrophone', state: false }));
+        else if (!NetworkIsPlayerTalking(PlayerId()) && isPushingToTalk) {
+            console.log('Player stopped talking');
             isPushingToTalk = false;
+            NetworkSetVoiceActive(false);
         }
     });
 
