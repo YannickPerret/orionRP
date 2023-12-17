@@ -49,7 +49,7 @@
             let playerId = PlayerId();
 
             for (let playerIndex = 0; playerIndex < GetActivePlayers().length; playerIndex++) {
-                let boolTalking = NetworkIsPlayerTalking(player);
+                let boolTalking = NetworkIsPlayerTalking(playerIndex);
                 if (playerIndex != playerId) {
                     if (boolTalking) {
                         PlayFacialAnim(GetPlayerPed(playerIndex), "mic_chatter", "mp_facial");
