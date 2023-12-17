@@ -48,14 +48,14 @@
             await exports['orion'].delay(300);
             let playerId = PlayerId();
 
-            for (let player = 0; player < GetActivePlayers().length; i++) {
+            for (let playerIndex = 0; playerIndex < GetActivePlayers().length; playerIndex++) {
                 let boolTalking = NetworkIsPlayerTalking(player);
-                if (player != playerId) {
+                if (playerIndex != playerId) {
                     if (boolTalking) {
-                        PlayFacialAnim(GetPlayerPed(player), "mic_chatter", "mp_facial");
+                        PlayFacialAnim(GetPlayerPed(playerIndex), "mic_chatter", "mp_facial");
                     }
                     else if (!boolTalking) {
-                        PlayFacialAnim(GetPlayerPed(player), "mood_normal_1", "facials@gen_male@variations@normal");
+                        PlayFacialAnim(GetPlayerPed(playerIndex), "mood_normal_1", "facials@gen_male@variations@normal");
                     }
                 }
             }
