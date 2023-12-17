@@ -178,7 +178,7 @@ const playSound = sound => {
       let isDriver = ped === GetPedInVehicleSeat(vehicle, -1);
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
       SendNUIMessage({
-        action: 'updateSpeed',
+        action: 'speedometer',
         data: {
           speed: speed.toFixed(0),
           isDriver: isDriver,
@@ -229,6 +229,16 @@ const playSound = sound => {
       let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
 
+      SendNUIMessage({
+        action: 'showVehicleUI',
+        data: {
+          pedInVehicle: true,
+          fuel: fuel.toFixed(0),
+          seatbelt: sealtbelt,
+          isDriver: ped === GetPedInVehicleSeat(vehicle, -1)
+        }
+      });
+
       if (speed > 0) {
         consumption = speed * 0.0001;
       } else {
@@ -246,6 +256,14 @@ const playSound = sound => {
       } else {
         SetVehicleFuelLevel(vehicle, 0);
       }
+    }
+    else {
+      SendNUIMessage({
+        action: 'showVehicleUI',
+        data: {
+          pedInVehicle: false
+        }
+      });
     }
 
     if (vehicle != undefined && GetVehicleEngineHealth(vehicle) <= 300) {

@@ -1,7 +1,9 @@
 import React from 'react'
+import { useData } from '../../utils/dataContext';
 
-export default function Speed({ speed }) {
+export default function Speed() {
+  const { data } = useData();
   return (
-    <div>{speed} km/h</div>
+    <div>{data.vehicle.speed} km/h</div>
   )
 }

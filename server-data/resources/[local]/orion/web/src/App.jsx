@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useEffect } from 'react';
 import './styles/App.css';
 import { playSound } from './utils/sound'
 import PlayerMenu from './menu/playerMenu/PlayerMenu';
-import MainWindow from './window/MainWindow';
 import { sendNui } from './utils/fetchNui';
 import { SideMenu } from './menu/SideMenu';
 import JobMenu from './menu/JobMenu/JobMenu';
@@ -12,135 +11,51 @@ import Seatbelt from './components/vehicle/Seatbelt';
 import Fuel from './components/vehicle/fuel';
 import Bank from './window/bank/Bank';
 import Voice from './voice/Voice';
-
-const initialState = {
-  player: {
-    firstname: 'John',
-    lastname: 'Doe',
-    phone: '06 06 06 06 06'
-  },
-  account: {
-    money: 100,
-    bank: 1000
-  },
-  job: {
-    name: 'Chômeur',
-    grade: 'Aucun',
-    salary: 0
-  },
-  isPlayerDead: false,
-  playerDeadMessage: '',
-  sideMenuUi: false,
-  showPlayerMenu: false,
-  mainMenuWindow: false,
-  showJobMenu: false,
-  showAmountMenu: false,
-  isDriver: false,
-  showFuel: false,
-  showSkinCreator: false,
-  haveSeatbelt: false,
-  speed: 0,
-  amount: 0,
-  fuel: 64,
-  showBankInterface: false,
-  voiceConnected: false,
-  isGameConnected: false,
-  voiceToggle: false
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'SHOW_DEATH_MESSAGE':
-      return { ...state, isPlayerDead: true, playerDeadMessage: action.data.message };
-    case 'SHOW_PLAYER_MENU':
-      return { ...state, sideMenuUi: true, showPlayerMenu: true, player: action.data };
-    case 'SHOW_JOB_MENU':
-      return { ...state, sideMenuUi: true, showJobMenu: true };
-    case 'SHOW_GIVE_AMOUNT_MENU':
-      return { ...state, showAmountMenu: true };
-    case 'CLOSE_NUI':
-      return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false, showAmountMenu: false, showSkinCreator: false };
-    case "CLOSE_SIDE_MENU":
-      return { ...state, sideMenuUi: false, showPlayerMenu: false, showJobMenu: false };
-    case 'UPDATE_SPEED':
-      return { ...state, speed: action.data.speed, isDriver: action.data.isDriver };
-    case 'SHOW_SKIN_CREATOR':
-      return { ...state, showSkinCreator: !state.showSkinCreator };
-    case 'SEATBELT':
-      return { ...state, haveSeatbelt: action.data };
-    case 'UPDATE_FUEL':
-      return { ...state, fuel: action.data.fuel };
-    case 'SHOW_FUEL':
-      return { ...state, showFuel: action.data };
-    case 'SHOW_BANK_INTERFACE':
-      return { ...state, showBankInterface: !state.showBankInterface, mainMenuWindow: !state.mainMenuWindow };
-    case 'VOICE_TOGGLE':
-      return { ...state, voiceToggle: action.data.state };
-    case 'CONNECT_VOICE':
-      return { ...state, voiceConnected: true };
-    case 'SWITCH_ROOM_INGAME':
-      return { ...state, isGameConnected: true };
-
-    default:
-      return state;
-  }
-};
+import { useData } from './utils/dataContext';
+import { useVisibility } from './providers/visibilityProvider';
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { visibility, setVisible, closeAllMenus } = useVisibility();
+  const { data, setData } = useData();
+
 
   useEffect(() => {
     const handleMessage = async (event) => {
-      const { action, data } = event.data;
+      const { action, payload } = event.data;
       switch (action) {
-        case "showDeathMessage":
-          dispatch({ type: 'SHOW_DEATH_MESSAGE', data });
+        case "showPlayerMenu":
+          setVisible('playerMenu', true);
           break;
-        case "showGiveAmountMenu":
-          dispatch({ type: 'SHOW_GIVE_AMOUNT_MENU' });
+        case "showJobMenu":
+          setVisible('jobMenu', true);
           break;
-        case "closeSideMenu":
-          dispatch({ type: 'CLOSE_SIDE_MENU' });
+        case "closeMenus":
+          closeAllMenus();
           break;
-        case "ShowPlayerMenu":
-          dispatch({ type: 'SHOW_PLAYER_MENU', data });
+        case "showAmountMenu":
+          setVisible('amountMenu', true);
           break;
-        case "ShowJobMenu":
-          dispatch({ type: 'SHOW_JOB_MENU', data });
+        case "showSkinCreator":
+          setVisible('skinCreator', true);
           break;
-        case "closeNUI":
-          await sendNui('closeNUI');
-          dispatch({ type: 'CLOSE_NUI' });
+        case "showBankInterface":
+          setVisible('bankInterface', true);
           break;
         case "playSound":
-          playSound(data.sound, data.volume);
+          playSound(data);
           break;
-        case 'updateSpeed':
-          dispatch({ type: 'UPDATE_SPEED', data });
+        case "showVehicleUI":
+          setData({ ...data, vehicle: { ...data.vehicle, pedInVehicle: payload.pedInVehicle, isDriver: payload.isDriver, sealtbelt: payload.seatbelt } });
           break;
-        case 'showSkinCreator':
-          dispatch({ type: 'SHOW_SKIN_CREATOR' });
+        case "speedometer":
+          setData({ ...data, vehicle: { ...data.vehicle, speed: payload.speed } });
+        case "fuel":
+          setData({ ...data, vehicle: { ...data.vehicle, fuel: payload.fuel } });
           break;
-        case 'seatbelt':
-          dispatch({ type: 'SEATBELT', data });
+        case "seatbelt":
+          setData({ ...data, vehicle: { ...data.vehicle, seatbelt: payload.seatbelt } });
           break;
-        case 'updateFuel':
-          dispatch({ type: 'UPDATE_FUEL', data });
-          break;
-        case 'showFuel':
-          dispatch({ type: 'SHOW_FUEL', data });
-          break;
-        case 'showBankInterface':
-          dispatch({ type: 'SHOW_BANK_INTERFACE', data });
-          break;
-        case 'toggleMicrophone':
-          dispatch({ type: 'VOICE_TOGGLE', data });
-          break;
-        case 'connectVoice':
-          dispatch({ type: 'CONNECT_VOICE' });
-          break;
-        case 'switchToIngame':
-          dispatch({ type: 'SWITCH_ROOM_INGAME' });
+        default:
           break;
       }
     };
@@ -149,11 +64,12 @@ const App = () => {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, []);
+  }, [setVisible, closeAllMenus]);
 
-  const handleCloseMenu = async () => {
-    dispatch({ type: 'CLOSE_NUI' });
-    console.log(showSkinCreator)
+
+
+  const handleCloseMenu = (menu) => {
+    setVisible(menu, false);
   };
 
   const handleGiveAmount = async (amount) => {
@@ -161,74 +77,45 @@ const App = () => {
     dispatch({ type: 'CLOSE_NUI' });
   }
 
-  if (state.showSkinCreator) {
-    return (
-      <SkinCreator dispatch={dispatch} />
-    )
-  }
+  return (
+    <>
+      {visibility.playerMenu && (
+        <SideMenu>
+          <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />
+        </SideMenu>
+      )}
 
-  if (state.isPlayerDead) {
-    return (
-      <div className='death'>
-        <div className='death__message'>{state.playerDeadMessage}</div>
-      </div>
-    );
-  } else if (state.sideMenuUi && !state.mainMenuWindow && !state.showAmountMenu) {
-    return (
-      [
-        state.showPlayerMenu && (
-          <SideMenu>
-            <header className='SideMenu__header'>
-              <h1>{state.player.firstname} {state.player.lastname}</h1>
-            </header>
-            <PlayerMenu playerData={state.player} onCloseMenu={handleCloseMenu} dispatch={dispatch} />
-          </SideMenu>
-        ),
+      {visibility.jobMenu && (
+        <SideMenu>
+          <JobMenu onCloseMenu={() => handleCloseMenu('jobMenu')} />
+        </SideMenu>
+      )}
 
-        state.showJobMenu && (
-          <SideMenu>
-            <header className='SideMenu__header'>
-              <h1>{state.job.name}</h1>
-            </header>
-            <JobMenu jobData={state.job} onCloseMenu={handleCloseMenu} />
-          </SideMenu>
-        )
-      ]
+      {visibility.amountMenu && (
+        <SideMenu>
+          <Amount onGiveAmount={handleGiveAmount} />
+        </SideMenu>
+      )}
 
-    );
-  } else if (state.mainMenuWindow && !state.showAmountMenu && !state.sideMenuUi) {
-    return (
-      <MainWindow>
-        {state.showBankInterface && <Bank player={state.player} />}
-      </MainWindow>
-    );
-  } else if (state.isDriver) {
-    return (
-      <>
-        <div className='driver'>
-          <div className='driver__speed'>{state.speed} km/h</div>
-        </div>
-        {state.haveSeatbelt && <Seatbelt />}
-        {state.showFuel && <Fuel fuel={state.fuel} />}
-      </>
-    );
-  }
+      {visibility.skinCreator && (
+        <SkinCreator onClose={() => handleCloseMenu('skinCreator')} />
+      )}
 
-  if (state.showAmountMenu && !state.sideMenuUi && !state.showPlayerMenu) {
+      {visibility.bankInterface && (
+        <Bank onClose={() => handleCloseMenu('bankInterface')} />
+      )}
 
-    return (
-      <Amount confirm={handleGiveAmount}>
-        Donner de l'argent liquide :
-      </Amount>
-    );
-  }
-
-  if (state.voiceConnected) {
-    return (
-      <Voice isGameConnected={state.isGameConnected} />
-    );
-  }
-
+      {visibility.vehicle.pedInVehicle && (
+        <>
+          {visibility.vehicle.isDriver && (
+            <Fuel />
+          )}
+          <Seatbelt />
+        </>
+      )}
+      <Voice />
+    </>
+  );
 };
 
 export default App;
