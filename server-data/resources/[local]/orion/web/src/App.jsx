@@ -45,15 +45,15 @@ const App = () => {
           playSound(data);
           break;
         case "showVehicleUI":
-          setVisible(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, pedInVehicle: payload.pedInVehicle, isDriver: payload.isDriver } }));
+          //setVisible(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, pedInVehicle: payload.pedInVehicle, isDriver: payload.isDriver } }));
           break;
         case "speedometer":
-          setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
+        // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
         case "fuel":
-          setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, fuel: payload.fuel } }));
+          // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, fuel: payload.fuel } }));
           break;
         case "seatbelt":
-          setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
+          //setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
           break;
         default:
           break;
