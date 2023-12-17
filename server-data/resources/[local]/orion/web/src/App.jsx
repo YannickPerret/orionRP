@@ -105,9 +105,9 @@ const App = () => {
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
       )}
 
-      {visibility.vehicle.pedInVehicle && (
+      {visibility.vehicle?.pedInVehicle && (
         <>
-          {visibility.vehicle.isDriver && (
+          {visibility.vehicle?.isDriver && (
             <Fuel />
           )}
           <Seatbelt />
