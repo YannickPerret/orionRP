@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 
 export const DataContext = createContext();
 
@@ -37,7 +37,7 @@ const initialState = {
   vehicle: {
     pedInVehicle: false,
     fuel: 100,
-    speed : 0,
+    speed: 0,
     seatbelt: false,
     isDriver: false,
   },
