@@ -79,35 +79,35 @@ const App = () => {
 
   return (
     <>
-      {data.playerMenu && (
+      {visibility.playerMenu && (
         <SideMenu>
           <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />
         </SideMenu>
       )}
 
-      {data.jobMenu && (
+      {visibility.jobMenu && (
         <SideMenu>
           <JobMenu onCloseMenu={() => handleCloseMenu('jobMenu')} />
         </SideMenu>
       )}
 
-      {data.amountMenu && (
+      {visibility.amountMenu && (
         <SideMenu>
           <Amount onGiveAmount={handleGiveAmount} />
         </SideMenu>
       )}
 
-      {data.skinCreator && (
+      {visibility.skinCreator && (
         <SkinCreator onClose={() => handleCloseMenu('skinCreator')} />
       )}
 
-      {data.bankInterface && (
+      {visibility.bankInterface && (
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
       )}
 
-      {data.vehicle.pedInVehicle && (
+      {visibility.vehicle.pedInVehicle && (
         <>
-          {data.vehicle.isDriver && (
+          {visibility.vehicle.isDriver && (
             <Fuel />
           )}
           <Seatbelt />

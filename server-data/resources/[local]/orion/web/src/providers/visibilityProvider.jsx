@@ -5,7 +5,14 @@ import { sendNui } from "../utils/fetchNui";
 const VisibilityCtx = createContext(null);
 
 export const VisibilityProvider = ({ children }) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState({
+    playerMenu: false,
+    jobMenu: false,
+    amountMenu: false,
+    skinCreator: false,
+    bankInterface: false,
+    pedInVehicle: false,
+  });
 
   useNuiEvent("setVisible", setVisible);
 
