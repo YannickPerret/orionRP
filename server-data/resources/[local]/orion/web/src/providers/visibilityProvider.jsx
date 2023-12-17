@@ -5,34 +5,61 @@ import { sendNui } from "../utils/fetchNui";
 const VisibilityCtx = createContext(null);
 
 export const VisibilityProvider = ({ children }) => {
-  const [visible, setVisible] = useState({
+  // Définir l'état initial pour la visibilité de différents composants
+  const [visibility, setVisibility] = useState({
+    main: false,
     playerMenu: false,
     jobMenu: false,
     amountMenu: false,
     skinCreator: false,
     bankInterface: false,
-    pedInVehicle: false,
+    vehicle: {
+      pedInVehicle: false,
+      isDriver: false
+    }
   });
 
-  useNuiEvent("setVisible", setVisible);
+  // Utiliser useNuiEvent pour écouter les événements NUI spécifiques et mettre à jour la visibilité
+  useNuiEvent("setVisible", (visible) => {
+    setVisibility((prevVisibility) => ({ ...prevVisibility, ...visible }));
+  });
 
+  // Effet pour gérer les interactions clavier
   useEffect(() => {
-    if (!visible) return;
-
     const keyHandler = (e) => {
       if (["Backspace", "Escape"].includes(e.code)) {
         sendNui("hideFrame");
+        // Mettre à jour la visibilité si nécessaire
       }
     };
 
     window.addEventListener("keydown", keyHandler);
 
-    return () => window.removeEventListener("keydown", keyHandler);
-  }, [visible]);
+    return () => {
+      window.removeEventListener("keydown", keyHandler);
+    };
+  }, []);
+
+  // Fonction pour fermer tous les menus
+  const closeAllMenus = () => {
+    setVisibility({
+      ...visibility,
+      playerMenu: false,
+      jobMenu: false,
+      amountMenu: false,
+      skinCreator: false,
+      bankInterface: false,
+      vehicle: {
+        ...visibility.vehicle,
+        pedInVehicle: false,
+        isDriver: false
+      }
+    });
+  };
 
   return (
-    <VisibilityCtx.Provider value={{ visible, setVisible }}>
-      <div style={{ visibility: visible ? "visible" : "hidden", height: "100%" }}>
+    <VisibilityCtx.Provider value={{ visibility, setVisibility, closeAllMenus }}>
+      <div style={{ visibility: visibility.main ? "visible" : "hidden", height: "100%" }}>
         {children}
       </div>
     </VisibilityCtx.Provider>
