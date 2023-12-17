@@ -47,9 +47,7 @@ const App = () => {
         case "showVehicleUI":
           console.log(payload, visibility)
           setVisible({
-            ...visibility,
             vehicle: {
-              ...visibility.vehicle,
               pedInVehicle: payload.pedInVehicle,
               isDriver: payload.isDriver
             }

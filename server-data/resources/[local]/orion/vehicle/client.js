@@ -261,7 +261,8 @@ const playSound = sound => {
       SendNUIMessage({
         action: 'showVehicleUI',
         payload: {
-          pedInVehicle: false
+          pedInVehicle: false,
+          isDriver: false
         }
       });
     }
