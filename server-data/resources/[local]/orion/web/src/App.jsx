@@ -45,6 +45,7 @@ const App = () => {
           playSound(data);
           break;
         case "showVehicleUI":
+          console.log(payload, visibility)
           setVisible({
             ...visibility,
             vehicle: {
@@ -84,7 +85,6 @@ const App = () => {
     dispatch({ type: 'CLOSE_NUI' });
   }
 
-  console.log(visibility)
   return (
     <>
       {visibility.playerMenu && (
