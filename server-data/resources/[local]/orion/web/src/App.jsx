@@ -77,8 +77,10 @@ const App = () => {
     dispatch({ type: 'CLOSE_NUI' });
   }
 
+  console.log(visibility)
   return (
     <>
+      {/*
       {visibility.playerMenu && (
         <SideMenu>
           <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />
@@ -114,6 +116,7 @@ const App = () => {
         </>
       )}
       <Voice />
+          */}
     </>
   );
 };
