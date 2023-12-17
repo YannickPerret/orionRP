@@ -22,42 +22,42 @@ const App = () => {
   useEffect(() => {
     const handleMessage = async (event) => {
       const { action, payload } = event.data;
-      switch (action) {
-        case "showPlayerMenu":
-          setVisible('playerMenu', true);
-          break;
-        case "showJobMenu":
-          setVisible('jobMenu', true);
-          break;
-        case "closeMenus":
-          closeAllMenus();
-          break;
-        case "showAmountMenu":
-          setVisible('amountMenu', true);
-          break;
-        case "showSkinCreator":
-          setVisible('skinCreator', true);
-          break;
-        case "showBankInterface":
-          setVisible('bankInterface', true);
-          break;
-        case "playSound":
-          playSound(data);
-          break;
-        case "showVehicleUI":
-          setData({ ...data, vehicle: { ...data.vehicle, pedInVehicle: payload.pedInVehicle, isDriver: payload.isDriver, sealtbelt: payload.seatbelt } });
-          break;
-        case "speedometer":
-          setData({ ...data, vehicle: { ...data.vehicle, speed: payload.speed } });
-        case "fuel":
-          setData({ ...data, vehicle: { ...data.vehicle, fuel: payload.fuel } });
-          break;
-        case "seatbelt":
-          setData({ ...data, vehicle: { ...data.vehicle, seatbelt: payload.seatbelt } });
-          break;
-        default:
-          break;
-      }
+      /* switch (action) {
+         case "showPlayerMenu":
+           setVisible('playerMenu', true);
+           break;
+         case "showJobMenu":
+           setVisible('jobMenu', true);
+           break;
+         case "closeMenus":
+           closeAllMenus();
+           break;
+         case "showAmountMenu":
+           setVisible('amountMenu', true);
+           break;
+         case "showSkinCreator":
+           setVisible('skinCreator', true);
+           break;
+         case "showBankInterface":
+           setVisible('bankInterface', true);
+           break;
+         case "playSound":
+           playSound(data);
+           break;
+         case "showVehicleUI":
+           setData({ ...data, vehicle: { ...data.vehicle, pedInVehicle: payload.pedInVehicle, isDriver: payload.isDriver, sealtbelt: payload.seatbelt } });
+           break;
+         case "speedometer":
+           setData({ ...data, vehicle: { ...data.vehicle, speed: payload.speed } });
+         case "fuel":
+           setData({ ...data, vehicle: { ...data.vehicle, fuel: payload.fuel } });
+           break;
+         case "seatbelt":
+           setData({ ...data, vehicle: { ...data.vehicle, seatbelt: payload.seatbelt } });
+           break;
+         default:
+           break;
+       }*/
     };
 
     window.addEventListener("message", handleMessage);

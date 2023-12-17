@@ -43,14 +43,13 @@ export const VisibilityProvider = ({ children }) => {
   // Fonction pour fermer tous les menus
   const closeAllMenus = () => {
     setVisibility({
-      ...visibility,
+      main: false,
       playerMenu: false,
       jobMenu: false,
       amountMenu: false,
       skinCreator: false,
       bankInterface: false,
       vehicle: {
-        ...visibility.vehicle,
         pedInVehicle: false,
         isDriver: false
       }
