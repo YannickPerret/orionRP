@@ -45,7 +45,7 @@ const App = () => {
           playSound(data);
           break;
         case "showVehicleUI":
-          setVisibility({
+          setVisible({
             ...visibility,
             vehicle: {
               ...visibility.vehicle,
