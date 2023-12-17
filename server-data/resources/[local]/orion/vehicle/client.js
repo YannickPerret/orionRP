@@ -82,14 +82,14 @@ const toggleSeatbelt = () => {
 
   SendNUIMessage({
     action: 'seatbelt',
-    data: sealtbelt,
+    payload: sealtbelt,
   });
 };
 
 const playSound = sound => {
   SendNUIMessage({
     action: 'playSound',
-    data: {
+    payload: {
       sound,
       volume,
     },
@@ -110,7 +110,7 @@ const playSound = sound => {
 
       SendNUIMessage({
         action: 'showFuel',
-        data: true,
+        payload: true,
       });
 
       let vehicle = GetVehiclePedIsIn(ped, false);
@@ -179,7 +179,7 @@ const playSound = sound => {
       let speed = isDriver ? GetEntitySpeed(vehicle) * 3.6 : 0;
       SendNUIMessage({
         action: 'speedometer',
-        data: {
+        payload: {
           speed: speed.toFixed(0),
           isDriver: isDriver,
         },
@@ -198,13 +198,13 @@ const playSound = sound => {
       CancelEvent('SeatShuffle');
       SendNUIMessage({
         action: 'showFuel',
-        data: false,
+        payload: false,
       });
 
       DisplayRadar(false);
       SendNUIMessage({
         action: 'updateSpeed',
-        data: {
+        payload: {
           speed: 0,
           isDriver: false,
         },
@@ -231,7 +231,7 @@ const playSound = sound => {
 
       SendNUIMessage({
         action: 'showVehicleUI',
-        data: {
+        payload: {
           pedInVehicle: true,
           fuel: fuel.toFixed(0),
           seatbelt: sealtbelt,
@@ -246,7 +246,7 @@ const playSound = sound => {
       }
       SendNUIMessage({
         action: 'updateFuel',
-        data: {
+        payload: {
           fuel: (fuel - consumption).toFixed(0),
         },
       });
@@ -260,7 +260,7 @@ const playSound = sound => {
     else {
       SendNUIMessage({
         action: 'showVehicleUI',
-        data: {
+        payload: {
           pedInVehicle: false
         }
       });
