@@ -65,7 +65,7 @@ const App = () => {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [setVisible, closeAllMenus]);
+  }, [setVisibility, closeAllMenus]);
 
 
 
