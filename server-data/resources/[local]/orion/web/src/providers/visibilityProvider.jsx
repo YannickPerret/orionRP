@@ -20,12 +20,13 @@ export const VisibilityProvider = ({ children }) => {
   });
 
   // Utiliser useNuiEvent pour écouter les événements NUI spécifiques et mettre à jour la visibilité
-  useNuiEvent("setVisible", (visible) => {
-    setVisibility((prevVisibility) => ({ ...prevVisibility, ...visible }));
-  });
+  useNuiEvent("setVisible", setVisible);
 
   // Effet pour gérer les interactions clavier
   useEffect(() => {
+
+    if (!visible) return;
+
     const keyHandler = (e) => {
       if (["Backspace", "Escape"].includes(e.code)) {
         sendNui("hideFrame");
@@ -38,7 +39,7 @@ export const VisibilityProvider = ({ children }) => {
     return () => {
       window.removeEventListener("keydown", keyHandler);
     };
-  }, []);
+  }, [visible]);
 
   // Fonction pour fermer tous les menus
   const closeAllMenus = () => {
