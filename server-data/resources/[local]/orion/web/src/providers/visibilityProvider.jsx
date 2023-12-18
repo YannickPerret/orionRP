@@ -6,7 +6,7 @@ const VisibilityCtx = createContext(null);
 
 export const VisibilityProvider = ({ children }) => {
   // Définir l'état initial pour la visibilité de différents composants
-  const [visibility, setVisibility] = useState({
+  const [visibility, setVisible] = useState({
     main: false,
     playerMenu: false,
     jobMenu: false,
@@ -55,7 +55,7 @@ export const VisibilityProvider = ({ children }) => {
   };
 
   return (
-    <VisibilityCtx.Provider value={{ visibility, setVisibility, closeAllMenus }}>
+    <VisibilityCtx.Provider value={{ visibility, setVisible, closeAllMenus }}>
       <div style={{ visibility: visibility.main ? "visible" : "hidden", height: "100%" }}>
         {children}
       </div>

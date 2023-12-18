@@ -15,7 +15,7 @@ import { useData } from './utils/dataContext';
 import { useVisibility } from './providers/visibilityProvider';
 
 const App = () => {
-  const { visibility, setVisibility, closeAllMenus } = useVisibility();
+  const { visibility, setVisible, closeAllMenus } = useVisibility();
   const { data, setData } = useData();
 
 
@@ -24,28 +24,28 @@ const App = () => {
       const { action, payload } = event.data;
       switch (action) {
         case "showPlayerMenu":
-          setVisibility('playerMenu', true);
+          setVisible('playerMenu', true);
           break;
         case "showJobMenu":
-          setVisibility('jobMenu', true);
+          setVisible('jobMenu', true);
           break;
         case "closeMenus":
           closeAllMenus();
           break;
         case "showAmountMenu":
-          setVisibility('amountMenu', true);
+          setVisible('amountMenu', true);
           break;
         case "showSkinCreator":
-          setVisibility('skinCreator', true);
+          setVisible('skinCreator', true);
           break;
         case "showBankInterface":
-          setVisibility('bankInterface', true);
+          setVisible('bankInterface', true);
           break;
         case "playSound":
           playSound(data);
           break;
         case "showVehicleUI":
-          setVisibility('vehicleHUD', true);
+          setVisible('vehicleHUD', true);
           //setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, isDriver: payload.isDriver } }));
           break;
         case "speedometer":
@@ -65,12 +65,12 @@ const App = () => {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [setVisibility, closeAllMenus]);
+  }, [setVisible, closeAllMenus]);
 
 
 
   const handleCloseMenu = (menu) => {
-    setVisibility(menu, false);
+    setVisible(menu, false);
   };
 
   const handleGiveAmount = async (amount) => {
