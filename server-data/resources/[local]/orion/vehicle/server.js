@@ -60,6 +60,8 @@
       for (let doors = 0; doors < 7; doors++) {
         SetVehicleDoorBroken(vehicleSpawn, vehicle.doorsBroken[doors], false);
       }
+
+      await exports['orion'].delay(300)
   
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
