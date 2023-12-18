@@ -15,7 +15,7 @@ import { useData } from './utils/dataContext';
 import { useVisibility } from './providers/visibilityProvider';
 
 const App = () => {
-  const { visibility, setVisible, closeAllMenus } = useVisibility();
+  const { visible, setVisible, closeAllMenus } = useVisibility();
   const { data, setData } = useData();
 
 
@@ -80,35 +80,35 @@ const App = () => {
 
   return (
     <>
-      {visibility.playerMenu && (
+      {visible.playerMenu && (
         <SideMenu>
           <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />
         </SideMenu>
       )}
 
-      {visibility.jobMenu && (
+      {visible.jobMenu && (
         <SideMenu>
           <JobMenu onCloseMenu={() => handleCloseMenu('jobMenu')} />
         </SideMenu>
       )}
 
-      {visibility.amountMenu && (
+      {visible.amountMenu && (
         <SideMenu>
           <Amount onGiveAmount={handleGiveAmount} />
         </SideMenu>
       )}
 
-      {visibility.skinCreator && (
+      {visible.skinCreator && (
         <SkinCreator onClose={() => handleCloseMenu('skinCreator')} />
       )}
 
-      {visibility.bankInterface && (
+      {visible.bankInterface && (
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
       )}
 
-      {visibility.vehicleHUD && (
+      {visible.vehicleHUD && (
         <>
-          {visibility.vehicle?.isDriver && (
+          {visible.vehicle?.isDriver && (
             <Fuel />
           )}
           <Seatbelt />
