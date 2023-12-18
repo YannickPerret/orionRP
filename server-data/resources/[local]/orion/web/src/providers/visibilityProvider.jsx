@@ -49,10 +49,7 @@ export const VisibilityProvider = ({ children }) => {
       amountMenu: false,
       skinCreator: false,
       bankInterface: false,
-      vehicle: {
-        pedInVehicle: false,
-        isDriver: false
-      }
+      vehicleHUD: false,
     });
   };
 

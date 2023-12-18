@@ -45,14 +45,8 @@ const App = () => {
           playSound(data);
           break;
         case "showVehicleUI":
-          setVisible({
-            ...visibility,
-            vehicle: {
-              ...visibility.vehicle,
-              pedInVehicle: payload.pedInVehicle,
-              isDriver: payload.isDriver
-            }
-          });
+          setVisible('vehicleHUD', true);
+          setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, isDriver: payload.isDriver } }));
           break;
         case "speedometer":
         // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
@@ -112,7 +106,7 @@ const App = () => {
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
       )}
 
-      {visibility.vehicle?.pedInVehicle && (
+      {visibility.vehicleHUD && (
         <>
           {visibility.vehicle?.isDriver && (
             <Fuel />

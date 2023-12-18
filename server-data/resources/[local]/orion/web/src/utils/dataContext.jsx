@@ -25,6 +25,7 @@ const initialState = {
     fuel: 100,
     speed: 0,
     seatbelt: false,
+    isDriver: false,
   },
   isPlayerDead: false,
   playerDeadMessage: '',
