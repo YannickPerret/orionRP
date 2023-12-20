@@ -45,7 +45,7 @@ const App = () => {
           playSound(data);
           break;
         case "showVehicleUI":
-          setVisible('vehicleHUD', true);
+          setVisible(prevState => ({ ...prevState, vehicleHUD: true }));
           //setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, isDriver: payload.isDriver } }));
           break;
         case "speedometer":
