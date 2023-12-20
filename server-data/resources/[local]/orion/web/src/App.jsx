@@ -82,6 +82,7 @@ const App = () => {
     dispatch({ type: 'CLOSE_NUI' });
   }
 
+  console.log(visible)
   return (
     <>
       {visible.playerMenu && (
@@ -112,7 +113,6 @@ const App = () => {
 
       {visible.vehicleHUD && (
         <>
-          Oui bonjour salut !
           {visible.vehicle?.isDriver && (
             <Fuel />
           )}
