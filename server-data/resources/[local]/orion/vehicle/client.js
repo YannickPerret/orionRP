@@ -229,6 +229,7 @@ const playSound = sound => {
       let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
 
+      console.log(ped === GetPedInVehicleSeat(vehicle, -1))
       SendNUIMessage({
         action: 'showVehicleUI',
         payload: {
