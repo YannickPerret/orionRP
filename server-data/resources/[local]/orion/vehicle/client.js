@@ -80,8 +80,6 @@ const toggleSeatbelt = () => {
     emit('orion:showNotification', 'Vous avez détaché votre ceinture de sécurité.');
   }
 
-  console.log('seatbelt', seatbelt);
-
   SendNUIMessage({
     action: 'seatbelt',
     payload: seatbelt,
@@ -214,6 +212,7 @@ const playSound = sound => {
       let currSpeed = 0.0;
       let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
       let prevSpeed = currSpeed;
+      let isDriver = ped == GetPedInVehicleSeat(vehicle, -1);
 
       //let speed =  GetEntitySpeed(vehicle) * 3.6 : 0;
       currSpeed = GetEntitySpeed(vehicle);
@@ -241,7 +240,7 @@ const playSound = sound => {
         SetPedConfigFlag(ped, 184, true);
         if (GetIsTaskActive(ped, 165)) {
           vehicleSeat = 0;
-          if (GetPedInVehicleSeat(vehicle, -1) == ped) {
+          if (isDriver) {
             vehicleSeat = -1;
           }
           SetPedIntoVehicle(ped, vehicle, vehicleSeat);
@@ -254,7 +253,7 @@ const playSound = sound => {
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
         if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
-          console.log(positionX, prevVelocity.x);
+
           SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
           SetEntityVelocity(ped, prevVelocity.x, prevVelocity.y, prevVelocity.z);
           await exports['orion'].delay(1);
@@ -273,7 +272,7 @@ const playSound = sound => {
           pedInVehicle: true,
           fuel: fuel.toFixed(0),
           seatbelt: seatbelt,
-          isDriver: ped === GetPedInVehicleSeat(vehicle, -1),
+          isDriver: isDriver,
           speed: speed.toFixed(0),
         }
       });

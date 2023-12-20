@@ -54,7 +54,6 @@ const App = () => {
           // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, fuel: payload.fuel } }));
           break;
         case "seatbelt":
-          console.log(payload);
           setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
           break;
         default:
@@ -107,7 +106,7 @@ const App = () => {
 
       {visible.vehicleHUD && (
         <>
-          {visible.vehicle?.isDriver && (
+          {data.vehicle?.isDriver && (
             <Fuel />
           )}
           {data.vehicle?.seatbelt && (
