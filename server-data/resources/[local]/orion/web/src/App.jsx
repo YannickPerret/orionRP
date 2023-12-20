@@ -45,8 +45,8 @@ const App = () => {
           playSound(data);
           break;
         case "showVehicleUI":
-          setVisible(prevState => ({ ...prevState, vehicleHUD: true }));
-          //setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, isDriver: payload.isDriver } }));
+          setVisible(prevState => ({ ...prevState, vehicleHUD: payload.pedInVehicle }));
+          setData(prevData => ({ ...prevData, isDriver: payload.isDriver, seatbelt: payload.seatbelt }));
           break;
         case "speedometer":
         // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
@@ -82,7 +82,6 @@ const App = () => {
     dispatch({ type: 'CLOSE_NUI' });
   }
 
-  console.log(visible)
   return (
     <>
       {visible.playerMenu && (
@@ -116,7 +115,9 @@ const App = () => {
           {visible.vehicle?.isDriver && (
             <Fuel />
           )}
-          <Seatbelt />
+          {data.vehicle?.seatbelt && (
+            <Seatbelt />
+          )}
         </>
       )}
       {// <Voice />
