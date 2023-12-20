@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useData } from '../../utils/dataContext';
+import './speed.css'
 
 export default function Speed() {
   const { data, setData } = useData();
@@ -9,6 +10,6 @@ export default function Speed() {
   }
     , [data.vehicle.speed]);
   return (
-    <div>{data.vehicle.speed} km/h</div>
+    <div className='VehicleSpeedometer'>{data.vehicle.speed} km/h</div>
   )
 }

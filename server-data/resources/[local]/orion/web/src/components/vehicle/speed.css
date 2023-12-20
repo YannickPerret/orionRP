@@ -1,0 +1,7 @@
+.VehicleSpeedometer {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 2.6vh;
+    left: 18vw;
+}
