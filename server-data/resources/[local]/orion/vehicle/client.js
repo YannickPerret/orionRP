@@ -80,6 +80,8 @@ const toggleSeatbelt = () => {
     emit('orion:showNotification', 'Vous avez détaché votre ceinture de sécurité.');
   }
 
+  console.log('seatbelt', seatbelt);
+
   SendNUIMessage({
     action: 'seatbelt',
     payload: seatbelt,

@@ -54,7 +54,7 @@ const App = () => {
           // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, fuel: payload.fuel } }));
           break;
         case "seatbelt":
-          console.log(payload.seatbelt);
+          console.log(payload);
           setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
           break;
         default:
