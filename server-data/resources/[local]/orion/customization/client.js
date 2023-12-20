@@ -111,7 +111,7 @@ const ApplyPlayerModelHash = async (playerId, hash) => {
   SetModelAsNoLongerNeeded(hash);
 };
 
-exports('ShowSkinCreator', enable => {
+const ShowSkinCreator = enable => {
   if (enable) {
     cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
 
@@ -151,7 +151,9 @@ exports('ShowSkinCreator', enable => {
 
   isCameraActive = enable;
   isSkinCreatorOpened = enable;
-});
+};
+
+exports('ShowSkinCreator', enable);
 
 exports('applySkin', skin => {
   let ped = GetPlayerPed(-1);
