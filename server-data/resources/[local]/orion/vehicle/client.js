@@ -43,11 +43,11 @@ const createVehicle = async (model, coords) => {
     await exports['orion'].delay(400)
   }
 
-/*
-  // Check if there's a vehicle blocking the spawn location
-  if (! IsAnyVehicleNearPoint(location.X, location.Y, location.Z, distance))
-  {
-  }*/
+  /*
+    // Check if there's a vehicle blocking the spawn location
+    if (! IsAnyVehicleNearPoint(location.X, location.Y, location.Z, distance))
+    {
+    }*/
 
   //const vehicle = CreateVehicle(model, coords[0], coords[1], coords[2], GetEntityHeading(ped), true, false);
   SetEntityAsNoLongerNeeded(vehicle);
@@ -95,7 +95,7 @@ const playSound = sound => {
     },
   });
 };
-
+/*
 (async () => {
   let currSpeed = 0.0;
   let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
@@ -127,23 +127,7 @@ const playSound = sound => {
 
         // Attach seatbelt prop on player
         seatbeltProp = CreateObject(GetHashKey(seatbeltPropModel), GetPedBoneIndex(ped, 28933), true, false, false);
-        AttachEntityToEntity(
-          seatbeltProp,
-          ped,
-          28933,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          180.0,
-          false,
-          false,
-          true,
-          false,
-          2,
-          true
-        );
+        AttachEntityToEntity(seatbeltProp, ped, 28933, 0.0, 0.0, 0.0, 0.0, 0.0, 180.0, false, false, true, false, 2, true);
         SetModelAsNoLongerNeeded(seatbeltPropModel);
 
         SetPedConfigFlag(GetPlayerPed(-1), 184, true);
@@ -216,7 +200,7 @@ const playSound = sound => {
       await exports['orion'].delay(1000);
     }
   }
-})();
+})();*/
 
 (async () => {
   let ped = PlayerPedId();
@@ -225,9 +209,61 @@ const playSound = sound => {
     let vehicle = GetVehiclePedIsIn(ped, false);
     //if ped is in a vehicle consume fuel
     if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
+      let currSpeed = 0.0;
+      let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
+      let prevSpeed = currSpeed;
+
+      //let speed =  GetEntitySpeed(vehicle) * 3.6 : 0;
+      currSpeed = GetEntitySpeed(vehicle);
+      SetPedConfigFlag(ped, 32, true);
+
+
+
+      DisplayRadar(true);
+
+
       let fuel = GetVehicleFuelLevel(vehicle);
       let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
+
+      if (seatbelt) {
+        DisableControlAction(0, 75, true);
+        DisableControlAction(27, 75, true);
+        exports['orion'].requestNewModel(seatbeltPropModel);
+
+        // Attach seatbelt prop on player
+        seatbeltProp = CreateObject(GetHashKey(seatbeltPropModel), GetPedBoneIndex(ped, 28933), true, false, false);
+        AttachEntityToEntity(seatbeltProp, ped, 28933, 0.0, 0.0, 0.0, 0.0, 0.0, 180.0, false, false, true, false, 2, true);
+        SetModelAsNoLongerNeeded(seatbeltPropModel);
+
+        SetPedConfigFlag(ped, 184, true);
+        if (GetIsTaskActive(ped, 165)) {
+          vehicleSeat = 0;
+          if (GetPedInVehicleSeat(vehicle, -1) == ped) {
+            vehicleSeat = -1;
+          }
+          SetPedIntoVehicle(ped, vehicle, vehicleSeat);
+        }
+      } else {
+        SetPedConfigFlag(ped, 184, false);
+        ClearPedProp(ped, GetPedBoneIndex(ped, 28933));
+
+        let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
+        let vehIsMovingFwd = speedY > 1.0;
+        let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
+        if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
+          console.log(positionX, prevVelocity.x);
+          SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
+          SetEntityVelocity(ped, prevVelocity.x, prevVelocity.y, prevVelocity.z);
+          await exports['orion'].delay(1);
+          SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0);
+        } else {
+          let [velX, velY, velZ] = GetEntityVelocity(vehicle);
+          prevVelocity.x = velX;
+          prevVelocity.y = velY;
+          prevVelocity.z = velZ;
+        }
+      }
 
       SendNUIMessage({
         action: 'showVehicleUI',
@@ -235,7 +271,8 @@ const playSound = sound => {
           pedInVehicle: true,
           fuel: fuel.toFixed(0),
           seatbelt: seatbelt,
-          isDriver: ped === GetPedInVehicleSeat(vehicle, -1)
+          isDriver: ped === GetPedInVehicleSeat(vehicle, -1),
+          speed: speed.toFixed(0),
         }
       });
 
@@ -244,12 +281,12 @@ const playSound = sound => {
       } else {
         consumption = 0.0;
       }
-      SendNUIMessage({
+      /*SendNUIMessage({
         action: 'updateFuel',
         payload: {
           fuel: (fuel - consumption).toFixed(0),
         },
-      });
+      });*/
 
       if (fuel - consumption > 0) {
         SetVehicleFuelLevel(vehicle, fuel - consumption);
@@ -265,6 +302,14 @@ const playSound = sound => {
           isDriver: false
         }
       });
+      CancelEvent('SeatShuffle');
+      DisplayRadar(false);
+
+      if (seatbelt) {
+        seatbelt = false;
+        toggleSeatbelt();
+      }
+      await exports['orion'].delay(1000);
     }
 
     if (vehicle != undefined && GetVehicleEngineHealth(vehicle) <= 300) {

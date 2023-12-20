@@ -27,6 +27,8 @@
         dirtLevel: GetVehicleDirtLevel(vehicleSpawn),
         doorsBroken: [ 0, 0, 0, 0, 0, 0, 0 ],
       });
+
+      await exports['orion'].delay(300)
   
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
