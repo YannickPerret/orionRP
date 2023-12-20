@@ -67,6 +67,10 @@ const App = () => {
     };
   }, [setVisible, closeAllMenus]);
 
+  useEffect(() => {
+    console.log("ui loaded");
+  }, []);
+
 
 
   const handleCloseMenu = (menu) => {
