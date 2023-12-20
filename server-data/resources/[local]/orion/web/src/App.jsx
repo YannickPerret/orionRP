@@ -37,6 +37,7 @@ const App = () => {
           setVisible('amountMenu', true);
           break;
         case "showSkinCreator":
+          console.log(payload.skinCreator);
           setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
           break;
         case "showBankInterface":
@@ -98,7 +99,7 @@ const App = () => {
       )}
 
       {visible.skinCreator && (
-        <SkinCreator onClose={() => handleCloseMenu('skinCreator')} />
+        <SkinCreator onClose={() => closeAllMenus} />
       )}
 
       {visible.bankInterface && (
