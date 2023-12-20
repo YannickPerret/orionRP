@@ -84,8 +84,8 @@ onNet('orion:playerDied', message => {
   StartScreenEffect('DeathFailOut', 0, false);
   SendNUIMessage({
     action: 'showDeathMessage',
-    data: {
-      message,
+    payload: {
+      playerDeadMessage: message
     },
   });
 });

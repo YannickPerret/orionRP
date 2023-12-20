@@ -37,7 +37,7 @@ const App = () => {
           setVisible('amountMenu', true);
           break;
         case "showSkinCreator":
-          setVisible('skinCreator', true);
+          setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
           break;
         case "showBankInterface":
           setVisible('bankInterface', true);
