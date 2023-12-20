@@ -13,6 +13,7 @@ import Bank from './window/bank/Bank';
 import Voice from './voice/Voice';
 import { useData } from './utils/dataContext';
 import { useVisibility } from './providers/visibilityProvider';
+import Speed from './components/vehicle/speed';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -46,7 +47,7 @@ const App = () => {
           break;
         case "showVehicleUI":
           setVisible(prevState => ({ ...prevState, vehicleHUD: payload.pedInVehicle }));
-          setData(prevData => ({ ...prevData, vehicle: { isDriver: payload.isDriver, seatbelt: payload.seatbelt, speed: payload.speed } }));
+          setData(prevData => ({ ...prevData, vehicle: { isDriver: payload.isDriver, seatbelt: payload.seatbelt, speed: payload.speed, fuel: payload.fuel } }));
           break;
         case "speedometer":
         // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
@@ -107,7 +108,10 @@ const App = () => {
       {visible.vehicleHUD && (
         <>
           {data.vehicle?.isDriver && (
-            <Fuel />
+            <>
+              <Fuel />
+              <Speed />
+            </>
           )}
           {data.vehicle?.seatbelt && (
             <Seatbelt />
