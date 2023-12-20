@@ -153,7 +153,7 @@ const ShowSkinCreator = enable => {
   isSkinCreatorOpened = enable;
 };
 
-exports('ShowSkinCreator', enable);
+exports('ShowSkinCreator', ShowSkinCreator);
 
 exports('applySkin', skin => {
   let ped = GetPlayerPed(-1);
