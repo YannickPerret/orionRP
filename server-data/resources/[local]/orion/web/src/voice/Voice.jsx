@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+/*import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
 
@@ -125,3 +125,12 @@ const Voice = ({ isGameConnected, voiceToggle }) => {
 };
 
 export default Voice;
+*/
+
+import React from 'react'
+
+export default function Voice() {
+    return (
+        null
+    )
+}
