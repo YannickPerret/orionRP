@@ -112,6 +112,7 @@ const App = () => {
 
       {visible.vehicleHUD && (
         <>
+          Oui bonjour salut !
           {visible.vehicle?.isDriver && (
             <Fuel />
           )}

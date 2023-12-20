@@ -13,10 +13,7 @@ export const VisibilityProvider = ({ children }) => {
     amountMenu: false,
     skinCreator: false,
     bankInterface: false,
-    vehicle: {
-      pedInVehicle: false,
-      isDriver: false
-    }
+    vehicleHUD: false,
   });
 
   // Utiliser useNuiEvent pour écouter les événements NUI spécifiques et mettre à jour la visibilité
