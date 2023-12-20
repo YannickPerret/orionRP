@@ -46,7 +46,7 @@ const App = () => {
           break;
         case "showVehicleUI":
           setVisible(prevState => ({ ...prevState, vehicleHUD: payload.pedInVehicle }));
-          setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, isDriver: payload.isDriver, sealtbelt: payload.sealtbelt } }));
+          setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, isDriver: payload.isDriver, seatbelt: payload.seatbelt } }));
           break;
         case "speedometer":
         // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));

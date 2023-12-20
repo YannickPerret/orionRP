@@ -3,7 +3,7 @@ let unknownEjectVelocity = 70 / 2.236936;
 let unknownModifier = 17.0;
 let minDamage = 2000;
 let volume = 0.25;
-let sealtbelt = false;
+let seatbelt = false;
 let vehicleClassDisableControl = {
   [0]: true, //     --compacts
   [1]: true, //     --sedans
@@ -32,7 +32,7 @@ let vehicleSeat = 0;
 let brakeLightSpeedThresh = 0.25;
 let seatbeltEjectSpeed = 45.0;
 let seatbeltEjectAccel = 100.0;
-let sealtbeltPropModel = 'prop_seatbelt_01';
+let seatbeltPropModel = 'prop_seatbelt_01';
 let seatbeltProp = null;
 
 
@@ -69,8 +69,8 @@ const createVehiclePedInside = async model => {
 //SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
 
 const toggleSeatbelt = () => {
-  sealtbelt = !sealtbelt;
-  if (sealtbelt) {
+  seatbelt = !seatbelt;
+  if (seatbelt) {
     playSound('buckle');
     SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
     emit('orion:showNotification', 'Vous avez attaché votre ceinture de sécurité.');
@@ -82,7 +82,7 @@ const toggleSeatbelt = () => {
 
   SendNUIMessage({
     action: 'seatbelt',
-    payload: sealtbelt,
+    payload: seatbelt,
   });
 };
 
@@ -120,13 +120,13 @@ const playSound = sound => {
 
       SetPedConfigFlag(PlayerPedId(), 32, true);
 
-      if (sealtbelt) {
+      if (seatbelt) {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
-        exports['orion'].requestNewModel(sealtbeltPropModel);
+        exports['orion'].requestNewModel(seatbeltPropModel);
 
         // Attach seatbelt prop on player
-        seatbeltProp = CreateObject(GetHashKey(sealtbeltPropModel), GetPedBoneIndex(ped, 28933), true, false, false);
+        seatbeltProp = CreateObject(GetHashKey(seatbeltPropModel), GetPedBoneIndex(ped, 28933), true, false, false);
         AttachEntityToEntity(
           seatbeltProp,
           ped,
@@ -144,7 +144,7 @@ const playSound = sound => {
           2,
           true
         );
-        SetModelAsNoLongerNeeded(sealtbeltPropModel);
+        SetModelAsNoLongerNeeded(seatbeltPropModel);
 
         SetPedConfigFlag(GetPlayerPed(-1), 184, true);
         if (GetIsTaskActive(GetPlayerPed(-1), 165)) {
@@ -209,8 +209,8 @@ const playSound = sound => {
           isDriver: false,
         },
       });
-      if (sealtbelt) {
-        sealtbelt = false;
+      if (seatbelt) {
+        seatbelt = false;
         toggleSeatbelt();
       }
       await exports['orion'].delay(1000);
@@ -234,7 +234,7 @@ const playSound = sound => {
         payload: {
           pedInVehicle: true,
           fuel: fuel.toFixed(0),
-          seatbelt: sealtbelt,
+          seatbelt: seatbelt,
           isDriver: ped === GetPedInVehicleSeat(vehicle, -1)
         }
       });
