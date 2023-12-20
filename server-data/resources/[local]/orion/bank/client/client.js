@@ -10,16 +10,16 @@
   const showATMdisplay = () => {
 
     showBankInterface = !showBankInterface;
-    SendNuiMessage(JSON.stringify({ showATMInterface: showBankInterface }));
+    //SendNuiMessage(JSON.stringify({ showATMInterface: showBankInterface }));
     SetNuiFocus(showBankInterface, showBankInterface);
   }
 
   const showBankDisplay = () => {
     showBankInterface = !showBankInterface;
-    SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
+    //SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
     SetNuiFocus(showBankInterface, showBankInterface);
   }
-  
+
   const showConseillerDisplay = () => {
     //showConseillerInterface = !showConseillerInterface;
     /*SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
@@ -70,20 +70,20 @@
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
       for (let bankCoords of bankCoordsJson.bank) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
-        if ( distance <= 1.3) {
+        if (distance <= 1.3) {
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
             if (IsControlJustReleased(0, 38)) {
               showBankDisplay();
               bankIsOpen = true;
             }
-          } 
+          }
         }
       }
 
       for (let atmCoords of bankCoordsJson.atm) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
-        if ( distance <= 2) {
+        if (distance <= 2) {
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
 
@@ -97,7 +97,7 @@
 
       for (const mangement of bankCoordsJson.management) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
-        if ( distance <= 2) {
+        if (distance <= 2) {
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
             if (IsControlJustReleased(0, 38)) {
@@ -112,7 +112,7 @@
   RegisterCommand('bank', async () => {
     showATMInterface();
   }, false);
-  
+
 })();
 // créer une interaction pour chaque banque
 // créer un interaction pour chaque atm
@@ -123,7 +123,7 @@
 
 /* banque centrale
     Permet de faire une demande de rénouvellement de carte (si item procuration nouvelle carte est possédé)
-    Un compte peut avoir 0 ou plusieurs cartes associées 
+    Un compte peut avoir 0 ou plusieurs cartes associées
 
     Il existe des comptes Personnel, Entreprise, Blanchiment
 
@@ -135,22 +135,22 @@
     Un client peut configurer son compte pour recevoir l'historique de transaction (cout cher) ou créer une limite de retrait sur le compte (modifiable tout les 7 jours)
 */
 
-/* banque 
-    Si une carte est possédé, permet de faire : 
+/* banque
+    Si une carte est possédé, permet de faire :
         - un retrait
         - un dépôt
         - un transfert
 */
 
 /* atm
-    Si une carte est possédé, permet de faire : 
+    Si une carte est possédé, permet de faire :
         - un retrait
         - un transfert
 */
 /* accounts
     player -> account_player -> account
 
-    bank 
+    bank
     - id
     - title
     - currentAmount

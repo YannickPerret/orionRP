@@ -144,7 +144,10 @@ exports('ShowSkinCreator', enable => {
   console.log('ShowSkinCreator', enable);
 
   SetNuiFocus(enable, enable);
-  SendNuiMessage({ action: 'showSkinCreator', payload: { skinCreator: enable } });
+  SendNUIMessage(JSON.stringify({
+    action: 'showSkinCreator',
+    payload: { skinCreator: enable }
+  }));
 
   isCameraActive = enable;
   isSkinCreatorOpened = enable;
