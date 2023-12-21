@@ -49,6 +49,7 @@ client_scripts{
     'bank/client/client.js',
     'bank/client/invoice.js',
     'voice/client.js',
+    'inventory/client.js',
 
 }
 
