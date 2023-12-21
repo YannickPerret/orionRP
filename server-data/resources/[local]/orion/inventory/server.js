@@ -26,9 +26,9 @@
         }
     })
 
-    RegisterCommand('inv', async (source, args) => {
+    RegisterCommand('inv', (source, args, rawCommand) => {
         emitNet('orion:inventory:s:loadInventory', source);
-    })
+    }, false);
 
 })();
 
