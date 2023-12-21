@@ -10,7 +10,8 @@ const initialState = {
   player: {
     firstname: 'John',
     lastname: 'Doe',
-    phone: '06 06 06 06 06'
+    phone: '06 06 06 06 06',
+    inventory: [],
   },
   account: {
     money: 100,
@@ -26,6 +27,7 @@ const initialState = {
     speed: 0,
     seatbelt: false,
     isDriver: false,
+    inventory: [],
   },
   isPlayerDead: false,
   playerDeadMessage: '',

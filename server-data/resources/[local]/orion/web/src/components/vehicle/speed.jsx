@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useData } from '../../utils/dataContext';
+import { useData } from '../../providers/dataContext';
 import './speed.css'
 
 export default function Speed() {

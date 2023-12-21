@@ -10,13 +10,23 @@ class Inventory {
         this.weight = 0;
     }
 
-    addItem(item) {
+    addItem(item, number) {
         if (this.weight + item.weight > this.maxWeight) {
             return false;
         }
 
-        this.items.push(item);
-        this.weight += item.weight;
+        if (this.hasItem(item)) {
+            this.items = this.items.map(i => {
+                if (i.id === item.id) {
+                    i.number += number;
+                }
+                return i;
+            });
+        } else {
+            this.items.push({ id: item.id, number: number });
+        }
+
+        this.weight += item.weight * number;
         return true;
     }
 

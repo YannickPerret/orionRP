@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './fuel.css'
-import { useData } from '../../utils/dataContext';
+import { useData } from '../../providers/dataContext';
 
 export default function Fuel() {
   const { data, setData } = useData();

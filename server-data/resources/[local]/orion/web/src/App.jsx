@@ -11,9 +11,10 @@ import Seatbelt from './components/vehicle/Seatbelt';
 import Fuel from './components/vehicle/fuel';
 import Bank from './window/bank/Bank';
 import Voice from './voice/Voice';
-import { useData } from './utils/dataContext';
+import { useData } from './providers/dataContext';
 import { useVisibility } from './providers/visibilityProvider';
 import Speed from './components/vehicle/speed';
+import Inventory from './window/inventory/Inventory';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -30,6 +31,13 @@ const App = () => {
         case "showJobMenu":
           setVisible('jobMenu', true);
           break;
+        case "inventoryHUD":
+          setVisible(prevData => ({ ...prevData, inventoryHUD: payload.inventoryHUD }));
+          setData(prevData => ({ ...prevData, inventory: payload.inventory }));
+          break;
+        case "updateInventory":
+          setData(prevData => ({ ...prevData, inventory: payload.inventory }));
+          break;
         case "closeMenus":
           closeAllMenus();
           break;
@@ -37,7 +45,6 @@ const App = () => {
           setVisible('amountMenu', true);
           break;
         case "showSkinCreator":
-          console.log("test", payload.skinCreator);
           setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
           break;
         case "showBankInterface":
@@ -49,11 +56,6 @@ const App = () => {
         case "showVehicleUI":
           setVisible(prevState => ({ ...prevState, vehicleHUD: payload.pedInVehicle }));
           setData(prevData => ({ ...prevData, vehicle: { isDriver: payload.isDriver, seatbelt: payload.seatbelt, speed: payload.speed, fuel: payload.fuel } }));
-          break;
-        case "speedometer":
-        // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
-        case "fuel":
-          // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, fuel: payload.fuel } }));
           break;
         case "seatbelt":
           setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
@@ -84,6 +86,10 @@ const App = () => {
         <SideMenu>
           <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />
         </SideMenu>
+      )}
+
+      {visible.inventoryHUD && (
+        <Inventory />
       )}
 
       {visible.jobMenu && (

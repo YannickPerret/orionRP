@@ -9,8 +9,8 @@
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
-                inventoryOpen: inventoryUiOpen,
-                iventory: inventory,
+                inventoryHUD: inventoryUiOpen,
+                inventory: inventory,
             }
         }));
     });

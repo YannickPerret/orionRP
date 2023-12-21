@@ -135,37 +135,48 @@
     const skin = data.finalSkin;
     const firstname = data.firstname;
     const lastname = data.lastname;
+    let [steamId, license] = getIdentifier(source);
+
     try {
       const phoneNumber = await Phone.generateNewNumber();
       const playerInventory = Inventory.createEmpty();
-
-      let [steamId, license] = getIdentifier(source);
-
-      const newPlayer = new Player({
-        id: r.uuid(),
-        source: source,
-        steamId: steamId,
-        license: license,
-        firstname: firstname,
-        lastname: lastname,
-        phone: Number(phoneNumber),
-        money: 500,
-        accountId: null,
-        position: {
-          x: playerPosition[0],
-          y: playerPosition[1],
-          z: playerPosition[2],
-        },
-        discord: null,
-        mugshot: null,
-        skin: skin,
-        inventoryId: playerInventory.id,
+      let itemsStarter = await db.getByWithFilter('items', { starter: true });
+      itemsStarter.forEach(item => {
+        playerInventory.addItem(item, item.starter.quantity);
       });
 
-      if (await newPlayer.save()) {
-        PlayerManager.addPlayer(source, newPlayer);
-        emitNet('orion:player:c:completRegister', source, newPlayer);
-      } else {
+      if (playerInventory.save()) {
+
+        const newPlayer = new Player({
+          id: r.uuid(),
+          source: source,
+          steamId: steamId,
+          license: license,
+          firstname: firstname,
+          lastname: lastname,
+          phone: Number(phoneNumber),
+          money: 500,
+          accountId: null,
+          position: {
+            x: playerPosition[0],
+            y: playerPosition[1],
+            z: playerPosition[2],
+          },
+          discord: null,
+          mugshot: null,
+          skin: skin,
+          inventoryId: playerInventory.id,
+        });
+
+        if (await newPlayer.save()) {
+          PlayerManager.addPlayer(source, newPlayer);
+          emitNet('orion:player:c:completRegister', source, newPlayer);
+        } else {
+          emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
+          throw new Error('Erreur lors de la création du joueur');
+        }
+      }
+      else {
         emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
         throw new Error('Erreur lors de la création du joueur');
       }

@@ -9,7 +9,11 @@ const items = [
         unique: false,
         useable: true,
         shouldClose: false,
-        description: 'A burger'
+        description: 'A burger',
+        hunger: 30,
+        starter: {
+            quantity: 10,
+        }
     },
     // Drinks
     {
@@ -21,7 +25,11 @@ const items = [
         unique: false,
         useable: true,
         shouldClose: false,
-        description: 'A bottle of water'
+        description: 'A bottle of water',
+        thirst: 30,
+        starter: {
+            quantity: 10,
+        }
     },
     {
         name: 'weapon_unarmed',
