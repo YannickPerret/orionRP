@@ -41,9 +41,9 @@ class Database {
 
   async getLatestDbVersion() {
     return this.connect().then(connection => {
-      return r.table('system').get(1)
+      return r.table('system').get("1")
         .run(connection)
-        .then(doc => doc ? doc.version : 0)
+        .then(system => system ? system.version : 0)
         .catch(err => {
           console.error('Erreur lors de la récupération de la version de la base de données:', err);
           throw err;
