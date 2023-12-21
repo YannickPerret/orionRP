@@ -31,6 +31,7 @@ class Database {
   }
 
   async initializeMigration() {
+    await this.createDatabase(this.db);
     await this.createTable('system');
     const latestVersion = await this.getLatestDbVersion();
     await this.applyMigrations(latestVersion);
@@ -64,7 +65,7 @@ class Database {
     }
   }
 
-  createDb(dbName) {
+  createDatabase(dbName) {
     return this.connect().then(connection => {
       return r
         .dbCreate(dbName)
