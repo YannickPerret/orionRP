@@ -61,7 +61,7 @@ class Database {
       .sort((a, b) => a.version - b.version);
 
     for (const migration of migrationFiles) {
-      if (migration.version > version) {
+      if (migration.version >= version) {
         console.log(`Applying migration: ${migration.version}`);
         await migration.migrate(this);
         //await this.updateVersion(migration.version);
