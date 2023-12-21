@@ -54,6 +54,7 @@ class Database {
 
   async applyMigrations(currentVersion) {
     let version = currentVersion + 1;
+    console.log(`Current version: ${currentVersion}`);
     const migrationFiles = fs.readdirSync(path.join(__dirname, 'migrations'))
       .filter(file => file.endsWith('.js'))
       .map(file => require(`./migrations/${file}`))
