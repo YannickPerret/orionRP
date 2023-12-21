@@ -13,6 +13,7 @@ files {
     'web/build/**/*',
     'web/build/images/skinCreator/heritage/*',
 
+    'core/shared/items.js',
     'station/gasStations.json',
     'bank/bank.json',
 
