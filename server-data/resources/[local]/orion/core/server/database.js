@@ -55,7 +55,7 @@ class Database {
   async applyMigrations(currentVersion) {
     const migrationFiles = fs.readdirSync(path.join(__dirname, 'migrations'))
       .filter(file => file.endsWith('.js'))
-      .map(file => require(`./migrations/${file}`))
+      .map(file => (console.log(file), require(`./migrations/${file}`)))
       .sort((a, b) => a.version - b.version);
 
     for (const migration of migrationFiles) {
