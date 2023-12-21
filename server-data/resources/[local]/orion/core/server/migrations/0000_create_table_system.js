@@ -3,6 +3,6 @@ module.exports = {
     migrate: async (db) => {
         // Création d'une table
         await db.createTable('system');
-        await db.insert('system', { version: 0, date: new Date(), name: "Orion", dateCreated: new Date(), maxPlayers: 64 });
+        await db.insert('system', { version: 0, lastUpdate: new Date(), name: "Orion", dateCreated: new Date(), maxPlayers: 64 });
     }
 };

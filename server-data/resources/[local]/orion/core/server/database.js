@@ -90,8 +90,22 @@ class Database {
   }
 
   updateVersion(version) {
-    return this.insert('system', { version, date: new Date() });
+    return this.connect().then(connection => {
+      return r.table('system')
+        .get('version')
+        .update({ version, lastUpdate: new Date() }, { upsert: true })
+        .run(connection)
+        .then(result => {
+          console.log('Version de la base de données mise à jour avec succès');
+          return result;
+        })
+        .catch(err => {
+          console.error("Erreur lors de la mise à jour de la version de la base de données:", err);
+          throw err;
+        });
+    });
   }
+
 
   createTable(tableName) {
     //check if table exists before creating it
