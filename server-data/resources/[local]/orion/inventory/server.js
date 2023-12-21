@@ -1,6 +1,6 @@
 (async () => {
     const PlayerManager = require('./core/server/playerManager.js');
-    const Inventory = require('./inventory/inventory.js');
+    const { Inventory } = require('./inventory/inventory.js');
 
     onNet('orion:inventory:s:useItem', (item) => {
         item.use();
@@ -18,8 +18,6 @@
         const inventory = inventoryId || player.inventoryId;
 
         const playerInventory = await Inventory.getById(inventory);
-
-
 
         if (player && playerInventory) {
             emitNet('orion:inventory:c:open', source, playerInventory);
