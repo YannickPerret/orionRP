@@ -51,15 +51,6 @@ class Inventory {
         return this.maxWeight;
     }
 
-    toJSON() {
-        return {
-            id: this.id,
-            maxWeight: this.maxWeight,
-            maxSlots: this.maxSlots,
-            items: this.items
-        };
-    }
-
     calculateWeight() {
         this.weight = this.items.reduce((acc, item) => acc + item.weight, 0);
     }
@@ -79,6 +70,13 @@ class Inventory {
         return inventory;
     }
 
+    async save() {
+        if (await db.get('inventory', this.id)) {
+            return await db.update('inventory', this);
+        } else {
+            return await db.insert('inventory', this);
+        }
+    }
 }
 
 
