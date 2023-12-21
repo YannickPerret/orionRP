@@ -34,7 +34,6 @@ class Database {
     let latestVersion = -1;
     await this.createDatabase(this.db);
     await this.createTable('system').catch(async () => {
-      console.log('Je ne veux pas voir se message');
       latestVersion = await this.getLatestDbVersion();
     });
     await this.applyMigrations(latestVersion);
@@ -54,7 +53,6 @@ class Database {
 
   async applyMigrations(currentVersion) {
     let version = currentVersion + 1;
-    console.log(`Current version: ${version}`);
     const migrationFiles = fs.readdirSync(path.join(__dirname, 'migrations'))
       .filter(file => file.endsWith('.js'))
       .map(file => require(`./migrations/${file}`))
@@ -135,7 +133,7 @@ class Database {
               });
           } else {
             console.log('La table existe déjà');
-            return Promise.resolve();
+            throw "La table existe déjà"
           }
         })
         .catch(err => {
