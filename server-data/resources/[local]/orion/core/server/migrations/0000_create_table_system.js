@@ -2,9 +2,6 @@
 module.exports = {
     version: 0,
     migrate: async (db) => {
-        // Création d'une table
-        await db.createTable('system');
-
         // Insertion d'un document avec un ID spécifique dans la table 'system'
         await db.insert('system', {
             id: 1, // Définir l'ID du document à 1

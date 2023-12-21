@@ -14,7 +14,7 @@ class Database {
 
   connect() {
     return new Promise((resolve, reject) => {
-      if (!this._connection) {
+      if (!this.connection) {
         r.connect({ host: this.host, port: this.port, db: this.db }, (err, conn) => {
           if (err) {
             reject(err);
@@ -25,7 +25,7 @@ class Database {
           }
         });
       } else {
-        resolve(this._connection);
+        resolve(this.connection);
       }
     });
   }
