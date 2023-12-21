@@ -19,7 +19,7 @@
         const inventory = inventoryId ? inventoryId : player.inventoryId;
 
         console.log(inventory)
-        const playerInventory = Inventory.getById(inventory);
+        const playerInventory = await Inventory.getById(inventory);
 
 
 
