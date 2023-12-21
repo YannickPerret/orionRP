@@ -4,7 +4,7 @@ const { db, r } = require('../core/server/database.js');
 
 class Inventory {
     constructor({ id, maxWeight, items }) {
-        this.id = id;
+        this.id = id || null;
         this.maxWeight = maxWeight;
         this.items = items || [];
         this.weight = 0;
@@ -55,12 +55,8 @@ class Inventory {
         this.weight = this.items.reduce((acc, item) => acc + item.weight, 0);
     }
 
-    static fromJSON(json) {
-        return new Inventory(json);
-    }
-
     static createEmpty() {
-        return new Inventory({ id: r.uuid(), maxWeight: MAX_WEIGHT, items: [] });
+        return new Inventory({ maxWeight: MAX_WEIGHT, items: [] });
     }
 
     static async getById(id) {
