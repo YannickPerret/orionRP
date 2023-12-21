@@ -64,17 +64,17 @@ class Inventory {
     }
 
     static async getById(id) {
-        const inventoryDB = await db.get('inventory', id);
+        const inventoryDB = await db.get('inventories', id);
         const inventory = new Inventory(inventoryDB);
         inventory.calculateWeight();
         return inventory;
     }
 
     async save() {
-        if (await db.get('inventory', this.id)) {
-            return await db.update('inventory', this);
+        if (await db.get('inventories', this.id)) {
+            return await db.update('inventories', this);
         } else {
-            return await db.insert('inventory', this);
+            return await db.insert('inventories', this);
         }
     }
 }
