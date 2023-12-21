@@ -61,7 +61,7 @@ class Database {
       if (migration.version > currentVersion) {
         console.log(`Applying migration: ${migration.version}`);
         await migration.migrate(this);
-        await this.updateVersion(migration.version);
+        //await this.updateVersion(migration.version);
       }
     }
   }
@@ -91,11 +91,11 @@ class Database {
   updateVersion(version) {
     return this.connect().then(connection => {
       return r.table('system')
-        .get(1) // Utilisez l'ID 1 pour cibler le document spécifique
+        .get("1")
         .update({
           version: version,
           lastUpdate: new Date()
-        }) // Met à jour uniquement les champs 'version' et 'lastUpdate'
+        })
         .run(connection)
         .then(result => {
           console.log('Version de la base de données mise à jour avec succès');
