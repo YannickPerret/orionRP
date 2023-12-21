@@ -31,9 +31,11 @@ class Database {
   }
 
   async initializeMigration() {
+    let latestVersion = 0;
     await this.createDatabase(this.db);
-    await this.createTable('system');
-    const latestVersion = await this.getLatestDbVersion();
+    await this.createTable('system').then(async () => {
+      latestVersion = await this.getLatestDbVersion();
+    });
     await this.applyMigrations(latestVersion);
   }
 
@@ -93,9 +95,7 @@ class Database {
 
   createTable(tableName) {
     //check if table exists before creating it
-    console.log('Creating table: ' + tableName)
     return this.connect().then(connection => {
-      console.log(connection)
       return r
         .tableList()
         .run(connection)
