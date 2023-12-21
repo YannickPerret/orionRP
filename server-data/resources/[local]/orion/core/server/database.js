@@ -33,7 +33,7 @@ class Database {
   async initializeMigration() {
     let latestVersion = 0;
     await this.createDatabase(this.db);
-    await this.createTable('system').then(async () => {
+    await this.createTable('system').catch(async () => {
       latestVersion = await this.getLatestDbVersion();
     });
     await this.applyMigrations(latestVersion);
