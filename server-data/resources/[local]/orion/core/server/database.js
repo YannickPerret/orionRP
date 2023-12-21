@@ -93,8 +93,20 @@ class Database {
     return this.connect().then(connection => {
       return r.table('system')
         .get('version')
-        .update({ version, lastUpdate: new Date() }, { upsert: true })
         .run(connection)
+        .then(doc => {
+          if (doc) {
+            return r.table('system')
+              .get('version')
+              .update({ version, date: new Date() })
+              .run(connection);
+          } else {
+            // Si le document n'existe pas, insérez un nouveau document
+            return r.table('system')
+              .insert({ id: 'version', version, date: new Date() })
+              .run(connection);
+          }
+        })
         .then(result => {
           console.log('Version de la base de données mise à jour avec succès');
           return result;
@@ -105,6 +117,7 @@ class Database {
         });
     });
   }
+
 
 
   createTable(tableName) {
