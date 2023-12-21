@@ -27,10 +27,10 @@
     })
 
     // create register command
-    RegisterCommand('inv', (source, args) => {
-        //emit('orion:inventory:s:loadInventory');
-        console.log('inv');
-    }, false);
 
 })();
 
+RegisterCommand('inv', (source, args) => {
+    //emit('orion:inventory:s:loadInventory');
+    console.log('inv');
+}, false);
