@@ -16,7 +16,12 @@
     onNet('orion:inventory:s:loadInventory', async (inventoryId = null) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        const playerInventory = Inventory.getById(inventoryId || player.inventoryId);
+        const inventory = inventoryId ? inventoryId : player.inventoryId;
+
+        console.log(inventory)
+        const playerInventory = Inventory.getById(inventory);
+
+
 
         if (player && playerInventory) {
             emitNet('orion:inventory:c:open', source, playerInventory);
