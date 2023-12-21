@@ -86,7 +86,9 @@ class Database {
 
   createTable(tableName) {
     //check if table exists before creating it
+    console.log('Creating table: ' + tableName)
     return this.connect().then(connection => {
+      console.log(connection)
       return r
         .tableList()
         .run(connection)
