@@ -13,7 +13,7 @@
         }
     })
 
-    onNet('orion:inventory:s:loadInventory', async (inventoryId) => {
+    onNet('orion:inventory:s:loadInventory', async (inventoryId = null) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const playerInventory = Inventory.getById(inventoryId || player.inventoryId);
