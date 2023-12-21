@@ -41,10 +41,9 @@ class Database {
 
   getLatestDbVersion() {
     return this.connect().then(connection => {
-      return r.table('system').orderBy({ index: r.desc('version') }).limit(1)
+      return r.table('system').get(1)
         .run(connection)
-        .then(cursor => cursor.toArray())
-        .then(result => result.length > 0 ? result[0].version : 0)
+        .then(doc => doc ? doc.version : 0)
         .catch(err => {
           console.error('Erreur lors de la récupération de la version de la base de données:', err);
           throw err;

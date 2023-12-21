@@ -1,8 +1,18 @@
+
 module.exports = {
     version: 0,
     migrate: async (db) => {
         // Création d'une table
         await db.createTable('system');
-        await db.insert('system', { id: 1, version: 0, lastUpdate: new Date(), name: "Orion", dateCreated: new Date(), maxPlayers: 64 });
+
+        // Insertion d'un document avec un ID spécifique dans la table 'system'
+        await db.insert('system', {
+            id: 1, // Définir l'ID du document à 1
+            version: 0, // Version initiale
+            lastUpdate: new Date(), // Date de la dernière mise à jour
+            name: "Orion", // Autres champs
+            dateCreated: new Date(),
+            maxPlayers: 64
+        });
     }
 };
