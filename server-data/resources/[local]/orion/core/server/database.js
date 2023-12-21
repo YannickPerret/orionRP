@@ -52,20 +52,27 @@ class Database {
   }
 
   async applyMigrations(currentVersion) {
-    let version = currentVersion + 1;
     const migrationFiles = fs.readdirSync(path.join(__dirname, 'migrations'))
       .filter(file => file.endsWith('.js'))
       .map(file => require(`./migrations/${file}`))
       .sort((a, b) => a.version - b.version);
 
+    const lastMigrationVersion = migrationFiles.length > 0 ? migrationFiles[migrationFiles.length - 1].version : 0;
+
+    if (lastMigrationVersion <= currentVersion) {
+      console.log("Database est à jour ! Pas de nouvelle migration");
+      return;
+    }
+
     for (const migration of migrationFiles) {
-      if (migration.version >= version) {
+      if (migration.version > currentVersion) {
         console.log(`Applying migration: ${migration.version}`);
         await migration.migrate(this);
         await this.updateVersion(migration.version);
       }
     }
   }
+
 
   createDatabase(dbName) {
     return this.connect().then(connection => {
