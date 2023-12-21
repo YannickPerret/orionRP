@@ -64,6 +64,7 @@ class Inventory {
     }
 
     static async getById(id) {
+        console.log("id", id)
         const inventoryDB = await db.get('inventories', id);
         console.log(inventoryDB)
         const inventory = new Inventory({ id: inventoryDB.id, maxWeight: inventoryDB.maxWeight, items: inventoryDB.items });
