@@ -1,10 +1,11 @@
 const MAX_WEIGHT = 100;
 const MAX_HEIGHT_WITH_BAG = 250;
 const { db, r } = require('../core/server/database.js');
+const { v4: uuidv4 } = require('uuid');
 
 class Inventory {
     constructor({ id, maxWeight, items }) {
-        this.id = id || null;
+        this.id = id || uuidv4();
         this.maxWeight = maxWeight;
         this.items = items || [];
         this.weight = 0;
