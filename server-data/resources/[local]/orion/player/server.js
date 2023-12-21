@@ -4,7 +4,7 @@
   const PlayerManager = require('./core/server/playerManager.js');
   const Player = require('./player/player.js');
   const Phone = require('./phone/phone.js');
-  const Inventory = require('./inventory/inventory.js');
+  const { Inventory } = require('./inventory/inventory.js');
 
 
   // Position par défaut du joueur
