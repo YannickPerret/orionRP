@@ -12,6 +12,7 @@ const items = [
         description: 'A burger',
         hunger: 30,
         starter: {
+            enabled: true,
             quantity: 10,
         }
     },
