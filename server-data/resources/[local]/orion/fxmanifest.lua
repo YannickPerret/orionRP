@@ -59,6 +59,7 @@ server_scripts{
     'vehicle/server.js',
     'station/server.js',
     'bank/server/server.js',
+    'inventory/server.js',
 }
 
 
