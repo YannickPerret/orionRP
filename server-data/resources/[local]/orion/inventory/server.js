@@ -26,8 +26,10 @@
         }
     })
 
-    RegisterCommand('inv', () => {
-        emit('orion:inventory:s:loadInventory');
+    // create register command
+    RegisterCommand('inv', (source, args) => {
+        //emit('orion:inventory:s:loadInventory');
+        console.log('inv');
     }, false);
 
 })();
