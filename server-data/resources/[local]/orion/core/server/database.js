@@ -1,23 +1,24 @@
 const r = require('rethinkdb');
+const fs = require('fs');
+const path = require('path');
 
 class Database {
   constructor({ host, port, db }) {
-    this._config = {
-      host: host || '192.168.1.18',
-      port: port || 28015,
-      db: db || 'orion',
-    };
+    this.host = host || '192.168.1.18';
+    this.port = port || 28015;
+    this.db = db || 'orion';
+    this.connection = null;
   }
 
   connect() {
     return new Promise((resolve, reject) => {
       if (!this._connection) {
-        r.connect(this._config, (err, conn) => {
+        r.connect({ host: this.host, port: this.port, db: this.db }, (err, conn) => {
           if (err) {
             reject(err);
           } else {
-            conn.use(this._config.db);
-            this._connection = conn;
+            conn.use(this.db);
+            this.connection = conn;
             resolve(conn);
           }
         });
@@ -25,6 +26,40 @@ class Database {
         resolve(this._connection);
       }
     });
+  }
+
+  async initializeMigration() {
+    await this.createTable('system');
+    const latestVersion = await this.getLatestDbVersion();
+    await this.applyMigrations(latestVersion);
+  }
+
+  getLatestDbVersion() {
+    return this.connect().then(connection => {
+      return r.table('system').orderBy({ index: r.desc('version') }).limit(1)
+        .run(connection)
+        .then(cursor => cursor.toArray())
+        .then(result => result.length > 0 ? result[0].version : 0)
+        .catch(err => {
+          console.error('Erreur lors de la récupération de la version de la base de données:', err);
+          throw err;
+        });
+    });
+  }
+
+  async applyMigrations(currentVersion) {
+    const migrationFiles = fs.readdirSync(path.join(__dirname, 'migrations'))
+      .filter(file => file.endsWith('.js'))
+      .map(file => require(`./migration/${file}`))
+      .sort((a, b) => a.version - b.version);
+
+    for (const migration of migrationFiles) {
+      if (migration.version > currentVersion) {
+        console.log(`Applying migration: ${migration.version}`);
+        await migration.migrate(this);
+        await this.updateVersion(migration.version);
+      }
+    }
   }
 
   createDb(dbName) {
@@ -41,6 +76,10 @@ class Database {
           throw err;
         });
     });
+  }
+
+  updateVersion(version) {
+    return this.insert('system', { version, date: new Date() });
   }
 
   createTable(tableName) {

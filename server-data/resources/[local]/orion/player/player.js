@@ -1,13 +1,14 @@
 const { db, r } = require('../core/server/database.js');
 
 class Player {
-  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin}) {
+  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin, inventoryId }) {
     this.id = id;
     this.source = source;
     this.accountId = accountId || false;
     this.faim = 100;
     this.soif = 100;
     this.steamId = steamId || '';
+    this.inventoryId = inventoryId || '';
     this.position = {
       x: position.x || 0,
       y: position.y || 0,

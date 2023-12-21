@@ -1,13 +1,29 @@
-exports('orion:inventory:s:createUsableItem', (item, cb) => {
-    let usableItem = new UsableItem(item);
-    usableItem.create();
-    cb(usableItem);
-});
+(async () => {
+    const PlayerManager = require('./core/server/playerManager.js');
+    const Inventory = require('./inventory/inventory.js');
 
-exports('orion:inventory:s:removeUsableItem', (item) => {
-    item.destroy();
-});
+    onNet('orion:inventory:s:useItem', (item) => {
+        item.use();
+    });
 
-exports('orion:inventory:s:useItem', (item) => {
-    item.use();
-});
+    onNet('orion:inventory:s:giveItem', (item, target) => {
+        let player = PlayerManager.getPlayerBySource(target);
+        if (player) {
+            player.inventory.addItem(item);
+        }
+    })
+
+    RegisterCommand('inv', async (source, args) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const playerInventory = Inventory.getById(player.inventoryId);
+
+        if (player && playerInventory) {
+            emitNet('orion:inventory:c:open', source, playerInventory);
+        }
+        else {
+            emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+        }
+    });
+})()
+

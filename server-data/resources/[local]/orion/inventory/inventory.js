@@ -1,5 +1,9 @@
+const MAX_WEIGHT = 100;
+const MAX_HEIGHT_WITH_BAG = 250;
+const { db, r } = require('../core/server/database.js');
+
 class Inventory {
-    constructor({ id, maxWeight, maxSlots, items }) {
+    constructor({ id, maxWeight, items }) {
         this.id = id;
         this.maxWeight = maxWeight;
         this.items = items || [];
@@ -46,28 +50,46 @@ class Inventory {
         };
     }
 
+    calculateWeight() {
+        this.weight = this.items.reduce((acc, item) => acc + item.weight, 0);
+    }
+
     static fromJSON(json) {
         return new Inventory(json);
     }
 
-    static create(id, maxWeight, maxSlots) {
-        return new Inventory({ id, maxWeight, maxSlots });
+    static createEmpty() {
+        const uid = exports['orion'].uuid()
+        return new Inventory({ id: uid, maxWeight: MAX_WEIGHT, items: [] });
     }
+
+    static async getById(id) {
+        const inventoryDB = await db.get('inventory', id);
+        const inventory = new Inventory(inventoryDB);
+        inventory.calculateWeight();
+        return inventory;
+    }
+
 }
 
 
 class Item {
-    constructor({ id, name, weight, description, usable, usableData }) {
+    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose }) {
         this.id = id;
         this.name = name;
+        this.label = label || '';
         this.weight = weight;
         this.description = description;
-        this.usable = usable || false;
-        this.usableData = usableData;
+        this.useable = useable || false;
+        this.type = type || 'item_standard';
+        this.ammotype = ammotype || null;
+        this.image = image || null;
+        this.unique = unique || false;
+        this.shouldClose = shouldClose || false;
     }
 
     use() {
-        if (!this.usable) {
+        if (!this.useable) {
             return;
         }
 
@@ -89,7 +111,7 @@ class Item {
         return new Item(json);
     }
 
-    static create(id, name, weight, description, usable, usableData) {
+    static createNew(id, name, weight, description, usable, usableData) {
         return new Item({ id, name, weight, description, usable, usableData });
     }
 }
