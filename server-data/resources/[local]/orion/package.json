@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "cd web && npm run dev"
+    "dev": "cd web && npm run dev",
+    "migration:create": "node createMigration.js"
   },
   "author": "",
   "license": "ISC",
