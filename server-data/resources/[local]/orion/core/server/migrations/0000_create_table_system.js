@@ -3,7 +3,6 @@ module.exports = {
     version: 0,
     migrate: async (db) => {
         // Insertion d'un document avec un ID spécifique dans la table 'system'
-        console.log("system 0")
         await db.insert('system', {
             id: '1',
             version: 0, // Version initiale

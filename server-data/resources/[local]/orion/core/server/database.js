@@ -62,7 +62,7 @@ class Database {
       if (migration.version >= version) {
         console.log(`Applying migration: ${migration.version}`);
         await migration.migrate(this);
-        //await this.updateVersion(migration.version);
+        await this.updateVersion(migration.version);
       }
     }
   }
