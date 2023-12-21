@@ -14,8 +14,9 @@ function createMigrationFile(name) {
         fs.mkdirSync(migrationsDir);
     }
 
+    const formattedName = name.replace(/\s+/g, '_');
     const version = getNextMigrationVersion(migrationsDir);
-    const fileName = `${version.toString().padStart(4, '0')}_${name}.js`; // Formatage du nom du fichier
+    const fileName = `${version.toString().padStart(4, '0')}_${formattedName}.js`;
     const filePath = path.join(migrationsDir, fileName);
 
     const content = `module.exports = {

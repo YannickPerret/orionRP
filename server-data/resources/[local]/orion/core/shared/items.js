@@ -1657,3 +1657,4 @@ const items = [
         description: 'Ammo for EMP Launcher'
     }
 ]
+modules.exports = items;

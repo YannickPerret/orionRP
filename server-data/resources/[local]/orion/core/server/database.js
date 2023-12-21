@@ -120,7 +120,6 @@ class Database {
 
 
   createTable(tableName) {
-    //check if table exists before creating it
     return this.connect().then(connection => {
       return r
         .tableList()
