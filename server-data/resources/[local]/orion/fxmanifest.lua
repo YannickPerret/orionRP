@@ -28,6 +28,7 @@ files {
     'bank/class/bank.js',
     'bank/class/card.js',
     'phone/phone.js',
+    'inventory/inventory.js',
 }
 shared_scripts {
     'core/shared/notifications.js',
