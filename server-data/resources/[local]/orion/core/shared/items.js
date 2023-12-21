@@ -1,4 +1,28 @@
 const items = [
+    // Food
+    {
+        name: 'food_burger',
+        label: 'Burger',
+        weight: 1000,
+        type: 'item_standard',
+        image: 'food_burger.png',
+        unique: false,
+        useable: true,
+        shouldClose: false,
+        description: 'A burger'
+    },
+    // Drinks
+    {
+        name: 'drink_water',
+        label: 'Water',
+        weight: 1000,
+        type: 'item_standard',
+        image: 'drink_water.png',
+        unique: false,
+        useable: true,
+        shouldClose: false,
+        description: 'A bottle of water'
+    },
     {
         name: 'weapon_unarmed',
         label: 'Fists',

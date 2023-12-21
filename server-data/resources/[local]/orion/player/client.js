@@ -1,6 +1,6 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
 
-let playerData;
+let playerData = {};
 
 (async () => {
 
@@ -23,7 +23,7 @@ let playerData;
     );
   });
 
-  exports("orion:player:c:getPlayerData", () => {
+  exports("getPlayerData", () => {
     return playerData;
   });
 
@@ -260,13 +260,14 @@ let playerData;
     SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
   });
 
-  onNet('orion:player:c:completRegister', (position, firstname, lastname, skin) => {
+  onNet('orion:player:c:completRegister', (playerDataServer) => {
+    exports['orion'].setPlayerData(playerDataServer);
     exports['orion'].ShowSkinCreator(false);
-    exports['orion'].applySkin(skin);
+    exports['orion'].applySkin(playerDataServer.skin);
 
-    SetEntityCoordsNoOffset(GetPlayerPed(-1), position.x, position.y, position.z, true, false, true);
+    SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
 
-    emit('orion:showNotification', `Bienvenue ${firstname} ${lastname} sur Orion !`);
+    emit('orion:showNotification', `Bienvenue ${playerDataServer.firstname} ${playerDataServer.lastname} sur Orion !`);
   });
 
 })()
