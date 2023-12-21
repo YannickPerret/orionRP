@@ -67,15 +67,21 @@ class Database {
 
   createDatabase(dbName) {
     return this.connect().then(connection => {
-      return r
-        .dbCreate(dbName)
-        .run(connection)
-        .then(result => {
-          console.log('Base de données créée avec succès');
-          return result;
+      return r.dbList().contains(dbName).run(connection)
+        .then(exists => {
+          if (!exists) {
+            return r.dbCreate(dbName).run(connection)
+              .then(result => {
+                console.log('Base de données créée avec succès');
+                return result;
+              });
+          } else {
+            console.log('La base de données existe déjà');
+            return Promise.resolve('La base de données existe déjà');
+          }
         })
         .catch(err => {
-          console.error('Erreur lors de la création de la base de données:', err);
+          console.error('Erreur lors de la vérification ou de la création de la base de données:', err);
           throw err;
         });
     });
