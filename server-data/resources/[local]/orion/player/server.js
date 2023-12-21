@@ -140,6 +140,7 @@
     try {
       const phoneNumber = await Phone.generateNewNumber();
       const playerInventory = Inventory.createEmpty();
+      console.log('playerInventory', playerInventory);
       let itemsStarter = await db.getByWithFilter('items', { starter: true });
 
       itemsStarter.forEach(item => {
