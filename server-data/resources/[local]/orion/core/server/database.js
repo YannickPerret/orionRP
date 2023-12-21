@@ -34,12 +34,13 @@ class Database {
     let latestVersion = 0;
     await this.createDatabase(this.db);
     await this.createTable('system').catch(async () => {
+      console.log('Je ne veux pas voir se message');
       latestVersion = await this.getLatestDbVersion();
     });
     await this.applyMigrations(latestVersion);
   }
 
-  getLatestDbVersion() {
+  async getLatestDbVersion() {
     return this.connect().then(connection => {
       return r.table('system').get(1)
         .run(connection)
