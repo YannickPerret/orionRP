@@ -8,6 +8,8 @@ class Database {
     this.port = port || 28015;
     this.db = db || 'orion';
     this.connection = null;
+
+    this.connect()
   }
 
   connect() {
