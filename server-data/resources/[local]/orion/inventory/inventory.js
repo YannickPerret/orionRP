@@ -69,8 +69,7 @@ class Inventory {
     }
 
     static createEmpty() {
-        const uid = exports['orion'].uuid()
-        return new Inventory({ id: uid, maxWeight: MAX_WEIGHT, items: [] });
+        return new Inventory({ id: r.uuid(), maxWeight: MAX_WEIGHT, items: [] });
     }
 
     static async getById(id) {
