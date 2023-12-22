@@ -24,15 +24,9 @@
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
 
-        stations.forEach(station => {
-            let blip = createBlip(station.position, 361, 1, station.name);
-            blipsManager.push({ id: station.id, blip: blip });
-        });
+        const blipsList = concat(stations, banks);
 
-        banks.forEach(bank => {
-            let blip = createBlip(bank.position, 108, 1, bank.name);
-            blipsManager.push({ id: bank.id, blip: blip });
-        });
+        emit('orion:blips:c:createBlips', blipsList)
     }
     exports('initializeBlips', initializeBlips);
 

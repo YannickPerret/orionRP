@@ -31,7 +31,7 @@ on('__cfx_nui:closeNUI', (data, cb) => {
 });
 
 setTick(async () => {
-    
+
   if (GetPlayerWantedLevel(PlayerId()) > 0) {
     SetPlayerWantedLevel(PlayerId(), 0, false);
     SetPlayerWantedLevelNow(PlayerId(), false);
@@ -97,6 +97,17 @@ setTick(async () => {
     SetEntityHeading(playerPed, heading);
   }
 });
+
+onNet('orion:blips:c:createBlips', (blips) => {
+  console.log(blips[1])
+  blips.stations.forEach(station => {
+    exports['orion'].createBlip(station.position, 361, 1, station.name);
+  });
+  blips.banks.forEach(bank => {
+    exports['orion'].createBlip(bank.position, 108, 1, bank.name);
+  });
+});
+
 
 
 RegisterCommand(
