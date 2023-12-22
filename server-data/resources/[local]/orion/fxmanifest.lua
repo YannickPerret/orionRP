@@ -21,6 +21,7 @@ files {
     'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
+    'core/server/blips.js',
 
     'player/player.js',
     'vehicle/vehicle.js',

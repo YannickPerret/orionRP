@@ -3,6 +3,8 @@
     const { db, r } = require('./core/server/database.js');
 
     await db.initializeMigration();
+    // initialize blips and markers
+    
 
     on('playerDropped', reason => {
         let sourceId = global.source;
