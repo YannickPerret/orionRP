@@ -5,7 +5,7 @@
     const createBlip = (coords, sprite, color, text) => {
         let blip = AddBlipForCoord(coords.X, coords.Y, coords.Z);
         SetBlipSprite(blip, sprite);
-        SetBlipDisplay(blip, 4);
+        //SetBlipDisplay(blip, 4);
         SetBlipScale(blip, 0.9);
         SetBlipColour(blip, color);
         SetBlipAsShortRange(blip, true);
@@ -21,9 +21,7 @@
     exports('createBlip', createBlip);
 
     const initializeBlips = async () => {
-        //station essence
         const stations = await db.getAll('stations');
-        console.log("test")
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
 
         stations.forEach(station => {
