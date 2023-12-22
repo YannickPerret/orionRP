@@ -23,7 +23,7 @@
     const initializeBlips = async () => {
         //station essence
         const stations = await db.getAll('stations');
-        const banks = await db.get('banks', { type: 'bank' });
+        const banks = await db.get('banks', { 'type': 'bank' });
 
         stations.forEach(station => {
             let blip = createBlip(station.position, 361, 1, station.name);
