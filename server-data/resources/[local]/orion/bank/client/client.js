@@ -60,10 +60,10 @@
   setTick(async () => {
 
     const bankBlips = [];
-    for (const bankCoords of bankCoordsJson.bank) {
+    /*for (const bankCoords of bankCoordsJson.bank) {
       exports['orion'].createBlip(bankCoords.coords, 108, 0, 'Banque');
       bankBlips.push(bankCoords.coords);
-    }
+    }*/
 
     while (true) {
       await exports['orion'].delay(5);
