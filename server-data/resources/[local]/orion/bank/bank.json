@@ -1,5 +1,5 @@
 {
-  "management": [
+  "managements": [
     {
       "coords": {
         "X": 248.95,
@@ -15,7 +15,7 @@
       }
     }
   ],
-  "bank": [
+  "banks": [
     {
       "coords": {
         "X": 149.9,
@@ -73,7 +73,7 @@
       }
     }
   ],
-  "atm": [
+  "atms": [
     {
       "coords": {
         "x": -386.733,

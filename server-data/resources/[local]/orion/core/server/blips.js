@@ -35,5 +35,6 @@
              blipsManager.push({ id: bank.id, blip: blip });
          });*/
     }
+    exports('initializeBlips', initializeBlips);
 
 })()

@@ -13,9 +13,9 @@
   let currentPumpProp = null;
 
   let currentPumpObj = {};
-  
-//  let ropeAnchor = null;
- // let pistoletInVehicle = false;
+
+  //  let ropeAnchor = null;
+  // let pistoletInVehicle = false;
 
   const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 
@@ -124,9 +124,9 @@
 
     const playerPed = PlayerPedId();
 
-    for (const station of gazStationsBlips.GasStations) {
+    /*for (const station of gazStationsBlips.GasStations) {
       exports['orion'].createBlip(station.coordinates, 361, 0, 'Station essence');
-    }
+    }*/
 
     while (true) {
       await exports['orion'].delay(5);
@@ -134,7 +134,7 @@
 
       for (const station of gazStationsBlips.GasStations) {
         for (const pumpCoords of station.pumps) {
-          const distance = GetDistanceBetweenCoords( playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
+          const distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
           if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
             handlePumpInteraction(playerPed, pumpCoords);
           }
@@ -182,18 +182,18 @@
     TaskPlayAnim(playerPed, 'anim@mp_snowball', 'pickup_snowball', 2.0, 8.0, -1, 50, 0, 0, 0, 0);
     await exports['orion'].delay(700);
 
-    if(playerPickupPump) {
+    if (playerPickupPump) {
       emitNet('orion:station:s:detachRope', playerPed);
     }
 
     else {
       RequestModel('prop_cs_fuel_nozle')
-      while(!HasModelLoaded('prop_cs_fuel_nozle')) {
+      while (!HasModelLoaded('prop_cs_fuel_nozle')) {
         await exports['orion'].delay(1);
       }
 
       currentPumpProp = CreateObject(GetHashKey('prop_cs_fuel_nozle'), 1.0, 1.0, 1.0, true, true, false);
-      
+
       playerBone = GetPedBoneIndex(playerPed, 60309);
 
       AttachEntityToEntity(currentPumpProp, playerPed, playerBone, 0.0549, 0.049, 0.0, -50.0, -90.0, -50.0, true, true, false, false, 0, true);
@@ -250,17 +250,17 @@
     let [pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ] = GetOffsetFromEntityInWorldCoords(IdProp, 0.0, -0.019, -0.1749);
     currentRope[playerId] = AddRope(posPump[0], posPump[1], posPump[2] + 1.76, 0.0, 0.0, 0.0, 5.0, 1, 1000.0, 0.5, 1.0, false, false, false, 5.0, false, 0);
 
-    AttachEntitiesToRope(currentRope[playerId][0], IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2]+1, 30.0, 0, 0);
+    AttachEntitiesToRope(currentRope[playerId][0], IdProp, currentPumpObj[playerId], pumpPropCoordsX, pumpPropCoordsY, pumpPropCoordsZ, posPump[0], posPump[1], posPump[2] + 1, 30.0, 0, 0);
   })
 
   onNet('orion:station:c:detachRope', (playerId) => {
     DetachRopeFromEntity(currentRope[playerId][0], currentPumpProp)
     DeleteRope(currentRope[playerId][0])
-    
-    DeleteEntity(currentPumpObj[playerId])      
+
+    DeleteEntity(currentPumpObj[playerId])
     DetachEntity(currentPumpProp, true, true)
     DeleteEntity(currentPumpProp)
-    
+
     ClearPedTasks(PlayerPedId());
     currentPumpProp = null
     currentPump = null

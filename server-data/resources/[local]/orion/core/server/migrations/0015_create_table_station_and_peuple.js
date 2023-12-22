@@ -8,7 +8,7 @@ module.exports = {
         await db.createTable('stations')
         gazStationsBlips.GasStations.forEach((station, index) => {
             db.insert('stations', {
-                name: `station${index}`,
+                name: `station service`,
                 position: station.coordinates,
                 pumpsEssence: station.pumps,
                 pumpsElectric: [],
@@ -18,6 +18,7 @@ module.exports = {
                 priceEssence: 1.5,
                 enabled: true,
             });
+            console.log(`Station ${index} créée`);
         });
     }
 };
