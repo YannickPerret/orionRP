@@ -6,7 +6,6 @@
     // initialize blips and markers
     await exports['orion'].initializeBlips();
 
-
     on('playerDropped', reason => {
         let sourceId = global.source;
         PlayerManagerServer.removePlayer(sourceId);

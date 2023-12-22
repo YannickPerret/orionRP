@@ -21,7 +21,6 @@ files {
     'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
-    'core/server/blips.js',
 
     'player/player.js',
     'vehicle/vehicle.js',
@@ -57,6 +56,7 @@ client_scripts{
 
 server_scripts{
    'core/server/utils.js',
+   'core/server/blips.js',
    'server.js',
     'player/server.js',
     'vehicle/server.js',
