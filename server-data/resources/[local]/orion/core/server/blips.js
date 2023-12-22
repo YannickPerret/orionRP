@@ -23,17 +23,17 @@
     const initializeBlips = async () => {
         //station essence
         const stations = await db.getAll('stations');
-        //const banks = await db.getAll('banks');
+        const banks = await db.get('banks', { type: 'bank' });
 
         stations.forEach(station => {
             let blip = createBlip(station.position, 361, 1, station.name);
             blipsManager.push({ id: station.id, blip: blip });
         });
 
-        /* banks.forEach(bank => {
-             let blip = createBlip(bank.position, 108, 1, bank.name);
-             blipsManager.push({ id: bank.id, blip: blip });
-         });*/
+        banks.forEach(bank => {
+            let blip = createBlip(bank.position, 108, 1, bank.name);
+            blipsManager.push({ id: bank.id, blip: blip });
+        });
     }
     exports('initializeBlips', initializeBlips);
 
