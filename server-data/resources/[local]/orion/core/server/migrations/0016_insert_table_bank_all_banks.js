@@ -7,7 +7,7 @@ module.exports = {
             await db.insert('banks', {
                 name: `Banque`,
                 type: 'bank',
-                position: bank.coordinates,
+                position: bank.coords,
                 enabled: true,
                 reservedMoney: 1000000,
                 maxReservedMoney: 1000000,
@@ -18,7 +18,7 @@ module.exports = {
             await db.insert('banks', {
                 name: `Distributeur`,
                 type: 'atm',
-                position: atm.coordinates,
+                position: atm.coords,
                 enabled: true,
                 reservedMoney: 10000,
                 maxReservedMoney: 10000,
@@ -30,7 +30,7 @@ module.exports = {
             await db.insert('banks', {
                 name: `Management`,
                 type: 'management',
-                position: management.coordinates,
+                position: management.coords,
                 enabled: true,
             });
             console.log(`Management ${index} créée`);
