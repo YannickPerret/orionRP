@@ -181,6 +181,27 @@ class Database {
     });
   }
 
+  getAll(table) {
+    return this.connect().then(connection => {
+      return r
+        .table(table)
+        .run(connection)
+        .then(cursor => cursor.toArray())
+        .then(results => {
+          if (results.length > 0) {
+            return results; // Renvoie tous les documents correspondants
+          } else {
+            console.log('Aucun document trouvé.');
+            return [];
+          }
+        })
+        .catch(err => {
+          console.error('Erreur lors de la recherche des documents:', err);
+          throw err;
+        });
+    });
+  }
+
   getByWithFilter(table, filters) {
     return this.connect().then(connection => {
       // Construction de la requête de filtre

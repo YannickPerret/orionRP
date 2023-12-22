@@ -5,9 +5,9 @@ module.exports = {
     version: 15,
     migrate: async (db) => {
 
-        await db.schema.createTable('station')
+        await db.schema.createTable('stations')
         gazStationsBlips.forEach((station, index) => {
-            db.insert('station', {
+            db.insert('stations', {
                 name: `station${index}`,
                 position: station.coordinates,
                 pumpsEssence: station.pumps,
