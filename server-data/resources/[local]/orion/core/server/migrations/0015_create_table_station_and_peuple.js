@@ -6,7 +6,7 @@ module.exports = {
     migrate: async (db) => {
 
         await db.createTable('stations')
-        gazStationsBlips.forEach((station, index) => {
+        gazStationsBlips.GasStations.forEach((station, index) => {
             db.insert('stations', {
                 name: `station${index}`,
                 position: station.coordinates,
