@@ -2,6 +2,7 @@ import React from 'react'
 import style from './inventory.module.scss';
 
 export default function InventoryItem({ item }) {
+    console.log(item);
     return (
         <div className={style.inventory__item}>
             <div className={style.inventory__item__icon}>
