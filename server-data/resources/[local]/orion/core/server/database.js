@@ -239,7 +239,6 @@ class Database {
   }*/
 
   async getByWithFilter(table, filters) {
-    console.log("ksflksf")
     return this.connect().then(connection => {
       let query = r.table(table);
 
@@ -261,7 +260,6 @@ class Database {
             }
           }).reduce((left, right) => left.and(right));
         });
-        console.log("ksflksf", query)
       }
 
       return query
