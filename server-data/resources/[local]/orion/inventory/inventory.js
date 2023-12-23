@@ -66,7 +66,7 @@ class Inventory {
             const itemDetails = await Item.getById(item.id);
             return {
                 ...itemDetails,
-                number: item.number // Ajouter le nombre d'objets si nécessaire
+                quantity: item.number // Ajouter le nombre d'objets si nécessaire
             };
         }));
         return fullItems;

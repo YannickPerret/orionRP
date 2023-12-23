@@ -11,7 +11,7 @@ export default function InventoryItem({ item }) {
                 <h3>{item.quantity} {item.label}</h3>
             </div>
             <div className={style.inventory__item__actions}>
-                <button>Use</button>
+                {item.useable && <button>Use</button>}
                 <button>Drop</button>
             </div>
             <div className={style.inventory__item__description}>

@@ -6,10 +6,6 @@ import InventoryItem from './InventoryItem';
 export default function Inventory() {
     const { data } = useData();
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
-
     return (
         <div className={style.inventory}>
             <div className={style.inventory__container}>
