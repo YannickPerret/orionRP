@@ -16,7 +16,7 @@ export default function Inventory() {
 
                 <div className={style.inventory__content}>
                     {data.inventory.items.map((item, index) => {
-                        <InventoryItem key={index} item={item} />
+                        return <InventoryItem key={index} item={item} />
                     })}
                 </div>
             </div>

@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import style from './inventory.module.scss';
 
 export default function InventoryItem({ item }) {
     console.log(item);
+    useEffect(() => {
+        console.log(item);
+    }
+        , [item]);
     return (
         <div className={style.inventory__item}>
             <div className={style.inventory__item__icon}>
