@@ -118,7 +118,7 @@ const playSound = sound => {
 
 
       let fuel = GetVehicleFuelLevel(vehicle);
-      let speed = GetEntitySpeed(vehicle);
+      //let speed = GetEntitySpeed(vehicle);
       let consumption = 0.0;
 
       if (seatbelt) {
@@ -146,6 +146,8 @@ const playSound = sound => {
         let [speedX, speedY, speedZ] = GetEntitySpeedVector(vehicle, true);
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
+
+        console.log(speedX, speedY, speedZ, vehIsMovingFwd, vehAcc)
         if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
 
           SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
