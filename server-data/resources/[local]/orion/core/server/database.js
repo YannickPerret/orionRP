@@ -245,16 +245,17 @@ class Database {
       if (filters && Object.keys(filters).length > 0) {
         query = query.filter(doc => {
           return Object.keys(filters).map(key => {
+            // Vérifier si la clé représente un chemin de champs imbriqués
             if (key.includes('.')) {
-              // Gérer les chemins de champs imbriqués
+              // Traiter les champs imbriqués
               const path = key.split('.');
               let ref = doc;
-              path.forEach(p => {
+              for (let p of path) {
                 ref = ref(p);
-              });
+              }
               return ref.eq(filters[key]);
             } else {
-              // Gérer les champs de premier niveau
+              // Traiter les champs de premier niveau
               return doc(key).eq(filters[key]);
             }
           }).reduce((left, right) => left.and(right));
@@ -266,7 +267,7 @@ class Database {
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            return results; // Renvoie tous les documents correspondants
+            return results;
           } else {
             console.log('Aucun document trouvé avec les filtres fournis.');
             return [];
@@ -278,6 +279,7 @@ class Database {
         });
     });
   }
+
 
 
   getByWithFilter(table, filters) {
