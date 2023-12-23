@@ -1,0 +1,57 @@
+.inventory {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 40%;
+    background: #2d3e5632;
+    padding: 5%;
+    position: absolute;
+    top: 35vh;
+    left: 10vw;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-basis: calc(20% - 15px);
+        height: 100px;
+        width: 100px;
+        background: #364b6932;
+        border: 0.5 solid #364b69;
+        position: relative;
+
+        &__image {
+            height: 50px;
+            width: 50px;
+        }
+
+        &__description {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            height: 25px;
+            width: fit-content;
+            bottom: 0;
+            left: 0;
+        }
+
+    }
+}
