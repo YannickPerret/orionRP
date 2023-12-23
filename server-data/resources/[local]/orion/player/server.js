@@ -143,7 +143,7 @@
       let itemsStarter = await db.getByWithFilter('items', { 'starter.enabled': true });
 
       itemsStarter.forEach(item => {
-        console.log(item);
+        console.log("item", item);
         playerInventory.addItem(item, item.starter.quantity);
       });
 
