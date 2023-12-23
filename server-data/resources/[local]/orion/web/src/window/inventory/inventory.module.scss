@@ -38,10 +38,8 @@
         border: 0.5 solid #364b69;
         position: relative;
 
-        &:hover {
-            &__description {
-                display: flex;
-            }
+        &:hover+.inventory__item__description {
+            display: flex;
         }
 
         &__actions {
