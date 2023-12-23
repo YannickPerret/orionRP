@@ -256,6 +256,7 @@ class Database {
               return ref(path[path.length - 1]).eq(filters[key]);
             } else {
               // Gestion des champs de premier niveau
+              console.log(key, filters[key])
               return doc(key).eq(filters[key]);
             }
           }).reduce((left, right) => left.and(right));
