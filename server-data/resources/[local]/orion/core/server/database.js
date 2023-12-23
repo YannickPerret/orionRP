@@ -240,7 +240,7 @@ class Database {
 
   async getByWithFilter(table, filters) {
     console.log("ksflksf")
-    return this.connect().then(connection => {
+    /*return this.connect().then(connection => {
       let query = r.table(table);
 
       if (filters && Object.keys(filters).length > 0) {
@@ -279,7 +279,7 @@ class Database {
           console.error('Erreur lors de la recherche des documents:', err);
           throw err;
         });
-    });
+    });*/
   }
 
 
