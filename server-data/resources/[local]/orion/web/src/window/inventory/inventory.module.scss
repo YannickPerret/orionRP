@@ -3,8 +3,8 @@
     flex-direction: column;
     height: auto;
     width: 40%;
-    background: #2d3e5632;
-    padding: 2%;
+    background: #2d3e565f;
+    padding: 1%;
     position: absolute;
     top: 30vh;
     left: 5vw;
@@ -38,7 +38,7 @@
         border: 0.5 solid #364b69;
         position: relative;
 
-        &__action {
+        &__actions {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -46,9 +46,14 @@
             gap: 20px;
         }
 
-        &__image {
+        &__icone {
             height: 50px;
             width: 50px;
+
+            & img {
+                height: auto;
+                width: 100%;
+            }
         }
 
         &__description {
