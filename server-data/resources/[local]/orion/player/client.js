@@ -267,6 +267,7 @@ let playerData = {};
     exports['orion'].ShowSkinCreator(false);
     exports['orion'].applySkin(playerDataServer.skin);
 
+    console.log(playerDataServer)
     SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
 
     emit('orion:showNotification', `Bienvenue ${playerDataServer.firstname} ${playerDataServer.lastname} sur Orion !`);

@@ -169,7 +169,6 @@
         });
 
         if (await newPlayer.save()) {
-          console.log('Joueur créé avec succès');
           PlayerManager.addPlayer(source, newPlayer);
           emitNet('orion:player:c:completRegister', source, newPlayer);
         } else {
