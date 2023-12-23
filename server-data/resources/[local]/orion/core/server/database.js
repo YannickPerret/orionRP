@@ -202,7 +202,7 @@ class Database {
     });
   }
 
-  /*getByWithFilter(table, filters) {
+  getByWithFilter(table, filters) {
     return this.connect().then(connection => {
       let query = r.table(table);
 
@@ -236,9 +236,9 @@ class Database {
           throw err;
         });
     });
-  }*/
+  }
 
-  async getByWithFilter(table, filters) {
+  /*async getByWithFilter(table, filters) {
     return this.connect().then(connection => {
       let query = r.table(table);
 
@@ -278,46 +278,7 @@ class Database {
           throw err;
         });
     });
-  }
-
-
-
-
-  /*getByWithFilter(table, filters) {
-    return this.connect().then(connection => {
-      // Construction de la requête de filtre
-      let query = r.table(table);
-
-      if (filters && Object.keys(filters).length > 0) {
-        query = query.filter(doc => {
-          // Créer des conditions de filtre basées sur les clés et valeurs fournies
-          return Object.keys(filters)
-            .map(key => {
-              return doc(key).eq(filters[key]);
-            })
-            .reduce((left, right) => r.or(left, right));
-        });
-      }
-
-      // Exécuter la requête
-      return query
-        .run(connection)
-        .then(cursor => cursor.toArray())
-        .then(results => {
-          if (results.length > 0) {
-            return results; // Renvoie tous les documents correspondants
-          } else {
-            console.log('Aucun document trouvé avec les filtres fournis.');
-            return [];
-          }
-        })
-        .catch(err => {
-          console.error('Erreur lors de la recherche des documents:', err);
-          throw err;
-        });
-    });
   }*/
-
 
   getFieldValues(table, field) {
     return this.connect().then(connection => {
