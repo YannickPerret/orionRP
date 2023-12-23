@@ -144,6 +144,11 @@
       itemsStarter.forEach(item => {
         playerInventory.addItem(item, item.starter.quantity);
       });
+      if (!itemsStarter.length > 0) {
+        emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
+        throw new Error('Erreur lors de la création du joueur');
+      }
+
 
       if (playerInventory.save()) {
 
