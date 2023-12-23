@@ -108,8 +108,8 @@ const playSound = sound => {
       let prevSpeed = currSpeed;
       let isDriver = ped == GetPedInVehicleSeat(vehicle, -1);
 
-      //let speed =  GetEntitySpeed(vehicle) * 3.6 : 0;
-      currSpeed = GetEntitySpeed(vehicle);
+      currSpeed = GetEntitySpeed(vehicle) * 3.6;
+      //currSpeed = GetEntitySpeed(vehicle);
       SetPedConfigFlag(ped, 32, true);
 
 
@@ -149,7 +149,7 @@ const playSound = sound => {
 
         console.log(speedX, speedY, speedZ, vehIsMovingFwd, vehAcc)
         if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
-
+          console.log("ffff")
           SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
           SetEntityVelocity(ped, prevVelocity.x, prevVelocity.y, prevVelocity.z);
           await exports['orion'].delay(1);
