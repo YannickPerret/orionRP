@@ -202,38 +202,30 @@ class Database {
     });
   }
 
-  getByWithFilter(table, filter) {
+  getByWithFilter(table, filters) {
     return this.connect().then(connection => {
-      return r.table(table)
-        .filter((doc) => {
-          if (typeof filter === 'function') {
-            // Si le filtre est une fonction, utilisez-le directement
-            return filter(doc);
-          } else {
-            // Si le filtre est un objet, construisez une condition de filtrage
-            return Object.entries(filter).every(([key, value]) => {
-              if (key.includes('.')) {
-                // Gérer les propriétés imbriquées
-                let ref = doc;
-                const path = key.split('.');
-                path.forEach(subKey => {
-                  ref = ref(subKey);
-                });
-                return ref.eq(value);
-              } else {
-                // Gérer les propriétés simples
-                return doc(key).eq(value);
-              }
-            });
-          }
-        })
+      // Construction de la requête de filtre
+      let query = r.table(table);
+
+      if (filters && Object.keys(filters).length > 0) {
+        query = query.filter(doc => {
+          // Créer des conditions de filtre basées sur les clés et valeurs fournies
+          return Object.keys(filters)
+            .map(key => {
+              return doc(key).eq(filters[key]);
+            })
+            .reduce((left, right) => r.or(left, right));
+        });
+      }
+      // Exécuter la requête
+      return query
         .run(connection)
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            return results;
+            return results; // Renvoie tous les documents correspondants
           } else {
-            console.log('Aucun document trouvé.');
+            console.log('Aucun document trouvé avec les filtres fournis.');
             return [];
           }
         })
@@ -243,7 +235,6 @@ class Database {
         });
     });
   }
-
 
 
   getFieldValues(table, field) {
