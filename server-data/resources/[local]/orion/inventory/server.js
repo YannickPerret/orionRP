@@ -18,6 +18,9 @@
         const inventory = inventoryId || player.inventoryId;
 
         const playerInventory = await Inventory.getById(inventory);
+        const fullItems = await playerInventory.getFullItems();
+
+        playerInventory.items = fullItems;
 
         if (player && playerInventory) {
             emitNet('orion:inventory:c:open', source, playerInventory);

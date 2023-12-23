@@ -57,6 +57,21 @@ class Inventory {
         this.weight = this.items.reduce((acc, item) => acc + item.weight, 0);
     }
 
+    /**
+     * Récupère les détails complets des objets dans l'inventaire.
+     * @returns {Promise<Item[]>} Une promesse résolue avec un tableau d'objets `Item`.
+     */
+    async getFullItems() {
+        const fullItems = await Promise.all(this.items.map(async (item) => {
+            const itemDetails = await Item.getById(item.id);
+            return {
+                ...itemDetails,
+                number: item.number // Ajouter le nombre d'objets si nécessaire
+            };
+        }));
+        return fullItems;
+    }
+
     static createEmpty() {
         return new Inventory({ maxWeight: MAX_WEIGHT, items: [] });
     }
@@ -118,6 +133,16 @@ class Item {
 
     static createNew(id, name, weight, description, usable, usableData) {
         return new Item({ id, name, weight, description, usable, usableData });
+    }
+
+    static async getById(id) {
+        const itemDB = await db.get('items', id);
+        return Item.fromJSON(itemDB);
+    }
+
+    static async getAll() {
+        const itemsDB = await db.getAll('items');
+        return itemsDB.map(itemDB => Item.fromJSON(itemDB));
     }
 }
 
