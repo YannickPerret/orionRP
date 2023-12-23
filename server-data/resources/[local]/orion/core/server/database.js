@@ -252,6 +252,7 @@ class Database {
               path.slice(0, -1).forEach(p => {
                 ref = ref(p);
               });
+
               return ref(path[path.length - 1]).eq(filters[key]);
             } else {
               // Gestion des champs de premier niveau
@@ -259,9 +260,9 @@ class Database {
             }
           }).reduce((left, right) => left.and(right));
         });
+        console.log("ksflksf", query)
       }
 
-      console.log(query)
       return query
         .run(connection)
         .then(cursor => cursor.toArray())
