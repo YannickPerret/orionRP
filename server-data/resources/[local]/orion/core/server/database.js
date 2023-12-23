@@ -206,20 +206,23 @@ class Database {
     return this.connect().then(connection => {
       let query = r.table(table);
 
+      // Appliquer les filtres, si fournis
       if (filters && Object.keys(filters).length > 0) {
         query = query.filter(doc => {
-          return Object.keys(filters).map(key => {
-            // Gérer les clés de filtre imbriquées
-            const keys = key.split('.');
+          // Parcourir chaque filtre et appliquer les conditions
+          return Object.entries(filters).every(([key, value]) => {
+            // Gérer les propriétés imbriquées
+            const path = key.split('.');
             let ref = doc;
-            keys.forEach(subKey => {
+            path.forEach(subKey => {
               ref = ref(subKey);
             });
-            return ref.eq(filters[key]);
-          }).reduce((left, right) => left.and(right)); // Utilisez 'and' pour s'assurer que tous les filtres sont respectés
+            return ref.eq(value);
+          });
         });
       }
 
+      // Exécuter la requête
       return query
         .run(connection)
         .then(cursor => cursor.toArray())
@@ -237,6 +240,7 @@ class Database {
         });
     });
   }
+
 
   getFieldValues(table, field) {
     return this.connect().then(connection => {
