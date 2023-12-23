@@ -204,27 +204,28 @@ class Database {
 
   getByWithFilter(table, filters) {
     return this.connect().then(connection => {
-      // Construction de la requête de filtre
       let query = r.table(table);
 
       if (filters && Object.keys(filters).length > 0) {
         query = query.filter(doc => {
-          // Créer des conditions de filtre basées sur les clés et valeurs fournies
-          return Object.keys(filters)
-            .map(key => {
-              return doc(key).eq(filters[key]);
-            })
-            .reduce((left, right) => r.or(left, right));
+          return Object.keys(filters).map(key => {
+            // Gérer les clés de filtre imbriquées
+            const keys = key.split('.');
+            let ref = doc;
+            keys.forEach(subKey => {
+              ref = ref(subKey);
+            });
+            return ref.eq(filters[key]);
+          }).reduce((left, right) => left.and(right)); // Utilisez 'and' pour s'assurer que tous les filtres sont respectés
         });
       }
 
-      // Exécuter la requête
       return query
         .run(connection)
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            return results; // Renvoie tous les documents correspondants
+            return results;
           } else {
             console.log('Aucun document trouvé avec les filtres fournis.');
             return [];
