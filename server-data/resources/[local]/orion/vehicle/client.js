@@ -169,12 +169,12 @@ const playSound = sound => {
           fuel: fuel.toFixed(0),
           seatbelt: seatbelt,
           isDriver: isDriver,
-          speed: speed.toFixed(0),
+          speed: currSpeed.toFixed(0),
         }
       });
 
-      if (speed > 0) {
-        consumption = speed * 0.0001;
+      if (currSpeed > 0) {
+        consumption = currSpeed * 0.0001;
       } else {
         consumption = 0.0;
       }
