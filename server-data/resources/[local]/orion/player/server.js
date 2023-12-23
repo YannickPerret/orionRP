@@ -142,8 +142,6 @@
       const playerInventory = Inventory.createEmpty();
       let itemsStarter = await db.getByWithFilter('items', { 'starter.enabled': true });
 
-      console.log(itemsStarter)
-
       itemsStarter.forEach(item => {
         console.log(item);
         playerInventory.addItem(item, item.starter.quantity);

@@ -29,6 +29,7 @@ const items = [
         description: 'A bottle of water',
         thirst: 30,
         starter: {
+            enabled: true,
             quantity: 10,
         }
     },
