@@ -170,7 +170,7 @@
           inventoryId: playerInventory.id,
         });
 
-        if (await newPlayer.save()) {
+        if (true) { //await newPlayer.save()) {
           PlayerManager.addPlayer(source, newPlayer);
           emitNet('orion:player:c:completRegister', source, newPlayer);
         } else {
