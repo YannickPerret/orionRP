@@ -93,6 +93,7 @@
     try {
       const filters = { steamId: steamId, license: license };
       const playerData = await db.getByWithFilter('players', filters);
+      console.log(playerData);
 
       if (playerData.length > 0) {
 
@@ -141,14 +142,15 @@
       const phoneNumber = await Phone.generateNewNumber();
       const playerInventory = Inventory.createEmpty();
       const itemsStarter = await db.getByWithFilter('items', { 'starter.enabled': true });
-      itemsStarter.forEach(item => {
-        playerInventory.addItem(item, item.starter.quantity);
-      });
+
       if (!itemsStarter.length > 0) {
         emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
         throw new Error('Erreur lors de la création du joueur');
       }
 
+      itemsStarter.forEach(item => {
+        playerInventory.addItem(item, item.starter.quantity);
+      });
 
       if (playerInventory.save()) {
 
