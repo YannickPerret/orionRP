@@ -145,6 +145,7 @@
         playerInventory.addItem(item, item.starter.quantity);
       });
 
+      console.log('Inventaire du joueur : ', playerInventory)
       if (playerInventory.save()) {
 
         const newPlayer = new Player({

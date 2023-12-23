@@ -1,4 +1,4 @@
-const MAX_WEIGHT = 100;
+const MAX_WEIGHT = 10000;
 const MAX_HEIGHT_WITH_BAG = 250;
 const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
