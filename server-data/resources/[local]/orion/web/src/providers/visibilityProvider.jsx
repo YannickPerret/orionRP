@@ -41,7 +41,7 @@ export const VisibilityProvider = ({ children }) => {
 
   // Fonction pour fermer tous les menus
   const closeAllMenus = () => {
-    setVisibility({
+    setVisible({
       main: false,
       playerMenu: false,
       jobMenu: false,
