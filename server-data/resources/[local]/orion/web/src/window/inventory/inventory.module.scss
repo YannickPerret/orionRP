@@ -4,10 +4,10 @@
     height: auto;
     width: 40%;
     background: #2d3e5632;
-    padding: 5%;
+    padding: 2%;
     position: absolute;
-    top: 35vh;
-    left: 10vw;
+    top: 30vh;
+    left: 5vw;
 
     &__container {
         display: flex;
@@ -32,11 +32,19 @@
         justify-content: center;
         align-items: center;
         flex-basis: calc(20% - 15px);
-        height: 100px;
+        height: 150px;
         width: 100px;
         background: #364b6932;
         border: 0.5 solid #364b69;
         position: relative;
+
+        &__action {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
 
         &__image {
             height: 50px;
