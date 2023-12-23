@@ -240,7 +240,7 @@ class Database {
 
   async getByWithFilter(table, filters) {
     console.log("ksflksf")
-    /*return this.connect().then(connection => {
+    return this.connect().then(connection => {
       let query = r.table(table);
 
       if (filters && Object.keys(filters).length > 0) {
@@ -279,13 +279,13 @@ class Database {
           console.error('Erreur lors de la recherche des documents:', err);
           throw err;
         });
-    });*/
+    });
   }
 
 
 
 
-  getByWithFilter(table, filters) {
+  /*getByWithFilter(table, filters) {
     return this.connect().then(connection => {
       // Construction de la requête de filtre
       let query = r.table(table);
@@ -318,7 +318,7 @@ class Database {
           throw err;
         });
     });
-  }
+  }*/
 
 
   getFieldValues(table, field) {
