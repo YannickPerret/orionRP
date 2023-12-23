@@ -23,9 +23,9 @@
     const initializeBlips = async () => {
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
-
         const blipsList = []
         blipsList.concat(stations, banks);
+        console.log(blipsList)
 
         emit('orion:blips:c:createBlips', blipsList)
     }
