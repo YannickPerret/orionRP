@@ -245,17 +245,16 @@ class Database {
       if (filters && Object.keys(filters).length > 0) {
         query = query.filter(doc => {
           return Object.keys(filters).map(key => {
-            // Vérifier si la clé représente un chemin de champs imbriqués
             if (key.includes('.')) {
-              // Traiter les champs imbriqués
+              // Gestion des champs imbriqués
               const path = key.split('.');
               let ref = doc;
-              for (let p of path) {
+              path.slice(0, -1).forEach(p => {
                 ref = ref(p);
-              }
-              return ref.eq(filters[key]);
+              });
+              return ref(path[path.length - 1]).eq(filters[key]);
             } else {
-              // Traiter les champs de premier niveau
+              // Gestion des champs de premier niveau
               return doc(key).eq(filters[key]);
             }
           }).reduce((left, right) => left.and(right));
@@ -279,6 +278,7 @@ class Database {
         });
     });
   }
+
 
 
 
