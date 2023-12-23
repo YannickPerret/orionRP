@@ -24,9 +24,9 @@
         const source = global.source;
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
-        // const blipsList = { stations: [...stations], banks: [...banks] };
+        const blipsList = { stations: [...stations], banks: [...banks] };
 
-        // console.log(blipsList)
+        console.log(blipsList)
         //emitNet('orion:blips:c:createBlips', source, blipsList)
     }
     exports('initializeBlips', initializeBlips);
