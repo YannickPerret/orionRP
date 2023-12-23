@@ -2,13 +2,15 @@ import React, { useEffect } from 'react'
 import { useData } from '../../providers/dataContext';
 import style from './inventory.module.scss';
 import InventoryItem from './InventoryItem';
+import { useVisibility } from '../../providers/visibilityProvider';
 
 export default function Inventory() {
     const { data } = useData();
+    const { closeAllMenus } = useVisibility();
 
     return (
         <div className={style.inventory}>
-            <div className={style.inventory__close}>
+            <div className={style.inventory__close} onClick={closeAllMenus}>
                 X
             </div>
             <div className={style.inventory__container}>

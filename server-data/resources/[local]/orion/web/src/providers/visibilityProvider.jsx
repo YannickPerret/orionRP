@@ -49,6 +49,7 @@ export const VisibilityProvider = ({ children }) => {
       skinCreator: false,
       bankInterface: false,
       vehicleHUD: false,
+      inventoryHUD: false,
     });
   };
 
