@@ -239,6 +239,7 @@ class Database {
   }*/
 
   getByWithFilter(table, filters) {
+    console.log("ksflksf", table, filters)
     return this.connect().then(connection => {
       let query = r.table(table);
 
