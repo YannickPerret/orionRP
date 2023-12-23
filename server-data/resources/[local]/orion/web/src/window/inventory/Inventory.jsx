@@ -8,6 +8,9 @@ export default function Inventory() {
 
     return (
         <div className={style.inventory}>
+            <div className={style.inventory__close}>
+                X
+            </div>
             <div className={style.inventory__container}>
                 <header>
                     <h1>Inventory</h1>
