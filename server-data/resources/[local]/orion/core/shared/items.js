@@ -3,7 +3,7 @@ const items = [
     {
         name: 'food_burger',
         label: 'Burger',
-        weight: 1000,
+        weight: 10,
         type: 'item_standard',
         image: 'food_burger.png',
         unique: false,
@@ -20,7 +20,7 @@ const items = [
     {
         name: 'drink_water',
         label: 'Water',
-        weight: 1000,
+        weight: 10,
         type: 'item_standard',
         image: 'drink_water.png',
         unique: false,

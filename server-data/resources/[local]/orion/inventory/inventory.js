@@ -28,6 +28,7 @@ class Inventory {
         }
 
         this.weight += item.weight * number;
+
         return true;
     }
 
