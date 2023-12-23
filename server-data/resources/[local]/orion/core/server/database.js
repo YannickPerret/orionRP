@@ -214,9 +214,9 @@ class Database {
             // Gérer les propriétés imbriquées
             const path = key.split('.');
             let ref = doc;
-            path.forEach(subKey => {
+            for (const subKey of path) {
               ref = ref(subKey);
-            });
+            }
             return ref.eq(value);
           });
         });
@@ -228,7 +228,7 @@ class Database {
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            return results;
+            return results;  // Renvoie l'ensemble des documents correspondants
           } else {
             console.log('Aucun document trouvé avec les filtres fournis.');
             return [];
