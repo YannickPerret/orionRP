@@ -202,44 +202,30 @@ class Database {
     });
   }
 
-  getByWithFilter(table, filters) {
+  //get document by filter or subfilter
+  getByWithFilter(table, filter) {
     return this.connect().then(connection => {
-      let query = r.table(table);
-
-      // Appliquer les filtres, si fournis
-      if (filters && Object.keys(filters).length > 0) {
-        query = query.filter(doc => {
-          // Parcourir chaque filtre et appliquer les conditions
-          return Object.entries(filters).every(([key, value]) => {
-            // Gérer les propriétés imbriquées
-            const path = key.split('.');
-            let ref = doc;
-            for (const subKey of path) {
-              ref = ref(subKey);
-            }
-            return ref.eq(value);
-          });
-        });
-      }
-
-      // Exécuter la requête
-      return query
+      return r
+        .table(table)
+        .filter(filter)
         .run(connection)
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            return results;  // Renvoie l'ensemble des documents correspondants
+            return results; // Renvoie tous les documents correspondants
           } else {
-            console.log('Aucun document trouvé avec les filtres fournis.');
+            console.log('Aucun document trouvé.');
             return [];
           }
-        })
+        }
+        )
         .catch(err => {
           console.error('Erreur lors de la recherche des documents:', err);
           throw err;
         });
     });
   }
+
 
 
   getFieldValues(table, field) {
