@@ -202,23 +202,41 @@ class Database {
     });
   }
 
-  //get document by filter or subfilter
   getByWithFilter(table, filter) {
     return this.connect().then(connection => {
-      return r
-        .table(table)
-        .filter(filter)
+      return r.table(table)
+        .filter((doc) => {
+          if (typeof filter === 'function') {
+            // Si le filtre est une fonction, utilisez-le directement
+            return filter(doc);
+          } else {
+            // Si le filtre est un objet, construisez une condition de filtrage
+            return Object.entries(filter).every(([key, value]) => {
+              if (key.includes('.')) {
+                // Gérer les propriétés imbriquées
+                let ref = doc;
+                const path = key.split('.');
+                path.forEach(subKey => {
+                  ref = ref(subKey);
+                });
+                return ref.eq(value);
+              } else {
+                // Gérer les propriétés simples
+                return doc(key).eq(value);
+              }
+            });
+          }
+        })
         .run(connection)
         .then(cursor => cursor.toArray())
         .then(results => {
           if (results.length > 0) {
-            return results; // Renvoie tous les documents correspondants
+            return results;
           } else {
             console.log('Aucun document trouvé.');
             return [];
           }
-        }
-        )
+        })
         .catch(err => {
           console.error('Erreur lors de la recherche des documents:', err);
           throw err;
