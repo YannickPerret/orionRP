@@ -202,43 +202,7 @@ class Database {
     });
   }
 
-  getByWithFilter(table, filters) {
-    return this.connect().then(connection => {
-      let query = r.table(table);
-
-      if (filters && Object.keys(filters).length > 0) {
-        query = query.filter(doc => {
-          return Object.keys(filters).map(key => {
-            // Gérer les chemins de champs imbriqués
-            const path = key.split('.');
-            let ref = doc;
-            path.forEach(p => {
-              ref = ref(p);
-            });
-            return ref.eq(filters[key]);
-          }).reduce((left, right) => left.and(right));
-        });
-      }
-
-      return query
-        .run(connection)
-        .then(cursor => cursor.toArray())
-        .then(results => {
-          if (results.length > 0) {
-            return results; // Renvoie tous les documents correspondants
-          } else {
-            console.log('Aucun document trouvé avec les filtres fournis.');
-            return [];
-          }
-        })
-        .catch(err => {
-          console.error('Erreur lors de la recherche des documents:', err);
-          throw err;
-        });
-    });
-  }
-
-  /*async getByWithFilter(table, filters) {
+  async getByWithFilter(table, filters) {
     return this.connect().then(connection => {
       let query = r.table(table);
 
@@ -278,7 +242,7 @@ class Database {
           throw err;
         });
     });
-  }*/
+  }
 
   getFieldValues(table, field) {
     return this.connect().then(connection => {
