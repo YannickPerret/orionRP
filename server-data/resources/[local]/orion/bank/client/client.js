@@ -68,7 +68,8 @@
     while (true) {
       await exports['orion'].delay(5);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
-      for (let bankCoords of bankCoordsJson.bank) {
+
+      for (let bankCoords of bankCoordsJson.banks) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
         if (distance <= 1.3) {
           if (!bankIsOpen) {
@@ -81,7 +82,7 @@
         }
       }
 
-      for (let atmCoords of bankCoordsJson.atm) {
+      for (let atmCoords of bankCoordsJson.atms) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
         if (distance <= 2) {
           if (!bankIsOpen) {
@@ -95,7 +96,7 @@
         }
       }
 
-      for (const mangement of bankCoordsJson.management) {
+      for (const mangement of bankCoordsJson.managements) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
         if (distance <= 2) {
           if (!bankIsOpen) {
