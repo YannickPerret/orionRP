@@ -238,7 +238,7 @@ class Database {
     });
   }*/
 
-  getByWithFilter(table, filters) {
+  async getByWithFilter(table, filters) {
     console.log("ksflksf")
     return this.connect().then(connection => {
       let query = r.table(table);
