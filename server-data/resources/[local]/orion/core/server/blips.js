@@ -23,7 +23,7 @@
     const initializeBlips = async () => {
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
-        console.log(stations)
+        console.log(banks)
         const blipsList = []
         blipsList.concat(stations, banks);
         console.log(blipsList)
