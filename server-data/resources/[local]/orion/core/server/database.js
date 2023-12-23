@@ -261,6 +261,7 @@ class Database {
         });
       }
 
+      console.log(query)
       return query
         .run(connection)
         .then(cursor => cursor.toArray())
