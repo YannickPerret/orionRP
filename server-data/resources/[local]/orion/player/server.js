@@ -94,7 +94,6 @@
       console.log('Récupération du joueur...');
       const filters = { steamId: steamId, license: license };
       const playerData = await db.getByWithFilter('players', { license: license });
-      console.log(playerData);
 
       if (playerData.length > 0) {
 
