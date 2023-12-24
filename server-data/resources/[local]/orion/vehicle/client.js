@@ -66,7 +66,7 @@ const createVehiclePedInside = async model => {
   emitNet('orion:vehicle:s:spawnNewVehicle', GetHashKey(model), coords, GetEntityHeading(ped));
 };
 
-//SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
+SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
 
 const toggleSeatbelt = () => {
   seatbelt = !seatbelt;
