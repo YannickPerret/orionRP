@@ -34,7 +34,7 @@
     })
 
     RegisterCommand('inv', (source, args) => {
-        emit('orion:inventory:s:loadInventory', source);
+        emit('orion:inventory:s:loadInventory');
     }, false);
 
 })();
