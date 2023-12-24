@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useData } from '../../providers/dataContext';
 import style from './inventory.module.scss';
 import InventoryItem from './InventoryItem';
@@ -8,6 +8,34 @@ import InventoryItemUsable from './InventoryItemUsable';
 export default function Inventory() {
     const { data } = useData();
     const { closeAllMenus } = useVisibility();
+    const [quantity, setQuantity] = useState(0);
+    const [openQuantityModal, setOpenQuantityModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const handleOpenQuantityModal = async (id) => {
+        setOpenQuantityModal(true);
+        setSelectedItem(id);
+    }
+
+    const handleGiveItem = async (id) => {
+        await handleOpenQuantityModal(id).then(() => {
+            console.log('give item')
+            sendNui('giveItem', { id, quantity })
+        })
+    }
+
+    const handleDropItem = async (id) => {
+        await handleOpenQuantityModal(id).then(() => {
+
+            console.log('drop item')
+            sendNui('dropItem', { id })
+        })
+    }
+
+    const handleUseItem = (id) => {
+        console.log('use item')
+        sendNui('useItem', { id })
+    }
 
     return (
         <div className={style.inventory}>
@@ -33,6 +61,13 @@ export default function Inventory() {
                         })}
                 </div>
             </div>
-        </div>
+
+            <dialog className={style.inventory__modalQuantity} open={openQuantityModal}>
+                <header>
+                    <h3>Veuillez indiquer la quantité</h3>
+                </header>
+                <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            </dialog>
+        </div >
     )
 }
