@@ -13,8 +13,8 @@
         }
     })
 
-    onNet('orion:inventory:s:loadInventory', async (inventoryId) => {
-        const source = global.source;
+    onNet('orion:inventory:s:loadInventory', async (source, inventoryId) => {
+        const source = source || global.source;
         const player = PlayerManager.getPlayerBySource(source);
         console.log("player", player)
         const inventory = inventoryId ? inventoryId : player.inventoryId;
@@ -35,7 +35,7 @@
     })
 
     RegisterCommand('inv', (source, args) => {
-        emit('orion:inventory:s:loadInventory');
+        emit('orion:inventory:s:loadInventory', source);
     }, false);
 
 })();
