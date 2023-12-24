@@ -15,9 +15,7 @@
 
     onNet('orion:inventory:s:loadInventory', async (_source, _inventoryId) => {
         const source = _source || global.source;
-        console.log("source", source);
         const player = PlayerManager.getPlayerBySource(source);
-        console.log("player", player);
 
         // Utilisez _inventoryId si fourni, sinon utilisez player.inventoryId
         const inventory = _inventoryId || player.inventoryId;
