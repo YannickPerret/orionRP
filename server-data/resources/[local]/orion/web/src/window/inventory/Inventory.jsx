@@ -3,6 +3,7 @@ import { useData } from '../../providers/dataContext';
 import style from './inventory.module.scss';
 import InventoryItem from './InventoryItem';
 import { useVisibility } from '../../providers/visibilityProvider';
+import InventoryItemUsable from './InventoryItemUsable';
 
 export default function Inventory() {
     const { data } = useData();
@@ -23,7 +24,12 @@ export default function Inventory() {
                     {data.inventory.items
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((item, index) => {
-                            return <InventoryItem key={index} item={item} />
+                            if (item.useable) {
+                                return <InventoryItemUsable key={index} item={item} />
+                            }
+                            else {
+                                return <InventoryItem key={index} item={item} />
+                            }
                         })}
                 </div>
             </div>

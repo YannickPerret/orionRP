@@ -13,6 +13,11 @@
         }
     })
 
+    onNet('orion:inventory:s:dropItem', async (item) => {
+        const item = await 
+
+    });
+
     onNet('orion:inventory:s:loadInventory', async (_source, _inventoryId) => {
         const source = _source || global.source;
         const player = PlayerManager.getPlayerBySource(source);
@@ -26,7 +31,6 @@
         playerInventory.items = fullItems;
 
         if (player && playerInventory) {
-            console.log("playerInventory");
             emitNet('orion:inventory:c:open', source, playerInventory);
         } else {
             emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
