@@ -99,13 +99,14 @@ const playSound = sound => {
 (async () => {
   let ped = PlayerPedId();
   let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
+  let currSpeed = 0.0;
 
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
     //if ped is in a vehicle consume fuel
     if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
 
-      let currSpeed = 0.0;
+
       let prevSpeed = currSpeed;
 
       let isDriver = ped == GetPedInVehicleSeat(vehicle, -1);
