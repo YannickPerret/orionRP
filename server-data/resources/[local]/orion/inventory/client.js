@@ -19,7 +19,7 @@
     RegisterCommand(
         'inventory',
         () => {
-            emitNet('orion:inventory:s:open');
+            emitNet('orion:inventory:s:loadInventory');
         },
         false
     );
