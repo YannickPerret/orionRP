@@ -14,4 +14,13 @@
             }
         }));
     });
+
+    RegisterKeyMapping('inventory', 'Ouvrir l\'inventaire', 'keyboard', 'I');
+    RegisterCommand(
+        'inventory',
+        () => {
+            emitNet('orion:inventory:s:open');
+        },
+        false
+    );
 })();

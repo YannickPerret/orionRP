@@ -114,8 +114,6 @@ const playSound = sound => {
       let fuel = GetVehicleFuelLevel(vehicle);
       let consumption = 0.0;
 
-
-
       //currSpeed = GetEntitySpeed(vehicle) * 3.6;
       currSpeed = GetEntitySpeed(vehicle);
       SetPedConfigFlag(ped, 32, true);
@@ -150,10 +148,7 @@ const playSound = sound => {
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
 
-        console.log(vehIsMovingFwd, prevSpeed, seatbeltEjectSpeed / 2.237, vehAcc, seatbeltEjectAccel * 9.81)
-
         if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
-          console.log("ffff")
           SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
           SetEntityVelocity(ped, prevVelocity.x, prevVelocity.y, prevVelocity.z);
           await exports['orion'].delay(1);

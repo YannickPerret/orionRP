@@ -20,9 +20,11 @@ export default function Inventory() {
                 </header>
 
                 <div className={style.inventory__content}>
-                    {data.inventory.items.map((item, index) => {
-                        return <InventoryItem key={index} item={item} />
-                    })}
+                    {data.inventory.items
+                        .sort((a, b) => a.label.localeCompare(b.label))
+                        .map((item, index) => {
+                            return <InventoryItem key={index} item={item} />
+                        })}
                 </div>
             </div>
         </div>
