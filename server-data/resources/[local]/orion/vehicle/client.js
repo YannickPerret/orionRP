@@ -98,28 +98,30 @@ const playSound = sound => {
 
 (async () => {
   let ped = PlayerPedId();
+  let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
 
   while (true) {
     let vehicle = GetVehiclePedIsIn(ped, false);
     //if ped is in a vehicle consume fuel
     if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
+
       let currSpeed = 0.0;
-      let prevVelocity = { x: 0.0, y: 0.0, z: 0.0 };
       let prevSpeed = currSpeed;
+
       let isDriver = ped == GetPedInVehicleSeat(vehicle, -1);
 
-      currSpeed = GetEntitySpeed(vehicle) * 3.6;
-      //currSpeed = GetEntitySpeed(vehicle);
+      let fuel = GetVehicleFuelLevel(vehicle);
+      let consumption = 0.0;
+
+
+
+      //currSpeed = GetEntitySpeed(vehicle) * 3.6;
+      currSpeed = GetEntitySpeed(vehicle);
       SetPedConfigFlag(ped, 32, true);
-
-
 
       DisplayRadar(true);
 
-
-      let fuel = GetVehicleFuelLevel(vehicle);
       //let speed = GetEntitySpeed(vehicle);
-      let consumption = 0.0;
 
       if (seatbelt) {
         DisableControlAction(0, 75, true);
@@ -147,7 +149,6 @@ const playSound = sound => {
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
 
-        console.log(speedX, speedY, speedZ, vehIsMovingFwd, vehAcc)
         if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
           console.log("ffff")
           SetEntityCoords(ped, positionX, positionY, positionZ - 0.47, true, true, true);
@@ -169,7 +170,7 @@ const playSound = sound => {
           fuel: fuel.toFixed(0),
           seatbelt: seatbelt,
           isDriver: isDriver,
-          speed: currSpeed.toFixed(0),
+          speed: (currSpeed * 3.6).toFixed(0),
         }
       });
 
