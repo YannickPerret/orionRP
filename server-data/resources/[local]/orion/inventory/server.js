@@ -24,6 +24,7 @@
         playerInventory.items = fullItems;
 
         if (player && playerInventory) {
+            console.log("playerInventory")
             emitNet('orion:inventory:c:open', source, playerInventory);
         }
         else {
