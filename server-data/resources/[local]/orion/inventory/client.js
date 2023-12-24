@@ -19,7 +19,7 @@
     RegisterCommand(
         'inventory',
         () => {
-            emitNet('orion:inventory:s:loadInventory', GetPlayerServerId(PlayerId()));
+            emitNet('orion:inventory:s:loadInventory');
         },
         false
     );
