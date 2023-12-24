@@ -149,7 +149,7 @@ const playSound = sound => {
         let vehIsMovingFwd = speedY > 1.0;
         let vehAcc = (prevSpeed - currSpeed) / GetFrameTime();
 
-        console.log(vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81)
+        console.log(vehIsMovingFwd, prevSpeed, seatbeltEjectSpeed / 2.237, vehAcc, seatbeltEjectAccel * 9.81)
 
         if (vehIsMovingFwd && prevSpeed > seatbeltEjectSpeed / 2.237 && vehAcc > seatbeltEjectAccel * 9.81) {
           console.log("ffff")
