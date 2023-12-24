@@ -106,7 +106,7 @@ const playSound = sound => {
     //if ped is in a vehicle consume fuel
     if (vehicle != undefined && IsPedInAnyVehicle(ped, false)) {
 
-
+      let [positionX, positionY, positionZ] = GetEntityCoords(ped, true);
       let prevSpeed = currSpeed;
 
       let isDriver = ped == GetPedInVehicleSeat(vehicle, -1);
