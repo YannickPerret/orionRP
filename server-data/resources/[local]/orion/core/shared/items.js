@@ -33,6 +33,19 @@ const items = [
             quantity: 10,
         }
     },
+
+    //documents
+    {
+        name: 'procuration_bank',
+        label: 'Procuration perte de carte bancaire',
+        weight: 5,
+        type: 'item_standard',
+        image: 'documents/procuration_bank.png',
+        unique: false,
+        useable: false,
+        shouldClose: false,
+        description: 'Procuration perte de carte bancaire',
+    },
     {
         name: 'weapon_unarmed',
         label: 'Fists',

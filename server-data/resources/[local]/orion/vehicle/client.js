@@ -119,6 +119,7 @@ const playSound = sound => {
       currSpeed = GetEntitySpeed(vehicle);
       SetPedConfigFlag(ped, 32, true);
 
+      console.log("kfkfkfk")
       DisplayRadar(true);
 
       //let speed = GetEntitySpeed(vehicle);
