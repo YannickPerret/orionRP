@@ -13,13 +13,14 @@
         }
     })
 
-    onNet('orion:inventory:s:loadInventory', async (source, inventoryId) => {
-        const source = source || global.source;
-        console.log("source", source)
+    onNet('orion:inventory:s:loadInventory', async (_source, _inventoryId) => {
+        const source = _source || global.source;
+        console.log("source", source);
         const player = PlayerManager.getPlayerBySource(source);
-        console.log("player", player)
-        const inventory = inventoryId ? inventoryId : player.inventoryId;
+        console.log("player", player);
 
+        // Utilisez _inventoryId si fourni, sinon utilisez player.inventoryId
+        const inventory = _inventoryId || player.inventoryId;
 
         const playerInventory = await Inventory.getById(inventory);
         const fullItems = await playerInventory.getFullItems();
@@ -27,13 +28,13 @@
         playerInventory.items = fullItems;
 
         if (player && playerInventory) {
-            console.log("playerInventory")
+            console.log("playerInventory");
             emitNet('orion:inventory:c:open', source, playerInventory);
-        }
-        else {
+        } else {
             emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
         }
-    })
+    });
+
 
     RegisterCommand('inv', (source, args) => {
         emit('orion:inventory:s:loadInventory', source);
