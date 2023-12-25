@@ -21,11 +21,13 @@
     onNet('orion:inventory:s:loadInventory', async (_source, _inventoryId) => {
         const source = _source || global.source;
         const player = PlayerManager.getPlayerBySource(source);
+        if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
 
         // Utilisez _inventoryId si fourni, sinon utilisez player.inventoryId
         const inventory = _inventoryId || player.inventoryId;
 
         const playerInventory = await Inventory.getById(inventory);
+
         const fullItems = await playerInventory.getFullItems();
 
         playerInventory.items = fullItems;
