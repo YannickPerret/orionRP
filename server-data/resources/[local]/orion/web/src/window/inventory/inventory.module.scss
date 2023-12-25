@@ -68,7 +68,7 @@
             }
         }
 
-        &__description {
+        /* &__description {
             display: flex;
             opacity: 0;
             flex-direction: column;
@@ -82,7 +82,7 @@
 
         &:hover~.inventory__item__description {
             opacity: 1;
-        }
+        }*/
 
     }
 }
