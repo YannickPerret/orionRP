@@ -38,7 +38,7 @@ export default function Inventory() {
         sendToNui('useItem', { id })
     }
 
-    sendToNui = (action, data) => {
+    const sendToNui = (action, data) => {
         sendNui(action, data)
     }
 
