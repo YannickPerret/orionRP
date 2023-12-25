@@ -16,7 +16,6 @@ export const InventoryItemUsable = ({ item }) => {
     const sendToNui = (action, data) => {
         sendNui(action, data)
     }
-    console.log(item)
     return (
         <div className={style.inventory__item}>
             <div className={style.inventory__item__icon}>

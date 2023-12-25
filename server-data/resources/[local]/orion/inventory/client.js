@@ -16,13 +16,9 @@
     });
 
     RegisterKeyMapping('inventory', 'Ouvrir l\'inventaire', 'keyboard', 'I');
-    RegisterCommand(
-        'inventory',
-        () => {
-            emitNet('orion:inventory:s:loadInventory');
-        },
-        false
-    );
+    RegisterCommand('inventory', () => {
+        emitNet('orion:inventory:s:loadInventory');
+    }, false);
 
     // drop Item
     RegisterNuiCallbackType('dropItem');

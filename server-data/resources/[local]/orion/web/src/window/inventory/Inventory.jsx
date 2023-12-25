@@ -44,6 +44,8 @@ export default function Inventory() {
         sendNui(action, data)
     }
 
+    console.log("inventory", data.inventory.items)
+
     return (
         <div className={style.inventory}>
             <div className={style.inventory__close} onClick={closeAllMenus}>
