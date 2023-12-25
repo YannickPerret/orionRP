@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import style from './inventory.module.scss';
 
-export default function InventoryItemUsable({ item, useItem, giveItem, dropItem }) {
+export default InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
 
     return (
 
         <div className={style.inventory__item}>
-            <div onClick={() => useItem(item.id)}>
+            <div onClick={useItem(item.id)}>
                 <div className={style.inventory__item__icon}>
                     <img src={`./images/items/${item.image}`} alt="item icon" />
                 </div>
