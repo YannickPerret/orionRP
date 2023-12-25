@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import style from './inventory.module.scss';
 
 export default function InventoryItemUsable({ item, handleUseItem, handleGiveItem, handleDropItem }) {
-
+    console.log(item.label)
     return (
         <div className={style.inventory__item}>
             <div onClick={() => handleUseItem(item.id)}>
