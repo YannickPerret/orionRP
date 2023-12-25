@@ -4,6 +4,7 @@ import style from './inventory.module.scss';
 import InventoryItem from './InventoryItem';
 import { useVisibility } from '../../providers/visibilityProvider';
 import InventoryItemUsable from './InventoryItemUsable';
+import { sendNui } from '../../utils/fetchNui';
 
 export default function Inventory() {
     const { data } = useData();
@@ -20,7 +21,7 @@ export default function Inventory() {
     const handleGiveItem = async (id) => {
         await handleOpenQuantityModal(id).then(() => {
             console.log('give item')
-            sendNui('giveItem', { id, quantity })
+            sendToNuie('giveItem', { id, quantity })
         })
     }
 
@@ -28,13 +29,17 @@ export default function Inventory() {
         await handleOpenQuantityModal(id).then(() => {
 
             console.log('drop item')
-            sendNui('dropItem', { id })
+            sendToNui('dropItem', { id, quantity })
         })
     }
 
     const handleUseItem = (id) => {
         console.log('use item')
-        sendNui('useItem', { id })
+        sendToNui('useItem', { id })
+    }
+
+    sendToNui = (action, data) => {
+        sendNui(action, data)
     }
 
     return (
@@ -53,16 +58,18 @@ export default function Inventory() {
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((item, index) => {
                             if (item.useable) {
-                                return <InventoryItemUsable key={index} item={item} />
+                                return <InventoryItemUsable key={index} item={item} handleGiveItem={handleGiveItem} handleUseItem={handleUseItem} handleDropItem={handleDropItem} />
                             }
                             else {
-                                return <InventoryItem key={index} item={item} />
+                                return <InventoryItem key={index} item={item} handleGiveItem={handleGiveItem} handleDropItem={handleDropItem} />
                             }
                         })}
                 </div>
             </div>
 
             <dialog className={style.inventory__modalQuantity} open={openQuantityModal}>
+                <button autofocus onClick={setOpenQuantityModal(false)}>Fermer</button>
+
                 <header>
                     <h3>Veuillez indiquer la quantité</h3>
                 </header>
