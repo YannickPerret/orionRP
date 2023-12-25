@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import style from './inventory.module.scss';
 
-export default function InventoryItemUsable({ item }) {
+export const InventoryItemUsable = ({ item }) => {
 
     const giveItem = () => {
         console.log('give item')
@@ -16,10 +16,7 @@ export default function InventoryItemUsable({ item }) {
     const sendToNui = (action, data) => {
         sendNui(action, data)
     }
-
-
     return (
-
         <div className={style.inventory__item}>
             <div>
                 <div className={style.inventory__item__icon}>
@@ -40,3 +37,4 @@ export default function InventoryItemUsable({ item }) {
         </div>
     )
 }
+export default InventoryItemUsable;
