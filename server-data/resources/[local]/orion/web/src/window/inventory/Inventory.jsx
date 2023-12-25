@@ -66,7 +66,7 @@ export default function Inventory() {
                         })}
                 </div>
             </div>
-
+            {/*}
             <dialog className={style.inventory__modalQuantity} open={openQuantityModal}>
                 <button autofocus onClick={setOpenQuantityModal(false)}>Fermer</button>
 
@@ -75,6 +75,7 @@ export default function Inventory() {
                 </header>
                 <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
             </dialog>
+            */}
         </div >
     )
 }
