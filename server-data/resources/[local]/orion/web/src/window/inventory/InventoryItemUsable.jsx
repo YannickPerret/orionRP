@@ -18,10 +18,13 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
         dropItem(id);
     }
 
+    const clickOnUse = () => handleUseItem(item.id);
+    const clickOnGive = () => handleGiveItem(item.id);
+    const clickOnDrop = () => handleDropItem(item.id);
     return (
 
         <div className={style.inventory__item}>
-            <div onClick={handleUseItem(item.id)}>
+            <div onClick={clickOnUse}>
                 <div className={style.inventory__item__icon}>
                     <img src={`./images/items/${item.image}`} alt="item icon" />
                 </div>
@@ -30,13 +33,13 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
                 </div>
             </div>
             <div className={style.inventory__item__actions}>
-                {item.useable && <button onClick={handleGiveItem(item.id)}>Donner</button>}
-                <button onClick={handleDropItem(item.id)}>Drop</button>
+                {item.useable && <button onClick={clickOnGive}>Donner</button>}
+                <button onClick={clickOnDrop}>Drop</button>
             </div>
 
             <div className={style.inventory__item__description}>
                 {item.description}
             </div>
-        </div>
+        </div >
     )
 }
