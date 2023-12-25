@@ -6,7 +6,7 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
     return (
 
         <div className={style.inventory__item}>
-            <div onClick={() => useItem(item.id)}>
+            <div>
                 <div className={style.inventory__item__icon}>
                     <img src={`./images/items/${item.image}`} alt="item icon" />
                 </div>
