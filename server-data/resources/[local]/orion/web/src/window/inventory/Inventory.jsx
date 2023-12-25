@@ -34,7 +34,7 @@ export default function Inventory() {
     }
 
     const handleUseItem = (id) => {
-        console.log('use item')
+        console.log('use item', id)
         sendToNui('useItem', { id })
     }
 
@@ -58,7 +58,7 @@ export default function Inventory() {
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((item, index) => {
                             if (item.useable) {
-                                return <InventoryItemUsable key={index} item={item} handleGiveItem={handleGiveItem} handleUseItem={handleUseItem} handleDropItem={handleDropItem} />
+                                return <InventoryItemUsable key={index} item={item} handleGiveItem={giveItem} handleUseItem={useItem} handleDropItem={dropItem} />
                             }
                             else {
                                 return <InventoryItem key={index} item={item} handleGiveItem={handleGiveItem} handleDropItem={handleDropItem} />
