@@ -21,7 +21,7 @@ export default function Inventory() {
     const handleGiveItem = async (id) => {
         await handleOpenQuantityModal(id).then(() => {
             console.log('give item')
-            sendToNuie('giveItem', { id, quantity })
+            sendToNui('giveItem', { id, quantity })
         })
     }
 
