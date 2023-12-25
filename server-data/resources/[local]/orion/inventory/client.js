@@ -1,17 +1,10 @@
 (async () => {
     let inventoryUiOpen = false;
 
-    // Open inventory
-
     onNet('orion:inventory:c:open', (inventory) => {
         inventoryUiOpen = !inventoryUiOpen;
         SetNuiFocus(false, inventoryUiOpen);
         SetNuiFocusKeepInput(true)
-        DisableControlAction(0, 30, inventoryUiOpen);
-        DisableControlAction(0, 1, inventoryUiOpen);
-        DisableControlAction(0, 2, inventoryUiOpen);
-        DisableControlAction(0, 24, inventoryUiOpen);
-        DisableControlAction(0, 25, inventoryUiOpen);
 
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
@@ -42,6 +35,7 @@
     // use Item
     RegisterNuiCallbackType('useItem');
     on('__cfx_nui:useItem', (data, cb) => {
+        console.log(data);
         if (data.itemId == undefined) return;
         emitNet('orion:inventory:s:useItem', data.itemId);
         cb({ ok: true });
@@ -65,5 +59,26 @@
 
     onNet('orion:inventory:s:giveItem', (itemId, target) => {
         emitNet('orion:inventory:s:giveItem', itemId, target);
+    });
+
+
+    setTick(() => {
+        if (inventoryUiOpen) {
+            DisableControlAction(0, 24, inventoryUiOpen);
+            DisableControlAction(0, 25, inventoryUiOpen);
+
+            DisableControlAction(0, 263, inventoryUiOpen)
+            DisableControlAction(0, 264, inventoryUiOpen)
+            DisableControlAction(0, 257, inventoryUiOpen)
+            DisableControlAction(0, 140, inventoryUiOpen)
+            DisableControlAction(0, 141, inventoryUiOpen)
+            DisableControlAction(0, 142, inventoryUiOpen)
+            DisableControlAction(0, 143, inventoryUiOpen)
+
+            DisableControlAction(0, 270, inventoryUiOpen);
+            DisableControlAction(0, 271, inventoryUiOpen);
+            DisableControlAction(0, 272, inventoryUiOpen);
+            DisableControlAction(0, 273, inventoryUiOpen);
+        }
     });
 })();
