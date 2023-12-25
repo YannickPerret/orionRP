@@ -7,6 +7,12 @@
         inventoryUiOpen = !inventoryUiOpen;
         SetNuiFocus(false, inventoryUiOpen);
         SetNuiFocusKeepInput(true)
+        DisableControlAction(0, 30, inventoryUiOpen);
+        DisableControlAction(0, 1, inventoryUiOpen);
+        DisableControlAction(0, 2, inventoryUiOpen);
+        DisableControlAction(0, 24, inventoryUiOpen);
+        DisableControlAction(0, 25, inventoryUiOpen);
+        Di
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
