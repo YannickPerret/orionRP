@@ -14,7 +14,7 @@
     })
 
     onNet('orion:inventory:s:dropItem', async (item) => {
-        const item = await 
+        //const item = await 
 
     });
 
