@@ -8,6 +8,16 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
         useItem(id);
     }
 
+    const handleGiveItem = (id) => {
+        console.log('give item')
+        giveItem(id);
+    }
+
+    const handleDropItem = (id) => {
+        console.log('drop item')
+        dropItem(id);
+    }
+
     return (
 
         <div className={style.inventory__item}>
@@ -20,8 +30,8 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
                 </div>
             </div>
             <div className={style.inventory__item__actions}>
-                {item.useable && <button onClick={() => giveItem(item.id)}>Donner</button>}
-                <button onClick={() => dropItem(item.id)}>Drop</button>
+                {item.useable && <button onClick={() => handleGiveItem(item.id)}>Donner</button>}
+                <button onClick={() => handleDropItem(item.id)}>Drop</button>
             </div>
 
             <div className={style.inventory__item__description}>

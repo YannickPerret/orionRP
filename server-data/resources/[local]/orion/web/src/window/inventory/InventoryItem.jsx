@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import style from './inventory.module.scss';
 import { sendNui } from '../../utils/fetchNui';
 
-export default function InventoryItem({ item, handleGiveItem, handleDropItem }) {
+export default function InventoryItem({ item, giveItem, dropItem }) {
 
     return (
         <div className={style.inventory__item}>
@@ -13,8 +13,8 @@ export default function InventoryItem({ item, handleGiveItem, handleDropItem }) 
                 <h3>{item.quantity} {item.label}</h3>
             </div>
             <div className={style.inventory__item__actions}>
-                {item.useable && <button onClick={() => handleGiveItem(item.id)}>Donner</button>}
-                <button onClick={() => handleDropItem(item.id)}>Drop</button>
+                {item.useable && <button onClick={() => giveItem(item.id)}>Donner</button>}
+                <button onClick={() => dropItem(item.id)}>Drop</button>
             </div>
 
             <div className={style.inventory__item__description}>
