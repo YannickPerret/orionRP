@@ -12,7 +12,7 @@
         DisableControlAction(0, 2, inventoryUiOpen);
         DisableControlAction(0, 24, inventoryUiOpen);
         DisableControlAction(0, 25, inventoryUiOpen);
-        Di
+
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
