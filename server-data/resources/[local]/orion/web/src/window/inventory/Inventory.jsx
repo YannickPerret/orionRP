@@ -58,7 +58,7 @@ export default function Inventory() {
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((item, index) => {
                             if (item.useable) {
-                                return <InventoryItemUsable key={index} item={item} giveItem={handleGiveItem} useItem={useItem} dropItem={handleDropItem} />
+                                return <InventoryItemUsable key={index} item={item} giveItem={handleGiveItem} useItem={handleUseItem} dropItem={handleDropItem} />
                             }
                             else {
                                 return <InventoryItem key={index} item={item} handleGiveItem={handleGiveItem} handleDropItem={handleDropItem} />
