@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import style from './inventory.module.scss';
 
-export default InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
+export default function InventoryItemUsable({ item, useItem, giveItem, dropItem }) {
 
     return (
 
