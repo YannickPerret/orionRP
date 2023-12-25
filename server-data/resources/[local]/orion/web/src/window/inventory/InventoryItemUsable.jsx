@@ -21,7 +21,7 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
     return (
 
         <div className={style.inventory__item}>
-            <div onClick={() => { console.log(`Item clicked: ${item.id}`), handleUseItem(item.id) }}>
+            <div onClick={handleUseItem(item.id)}>
                 <div className={style.inventory__item__icon}>
                     <img src={`./images/items/${item.image}`} alt="item icon" />
                 </div>
@@ -30,8 +30,8 @@ export default function InventoryItemUsable({ item, useItem, giveItem, dropItem 
                 </div>
             </div>
             <div className={style.inventory__item__actions}>
-                {item.useable && <button onClick={() => handleGiveItem(item.id)}>Donner</button>}
-                <button onClick={() => handleDropItem(item.id)}>Drop</button>
+                {item.useable && <button onClick={handleGiveItem(item.id)}>Donner</button>}
+                <button onClick={handleDropItem(item.id)}>Drop</button>
             </div>
 
             <div className={style.inventory__item__description}>

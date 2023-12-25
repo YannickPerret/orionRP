@@ -67,7 +67,7 @@
             DisableControlAction(0, 1, inventoryUiOpen);
             DisableControlAction(0, 2, inventoryUiOpen);
 
-            /*DisableControlAction(0, 24, inventoryUiOpen);
+            DisableControlAction(0, 24, inventoryUiOpen);
             DisableControlAction(0, 25, inventoryUiOpen);
 
             DisableControlAction(0, 263, inventoryUiOpen)
@@ -81,7 +81,7 @@
             DisableControlAction(0, 270, inventoryUiOpen);
             DisableControlAction(0, 271, inventoryUiOpen);
             DisableControlAction(0, 272, inventoryUiOpen);
-            DisableControlAction(0, 273, inventoryUiOpen);*/
+            DisableControlAction(0, 273, inventoryUiOpen);
         }
     });
 })();
