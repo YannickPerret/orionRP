@@ -1,7 +1,22 @@
 import React, { useEffect } from 'react'
 import style from './inventory.module.scss';
 
-export default function InventoryItemUsable({ item, useItem, giveItem, dropItem }) {
+export default function InventoryItemUsable({ item }) {
+
+    const giveItem = (id) => {
+        console.log('give item')
+        sendToNui('giveItem', { id: id })
+    }
+
+    const dropItem = (id) => {
+        console.log('drop item')
+        sendToNui('dropItem', { id: id })
+    }
+
+    const sendToNui = (action, data) => {
+        sendNui(action, data)
+    }
+
 
     return (
 
