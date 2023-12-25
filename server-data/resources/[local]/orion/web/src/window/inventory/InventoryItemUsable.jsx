@@ -3,9 +3,9 @@ import style from './inventory.module.scss';
 
 export default function InventoryItemUsable({ item }) {
 
-    const giveItem = (id) => {
+    const giveItem = () => {
         console.log('give item')
-        sendToNui('giveItem', { id: id })
+        //sendToNui('giveItem', { id: id })
     }
 
     const dropItem = (id) => {
@@ -30,7 +30,7 @@ export default function InventoryItemUsable({ item }) {
                 </div>
             </div>
             <div className={style.inventory__item__actions}>
-                {item.useable && <button onClick={() => giveItem(item.id)}>Donner</button>}
+                {item.useable && <button onClick={giveItem}>Donner</button>}
                 <button onClick={() => dropItem(item.id)}>Drop</button>
             </div>
 
