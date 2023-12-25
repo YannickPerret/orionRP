@@ -64,6 +64,9 @@
 
     setTick(() => {
         if (inventoryUiOpen) {
+            DisableControlAction(0, 1, inventoryUiOpen);
+            DisableControlAction(0, 2, inventoryUiOpen);
+
             DisableControlAction(0, 24, inventoryUiOpen);
             DisableControlAction(0, 25, inventoryUiOpen);
 
