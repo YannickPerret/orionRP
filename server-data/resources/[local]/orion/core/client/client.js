@@ -122,9 +122,9 @@ onNet('orion:core:c:animations:playAnimationWithTime', async (dict, anim, durati
   while (!HasAnimDictLoaded(dict)) {
     await exports['orion'].delay(0);
   }
-  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
+  TaskPlayAnim(PlayerPedId(), dict, anim, 1.0, -1.0, -1, 1, 1, true, true, true);
   await exports['orion'].delay(duration);
-  ClearPedTasks(PlayerPedId());
+  //ClearPedTasks(PlayerPedId());
 });
 
 
@@ -133,7 +133,6 @@ onNet('orion:core:c:animations:playAnimationLoop', async (dict, anim, duration, 
   while (!HasAnimDictLoaded(dict)) {
     await exports['orion'].delay(0);
   }
-  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
   TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
 });
 
