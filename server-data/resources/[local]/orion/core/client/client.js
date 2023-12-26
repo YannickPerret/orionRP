@@ -108,6 +108,7 @@ onNet('orion:blips:c:createBlips', (blips) => {
 });
 
 onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
+  console.log("oui client")
   RequestAnimDict(dict);
   while (!HasAnimDictLoaded(dict)) {
     await exports['orion'].delay(0);
