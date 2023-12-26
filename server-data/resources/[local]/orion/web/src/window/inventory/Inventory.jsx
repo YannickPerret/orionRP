@@ -44,10 +44,6 @@ export default function Inventory() {
         sendNui(action, data)
     }
 
-    useEffect(() => {
-        console.log(data.inventory)
-    })
-
 
     return (
         <div className={style.inventory}>

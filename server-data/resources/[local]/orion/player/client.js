@@ -224,15 +224,6 @@ let playerData = {};
     cb({ ok: true });
   });
 
-  RegisterKeyMapping('hanidsup', 'Hands Up', 'keyboard', 'i');
-  RegisterCommand(
-    'handsup',
-    () => {
-      handsUp != handsUp;
-    },
-    false
-  );
-
   onNet('orion:player:c:playerDied', message => {
     SetEntityHealth(PlayerPedId(), 0);
     StartScreenEffect('DeathFailOut', 0, false);
