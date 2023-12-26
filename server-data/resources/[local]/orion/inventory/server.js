@@ -11,16 +11,14 @@
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
 
-        console.log(playerInventory, itemInstance)
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
-                console.log("has quantity")
                 if (itemInstance.type !== 'special') {
-                    emitNet(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
+                    emit(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
                 }
                 else {
                     console.log("special item")
-                    emitNet(`orion:inventory:c:useItem:${itemInstance.name}`, source, itemInstance);
+                    emit(`orion:inventory:c:useItem:${itemInstance.name}`, source, itemInstance);
                 }
                 playerInventory.removeItem(itemInstance);
             }
@@ -68,6 +66,7 @@
 
     //item effects
     onNet('orion:inventory:s:useItem:item_consumable', (player, item) => {
+        console.log(player, item)
         emitNet('orion:core:c:animations:playAnimationWithTime', player.source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
     })
 
