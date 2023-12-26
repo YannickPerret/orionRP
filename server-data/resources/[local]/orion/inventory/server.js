@@ -8,10 +8,11 @@
 
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
 
-        const inventory = await Inventory.getById(player.inventoryId);
+        const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await inventory.getItem(itemId);
 
-        if (inventory.hasItem(itemInstance)) {
+        console.log(playerInventory, itemInstance)
+        if (playerInventory.hasItem(itemInstance)) {
             if (itemInstance.quantity > 0) {
                 if (itemInstance.type !== 'special') {
                     emitNet(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
@@ -19,7 +20,7 @@
                 else {
                     emitNet(`orion:inventory:c:useItem:${itemInstance.name}`, source, itemInstance);
                 }
-                inventory.removeItem(itemInstance);
+                playerInventory.removeItem(itemInstance);
             }
         }
     });
