@@ -16,7 +16,7 @@ export const InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
             </div>
 
             <div className={style.inventory__item__actions}>
-                {item.useable && <button onClick={giveItem(item.id)}>Donner</button>}
+                {item.useable && <button onClick={() => giveItem(item.id)}>Donner</button>}
                 <button onClick={() => dropItem(item.id)}>Drop</button>
             </div>
 
