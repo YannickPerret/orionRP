@@ -124,7 +124,7 @@ onNet('orion:core:c:animations:playAnimationWithTime', async (dict, anim, durati
   }
   TaskPlayAnim(PlayerPedId(), dict, anim, 1.0, -1.0, -1, 1, 1, true, true, true);
   await exports['orion'].delay(duration);
-  //ClearPedTasks(PlayerPedId());
+  ClearPedTasks(PlayerPedId());
 });
 
 
