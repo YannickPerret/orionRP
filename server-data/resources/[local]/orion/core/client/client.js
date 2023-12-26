@@ -107,6 +107,38 @@ onNet('orion:blips:c:createBlips', (blips) => {
   });
 });
 
+onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
+  RequestAnimDict(dict);
+  while (!HasAnimDictLoaded(dict)) {
+    await exports['orion'].delay(0);
+  }
+  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
+});
+
+onNet('orion:core:c:animations:playAnimationWithTime', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
+  RequestAnimDict(dict);
+  while (!HasAnimDictLoaded(dict)) {
+    await exports['orion'].delay(0);
+  }
+  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
+  await exports['orion'].delay(duration);
+  ClearPedTasks(PlayerPedId());
+});
+
+
+onNet('orion:core:c:animations:playAnimationLoop', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
+  RequestAnimDict(dict);
+  while (!HasAnimDictLoaded(dict)) {
+    await exports['orion'].delay(0);
+  }
+  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
+  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
+});
+
+onNet('orion:core:c:animations:stopAllAnimations', async () => {
+  ClearPedTasks(PlayerPedId());
+});
+
 
 
 RegisterCommand(

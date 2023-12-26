@@ -33,12 +33,23 @@ class Inventory {
     }
 
     removeItem(item) {
-        this.items = this.items.filter(i => i.id !== item.id);
-        this.weight -= item.weight;
+        if (this.hasItem(item)) {
+            this.items.find(i => i.id === item.id).quantity -= 1;
+
+            if (this.items.find(i => i.id === item.id).quantity <= 0) {
+                this.items = this.items.filter(i => i.id !== item.id);
+            }
+            this.calculateWeight();
+        }
     }
 
     hasItem(item) {
         return this.items.some(i => i.id === item.id);
+    }
+
+    async getItem(itemId) {
+        const item = await Item.getById(itemId);
+        return item
     }
 
     getItems() {
@@ -108,28 +119,6 @@ class Item {
         this.shouldClose = shouldClose || false;
     }
 
-    use() {
-        if (!this.useable) {
-            return;
-        }
-
-        emitNet('orion:inventory:useItem', this.id);
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            name: this.name,
-            weight: this.weight,
-            description: this.description,
-            usable: this.usable,
-            usableData: this.usableData
-        };
-    }
-
-    static fromJSON(json) {
-        return new Item(json);
-    }
 
     static createNew(id, name, weight, description, usable, usableData) {
         return new Item({ id, name, weight, description, usable, usableData });
@@ -137,7 +126,7 @@ class Item {
 
     static async getById(id) {
         const itemDB = await db.get('items', id);
-        return Item.fromJSON(itemDB);
+        return new Item(itemDB);
     }
 
     static async getAll() {

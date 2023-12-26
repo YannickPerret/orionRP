@@ -45,15 +45,15 @@
         cb({ ok: true });
     });
 
-    onNet('orion:inventory:s:dropItem', (itemId) => {
+    onNet('orion:inventory:c:dropItem', (itemId) => {
         emitNet('orion:inventory:s:dropItem', itemId);
     });
 
-    onNet('orion:inventory:s:useItem', (itemId) => {
+    onNet('orion:inventory:c:useItem', (itemId) => {
         emitNet('orion:inventory:s:useItem', itemId);
     });
 
-    onNet('orion:inventory:s:giveItem', (itemId, target) => {
+    onNet('orion:inventory:c:giveItem', (itemId, target) => {
         emitNet('orion:inventory:s:giveItem', itemId, target);
     });
 

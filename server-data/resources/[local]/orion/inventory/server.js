@@ -2,18 +2,35 @@
     const PlayerManager = require('./core/server/playerManager.js');
     const { Inventory } = require('./inventory/inventory.js');
 
-    onNet('orion:inventory:s:useItem', (item) => {
-        item.use();
+    onNet('orion:inventory:s:useItem', async (item) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+
+        if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+
+        const inventory = await Inventory.getById(player.inventoryId);
+        const itemInstance = await inventory.getItem(item.id);
+        if (inventory.hasItem(itemInstance)) {
+            if (itemInstance.quantity > 0) {
+                if (itemInstance.type !== 'special') {
+                    emitNet(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
+                }
+                else {
+                    emitNet(`orion:inventory:c:useItem:${itemInstance.name}`, source, itemInstance);
+                }
+                inventory.removeItem(itemInstance);
+            }
+        }
     });
 
-    onNet('orion:inventory:s:giveItem', (item, target) => {
+    onNet('orion:inventory:s:giveItem', (item, quantity, target) => {
         let player = PlayerManager.getPlayerBySource(target);
         if (player) {
             player.inventory.addItem(item);
         }
     })
 
-    onNet('orion:inventory:s:dropItem', async (item) => {
+    onNet('orion:inventory:s:dropItem', async (item, quantity) => {
         //const item = await 
 
     });
@@ -43,6 +60,13 @@
     RegisterCommand('inv', (source, args) => {
         emit('orion:inventory:s:loadInventory', source);
     }, false);
+
+
+    //item effects
+    onNet('orion:inventory:s:useItem:item_consumable', (player, item) => {
+        emitNet('orion:core:c:animations:playAnimationWithTime', player.source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
+    })
+
 
 })();
 
