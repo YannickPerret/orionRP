@@ -15,11 +15,11 @@
             if (Number(itemInstance.quantity) > 0) {
                 if (itemInstance.type !== 'special') {
                     console.log(`orion:inventory:c:useItem:${itemInstance.type}`)
-                    emit(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
+                    emit(`orion:inventory:s:useItem:${itemInstance.type}`, source, itemInstance);
                 }
                 else {
                     console.log("special item")
-                    emit(`orion:inventory:c:useItem:${itemInstance.name}`, source, itemInstance);
+                    emit(`orion:inventory:s:useItem:${itemInstance.name}`, source, itemInstance);
                 }
                 playerInventory.removeItem(itemInstance);
             }
