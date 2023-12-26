@@ -32,7 +32,7 @@
     RegisterNuiCallbackType('useItem');
     on('__cfx_nui:useItem', (data, cb) => {
         console.log(data);
-        if (data.itemId == undefined) return;
+        if (data.id == undefined) return;
         emitNet('orion:inventory:s:useItem', data.id);
         cb({ ok: true });
     });
@@ -40,8 +40,9 @@
     // give Item
     RegisterNuiCallbackType('giveItem');
     on('__cfx_nui:giveItem', (data, cb) => {
-        if (data.itemId == undefined || data.quantity < 1) return;
-        emitNet('orion:inventory:s:giveItem', data.itemId, data.target);
+        if (data.id == undefined || data.quantity < 1) return;
+
+        emitNet('orion:inventory:s:giveItem', data.id, data.target);
         cb({ ok: true });
     });
 
