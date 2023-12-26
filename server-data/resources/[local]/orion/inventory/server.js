@@ -13,7 +13,7 @@
 
         console.log(playerInventory, itemInstance)
         if (playerInventory.hasItem(itemInstance)) {
-            if (Number(playerInventory.quantity) > 0) {
+            if (Number(itemInstance.quantity) > 0) {
                 console.log("has quantity")
                 if (itemInstance.type !== 'special') {
                     emitNet(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
