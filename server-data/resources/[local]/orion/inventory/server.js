@@ -14,6 +14,7 @@
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
                 if (itemInstance.type !== 'special') {
+                    console.log("normal item")
                     emit(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
                 }
                 else {
