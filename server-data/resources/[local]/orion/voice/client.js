@@ -10,7 +10,7 @@
 
     let isPushingToTalk = false;
 
-    let voice = {default : 5.0, shout : 12.0, whisper : 1.0, current : 0, level : null}
+    let voice = { default: 5.0, shout: 12.0, whisper: 1.0, current: 0, level: null }
 
 
     on('ResourceStart', async (resourceName) => {
@@ -19,7 +19,7 @@
         }
         console.log('Voice started');
 
-       if (voice.current == 0) {
+        if (voice.current == 0) {
             voice.level = voice.default;
             NetworkSetTalkerProximity(voice.level);
         } else if (voice.current == 1) {
@@ -64,7 +64,7 @@
 
     setTick(async () => {
         inputMicrophone = GetProfileSetting(724);
-        console.log(inputMicrophone)
+        //console.log(inputMicrophone)
         if (inputMicrophone == 0) {
             microphoneEnabled = false;
             //send message disconnect because microphone is not set up 30 seconds, 15 seconds, 5 seconds and after disconnect
