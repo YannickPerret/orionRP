@@ -34,7 +34,6 @@
       AddTextComponentSubstringPlayerName(text);
       EndTextCommandSetBlipName(blip);
     }
-
     return blip;
   }
 
