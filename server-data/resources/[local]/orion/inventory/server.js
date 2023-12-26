@@ -2,14 +2,15 @@
     const PlayerManager = require('./core/server/playerManager.js');
     const { Inventory } = require('./inventory/inventory.js');
 
-    onNet('orion:inventory:s:useItem', async (item) => {
+    onNet('orion:inventory:s:useItem', async (itemId) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
 
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
 
         const inventory = await Inventory.getById(player.inventoryId);
-        const itemInstance = await inventory.getItem(item.id);
+        const itemInstance = await inventory.getItem(itemId);
+
         if (inventory.hasItem(itemInstance)) {
             if (itemInstance.quantity > 0) {
                 if (itemInstance.type !== 'special') {
