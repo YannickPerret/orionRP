@@ -105,7 +105,7 @@ class Inventory {
 
 
 class Item {
-    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose }) {
+    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation }) {
         this.id = id;
         this.name = name;
         this.label = label || '';
@@ -117,6 +117,7 @@ class Item {
         this.image = image || null;
         this.unique = unique || false;
         this.shouldClose = shouldClose || false;
+        this.animation = animation || [];
     }
 
 
