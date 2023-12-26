@@ -44,7 +44,10 @@ export default function Inventory() {
         sendNui(action, data)
     }
 
-    console.log("inventory", data.inventory.items)
+    useEffect(() => {
+        console.log(data.inventory)
+    })
+
 
     return (
         <div className={style.inventory}>
@@ -54,7 +57,9 @@ export default function Inventory() {
             <div className={style.inventory__container}>
                 <header>
                     <h1>Inventory</h1>
-                    <search>search bar</search>
+                    <search>
+                        <input type="text" placeholder="Search..." />
+                    </search>
                 </header>
 
                 <div className={style.inventory__content}>
