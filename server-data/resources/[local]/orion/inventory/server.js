@@ -8,8 +8,8 @@
 
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
 
-        const playerInventory = await Inventory.getById(player.inventoryId);
-        const itemInstance = await inventory.getItem(itemId);
+        const playerInventory = Inventory.getById(player.inventoryId);
+        const itemInstance = await Inventory.getItem(itemId);
 
         console.log(playerInventory, itemInstance)
         if (playerInventory.hasItem(itemInstance)) {
