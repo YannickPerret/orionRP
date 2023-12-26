@@ -3,7 +3,6 @@ import style from './inventory.module.scss';
 
 export const InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
 
-    console.log(item);
     return (
         <div className={style.inventory__item}>
             <div onClick={() => useItem(item.id)}>
@@ -23,6 +22,8 @@ export const InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
 
             <div className={style.inventory__item__description}>
                 {item.description}
+                {item.useable && <p>Utilisable</p>}
+                {item.weight && <p>Poids: {item.weight}</p>}
             </div>
         </div>
     )

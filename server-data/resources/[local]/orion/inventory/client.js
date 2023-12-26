@@ -6,6 +6,7 @@
         SetNuiFocus(inventoryUiOpen, inventoryUiOpen);
         //SetNuiFocusKeepInput(true)
 
+        console.log(inventory)
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
