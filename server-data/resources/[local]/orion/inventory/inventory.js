@@ -32,14 +32,18 @@ class Inventory {
         return true;
     }
 
-    removeItem(item) {
-        this.items.find(i => i.id === item.id).quantity -= 1;
+    removeItem(itemId, quantity = 1) {
+        const item = this.items.find(i => i.id === itemId);
+        if (item) {
+            item.quantity -= quantity;
 
-        if (this.items.find(i => i.id === item.id).quantity <= 0) {
-            this.items = this.items.filter(i => i.id !== item.id);
+            if (item.quantity <= 0) {
+                this.items = this.items.filter(i => i.id !== itemId);
+            }
+            this.calculateWeight();
         }
-        this.calculateWeight();
     }
+
 
     hasItem(item) {
         return this.items.some(i => i.id === item.id);
