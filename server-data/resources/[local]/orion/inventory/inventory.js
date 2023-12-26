@@ -24,7 +24,7 @@ class Inventory {
                 return i;
             });
         } else {
-            this.items.push({ id: item.id, number: number });
+            this.items.push({ id: item.id, quantity: number });
         }
 
         this.weight += item.weight * number;
