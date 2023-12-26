@@ -14,7 +14,7 @@ const items = [
         animation: {
             dict: "mp_player_inteat@burger",
             name: "mp_player_int_eat_burger_fp",
-            duration: 15000,
+            duration: 10000,
         },
         starter: {
             enabled: true,
@@ -36,7 +36,7 @@ const items = [
         animation: {
             dict: "mp_player_intdrink",
             name: "loop_bottle",
-            duration: 15000,
+            duration: 10000,
         },
         starter: {
             enabled: true,

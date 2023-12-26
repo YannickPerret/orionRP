@@ -61,9 +61,9 @@ export default function Inventory() {
                             if (item.useable) {
                                 return (<InventoryItemUsable key={index} item={item} giveItem={handleGiveItem} useItem={handleUseItem} dropItem={handleDropItem} />)
                             }
-                            /*else {
-                                return <InventoryItem key={index} item={item} handleGiveItem={handleGiveItem} handleDropItem={handleDropItem} />
-                            }*/
+                            else {
+                                return <InventoryItem key={index} item={item} giveItem={handleGiveItem} dropItem={handleDropItem} />
+                            }
                         })}
                 </div>
             </div>
