@@ -14,12 +14,11 @@
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
                 if (itemInstance.type !== 'special') {
-                    console.log(`orion:inventory:c:useItem:${itemInstance.type}`)
-                    emit(`orion:inventory:s:useItem:${itemInstance.type}`, itemInstance);
+                    emit(`orion:inventory:s:useItem:${itemInstance.type}`, source, itemInstance);
                 }
                 else {
                     console.log("special item")
-                    emit(`orion:inventory:s:useItem:${itemInstance.name}`, itemInstance);
+                    emit(`orion:inventory:s:useItem:${itemInstance.name}`, source, itemInstance);
                 }
                 playerInventory.removeItem(itemInstance);
             }
@@ -67,6 +66,7 @@
     //item effects
     onNet('orion:inventory:s:useItem:item_consumable', (item) => {
         const source = global.source;
+        console.log("use item consumable")
         emitNet('orion:core:c:animations:playAnimationWithTime', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
     })
 
