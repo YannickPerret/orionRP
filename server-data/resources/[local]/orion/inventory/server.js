@@ -66,7 +66,7 @@
     //item effects
     onNet('orion:inventory:s:useItem:item_consumable', (item) => {
         const source = global.source;
-        emitNet('orion:core:c:animations:playAnimationWithTime', -1, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
+        emitNet('orion:core:c:animations:playAnimationWithTime', -1, item.animation.dict, item.animation.name, 15000, 49, 49, 49, 49, 49);
     })
 
 
