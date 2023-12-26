@@ -52,4 +52,4 @@
   exports('delay', delay);
   exports('getVehicleInFront', getVehicleInFront);
 
-})
+})()
