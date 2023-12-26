@@ -33,7 +33,7 @@
     on('__cfx_nui:useItem', (data, cb) => {
         console.log(data);
         if (data.itemId == undefined) return;
-        emitNet('orion:inventory:s:useItem', data.itemId);
+        emitNet('orion:inventory:s:useItem', data.id);
         cb({ ok: true });
     });
 
