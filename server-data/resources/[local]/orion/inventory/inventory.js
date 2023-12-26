@@ -33,14 +33,12 @@ class Inventory {
     }
 
     removeItem(item) {
-        if (this.hasItem(item)) {
-            this.items.find(i => i.id === item.id).quantity -= 1;
+        this.items.find(i => i.id === item.id).quantity -= 1;
 
-            if (this.items.find(i => i.id === item.id).quantity <= 0) {
-                this.items = this.items.filter(i => i.id !== item.id);
-            }
-            this.calculateWeight();
+        if (this.items.find(i => i.id === item.id).quantity <= 0) {
+            this.items = this.items.filter(i => i.id !== item.id);
         }
+        this.calculateWeight();
     }
 
     hasItem(item) {

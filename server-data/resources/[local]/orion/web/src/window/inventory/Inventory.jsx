@@ -49,6 +49,7 @@ export default function Inventory() {
             <div className={style.inventory__container}>
                 <header>
                     <h1>Inventory</h1>
+                    <h3>{data.inventory.weight} kg</h3>
                     <search>
                         <input type="text" placeholder="Search..." />
                     </search>
