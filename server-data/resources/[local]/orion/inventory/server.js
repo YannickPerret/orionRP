@@ -13,11 +13,14 @@
 
         console.log(playerInventory, itemInstance)
         if (playerInventory.hasItem(itemInstance)) {
+            console.log("has item")
             if (itemInstance.quantity > 0) {
+                console.log("has quantity")
                 if (itemInstance.type !== 'special') {
                     emitNet(`orion:inventory:c:useItem:${itemInstance.type}`, source, itemInstance);
                 }
                 else {
+                    console.log("special item")
                     emitNet(`orion:inventory:c:useItem:${itemInstance.name}`, source, itemInstance);
                 }
                 playerInventory.removeItem(itemInstance);
