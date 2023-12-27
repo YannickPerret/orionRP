@@ -43,7 +43,6 @@ export default function Inventory() {
         sendNui(action, data)
     }
     useEffect(() => {
-        console.log(data)
         const handleKeyDown = (event) => {
             if (event.key === 'i') {
                 closeAllMenus();
@@ -64,7 +63,7 @@ export default function Inventory() {
             <div className={style.inventory__container}>
                 <header>
                     <h1>Inventory</h1>
-                    <h3>{data.inventory.weight} kg</h3>
+                    <h3>{data.inventory.weight} kg / {data.inventory.maxWeight} kg</h3>
                     <search>
                         <input type="text" placeholder="Search..." />
                     </search>
