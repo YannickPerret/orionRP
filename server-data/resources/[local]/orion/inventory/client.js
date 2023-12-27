@@ -30,7 +30,6 @@
     // use Item
     RegisterNuiCallbackType('useItem');
     on('__cfx_nui:useItem', (data, cb) => {
-        console.log(data);
         if (data.id == undefined) return;
         emitNet('orion:inventory:s:useItem', data.id);
         cb({ ok: true });

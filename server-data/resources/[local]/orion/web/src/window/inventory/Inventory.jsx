@@ -12,24 +12,30 @@ export default function Inventory() {
     const [quantity, setQuantity] = useState(0);
     const [openQuantityModal, setOpenQuantityModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [actionType, setActionType] = useState(null);
 
-    const handleOpenQuantityModal = async (id) => {
-        setOpenQuantityModal(true);
+    const handleOpenQuantityModal = (id) => {
         setSelectedItem(id);
-    }
+        setQuantity(0);
+        setActionType(action);
+        setOpenQuantityModal(true);
+    };
+
+    const handleConfirmQuantity = (action) => {
+        sendToNui(actionType, { id: selectedItem, quantity: parseInt(quantity, 10) });
+        setOpenQuantityModal(false);
+        setActionType(null);
+        setSelectedItem(null);
+    };
+
 
     const handleGiveItem = async (id) => {
-
-        await handleOpenQuantityModal(id).then(() => {
-            sendToNui('giveItem', { id: id, quantity: quantity })
-        })
-
+        handleOpenQuantityModal(id, 'giveItem');
     }
 
     const handleDropItem = async (id) => {
-        await handleOpenQuantityModal(id).then(() => {
-            sendToNui('dropItem', { id: id, quantity: quantity })
-        })
+        handleOpenQuantityModal(id, 'dropItem');
+
     }
 
     const handleUseItem = (id, shouldClose) => {
@@ -38,6 +44,14 @@ export default function Inventory() {
             closeAllMenus(true);
         }
     }
+
+    const handleResetQuantity = () => {
+        setQuantity(0);
+        setOpenQuantityModal(false);
+        selectedItem(null);
+        setActionType(null);
+    }
+
 
     const sendToNui = (action, data) => {
         sendNui(action, data)
@@ -85,12 +99,14 @@ export default function Inventory() {
 
             {openQuantityModal && (
                 <div className={style.inventory__modalQuantity}>
-                    <button onClick={setOpenQuantityModal(false)}>Fermer</button>
+                    <button onClick={() => setOpenQuantityModal(false)}>Fermer</button>
 
                     <header>
                         <h3>Veuillez indiquer la quantité</h3>
                     </header>
                     <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                    <button onClick={() => handleConfirmQuantity()}>Confirmer</button>
+                    <button onClick={() => handleResetQuantity()}>Annuler</button>
                 </div>
             )}
         </div>
