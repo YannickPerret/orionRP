@@ -9,7 +9,7 @@ import { sendNui } from '../../utils/fetchNui';
 export default function Inventory() {
     const { data } = useData();
     const { closeAllMenus } = useVisibility();
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
     const [openQuantityModal, setOpenQuantityModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [actionType, setActionType] = useState(null);
