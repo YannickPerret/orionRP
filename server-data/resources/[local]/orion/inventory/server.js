@@ -58,6 +58,8 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
 
+        console.log("fdfddf", itemId, quantity)
+
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
         if (Number(quantity) < 1) return emitNet('orion:showNotification', source, "Vous devez entrer une quantité valide !");
 
