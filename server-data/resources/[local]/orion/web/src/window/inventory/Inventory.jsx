@@ -101,6 +101,9 @@ export default function Inventory() {
                             if (searchFilter) {
                                 return item.label.toLowerCase().includes(searchFilter.toLowerCase());
                             }
+                            else {
+                                return true;
+                            }
                         })
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((item, index) => {
