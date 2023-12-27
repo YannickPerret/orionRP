@@ -14,7 +14,7 @@ export default function Inventory() {
     const [selectedItem, setSelectedItem] = useState(null);
     const [actionType, setActionType] = useState(null);
 
-    const handleOpenQuantityModal = (id) => {
+    const handleOpenQuantityModal = (id, action) => {
         setSelectedItem(id);
         setQuantity(0);
         setActionType(action);
