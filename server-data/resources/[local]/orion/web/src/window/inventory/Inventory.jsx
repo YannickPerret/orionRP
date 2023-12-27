@@ -43,6 +43,7 @@ export default function Inventory() {
         sendNui(action, data)
     }
     useEffect(() => {
+        console.log(data)
         const handleKeyDown = (event) => {
             if (event.key === 'i') {
                 closeAllMenus();
