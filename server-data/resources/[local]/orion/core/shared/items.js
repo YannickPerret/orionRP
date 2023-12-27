@@ -19,7 +19,8 @@ const items = [
         starter: {
             enabled: true,
             quantity: 10,
-        }
+        },
+        consumption: 5,
     },
     // Drinks
     {
@@ -41,7 +42,21 @@ const items = [
         starter: {
             enabled: true,
             quantity: 10,
-        }
+        },
+        consumption: 5,
+    },
+
+    //Banks
+    {
+        name: 'bank_card',
+        label: 'Carte bancaire',
+        weight: 15,
+        type: 'item_standard',
+        image: 'banks/creditcard_blue.png',
+        unique: false,
+        useable: false,
+        shouldClose: false,
+        description: 'Carte bancaire',
     },
 
     //documents
@@ -50,7 +65,7 @@ const items = [
         label: 'Procuration perte de carte bancaire',
         weight: 5,
         type: 'item_standard',
-        image: 'documents/procuration_bank.png',
+        image: 'banks/cardProcuration.png',
         unique: false,
         useable: false,
         shouldClose: false,

@@ -4,6 +4,7 @@
 (async () => {
     const Account = require('./bank/class/account.js');
     const PlayerManager = require('./core/server/playerManager.js');
+    const { Inventory, Item } = require('./inventory/inventory.js');
     const Invoice = require('./bank/class/invoice.js');
     const Card = require('./bank/class/card.js');
     const { v4: uuidv4 } = require('uuid');
@@ -41,7 +42,6 @@
     onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-
         if (player) {
             if (player.accountId) {
                 emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
@@ -63,24 +63,24 @@
     onNet('orion:bank:s:renewCard', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        let itemProcuration = true;
-        //const itemProcuration = player.inventory.find(item => item.name === 'procuration');
+        const inventory = Inventory.getById(player.inventoryId);
+        const itemProcuration = Item.getByName('procuration_bank');
 
         if (player) {
             if (player.accountId) {
                 emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
                 return;
             }
-            if (itemProcuration) {
+            if (inventory.hasItem(itemProcuration.id)) {
                 let uuid = uuidv4()
                 const card = new Card(uuid, player.accountId, Card.getRandomCode());
                 const account = await Account.getById(player.accountId);
                 await card.save();
                 account.setNewCardId(card.id);
                 await account.save();
-
-                itemProcuration = false;
-                emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
+                inventory.removeItem(itemProcuration.id, 1);
+                await inventory.save();
+                emitNet('orion:showNotification', source, 'Vous venez de récupérer ou créer votre compte !');
             }
             else {
                 emitNet('orion:showNotification', source, 'Il vous faut une procuration pour créer un compte !');

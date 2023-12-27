@@ -54,18 +54,6 @@ class Inventory {
         return item
     }
 
-    getItems() {
-        return this.items;
-    }
-
-    getWeight() {
-        return this.weight;
-    }
-
-    getMaxWeight() {
-        return this.maxWeight;
-    }
-
     async calculateWeight() {
         const fullItems = await this.getFullItems();
         this.weight = fullItems.reduce((totalWeight, item) => {
@@ -132,6 +120,11 @@ class Item {
 
     static async getById(id) {
         const itemDB = await db.get('items', id);
+        return new Item(itemDB);
+    }
+
+    static async getByName(name) {
+        const itemDB = await db.get('items', { name });
         return new Item(itemDB);
     }
 
