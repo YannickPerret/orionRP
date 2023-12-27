@@ -21,11 +21,12 @@ export default function Inventory() {
         setOpenQuantityModal(true);
     };
 
-    const handleConfirmQuantity = (action) => {
+    const handleConfirmQuantity = () => {
         sendToNui(actionType, { id: selectedItem, quantity: parseInt(quantity, 10) });
         setOpenQuantityModal(false);
         setActionType(null);
         setSelectedItem(null);
+        closeAllMenus(true);
     };
 
 
