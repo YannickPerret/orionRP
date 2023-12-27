@@ -147,6 +147,15 @@ on('__cfx_nui:hideFrame', (data, cb) => {
 });
 
 
+onNet('orion:core:c:hideFrame', async () => {
+  SetNuiFocus(false, false);
+  SendNuiMessage(
+    JSON.stringify({
+      action: 'hideFrame',
+    })
+  );
+});
+
 RegisterCommand(
   'login',
   () => {

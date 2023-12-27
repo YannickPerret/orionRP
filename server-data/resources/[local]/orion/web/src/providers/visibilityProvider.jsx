@@ -40,7 +40,7 @@ export const VisibilityProvider = ({ children }) => {
   }, [visible]);
 
   // Fonction pour fermer tous les menus
-  const closeAllMenus = () => {
+  const closeAllMenus = (sendToNui = true) => {
     setVisible({
       main: false,
       playerMenu: false,
@@ -51,8 +51,9 @@ export const VisibilityProvider = ({ children }) => {
       vehicleHUD: false,
       inventoryHUD: false,
     });
-
-    sendNui("hideFrame")
+    if (sendToNui) {
+      sendNui("hideFrame");
+    }
   };
 
   return (

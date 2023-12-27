@@ -60,6 +60,9 @@ const App = () => {
         case "seatbelt":
           setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
           break;
+        case "hideFrame":
+          closeAllMenus();
+          break;
         default:
           break;
       }
