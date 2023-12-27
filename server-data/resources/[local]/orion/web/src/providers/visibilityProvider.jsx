@@ -27,8 +27,8 @@ export const VisibilityProvider = ({ children }) => {
 
     const keyHandler = (e) => {
       if (["Backspace", "Escape"].includes(e.code)) {
+        closeAllMenus();
         sendNui("hideFrame");
-        // Mettre à jour la visibilité si nécessaire
       }
     };
 
@@ -51,6 +51,8 @@ export const VisibilityProvider = ({ children }) => {
       vehicleHUD: false,
       inventoryHUD: false,
     });
+
+    sendNui("hideFrame")
   };
 
   return (

@@ -140,6 +140,11 @@ onNet('orion:core:c:animations:stopAllAnimations', async () => {
   ClearPedTasks(PlayerPedId());
 });
 
+RegisterNuiCallbackType('hideFrame');
+on('__cfx_nui:hideFrame', (data, cb) => {
+  SetNuiFocus(false, false);
+  cb({ ok: true });
+});
 
 
 RegisterCommand(
