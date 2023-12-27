@@ -59,13 +59,15 @@
         const player = PlayerManager.getPlayerBySource(source);
 
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+        if (quantity < 1) return emitNet('orion:showNotification', source, "Vous devez entrer une quantité valide !");
 
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
 
+        if (itemInstance > quantity) return emitNet('orion:showNotification', source, "Vous n'avez pas assez d'item !");
+
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
-                emit(`orion:inventory:s:dropItem:${itemInstance.type}`, itemInstance);
                 playerInventory.removeItem(itemInstance.id, quantity);
                 await playerInventory.save();
             }

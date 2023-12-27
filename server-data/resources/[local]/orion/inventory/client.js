@@ -22,8 +22,8 @@
     // drop Item
     RegisterNuiCallbackType('dropItem');
     on('__cfx_nui:dropItem', (data, cb) => {
-        if (data.itemId == undefined) return;
-        emitNet('orion:inventory:s:dropItem', data.itemId);
+        if (data.itemId == undefined || data.quantity < 1) return;
+        emitNet('orion:inventory:s:dropItem', data.itemId, data.quantity);
         cb({ ok: true });
     });
 
