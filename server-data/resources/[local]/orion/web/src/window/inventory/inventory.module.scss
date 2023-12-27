@@ -46,7 +46,6 @@
         background: #364b6932;
         border: 0.5 solid #364b69;
         position: relative;
-        z-index: 1000;
 
         &__actions {
             display: flex;
@@ -65,6 +64,22 @@
             & img {
                 height: auto;
                 width: 100%;
+            }
+        }
+
+        &__modalQuantity {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+
+            &__container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 30%;
+                width: 60%;
             }
         }
 
