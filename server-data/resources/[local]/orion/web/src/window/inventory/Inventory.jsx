@@ -123,7 +123,7 @@ export default function Inventory() {
                         <header>
                             <h3>Veuillez indiquer la quantité</h3>
                         </header>
-                        <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} min={0} />
+                        <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} min={0} autoFocus />
                         <button onClick={() => handleConfirmQuantity()}>Confirmer</button>
                         <button onClick={() => handleResetQuantity()}>Annuler</button>
                     </div>
