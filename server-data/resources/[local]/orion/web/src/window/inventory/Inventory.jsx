@@ -120,12 +120,10 @@ export default function Inventory() {
             {openQuantityModal && (
                 <div className={style.inventory__modalQuantity}>
                     <div className={style.inventory__modalQuantity__container} >
-                        <button onClick={() => setOpenQuantityModal(false)}>Fermer</button>
-
                         <header>
                             <h3>Veuillez indiquer la quantité</h3>
                         </header>
-                        <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                        <input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} min={0} />
                         <button onClick={() => handleConfirmQuantity()}>Confirmer</button>
                         <button onClick={() => handleResetQuantity()}>Annuler</button>
                     </div>
