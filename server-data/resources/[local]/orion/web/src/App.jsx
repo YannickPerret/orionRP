@@ -48,7 +48,13 @@ const App = () => {
           setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
           break;
         case "showBankInterface":
-          setVisible('bankInterface', true);
+          if (payload.target === 'bank') {
+            setVisible(prevState => ({ ...prevState, bankHUD: payload.bankHUD }));
+          }
+          else if (payload.target === 'atm') {
+            setVisible(prevState => ({ ...prevState, atmHUD: payload.atmHUD }));
+          }
+          setData(prevData => ({ ...prevData, player: { ...prevData.player, account: payload.account, card: payload.card } }))
           break;
         case "playSound":
           playSound(data);

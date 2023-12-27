@@ -15,6 +15,8 @@
   }
 
   const showBankDisplay = () => {
+    // Tester si le joueur à un compte bancaire
+
     showBankInterface = !showBankInterface;
     //SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
     SetNuiFocus(showBankInterface, showBankInterface);
@@ -55,16 +57,37 @@
     emitNet('orion:bank:s:createAccount', bank, amount);
   }
 
+  onNet('orion:bank:c:showBankInterface', (account, card) => {
+    showBankInterface = !showBankInterface;
+    SendNuiMessage(JSON.stringify({
+      action: 'showBankInterface',
+      payload: {
+        type: 'bank',
+        bankHUD: showBankInterface,
+        account: account,
+        card: card,
+      }
+    }));
+
+    SetNuiFocus(showBankInterface, showBankInterface);
+  })
+
+  onNet('orion:bank:c:showATMInterface', (account, card) => {
+    showBankInterface = !showBankInterface;
+    SendNuiMessage(JSON.stringify({
+      action: 'showBankInterface',
+      payload: {
+        type: 'atm',
+        atmHUD: showBankInterface,
+        account: account,
+        card: card,
+      }
+    }));
+    SetNuiFocus(showBankInterface, showBankInterface);
+  })
 
 
   setTick(async () => {
-
-    const bankBlips = [];
-    /*for (const bankCoords of bankCoordsJson.bank) {
-      exports['orion'].createBlip(bankCoords.coords, 108, 0, 'Banque');
-      bankBlips.push(bankCoords.coords);
-    }*/
-
     while (true) {
       await exports['orion'].delay(5);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
@@ -75,7 +98,7 @@
           if (!bankIsOpen) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
             if (IsControlJustReleased(0, 38)) {
-              showBankDisplay();
+              emitNet('orion:bank:s:getAccountInterface', "bank");
               bankIsOpen = true;
             }
           }
@@ -89,7 +112,7 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
 
             if (IsControlJustReleased(0, 38)) {
-              showATMdisplay();
+              emitNet('orion:bank:s:getAccountInterface', "atm");
               bankIsOpen = true;
             }
           }

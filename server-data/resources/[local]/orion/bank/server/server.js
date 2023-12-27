@@ -8,6 +8,35 @@
     const Card = require('./bank/class/card.js');
     const { v4: uuidv4 } = require('uuid');
 
+    onNet('orion:bank:s:getAccountInterface', async (target) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+
+        if (player) {
+            if (player.accountId) {
+                const account = await Account.getById(player.accountId);
+                if (account) {
+                    const card = await Card.getById(account.cardId);
+                    if (card) {
+                        if (target == "bank")
+                            emitNet('orion:bank:c:showBankInterface', source, account, card);
+                        else if (target == "atm")
+                            emitNet('orion:bank:c:showATMInterface', source, account, card);
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, "Vous n'avez pas de carte bancaire!");
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, "Vous n'avez pas de compte bancaire!");
+                }
+            }
+            else {
+                emitNet('orion:bank:c:showNoAccountInterface', source);
+            }
+        }
+    })
+
 
     onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
@@ -18,7 +47,7 @@
                 emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
                 return;
             }
-            let uuid = uuidv4( )
+            let uuid = uuidv4()
             const account = new Account(uuid, 100, player.id, [], false, [], null);
             uuid = uuidv4()
             const card = new Card(uuid, account.id, Card.getRandomCode());
@@ -81,7 +110,7 @@
                     else {
                         throw new Error(`Le type de facture est incorrect`);
                     }
-                    
+
                     if (typeof amount != Number && amount <= 0) {
                         throw new Error(`Le montant de la facture est incorrect`);
                     }
@@ -132,7 +161,7 @@
         }
     })
 
-    onNet('orion:invoice:s:cancel',async  (invoiceId) => {
+    onNet('orion:invoice:s:cancel', async (invoiceId) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const invoice = Invoice.getById(invoiceId);

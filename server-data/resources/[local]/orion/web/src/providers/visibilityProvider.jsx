@@ -12,7 +12,8 @@ export const VisibilityProvider = ({ children }) => {
     jobMenu: false,
     amountMenu: false,
     skinCreator: false,
-    bankInterface: false,
+    bankHUD: false,
+    atmHUD: false,
     vehicleHUD: false,
     inventoryHUD: false,
   });
@@ -48,9 +49,10 @@ export const VisibilityProvider = ({ children }) => {
       jobMenu: false,
       amountMenu: false,
       skinCreator: false,
-      bankInterface: false,
-      vehicleHUD: false,
       inventoryHUD: false,
+      vehicleHUD: false,
+      bankHUD: false,
+      atmHUD: false,
     });
     if (sendToNui) {
       sendNui("hideFrame");

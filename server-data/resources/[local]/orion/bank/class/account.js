@@ -52,9 +52,9 @@ class Account {
     async save() {
         let result;
         if (await db.get('accounts', this.id)) {
-          result = await db.update('accounts', this);
+            result = await db.update('accounts', this);
         } else {
-          result = await db.insert('accounts', this);
+            result = await db.insert('accounts', this);
         }
         return result;
     }

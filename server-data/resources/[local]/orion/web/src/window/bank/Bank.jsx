@@ -1,14 +1,16 @@
 import React from 'react'
 import style from '../../styles/bank.module.css'
+import { useData } from '../../providers/dataContext'
 
-export default function Bank({ player }) {
+export default function Bank() {
+    const { data } = useData()
     return (
         <div className={style.bank}>
             <div className={style.bank__container}>
                 <header className={style.bank__header}>
                     <h1>Bank</h1>
                     <div>
-                        <p>Bonjour {player.firstname} {player.lastname}</p>
+                        <p>Bonjour {data.player.firstname} {data.player.lastname}</p>
                     </div>
                 </header>
             </div>
@@ -16,7 +18,7 @@ export default function Bank({ player }) {
             <div className={style.bank__content}>
                 <div>
                     <h2>Compte courant</h2>
-                    <p>Montant : {player.account.money} $</p>
+                    <p>Montant : {data.player.account.balance} $</p>
                 </div>
 
                 <div>

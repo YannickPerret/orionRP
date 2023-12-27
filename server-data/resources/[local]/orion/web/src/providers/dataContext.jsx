@@ -12,15 +12,13 @@ const initialState = {
     lastname: 'Doe',
     phone: '06 06 06 06 06',
     inventory: [],
-  },
-  account: {
-    money: 100,
-    bank: 1000
+    account: {},
+    card: {},
   },
   job: {
     name: 'Chômeur',
     grade: 'Aucun',
-    salary: 0
+    salary: 0,
   },
   vehicle: {
     fuel: 100,
