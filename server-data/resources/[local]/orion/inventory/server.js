@@ -20,7 +20,7 @@
                     console.log("special item")
                     emit(`orion:inventory:s:useItem:${itemInstance.name}`, source, itemInstance);
                 }
-                playerInventory.removeItem(itemInstance.id);
+                playerInventory.removeItem(itemInstance.id, 1);
             }
         }
     });
