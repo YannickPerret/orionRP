@@ -26,8 +26,8 @@ export const VisibilityProvider = ({ children }) => {
     if (!visible) return;
 
     const keyHandler = (e) => {
-      //"Escape"
-      if (["Backspace"].includes(e.code)) {
+      // "Backspace", 
+      if (["Escape"].includes(e.code)) {
         closeAllMenus();
         sendNui("hideFrame");
       }
