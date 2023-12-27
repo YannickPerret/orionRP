@@ -68,7 +68,8 @@ class Inventory {
     }
 
     calculateWeight() {
-        this.weight = this.items.reduce((acc, item) => acc + item.weight, 0);
+        const fullItems = this.getFullItems();
+        this.weight = fullItems.reduce((acc, item) => acc + item.weight * item.quantity, 0);
     }
 
     /**

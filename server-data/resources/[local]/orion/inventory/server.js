@@ -21,6 +21,7 @@
                     emit(`orion:inventory:s:useItem:${itemInstance.name}`, source, itemInstance);
                 }
                 playerInventory.removeItem(itemInstance.id, 1);
+                await playerInventory.save();
             }
         }
     });
@@ -43,6 +44,8 @@
             if (Number(itemInstance.quantity) > 0) {
                 if (playerInventory.removeItem(itemInstance.id, quantity)) {
                     targetInventory.addItem(itemInstance, quantity);
+                    await targetInventory.save();
+                    await playerInventory.save();
                     emitNet('orion:showNotification', target, `${player.firstname} ${player.lastname} vous a donné ${quantity} ${itemInstance.name}`);
                 }
             }
@@ -62,6 +65,7 @@
             if (Number(itemInstance.quantity) > 0) {
                 emit(`orion:inventory:s:dropItem:${itemInstance.type}`, itemInstance);
                 playerInventory.removeItem(itemInstance.id, quantity);
+                await playerInventory.save();
             }
         }
 
