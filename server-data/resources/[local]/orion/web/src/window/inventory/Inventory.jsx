@@ -23,7 +23,7 @@ export default function Inventory() {
     };
 
     const handleConfirmQuantity = () => {
-        sendToNui(actionType, { id: selectedItem, quantity: parseInt(quantity, 10) });
+        sendToNui(actionType, { itemId: selectedItem, quantity: parseInt(quantity, 10) });
         setOpenQuantityModal(false);
         setActionType(null);
         setSelectedItem(null);

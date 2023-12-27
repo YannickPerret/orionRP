@@ -22,7 +22,8 @@
     // drop Item
     RegisterNuiCallbackType('dropItem');
     on('__cfx_nui:dropItem', (data, cb) => {
-        if (data.itemId == undefined || data.quantity < 1) return;
+        if (data.itemId == undefined || data.quantity < 1) return cb({ ok: false });
+        console.log("dropItem", data.itemId, data.quantity)
         emitNet('orion:inventory:s:dropItem', data.itemId, data.quantity);
         cb({ ok: true });
     });
@@ -38,7 +39,7 @@
     // give Item
     RegisterNuiCallbackType('giveItem');
     on('__cfx_nui:giveItem', (data, cb) => {
-        if (data.id == undefined || data.quantity < 1) return;
+        if (data.itemId == undefined || data.quantity < 1) return;
         const targetPlayer = exports['orion'].findNearbyPlayers(3)[0];
         if (!targetPlayer) return emit('orion:showNotification', 'Aucun joueur à proximité');
         emitNet('orion:inventory:s:giveItem', data.id, targetPlayer);
