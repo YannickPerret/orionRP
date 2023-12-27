@@ -40,8 +40,9 @@
     RegisterNuiCallbackType('giveItem');
     on('__cfx_nui:giveItem', (data, cb) => {
         if (data.id == undefined || data.quantity < 1) return;
-
-        emitNet('orion:inventory:s:giveItem', data.id, data.target);
+        const targetPlayer = exports['orion'].findNearbyPlayers(3)[0];
+        if (!targetPlayer) return emit('orion:showNotification', 'Aucun joueur à proximité');
+        emitNet('orion:inventory:s:giveItem', data.id, targetPlayer);
         cb({ ok: true });
     });
 

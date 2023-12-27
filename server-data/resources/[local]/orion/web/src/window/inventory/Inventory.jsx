@@ -39,6 +39,17 @@ export default function Inventory() {
     const sendToNui = (action, data) => {
         sendNui(action, data)
     }
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'i') {
+                closeAllMenus();
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [closeAllMenus])
 
 
     return (

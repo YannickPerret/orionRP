@@ -25,15 +25,45 @@
         }
     });
 
-    onNet('orion:inventory:s:giveItem', (item, quantity, target) => {
-        let player = PlayerManager.getPlayerBySource(target);
-        if (player) {
-            player.inventory.addItem(item);
+    onNet('orion:inventory:s:giveItem', async (itemId, quantity, target) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const targetPlayer = PlayerManager.getPlayerBySource(target);
+
+        if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+        if (!targetPlayer) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+        if (player.id === targetPlayer.id) return emitNet('orion:showNotification', source, "Vous ne pouvez pas vous donner d'item à vous même !");
+        if (targetPlayer.id === null) return emitNet('orion:showNotification', source, "Vous ne pouvez pas vous donner d'item à vous même !");
+
+        const playerInventory = await Inventory.getById(player.inventoryId);
+        const targetInventory = await Inventory.getById(targetPlayer.inventoryId);
+        const itemInstance = await playerInventory.getItem(itemId);
+
+        if (playerInventory.hasItem(itemInstance)) {
+            if (Number(itemInstance.quantity) > 0) {
+                if (playerInventory.removeItem(itemInstance.id, quantity)) {
+                    targetInventory.addItem(itemInstance, quantity);
+                    emitNet('orion:showNotification', target, `${player.firstname} ${player.lastname} vous a donné ${quantity} ${itemInstance.name}`);
+                }
+            }
         }
     })
 
-    onNet('orion:inventory:s:dropItem', async (item, quantity) => {
-        //const item = await 
+    onNet('orion:inventory:s:dropItem', async (itemId, quantity) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+
+        if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+
+        const playerInventory = await Inventory.getById(player.inventoryId);
+        const itemInstance = await playerInventory.getItem(itemId);
+
+        if (playerInventory.hasItem(itemInstance)) {
+            if (Number(itemInstance.quantity) > 0) {
+                emit(`orion:inventory:s:dropItem:${itemInstance.type}`, itemInstance);
+                playerInventory.removeItem(itemInstance.id, quantity);
+            }
+        }
 
     });
 
@@ -42,7 +72,6 @@
         const player = PlayerManager.getPlayerBySource(source);
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
 
-        // Utilisez _inventoryId si fourni, sinon utilisez player.inventoryId
         const inventory = _inventoryId || player.inventoryId;
 
         const playerInventory = await Inventory.getById(inventory);
