@@ -32,8 +32,11 @@ export default function Inventory() {
         })
     }
 
-    const handleUseItem = (id) => {
+    const handleUseItem = (id, shouldClose) => {
         sendToNui('useItem', { id })
+        if (shouldClose) {
+            closeAllMenus(true);
+        }
     }
 
     const sendToNui = (action, data) => {

@@ -5,7 +5,7 @@ export const InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
 
     return (
         <div className={style.inventory__item}>
-            <div onClick={() => useItem(item.id)}>
+            <div onClick={() => useItem(item.id, item.shouldClose)}>
                 <div className={style.inventory__item__icon}>
                     <img src={`./images/items/${item.image}`} alt="item icon" />
                 </div>
