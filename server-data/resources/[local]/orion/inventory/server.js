@@ -64,6 +64,8 @@
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
 
+        console.log(playerInventory, itemInstance)
+
         if (itemInstance) {
             if (itemInstance > Number(quantity)) return emitNet('orion:showNotification', source, "Vous n'avez pas assez d'item !");
 
