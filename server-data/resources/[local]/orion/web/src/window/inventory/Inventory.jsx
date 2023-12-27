@@ -13,6 +13,7 @@ export default function Inventory() {
     const [openQuantityModal, setOpenQuantityModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [actionType, setActionType] = useState(null);
+    const [searchFilter, setSearchFilter] = useState('');
 
     const handleOpenQuantityModal = (id, action) => {
         setSelectedItem(id);
@@ -57,6 +58,16 @@ export default function Inventory() {
     const sendToNui = (action, data) => {
         sendNui(action, data)
     }
+
+    const handleSearchFilter = (value) => {
+        if (value.length > 2) {
+            setSearchFilter(value);
+        }
+        else {
+            setSearchFilter(null);
+        }
+    }
+
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'i') {
@@ -80,12 +91,20 @@ export default function Inventory() {
                     <h1>Inventory</h1>
                     <h3>{data.inventory.weight} kg / {data.inventory.maxWeight} kg</h3>
                     <search>
-                        <input type="text" placeholder="Search..." />
+                        <input type="text" placeholder="Search..." onChange={(e) => handleSearchFilter(e.target.value)} />
                     </search>
                 </header>
 
                 <div className={style.inventory__content}>
                     {data.inventory.items
+                        .filter((item) => {
+                            if (searchFilter) {
+                                return item.label.toLowerCase().includes(searchFilter.toLowerCase());
+                            }
+                            else {
+                                return true;
+                            }
+                        })
                         .sort((a, b) => a.label.localeCompare(b.label))
                         .map((item, index) => {
                             if (item.useable) {
