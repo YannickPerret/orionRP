@@ -12,17 +12,23 @@
     onNet('orion:bank:s:getAccountInterface', async (target) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
+        const inventory = Inventory.getById(player.inventoryId);
 
         if (player) {
             if (player.accountId) {
                 const account = await Account.getById(player.accountId);
                 if (account) {
-                    const card = await Card.getById(account.cardId);
-                    if (card) {
-                        if (target == "bank")
-                            emitNet('orion:bank:c:showBankInterface', source, account, card);
-                        else if (target == "atm")
-                            emitNet('orion:bank:c:showATMInterface', source, account, card);
+                    if (inventory.hasItem(Item.getByName('bank_card').id)) {
+                        const card = await Card.getById(account.cardId);
+                        if (card) {
+                            if (target == "bank")
+                                emitNet('orion:bank:c:showBankInterface', source, player, account, card);
+                            else if (target == "atm")
+                                emitNet('orion:bank:c:showATMInterface', source, player, account, card);
+                        }
+                        else {
+                            emitNet('orion:showNotification', source, "Vous n'avez pas de carte bancaire!");
+                        }
                     }
                     else {
                         emitNet('orion:showNotification', source, "Vous n'avez pas de carte bancaire!");
@@ -42,9 +48,17 @@
     onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
+        const inventory = Inventory.getById(player.inventoryId);
+        const cardItem = Item.getByName('bank_card');
+
+
         if (player) {
             if (player.accountId) {
                 emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
+                return;
+            }
+            if (inventory.hasItem(cardItem.id)) {
+                emitNet('orion:showNotification', source, 'Vous avez déjà une carte bancaire !');
                 return;
             }
             let uuid = uuidv4()
@@ -56,6 +70,9 @@
             await account.save();
             player.setAccountId(account.id);
             await player.save();
+            inventory.addItem(cardItem, 1);
+            await inventory.save();
+
             emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
         }
     })

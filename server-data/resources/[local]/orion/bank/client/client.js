@@ -57,13 +57,14 @@
     emitNet('orion:bank:s:createAccount', bank, amount);
   }
 
-  onNet('orion:bank:c:showBankInterface', (account, card) => {
+  onNet('orion:bank:c:showBankInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
     SendNuiMessage(JSON.stringify({
       action: 'showBankInterface',
       payload: {
         type: 'bank',
         bankHUD: showBankInterface,
+        player: player,
         account: account,
         card: card,
       }
@@ -72,13 +73,14 @@
     SetNuiFocus(showBankInterface, showBankInterface);
   })
 
-  onNet('orion:bank:c:showATMInterface', (account, card) => {
+  onNet('orion:bank:c:showATMInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
     SendNuiMessage(JSON.stringify({
       action: 'showBankInterface',
       payload: {
         type: 'atm',
         atmHUD: showBankInterface,
+        player: player,
         account: account,
         card: card,
       }

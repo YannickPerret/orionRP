@@ -54,7 +54,7 @@ const App = () => {
           else if (payload.target === 'atm') {
             setVisible(prevState => ({ ...prevState, atmHUD: payload.atmHUD }));
           }
-          setData(prevData => ({ ...prevData, player: { ...prevData.player, account: payload.account, card: payload.card } }))
+          setData(prevData => ({ ...prevData, player: { ...prevData.player, player: payload.player, account: payload.account, card: payload.card } }))
           break;
         case "playSound":
           playSound(data);
@@ -117,7 +117,7 @@ const App = () => {
         <SkinCreator onClose={() => closeAllMenus} />
       )}
 
-      {visible.bankInterface && (
+      {visible.bankHUD && (
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
       )}
 
