@@ -17,9 +17,7 @@ class Inventory {
             console.log("Poids max atteint")
             return false;
         }
-
         if (this.hasItem(item.id)) {
-            console.log("has item", item.id)
             this.items = this.items.map(i => {
                 if (i.itemId === item.id) {
                     i.quantity += quantity;
@@ -47,7 +45,6 @@ class Inventory {
 
 
     hasItem(item) {
-        console.log("has item", item.id)
         return this.items.some(i => i.itemId === item.id);
     }
 
