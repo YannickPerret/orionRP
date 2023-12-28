@@ -50,7 +50,7 @@ class Inventory {
 
     async getItem(itemId) {
         const item = await Item.getById(itemId);
-        item.quantity = this.items.find(i => i.id === itemId).quantity;
+        item.quantity = this.items.find(i => i.itemId === itemId).quantity;
         return item
     }
 
