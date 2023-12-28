@@ -21,6 +21,7 @@
                     if (inventory.hasItem(Item.getByName('bank_card').id)) {
                         const card = await Card.getById(account.cardId);
                         if (card) {
+                            console.log('card', card)
                             if (target == "bank")
                                 emitNet('orion:bank:c:showBankInterface', source, player, account, card);
                             else if (target == "atm")
