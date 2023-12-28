@@ -2,16 +2,7 @@ const MAX_WEIGHT = 10000;
 const MAX_HEIGHT_WITH_BAG = 250;
 const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
-const { Item } = require('./inventory/item.js');
-
-/*
-    items : [
-       {id: fidjfis-sdfjsifos, itemId: podsfksdf_sofofp, quantity: 1, metadata: { consumptions: 1}},
-       {id: fidjfis-sdfjfgfgfos, itemId: podfdggfksdf_sofofp, quantity: 1, metadata: { consumptions: 1},
-       {id: fidjfis-sdffdgggfgfos, itemId: podfssadaddggfksdf_sofofp, quantity: 1, metadata: { consumptions: 1}},
-    ]
-
-*/
+const { Item } = require('./item.js');
 
 class Inventory {
     constructor({ id, maxWeight, items }) {

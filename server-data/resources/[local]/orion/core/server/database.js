@@ -128,8 +128,7 @@ class Database {
         console.log('Table créée avec succès');
         return result;
       } else {
-        console.log('La table existe déjà');
-        return 'La table existe déjà';
+        throw 'La table existe déjà';
       }
     } catch (err) {
       console.error('Erreur lors de la création de la table:', err);
