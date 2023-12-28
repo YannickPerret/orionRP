@@ -68,8 +68,8 @@ class Inventory {
      */
     async getFullItems() {
         const fullItems = await Promise.all(this.items.map(async (item) => {
-            console.log("getFullItem", item);
-            const itemDetails = await Item.getById(item.id);
+            const itemDetails = await Item.getById(item.itemId);
+            console.log(itemDetails)
             return {
                 ...itemDetails,
                 quantity: item.quantity
