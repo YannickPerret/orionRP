@@ -21,6 +21,7 @@ files {
     'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
+    'inventory/item.js',
 
     'player/player.js',
     'vehicle/vehicle.js',
@@ -29,7 +30,6 @@ files {
     'bank/class/card.js',
     'phone/phone.js',
     'inventory/inventory.js',
-    'inventory/item.js',
 }
 shared_scripts {
     'core/shared/notifications.js',
