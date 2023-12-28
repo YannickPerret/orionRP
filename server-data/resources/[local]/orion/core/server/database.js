@@ -31,6 +31,8 @@ class Database {
     await this.createTable('system').catch(async () => {
       latestVersion = await this.getLatestDbVersion();
     });
+
+    console.log('Latest version:', latestVersion)
     await this.applyMigrations(latestVersion);
   }
 
