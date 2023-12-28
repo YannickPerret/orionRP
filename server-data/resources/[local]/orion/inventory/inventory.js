@@ -19,6 +19,7 @@ class Inventory {
         }
 
         if (this.hasItem(item.id)) {
+            console.log("has item", item.id)
             this.items = this.items.map(i => {
                 if (i.itemId === item.id) {
                     i.quantity += quantity;
@@ -26,7 +27,7 @@ class Inventory {
                 return i;
             });
         } else {
-            console.log("item", item.id, quantity, metadata)
+            console.log("item232", item.id, quantity, metadata)
             this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata });
         }
 
