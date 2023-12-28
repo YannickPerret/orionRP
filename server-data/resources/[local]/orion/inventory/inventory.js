@@ -2,7 +2,7 @@ const MAX_WEIGHT = 10000;
 const MAX_HEIGHT_WITH_BAG = 250;
 const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
-const { Item } = require('./item.js');
+const { Item, UsableItem } = require('./item.js');
 
 class Inventory {
     constructor({ id, maxWeight, items }) {
@@ -66,13 +66,20 @@ class Inventory {
      * @returns {Promise<Item[]>} Une promesse résolue avec un tableau d'objets `Item`.
      */
     async getFullItems() {
+        let itemDetails
         const fullItems = await Promise.all(this.items.map(async (item) => {
-            const itemDetails = await Item.getById(item.itemId);
+            if (item.useable) {
+                itemDetails = await UsableItem.getById(item.itemId);
+            }
+            else {
+                itemDetails = await Item.getById(item.itemId);
+            }
             return {
                 ...itemDetails,
                 quantity: item.quantity
             };
         }));
+
         return fullItems;
     }
 

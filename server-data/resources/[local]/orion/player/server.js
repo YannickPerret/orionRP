@@ -155,9 +155,6 @@
       await playerInventory.calculateWeight();
 
       if (playerInventory.save()) {
-
-        console.log(playerInventory)
-
         const newPlayer = new Player({
           id: r.uuid(),
           source: source,
