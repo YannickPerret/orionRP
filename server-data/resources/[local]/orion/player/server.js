@@ -150,7 +150,7 @@
       }
 
       itemsStarter.forEach(item => {
-        playerInventory.addItem(item.id, item.starter.quantity);
+        playerInventory.addItem(item.id, item.starter.quantity, { consumption: item.consumption });
       });
 
       if (playerInventory.save()) {

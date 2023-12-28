@@ -21,7 +21,7 @@ class Inventory {
         this.weight = 0;
     }
 
-    addItem(item, number) {
+    addItem(item, number, metadata = {}) {
         if (this.weight + item.weight > this.maxWeight) {
             return false;
         }
@@ -34,7 +34,7 @@ class Inventory {
                 return i;
             });
         } else {
-            this.items.push({ itemId: item.id, quantity: number, metadata: {} });
+            this.items.push({ itemId: item.id, quantity: number, metadata: metadata });
         }
 
         this.weight += item.weight * number;
