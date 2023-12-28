@@ -32,12 +32,12 @@ class Inventory {
     }
 
     removeItem(itemId, quantity = 1) {
-        const item = this.items.find(i => i.id === itemId);
+        const item = this.items.find(i => i.itemId === itemId);
         if (item) {
             item.quantity -= quantity;
 
             if (item.quantity <= 0) {
-                this.items = this.items.filter(i => i.id !== itemId);
+                this.items = this.items.filter(i => i.itemId !== itemId);
             }
             this.calculateWeight();
         }
