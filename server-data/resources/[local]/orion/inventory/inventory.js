@@ -2,6 +2,7 @@ const MAX_WEIGHT = 10000;
 const MAX_HEIGHT_WITH_BAG = 250;
 const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
+const Item = require('./Item.js');
 
 /*
     items : [
@@ -33,7 +34,7 @@ class Inventory {
                 return i;
             });
         } else {
-            this.items.push({ id: item.id, quantity: number });
+            this.items.push({ itemId: item.id, quantity: number, metadata: {} });
         }
 
         this.weight += item.weight * number;
@@ -106,53 +107,4 @@ class Inventory {
     }
 }
 
-
-class Item {
-    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description }) {
-        this.id = id;
-        this.name = name;
-        this.label = label || '';
-        this.weight = weight;
-        this.description = description;
-        this.useable = useable || false;
-        this.type = type || 'item_standard';
-        this.ammotype = ammotype || null;
-        this.image = image || null;
-        this.unique = unique || false;
-    }
-
-    static createNew(id, name, weight, description, usable, usableData) {
-        return new this({ id, name, weight, description, usable, usableData });
-    }
-
-    static async getById(id) {
-        const itemDB = await db.get('items', id);
-        return new this(itemDB);
-    }
-
-    static async getByName(name) {
-        const itemDB = await db.get('items', { name });
-        return new this(itemDB);
-    }
-
-    static async getAll() {
-        const itemsDB = await db.getAll('items');
-        return itemsDB.map(itemDB => this.fromJSON(itemDB));
-    }
-}
-
-class UsableItem extends Item {
-    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, consumption }) {
-        super({ id, name, label, weight, type, ammotype, image, unique, useable, description });
-
-        this.consumption = consumption || null;
-        this.animation = animation || [];
-        this.shouldClose = shouldClose || false;
-    }
-}
-
-module.exports = {
-    Inventory,
-    Item,
-    UsableItem,
-};
+module.exports = Inventory
