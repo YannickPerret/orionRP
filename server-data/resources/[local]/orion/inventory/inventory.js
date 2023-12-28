@@ -14,6 +14,7 @@ class Inventory {
 
     addItem(item, quantity, metadata = {}) {
         if (this.weight + item.weight > this.maxWeight) {
+            console.log("Poids max atteint")
             return false;
         }
 
