@@ -31,7 +31,6 @@ class Item {
         return itemsDB.map(itemDB => this.fromJSON(itemDB));
     }
 }
-
 class UsableItem extends Item {
     constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, consumption }) {
         super({ id, name, label, weight, type, ammotype, image, unique, useable, description });
@@ -41,5 +40,4 @@ class UsableItem extends Item {
         this.shouldClose = shouldClose || false;
     }
 }
-
 module.exports = { Item, UsableItem };
