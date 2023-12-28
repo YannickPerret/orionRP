@@ -150,11 +150,11 @@
       }
 
       itemsStarter.forEach(item => {
+        console.log("item", item)
         playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
       });
       await playerInventory.calculateWeight();
 
-      console.log("inv player", playerInventory)
       if (playerInventory.save()) {
 
         const newPlayer = new Player({
