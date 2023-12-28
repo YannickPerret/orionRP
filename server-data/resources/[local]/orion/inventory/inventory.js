@@ -2,6 +2,16 @@ const MAX_WEIGHT = 10000;
 const MAX_HEIGHT_WITH_BAG = 250;
 const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
+
+/*
+    items : [
+       {id: fidjfis-sdfjsifos, itemId: podsfksdf_sofofp, quantity: 1, metadata: { consumptions: 1}},
+       {id: fidjfis-sdfjfgfgfos, itemId: podfdggfksdf_sofofp, quantity: 1, metadata: { consumptions: 1},
+       {id: fidjfis-sdffdgggfgfos, itemId: podfssadaddggfksdf_sofofp, quantity: 1, metadata: { consumptions: 1}},
+    ]
+
+*/
+
 class Inventory {
     constructor({ id, maxWeight, items }) {
         this.id = id || uuidv4();
@@ -98,7 +108,7 @@ class Inventory {
 
 
 class Item {
-    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation }) {
+    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description }) {
         this.id = id;
         this.name = name;
         this.label = label || '';
@@ -109,42 +119,35 @@ class Item {
         this.ammotype = ammotype || null;
         this.image = image || null;
         this.unique = unique || false;
-        this.shouldClose = shouldClose || false;
-        this.animation = animation || [];
     }
 
-
     static createNew(id, name, weight, description, usable, usableData) {
-        return new Item({ id, name, weight, description, usable, usableData });
+        return new this({ id, name, weight, description, usable, usableData });
     }
 
     static async getById(id) {
         const itemDB = await db.get('items', id);
-        return new Item(itemDB);
+        return new this(itemDB);
     }
 
     static async getByName(name) {
         const itemDB = await db.get('items', { name });
-        return new Item(itemDB);
+        return new this(itemDB);
     }
 
     static async getAll() {
         const itemsDB = await db.getAll('items');
-        return itemsDB.map(itemDB => Item.fromJSON(itemDB));
+        return itemsDB.map(itemDB => this.fromJSON(itemDB));
     }
 }
 
 class UsableItem extends Item {
-    constructor({ id, name, weight, description, usable, usableData }) {
-        super({ id, name, weight, description, usable, usableData });
-    }
+    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, consumption }) {
+        super({ id, name, label, weight, type, ammotype, image, unique, useable, description });
 
-    create() {
-        emitNet('orion:inventory:createUsableItem', this.toJSON());
-    }
-
-    destroy() {
-        emitNet('orion:inventory:removeUsableItem', this.id);
+        this.consumption = consumption || null;
+        this.animation = animation || [];
+        this.shouldClose = shouldClose || false;
     }
 }
 
