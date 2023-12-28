@@ -1,3 +1,5 @@
+const { db, r } = require('../core/server/database.js');
+
 class Item {
     constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description }) {
         this.id = id;
