@@ -2,6 +2,7 @@
     let inventoryUiOpen = false;
 
     onNet('orion:inventory:c:open', (inventory) => {
+        console.log("inventory", inventory)
         inventoryUiOpen = !inventoryUiOpen;
         SetNuiFocus(inventoryUiOpen, inventoryUiOpen);
         //SetNuiFocusKeepInput(true)
