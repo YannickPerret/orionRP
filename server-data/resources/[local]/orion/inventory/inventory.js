@@ -12,20 +12,20 @@ class Inventory {
         this.weight = 0;
     }
 
-    addItem(itemId, quantity, metadata = {}) {
+    addItem(item, quantity, metadata = {}) {
         if (this.weight + item.weight > this.maxWeight) {
             return false;
         }
 
-        if (this.hasItem(itemId)) {
+        if (this.hasItem(item.id)) {
             this.items = this.items.map(i => {
-                if (i.id === itemId) {
+                if (i.id === item.id) {
                     i.quantity += quantity;
                 }
                 return i;
             });
         } else {
-            this.items.push({ itemId: itemId, quantity: quantity, metadata: metadata });
+            this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata });
         }
 
         this.calculateWeight();
