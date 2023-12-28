@@ -10,6 +10,7 @@
 
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
+        console.log("itemId", itemId, "iteminstance", itemInstance)
 
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
