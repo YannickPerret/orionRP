@@ -25,6 +25,7 @@ class Inventory {
                 return i;
             });
         } else {
+            console.log("item", item.id, quantity, metadata)
             this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata });
         }
 
