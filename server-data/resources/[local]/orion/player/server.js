@@ -153,6 +153,8 @@
         playerInventory.addItem(item.id, item.starter.quantity, { consumption: item.consumption });
       });
 
+      console.log(playerInventory)
+
       if (playerInventory.save()) {
 
         const newPlayer = new Player({
