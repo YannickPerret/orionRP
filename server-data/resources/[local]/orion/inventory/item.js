@@ -38,7 +38,7 @@ class UsableItem extends Item {
         super({ id, name, label, weight, type, ammotype, image, unique, useable, description });
 
         this.consumption = consumption || null;
-        this.animation = animation || [];
+        this.animation = animation || {};
         this.shouldClose = shouldClose || false;
     }
 }
