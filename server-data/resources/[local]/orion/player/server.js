@@ -150,8 +150,9 @@
       }
 
       itemsStarter.forEach(item => {
-        playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
         console.log("boucle item", item)
+
+        playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
       });
       await playerInventory.calculateWeight();
 

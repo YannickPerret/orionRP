@@ -27,7 +27,6 @@ class Inventory {
                 return i;
             });
         } else {
-            console.log("item232", item.id, quantity, metadata)
             this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata });
         }
 
@@ -48,7 +47,8 @@ class Inventory {
 
 
     hasItem(item) {
-        return this.items.some(i => i.id === item.id);
+        console.log("has item", item.id)
+        return this.items.some(i => i.itemId === item.id);
     }
 
     async getItem(itemId) {
