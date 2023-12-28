@@ -19,7 +19,7 @@ class Inventory {
 
         if (this.hasItem(item.id)) {
             this.items = this.items.map(i => {
-                if (i.id === item.id) {
+                if (i.itemId === item.id) {
                     i.quantity += quantity;
                 }
                 return i;
