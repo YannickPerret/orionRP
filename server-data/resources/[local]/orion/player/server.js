@@ -149,8 +149,8 @@
         throw new Error('Erreur lors de la création du joueur');
       }
 
-      itemsStarter.forEach(item => {
-        playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
+      itemsStarter.forEach(async item => {
+        await playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
       });
       await playerInventory.calculateWeight();
 
