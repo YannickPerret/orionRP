@@ -28,8 +28,6 @@ class Inventory {
             this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata });
         }
 
-        this.calculateWeight();
-
         return true;
     }
 
@@ -58,6 +56,7 @@ class Inventory {
 
     async calculateWeight() {
         const fullItems = await this.getFullItems();
+
         this.weight = fullItems.reduce((totalWeight, item) => {
             return totalWeight + (item.weight * item.quantity);
         }, 0);
