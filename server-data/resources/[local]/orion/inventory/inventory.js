@@ -49,7 +49,14 @@ class Inventory {
     }
 
     async getItem(itemId) {
-        const item = await Item.getById(itemId);
+        const itemDb = await db.get('items', itemId);
+        let item
+        if (itemDb.useable) {
+            item = await UsableItem.getById(itemId);
+        }
+        else {
+            item = await Item.getById(itemId);
+        }
         item.quantity = this.items.find(i => i.itemId === itemId).quantity;
         return item
     }
