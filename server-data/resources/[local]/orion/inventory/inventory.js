@@ -56,7 +56,6 @@ class Inventory {
 
     async calculateWeight() {
         const fullItems = await this.getFullItems();
-
         this.weight = fullItems.reduce((totalWeight, item) => {
             return totalWeight + (item.weight * item.quantity);
         }, 0);
@@ -69,7 +68,6 @@ class Inventory {
     async getFullItems() {
         const fullItems = await Promise.all(this.items.map(async (item) => {
             const itemDetails = await Item.getById(item.itemId);
-            console.log(itemDetails)
             return {
                 ...itemDetails,
                 quantity: item.quantity

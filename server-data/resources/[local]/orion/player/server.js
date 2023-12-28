@@ -154,8 +154,7 @@
       });
       await playerInventory.calculateWeight();
 
-      console.log(playerInventory)
-
+      console.log("inv player", playerInventory)
       if (playerInventory.save()) {
 
         const newPlayer = new Player({
