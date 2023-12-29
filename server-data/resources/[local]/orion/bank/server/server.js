@@ -67,11 +67,9 @@
             return;
         }
 
-        let uuid = uuidv4()
-        const account = new Account(uuid, 100, player.id, [], false, [], null);
-        uuid = uuidv4()
+        const account = new Account({ balance: 100, owner: player.id });
 
-        const card = new Card(uuid, account.id, Card.getRandomCode());
+        const card = new Card({ accountId: account.id, code: Card.getRandomCode() });
         await card.save();
 
         account.setNewCardId(card.id);

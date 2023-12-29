@@ -1,14 +1,14 @@
-const { db } = require('../../core/server/database.js');
+const { db, r } = require('../../core/server/database.js');
 
 class Account {
-    constructor(id, balance, owner, observer, freeze, history, cardId) {
-        this.id = id;
+    constructor({ id, balance, owner, observer, freeze, history, cardId }) {
+        this.id = id || r.uuid();
         this.balance = balance;
         this.playerId = owner;
-        this.observer = new Map(observer);
-        this.freeze = freeze;
-        this.history = history;
-        this.cardId = cardId;
+        this.observer = new Map(observer) || new Map();
+        this.freeze = freeze || false;
+        this.history = history || [];
+        this.cardId = cardId || null;
         this.maxCardWithdraw = 10000;
     }
 

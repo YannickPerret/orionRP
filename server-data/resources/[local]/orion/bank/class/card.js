@@ -1,7 +1,7 @@
-const { db } = require('../../core/server/database.js');
+const { db, r } = require('../../core/server/database.js');
 class Card {
-    constructor(id, accountId, code) {
-        this.id = id;
+    constructor({ id, accountId, code }) {
+        this.id = id || r.uuid();
         this.accountId = accountId;
         this.code = code;
     }
