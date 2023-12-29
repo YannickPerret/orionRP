@@ -24,6 +24,7 @@ const dialogueData = {
 
     exports('createPnjDialog', (dialogData) => {
         console.log('dialogData', dialogData)
+        SetNuiFocus(dialogOpen, dialogOpen);
         dialogOpen = !dialogOpen;
         SendNuiMessage(JSON.stringify({
             action: 'pnjDialog',
