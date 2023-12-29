@@ -12,11 +12,11 @@
     justify-content: space-between;
     color: #fff;
     border-radius: 15px;
+    padding: 7%;
 
     &__content {
-        height: fit-content;
+        height: max-content;
         width: 100%;
-        padding: 7%;
     }
 
     &__choices {
