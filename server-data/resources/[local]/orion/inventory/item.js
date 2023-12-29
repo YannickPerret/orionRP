@@ -24,7 +24,7 @@ class Item {
     }
 
     static async getByName(name) {
-        const itemDB = await db.getByWithFilter('items', { name: name });
+        const itemDB = await db.get('items', 'name', name);
         return new this(itemDB);
     }
 
