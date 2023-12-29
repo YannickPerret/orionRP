@@ -13,7 +13,9 @@ class Account {
     }
 
     static async getById(id) {
+        console.log('id', id)
         const accountDB = await db.getById('accounts', id);
+        console.log('accountDB', accountDB)
         return new Account(accountDB);
     }
 
