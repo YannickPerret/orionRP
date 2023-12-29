@@ -74,6 +74,7 @@
 
         const account = new Account({ balance: 100, owner: player.id });
         await account.save();
+        console.log('account', account)
 
         const card = new Card({ accountId: account.id, code: Card.getRandomCode() });
         await card.save();

@@ -2,7 +2,7 @@ const { db, r } = require('../../core/server/database.js');
 
 class Account {
     constructor({ id, balance, owner, observer, freeze, history, cardId }) {
-        this.id = id || r.uuid();
+        this.id = id;
         this.balance = balance;
         this.playerId = owner;
         this.observer = new Map(observer) || new Map();
@@ -13,9 +13,7 @@ class Account {
     }
 
     static async getById(id) {
-        console.log('id', id)
         const accountDB = await db.getById('accounts', id);
-        console.log('accountDB', accountDB)
         return new Account(accountDB);
     }
 
@@ -28,8 +26,6 @@ class Account {
             result = await db.update('accounts', this);
         } else {
             result = await db.insert('accounts', this);
-            console.log('result', result)
-            this.id = result.generated_keys[0];
         }
         return result;
     }

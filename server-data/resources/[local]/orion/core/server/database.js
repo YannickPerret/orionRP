@@ -140,7 +140,6 @@ class Database {
     if (!this.connection) {
       await this.initConnection();
     }
-
     try {
       const result = await r.table(table).insert(data).run(this.connection);
       return result;
