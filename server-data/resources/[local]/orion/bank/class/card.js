@@ -31,7 +31,7 @@ class Card {
 
     async save() {
         let result;
-        if (await db.get('cards', this.id)) {
+        if (await db.getById('cards', this.id)) {
             result = await db.update('cards', this);
         } else {
             result = await db.insert('cards', this);

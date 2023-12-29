@@ -55,7 +55,7 @@ class Vehicle {
   async save() {
     try {
       let result;
-      if (await db.get('vehicles', this.id)) {
+      if (await db.getById('vehicles', this.id)) {
         result = await db.update('vehicles', this);
       } else {
         result = await db.insert('vehicles', this);

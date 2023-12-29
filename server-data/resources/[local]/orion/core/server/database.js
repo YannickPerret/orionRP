@@ -150,7 +150,23 @@ class Database {
     }
   }
 
-  async get(table, id) {
+  async get(table, field, value) {
+    if (!this.connection) {
+      await this.initConnection();
+    }
+
+    return r.table(table)
+      .filter(r.row(field).eq(value))
+      .run(this.connection)
+      .then(cursor => cursor.toArray())
+      .then(results => results.length > 0 ? results[0] : null)
+      .catch(err => {
+        console.error('Erreur lors de la récupération du document:', err);
+        throw err;
+      });
+  }
+
+  async getById(table, id) {
     if (!this.connection) {
       await this.initConnection();
     }

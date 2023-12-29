@@ -19,12 +19,11 @@ class Item {
     }
 
     static async getById(id) {
-        const itemDB = await db.get('items', id);
+        const itemDB = await db.getById('items', id);
         return new this(itemDB);
     }
 
     static async getByName(name) {
-        console.log('getByName', name)
         const itemDB = await db.getByWithFilter('items', { name: name });
         return new this(itemDB);
     }

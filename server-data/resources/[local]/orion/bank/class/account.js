@@ -53,7 +53,7 @@ class Account {
     }
     async save() {
         let result;
-        if (await db.get('accounts', this.id)) {
+        if (await db.getById('accounts', this.id)) {
             result = await db.update('accounts', this);
         } else {
             result = await db.insert('accounts', this);

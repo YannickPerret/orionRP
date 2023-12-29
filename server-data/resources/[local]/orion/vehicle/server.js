@@ -2,8 +2,8 @@
   const VehicleManager = require('./core/server/vehicleManager.js');
   const Vehicle = require('./vehicle/vehicle.js');
   const PlayerManager = require('./core/server/playerManager.js');
-  const {db} = require('./core/server/database.js');
-  
+  const { db } = require('./core/server/database.js');
+
   onNet('orion:vehicle:s:spawnNewVehicle', async (model, coords, pedHead) => {
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
@@ -12,10 +12,10 @@
       let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords[0], coords[1], coords[2], pedHead);
       SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
-    
+
       let vehicleObj = new Vehicle({
         id: vehicleSpawn,
-        netId: NetworkGetNetworkIdFromEntity(vehicleSpawn), 
+        netId: NetworkGetNetworkIdFromEntity(vehicleSpawn),
         model: model,
         owner: player.id,
         plate: GetVehicleNumberPlateText(vehicleSpawn),
@@ -25,16 +25,16 @@
         pearlescentColor: GetVehicleExtraColours(vehicleSpawn)[1],
         bodyHealth: GetVehicleBodyHealth(vehicleSpawn),
         dirtLevel: GetVehicleDirtLevel(vehicleSpawn),
-        doorsBroken: [ 0, 0, 0, 0, 0, 0, 0 ],
+        doorsBroken: [0, 0, 0, 0, 0, 0, 0],
       });
 
       await exports['orion'].delay(300)
-  
+
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-  
+
       VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
-      emitNet('orion:vehicle:c:createVehicle', source,  vehicleObj);
+      emitNet('orion:vehicle:c:createVehicle', source, vehicleObj);
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
@@ -45,7 +45,7 @@
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
-    const vehicleDb = await db.get('vehicles', vehicleId);
+    const vehicleDb = await db.getById('vehicles', vehicleId);
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
@@ -64,10 +64,10 @@
       }
 
       await exports['orion'].delay(300)
-  
+
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-  
+
       VehicleManager.addVehicle(vehicleSpawn, vehicle);
       emitNet('orion:vehicle:c:createVehicle', source, vehicle);
     }
@@ -102,19 +102,19 @@
       emitNet('orion:showNotification', source, 'You are not logged in!')
     }
   });
-  
+
   onNet('orion:vehicle:saveVehicle', async vehicle => {
     let vehicleObj = VehicleManager.getVehicleById(vehicle.id);
     await vehicleObj.save();
   });
-  
+
   onNet('orion:vehicle:deleteVehicle', async vehicle => {
     let vehicleObj = VehicleManager.getVehicleById(vehicle.id);
 
     VehicleManager.remove(vehicleObj.id);
     delete vehicleObj;
   });
-  
+
 
 })()
 

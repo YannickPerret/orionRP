@@ -49,7 +49,7 @@ class Inventory {
     }
 
     async getItem(itemId) {
-        const itemDb = await db.get('items', itemId);
+        const itemDb = await db.getById('items', itemId);
         let item
         if (itemDb.useable) {
             item = await UsableItem.getById(itemId);
@@ -95,14 +95,14 @@ class Inventory {
     }
 
     static async getById(id) {
-        const inventoryDB = await db.get('inventories', id);
+        const inventoryDB = await db.getById('inventories', id);
         const inventory = new Inventory({ id: inventoryDB.id, maxWeight: inventoryDB.maxWeight, items: inventoryDB.items });
         inventory.calculateWeight();
         return inventory;
     }
 
     async save() {
-        if (await db.get('inventories', this.id)) {
+        if (await db.getById('inventories', this.id)) {
             return await db.update('inventories', this);
         } else {
             return await db.insert('inventories', this);
