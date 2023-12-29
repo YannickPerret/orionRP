@@ -18,23 +18,27 @@ const dialogueData = {
 ]
 */
 
-let dialogOpen = false;
+(async () => {
 
-exports('createPnjDialog', (dialogData) => {
-    dialogOpen = !dialogOpen;
-    SendNuiMessage(JSON.stringify({
-        action: 'pnjDialog',
-        payload: {
-            dialogHUD: dialogOpen,
-            dialogData: dialogData
-        }
-    }));
-})
+    let dialogOpen = false;
 
-RegisterNuiCallbackType('dialogChoice');
-on('__cfx_nui:dialogChoice', (data, cb) => {
-    console.log('Choix reçu du client:', data);
-    // Traiter le choix ici
-    cb('ok');
-});
+    exports('createPnjDialog', (dialogData) => {
+        dialogOpen = !dialogOpen;
+        SendNuiMessage(JSON.stringify({
+            action: 'pnjDialog',
+            payload: {
+                dialogHUD: dialogOpen,
+                dialogData: dialogData
+            }
+        }));
+    })
+
+    RegisterNuiCallbackType('dialogChoice');
+    on('__cfx_nui:dialogChoice', (data, cb) => {
+        console.log('Choix reçu du client:', data);
+        // Traiter le choix ici
+        cb('ok');
+    });
+
+})()
 

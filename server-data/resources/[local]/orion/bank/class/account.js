@@ -1,3 +1,5 @@
+const { db } = require('./core/server/database.js');
+
 class Account {
     constructor(id, balance, owner, observer, freeze, history, cardId) {
         this.id = id;
