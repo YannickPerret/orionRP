@@ -3,6 +3,7 @@ import style from './inventory.module.scss';
 
 export const InventoryItemUsable = ({ item, useItem, giveItem, dropItem }) => {
 
+    console.log(item);
     return (
         <div className={style.inventory__item}>
             <div onClick={() => useItem(item.id, item.shouldClose)}>

@@ -41,8 +41,6 @@ export default function Inventory() {
     }
 
     const handleUseItem = (id, shouldClose) => {
-
-        console.log(id, shouldClose)
         sendToNui('useItem', { id })
         if (shouldClose) {
             console.log('should close');
