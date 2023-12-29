@@ -31,7 +31,7 @@ const DialogBox = () => {
             <p className={style.dialogBox__content}>{text}</p>
             <ul className={style.dialogBox__choices}>
                 {options.map((option, index) => (
-                    <li key={index} onClick={() => handleSelectOption(option)}>
+                    <li key={index} onClick={() => handleSelectOption(option)} className={style.dialogBox__item}>
                         {option.text}
                     </li>
                 ))}
