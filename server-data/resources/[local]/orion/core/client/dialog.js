@@ -23,6 +23,7 @@ const dialogueData = {
     let dialogOpen = false;
 
     exports('createPnjDialog', (dialogData) => {
+        console.log('dialogData', dialogData)
         dialogOpen = !dialogOpen;
         SendNuiMessage(JSON.stringify({
             action: 'pnjDialog',
