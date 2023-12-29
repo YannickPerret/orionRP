@@ -78,11 +78,10 @@
         player.setAccountId(account.id);
         await player.save();
 
-        console.log('card', cardItem)
         inventory.addItem(cardItem, 1, { cardId: card.id });
         await inventory.save();
 
-        emitNet('orion:bank:c:showConseillerInterface', source, 'Vous venez de créer votre compte bancaire !');
+        emitNet('orion:bank:c:showConseillerInterface', -1, 'Vous venez de créer votre compte bancaire !');
     })
 
     onNet('orion:bank:s:renewCard', async () => {
