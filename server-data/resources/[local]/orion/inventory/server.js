@@ -11,8 +11,6 @@
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
 
-        console.log("itemInstance", itemInstance)
-
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
                 if (itemInstance.type !== 'special') {
