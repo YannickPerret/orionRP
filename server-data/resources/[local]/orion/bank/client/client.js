@@ -16,39 +16,6 @@
     }
   }
 
-
-  const showATMdisplay = () => {
-
-    showBankInterface = !showBankInterface;
-    //SendNuiMessage(JSON.stringify({ showATMInterface: showBankInterface }));
-    SetNuiFocus(showBankInterface, showBankInterface);
-  }
-
-  const showBankDisplay = () => {
-    // Tester si le joueur à un compte bancaire
-
-    showBankInterface = !showBankInterface;
-    //SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
-    SetNuiFocus(showBankInterface, showBankInterface);
-  }
-
-
-  const topUpMoneyBank = (bank, amount) => {
-    console.log('topUpMoneyBank', bank, amount);
-  }
-
-  const withdrawMoneyBank = (bank, amount) => {
-    console.log('withdrawMoneyBank', bank, amount);
-  }
-
-  const transferMoneyBank = (bank, amount) => {
-    console.log('transferMoneyBank', bank, amount);
-  }
-
-  const createAccountBank = (bank, amount) => {
-    emitNet('orion:bank:s:createAccount', bank, amount);
-  }
-
   onNet('orion:bank:c:showBankInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
     SendNuiMessage(JSON.stringify({

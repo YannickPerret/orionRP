@@ -20,7 +20,9 @@ const DialogBox = () => {
     };
 
     const sendChoiceToServer = (option) => {
+        console.log(option)
         if (option.action === 'close') {
+
             closeAllMenus(true);
             option = null;
         }
