@@ -38,6 +38,11 @@ const dialogueData = {
     on('__cfx_nui:dialogChoice', (data, cb) => {
         console.log('Choix reçu du client:', data);
         if (data.action == null) return;
+        if (data.action.value === 'close') {
+            dialogOpen = false;
+            SetNuiFocus(false, false);
+            return;
+        }
         emitNet(data.action, data.payload);
         cb('ok');
     });

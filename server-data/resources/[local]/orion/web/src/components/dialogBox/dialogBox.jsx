@@ -22,7 +22,6 @@ const DialogBox = () => {
     const sendChoiceToServer = (option) => {
         if (option.value === 'close') {
             closeAllMenus(true);
-            return;
         }
 
         sendNui('dialogChoice', {
