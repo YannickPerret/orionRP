@@ -50,7 +50,7 @@
     onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        const cardItem = Item.getByName('bank_card');
+        const cardItem = await Item.getByName('bank_card');
         const inventory = await Inventory.getById(player.inventoryId);
 
         if (!player) {
