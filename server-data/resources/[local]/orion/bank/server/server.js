@@ -10,12 +10,13 @@
     const Card = require('./bank/class/card.js');
     const { v4: uuidv4 } = require('uuid');
 
-    onNet('orion:bank:s:getAccountInterface', async (target) => {
+    onNet('orion:bank:s:getAccountInterface', async (type) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const inventory = Inventory.getById(player.inventoryId);
 
         if (player) {
+            console.log('player', player)
             if (player.accountId) {
                 const account = await Account.getById(player.accountId);
                 console.log('account', account)
@@ -24,9 +25,9 @@
                         const card = await Card.getById(account.cardId);
                         if (card) {
                             console.log('card', card)
-                            if (target == "bank")
+                            if (type == "bank")
                                 emitNet('orion:bank:c:showBankInterface', source, player, account, card);
-                            else if (target == "atm")
+                            else if (type == "atm")
                                 emitNet('orion:bank:c:showATMInterface', source, player, account, card);
                         }
                         else {
