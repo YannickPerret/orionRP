@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { sendNui } from '../../utils/fetchNui';
 import { useData } from '../../providers/dataContext';
+import style from './dialogBox.module.scss';
 
 const DialogBox = () => {
     const [currentPageId, setCurrentPageId] = useState("1");
@@ -25,9 +26,9 @@ const DialogBox = () => {
     const { text, options } = data.dialogData[currentPageId];
 
     return (
-        <div className="dialogue-box">
-            <p>{text}</p>
-            <ul>
+        <div className={style.DialogBox}>
+            <p className={style.DialogBox__content}>{text}</p>
+            <ul className={style.DialogBox__choices}>
                 {options.map((option, index) => (
                     <li key={index} onClick={() => handleSelectOption(option)}>
                         {option.text}
