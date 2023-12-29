@@ -79,7 +79,7 @@
         await player.save();
 
         console.log('card', cardItem)
-        inventory.addItem(cardItem, 1);
+        inventory.addItem(cardItem, 1, { cardId: card.id });
         await inventory.save();
 
         emitNet('orion:bank:c:showConseillerInterface', source, 'Vous venez de créer votre compte bancaire !');
