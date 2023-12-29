@@ -6,7 +6,6 @@ import style from './dialogBox.module.scss';
 const DialogBox = () => {
     const [currentPageId, setCurrentPageId] = useState("1");
     const { data } = useData();
-    console.log("DialogBox data", data.dialogData);
 
     const handleSelectOption = (option) => {
         if (option.nextPageId) {

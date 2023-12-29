@@ -7,6 +7,7 @@
     return {
       1: {
         text: `Bonjour ${playerName}, je suis Amanda, ravie de vous aider aujourd'hui. Que puis-je faire pour vous ?`,
+        title: "Conseillière Amanda",
         options: [
           { text: "Ouvrir un nouveau compte", nextPageId: null, action: "orion:bank:s:createAccount" },
           { text: "Demande de renouvellement de carte bancaire", nextPageId: null, action: "orion:bank:s:renewCard" },
