@@ -21,12 +21,7 @@ const DialogBox = () => {
 
     const sendChoiceToServer = (option) => {
         console.log(option)
-        if (option.action === 'close') {
-
-            closeAllMenus(true);
-            option = null;
-        }
-
+        closeAllMenus(true);
         sendNui('dialogChoice', {
             choice: option,
         });
@@ -47,7 +42,7 @@ const DialogBox = () => {
                     </li>
                 ))}
 
-                <li onClick={() => sendChoiceToServer({ action: 'close' })} className={style.dialogBox__item}>
+                <li onClick={() => sendChoiceToServer({ action: 'orion:bank:c:showNoAccountInterface' })} className={style.dialogBox__item}>
                     Annuler
                 </li>
             </ul>
