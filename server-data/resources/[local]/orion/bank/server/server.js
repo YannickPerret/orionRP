@@ -51,7 +51,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const cardItem = Item.getByName('bank_card');
-        const inventory = Inventory.getById(player.inventoryId);
+        const inventory = await Inventory.getById(player.inventoryId);
 
         if (!player) {
             emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
