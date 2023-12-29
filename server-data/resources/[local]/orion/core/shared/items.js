@@ -8,7 +8,7 @@ const items = [
         image: 'foods/hamburger.png',
         unique: false,
         useable: true,
-        shouldClose: false,
+        shouldClose: true,
         description: 'A burger',
         hunger: 30,
         animation: {
@@ -31,7 +31,7 @@ const items = [
         image: 'drinks/watercup.png',
         unique: false,
         useable: true,
-        shouldClose: false,
+        shouldClose: true,
         description: 'A bottle of water',
         thirst: 30,
         animation: {
