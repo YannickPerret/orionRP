@@ -62,6 +62,7 @@
             emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
             return;
         }
+        console.log('inventory', inventory)
 
         if (inventory.hasItem(cardItem.id)) {
             emitNet('orion:bank:c:showNoAccountInterface', source, 'Vous avez déjà une carte bancaire !');
