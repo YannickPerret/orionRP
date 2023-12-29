@@ -88,9 +88,9 @@
     SetNuiFocus(showBankInterface, showBankInterface);
   })
 
-  onNet('orion:bank:c:showNoAccountInterface', () => {
+  onNet('orion:bank:c:showNoAccountInterface', (message) => {
     showBankInterface = false;
-    emit('orion:showNotification', 'Vous n\'avez pas de compte bancaire !');
+    emit('orion:showNotification', message);
   })
 
 
@@ -134,6 +134,7 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
             if (IsControlJustReleased(0, 38)) {
               showConseillerDisplay();
+              showBankInterface = true;
             }
           }
         }

@@ -41,7 +41,7 @@
                 }
             }
             else {
-                emitNet('orion:bank:c:showNoAccountInterface', source);
+                emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire!");
             }
         }
     })
@@ -50,33 +50,37 @@
     onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        const inventory = Inventory.getById(player.inventoryId);
         const cardItem = Item.getByName('bank_card');
+        const inventory = Inventory.getById(player.inventoryId);
 
+        if (!player) {
+            emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            return;
 
-        if (player) {
-            if (player.accountId) {
-                emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
-                return;
-            }
-            if (inventory.hasItem(cardItem.id)) {
-                emitNet('orion:showNotification', source, 'Vous avez déjà une carte bancaire !');
-                return;
-            }
-            let uuid = uuidv4()
-            const account = new Account(uuid, 100, player.id, [], false, [], null);
-            uuid = uuidv4()
-            const card = new Card(uuid, account.id, Card.getRandomCode());
-            await card.save();
-            account.setNewCardId(card.id);
-            await account.save();
-            player.setAccountId(account.id);
-            await player.save();
-            inventory.addItem(cardItem, 1);
-            await inventory.save();
-
-            emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
         }
+        if (!inventory) {
+            emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            return;
+        }
+
+        if (inventory.hasItem(cardItem.id)) {
+            emitNet('orion:bank:c:showNoAccountInterface', source, 'Vous avez déjà une carte bancaire !');
+            return;
+        }
+
+        let uuid = uuidv4()
+        const account = new Account(uuid, 100, player.id, [], false, [], null);
+        uuid = uuidv4()
+        const card = new Card(uuid, account.id, Card.getRandomCode());
+        await card.save();
+        account.setNewCardId(card.id);
+        await account.save();
+        player.setAccountId(account.id);
+        await player.save();
+        inventory.addItem(cardItem, 1);
+        await inventory.save();
+
+        emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
     })
 
     onNet('orion:bank:s:renewCard', async () => {
