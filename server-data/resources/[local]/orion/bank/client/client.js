@@ -49,8 +49,6 @@
     emitNet('orion:bank:s:createAccount', bank, amount);
   }
 
-  onNet('orion:bank:c:')
-
   onNet('orion:bank:c:showBankInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
     SendNuiMessage(JSON.stringify({
