@@ -140,6 +140,7 @@ class Database {
     if (!this.connection) {
       await this.initConnection();
     }
+
     try {
       const result = await r.table(table).insert(data).run(this.connection);
       return result;
@@ -164,6 +165,7 @@ class Database {
         throw err;
       });
   }
+
 
   async getById(table, id) {
     if (!this.connection) {

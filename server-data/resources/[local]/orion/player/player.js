@@ -72,8 +72,6 @@ class Player {
       result = await db.update('players', this);
     } else {
       result = await db.insert('players', this);
-      console.log('this.id', this.id);
-
     }
     return result;
   }

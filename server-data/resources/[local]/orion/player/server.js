@@ -153,12 +153,10 @@
       itemsStarter.forEach(item => {
         playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
       });
+
       await playerInventory.calculateWeight();
 
       if (playerInventory.save()) {
-
-        console.log(r.uuid())
-        console.log(r)
 
         const newPlayer = new Player({
           id: r.uuid(),
@@ -182,7 +180,6 @@
         });
 
         if (await newPlayer.save()) {
-          console.log('Joueur créé !', newPlayer)
           PlayerManager.addPlayer(source, newPlayer);
           emitNet('orion:player:c:completRegister', source, newPlayer);
         } else {
