@@ -62,6 +62,11 @@
             return;
         }
 
+        if (player.accountId) {
+            emitNet('orion:bank:c:showNoAccountInterface', source, "Vous avez déjà un compte bancaire !");
+            return;
+        }
+
         if (inventory.hasItem(cardItem)) {
             emitNet('orion:bank:c:showNoAccountInterface', source, 'Vous avez déjà une carte bancaire !');
             return;
@@ -89,25 +94,29 @@
         const player = PlayerManager.getPlayerBySource(source);
         const inventory = Inventory.getById(player.inventoryId);
         const itemProcuration = Item.getByName('procuration_bank');
+        const PlayerAccount = await Account.getById(player.accountId);
 
         if (player) {
-            if (player.accountId) {
-                emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
-                return;
-            }
-            if (inventory.hasItem(itemProcuration.id)) {
-                let uuid = uuidv4()
-                const card = new Card(uuid, player.accountId, Card.getRandomCode());
-                const account = await Account.getById(player.accountId);
-                await card.save();
-                account.setNewCardId(card.id);
-                await account.save();
-                inventory.removeItem(itemProcuration.id, 1);
-                await inventory.save();
-                emitNet('orion:showNotification', source, 'Vous venez de récupérer ou créer votre compte !');
+            if (PlayerAccount) {
+
+                if (inventory.hasItem(itemProcuration)) {
+                    const card = new Card({ accountId: player.accountId, code: Card.getRandomCode() });
+                    await card.save();
+
+                    PlayerAccount.setNewCardId(card.id);
+                    await PlayerAccount.save();
+
+                    inventory.removeItem(itemProcuration.id, 1);
+                    await inventory.save();
+
+                    emitNet('orion:bank:c:showConseillerInterface', -1, 'Vous venez de récupérer ou créer votre compte !');
+                }
+                else {
+                    emitNet('orion:bank:c:showConseillerInterface', -1, 'Il vous faut une procuration pour créer un compte !');
+                }
             }
             else {
-                emitNet('orion:showNotification', source, 'Il vous faut une procuration pour créer un compte !');
+                emitNet('orion:bank:c:showConseillerInterface', -1, "Vous n'avez pas de compte bancaire !");
             }
         }
     })
