@@ -156,12 +156,12 @@
       await playerInventory.calculateWeight();
 
       if (playerInventory.save()) {
-        const newPlayerId = r.uuid();
 
-        console.log(newPlayerId)
+        console.log(r.uuid())
+        console.log(r)
 
         const newPlayer = new Player({
-          id: newPlayerId,
+          id: r.uuid(),
           source: source,
           steamId: steamId,
           license: license,
