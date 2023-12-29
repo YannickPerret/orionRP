@@ -83,7 +83,7 @@
         inventory.addItem(cardItem, 1);
         await inventory.save();
 
-        emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
+        emitNet('orion:bank:c:showConseillerInterface', source, 'Vous venez de créer votre compte bancaire !');
     })
 
     onNet('orion:bank:s:renewCard', async () => {
