@@ -77,6 +77,7 @@ class Inventory {
         const fullItems = await Promise.all(this.items.map(async (item) => {
             if (item.useable) {
                 itemDetails = await UsableItem.getById(item.itemId);
+                console.log("shouldClose", itemDetails)
             }
             else {
                 itemDetails = await Item.getById(item.itemId);
