@@ -80,6 +80,7 @@
         player.setAccountId(account.id);
         await player.save();
 
+        console.log('card', cardItem)
         inventory.addItem(cardItem, 1);
         await inventory.save();
 
