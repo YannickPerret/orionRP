@@ -28,6 +28,7 @@ class Account {
             result = await db.update('accounts', this);
         } else {
             result = await db.insert('accounts', this);
+            console.log('result', result)
             this.id = result.generated_keys[0];
         }
         return result;
