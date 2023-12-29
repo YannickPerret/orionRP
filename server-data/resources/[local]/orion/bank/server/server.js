@@ -94,7 +94,7 @@
         const player = PlayerManager.getPlayerBySource(source);
         const inventory = Inventory.getById(player.inventoryId);
         const itemProcuration = Item.getByName('procuration_bank');
-        const PlayerAccount = await Account.getById(player.accountId);
+        const PlayerAccount = await db.getById(player.accountId);
 
         if (player) {
             if (PlayerAccount) {
