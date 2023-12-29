@@ -29,6 +29,7 @@ const initialState = {
   },
   isPlayerDead: false,
   playerDeadMessage: '',
+  dialogData: {},
 };
 
 export const DataProvider = ({ children }) => {

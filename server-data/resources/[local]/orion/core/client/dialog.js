@@ -1,0 +1,40 @@
+/* exemple des data du dialog */
+/*
+const dialogueData = {
+  "1": {
+    text: "Page 1: Bonjour, que souhaitez-vous faire ?",
+    options: [
+      { text: "Aller à la page 2", nextPageId: "2" },
+      { text: "Aller à la page 3", nextPageId: "3" }
+    ]
+  },
+  "2": {
+    text: "Page 2: Vous avez choisi l'option 1.",
+    options: [
+      { text: "Retour à la page 1", nextPageId: "1" }
+      // autres options...
+    ]
+  },
+]
+*/
+
+let dialogOpen = false;
+
+exports('createPnjDialog', (dialogData) => {
+    dialogOpen = !dialogOpen;
+    SendNuiMessage(JSON.stringify({
+        action: 'pnjDialog',
+        payload: {
+            dialogHUD: dialogOpen,
+            dialogData: dialogData
+        }
+    }));
+})
+
+RegisterNuiCallbackType('dialogChoice');
+on('__cfx_nui:dialogChoice', (data, cb) => {
+    console.log('Choix reçu du client:', data);
+    // Traiter le choix ici
+    cb('ok');
+});
+

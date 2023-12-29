@@ -56,7 +56,10 @@
         if (!player) {
             emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
             return;
-
+        }
+        if (player.accountId) {
+            emit('orion:bank:s:renewCard', source);
+            return;
         }
         if (!inventory) {
             emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
@@ -71,12 +74,16 @@
         let uuid = uuidv4()
         const account = new Account(uuid, 100, player.id, [], false, [], null);
         uuid = uuidv4()
+
         const card = new Card(uuid, account.id, Card.getRandomCode());
         await card.save();
+
         account.setNewCardId(card.id);
         await account.save();
+
         player.setAccountId(account.id);
         await player.save();
+
         inventory.addItem(cardItem, 1);
         await inventory.save();
 

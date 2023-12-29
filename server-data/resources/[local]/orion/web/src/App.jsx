@@ -15,6 +15,7 @@ import { useData } from './providers/dataContext';
 import { useVisibility } from './providers/visibilityProvider';
 import Speed from './components/vehicle/speed';
 import Inventory from './window/inventory/Inventory';
+import DialogBox from './components/dialogBox/dialogBox';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -68,6 +69,10 @@ const App = () => {
           break;
         case "hideFrame":
           closeAllMenus();
+          break;
+        case "pnjDialog":
+          setVisible(prevState => ({ ...prevState, dialogHUD: payload.dialogHUD }));
+          setData(prevData => ({ ...prevData, dialogData: payload.dialogData }));
           break;
         default:
           break;
@@ -136,6 +141,10 @@ const App = () => {
       )}
       {// <Voice />
       }
+
+      {visible.dialogHUD && (
+        <DialogBox />
+      )}
     </>
   );
 };

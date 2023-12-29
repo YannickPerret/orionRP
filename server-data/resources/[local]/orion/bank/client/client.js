@@ -1,11 +1,20 @@
 (async () => {
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
-
-
-  let bankIsOpen = false
   let showBankInterface = false;
-  let showConseillerInterface = false;
+
+  const showManagementDialog = (playerName) => {
+    return {
+      1: {
+        text: `Bonjour ${playerName}, je suis Amanda, ravie de vous aider aujourd'hui. Que puis-je faire pour vous ?`,
+        options: [
+          { text: "Ouvrir un nouveau compte", nextPageId: null, action: "orion:bank:s:createAccount" },
+          { text: "Demande de renouvellement de carte bancaire", nextPageId: null, action: "orion:bank:s:renewCard" },
+        ]
+      }
+    }
+  }
+
 
   const showATMdisplay = () => {
 
@@ -22,24 +31,6 @@
     SetNuiFocus(showBankInterface, showBankInterface);
   }
 
-  const showConseillerDisplay = () => {
-    //showConseillerInterface = !showConseillerInterface;
-    /*SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
-    SetNuiFocus(showConseillerInterface, showConseillerInterface);*/
-
-    console.log('showConseillerDisplay')
-    emitNet('orion:bank:c:showConseillerInterface');
-    emitNet('orion:bank:s:createAccount');
-  }
-
-
-  const renewCard = () => {
-    console.log('renewCard');
-    // create new item cards with id
-    // set new card id into account
-    // delete old card
-    // save new account
-  }
 
   const topUpMoneyBank = (bank, amount) => {
     console.log('topUpMoneyBank', bank, amount);
@@ -133,7 +124,8 @@
           if (!showBankInterface) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
             if (IsControlJustReleased(0, 38)) {
-              showConseillerDisplay();
+              const player = exports['orion'].getPlayerData();
+              exports['orion'].createPnjDialog(showManagementDialog(`${player.firstname} ${player.lastname}`));
               showBankInterface = true;
             }
           }

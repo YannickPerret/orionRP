@@ -23,6 +23,7 @@ files {
     'core/server/vehicleManager.js',
     'inventory/item.js',
 
+
     'player/player.js',
     'vehicle/vehicle.js',
     'bank/class/account.js',
@@ -43,6 +44,7 @@ client_scripts{
     'core/client/player.js',
     'core/client/utils.js',
     'core/client/commands.js',
+    'core/client/dialog.js',
     'admin/commands.js',
     'events/winter/client.js',
     'vehicle/client.js',
