@@ -35,6 +35,10 @@ const DialogBox = () => {
                         {option.text}
                     </li>
                 ))}
+
+                <li onClick={() => sendChoiceToServer({ value: 'close' })} className={style.dialogBox__close}>
+                    Annuler
+                </li>
             </ul>
         </div>
     );
