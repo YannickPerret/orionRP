@@ -88,6 +88,11 @@
     SetNuiFocus(showBankInterface, showBankInterface);
   })
 
+  onNet('orion:bank:c:showNoAccountInterface', () => {
+    showBankInterface = false;
+    emit('orion:showNotification', 'Vous n\'avez pas de compte bancaire !');
+  })
+
 
   setTick(async () => {
     while (true) {
