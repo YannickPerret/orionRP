@@ -19,7 +19,6 @@ const dialogueData = {
 */
 
 (async () => {
-
     let dialogOpen = false;
 
     exports('createPnjDialog', (dialogData) => {
@@ -36,13 +35,11 @@ const dialogueData = {
 
     RegisterNuiCallbackType('dialogChoice');
     on('__cfx_nui:dialogChoice', (data, cb) => {
+        dialogOpen = !dialogOpen;
+        SetNuiFocus(dialogOpen, dialogOpen);
         console.log('Choix reçu du client:', data);
         if (data.choice == null) return;
-        if (data.choice.value === 'close') {
-            dialogOpen = false;
-            SetNuiFocus(false, false);
-            return;
-        }
+
         emitNet(data.choice.action);
         cb('ok');
     });

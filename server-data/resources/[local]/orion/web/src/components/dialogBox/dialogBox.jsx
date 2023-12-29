@@ -20,8 +20,9 @@ const DialogBox = () => {
     };
 
     const sendChoiceToServer = (option) => {
-        if (option.value === 'close') {
+        if (option.action === 'close') {
             closeAllMenus(true);
+            option = null;
         }
 
         sendNui('dialogChoice', {
@@ -44,7 +45,7 @@ const DialogBox = () => {
                     </li>
                 ))}
 
-                <li onClick={() => sendChoiceToServer({ value: 'close' })} className={style.dialogBox__item}>
+                <li onClick={() => sendChoiceToServer({ action: 'close' })} className={style.dialogBox__item}>
                     Annuler
                 </li>
             </ul>

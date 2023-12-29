@@ -57,10 +57,6 @@
             emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
             return;
         }
-        if (player.accountId) {
-            emit('orion:bank:s:renewCard', source);
-            return;
-        }
         if (!inventory) {
             emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
             return;
