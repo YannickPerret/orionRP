@@ -156,6 +156,7 @@
       await playerInventory.calculateWeight();
 
       if (playerInventory.save()) {
+
         const newPlayer = new Player({
           id: r.uuid(),
           source: source,
@@ -176,6 +177,8 @@
           skin: skin,
           inventoryId: playerInventory.id,
         });
+
+        console.log('Création du joueur...', newPlayer);
 
         if (await newPlayer.save()) {
           PlayerManager.addPlayer(source, newPlayer);
