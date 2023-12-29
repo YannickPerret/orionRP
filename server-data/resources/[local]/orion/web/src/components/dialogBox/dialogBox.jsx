@@ -24,10 +24,13 @@ const DialogBox = () => {
         });
     };
 
-    const { text, options } = data.dialogData[currentPageId];
+    const { text, options, title } = data.dialogData[currentPageId];
 
     return (
         <div className={style.dialogBox}>
+            <h2>
+                {title}
+            </h2>
             <p className={style.dialogBox__content}>{text}</p>
             <ul className={style.dialogBox__choices}>
                 {options.map((option, index) => (
@@ -36,7 +39,7 @@ const DialogBox = () => {
                     </li>
                 ))}
 
-                <li onClick={() => sendChoiceToServer({ value: 'close' })} className={style.dialogBox__close}>
+                <li onClick={() => sendChoiceToServer({ value: 'close' })} className={style.dialogBox__item}>
                     Annuler
                 </li>
             </ul>
