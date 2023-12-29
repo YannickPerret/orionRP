@@ -158,6 +158,8 @@
       if (playerInventory.save()) {
         const newPlayerId = r.uuid();
 
+        console.log(newPlayerId)
+
         const newPlayer = new Player({
           id: newPlayerId,
           source: source,
