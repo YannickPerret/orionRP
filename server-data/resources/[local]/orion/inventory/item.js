@@ -24,6 +24,7 @@ class Item {
     }
 
     static async getByName(name) {
+        console.log('getByName', name)
         const itemDB = await db.get('items', { name });
         return new this(itemDB);
     }
