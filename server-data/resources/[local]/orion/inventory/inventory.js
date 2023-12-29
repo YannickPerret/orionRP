@@ -25,7 +25,7 @@ class Inventory {
                 return i;
             });
         } else {
-            this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata });
+            this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata, useable: item.useable });
         }
 
         return true;
