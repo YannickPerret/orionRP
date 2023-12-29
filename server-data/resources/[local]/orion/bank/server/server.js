@@ -18,6 +18,7 @@
         if (player) {
             if (player.accountId) {
                 const account = await Account.getById(player.accountId);
+                console.log('account', account)
                 if (account) {
                     if (inventory.hasItem(Item.getByName('bank_card').id)) {
                         const card = await Card.getById(account.cardId);
