@@ -1,4 +1,4 @@
-const { db } = require('./core/server/database.js');
+const { db } = require('../../core/server/database.js');
 
 class Account {
     constructor(id, balance, owner, observer, freeze, history, cardId) {
