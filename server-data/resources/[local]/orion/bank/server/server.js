@@ -85,6 +85,7 @@
         player.setAccountId(account.id);
         await player.save();
 
+        console.log("player", player)
         inventory.addItem(cardItem, 1, { cardId: card.id });
         await inventory.save();
 

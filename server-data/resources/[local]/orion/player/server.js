@@ -9,6 +9,7 @@
 
   // Position par défaut du joueur
   const playerPosition = [-530.77, -2113.83, 9.0];
+  const playerPosition2 = [-530.77, -2113.83, 9.0];
 
   const enableDiscordWhitelist = true;
   const discordGuildId = '1234567890';
