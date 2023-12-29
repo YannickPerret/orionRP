@@ -37,13 +37,13 @@ const dialogueData = {
     RegisterNuiCallbackType('dialogChoice');
     on('__cfx_nui:dialogChoice', (data, cb) => {
         console.log('Choix reçu du client:', data);
-        if (data.action == null) return;
-        if (data.action.value === 'close') {
+        if (data.choice == null) return;
+        if (data.choice.value === 'close') {
             dialogOpen = false;
             SetNuiFocus(false, false);
             return;
         }
-        emitNet(data.action, data.payload);
+        emitNet(data.choice.action);
         cb('ok');
     });
 
