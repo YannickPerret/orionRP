@@ -67,6 +67,7 @@ class Player {
 
   async save() {
     let result;
+    console.log('this.id', this.id);
     //if id exists in database
     if (await db.getById('players', this.id)) {
       result = await db.update('players', this);
