@@ -92,9 +92,9 @@
     onNet('orion:bank:s:renewCard', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        const inventory = Inventory.getById(player.inventoryId);
-        const itemProcuration = Item.getByName('procuration_bank');
-        const PlayerAccount = await db.getById(player.accountId);
+        const inventory = await Inventory.getById(player.inventoryId);
+        const itemProcuration = await Item.getByName('procuration_bank');
+        const PlayerAccount = await Account.getById(player.accountId);
 
         if (player) {
             if (PlayerAccount) {

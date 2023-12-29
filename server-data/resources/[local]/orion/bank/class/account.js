@@ -12,40 +12,9 @@ class Account {
         this.maxCardWithdraw = 10000;
     }
 
-    getBalance() {
-        return this.balance;
-    }
-
-    setBalance(balance) {
-        this.balance += balance;
-    }
-
-    getOwner() {
-        return this.owner;
-    }
-
-    setOwner(owner) {
-        this.owner = owner;
-    }
-
-    getObserver() {
-        return this.observer;
-    }
-
-    setObserver(observer) {
-        this.observer = observer;
-    }
-
-    getFreeze() {
-        return this.freeze;
-    }
-
-    setFreeze(freeze) {
-        this.freeze = freeze;
-    }
-
-    getcardId() {
-        return this.cardId;
+    static async getById(id) {
+        const accountDB = await db.getById('accounts', id);
+        return new Account(accountDB);
     }
 
     setNewCardId(cardId) {
