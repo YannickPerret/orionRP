@@ -83,7 +83,6 @@
         const player = PlayerManager.getPlayerBySource(source);
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
 
-        console.log("loadinv", player)
         const inventory = _inventoryId || player.inventoryId;
 
         const playerInventory = await Inventory.getById(inventory);
