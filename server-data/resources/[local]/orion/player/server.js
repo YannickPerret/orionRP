@@ -178,9 +178,8 @@
           inventoryId: playerInventory.id,
         });
 
-        console.log('Création du joueur...', newPlayer);
-
         if (await newPlayer.save()) {
+          console.log('Joueur créé !', newPlayer)
           PlayerManager.addPlayer(source, newPlayer);
           emitNet('orion:player:c:completRegister', source, newPlayer);
         } else {
