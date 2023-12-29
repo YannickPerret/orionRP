@@ -4,7 +4,7 @@ import { useData } from '../../providers/dataContext';
 
 const DialogBox = () => {
     const [currentPageId, setCurrentPageId] = useState("1");
-    const { data: dialogData } = useData();
+    const { data } = useData();
 
     const handleSelectOption = (option) => {
         if (option.nextPageId) {
@@ -22,7 +22,7 @@ const DialogBox = () => {
         });
     };
 
-    const { text, options } = dialogData[currentPageId];
+    const { text, options } = data.dialogData[currentPageId];
 
     return (
         <div className="dialogue-box">
