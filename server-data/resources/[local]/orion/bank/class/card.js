@@ -1,3 +1,4 @@
+const { db } = require('../core/server/database.js');
 class Card {
     constructor(id, accountId, code) {
         this.id = id;
@@ -31,9 +32,9 @@ class Card {
     async save() {
         let result;
         if (await db.get('cards', this.id)) {
-          result = await db.update('cards', this);
+            result = await db.update('cards', this);
         } else {
-          result = await db.insert('cards', this);
+            result = await db.insert('cards', this);
         }
         return result;
     }
