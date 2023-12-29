@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { sendNui } from '../../utils/fetchNui';
 import { useData } from '../../providers/dataContext';
 import style from './dialogBox.module.scss';
+import { useVisibility } from '../../providers/visibilityProvider';
 
 const DialogBox = () => {
     const [currentPageId, setCurrentPageId] = useState("1");
     const { data } = useData();
+    const { closeAllMenus } = useVisibility();
 
     const handleSelectOption = (option) => {
         if (option.nextPageId) {
@@ -18,8 +20,13 @@ const DialogBox = () => {
     };
 
     const sendChoiceToServer = (option) => {
+        if (option.value === 'close') {
+            closeAllMenus(true);
+            return;
+        }
+
         sendNui('dialogChoice', {
-            choice: option.value,
+            choice: option,
         });
     };
 

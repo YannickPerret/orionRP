@@ -4,8 +4,8 @@ const dialogueData = {
   "1": {
     text: "Page 1: Bonjour, que souhaitez-vous faire ?",
     options: [
-      { text: "Aller à la page 2", nextPageId: "2" },
-      { text: "Aller à la page 3", nextPageId: "3" }
+      { text: "Aller à la page 2", nextPageId: "2", action: "orion:bank:s:createAccount" },
+      { text: "Aller à la page 3", nextPageId: null, action: null }
     ]
   },
   "2": {
@@ -37,7 +37,8 @@ const dialogueData = {
     RegisterNuiCallbackType('dialogChoice');
     on('__cfx_nui:dialogChoice', (data, cb) => {
         console.log('Choix reçu du client:', data);
-        // Traiter le choix ici
+        if (data.action == null) return;
+        emitNet(data.action, data.payload);
         cb('ok');
     });
 
