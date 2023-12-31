@@ -14,7 +14,7 @@
     onNet('orion:bank:s:getAccountInterface', async (type) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        const inventory = Inventory.getById(player.inventoryId);
+        const inventory = await Inventory.getById(player.inventoryId);
 
         if (player) {
             if (player.accountId) {
