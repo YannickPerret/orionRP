@@ -102,6 +102,22 @@
         emit('orion:inventory:s:loadInventory', source);
     }, false);
 
+    RegisterCommand('addItem', async (source, args) => {
+        // si player source n'est pas donné, prendre soi-même. Sinon addItem pour le joueur donné source
+        if (!args[0]) return emitNet('orion:showNotification', source, "Vous devez entrer un nom d'item !");
+        const targetSource = args[2] || source;
+        const player = PlayerManager.getPlayerBySource(targetSource);
+        const inventory = await Inventory.getById(player.inventoryId);
+        const item = await Item.getByName(args[0]);
+        if (item) {
+            inventory.addItem(item, args[1] || 1);
+            await inventory.save();
+        }
+        else
+            emitNet('orion:showNotification', source, "Vous devez entrer un nom d'item valide !");
+
+    }, false);
+
 
     //item effects
     onNet('orion:inventory:s:useItem:item_consumable', (item) => {
