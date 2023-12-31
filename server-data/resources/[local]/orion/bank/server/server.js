@@ -126,6 +126,9 @@
                 emitNet('orion:bank:c:showConseillerInterface', source, "Vous n'avez pas de compte bancaire !");
             }
         }
+        else {
+            emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+        }
     })
 
     onNet('orion:invoice:s:create', async (targetPlayer, price, type) => {
