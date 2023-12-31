@@ -19,30 +19,33 @@ const dialogueData = {
 */
 
 (async () => {
-    let dialogOpen = false;
+  let dialogOpen = false;
 
-    exports('createPnjDialog', (dialogData) => {
-        dialogOpen = !dialogOpen;
-        SetNuiFocus(dialogOpen, dialogOpen);
-        SendNuiMessage(JSON.stringify({
-            action: 'pnjDialog',
-            payload: {
-                dialogHUD: dialogOpen,
-                dialogData: dialogData
-            }
-        }));
-    })
+  exports('createPnjDialog', (dialogData) => {
+    dialogOpen = !dialogOpen;
+    SetNuiFocus(dialogOpen, dialogOpen);
+    SendNuiMessage(JSON.stringify({
+      action: 'pnjDialog',
+      payload: {
+        dialogHUD: dialogOpen,
+        dialogData: dialogData
+      }
+    }));
+  })
 
-    RegisterNuiCallbackType('dialogChoice');
-    on('__cfx_nui:dialogChoice', (data, cb) => {
-        dialogOpen = !dialogOpen;
-        SetNuiFocus(dialogOpen, dialogOpen);
-        console.log('Choix reçu du client:', data);
-        if (data.choice == null) return;
+  RegisterNuiCallbackType('dialogChoice');
+  on('__cfx_nui:dialogChoice', (data, cb) => {
+    dialogOpen = !dialogOpen;
+    SetNuiFocus(dialogOpen, dialogOpen);
+    console.log('Choix reçu du client:', data);
+    if (data.choice == null) return;
 
-        emitNet(data.choice.action);
-        cb('ok');
-    });
+    if (data.choice.actionType == 'client')
+      emit(data.choice.action);
+    else
+      emitNet(data.choice.action);
+    cb('ok');
+  });
 
 })()
 
