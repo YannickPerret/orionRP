@@ -73,7 +73,7 @@
             return;
         }
 
-        const account = new Account({ id: r.uuid(), balance: 100, owner: player.id });
+        const account = new Account({ balance: 100, owner: player.id });
         await account.save();
         console.log('account', account)
 

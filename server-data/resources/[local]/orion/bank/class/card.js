@@ -1,7 +1,9 @@
 const { db, r } = require('../../core/server/database.js');
+const { v4: uuid } = require('uuid');
+
 class Card {
     constructor({ id, accountId, code }) {
-        this.id = id || r.uuid();
+        this.id = id || uuid();
         this.accountId = accountId;
         this.code = code;
     }
