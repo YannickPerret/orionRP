@@ -20,7 +20,6 @@ const DialogBox = () => {
     };
 
     const sendChoiceToServer = (option) => {
-        console.log(option)
         closeAllMenus(true);
         sendNui('dialogChoice', {
             choice: option,
@@ -29,7 +28,6 @@ const DialogBox = () => {
 
     const { text, options, title } = data.dialogData[currentPageId];
 
-    console.log(data.dialogData[currentPageId])
     return (
         <div className={style.dialogBox}>
             <h2>

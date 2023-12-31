@@ -123,7 +123,6 @@
                 }
             }
             else {
-                console.log('no account', source)
                 emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire !");
             }
         }
