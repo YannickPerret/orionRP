@@ -1,6 +1,7 @@
 (async () => {
     const PlayerManager = require('./core/server/playerManager.js');
     const Inventory = require('./inventory/inventory.js');
+    const { Item } = require('./inventory/item.js');
 
     onNet('orion:inventory:s:useItem', async (itemId) => {
         const source = global.source;
