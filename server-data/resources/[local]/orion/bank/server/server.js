@@ -112,23 +112,23 @@
                         inventory.removeItem(itemProcuration.id, 1);
                         await inventory.save();
 
-                        emitNet('orion:bank:c:showConseillerInterface', -1, 'Vous venez de récupérer ou créer votre compte !');
+                        emitNet('orion:bank:c:showNoAccountInterface', -1, 'Vous venez de récupérer ou créer votre compte !');
                     }
                     else {
-                        emitNet('orion:bank:c:showConseillerInterface', -1, 'Il vous faut une procuration pour créer un compte !');
+                        emitNet('orion:bank:c:showNoAccountInterface', -1, 'Il vous faut une procuration pour créer un compte !');
                     }
                 }
                 else {
-                    emitNet('orion:bank:c:showConseillerInterface', source, "Vous n'avez pas de compte bancaire !");
+                    emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire !");
                 }
             }
             else {
                 console.log('no account', source)
-                emitNet('orion:bank:c:showConseillerInterface', source, "Vous n'avez pas de compte bancaire !");
+                emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire !");
             }
         }
         else {
-            emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            emitNet('orion:bank:c:showNoAccountInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
         }
     })
 
