@@ -1,8 +1,10 @@
 const { db, r } = require('../core/server/database.js');
+const { v4: uuid } = require('uuid');
+
 
 class Player {
   constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin, inventoryId }) {
-    this.id = id;
+    this.id = id || uuid();
     this.source = source;
     this.steamId = steamId || '';
     this.license = license || '';

@@ -6,7 +6,6 @@
   const Phone = require('./phone/phone.js');
   const Inventory = require('./inventory/inventory.js');
 
-
   // Position par défaut du joueur
   const playerPosition = [-530.77, -2113.83, 9.0];
   const playerPosition2 = [-530.77, -2113.83, 9.0];
@@ -159,7 +158,6 @@
       if (playerInventory.save()) {
 
         const newPlayer = new Player({
-          id: r.uuid(),
           source: source,
           steamId: steamId,
           license: license,

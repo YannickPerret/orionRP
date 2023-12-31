@@ -2,7 +2,7 @@ const { db, r } = require('../../core/server/database.js');
 
 class Account {
     constructor({ id, balance, owner, observer, freeze, history, cardId }) {
-        this.id = id || r.uuid();
+        this.id = id;
         this.balance = balance;
         this.playerId = owner;
         this.observer = new Map(observer) || new Map();
