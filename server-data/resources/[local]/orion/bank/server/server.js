@@ -42,7 +42,7 @@
                 }
             }
             else {
-                emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire!");
+                emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire!");
             }
         }
     })
@@ -55,21 +55,21 @@
         const inventory = await Inventory.getById(player.inventoryId);
 
         if (!player) {
-            emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous devez être connecté pour interagir avec le conseiller !");
             return;
         }
         if (!inventory) {
-            emitNet('orion:bank:c:showConseillerInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous devez être connecté pour interagir avec le conseiller !");
             return;
         }
 
         if (player.accountId) {
-            emitNet('orion:bank:c:showNoAccountInterface', source, "Vous avez déjà un compte bancaire !");
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous avez déjà un compte bancaire !");
             return;
         }
 
         if (inventory.hasItem(cardItem)) {
-            emitNet('orion:bank:c:showNoAccountInterface', source, 'Vous avez déjà une carte bancaire !');
+            emitNet('orion:bank:c:bankCloseMessage', source, 'Vous avez déjà une carte bancaire !');
             return;
         }
 
@@ -88,7 +88,7 @@
         inventory.addItem(cardItem, 1, { cardId: card.id });
         await inventory.save();
 
-        emitNet('orion:bank:c:showConseillerInterface', source, 'Vous venez de créer votre compte bancaire !');
+        emitNet('orion:bank:c:bankCloseMessage', source, 'Vous venez de créer votre compte bancaire !');
     })
 
     onNet('orion:bank:s:renewCard', async () => {
@@ -112,22 +112,22 @@
                         inventory.removeItem(itemProcuration.id, 1);
                         await inventory.save();
 
-                        emitNet('orion:bank:c:showNoAccountInterface', source, 'Vous venez de récupérer ou créer votre compte !');
+                        emitNet('orion:bank:c:bankCloseMessage', source, 'Vous venez de récupérer ou créer votre compte !');
                     }
                     else {
-                        emitNet('orion:bank:c:showNoAccountInterface', source, 'Il vous faut une procuration pour créer un compte !');
+                        emitNet('orion:bank:c:bankCloseMessage', source, 'Il vous faut une procuration pour créer un compte !');
                     }
                 }
                 else {
-                    emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire !");
+                    emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire !");
                 }
             }
             else {
-                emitNet('orion:bank:c:showNoAccountInterface', source, "Vous n'avez pas de compte bancaire !");
+                emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire !");
             }
         }
         else {
-            emitNet('orion:bank:c:showNoAccountInterface', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous devez être connecté pour interagir avec le conseiller !");
         }
     })
 

@@ -37,7 +37,6 @@ const dialogueData = {
   on('__cfx_nui:dialogChoice', (data, cb) => {
     dialogOpen = !dialogOpen;
     SetNuiFocus(dialogOpen, dialogOpen);
-    console.log('Choix reçu du client:', data);
     if (data.choice == null) return;
 
     if (data.choice.actionType == 'client')

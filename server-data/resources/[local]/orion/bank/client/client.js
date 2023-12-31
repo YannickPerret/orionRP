@@ -48,7 +48,7 @@
     SetNuiFocus(showBankInterface, showBankInterface);
   })
 
-  onNet('orion:bank:c:showNoAccountInterface', (message = undefined) => {
+  onNet('orion:bank:c:bankCloseMessage', (message = undefined) => {
     showBankInterface = false;
     console.log('showNoAccountInterface', message)
     if (message) emit('orion:showNotification', message);
