@@ -103,12 +103,15 @@
                 if (PlayerAccount) {
 
                     if (inventory.hasItem(itemProcuration)) {
+                        console.log('itemProcuration', itemProcuration)
                         const card = new Card({ accountId: player.accountId, code: Card.getRandomCode() });
                         await card.save();
 
+                        console.log('card', card)
                         PlayerAccount.setNewCardId(card.id);
                         await PlayerAccount.save();
 
+                        console.log('PlayerAccount', PlayerAccount)
                         inventory.removeItem(itemProcuration.id, 1);
                         await inventory.save();
 
