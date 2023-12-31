@@ -39,9 +39,10 @@ const dialogueData = {
     SetNuiFocus(dialogOpen, dialogOpen);
     if (data.choice == null) return;
 
-    console.log(data.choice);
-    if (data.choice.actionType == 'client')
+    if (data.choice.actionType == 'client') {
+      console.log(data.choice.action);
       emit(data.choice.action);
+    }
     else
       emitNet(data.choice.action);
     cb('ok');
