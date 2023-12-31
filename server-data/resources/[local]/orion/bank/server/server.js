@@ -112,10 +112,10 @@
                         inventory.removeItem(itemProcuration.id, 1);
                         await inventory.save();
 
-                        emitNet('orion:bank:c:showNoAccountInterface', -1, 'Vous venez de récupérer ou créer votre compte !');
+                        emitNet('orion:bank:c:showNoAccountInterface', source, 'Vous venez de récupérer ou créer votre compte !');
                     }
                     else {
-                        emitNet('orion:bank:c:showNoAccountInterface', -1, 'Il vous faut une procuration pour créer un compte !');
+                        emitNet('orion:bank:c:showNoAccountInterface', source, 'Il vous faut une procuration pour créer un compte !');
                     }
                 }
                 else {

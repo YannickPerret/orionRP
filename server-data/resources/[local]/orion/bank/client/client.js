@@ -50,6 +50,7 @@
 
   onNet('orion:bank:c:showNoAccountInterface', (message = undefined) => {
     showBankInterface = false;
+    console.log('showNoAccountInterface', message)
     if (message) emit('orion:showNotification', message);
   })
 
