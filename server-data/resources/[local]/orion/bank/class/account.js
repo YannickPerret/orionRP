@@ -4,8 +4,8 @@ const { v4: uuid } = require('uuid');
 class Account {
     constructor({ id, balance, owner, observer, freeze, history, cardId }) {
         this.id = id || uuid();
-        this.balance = balance;
-        this.playerId = owner;
+        this.balance = balance || 0;
+        this.playerId = owner || null;
         this.observer = observer || [];
         this.freeze = freeze || false;
         this.history = history || [];
