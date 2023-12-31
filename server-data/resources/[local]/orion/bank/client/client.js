@@ -12,6 +12,11 @@
           { text: "Ouvrir un nouveau compte", nextPageId: null, action: "orion:bank:s:createAccount" },
           { text: "Demande de renouvellement de carte bancaire", nextPageId: null, action: "orion:bank:s:renewCard" },
         ]
+      },
+      "cancel": {
+        options: [
+          { text: "Annuler", nextPageId: null, action: 'orion:bank:c:showNoAccountInterface' }
+        ]
       }
     }
   }
