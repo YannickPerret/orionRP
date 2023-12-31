@@ -95,7 +95,6 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         if (player) {
-            console.log('player', player)
             if (player.accountId) {
                 const PlayerAccount = await Account.getById(player.accountId);
                 const inventory = await Inventory.getById(player.inventoryId);
@@ -124,6 +123,7 @@
                 }
             }
             else {
+                console.log('no account', source)
                 emitNet('orion:bank:c:showConseillerInterface', source, "Vous n'avez pas de compte bancaire !");
             }
         }
