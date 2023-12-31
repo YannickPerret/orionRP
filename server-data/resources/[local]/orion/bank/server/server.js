@@ -88,15 +88,15 @@
         inventory.addItem(cardItem, 1, { cardId: card.id });
         await inventory.save();
 
-        emitNet('orion:bank:c:showConseillerInterface', -1, 'Vous venez de créer votre compte bancaire !');
+        emitNet('orion:bank:c:showConseillerInterface', source, 'Vous venez de créer votre compte bancaire !');
     })
 
     onNet('orion:bank:s:renewCard', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
+        const PlayerAccount = await Account.getById(player.accountId);
         const inventory = await Inventory.getById(player.inventoryId);
         const itemProcuration = await Item.getByName('procuration_bank');
-        const PlayerAccount = await Account.getById(player.accountId);
 
         if (player) {
             if (PlayerAccount) {

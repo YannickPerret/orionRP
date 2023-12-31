@@ -6,7 +6,7 @@ class Account {
         this.id = id || uuid();
         this.balance = balance;
         this.playerId = owner;
-        this.observer = new Map(observer) || new Map();
+        this.observer = observer || [];
         this.freeze = freeze || false;
         this.history = history || [];
         this.cardId = cardId || null;
