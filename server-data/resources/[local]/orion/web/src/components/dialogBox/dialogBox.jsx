@@ -29,6 +29,7 @@ const DialogBox = () => {
 
     const { text, options, title } = data.dialogData[currentPageId];
 
+    console.log(data.dialogData[currentPageId])
     return (
         <div className={style.dialogBox}>
             <h2>
