@@ -42,11 +42,6 @@ const DialogBox = () => {
                         {option.text}
                     </li>
                 ))}
-                {!options['cancel'] && (
-                    <li onClick={() => sendChoiceToServer({ action: 'orion:bank:c:showNoAccountInterface' })} className={style.dialogBox__item}>
-                        Annuler
-                    </li>
-                )}
             </ul>
         </div>
     );
