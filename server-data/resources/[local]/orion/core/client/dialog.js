@@ -40,7 +40,6 @@ const dialogueData = {
     if (data.choice == null) return;
 
     if (data.choice.actionType == 'client') {
-      console.log(data.choice.action);
       emit(data.choice.action);
     }
     else
