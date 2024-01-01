@@ -19,8 +19,6 @@ export default function Bank() {
         sendNui(action, payload)
     }
 
-
-
     return (
         <div className={style.bank}>
             <div className={style.bank__container}>
@@ -33,8 +31,8 @@ export default function Bank() {
             </div>
 
             <div className={style.bank__content}>
-                {depositVisible || withdrawVisible || transferVisible || historyVisible && (
-                    <div>
+                {!depositVisible && !withdrawVisible && !transferVisible && !historyVisible && (
+                    <div className={style.bank__content__balance}>
                         <h2>Compte courant</h2>
                         <p>Montant : {data.player.account.balance} $</p>
                     </div>
@@ -160,7 +158,7 @@ function Transfer({ accountBalance, handleSendToNui, handleCancel }) {
     )
 }
 
-function History(handleCancel) {
+function History({ handleCancel }) {
     const { data } = useData()
     const [history, setHistory] = useState([])
     const [error, setError] = useState('')
