@@ -228,7 +228,7 @@
 
   RegisterCommand('me', async (source, args) => {
     // get the player source from server
-    return 'Votre identifiant est : ' + source;
+    console.log('Votre identifiant est : ' + source)
   }, false);
 
 })()
