@@ -48,17 +48,16 @@ export default function Bank() {
                 {activeWindow === 'withdraw' && <Withdraw accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'transfer' && <Transfer accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'history' && <History handleCancel={handleCancel} />}
+            </div>
+            <div className={style.bank__actions}>
+                <button className={style.bank__button} onClick={openDeposit}>Déposer</button>
+                <button className={style.bank__button} onClick={openWithdraw} >Retirer</button>
 
-                <div className={style.bank__actions}>
-                    <button className={style.bank__button} onClick={openDeposit}>Déposer</button>
-                    <button className={style.bank__button} onClick={openWithdraw} >Retirer</button>
+                <button className={style.bank__button} onClick={openTransfer}>Virement</button>
 
-                    <button className={style.bank__button} onClick={openTransfer}>Virement</button>
+                <button className={style.bank__button} onClick={openHistory}>Historique</button>
 
-                    <button className={style.bank__button} onClick={openHistory}>Historique</button>
-
-                    <button className={style.bank__button} onClick={handleCancel}>Annuler</button>
-                </div>
+                <button className={style.bank__button} onClick={handleCancel}>Annuler</button>
             </div>
         </div>
     )
