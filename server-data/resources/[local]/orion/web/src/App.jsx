@@ -50,10 +50,10 @@ const App = () => {
           break;
         case "showBankInterface":
           console.log(payload);
-          if (payload.type === 'bank') {
+          if (payload.type == 'bank') {
             setVisible(prevState => ({ ...prevState, bankHUD: payload.bankHUD }));
           }
-          else if (payload.type === 'atm') {
+          else if (payload.type == 'atm') {
             setVisible(prevState => ({ ...prevState, atmHUD: payload.atmHUD }));
           }
           setData(prevData => ({ ...prevData, player: { ...prevData.player, player: payload.player, account: payload.account, card: payload.card } }))
