@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './bank.module.scss'
 import { useData } from '../../providers/dataContext'
 import { useVisibility } from '../../providers/visibilityProvider'
@@ -10,7 +10,6 @@ export default function Bank() {
     const [withdrawVisible, setWithdrawVisible] = useState(false)
     const [transferVisible, setTransferVisible] = useState(false)
     const [historyVisible, setHistoryVisible] = useState(false)
-
 
     const handleCancel = () => {
         closeAllMenus(false);
