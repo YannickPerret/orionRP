@@ -218,7 +218,7 @@
   });
 
   RegisterCommand('giveMoney', async (source, args) => {
-    const targetSource = args[2] || global.source;
+    const targetSource = args[2] || source;
     const playerData = PlayerManager.getPlayerBySource(targetSource);
     if (playerData) {
       playerData.money += Number(args[1]);
