@@ -85,7 +85,7 @@ function Deposit({ accountBalance, playerMoney, handleSendToNui, handleCancel })
     return (
         <div className={style.bank__content}>
             <div>
-                <h2>Retirer</h2>
+                <h2>Déposer</h2>
                 <p>Montant : {accountBalance} $</p>
             </div>
 
