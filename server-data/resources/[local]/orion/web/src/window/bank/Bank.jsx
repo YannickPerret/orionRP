@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import style from './bank.module.scss'
 import { useData } from '../../providers/dataContext'
 import { useVisibility } from '../../providers/visibilityProvider'
+import { sendNui } from '../../utils/fetchNui'
 
 export default function Bank() {
     const { data } = useData()
