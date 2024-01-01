@@ -49,10 +49,10 @@ const App = () => {
           setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
           break;
         case "showBankInterface":
-          if (payload.target === 'bank') {
+          if (payload.type === 'bank') {
             setVisible(prevState => ({ ...prevState, bankHUD: payload.bankHUD }));
           }
-          else if (payload.target === 'atm') {
+          else if (payload.type === 'atm') {
             setVisible(prevState => ({ ...prevState, atmHUD: payload.atmHUD }));
           }
           setData(prevData => ({ ...prevData, player: { ...prevData.player, player: payload.player, account: payload.account, card: payload.card } }))
