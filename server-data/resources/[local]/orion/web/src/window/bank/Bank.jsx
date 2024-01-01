@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './bank.module.scss'
 import { useData } from '../../providers/dataContext'
 import { useVisibility } from '../../providers/visibilityProvider'
@@ -24,6 +24,11 @@ export default function Bank() {
         closeAllMenus(false);
         sendNui(action, payload)
     }
+
+    useEffect(() => {
+        console.log(data)
+    }
+        , [data])
 
     return (
         <div className={style.bank}>
