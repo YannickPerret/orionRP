@@ -36,6 +36,7 @@
 
   onNet('orion:bank:c:showATMInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
+    console.log(player)
     SendNuiMessage(JSON.stringify({
       action: 'showBankInterface',
       payload: {
