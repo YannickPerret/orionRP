@@ -9,7 +9,6 @@
     const Invoice = require('./bank/class/invoice.js');
     const Card = require('./bank/class/card.js');
     const { v4: uuidv4 } = require('uuid');
-    const { db, r } = require('./core/server/database.js');
 
     onNet('orion:bank:s:getAccountInterface', async (type) => {
         const source = global.source;
@@ -23,7 +22,6 @@
                     if (inventory.hasItem(await Item.getByName('bank_card'))) {
                         const card = await Card.getById(account.cardId);
                         if (card) {
-                            console.log('card', card)
                             if (type == "bank")
                                 emitNet('orion:bank:c:showBankInterface', source, player, account, card);
                             else if (type == "atm")
@@ -110,7 +108,6 @@
                         PlayerAccount.setNewCardId(card.id);
                         await PlayerAccount.save();
 
-                        console.log('PlayerAccount', PlayerAccount)
                         inventory.removeItem(itemProcuration.id, 1);
                         await inventory.save();
 

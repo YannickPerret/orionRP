@@ -26,6 +26,11 @@ class Card {
         }
     }
 
+    static async getById(id) {
+        const cardDB = await db.getById('cards', id);
+        return new Card(cardDB);
+    }
+
     static getRandomCode() {
         return Math.floor(Math.random() * 1000);
     }
