@@ -217,7 +217,7 @@
     }
   });
 
-  RegisterCommand('giveMoney', async () => {
+  RegisterCommand('giveMoney', async (source, args) => {
     const source = args[2] || global.source;
     const playerData = PlayerManager.getPlayerBySource(source);
     if (playerData) {
