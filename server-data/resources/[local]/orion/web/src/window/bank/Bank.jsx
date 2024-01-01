@@ -27,16 +27,20 @@ export default function Bank() {
         <div className={style.bank}>
             <div className={style.bank__container}>
                 <header className={style.bank__header}>
-                    <h1>Bank</h1>
+                    <h1>Orion Bank Nationnal</h1>
                     <div>
                         <p>Bonjour {data.player.firstname} {data.player.lastname}</p>
+                    </div>
+                    <div className={style.bank__header__balance}>
+                        <h2>Compte courant</h2>
+                        <p>Montant : {accountBalance} $</p>
                     </div>
                 </header>
             </div>
 
             <div className={style.bank__content}>
                 {activeWindow === null && <Home accountBalance={data.player.account.balance} />}
-                {activeWindow === 'deposit' && <Deposit accountBalance={data.player.account.balance} playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'deposit' && <Deposit playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'withdraw' && <Withdraw accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'transfer' && <Transfer accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'history' && <History handleCancel={handleCancel} />}
@@ -60,15 +64,14 @@ function Home({ accountBalance }) {
 
     return (
         <div className={style.bank__content}>
-            <div className={style.bank__content__balance}>
-                <h2>Compte courant</h2>
-                <p>Montant : {accountBalance} $</p>
-            </div>
+            <p>
+                Bienvenue sur votre compte bancaire, vous avez actuellement {accountBalance} $ sur votre compte.
+            </p>
         </div>
     )
 }
 
-function Deposit({ accountBalance, playerMoney, handleSendToNui, handleCancel }) {
+function Deposit({ playerMoney, handleSendToNui, handleCancel }) {
     const [amount, setAmount] = useState(0)
     const [error, setError] = useState('')
 
@@ -83,10 +86,9 @@ function Deposit({ accountBalance, playerMoney, handleSendToNui, handleCancel })
     }
 
     return (
-        <div className={style.bank__content}>
+        <>
             <div>
                 <h2>Déposer</h2>
-                <p>Montant : {accountBalance} $</p>
             </div>
 
             <Error message={error} />
@@ -95,7 +97,7 @@ function Deposit({ accountBalance, playerMoney, handleSendToNui, handleCancel })
                 <button className={style.bank__button} onClick={() => handleDeposit()}>Valider</button>
                 <button className={style.bank__button} onClick={() => handleCancel()}>Annuler</button>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -115,10 +117,9 @@ function Withdraw({ accountBalance, handleSendToNui, handleCancel }) {
     }
 
     return (
-        <div className={style.bank__content}>
+        <>
             <div>
                 <h2>Retirer</h2>
-                <p>Montant : {accountBalance} $</p>
             </div>
 
             <Error message={error} />
@@ -128,7 +129,7 @@ function Withdraw({ accountBalance, handleSendToNui, handleCancel }) {
                 <button className={style.bank__button} onClick={() => handleWithdraw()}>Valider</button>
                 <button className={style.bank__button} onClick={() => handleCancel()}>Annuler</button>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -150,10 +151,9 @@ function Transfer({ accountBalance, handleSendToNui, handleCancel }) {
     }
 
     return (
-        <div className={style.bank__content}>
+        <>
             <div>
                 <h2>Virement</h2>
-                <p>Montant : {accountBalance} $</p>
             </div>
 
             <Error message={error} />
@@ -164,7 +164,7 @@ function Transfer({ accountBalance, handleSendToNui, handleCancel }) {
                 <button className={style.bank__button} onClick={() => handleTransfer()}>Valider</button>
                 <button className={style.bank__button} onClick={() => handleCancel()}>Annuler</button>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -179,11 +179,10 @@ function History({ handleCancel }) {
     }, [data.player.account.history])
 
     return (
-        <div className={style.bank__content}>
+        <>
             <Error message={error} />
             <div>
                 <h2>Historique</h2>
-                <p>Montant : {data.player.account.balance} $</p>
             </div>
 
             <div className={style.bank__content__actions}>
@@ -195,7 +194,7 @@ function History({ handleCancel }) {
             </div>
 
             <button className={style.bank__button} onClick={() => handleCancel()}>Annuler</button>
-        </div>
+        </ >
     )
 }
 
