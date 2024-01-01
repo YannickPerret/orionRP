@@ -28,6 +28,7 @@ const initialState = {
     isDriver: false,
     inventory: [],
   },
+  bankMaxWithdraw: 0,
   isPlayerDead: false,
   playerDeadMessage: '',
   dialogData: {},

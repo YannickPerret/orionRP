@@ -55,7 +55,7 @@ const App = () => {
           else if (payload.type == 'atm') {
             setVisible(prevState => ({ ...prevState, atmHUD: payload.atmHUD }));
           }
-          setData(prevData => ({ ...prevData, player: { ...prevData.player, money: payload.player.money, lastname: payload.player.lastname, firstname: payload.player.firstname, account: payload.account, card: payload.card } }))
+          setData(prevData => ({ ...prevData, bankMaxWithdraw: payload.maxWithdraw, player: { ...prevData.player, money: payload.player.money, lastname: payload.player.lastname, firstname: payload.player.firstname, account: payload.account, card: payload.card } }))
           break;
         case "playSound":
           playSound(data);

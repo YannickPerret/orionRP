@@ -46,7 +46,7 @@ export default function Bank() {
             <div className={style.bank__content}>
                 {activeWindow === null && <Home accountBalance={accountBalance} />}
                 {activeWindow === 'deposit' && <Deposit playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
-                {activeWindow === 'withdraw' && <Withdraw accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'withdraw' && <Withdraw accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} maxWithdraw={data.bankMaxWithdraw} />}
                 {activeWindow === 'transfer' && <Transfer accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'history' && <History handleCancel={handleCancel} />}
             </div>
@@ -106,12 +106,16 @@ function Deposit({ playerMoney, handleSendToNui, handleCancel }) {
     )
 }
 
-function Withdraw({ accountBalance, handleSendToNui, handleCancel }) {
+function Withdraw({ accountBalance, maxWithdraw, handleSendToNui, handleCancel }) {
     const [amount, setAmount] = useState(0)
     const [error, setError] = useState('')
 
 
     const handleWithdraw = () => {
+        if (amount > maxWithdraw) {
+            setError("Le montant n'est pas disponible ! ")
+            return
+        }
         if (amount > accountBalance) {
             setError('Vous n\'avez pas assez d\'argent dans votre compte')
             return
