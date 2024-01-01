@@ -49,7 +49,7 @@ export default function Bank() {
                 {activeWindow === 'transfer' && <Transfer accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'history' && <History handleCancel={handleCancel} />}
 
-                <div className={style.bank__content__actions}>
+                <div className={style.bank__actions}>
                     <button className={style.bank__button} onClick={openDeposit}>Déposer</button>
                     <button className={style.bank__button} onClick={openWithdraw} >Retirer</button>
 

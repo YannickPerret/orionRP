@@ -43,15 +43,15 @@
         width: 100%;
         background: #fff;
         color: #000;
+    }
 
-        &__actions {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            height: 10%;
-            width: 100%;
-            gap: 15px;
-        }
+    &__actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 10%;
+        width: 100%;
+        gap: 15px;
     }
 }
