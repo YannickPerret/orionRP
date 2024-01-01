@@ -8,9 +8,25 @@ export default function Bank() {
     const { closeAllMenus } = useVisibility()
 
     const handleCancel = () => {
-        sendNui('cancelBank')
         closeAllMenus(false);
+        sendNui('cancelBank')
     }
+    const home = `
+    <div>
+    <h2>Compte courant</h2>
+    <p>Montant : {data.player.account.balance} $</p>
+</div>
+
+<div className={style.bank__content__actions}>
+    <button className={style.bank__button}>Déposer</button>
+    <button className={style.bank__button}>Retirer</button>
+
+    <button className={style.bank__button}>Virement</button>
+
+    <button className={style.bank__button}>Historique</button>
+
+    <button className={style.bank__button} onClick={() => handleCancel}>Annuler</button>
+</div>`
 
     return (
         <div className={style.bank}>
@@ -24,21 +40,7 @@ export default function Bank() {
             </div>
 
             <div className={style.bank__content}>
-                <div>
-                    <h2>Compte courant</h2>
-                    <p>Montant : {data.player.account.balance} $</p>
-                </div>
-
-                <div className={style.bank__content__actions}>
-                    <button className={style.bank__button}>Déposer</button>
-                    <button className={style.bank__button}>Retirer</button>
-
-                    <button className={style.bank__button}>Virement</button>
-
-                    <button className={style.bank__button}>Historique</button>
-
-                    <button className={style.bank__button} onClick={() => handleCancel}>Annuler</button>
-                </div>
+                {home}
             </div>
         </div>
     )
