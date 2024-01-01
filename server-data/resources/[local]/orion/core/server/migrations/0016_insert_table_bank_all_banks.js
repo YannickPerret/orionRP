@@ -13,6 +13,9 @@ module.exports = {
                 reservedMoney: 100000000,
                 maxReservedMoney: 100000000,
             });
+        });
+
+        bankCoordsJson.banks.forEach(async (bank, index) => {
 
             await db.insert('banks', {
                 name: `Banque`,
@@ -24,6 +27,7 @@ module.exports = {
             });
             console.log(`Banque ${index} créée`);
         });
+
         bankCoordsJson.atms.forEach(async (atm, index) => {
             await db.insert('banks', {
                 name: `Distributeur`,
