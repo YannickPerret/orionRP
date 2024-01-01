@@ -25,11 +25,6 @@ export default function Bank() {
         sendNui(action, payload)
     }
 
-    useEffect(() => {
-        console.log(data)
-    }
-        , [data])
-
     return (
         <div className={style.bank}>
             <div className={style.bank__container}>
