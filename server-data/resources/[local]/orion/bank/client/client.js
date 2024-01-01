@@ -69,7 +69,7 @@
             if (IsControlJustReleased(0, 38)) {
               console.log("baaaaaank")
               emitNet('orion:bank:s:getAccountInterface', "bank");
-              showBankInterface = true;
+              //showBankInterface = true;
             }
           }
         }
