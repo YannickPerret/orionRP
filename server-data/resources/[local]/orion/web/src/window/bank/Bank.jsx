@@ -1,5 +1,5 @@
 import React from 'react'
-import style from '../../styles/bank.module.css'
+import style from './bank.module.scss'
 import { useData } from '../../providers/dataContext'
 
 export default function Bank() {
