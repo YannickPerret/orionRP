@@ -3,7 +3,17 @@ const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'ba
 module.exports = {
     version: 16,
     migrate: async (db) => {
-        bankCoordsJson.banks.forEach(async (bank, index) => {
+
+        bankCoordsJson.bank_nation.forEach(async (bank, index) => {
+            await db.insert('bank_nation', {
+                name: `Banque Nationale`,
+                type: 'bank_nation',
+                position: bank.coords,
+                enabled: true,
+                reservedMoney: 100000000,
+                maxReservedMoney: 100000000,
+            });
+
             await db.insert('banks', {
                 name: `Banque`,
                 type: 'bank',
@@ -20,8 +30,8 @@ module.exports = {
                 type: 'atm',
                 position: atm.coords,
                 enabled: true,
-                reservedMoney: 10000,
-                maxReservedMoney: 10000,
+                reservedMoney: 100000,
+                maxReservedMoney: 100000,
             });
             console.log(`Distributeur ${index} créée`);
         });

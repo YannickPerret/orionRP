@@ -97,14 +97,11 @@
                 const PlayerAccount = await Account.getById(player.accountId);
                 const inventory = await Inventory.getById(player.inventoryId);
                 const itemProcuration = await Item.getByName('procuration_bank');
-
                 if (PlayerAccount) {
-
                     if (inventory.hasItem(itemProcuration)) {
                         const cardItem = await Item.getByName('bank_card');
                         const card = new Card({ accountId: player.accountId, code: Card.getRandomCode() });
                         await card.save();
-
 
                         PlayerAccount.setNewCardId(card.id);
                         await PlayerAccount.save();

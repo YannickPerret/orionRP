@@ -2,6 +2,7 @@
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
   let showBankInterface = false;
+  let bankType = null;
 
   const showManagementDialog = (playerName) => {
     return {
@@ -97,7 +98,6 @@
           if (!showBankInterface) {
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
             if (IsControlJustReleased(0, 38)) {
-              console.log("baaaaaank")
               emitNet('orion:bank:s:getAccountInterface', "bank");
               //showBankInterface = true;
             }
