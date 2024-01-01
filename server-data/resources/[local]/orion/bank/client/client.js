@@ -55,6 +55,13 @@
     if (message) emit('orion:showNotification', message);
   })
 
+  RegisterNuiCallbackType('cancelBank');
+  on('__cfx_nui:cancelBank', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    cb({ ok: true });
+  });
+
 
   setTick(async () => {
     while (true) {
