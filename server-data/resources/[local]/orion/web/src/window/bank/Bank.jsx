@@ -7,12 +7,15 @@ import { sendNui } from '../../utils/fetchNui'
 export default function Bank() {
     const { data } = useData()
     const { closeAllMenus } = useVisibility()
-    const [depositVisible, setDepositVisible] = useState(false)
-    const [withdrawVisible, setWithdrawVisible] = useState(false)
-    const [transferVisible, setTransferVisible] = useState(false)
-    const [historyVisible, setHistoryVisible] = useState(false)
+    const [activeWindow, setActiveWindow] = useState(null);
+
+    const openDeposit = () => setActiveWindow('deposit');
+    const openWithdraw = () => setActiveWindow('withdraw');
+    const openTransfer = () => setActiveWindow('transfer');
+    const openHistory = () => setActiveWindow('history');
 
     const handleCancel = () => {
+        setActiveWindow(null);
         closeAllMenus(false);
         sendNui('cancelBank')
     }
@@ -32,28 +35,34 @@ export default function Bank() {
             </div>
 
             <div className={style.bank__content}>
-                {!depositVisible && !withdrawVisible && !transferVisible && !historyVisible && (
-                    <div className={style.bank__content__balance}>
-                        <h2>Compte courant</h2>
-                        <p>Montant : {data.player.account.balance} $</p>
-                    </div>
-                )}
-
-                {depositVisible && <Deposit accountBalance={data.player.account.balance} playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
-                {withdrawVisible && <Withdraw accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
-                {transferVisible && <Transfer accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
-                {historyVisible && <History handleCancel={handleCancel} />}
+                {activeWindow === null && <Home handleCancel={handleCancel} />}
+                {activeWindow === 'deposit' && <Deposit accountBalance={data.player.account.balance} playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'withdraw' && <Withdraw accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'transfer' && <Transfer accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'history' && <History handleCancel={handleCancel} />}
 
                 <div className={style.bank__content__actions}>
-                    <button className={style.bank__button} onClick={() => setDepositVisible(true)}>Déposer</button>
-                    <button className={style.bank__button} onClick={() => setWithdrawVisible(true)} >Retirer</button>
+                    <button className={style.bank__button} onClick={openDeposit}>Déposer</button>
+                    <button className={style.bank__button} onClick={openWithdraw} >Retirer</button>
 
-                    <button className={style.bank__button} onClick={() => setTransferVisible(true)}>Virement</button>
+                    <button className={style.bank__button} onClick={openTransfer}>Virement</button>
 
-                    <button className={style.bank__button} onClick={() => setHistoryVisible(true)}>Historique</button>
+                    <button className={style.bank__button} onClick={openHistory}>Historique</button>
 
-                    <button className={style.bank__button} onClick={() => handleCancel}>Annuler</button>
+                    <button className={style.bank__button} onClick={handleCancel}>Annuler</button>
                 </div>
+            </div>
+        </div>
+    )
+}
+
+function Home({ handleCancel }) {
+
+    return (
+        <div className={style.bank__content}>
+            <div className={style.bank__content__balance}>
+                <h2>Compte courant</h2>
+                <p>Montant : {data.player.account.balance} $</p>
             </div>
         </div>
     )
