@@ -212,7 +212,7 @@
             if (invoice) {
                 invoice.paid(false);
                 await invoice.save();
-                emitNet('orion:showNotification', source, `Vous avez refusé la facture de ${invoice.price}€`);
+                emitNet('orion:showNotification', source, `Vous avez refusé la facture de ${invoice.price} $`);
             }
         }
     })
@@ -233,7 +233,7 @@
                         await account.save();
                         player.setMoney(-amountNumber);
                         await player.save();
-                        emitNet('orion:showNotification', source, `Vous avez déposé ${amountNumber}€`);
+                        emitNet('orion:showNotification', source, `Vous avez déposé ${amountNumber} $`);
                     }
                     else {
                         emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur votre compte`);
@@ -264,7 +264,7 @@
                         await account.save();
                         player.setMoney(amountNumber);
                         await player.save();
-                        emitNet('orion:showNotification', source, `Vous avez retiré ${amountNumber}€`);
+                        emitNet('orion:showNotification', source, `Vous avez retiré ${amountNumber} $`);
                     }
                     else {
                         emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur vous`);
