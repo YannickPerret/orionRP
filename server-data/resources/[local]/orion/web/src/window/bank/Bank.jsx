@@ -13,6 +13,7 @@ export default function Bank() {
     const openWithdraw = () => setActiveWindow('withdraw');
     const openTransfer = () => setActiveWindow('transfer');
     const openHistory = () => setActiveWindow('history');
+    const accountBalance = data.player.account.balance
 
     const handleCancel = () => {
         setActiveWindow(null);
@@ -39,10 +40,10 @@ export default function Bank() {
             </div>
 
             <div className={style.bank__content}>
-                {activeWindow === null && <Home accountBalance={data.player.account.balance} />}
+                {activeWindow === null && <Home accountBalance={accountBalancee} />}
                 {activeWindow === 'deposit' && <Deposit playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
-                {activeWindow === 'withdraw' && <Withdraw accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
-                {activeWindow === 'transfer' && <Transfer accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'withdraw' && <Withdraw accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
+                {activeWindow === 'transfer' && <Transfer accountBalance={accountBalance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'history' && <History handleCancel={handleCancel} />}
 
                 <div className={style.bank__content__actions}>
