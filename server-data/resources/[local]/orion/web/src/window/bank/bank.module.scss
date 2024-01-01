@@ -10,7 +10,7 @@
     background-color: #091E37;
     border-radius: 15px;
     color: #fff;
-    border: 1px solid rgb(239, 159, 32);
+    border: 2px solid rgb(239, 159, 32);
 
     &__container {
         display: flex;
@@ -22,6 +22,20 @@
 
     &__header {
         display: flex;
+        flex-direction: column;
+
+        &__title {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 10%;
+            width: 100%;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid rgb(239, 159, 32);
+            padding-bottom: 10px;
+        }
     }
 
     &__content {
