@@ -101,6 +101,7 @@
                 if (PlayerAccount) {
 
                     if (inventory.hasItem(itemProcuration)) {
+                        const cardItem = await Item.getByName('bank_card');
                         const card = new Card({ accountId: player.accountId, code: Card.getRandomCode() });
                         await card.save();
 
@@ -109,6 +110,9 @@
                         await PlayerAccount.save();
 
                         inventory.removeItem(itemProcuration.id, 1);
+                        await inventory.save();
+
+                        inventory.addItem(cardItem, 1, { cardId: card.id });
                         await inventory.save();
 
                         emitNet('orion:bank:c:bankCloseMessage', source, 'Vous venez de récupérer ou créer votre compte !');
