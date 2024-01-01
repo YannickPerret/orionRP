@@ -221,8 +221,8 @@
     const targetSource = args[2] || source;
     const playerData = PlayerManager.getPlayerBySource(targetSource);
     if (playerData) {
-      console.log('giveMoney : ', args[1])
-      playerData.money += Number(args[1]);
+      console.log('giveMoney : ', args[0])
+      playerData.money += Number(args[0]);
       await playerData.save();
     }
   }, false);
