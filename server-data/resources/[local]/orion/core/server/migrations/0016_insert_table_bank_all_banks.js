@@ -5,7 +5,7 @@ module.exports = {
     migrate: async (db) => {
 
         bankCoordsJson.bank_nation.forEach(async (bank, index) => {
-            await db.insert('bank_nation', {
+            await db.insert('banks', {
                 name: `Banque Nationale`,
                 type: 'bank_nation',
                 position: bank.coords,
