@@ -35,7 +35,7 @@ export default function Bank() {
             </div>
 
             <div className={style.bank__content}>
-                {activeWindow === null && <Home handleCancel={handleCancel} />}
+                {activeWindow === null && <Home accountBalance={data.player.account.balance} />}
                 {activeWindow === 'deposit' && <Deposit accountBalance={data.player.account.balance} playerMoney={data.player.money} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'withdraw' && <Withdraw accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
                 {activeWindow === 'transfer' && <Transfer accountBalance={data.player.account.balance} handleSendToNui={handleSendToNui} handleCancel={handleCancel} />}
@@ -56,13 +56,13 @@ export default function Bank() {
     )
 }
 
-function Home({ handleCancel }) {
+function Home({ accountBalance }) {
 
     return (
         <div className={style.bank__content}>
             <div className={style.bank__content__balance}>
                 <h2>Compte courant</h2>
-                <p>Montant : {data.player.account.balance} $</p>
+                <p>Montant : {accountBalance} $</p>
             </div>
         </div>
     )
