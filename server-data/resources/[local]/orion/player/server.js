@@ -221,6 +221,7 @@
     const targetSource = args[2] || source;
     const playerData = PlayerManager.getPlayerBySource(targetSource);
     if (playerData) {
+      console.log('giveMoney : ', Number(args[1]))
       playerData.money += Number(args[1]);
       await playerData.save();
     }
