@@ -18,6 +18,7 @@
   }
 
   onNet('orion:bank:c:showBankInterface', (player, account, card) => {
+    console.log("here")
     showBankInterface = !showBankInterface;
     SendNuiMessage(JSON.stringify({
       action: 'showBankInterface',

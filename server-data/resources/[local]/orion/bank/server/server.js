@@ -28,15 +28,15 @@
                                 emitNet('orion:bank:c:showATMInterface', source, player, account, card);
                         }
                         else {
-                            emitNet('orion:showNotification', source, "Vous n'avez pas de carte bancaire!");
+                            emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de carte bancaire!");
                         }
                     }
                     else {
-                        emitNet('orion:showNotification', source, "Vous n'avez pas de carte bancaire!");
+                        emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de carte bancaire!");
                     }
                 }
                 else {
-                    emitNet('orion:showNotification', source, "Vous n'avez pas de compte bancaire!");
+                    emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire!");
                 }
             }
             else {
