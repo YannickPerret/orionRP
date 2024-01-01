@@ -67,6 +67,10 @@ class Player {
     this.accountId = accountId;
   }
 
+  setMoney(money) {
+    this.money = this.money + money;
+  }
+
   async save() {
     let result;
     //if id exists in database

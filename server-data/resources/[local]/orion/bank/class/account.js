@@ -13,6 +13,14 @@ class Account {
         this.maxCardWithdraw = 10000;
     }
 
+    getBalance() {
+        return this.balance;
+    }
+
+    setBalance(balance) {
+        this.balance = this.balance + balance;
+    }
+
     static async getById(id) {
         const accountDB = await db.getById('accounts', id);
         return new Account(accountDB);

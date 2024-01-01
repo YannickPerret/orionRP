@@ -217,4 +217,102 @@
         }
     })
 
+    // Bank actions 
+
+    onNet('orion:bank:s:deposit', async (amount) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const account = await Account.getById(player.accountId);
+        const amountNumber = Number(amount);
+
+        if (player) {
+            if (account) {
+                if (amountNumber > 0) {
+                    if (account.balance >= amountNumber) {
+                        account.setBalance(amountNumber);
+                        await account.save();
+                        player.setMoney(-amountNumber);
+                        await player.save();
+                        emitNet('orion:showNotification', source, `Vous avez déposé ${amountNumber}€`);
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur votre compte`);
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Le montant est incorrect`);
+                }
+            }
+            else {
+                emitNet('orion:showNotification', source, `Vous n'avez pas de compte bancaire`);
+            }
+        }
+    })
+
+    onNet('orion:bank:s:withdraw', async (amount) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const account = await Account.getById(player.accountId);
+        const amountNumber = Number(amount);
+
+        if (player) {
+            if (account) {
+                if (amountNumber > 0) {
+                    if (player.money >= amountNumber) {
+                        account.setBalance(-amountNumber);
+                        await account.save();
+                        player.setMoney(amountNumber);
+                        await player.save();
+                        emitNet('orion:showNotification', source, `Vous avez retiré ${amountNumber}€`);
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur vous`);
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Le montant est incorrect`);
+                }
+            }
+            else {
+                emitNet('orion:showNotification', source, `Vous n'avez pas de compte bancaire`);
+            }
+        }
+    })
+
+    onNet('orion:bank:s:transfer', async (amount, targetId) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const account = await Account.getById(player.accountId);
+        const target = PlayerManager.getPlayerById(targetId);
+        const amountNumber = Number(amount);
+
+        if (player) {
+            if (account) {
+                if (target) {
+                    if (amountNumber > 0) {
+                        if (account.balance >= amountNumber) {
+                            account.setBalence(-amountNumber);
+                            await account.save();
+                            target.setMoney(amountNumber);
+                            await target.save();
+                            emitNet('orion:showNotification', source, `Vous avez transféré ${amountNumber}€`);
+                        }
+                        else {
+                            emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur votre compte`);
+                        }
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, `Le montant est incorrect`);
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Le joueur n'est pas connecté`);
+                }
+            }
+            else {
+                emitNet('orion:showNotification', source, `Vous n'avez pas de compte bancaire`);
+            }
+        }
+    })
+
 })();

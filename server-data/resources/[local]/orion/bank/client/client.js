@@ -62,6 +62,30 @@
     cb({ ok: true });
   });
 
+  RegisterNuiCallbackType('deposit');
+  on('__cfx_nui:deposit', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    emitNet('orion:bank:s:deposit', data);
+    cb({ ok: true });
+  });
+
+  RegisterNuiCallbackType('withdraw');
+  on('__cfx_nui:withdraw', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    emitNet('orion:bank:s:withdraw', data);
+    cb({ ok: true });
+  });
+
+  RegisterNuiCallbackType('transfer');
+  on('__cfx_nui:transfer', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    emitNet('orion:bank:s:transfer', data);
+    cb({ ok: true });
+  });
+
 
   setTick(async () => {
     while (true) {

@@ -21,6 +21,7 @@ export default function Bank() {
         sendNui('cancelBank')
     }
     const handleSendToNui = (action, payload) => {
+        closeAllMenus(false);
         sendNui(action, payload)
     }
 
