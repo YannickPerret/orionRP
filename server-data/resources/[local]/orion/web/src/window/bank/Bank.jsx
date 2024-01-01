@@ -50,14 +50,14 @@ export default function Bank() {
                 {activeWindow === 'history' && <History handleCancel={handleCancel} />}
             </div>
             <div className={style.bank__actions}>
-                <button className={style.bank__button} onClick={openDeposit}>Déposer</button>
-                <button className={style.bank__button} onClick={openWithdraw} >Retirer</button>
+                <button className={style.bank__actions__button} onClick={openDeposit}>Déposer</button>
+                <button className={style.bank__actions__button} onClick={openWithdraw} >Retirer</button>
 
-                <button className={style.bank__button} onClick={openTransfer}>Virement</button>
+                <button className={style.bank__actions__button} onClick={openTransfer}>Virement</button>
 
-                <button className={style.bank__button} onClick={openHistory}>Historique</button>
+                <button className={style.bank__actions__button} onClick={openHistory}>Historique</button>
 
-                <button className={style.bank__button} onClick={handleCancel}>Annuler</button>
+                <button className={style.bank__actions__button} onClick={handleCancel}>Annuler</button>
             </div>
         </div>
     )
