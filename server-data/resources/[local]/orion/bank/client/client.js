@@ -94,7 +94,7 @@
       await exports['orion'].delay(5);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
 
-      for (let banksNational of bankCoordsJson.banksNational) {
+      for (let banksNational of bankCoordsJson.bank_nation) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], banksNational.coords.X, banksNational.coords.Y, banksNational.coords.Z, true)
         if (distance <= 1.3) {
           if (!showBankInterface) {
