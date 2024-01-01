@@ -19,7 +19,6 @@
 
   onNet('orion:bank:c:showBankInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
-    console.log(player)
     SendNuiMessage(JSON.stringify({
       action: 'showBankInterface',
       payload: {
@@ -66,7 +65,7 @@
   on('__cfx_nui:deposit', (data, cb) => {
     showBankInterface = false;
     SetNuiFocus(false, false);
-    emitNet('orion:bank:s:deposit', data);
+    emitNet('orion:bank:s:deposit', data.amount);
     cb({ ok: true });
   });
 
@@ -74,7 +73,7 @@
   on('__cfx_nui:withdraw', (data, cb) => {
     showBankInterface = false;
     SetNuiFocus(false, false);
-    emitNet('orion:bank:s:withdraw', data);
+    emitNet('orion:bank:s:withdraw', data.amount);
     cb({ ok: true });
   });
 
@@ -82,7 +81,7 @@
   on('__cfx_nui:transfer', (data, cb) => {
     showBankInterface = false;
     SetNuiFocus(false, false);
-    emitNet('orion:bank:s:transfer', data);
+    emitNet('orion:bank:s:transfer', data.amount, data.target);
     cb({ ok: true });
   });
 
