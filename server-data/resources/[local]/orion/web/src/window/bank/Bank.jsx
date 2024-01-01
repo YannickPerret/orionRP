@@ -162,7 +162,9 @@ function Transfer({ accountBalance, handleSendToNui, handleCancel }) {
             <Error message={error} />
 
             <div className={style.bank__content__actions}>
+                <label>Montant :</label>
                 <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                <label>Nom et prénom :</label>
                 <input type="text" value={target} onChange={(e) => setTarget(e.target.value)} />
                 <button className={style.bank__button} onClick={() => handleTransfer()}>Valider</button>
                 <button className={style.bank__button} onClick={() => handleCancel()}>Annuler</button>
