@@ -28,7 +28,10 @@ export default function Bank() {
         <div className={style.bank}>
             <div className={style.bank__container}>
                 <header className={style.bank__header}>
-                    <h1>Orion Bank Nationnal</h1>
+                    <div>
+                        <img src='./images/bank/logoNationnal.png' alt="logo" />
+                        <h1>Orion Bank Nationnal</h1>
+                    </div>
                     <div>
                         <p>Bonjour {data.player.firstname} {data.player.lastname}</p>
                     </div>
