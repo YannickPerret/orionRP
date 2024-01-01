@@ -7,7 +7,7 @@
     top: 15%;
     left: 20%;
     padding: 7%;
-    background-color: rgb(255, 254, 254);
+    background-color: #091E37;
     border-radius: 15px;
     color: #fff;
     border: 1px solid #rgb(239, 159, 32);
@@ -27,6 +27,7 @@
         flex-direction: column;
         height: 100%;
         width: 100%;
+        background: #fff;
 
         &__actions {
             display: flex;
