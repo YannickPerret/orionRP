@@ -80,7 +80,8 @@ function Deposit({ playerMoney, handleSendToNui, handleCancel }) {
     const [error, setError] = useState('')
 
     const handleDeposit = () => {
-        if (amount > playerMoney) {
+        console.log(amount, playerMoney)
+        if (amount >= playerMoney) {
             setError('Vous n\'avez pas assez d\'argent')
             return
         }
