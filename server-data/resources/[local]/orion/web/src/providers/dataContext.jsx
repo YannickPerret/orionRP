@@ -11,6 +11,7 @@ const initialState = {
     firstname: 'John',
     lastname: 'Doe',
     phone: '06 06 06 06 06',
+    money: 0,
     inventory: [],
     account: {},
     card: {},
