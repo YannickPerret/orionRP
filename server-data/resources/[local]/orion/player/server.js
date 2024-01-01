@@ -217,4 +217,13 @@
     }
   });
 
+  RegisterCommand('giveMoney', async () => {
+    const source = args[2] || global.source;
+    const playerData = PlayerManager.getPlayerBySource(source);
+    if (playerData) {
+      playerData.money += Number(args[1]);
+      await playerData.save();
+    }
+  }, false);
+
 })()
