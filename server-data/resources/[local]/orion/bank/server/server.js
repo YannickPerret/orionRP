@@ -258,7 +258,6 @@
         if (player) {
             if (account) {
                 if (amountNumber > 0) {
-                    console.log(account.money, amountNumber);
                     if (account.balance >= amountNumber) {
                         account.setBalance(-amountNumber);
                         await account.save();
