@@ -6,11 +6,11 @@
     position: absolute;
     top: 15%;
     left: 20%;
-    padding: 7%;
+    padding: 4%;
     background-color: #091E37;
     border-radius: 15px;
     color: #fff;
-    border: 1px solid #rgb(239, 159, 32);
+    border: 1px solid rgb(239, 159, 32);
 
     &__container {
         display: flex;
@@ -20,7 +20,9 @@
         border-radius: 10px;
     }
 
-    &__header {}
+    &__header {
+        display: flex;
+    }
 
     &__content {
         display: flex;
@@ -28,6 +30,7 @@
         height: 100%;
         width: 100%;
         background: #fff;
+        color: #000;
 
         &__actions {
             display: flex;
