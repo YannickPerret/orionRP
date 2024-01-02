@@ -7,7 +7,6 @@ export default function Hair({ _hair, _hairColor, _sex, handleHairChange }) {
 
   const hairColors = ['#1D1D1A', '#4B392D', '#7A3B1F', '#A35631', '#A96F49', '#BD8D5E', '#CBA66F', '#E8BE78', '#D09E6A', '#993524', '#9C1611', '#D1381E', '#C85831', '#947A67', '#D8C1AC', '#734F61', '#AD476A', '#FFAEBC', '#089A8D', '#309060', '#A3C015', '#EEC85C', '#FE8B10', '#D40B0E'];
 
-  const hairOptions = _sex === 0 ? maleHair : femaleHair;
 
   const handleHairColorChange = (e) => {
     setHairColor(e.target.value);
@@ -98,6 +97,8 @@ export default function Hair({ _hair, _hairColor, _sex, handleHairChange }) {
     { value: 35, title: 'Layered Mod' },
     { value: 36, title: 'Flattop' },
   ]
+  const hairOptions = _sex === 0 ? maleHair : femaleHair;
+
 
 
   return (
