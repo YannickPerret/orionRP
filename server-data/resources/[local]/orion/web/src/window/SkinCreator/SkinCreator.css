@@ -12,8 +12,13 @@
 
 .skinCreator__debug {
   position: absolute;
+  width: 20%;
+  height: 20%;
+  overflow-y: scroll;
   top: 15px;
   right: 0;
+  background-color: rgb(24, 27, 32);
+  color: #ededed;
 }
 
 .skinCreator__sideLeft {
