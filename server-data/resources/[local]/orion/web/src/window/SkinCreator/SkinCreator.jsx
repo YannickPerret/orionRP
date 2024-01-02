@@ -38,28 +38,14 @@ export default function SkinCreator() {
     };
 
     const handleSubmit = async () => {
-        console.log("sex", Number(sex))
+        console.log("sex", Number(skin.sex));
 
         await sendNui('updateSkin', {
-            sex: Number(sex),
-            dad: dad,
-            mom: mom,
-            heritage: heritage,
-            skin: skinColor,
-            acne: acne,
-            skinProblem: skinProblem,
-            freckle: freckle,
-            wrinkle: wrinkle,
-            wrinkleIntensity: wrinkleIntensity,
-            eyeColor: eyeColor,
-            hairColor: hairColor,
+            skin: skin,
+            face: face,
             hair: hair,
-            highlight: 0,
-            eyeBrow: eyeBrow,
-            eyebrowThickness: eyebrowThickness,
             beard: beard,
-            beardColor: beardColor,
-            beardThickness: beardThickness
+            makeup: makeup
         });
     };
 
