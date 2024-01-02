@@ -120,9 +120,8 @@ let playerData = {};
       beard: data.beard,
       makeup: data.makeup,
     }
-    console.log(finalSkin.length)
 
-    if (firstname?.length >= 3 && lastname?.length >= 3 && finalSkin?.length > 0) {
+    if (firstname?.length >= 3 && lastname?.length >= 3 && finalSkin) {
       emit('orion:customization:c:ShowSkinCreator', false);
       emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
       cb({ ok: true });
