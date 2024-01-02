@@ -32,7 +32,7 @@ export default function SkinCreator() {
     const [beard, setBeard] = useState(0);
     const [beardColor, setBeardColor] = useState(0);
     const [beardThickness, setBeardThickness] = useState(0);
-    const [debug, setDebug] = useState(false);
+    const [debug, setDebug] = useState(true);
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {
