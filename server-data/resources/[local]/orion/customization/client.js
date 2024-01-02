@@ -383,10 +383,10 @@
         freckle: Number(data.face.freckle),
         wrinkle: Number(data.face.wrinkle),
         wrinkleOpacity: Number(data.face.wrinkleOpacity),
-        eyeColor: Number(data.eyeColor),
-        eyebrowType: Number(data.eyebrow),
-        eyebrowOpacity: Number(data.eyebrowOpacity),
-        eyebrowColor: Number(data.eyebrowColor),
+        eyeColor: Number(data.face.eyeColor),
+        eyebrowType: Number(data.face.eyebrow),
+        eyebrowOpacity: Number(data.face.eyebrowOpacity),
+        eyebrowColor: Number(data.face.eyebrowColor),
       },
       makeup: {
         lipstickType: Number(data.lipstick),
@@ -418,9 +418,9 @@
         chestHairColor: Number(data.chestHairColor),
       },
       beard: {
-        beard: Number(data.beard),
-        beardOpacity: Number(data.beardThickness),
-        beardColor: Number(data.beardColor),
+        beard: Number(data.beard.beard),
+        beardOpacity: Number(data.beard.beardOpacity),
+        beardColor: Number(data.beard.beardColor),
       },
       tattoos: {},
     };
