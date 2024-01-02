@@ -116,7 +116,7 @@ function Withdraw({ accountBalance, maxWithdraw, handleSendToNui, handleCancel }
             setError("Le montant n'est pas disponible ! ")
             return
         }
-        if (amount > accountBalance) {
+        if (amount >= accountBalance) {
             setError('Vous n\'avez pas assez d\'argent dans votre compte')
             return
         }
