@@ -1,4 +1,7 @@
 (async () => {
+  const { db, r } = await require('../core/server/database.js');
+  const banks = await db.getAll('banks');
+  console.log(banks);
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   let showBankInterface = false;
   let maxWithdraw = 0;
