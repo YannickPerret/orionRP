@@ -263,14 +263,14 @@
       SetPedHeadOverlay(ped, 2, face.freckle, 0.0);
     } else
       SetPedHeadOverlay(ped, 2, face.freckle, 1.0);
-    SetPedHeadOverlay(ped, 3, face.wrinkle, face.wrinkleOpacity);
+    SetPedHeadOverlay(ped, 3, face.wrinkle, (face.wrinkleOpacity / 10).toFixed(1));
 
     //eyes
     SetPedEyeColor(ped, face.eyeColor);
     SetPedHeadOverlayColor(ped, 4, 0, face.eyeColor, 0);
 
     //eyebrows
-    SetPedHeadOverlay(ped, 5, face.eyebrowType, face.eyebrowOpacity);
+    SetPedHeadOverlay(ped, 5, face.eyebrowType, (face.eyebrowOpacity / 10).toFixed(1));
     SetPedHeadOverlayColor(ped, 5, 0, face.eyebrowColor, 0);
 
     //ageing and sunDamage
