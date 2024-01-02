@@ -15,6 +15,7 @@ const initialState = {
     inventory: [],
     account: {},
     card: {},
+    skin: {},
   },
   job: {
     name: 'Chômeur',

@@ -47,6 +47,7 @@ const App = () => {
           break;
         case "showSkinCreator":
           setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
+          setData(prevData => ({ ...prevData, player: { ...prevData.player, skin: payload.skin } }))
           break;
         case "showBankInterface":
           if (payload.type == 'bank') {

@@ -1,216 +1,395 @@
-var isSkinCreatorOpened = false;
-var cam = -1;
-var zoom = 'visage';
-var isCameraActive;
-var heading = 139.73;
-var positionNewPlayer = {
-  x: 1.17,
-  y: -1508.81,
-  z: 29.84,
-};
+(async () => {
+  let isSkinCreatorOpened = false;
+  let cam = -1;
+  let zoom = 'visage';
+  let isCameraActive;
+  let heading = 139.73;
+  let positionNewPlayer = {
+    x: 1.17,
+    y: -1508.81,
+    z: 29.84,
+  };
 
-exports('skinCreatorZoom', body => {
-  zoomToPartBody(body);
-});
-
-onNet('orion:customization:c:loadNewModel', async (modelHash) => {
-  if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
-    return;
-  }
-
-  if (!IsModelInCdimage(modelHash) || !IsModelValid(modelHash)) {
-    return;
-  }
-
-  RequestModel(modelHash);
-
-  while (!HasModelLoaded(modelHash)) {
-    await exports['orion'].delay(0);
-  }
-});
-
-const zoomToPartBody = body => {
-  if (isCameraActive) {
-    if (DoesCamExist(cam)) {
-      if (body === 'head') {
-        zoom = 'head';
-        zoomToHead();
-      } else if (body === 'body') {
-        zoom = 'body';
-        zoomToBody();
+  let defaultPedSkin = {
+    Skin: {
+      Sex: 0,
+      Father: 0,
+      Mother: 0,
+      WeightFace: 0.5,
+      WeightSkin: 0.5,
+      ShapeMix: 0.5,
+      SkinMix: 0.5,
+      SkinColor: 0,
+    },
+    Face: {
+      Acne: 0,
+      SkinProblem: 0,
+      Freckle: 0,
+      Wrinkle: 0,
+      WrinkleOpacity: 0.0,
+      EyebrowType: 0,
+      EyebrowOpacity: 0.0,
+      EyebrowColor: 0,
+    },
+    Hair: {
+      Hair: 0,
+      HairColor: 0,
+      HairSecondaryColor: 0,
+    },
+    Beard: {
+      Beard: 0,
+      BeardOpacity: 0.0,
+      BeardColor: 0,
+    },
+    Makeup: {
+      LipstickType: 0,
+      LipstickOpacity: 0.0,
+      LipstickColor: 0,
+      BlushType: 0,
+      BlushOpacity: 0.0,
+      BlushColor: 0,
+      EyeShadowType: 0,
+      EyeShadowOpacity: 0.0,
+      EyeShadowColor: 0,
+      EyeLinerType: 0,
+      EyeLinerOpacity: 0.0,
+      EyeLinerColor: 0,
+      EyeType: 0,
+      EyeOpacity: 0.0,
+      EyeColor: 0,
+      EyebrowType: 0,
+      EyebrowOpacity: 0.0,
+      EyebrowColor: 0,
+      AgeingOpacity: 0.0,
+      AgeingColor: 0,
+      ComplexionOpacity: 0.0,
+      ComplexionColor: 0,
+      SunDamageOpacity: 0.0,
+      SunDamageColor: 0,
+      MolesFrecklesOpacity: 0.0,
+      MolesFrecklesColor: 0,
+      ChestHairOpacity: 0.0,
+      ChestHairColor: 0,
+    },
+    Tattoos: {},
+    Clothers: {
+      Tshirt: {
+        Type: 0,
+        Color: 0,
+      },
+      Torso: {
+        Type: 0,
+        Color: 0,
+      },
+      Decals: {
+        Type: 0,
+        Color: 0,
+      },
+      Arms: {
+        Type: 0,
+        Color: 0,
+      },
+      Pants: {
+        Type: 0,
+        Color: 0,
+      },
+      Shoes: {
+        Type: 0,
+        Color: 0,
+      },
+      Mask: {
+        Type: 0,
+        Color: 0,
+      },
+      Accessory: {
+        Type: 0,
+        Color: 0,
+      },
+      Bag: {
+        Type: 0,
+        Color: 0,
+      },
+      Vest: {
+        Type: 0,
+        Color: 0,
+      },
+      Badge: {
+        Type: 0,
+        Color: 0,
+      },
+      Top: {
+        Type: 0,
+        Color: 0,
       }
     }
-  }
-};
+  };
 
-const zoomToHead = () => {
-  let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), (GetEntityCoords(GetPlayerPed(-1)) + 0.0, 0.0, 0.8));
 
-  SetCamCoord(distance);
-};
+  onNet('orion:customization:c:applyClothes', (clothes) => {
+    let ped = GetPlayerPed(-1);
 
-const zoomToBody = () => {
-  let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), (GetEntityCoords(GetPlayerPed(-1)) + 0.0, 0.0, 1.5));
-
-  SetCamCoord(distance);
-};
-
-const CreateFullBodyCam = () => {
-  // Créez la caméra
-  const playerPed = GetPlayerPed(-1);
-  const playerCoords = GetEntityCoords(playerPed);
-  const newX = playerCoords[0] - 1.2; // Ajout de 120 à la coordonnée X
-  const newY = playerCoords[1] - 1.0; // Ajout de 20 à la coordonnée Y
-  const newZ = playerCoords[2] + 0.4; // Ajout de 20 à la coordonnée Z
-
-  SetCamCoord(cam, newX, newY, newZ);
-  SetCamRot(cam, 0, 0, -40);
-  SetCamFov(cam, 90.0);
-
-  // Affichez la caméra
-  RenderScriptCams(true, false, 0, true, false);
-};
-
-const applyPedFace = (ped, face) => {
-  if (face.Acne == 0) {
-    SetPedHeadOverlay(ped, 0, face.Acne, 0.0);
-  } else SetPedHeadOverlay(ped, 0, face.Acne, 1.0);
-  SetPedHeadOverlay(ped, 6, face.SkinProblem, 1.0);
-  if (face.Freckle == 0) {
-    SetPedHeadOverlay(ped, 9, face.Freckle, 0.0);
-  } else SetPedHeadOverlay(ped, 9, face.Freckle, 1.0);
-  SetPedHeadOverlay(ped, 3, face.Wrinkle, face.WrinkleOpacity);
-};
-
-const ApplyPedFaceTrait = model => {
-  SetPedHeadBlendData(
-    PlayerPedId(),
-    model.Mother,
-    model.Father,
-    0,
-    model.Mother,
-    model.Father,
-    0,
-    model.WeightFace,
-    model.WeightSkin,
-    0.0,
-    false
-  );
-};
-
-const ApplyPedHair = (ped, hair) => {
-  SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
-  SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
-  SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
-  SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
-  SetPedHeadOverlay(ped, 1, hair.BeardType, hair.BeardOpacity || 1.0);
-  SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
-
-  SetPedHeadOverlay(ped, 0, hair.acne);
-};
-
-const ApplyPlayerModelHash = async (playerId, hash) => {
-  await emit('orion:customization:c:loadNewModel', hash)
-  SetPlayerModel(playerId, hash);
-  SetModelAsNoLongerNeeded(hash);
-};
-
-const ShowSkinCreator = enable => {
-  if (enable) {
-    cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
-
-    SetEntityCoordsNoOffset(
-      GetPlayerPed(-1),
-      positionNewPlayer.x,
-      positionNewPlayer.y,
-      positionNewPlayer.z,
-      true,
-      false,
-      true
-    );
-    SetPlayerInvincible(PlayerPedId(), true);
-    SetEntityHeading(GetPlayerPed(-1), heading);
-
-    CreateFullBodyCam();
-
-    SetCamActive(cam, true);
-    RenderScriptCams(true, false, 0, true, true);
-  } else {
-    if (DoesCamExist(cam)) {
-      SetCamActive(cam, false);
-      SetPlayerInvincible(PlayerPedId(), false);
-      RenderScriptCams(false, true, 500, true, true);
-      cam = -1;
-    }
-    SetPlayerInvincible(PlayerPedId(), false);
-  }
-
-  console.log('ShowSkinCreator', enable);
-
-  SetNuiFocus(enable, enable);
-  SendNUIMessage({
-    action: 'showSkinCreator',
-    payload: { skinCreator: enable }
+    SetPedComponentVariation(ped, 3, clothes.Tshirt.Type, clothes.Tshirt.Color, 2);
+    SetPedComponentVariation(ped, 11, clothes.Torso.Type, clothes.Torso.Color, 2);
+    SetPedComponentVariation(ped, 10, clothes.Decals.Type, clothes.Decals.Color, 2);
+    SetPedComponentVariation(ped, 8, clothes.Arms.Type, clothes.Arms.Color, 2);
+    SetPedComponentVariation(ped, 4, clothes.Pants.Type, clothes.Pants.Color, 2);
+    SetPedComponentVariation(ped, 6, clothes.Shoes.Type, clothes.Shoes.Color, 2);
+    SetPedComponentVariation(ped, 1, clothes.Mask.Type, clothes.Mask.Color, 2);
+    SetPedComponentVariation(ped, 7, clothes.Accessory.Type, clothes.Accessory.Color, 2);
+    SetPedComponentVariation(ped, 5, clothes.Bag.Type, clothes.Bag.Color, 2);
+    SetPedComponentVariation(ped, 9, clothes.Vest.Type, clothes.Vest.Color, 2);
+    SetPedComponentVariation(ped, 10, clothes.Badge.Type, clothes.Badge.Color, 2);
+    SetPedComponentVariation(ped, 8, clothes.Top.Type, clothes.Top.Color, 2);
   });
 
-  isCameraActive = enable;
-  isSkinCreatorOpened = enable;
-};
 
-const ApplyPedTattoos = (ped, tattoos) => {
-  for (let i = 0; i < 25; i++) {
-    if (tattoos[i]) {
-      AddPedDecorationFromHashes(ped, tattoos[i].Collection, tattoos[i].Hash);
+
+  exports('skinCreatorZoom', body => {
+    zoomToPartBody(body);
+  });
+
+  onNet('orion:customization:c:loadNewModel', async (modelHash) => {
+    if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
+      return;
     }
-  }
-};
 
-exports('ShowSkinCreator', ShowSkinCreator);
+    if (!IsModelInCdimage(modelHash) || !IsModelValid(modelHash)) {
+      return;
+    }
 
-exports('applySkin', (skin) => {
-  let ped = GetPlayerPed(-1);
-  let playerId = PlayerId();
+    RequestModel(modelHash);
 
-  ApplyPlayerModelHash(playerId, skin.Model.Hash);
+    while (!HasModelLoaded(modelHash)) {
+      await exports['orion'].delay(0);
+    }
+  });
 
-  SetPedDefaultComponentVariation(ped);
+  const zoomToPartBody = body => {
+    if (isCameraActive) {
+      if (DoesCamExist(cam)) {
+        if (body === 'head') {
+          zoom = 'head';
+          zoomToHead();
+        } else if (body === 'body') {
+          zoom = 'body';
+          zoomToBody();
+        }
+      }
+    }
+  };
 
-  ClearPedDecorations(ped);
+  const zoomToHead = () => {
+    let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), (GetEntityCoords(GetPlayerPed(-1)) + 0.0, 0.0, 0.8));
 
-  ApplyPedFaceTrait(skin.Model);
-  applyPedFace(ped, skin.Face);
-  ApplyPedHair(PlayerPedId(), skin.Hair);
-  //ApplyPedMakeup(ped, skin.Makeup)
-  ApplyPedTattoos(ped, skin.Tattoos || {})
-});
+    SetCamCoord(distance);
+  };
+
+  const zoomToBody = () => {
+    let distance = GetDistanceBetweenCoords(GetCamCoord(cam.entity), (GetEntityCoords(GetPlayerPed(-1)) + 0.0, 0.0, 1.5));
+
+    SetCamCoord(distance);
+  };
+
+  const CreateFullBodyCam = () => {
+    // Créez la caméra
+    const playerPed = GetPlayerPed(-1);
+    const playerCoords = GetEntityCoords(playerPed);
+    const newX = playerCoords[0] - 1.2; // Ajout de 120 à la coordonnée X
+    const newY = playerCoords[1] - 1.0; // Ajout de 20 à la coordonnée Y
+    const newZ = playerCoords[2] + 0.4; // Ajout de 20 à la coordonnée Z
+
+    SetCamCoord(cam, newX, newY, newZ);
+    SetCamRot(cam, 0, 0, -40);
+    SetCamFov(cam, 90.0);
+
+    // Affichez la caméra
+    RenderScriptCams(true, false, 0, true, false);
+  };
+
+  const applyPedFace = (ped, face) => {
+    if (face.Acne == 0) {
+      SetPedHeadOverlay(ped, 0, face.Acne, 0.0);
+    } else SetPedHeadOverlay(ped, 0, face.Acne, 1.0);
+    SetPedHeadOverlay(ped, 6, face.SkinProblem, 1.0);
+    if (face.Freckle == 0) {
+      SetPedHeadOverlay(ped, 9, face.Freckle, 0.0);
+    } else SetPedHeadOverlay(ped, 9, face.Freckle, 1.0);
+    SetPedHeadOverlay(ped, 3, face.Wrinkle, face.WrinkleOpacity);
+  };
+
+  const ApplyPedFaceTrait = model => {
+    SetPedHeadBlendData(
+      PlayerPedId(),
+      model.Mother,
+      model.Father,
+      0,
+      model.Mother,
+      model.Father,
+      0,
+      model.WeightFace,
+      model.WeightSkin,
+      0.0,
+      false
+    );
+  };
+
+  const ApplyPedHair = (ped, hair) => {
+    SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
+    SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
+    SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
+    SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
+    SetPedHeadOverlay(ped, 1, hair.BeardType, hair.BeardOpacity || 1.0);
+    SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
+
+    SetPedHeadOverlay(ped, 0, hair.acne);
+  };
+
+  const ApplyPlayerModelHash = async (playerId, hash) => {
+    await emit('orion:customization:c:loadNewModel', hash)
+    SetPlayerModel(playerId, hash);
+    SetModelAsNoLongerNeeded(hash);
+  };
+
+  onNet('orion:customization:c:ShowSkinCreator', (enable) => {
+    if (enable) {
+      cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true);
+
+      SetEntityCoordsNoOffset(
+        GetPlayerPed(-1),
+        positionNewPlayer.x,
+        positionNewPlayer.y,
+        positionNewPlayer.z,
+        true,
+        false,
+        true
+      );
+      SetPlayerInvincible(PlayerPedId(), true);
+      SetEntityHeading(GetPlayerPed(-1), heading);
+
+      CreateFullBodyCam();
+
+      SetCamActive(cam, true);
+      RenderScriptCams(true, false, 0, true, true);
+    } else {
+      if (DoesCamExist(cam)) {
+        SetCamActive(cam, false);
+        SetPlayerInvincible(PlayerPedId(), false);
+        RenderScriptCams(false, true, 500, true, true);
+        cam = -1;
+      }
+      SetPlayerInvincible(PlayerPedId(), false);
+    }
+
+    SetNuiFocus(enable, enable);
+
+    SendNUIMessage({
+      action: 'showSkinCreator',
+      payload: {
+        skinCreator: enable,
+        skin: defaultPedSkin,
+      }
+    });
+
+    isCameraActive = enable;
+    isSkinCreatorOpened = enable;
+  });
+
+  const ApplyPedTattoos = (ped, tattoos) => {
+    for (let i = 0; i < 25; i++) {
+      if (tattoos[i]) {
+        AddPedDecorationFromHashes(ped, tattoos[i].Collection, tattoos[i].Hash);
+      }
+    }
+  };
+
+  RegisterNuiCallbackType('updateSkin');
+  on('__cfx_nui:updateSkin', async (data, cb) => {
+    const model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
+
+    const models = {
+      Skin: {
+        Hash: model,
+        Father: Number(data.dad),
+        Mother: Number(data.mom),
+        WeightFace: Number(data.heritage * 0.1).toFixed(2),
+        WeightSkin: Number(data.heritage * 0.1).toFixed(2),
+        Skin: Number(data.skin),
+      },
+      Hair: {
+        HairType: Number(data.hair),
+        HairColor: Number(data.hairColor),
+        HairSecondaryColor: Number(data.highlight),
+        EyebrowType: Number(data.eyebrow),
+        EyebrowOpacity: Number(data.eyebrowThickness),
+        EyebrowColor: Number(data.eyebrowColor),
+        BeardType: Number(data.beard),
+        BeardOpacity: Number(data.beardThickness),
+        BeardColor: Number(data.beardColor),
+        //ChestHairType: data.chestHair,
+        //ChestHairOpacity: data.chestHairOpacity,
+        //ChestHairColor: data.chestHairColor,
+      },
+      Face: {
+        Acne: Number(data.acne),
+        SkinProblem: Number(data.skinProblem),
+        Freckle: Number(data.freckle),
+        Wrinkle: Number(data.wrinkle),
+        WrinkleOpacity: Number(data.wrinkleOpacity),
+      },
+    }
+    emitNet('orion:customization:c:applySkin', models);
+
+    cb({ ok: true });
+  });
+
+
+  exports('ShowSkinCreator', ShowSkinCreator);
+
+  onNet('orion:customization:c:applySkin', (skin) => {
+    let ped = GetPlayerPed(-1);
+    let playerId = PlayerId();
+
+    ApplyPlayerModelHash(playerId, skin.Model.Hash);
+
+    SetPedDefaultComponentVariation(ped);
+
+    ClearPedDecorations(ped);
+
+    ApplyPedFaceTrait(skin.Model);
+    applyPedFace(ped, skin.Face);
+    ApplyPedHair(PlayerPedId(), skin.Hair);
+    //ApplyPedMakeup(ped, skin.Makeup)
+    ApplyPedTattoos(ped, skin.Tattoos || {})
+  });
 
 
 
-// REGISTER COMMANDS
-RegisterCommand('skin', (source, args) => {
-  if (!isSkinCreatorOpened) {
-    ShowSkinCreator(true);
-  } else {
-    ShowSkinCreator(false);
-  }
-});
+  // REGISTER COMMANDS
+  RegisterCommand('skin', (source, args) => {
+    if (!isSkinCreatorOpened) {
+      ShowSkinCreator(true);
+    } else {
+      ShowSkinCreator(false);
+    }
+  });
 
-RegisterCommand('zoom', (source, args) => {
-  zoomToPartBody(args[0]);
-});
+  RegisterCommand('zoom', (source, args) => {
+    zoomToPartBody(args[0]);
+  });
 
-// REGISTER NUI CALLBACKS
-RegisterNuiCallbackType('zoom');
-on('__cfx_nui:zoom', (data, cb) => {
-  zoomToPartBody(data.zoom);
-});
+  // REGISTER NUI CALLBACKS
+  RegisterNuiCallbackType('zoom');
+  on('__cfx_nui:zoom', (data, cb) => {
+    zoomToPartBody(data.zoom);
+  });
 
-RegisterNuiCallbackType('rotateHeading');
-on('__cfx_nui:rotateHeading', (data, cb) => {
-  let currentHeading = GetEntityHeading(GetPlayerPed(-1));
-  let heading = currentHeading + Number(data.value);
+  RegisterNuiCallbackType('rotateHeading');
+  on('__cfx_nui:rotateHeading', (data, cb) => {
+    let currentHeading = GetEntityHeading(GetPlayerPed(-1));
+    let heading = currentHeading + Number(data.value);
 
-  SetEntityHeading(GetPlayerPed(-1), heading);
-});
+    SetEntityHeading(GetPlayerPed(-1), heading);
+  });
 
-// Interval et async
+  // Interval et async
+})();

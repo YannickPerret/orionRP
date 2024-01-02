@@ -7,31 +7,34 @@ import Hair from './Components/Morphology/Hair';
 import Eyes from './Components/Morphology/Eyes';
 import Beard from './Components/Morphology/Beard';
 import { sendNui } from '../../utils/fetchNui';
+import { useData } from '../../providers/dataContext';
 
 export default function SkinCreator() {
+
+    const { data, setData } = useData();
 
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
 
-    const [dad, setDad] = useState(0);
-    const [mom, setMom] = useState(0);
-    const [sex, setSex] = useState(0);
+    const [dad, setDad] = useState(data.player.skin.Skin.Father);
+    const [mom, setMom] = useState(data.player.skin.Skin.Mother);
+    const [sex, setSex] = useState(data.player.skin.Skin.Sex);
 
     const [heritage, setHeritage] = useState(5);
-    const [skinColor, setSkinColor] = useState(0);
-    const [acne, setAcne] = useState(0);
-    const [skinProblem, setSkinProblem] = useState(0);
-    const [freckle, setFreckle] = useState(0);
-    const [wrinkle, setWrinkle] = useState(0);
-    const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
-    const [hairColor, setHairColor] = useState(0);
-    const [hair, setHair] = useState(0);
-    const [eyeBrow, setEyeBrow] = useState(0);
-    const [eyeColor, setEyeColor] = useState(0);
-    const [eyebrowThickness, setEyebrowThickness] = useState(0);
-    const [beard, setBeard] = useState(0);
-    const [beardColor, setBeardColor] = useState(0);
-    const [beardThickness, setBeardThickness] = useState(0);
+    const [skinColor, setSkinColor] = useState(data.player.skin.Skin.SkinColor);
+    const [acne, setAcne] = useState(data.player.skin.Face.Acne);
+    const [skinProblem, setSkinProblem] = useState(data.player.skin.Face.SkinProblem);
+    const [freckle, setFreckle] = useState(data.player.skin.Face.Freckle);
+    const [wrinkle, setWrinkle] = useState(data.player.skin.Face.Wrinkle);
+    const [wrinkleIntensity, setWrinkleIntensity] = useState(data.player.skin.Face.WrinkleOpacity);
+    const [hairColor, setHairColor] = useState(data.player.skin.Hair.HairColor);
+    const [hair, setHair] = useState(data.player.skin.Hair.Hair);
+    const [eyeBrow, setEyeBrow] = useState(data.player.skin.Face.EyeBrow);
+    const [eyeColor, setEyeColor] = useState(data.player.skin.Face.EyeColor);
+    const [eyebrowThickness, setEyebrowThickness] = useState(data.player.skin.Face.EyebrowOpacity);
+    const [beard, setBeard] = useState(data.player.skin.Beard.Beard);
+    const [beardColor, setBeardColor] = useState(data.player.skin.Beard.BeardColor);
+    const [beardThickness, setBeardThickness] = useState(data.player.skin.Beard.BeardOpacity);
     const [debug, setDebug] = useState(true);
 
     const handleSubmit = async () => {

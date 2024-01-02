@@ -107,53 +107,6 @@ let playerData = {};
     });
   });
 
-  onNet('orion:c:player:createNewPlayer', source => {
-    exports['orion'].ShowSkinCreator(true);
-  });
-
-  RegisterNuiCallbackType('updateSkin');
-  on('__cfx_nui:updateSkin', async (data, cb) => {
-    const model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
-
-    const models =
-    {
-      Model: {
-        Hash: model,
-        Father: Number(data.dad),
-        Mother: Number(data.mom),
-        WeightFace: Number(data.heritage * 0.1).toFixed(2),
-        WeightSkin: Number(data.heritage * 0.1).toFixed(2),
-        Skin: Number(data.skin),
-      },
-      Hair: {
-        HairType: Number(data.hair),
-        HairColor: Number(data.hairColor),
-        HairSecondaryColor: Number(data.highlight),
-        EyebrowType: Number(data.eyebrow),
-        EyebrowOpacity: Number(data.eyebrowThickness),
-        EyebrowColor: Number(data.eyebrowColor),
-        BeardType: Number(data.beard),
-        BeardOpacity: Number(data.beardThickness),
-        BeardColor: Number(data.beardColor),
-        //ChestHairType: data.chestHair,
-        //ChestHairOpacity: data.chestHairOpacity,
-        //ChestHairColor: data.chestHairColor,
-      },
-      Face: {
-        Acne: Number(data.acne),
-        SkinProblem: Number(data.skinProblem),
-        Freckle: Number(data.freckle),
-        Wrinkle: Number(data.wrinkle),
-        WrinkleOpacity: Number(data.wrinkleOpacity),
-      },
-    }
-
-
-    exports['orion'].applySkin(models);
-
-    cb({ ok: true });
-  });
-
   RegisterNuiCallbackType('validateSkin');
   on('__cfx_nui:validateSkin', (data, cb) => {
     const firstname = data.firstname;
@@ -208,7 +161,7 @@ let playerData = {};
     ];
 
     if (firstname?.length >= 3 && lastname?.length >= 3 && finalSkin?.length > 0) {
-      exports['orion'].ShowSkinCreator(false);
+      emit('orion:customization:c:ShowSkinCreator', false);
       emitNet('orion:player:s:createNewPlayer', { firstname, lastname, finalSkin });
       cb({ ok: true });
     } else {
@@ -257,7 +210,7 @@ let playerData = {};
 
   onNet('orion:player:c:completRegister', (playerDataServer) => {
     exports['orion'].setPlayerData(playerDataServer);
-    exports['orion'].ShowSkinCreator(false);
+    emit('orion:customization:c:ShowSkinCreator', false);
     exports['orion'].applySkin(playerDataServer.skin);
 
     SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
