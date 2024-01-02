@@ -114,6 +114,7 @@ const ApplyPedHair = (ped, hair) => {
 };
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
+  console.log(hash)
   await loadNewModel(hash);
   SetPlayerModel(playerId, hash);
   SetModelAsNoLongerNeeded(hash);
@@ -177,8 +178,7 @@ exports('applySkin', (skin) => {
   applyPedFace(ped, skin.Face);
   ApplyPedHair(PlayerPedId(), skin.Hair);
   //ApplyPedMakeup(ped, skin.Makeup)
-  //ApplyPedTattoos(ped, skin.Tattoos || {})
-  //ApplyPedProps(ped, skin);
+  ApplyPedTattoos(ped, skin.Tattoos || {})
 });
 
 
