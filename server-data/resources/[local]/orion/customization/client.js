@@ -285,7 +285,7 @@
   };
 
   const ApplyPlayerModelHash = async (playerId, hash) => {
-    emit('orion:customization:c:loadNewModel', hash)
+    await emit('orion:customization:c:loadNewModel', hash)
 
     console.log("mdkfdjf")
     SetPlayerModel(playerId, hash);
