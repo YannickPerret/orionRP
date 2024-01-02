@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-export default function SkinTone({ _acne, _skinColor, _freckle, _wrinkle, _wrinkleOpacity, handleSkinToneChange }) {
+export default function SkinTone({ _acne, _skinColor, _freckle, _wrinkle, _wrinkleOpacity, _ageing, _sunDamage, handleSkinToneChange }) {
   const [skinColor, setSkinColor] = useState(_skinColor);
   const [acne, setAcne] = useState(_acne);
   const [freckle, setFreckle] = useState(_freckle);
   const [wrinkle, setWrinkle] = useState(_wrinkle);
   const [wrinkleIntensity, setWrinkleIntensity] = useState(_wrinkleOpacity);
+  const [ageing, setAgeing] = useState(_ageing);
+  const [sunDamage, setSunDamage] = useState(_sunDamage);
 
   const skinColorOptions = [
     { value: '12', color: '#ecc8ae' },
@@ -15,8 +17,8 @@ export default function SkinTone({ _acne, _skinColor, _freckle, _wrinkle, _wrink
   ];
 
   useEffect(() => {
-    handleSkinToneChange({ skinColor, acne, freckle, wrinkle, wrinkleIntensity });
-  }, [skinColor, acne, freckle, wrinkle, wrinkleIntensity]);
+    handleSkinToneChange({ skinColor, acne, freckle, wrinkle, wrinkleIntensity, ageing, sunDamage });
+  }, [skinColor, acne, freckle, wrinkle, wrinkleIntensity, ageing, sunDamage]);
 
   return (
     <div className="group">
@@ -40,10 +42,27 @@ export default function SkinTone({ _acne, _skinColor, _freckle, _wrinkle, _wrink
       </div>
 
       <div className="input">
+        <div className="label">Vieillissement</div>
+        <div className="label-value" data-legend="/14"></div>
+        <div className="type-range">
+          <input type="range" className="Ageing" min="0" max="14" value={ageing} onInput={(e) => setAgeing(e.target.value)} />
+        </div>
+      </div>
+
+
+      <div className="input">
         <div className="label">Acne</div>
         <div className="label-value" data-legend="/23"></div>
         <div className="type-range">
           <input type="range" className="acne" min="0" max="23" value={acne} onInput={(e) => setAcne(e.target.value)} />
+        </div>
+      </div>
+
+      <div className="input">
+        <div className="label">Insolation</div>
+        <div className="label-value" data-legend="/10"></div>
+        <div className="type-range">
+          <input type="range" className="sunDamage" min="0" max="10" value={sunDamage} onInput={(e) => setSunDamage(e.target.value)} />
         </div>
       </div>
 

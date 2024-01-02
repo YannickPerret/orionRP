@@ -54,10 +54,12 @@
       eyeLinerType: 0,
       eyeLinerOpacity: 0.0,
       eyeLinerColor: 0,
+      ageingType: 0,
       ageingOpacity: 0.0,
       ageingColor: 0,
       complexionOpacity: 0.0,
       complexionColor: 0,
+      sunDamageType: 0,
       sunDamageOpacity: 0.0,
       sunDamageColor: 0,
       molesFrecklesOpacity: 0.0,
@@ -150,7 +152,7 @@
     SetPedHeadOverlayColor(ped, 3, 2, makeup.AgeingColor, 0);
     SetPedHeadOverlay(ped, 6, makeup.ComplexionType, makeup.ComplexionOpacity);
     SetPedHeadOverlayColor(ped, 6, 2, makeup.ComplexionColor, 0);
-    SetPedHeadOverlay(ped, 7, makeup.SunDamageType, makeup.SunDamageOpacity);
+    SetPedHeadOverlay(ped, 7, makeup.sunDamageType, makeup.SunDamageOpacity);
     SetPedHeadOverlayColor(ped, 7, 2, makeup.SunDamageColor, 0);
     SetPedHeadOverlay(ped, 9, makeup.MolesFrecklesType, makeup.MolesFrecklesOpacity);
     SetPedHeadOverlayColor(ped, 9, 2, makeup.MolesFrecklesColor, 0);

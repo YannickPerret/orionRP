@@ -137,9 +137,9 @@ export default function SkinCreator() {
                 </div>
 
 
-                <SkinTone _acne={face.acne} _freckle={face.freckle} _skinColor={skin.skinColor} _wrinkle={face.wrinkle} _wrinkleOpcity={face.wrinkleOpacity} handleSkinToneChange={(skinToneData) => {
+                <SkinTone _acne={face.acne} _freckle={face.freckle} _skinColor={skin.skinColor} _wrinkle={face.wrinkle} _wrinkleOpcity={face.wrinkleOpacity} _ageing={face.ageingType} _sunDamage={face.sunDamageType} handleSkinToneChange={(skinToneData) => {
                     setSkin(prevData => ({ ...prevData, skinColor: skinToneData.skinColor }));
-                    setFace(prevData => ({ ...prevData, acne: skinToneData.acne, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity }));
+                    setFace(prevData => ({ ...prevData, acne: skinToneData.acne, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity, ageingType: skinToneData.ageing, sunDamageType: skinToneData.sunDamage }));
                 }} />
 
                 <Hair _hair={hair.hair} _hairColor={hair.hairColor} _sex={skin.sex} handleHairChange={(hairData) => {
