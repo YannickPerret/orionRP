@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Hair({ _hair, _haireColor, handleHairChange }) {
-  const [hairColor, setHairColor] = useState(_haireColor);
+export default function Hair({ _hair, _hairColor, handleHairChange }) {
+  const [hairColor, setHairColor] = useState(_hairColor);
   const [hair, setHair] = useState(_hair);
   const [hairHighlight, setHairHighlight] = useState(0);
 
