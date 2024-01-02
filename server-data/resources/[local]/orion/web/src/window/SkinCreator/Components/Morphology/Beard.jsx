@@ -19,16 +19,15 @@ export default function Beard({ _beard, _beardColor, handleBeardChange }) {
   return (
     <div className="group">
       <div className="input">
-        <div className="label">Beard type</div>
+        <div className="label">Type de Barbe</div>
         <div className="type-range">
           <input type="range" className="barbe" min="0" max="28" value={beard} onChange={handleBeardTypeChange} />
         </div>
       </div>
 
       <div className="input">
-        <div className="label">Beard Color</div>
+        <div className="label">Couleur de barbe</div>
         <div className="type-radio">
-          {/* Generate radio buttons for beard colors */}
           {['#1D1D1A', '#4B392D', '#7A3B1F', '#A35631', '#A96F49', '#BD8D5E', '#CBA66F', '#E8BE78', '#D09E6A', '#C85831', '#947A67', '#D8C1AC'].map((color, index) => (
             <label htmlFor={`bc${index + 1}`} key={index}>
               <input

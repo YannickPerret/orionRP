@@ -113,52 +113,13 @@ let playerData = {};
     const lastname = data.lastname;
 
     // Face
-    const genre = Number(data.sex);
-    const dad = Number(data.dad);
-    const mom = Number(data.mom);
-    const heritage = Number(data.heritage);
-    const skin = Number(data.skin);
-    const eyecolor = Number(data.eyeColor);
-    const acne = Number(data.acne);
-    const skinproblem = Number(data.skinProblem);
-    const freckle = Number(data.freckle);
-    const wrinkle = Number(data.wrinkle);
-    const wrinkleopacity = Number(data.wrinkleIntensity);
-    const hair = Number(data.hair);
-    const haircolor = Number(data.hairColor);
-    const eyebrow = Number(data.eyeBrow);
-    const eyebrowopacity = Number(data.eyebrowThickness);
-    const beard = Number(data.beard);
-    const beardopacity = Number(data.beardThickness);
-    const beardcolor = Number(data.beardColor);
-
-    const finalSkin = [
-      {
-        ['sex']: genre,
-        ['face1']: dad,
-        ['face2']: mom,
-        ['heritage']: heritage,
-        ['skin']: skin,
-        ['eye_color']: eyecolor,
-        ['complexion_1']: skinproblem,
-        ['complexion_2']: 1,
-        ['moles_1']: freckle,
-        //['moles_2']: 1,
-        ['age_1']: wrinkle,
-        ['age_2']: wrinkleopacity,
-        ['eyebrows_1']: eyebrow,
-        ['eyebrows_2']: eyebrowopacity,
-        ['beard_1']: beard,
-        ['beard_2']: beardopacity,
-        ['beard_3']: beardcolor,
-        ['beard_4']: beardcolor,
-        ['hair_1']: hair,
-        ['hair_2']: 0,
-        ['hair_color_1']: haircolor,
-        ['hair_color_2']: haircolor,
-        ['acne_1']: acne,
-      },
-    ];
+    const finalSkin = {
+      skin: data.skin,
+      face: data.face,
+      hair: data.hair,
+      beard: data.beard,
+      makeup: data.makeup,
+    }
 
     if (firstname?.length >= 3 && lastname?.length >= 3 && finalSkin?.length > 0) {
       emit('orion:customization:c:ShowSkinCreator', false);

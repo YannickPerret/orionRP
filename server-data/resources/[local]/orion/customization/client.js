@@ -146,10 +146,6 @@
     SetPedHeadOverlayColor(ped, 4, 2, makeup.EyeShadowColor, 0);
     SetPedHeadOverlay(ped, 2, makeup.EyeLinerType, makeup.EyeLinerOpacity);
     SetPedHeadOverlayColor(ped, 2, 2, makeup.EyeLinerColor, 0);
-    SetPedHeadOverlay(ped, 1, makeup.EyeType, makeup.EyeOpacity);
-    SetPedHeadOverlayColor(ped, 1, 2, makeup.EyeColor, 0);
-    SetPedHeadOverlay(ped, 0, makeup.EyebrowType, makeup.EyebrowOpacity);
-    SetPedHeadOverlayColor(ped, 0, 2, makeup.EyebrowColor, 0);
     SetPedHeadOverlay(ped, 3, makeup.AgeingType, makeup.AgeingOpacity);
     SetPedHeadOverlayColor(ped, 3, 2, makeup.AgeingColor, 0);
     SetPedHeadOverlay(ped, 6, makeup.ComplexionType, makeup.ComplexionOpacity);
@@ -389,33 +385,33 @@
         eyebrowColor: Number(data.face.eyebrowColor),
       },
       makeup: {
-        lipstickType: Number(data.lipstick),
-        lipstickOpacity: Number(data.lipstickOpacity),
-        lipstickColor: Number(data.lipstickColor),
-        blushType: Number(data.blush),
-        blushOpacity: Number(data.blushOpacity),
-        blushColor: Number(data.blushColor),
-        eyeShadowType: Number(data.eyeShadow),
-        eyeShadowOpacity: Number(data.eyeShadowOpacity),
-        eyeShadowColor: Number(data.eyeShadowColor),
-        eyeLinerType: Number(data.eyeLiner),
-        eyeLinerOpacity: Number(data.eyeLinerOpacity),
-        eyeLinerColor: Number(data.eyeLinerColor),
-        ageingType: Number(data.ageing),
-        ageingOpacity: Number(data.ageingOpacity),
-        ageingColor: Number(data.ageingColor),
-        complexionType: Number(data.complexion),
-        complexionOpacity: Number(data.complexionOpacity),
-        complexionColor: Number(data.complexionColor),
-        sunDamageType: Number(data.sunDamage),
-        sunDamageOpacity: Number(data.sunDamageOpacity),
-        sunDamageColor: Number(data.sunDamageColor),
-        molesFrecklesType: Number(data.molesFreckles),
-        molesFrecklesOpacity: Number(data.molesFrecklesOpacity),
-        molesFrecklesColor: Number(data.molesFrecklesColor),
-        chestHairType: Number(data.chestHair),
-        chestHairOpacity: Number(data.chestHairOpacity),
-        chestHairColor: Number(data.chestHairColor),
+        lipstickType: Number(data.makeup.lipstick),
+        lipstickOpacity: Number(data.makeup.lipstickOpacity),
+        lipstickColor: Number(data.makeup.lipstickColor),
+        blushType: Number(data.makeup.blush),
+        blushOpacity: Number(data.makeup.blushOpacity),
+        blushColor: Number(data.makeup.blushColor),
+        eyeShadowType: Number(data.makeup.eyeShadow),
+        eyeShadowOpacity: Number(data.makeup.eyeShadowOpacity),
+        eyeShadowColor: Number(data.makeup.eyeShadowColor),
+        eyeLinerType: Number(data.makeup.eyeLiner),
+        eyeLinerOpacity: Number(data.makeup.eyeLinerOpacity),
+        eyeLinerColor: Number(data.makeup.eyeLinerColor),
+        ageingType: Number(data.makeup.ageing),
+        ageingOpacity: Number(data.makeup.ageingOpacity),
+        ageingColor: Number(data.makeup.ageingColor),
+        complexionType: Number(data.makeup.complexion),
+        complexionOpacity: Number(data.makeup.complexionOpacity),
+        complexionColor: Number(data.makeup.complexionColor),
+        sunDamageType: Number(data.makeup.sunDamage),
+        sunDamageOpacity: Number(data.makeup.sunDamageOpacity),
+        sunDamageColor: Number(data.makeup.sunDamageColor),
+        molesFrecklesType: Number(data.makeup.molesFreckles),
+        molesFrecklesOpacity: Number(data.makeup.molesFrecklesOpacity),
+        molesFrecklesColor: Number(data.makeup.molesFrecklesColor),
+        chestHairType: Number(data.makeup.chestHair),
+        chestHairOpacity: Number(data.makeup.chestHairOpacity),
+        chestHairColor: Number(data.makeup.chestHairColor),
       },
       beard: {
         beard: Number(data.beard.beard),
@@ -434,7 +430,7 @@
     applyPedFace(ped, model.face);
     ApplyPedHair(PlayerPedId(), model.hair);
     emit('orion:customization:c:applyPedBeard', model.beard);
-    //emit('orion:customization:c:applyMakeup', model.makeup);
+    emit('orion:customization:c:applyMakeup', model.makeup);
     //emit('orion:customization:c:applyClothes', model.clothes)
     //emit('orion:customization:c:applyTattoos', model.tattoos)
     //emit('orion:customization:c:applyBag', model.Bag, model.Clothes.Bag.Type != 0)
