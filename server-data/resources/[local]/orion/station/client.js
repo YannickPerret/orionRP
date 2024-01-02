@@ -13,6 +13,7 @@
   let currentPumpProp = null;
 
   let currentPumpObj = {};
+  let vehicleFuelCapOffset = {};
 
   //  let ropeAnchor = null;
   // let pistoletInVehicle = false;
@@ -53,6 +54,33 @@
     }
     return pumph;
   };
+
+  const getVehicleRefuelPositions = (vehicle) => {
+    let ped = PlayerPedId();
+    let [rightVector, forwardVector, upVector, position] = GetEntityMatrix(ped);
+    let ptankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
+    if (ptankBone === -1) {
+      let [x, y, z] = GetWorldPositionOfEntityBone(vehicle, fuelTankBone);
+
+    }
+
+    let leftWheelBone = GetEntityBoneIndexByName(vehicle, 'wheel_lr');
+    let rightWheelBone = GetEntityBoneIndexByName(vehicle, 'wheel_rr');
+    let leftWheelPosition = GetWorldPositionOfEntityBone(vehicle, leftWheelBone);
+    let rightWheelPosition = GetWorldPositionOfEntityBone(vehicle, rightWheelBone);
+    let leftWheelDistance = GetDistanceBetweenCoords(leftWheelPosition[0], leftWheelPosition[1], leftWheelPosition[2], position[0], position[1], position[2], true);
+    let rightWheelDistance = GetDistanceBetweenCoords(rightWheelPosition[0], rightWheelPosition[1], rightWheelPosition[2], position[0], position[1], position[2], true);
+    let tankPosition = null;
+
+    if (leftWheelDistance < rightWheelDistance) {
+      tankPosition = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, 1.0, 0.0);
+    }
+    else {
+      tankPosition = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, -1.0, 0.0);
+    }
+    return tankPosition;
+  }
+
 
   const vehicleInFront = () => {
     const [offsetX, offsetY, offsetZ] = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0);
@@ -163,7 +191,10 @@
     emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
     if (IsControlJustReleased(0, 38)) {
       // 38 est le code pour la touche E
-      putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
+      //putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
+      let fuelposition = getVehicleRefuelPositions(vehicle);
+      console.log(fuelposition)
+      putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: fuelposition[0], y: fuelposition[1], z: fuelposition[2] });
       SetFuel(vehicle, 100);
       pistoletInVehicle = false;
     }
