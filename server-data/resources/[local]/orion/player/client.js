@@ -36,31 +36,29 @@ let playerData = {};
   });
 
 
-  RegisterCommand(
-    'tpto',
-    (source, args) => {
-      const playerPed = GetPlayerPed(-1);
-      const blip = GetFirstBlipInfoId(8); // ID 8 correspond à un waypoint
-      if (blip !== 0) {
-        const coord = GetBlipInfoIdCoord(blip);
-        RequestCollisionAtCoord(coord[0], coord[1], coord[2]);
+  RegisterCommand('tpto', (source, args) => {
+    const playerPed = GetPlayerPed(-1);
+    const blip = GetFirstBlipInfoId(8); // ID 8 correspond à un waypoint
+    if (blip !== 0) {
+      const coord = GetBlipInfoIdCoord(blip);
+      RequestCollisionAtCoord(coord[0], coord[1], coord[2]);
 
-        // Attendre que la hauteur du sol soit chargée
-        let groundZ = 0;
-        let groundCheck = false;
+      // Attendre que la hauteur du sol soit chargée
+      let groundZ = 0;
+      let groundCheck = false;
 
-        setTimeout(() => {
-          [groundCheck, groundZ] = GetGroundZFor_3dCoord(coord[0], coord[1], coord[2], 0, false);
-          if (groundCheck) {
-            SetEntityCoordsNoOffset(playerPed, coord[0], coord[1], groundZ + 1.0, false, false, true);
-          } else {
-            SetEntityCoords(playerPed, coord[0], coord[1], coord[2], false, false, false, true);
-          }
-        }, 1000);
-      } else {
-        console.log('Aucun waypoint trouvé.');
-      }
-    },
+      setTimeout(() => {
+        [groundCheck, groundZ] = GetGroundZFor_3dCoord(coord[0], coord[1], coord[2], 0, false);
+        if (groundCheck) {
+          SetEntityCoordsNoOffset(playerPed, coord[0], coord[1], groundZ + 1.0, false, false, true);
+        } else {
+          SetEntityCoords(playerPed, coord[0], coord[1], coord[2], false, false, false, true);
+        }
+      }, 1000);
+    } else {
+      console.log('Aucun waypoint trouvé.');
+    }
+  },
     false
   );
 

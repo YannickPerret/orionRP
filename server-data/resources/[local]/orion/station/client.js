@@ -124,10 +124,6 @@
 
     const playerPed = PlayerPedId();
 
-    /*for (const station of gazStationsBlips.GasStations) {
-      exports['orion'].createBlip(station.coordinates, 361, 0, 'Station essence');
-    }*/
-
     while (true) {
       await exports['orion'].delay(5);
       const playerCoords = GetEntityCoords(playerPed, false);
@@ -143,6 +139,7 @@
       let vehicle = vehicleInFront();
 
       if (playerPickupPump && vehicle) {
+        console.log('vehicle in front', vehicle);
         handleVehicleInteraction(vehicle);
       }
     }
