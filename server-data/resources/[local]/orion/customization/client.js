@@ -140,24 +140,24 @@
   onNet('orion:customization:c:applyMakeup', (makeup) => {
     let ped = GetPlayerPed(-1);
 
-    SetPedHeadOverlay(ped, 8, makeup.LipstickType, makeup.LipstickOpacity);
-    SetPedHeadOverlayColor(ped, 8, 2, makeup.LipstickColor, 0);
-    SetPedHeadOverlay(ped, 5, makeup.BlushType, makeup.BlushOpacity);
-    SetPedHeadOverlayColor(ped, 5, 2, makeup.BlushColor, 0);
-    SetPedHeadOverlay(ped, 4, makeup.EyeShadowType, makeup.EyeShadowOpacity);
-    SetPedHeadOverlayColor(ped, 4, 2, makeup.EyeShadowColor, 0);
-    SetPedHeadOverlay(ped, 2, makeup.EyeLinerType, makeup.EyeLinerOpacity);
-    SetPedHeadOverlayColor(ped, 2, 2, makeup.EyeLinerColor, 0);
-    SetPedHeadOverlay(ped, 3, makeup.AgeingType, makeup.AgeingOpacity);
-    SetPedHeadOverlayColor(ped, 3, 2, makeup.AgeingColor, 0);
-    SetPedHeadOverlay(ped, 6, makeup.ComplexionType, makeup.ComplexionOpacity);
-    SetPedHeadOverlayColor(ped, 6, 2, makeup.ComplexionColor, 0);
-    SetPedHeadOverlay(ped, 7, makeup.sunDamageType, makeup.SunDamageOpacity);
-    SetPedHeadOverlayColor(ped, 7, 2, makeup.SunDamageColor, 0);
-    SetPedHeadOverlay(ped, 9, makeup.MolesFrecklesType, makeup.MolesFrecklesOpacity);
-    SetPedHeadOverlayColor(ped, 9, 2, makeup.MolesFrecklesColor, 0);
-    SetPedHeadOverlay(ped, 10, makeup.ChestHairType, makeup.ChestHairOpacity);
-    SetPedHeadOverlayColor(ped, 10, 2, makeup.ChestHairColor, 0);
+    SetPedHeadOverlay(ped, 8, makeup.lipstickType, makeup.lipstickOpacity);
+    SetPedHeadOverlayColor(ped, 8, 2, makeup.lipstickColor, 0);
+    SetPedHeadOverlay(ped, 5, makeup.blushType, makeup.blushOpacity);
+    SetPedHeadOverlayColor(ped, 5, 2, makeup.blushColor, 0);
+    SetPedHeadOverlay(ped, 4, makeup.eyeShadowType, makeup.eyeShadowOpacity);
+    SetPedHeadOverlayColor(ped, 4, 2, makeup.eyeShadowColor, 0);
+    SetPedHeadOverlay(ped, 2, makeup.eyeLinerType, makeup.eyeLinerOpacity);
+    SetPedHeadOverlayColor(ped, 2, 2, makeup.eyeLinerColor, 0);
+    SetPedHeadOverlay(ped, 3, makeup.ageingType, makeup.ageingOpacity);
+    SetPedHeadOverlayColor(ped, 3, 2, makeup.ageingColor, 0);
+    SetPedHeadOverlay(ped, 6, makeup.complexionType, makeup.complexionOpacity);
+    SetPedHeadOverlayColor(ped, 6, 2, makeup.complexionColor, 0);
+    SetPedHeadOverlay(ped, 7, makeup.sunDamageType, makeup.sunDamageOpacity);
+
+    SetPedHeadOverlay(ped, 9, makeup.molesFrecklesType, makeup.molesFrecklesOpacity);
+    SetPedHeadOverlayColor(ped, 9, 2, makeup.molesFrecklesColor, 0);
+    SetPedHeadOverlay(ped, 10, makeup.chestHairType, makeup.chestHairOpacity);
+    SetPedHeadOverlayColor(ped, 10, 2, makeup.chestHairColor, 0);
   });
 
   onNet('orion:customization:c:applyTattoos', (tattoos) => {
@@ -263,7 +263,6 @@
   };
 
   const applyPedFace = (ped, face) => {
-    console.log('applyPedFace', face)
     //face
     if (face.acne == 0) {
       SetPedHeadOverlay(ped, 0, face.acne, 0.0);
