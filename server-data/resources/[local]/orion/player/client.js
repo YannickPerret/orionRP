@@ -115,37 +115,41 @@ let playerData = {};
   on('__cfx_nui:updateSkin', async (data, cb) => {
     const model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
 
-    exports['orion'].applySkin({
-      Model: {
-        Hash: model,
-        Father: Number(data.dad),
-        Mother: Number(data.mom),
-        WeightFace: Number(data.heritage * 0.1).toFixed(2),
-        WeightSkin: Number(data.heritage * 0.1).toFixed(2),
-        Skin: Number(data.skin),
+    const models = [
+      {
+        Model: {
+          Hash: model,
+          Father: Number(data.dad),
+          Mother: Number(data.mom),
+          WeightFace: Number(data.heritage * 0.1).toFixed(2),
+          WeightSkin: Number(data.heritage * 0.1).toFixed(2),
+          Skin: Number(data.skin),
+        },
+        Hair: {
+          HairType: Number(data.hair),
+          HairColor: Number(data.hairColor),
+          HairSecondaryColor: Number(data.highlight),
+          EyebrowType: Number(data.eyebrow),
+          EyebrowOpacity: Number(data.eyebrowThickness),
+          EyebrowColor: Number(data.eyebrowColor),
+          BeardType: Number(data.beard),
+          BeardOpacity: Number(data.beardThickness),
+          BeardColor: Number(data.beardColor),
+          //ChestHairType: data.chestHair,
+          //ChestHairOpacity: data.chestHairOpacity,
+          //ChestHairColor: data.chestHairColor,
+        },
+        Face: {
+          Acne: Number(data.acne),
+          SkinProblem: Number(data.skinProblem),
+          Freckle: Number(data.freckle),
+          Wrinkle: Number(data.wrinkle),
+          WrinkleOpacity: Number(data.wrinkleOpacity),
+        },
       },
-      Hair: {
-        HairType: Number(data.hair),
-        HairColor: Number(data.hairColor),
-        HairSecondaryColor: Number(data.highlight),
-        EyebrowType: Number(data.eyebrow),
-        EyebrowOpacity: Number(data.eyebrowThickness),
-        EyebrowColor: Number(data.eyebrowColor),
-        BeardType: Number(data.beard),
-        BeardOpacity: Number(data.beardThickness),
-        BeardColor: Number(data.beardColor),
-        //ChestHairType: data.chestHair,
-        //ChestHairOpacity: data.chestHairOpacity,
-        //ChestHairColor: data.chestHairColor,
-      },
-      Face: {
-        Acne: Number(data.acne),
-        SkinProblem: Number(data.skinProblem),
-        Freckle: Number(data.freckle),
-        Wrinkle: Number(data.wrinkle),
-        WrinkleOpacity: Number(data.wrinkleOpacity),
-      },
-    });
+    ];
+
+    exports['orion'].applySkin(models);
 
     cb({ ok: true });
   });
