@@ -285,6 +285,7 @@
   };
 
   const ApplyPlayerModelHash = async (playerId, hash) => {
+    console.log('ApplyPlayerModelHash', playerId, hash)
     await emit('orion:customization:c:loadNewModel', hash)
     SetPlayerModel(playerId, hash);
     SetModelAsNoLongerNeeded(hash);
