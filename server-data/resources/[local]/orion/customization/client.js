@@ -421,8 +421,8 @@
     applyPedFace(ped, model.face);
     ApplyPedHair(PlayerPedId(), model.hair);
     emit('orion:customization:c:applyMakeup', model.makeup);
-    emit('orion:customization:c:applyClothes', model.clothes)
-    emit('orion:customization:c:applyTattoos', model.tattoos)
+    //emit('orion:customization:c:applyClothes', model.clothes)
+    //emit('orion:customization:c:applyTattoos', model.tattoos)
     // emit('orion:customization:c:applyBag', model.Bag, model.Clothes.Bag.Type != 0)
   });
 
