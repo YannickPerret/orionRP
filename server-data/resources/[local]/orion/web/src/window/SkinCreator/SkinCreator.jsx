@@ -70,7 +70,6 @@ export default function SkinCreator() {
     }
 
     const handleValidate = async () => {
-        console.log("validate")
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,
