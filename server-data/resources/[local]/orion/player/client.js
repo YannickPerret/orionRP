@@ -208,6 +208,10 @@ let playerData = {};
     SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
   });
 
+  onNet('orion:c:player:createNewPlayer', () => {
+    emit('orion:customization:c:ShowSkinCreator', true);
+  })
+
   onNet('orion:player:c:completRegister', (playerDataServer) => {
     exports['orion'].setPlayerData(playerDataServer);
     emit('orion:customization:c:ShowSkinCreator', false);

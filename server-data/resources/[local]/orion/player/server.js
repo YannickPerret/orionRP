@@ -91,8 +91,7 @@
     }
 
     try {
-      console.log('Récupération du joueur...');
-      const filters = { steamId: steamId, license: license };
+      //const filters = { steamId: steamId, license: license };
       const playerData = await db.getByWithFilter('players', { license: license });
 
       if (playerData.length > 0) {
@@ -131,7 +130,7 @@
     }
   });
 
-  onNet('orion:player:s:createNewPlayer', async data => {
+  onNet('orion:player:s:createNewPlayer', async (data) => {
     const source = global.source;
     const skin = data.finalSkin;
     const firstname = data.firstname;
