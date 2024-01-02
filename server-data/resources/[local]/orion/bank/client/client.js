@@ -1,6 +1,5 @@
 (async () => {
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
-  const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
   let showBankInterface = false;
   let maxWithdraw = 0;
 
@@ -94,8 +93,6 @@
       await exports['orion'].delay(5);
       let playerCoords = GetEntityCoords(PlayerPedId(), false);
 
-      console.log("1", bankCoordsJson.bank_nation)
-
       for (let banksNational of bankCoordsJson.bank_nation) {
         let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], banksNational.coords.X, banksNational.coords.Y, banksNational.coords.Z, true)
         if (distance <= 1.3) {
@@ -103,7 +100,6 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque nationale');
             if (IsControlJustReleased(0, 38)) {
               emitNet('orion:bank:s:getAccountInterface', "bank");
-              maxWithdraw = banksNational.reservedMoney
             }
           }
         }
@@ -116,7 +112,6 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
             if (IsControlJustReleased(0, 38)) {
               emitNet('orion:bank:s:getAccountInterface', "bank");
-              maxWithdraw = bankCoords.reservedMoney
             }
           }
         }
@@ -129,7 +124,6 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
             if (IsControlJustReleased(0, 38)) {
               emitNet('orion:bank:s:getAccountInterface', "atm");
-              maxWithdraw = atmCoords.reservedMoney
             }
           }
         }
