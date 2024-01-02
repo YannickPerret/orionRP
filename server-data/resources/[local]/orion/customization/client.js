@@ -32,9 +32,7 @@
       eyebrowOpacity: 1.0,
       eyebrowColor: 0,
       ageingType: 0,
-      ageingOpacity: 1.0,
       sunDamageType: 0,
-      sunDamageOpacity: 1.0,
     },
     hair: {
       hair: 2,
@@ -60,7 +58,6 @@
       eyeLinerColor: 0,
       complexionOpacity: 0.0,
       complexionColor: 0,
-
       molesFrecklesOpacity: 0.0,
       molesFrecklesColor: 0,
       chestHairOpacity: 0.0,
@@ -280,8 +277,17 @@
     SetPedHeadOverlayColor(ped, 5, 0, face.eyebrowColor, 0);
 
     //ageing and sunDamage
-    SetPedHeadOverlay(ped, 7, face.sunDamageType, face.sunDamageOpacity);
-    SetPedHeadOverlay(ped, 3, face.ageingType, face.ageingOpacity);
+    if (face.sunDamageType == 0) {
+      SetPedHeadOverlay(ped, 7, face.sunDamageType, 0.0);
+    }
+    else
+      SetPedHeadOverlay(ped, 7, face.sunDamageType, 1.0);
+
+    if (face.ageingType == 0) {
+      SetPedHeadOverlay(ped, 3, face.ageingType, 0.0);
+    }
+    else
+      SetPedHeadOverlay(ped, 3, face.ageingType, 1.0);
   };
 
   onNet('orion:customization:c:applyPedBeard', (beard) => {
@@ -405,9 +411,7 @@
         eyebrowOpacity: Number(data.face.eyebrowOpacity),
         eyebrowColor: Number(data.face.eyebrowColor),
         sunDamageType: Number(data.face.sunDamage),
-        sunDamageOpacity: Number(data.face.sunDamageOpacity),
         ageingType: Number(data.face.ageing),
-        ageingOpacity: Number(data.face.ageingOpacity),
       },
       makeup: {
         lipstickType: Number(data.makeup.lipstick),
