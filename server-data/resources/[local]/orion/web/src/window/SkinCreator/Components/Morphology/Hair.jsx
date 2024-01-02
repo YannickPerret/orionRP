@@ -99,8 +99,6 @@ export default function Hair({ _hair, _hairColor, _sex, handleHairChange }) {
   ]
   const hairOptions = _sex === 0 ? maleHair : femaleHair;
 
-
-
   return (
     <div className="group">
       <div className="input">

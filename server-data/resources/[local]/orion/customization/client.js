@@ -25,6 +25,12 @@
       freckle: 0,
       wrinkle: 0,
       wrinkleOpacity: 0.0,
+      eyeType: 0,
+      eyeOpacity: 0.0,
+      eyeColor: 0,
+      eyebrowType: 0,
+      eyebrowOpacity: 0.0,
+      eyebrowColor: 0,
       eyebrowType: 0,
       eyebrowOpacity: 0.0,
       eyebrowColor: 0,
@@ -52,12 +58,6 @@
       eyeLinerType: 0,
       eyeLinerOpacity: 0.0,
       eyeLinerColor: 0,
-      eyeType: 0,
-      eyeOpacity: 0.0,
-      eyeColor: 0,
-      eyebrowType: 0,
-      eyebrowOpacity: 0.0,
-      eyebrowColor: 0,
       ageingOpacity: 0.0,
       ageingColor: 0,
       complexionOpacity: 0.0,
@@ -249,14 +249,31 @@
   };
 
   const applyPedFace = (ped, face) => {
-    if (face.Acne == 0) {
-      SetPedHeadOverlay(ped, 0, face.Acne, 0.0);
-    } else SetPedHeadOverlay(ped, 0, face.Acne, 1.0);
-    SetPedHeadOverlay(ped, 6, face.SkinProblem, 1.0);
-    if (face.Freckle == 0) {
-      SetPedHeadOverlay(ped, 9, face.Freckle, 0.0);
-    } else SetPedHeadOverlay(ped, 9, face.Freckle, 1.0);
-    SetPedHeadOverlay(ped, 3, face.Wrinkle, face.WrinkleOpacity);
+    if (face.acne == 0) {
+      SetPedHeadOverlay(ped, 0, face.acne, 0.0);
+    } else
+      SetPedHeadOverlay(ped, 0, face.acne, 1.0);
+
+    if (face.skinProblem == 0) {
+      SetPedHeadOverlay(ped, 1, face.skinProblem, 0.0);
+    } else
+      SetPedHeadOverlay(ped, 1, face.skinProblem, 1.0);
+
+    if (face.freckle == 0) {
+      SetPedHeadOverlay(ped, 2, face.freckle, 0.0);
+    } else
+      SetPedHeadOverlay(ped, 2, face.freckle, 1.0);
+    SetPedHeadOverlay(ped, 3, face.wrinkle, face.wrinkleOpacity);
+
+    //eyes
+    SetPedEyeColor(ped, face.eyeColor);
+    SetPedHeadOverlay(ped, 4, face.eyeType, face.eyeOpacity);
+    SetPedHeadOverlayColor(ped, 4, 0, face.eyeColor, 0);
+
+    //eyebrows
+    SetPedHeadOverlay(ped, 5, face.eyebrowType, face.eyebrowOpacity);
+    SetPedHeadOverlayColor(ped, 5, 0, face.eyebrowColor, 0);
+
   };
 
   const ApplyPedFaceTrait = model => {
@@ -363,6 +380,12 @@
         freckle: Number(data.face.freckle),
         wrinkle: Number(data.face.wrinkle),
         wrinkleOpacity: Number(data.face.wrinkleOpacity),
+        eyeType: Number(data.eye),
+        eyeOpacity: Number(data.eyeOpacity),
+        eyeColor: Number(data.eyeColor),
+        eyebrowType: Number(data.eyebrow),
+        eyebrowOpacity: Number(data.eyebrowOpacity),
+        eyebrowColor: Number(data.eyebrowColor),
       },
       makeup: {
         lipstickType: Number(data.lipstick),
@@ -377,12 +400,6 @@
         eyeLinerType: Number(data.eyeLiner),
         eyeLinerOpacity: Number(data.eyeLinerOpacity),
         eyeLinerColor: Number(data.eyeLinerColor),
-        eyeType: Number(data.eye),
-        eyeOpacity: Number(data.eyeOpacity),
-        eyeColor: Number(data.eyeColor),
-        eyebrowType: Number(data.eyebrow),
-        eyebrowOpacity: Number(data.eyebrowOpacity),
-        eyebrowColor: Number(data.eyebrowColor),
         ageingType: Number(data.ageing),
         ageingOpacity: Number(data.ageingOpacity),
         ageingColor: Number(data.ageingColor),
