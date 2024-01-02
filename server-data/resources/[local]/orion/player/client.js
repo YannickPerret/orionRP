@@ -175,9 +175,6 @@ let playerData = {};
 
   onNet('orion:player:c:completRegister', (playerDataServer) => {
     exports['orion'].setPlayerData(playerDataServer);
-    emit('orion:customization:c:ShowSkinCreator', false);
-    exports['orion'].applySkin(playerDataServer.skin);
-
     SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
 
     emit('orion:showNotification', `Bienvenue ${playerDataServer.firstname} ${playerDataServer.lastname} sur Orion !`);
