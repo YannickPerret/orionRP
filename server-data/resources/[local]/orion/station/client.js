@@ -60,7 +60,7 @@
     let [rightVector, forwardVector, upVector, position] = GetEntityMatrix(ped);
     let ptankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
     if (ptankBone === -1) {
-      let [x, y, z] = GetWorldPositionOfEntityBone(vehicle, fuelTankBone);
+      let [x, y, z] = GetWorldPositionOfEntityBone(vehicle, ptankBone);
 
     }
 
