@@ -15,26 +15,12 @@ export default function SkinCreator() {
 
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+    const [skin, setSkin] = useState(data.player.skin.skin);
+    const [face, setFace] = useState(data.player.skin.Face);
+    const [hair, setHair] = useState(data.player.skin.Hair);
+    const [beard, setBeard] = useState(data.player.skin.Beard);
+    const [makeup, setMakeup] = useState(data.player.skin.Makeup);
 
-    const [dad, setDad] = useState(data.player.skin.Skin.Father);
-    const [mom, setMom] = useState(data.player.skin.Skin.Mother);
-    const [sex, setSex] = useState(data.player.skin.Skin.Sex);
-
-    const [heritage, setHeritage] = useState(data.player.skin.Skin.ShapeMix);
-    const [skinColor, setSkinColor] = useState(data.player.skin.Skin.SkinColor);
-    const [acne, setAcne] = useState(data.player.skin.Face.Acne);
-    const [skinProblem, setSkinProblem] = useState(data.player.skin.Face.SkinProblem);
-    const [freckle, setFreckle] = useState(data.player.skin.Face.Freckle);
-    const [wrinkle, setWrinkle] = useState(data.player.skin.Face.Wrinkle);
-    const [wrinkleIntensity, setWrinkleIntensity] = useState(data.player.skin.Face.WrinkleOpacity);
-    const [hairColor, setHairColor] = useState(data.player.skin.Hair.HairColor);
-    const [hair, setHair] = useState(data.player.skin.Hair.Hair);
-    const [eyeBrow, setEyeBrow] = useState(data.player.skin.Face.EyeBrow);
-    const [eyeColor, setEyeColor] = useState(data.player.skin.Face.EyeColor);
-    const [eyebrowThickness, setEyebrowThickness] = useState(data.player.skin.Face.EyebrowOpacity);
-    const [beard, setBeard] = useState(data.player.skin.Beard.Beard);
-    const [beardColor, setBeardColor] = useState(data.player.skin.Beard.BeardColor);
-    const [beardThickness, setBeardThickness] = useState(data.player.skin.Beard.BeardOpacity);
     const [debug, setDebug] = useState(true);
 
     const handleSubmit = async () => {
@@ -128,36 +114,13 @@ export default function SkinCreator() {
 
     useEffect(() => {
         handleSubmit();
-    }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyeBrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
+    }, [skin, face, hair, beard, makeup]);
 
-    useEffect(() => {
-        console.log('SkinCreator mounted');
-    }, []);
     return (
         <div className="skinCreator">
             {debug &&
                 <div className="skinCreator__debug">
-                    <ul>
-                        <li>{firstname + ' ' + lastname}</li>
-                        <li>{dad}</li>
-                        <li>{mom}</li>
-                        <li>{sex}</li>
-                        <li>{heritage}</li>
-                        <li>{skinColor}</li>
-                        <li>{acne}</li>
-                        <li>{skinProblem}</li>
-                        <li>{freckle}</li>
-                        <li>{wrinkle}</li>
-                        <li>{wrinkleIntensity}</li>
-                        <li>{eyeColor}</li>
-                        <li>{hairColor}</li>
-                        <li>{hair}</li>
-                        <li>{eyeBrow}</li>
-                        <li>{eyebrowThickness}</li>
-                        <li>{beard}</li>
-                        <li>{beardColor}</li>
-                        <li>{beardThickness}</li>
-                    </ul>
+                    {JSON.stringify(data.player.skin)}
                 </div>}
 
             <div className="skinCreator__sideLeft">
@@ -171,7 +134,7 @@ export default function SkinCreator() {
                         <div className="label-value" data-legend=""></div>
                         <div className="type-range">
                             <a href="#" className="arrow arrow-left">&nbsp;</a>
-                            <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
+                            <input value={skin.sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSkin(prevData => ({ ...prevData, sex: e.target.value }))} />
                             <a href="#" className="arrow arrow-right">&nbsp;</a>
                         </div>
                     </div>

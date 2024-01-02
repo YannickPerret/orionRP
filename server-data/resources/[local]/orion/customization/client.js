@@ -11,13 +11,13 @@
   };
 
   let defaultPedSkin = {
-    Skin: {
-      Sex: 0,
-      Father: 0,
-      Mother: 0,
-      ShapeMix: 0.5,
-      SkinMix: 0.5,
-      SkinColor: 0,
+    skin: {
+      sex: 0,
+      father: 0,
+      mother: 0,
+      shapeMix: 0.5,
+      skinMix: 0.5,
+      skinColor: 0,
     },
     Face: {
       Acne: 0,
@@ -349,6 +349,7 @@
 
     const model = {
       Skin: {
+        Sex: Number(data.Skin.sex),
         Hash: _model,
         Father: Number(data.dad),
         Mother: Number(data.mom),
@@ -360,15 +361,6 @@
         HairType: Number(data.hair),
         HairColor: Number(data.hairColor),
         HairSecondaryColor: Number(data.highlight),
-        EyebrowType: Number(data.eyebrow),
-        EyebrowOpacity: Number(data.eyebrowThickness),
-        EyebrowColor: Number(data.eyebrowColor),
-        BeardType: Number(data.beard),
-        BeardOpacity: Number(data.beardThickness),
-        BeardColor: Number(data.beardColor),
-        //ChestHairType: data.chestHair,
-        //ChestHairOpacity: data.chestHairOpacity,
-        //ChestHairColor: data.chestHairColor,
       },
       Face: {
         Acne: Number(data.acne),
@@ -377,6 +369,47 @@
         Wrinkle: Number(data.wrinkle),
         WrinkleOpacity: Number(data.wrinkleOpacity),
       },
+      Makeup: {
+        LipstickType: Number(data.lipstick),
+        LipstickOpacity: Number(data.lipstickOpacity),
+        LipstickColor: Number(data.lipstickColor),
+        BlushType: Number(data.blush),
+        BlushOpacity: Number(data.blushOpacity),
+        BlushColor: Number(data.blushColor),
+        EyeShadowType: Number(data.eyeShadow),
+        EyeShadowOpacity: Number(data.eyeShadowOpacity),
+        EyeShadowColor: Number(data.eyeShadowColor),
+        EyeLinerType: Number(data.eyeLiner),
+        EyeLinerOpacity: Number(data.eyeLinerOpacity),
+        EyeLinerColor: Number(data.eyeLinerColor),
+        EyeType: Number(data.eye),
+        EyeOpacity: Number(data.eyeOpacity),
+        EyeColor: Number(data.eyeColor),
+        EyebrowType: Number(data.eyebrow),
+        EyebrowOpacity: Number(data.eyebrowOpacity),
+        EyebrowColor: Number(data.eyebrowColor),
+        AgeingType: Number(data.ageing),
+        AgeingOpacity: Number(data.ageingOpacity),
+        AgeingColor: Number(data.ageingColor),
+        ComplexionType: Number(data.complexion),
+        ComplexionOpacity: Number(data.complexionOpacity),
+        ComplexionColor: Number(data.complexionColor),
+        SunDamageType: Number(data.sunDamage),
+        SunDamageOpacity: Number(data.sunDamageOpacity),
+        SunDamageColor: Number(data.sunDamageColor),
+        MolesFrecklesType: Number(data.molesFreckles),
+        MolesFrecklesOpacity: Number(data.molesFrecklesOpacity),
+        MolesFrecklesColor: Number(data.molesFrecklesColor),
+        ChestHairType: Number(data.chestHair),
+        ChestHairOpacity: Number(data.chestHairOpacity),
+        ChestHairColor: Number(data.chestHairColor),
+      },
+      Beard: {
+        Beard: Number(data.beard),
+        BeardOpacity: Number(data.beardThickness),
+        BeardColor: Number(data.beardColor),
+      },
+      Tattoos: {},
     }
     ApplyPlayerModelHash(playerId, model.Skin.Hash);
 

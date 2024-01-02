@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Eyes({handleEyesChange}) {
+export default function Eyes({ handleEyesChange }) {
   const [eyeBrow, setEyeBrow] = useState(0);
   const [eyebrowThickness, setEyebrowThickness] = useState(10);
   const [eyeColor, setEyeColor] = useState(0);
+  const [EyeShadowType, setEyeShadowType] = useState(0);
+  const [EyeShadowColor, setEyeShadowColor] = useState(0);
+  const [EyeLinerType, setEyeLinerType] = useState(0);
+  const [EyeLinerOpacity, setEyeLinerOpacity] = useState(0);
+  const [EyeLinerColor, setEyeLinerColor] = useState(0);
+
 
   const handleEyebrowTypeChange = (e) => {
     setEyeBrow(e.target.value);
@@ -18,9 +24,9 @@ export default function Eyes({handleEyesChange}) {
   };
 
   useEffect(() => {
-    handleEyesChange({eyeBrow, eyebrowThickness, eyeColor});
+    handleEyesChange({ eyeBrow, eyebrowThickness, eyeColor });
   }, [eyeBrow, eyebrowThickness, eyeColor]);
-  
+
   const eyesColor = [
     { value: 1, color: '#525e37', title: 'Green' },
     { value: 2, color: '#263419', title: 'Light green' },
@@ -45,14 +51,14 @@ export default function Eyes({handleEyesChange}) {
     { value: 21, color: '#808000', title: 'Lizard' },
     { value: 22, color: '#008080', title: 'Dragon' },
     { value: 23, color: '#ff00ff', title: 'Extra Terrestrial' },
-    { value: 24, color: '#800000', title: 'Goat'},
+    { value: 24, color: '#800000', title: 'Goat' },
     { value: 25, color: '#ff0000', title: 'Smiley' },
     { value: 26, color: '#800080', title: 'Possessed' },
     { value: 27, color: '#0000ff', title: 'Demon' },
     { value: 28, color: '#008000', title: 'Infected' },
     { value: 29, color: '#008080', title: 'Alien' },
     { value: 30, color: '#808000', title: 'Undead' },
-    { value: 31, color: '#800000', title: 'Zombie'}    
+    { value: 31, color: '#800000', title: 'Zombie' }
   ];
 
 
@@ -77,14 +83,14 @@ export default function Eyes({handleEyesChange}) {
         <div className="type-radio">
           {eyesColor.map((color, index) => (
             <label htmlFor={`eye${color.value}`} key={index}>
-              <input 
-                type="radio" 
-                name="eyecolor" 
-                className="eyecolor" 
-                value={color.value.toString()} 
-                id={`eye${color.value + 1}`} 
-                checked={eyeColor === index.toString()} 
-                onChange={handleEyeColorChange} 
+              <input
+                type="radio"
+                name="eyecolor"
+                className="eyecolor"
+                value={color.value.toString()}
+                id={`eye${color.value + 1}`}
+                checked={eyeColor === index.toString()}
+                onChange={handleEyeColorChange}
               />
               <span className="color" data-color={color.color} style={{ backgroundColor: color.color }}></span>
             </label>
