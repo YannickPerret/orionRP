@@ -180,6 +180,26 @@
     }
   });
 
+  onNet('orion:customization:c:applyHelmet', (helmet, enable) => {
+    let ped = GetPlayerPed(-1);
+    if (enable) {
+      SetPedPropIndex(ped, 0, helmet.Type, helmet.Color, 2);
+    }
+    else {
+      ClearPedProp(ped, 0);
+    }
+  });
+
+  onNet('orion:customization:c:applyGlasses', (glasses, enable) => {
+    let ped = GetPlayerPed(-1);
+    if (enable) {
+      SetPedPropIndex(ped, 1, glasses.Type, glasses.Color, 2);
+    }
+    else {
+      ClearPedProp(ped, 1);
+    }
+  });
+
   onNet('orion:customization:c:loadNewModel', async (modelHash, cb) => {
     if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
       return;
