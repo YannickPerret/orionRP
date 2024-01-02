@@ -13,6 +13,8 @@ export default function SkinCreator() {
 
     const { data, setData } = useData();
 
+    console.log("data", data)
+
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [skin, setSkin] = useState(data.player.skin.skin);
