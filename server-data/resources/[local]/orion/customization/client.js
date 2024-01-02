@@ -360,7 +360,7 @@
         skinColor: Number(data.skin.skinColor),
       },
       hair: {
-        hair: Number(data.hair.hairType),
+        hair: Number(data.hair.hair),
         hairColor: Number(data.hair.hairColor),
         hairSecondaryColor: Number(data.hair.hairSecondaryColor || 0),
       },
