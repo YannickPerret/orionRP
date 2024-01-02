@@ -276,16 +276,8 @@
   };
 
   const ApplyPedHair = (ped, hair) => {
-    console.log('ApplyPedHair', hair)
     SetPedComponentVariation(ped, 2, hair.hair, 0, 2);
-    SetPedHairColor(ped, hair.HairColor, hair.hairSecondaryColor || 0.0);
-
-    /*SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
-    SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
-    SetPedHeadOverlay(ped, 1, hair.BeardType, hair.BeardOpacity || 1.0);
-    SetPedHeadOverlayColor(ped, 1, 1, hair.BeardColor, 0);
-
-    SetPedHeadOverlay(ped, 0, hair.acne);*/
+    SetPedHairColor(ped, hair.hairColor, hair.hairSecondaryColor || 0.0);
   };
 
   const ApplyPlayerModelHash = async (playerId, hash) => {
