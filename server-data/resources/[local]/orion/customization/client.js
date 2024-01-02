@@ -13,11 +13,7 @@ exports('skinCreatorZoom', body => {
   zoomToPartBody(body);
 });
 
-exports('requestNewModel', hash => {
-  loadNewModel(hash);
-});
-
-const loadNewModel = async (modelHash) => {
+onNet('orion:customization:c:loadNewModel', async (modelHash) => {
   if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
     return;
   }
@@ -29,9 +25,9 @@ const loadNewModel = async (modelHash) => {
   RequestModel(modelHash);
 
   while (!HasModelLoaded(modelHash)) {
-    await exports['orion'].delay(100);
+    await exports['orion'].delay(0);
   }
-};
+});
 
 const zoomToPartBody = body => {
   if (isCameraActive) {
@@ -114,8 +110,7 @@ const ApplyPedHair = (ped, hair) => {
 };
 
 const ApplyPlayerModelHash = async (playerId, hash) => {
-  console.log(hash)
-  await loadNewModel(hash);
+  await emit('orion:customization:c:loadNewModel', hash)
   SetPlayerModel(playerId, hash);
   SetModelAsNoLongerNeeded(hash);
 };
@@ -160,6 +155,14 @@ const ShowSkinCreator = enable => {
 
   isCameraActive = enable;
   isSkinCreatorOpened = enable;
+};
+
+const ApplyPedTattoos = (ped, tattoos) => {
+  for (let i = 0; i < 25; i++) {
+    if (tattoos[i]) {
+      AddPedDecorationFromHashes(ped, tattoos[i].Collection, tattoos[i].Hash);
+    }
+  }
 };
 
 exports('ShowSkinCreator', ShowSkinCreator);

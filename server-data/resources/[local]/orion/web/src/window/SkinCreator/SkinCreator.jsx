@@ -156,19 +156,31 @@ export default function SkinCreator() {
                 </div>}
 
             <div className="skinCreator__sideLeft">
-                <h2>Morphology</h2>
+
                 <div className="input">
-                    <div className="label">Sex</div>
-                    <div className="label-value" data-legend=""></div>
-                    <div className="type-range">
-                        <a href="#" className="arrow arrow-left">&nbsp;</a>
-                        <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
-                        <a href="#" className="arrow arrow-right">&nbsp;</a>
+                    <header>
+                        <h3>Ped</h3>
+                    </header>
+                    <div>
+                        <div className="label">Sex</div>
+                        <div className="label-value" data-legend=""></div>
+                        <div className="type-range">
+                            <a href="#" className="arrow arrow-left">&nbsp;</a>
+                            <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
+                            <a href="#" className="arrow arrow-right">&nbsp;</a>
+                        </div>
                     </div>
                 </div>
+
+
                 <Father handleFatherChange={setDad} />
                 <Mother handleMotherChange={setMom} />
+
+
                 <div className="input">
+                    <header>
+                        <h3>Héritage</h3>
+                    </header>
                     <div className="label">Parent Genetic rate</div>
                     <div className="label-value" data-legend=""></div>
                     <div className="type-range">
@@ -177,6 +189,8 @@ export default function SkinCreator() {
                         <a href="#" className="arrow arrow-right" >&nbsp;</a>
                     </div>
                 </div>
+
+
                 <SkinTone handleSkinToneChange={(skinToneData) => {
                     setSkinColor(skinToneData.skinColor);
                     setAcne(skinToneData.acne);

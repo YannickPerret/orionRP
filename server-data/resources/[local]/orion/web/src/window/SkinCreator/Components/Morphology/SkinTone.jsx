@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function SkinTone({handleSkinToneChange}) {
+export default function SkinTone({ handleSkinToneChange }) {
   const [skinColor, setSkinColor] = useState(12);
   const [acne, setAcne] = useState(0);
   const [skinProblem, setSkinProblem] = useState(0);
@@ -17,7 +17,7 @@ export default function SkinTone({handleSkinToneChange}) {
 
 
   const handleSkinToneChanged = (e) => {
-    handleSkinToneChange({skinColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity});
+    handleSkinToneChange({ skinColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity });
   }
 
   useEffect(() => {
@@ -29,15 +29,15 @@ export default function SkinTone({handleSkinToneChange}) {
       <div className="input">
         <div className="label">Skin tone</div>
         <div className="type-radio">
-        {skinColorOptions.map((option, index) => (
+          {skinColorOptions.map((option, index) => (
             <label htmlFor={`peaucolor${option.value}`} key={index}>
-              <input 
-                type="radio" 
-                name="peaucolor" 
-                className="peaucolor" 
-                value={option.value} 
-                id={`peaucolor${option.value}`} 
-                checked={skinColor === option.value} 
+              <input
+                type="radio"
+                name="peaucolor"
+                className="peaucolor"
+                value={option.value}
+                id={`peaucolor${option.value}`}
+                checked={skinColor === option.value}
                 onChange={() => setSkinColor(option.value)} />
               <span className="color" style={{ backgroundColor: option.color }}></span>
             </label>

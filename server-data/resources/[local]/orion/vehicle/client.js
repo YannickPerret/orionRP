@@ -125,7 +125,7 @@ const playSound = sound => {
       if (seatbelt) {
         DisableControlAction(0, 75, true);
         DisableControlAction(27, 75, true);
-        exports['orion'].requestNewModel(seatbeltPropModel);
+        emit('orion:customization:c:loadNewModel', seatbeltPropModel);
 
         // Attach seatbelt prop on player
         seatbeltProp = CreateObject(GetHashKey(seatbeltPropModel), GetPedBoneIndex(ped, 28933), true, false, false);
