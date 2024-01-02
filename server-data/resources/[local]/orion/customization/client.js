@@ -351,7 +351,7 @@
     const model = {
       skin: {
         sex: Number(data.skin.sex),
-        hash: Number(data.sex) === 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01'),
+        hash: Number(data.skin.sex) === 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01'),
         father: Number(data.skin.father),
         mother: Number(data.skin.mother),
         shapeMix: Number(data.skin.shapeMix).toFixed(2),

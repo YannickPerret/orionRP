@@ -38,7 +38,6 @@ export default function SkinCreator() {
     };
 
     const handleSubmit = async () => {
-        console.log("change sex", skin.sex)
         await sendNui('updateSkin', {
             skin: skin,
             face: face,
