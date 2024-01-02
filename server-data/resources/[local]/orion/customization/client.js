@@ -39,7 +39,6 @@
     },
     beard: {
       beard: 0,
-      beardOpacity: 0.0,
       beardColor: 0,
     },
     makeup: {
@@ -420,7 +419,6 @@
       },
       beard: {
         beard: Number(data.beard.beard),
-        beardOpacity: Number(data.beard.beardOpacity),
         beardColor: Number(data.beard.beardColor),
       },
       tattoos: {},
