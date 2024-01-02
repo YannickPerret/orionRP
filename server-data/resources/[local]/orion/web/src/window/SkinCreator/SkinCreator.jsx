@@ -104,7 +104,15 @@ export default function SkinCreator() {
         <div className="skinCreator">
             {debug &&
                 <div className="skinCreator__debug">
-                    {JSON.stringify(data.player.skin)}
+                    {JSON.stringify(skin)}
+                    <br />
+                    {JSON.stringify(face)}
+                    <br />
+                    {JSON.stringify(hair)}
+                    <br />
+                    {JSON.stringify(beard)}
+                    <br />
+                    {JSON.stringify(makeup)}
                 </div>}
 
             <div className="skinCreator__sideLeft">
@@ -118,7 +126,7 @@ export default function SkinCreator() {
                         <div className="label-value" data-legend=""></div>
                         <div className="type-range">
                             <a href="#" className="arrow arrow-left">&nbsp;</a>
-                            <input value={skin.sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSkin(prevData => ({ ...prevData, sex: e.target.value }))} />
+                            <input value={skin.sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSkin(prevData => ({ ...prevData, sex: Number(e.target.value) }))} />
                             <a href="#" className="arrow arrow-right">&nbsp;</a>
                         </div>
                     </div>
