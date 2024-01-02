@@ -30,8 +30,8 @@
       eyebrowColor: 0,
     },
     hair: {
-      hair: 0,
-      hairColor: 0,
+      hair: 2,
+      hairColor: 2,
       hairSecondaryColor: 0,
     },
     beard: {
