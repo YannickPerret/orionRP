@@ -138,6 +138,7 @@
   });
 
   onNet('orion:customization:c:applyMakeup', (makeup) => {
+    console.log('applyMakeup', makeup)
     let ped = GetPlayerPed(-1);
 
     SetPedHeadOverlay(ped, 8, makeup.lipstickType, makeup.lipstickOpacity);
