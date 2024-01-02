@@ -32,6 +32,7 @@ export default function SkinCreator() {
     const [beard, setBeard] = useState(0);
     const [beardColor, setBeardColor] = useState(0);
     const [beardThickness, setBeardThickness] = useState(0);
+    const [debug, setDebug] = useState(false);
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {
@@ -129,6 +130,31 @@ export default function SkinCreator() {
     }, []);
     return (
         <div className="skinCreator">
+            {debug &&
+                <div className="skinCreator__debug">
+                    <ul>
+                        <li>{firstname + ' ' + lastname}</li>
+                        <li>{dad}</li>
+                        <li>{mom}</li>
+                        <li>{sex}</li>
+                        <li>{heritage}</li>
+                        <li>{skinColor}</li>
+                        <li>{acne}</li>
+                        <li>{skinProblem}</li>
+                        <li>{freckle}</li>
+                        <li>{wrinkle}</li>
+                        <li>{wrinkleIntensity}</li>
+                        <li>{eyeColor}</li>
+                        <li>{hairColor}</li>
+                        <li>{hair}</li>
+                        <li>{eyeBrow}</li>
+                        <li>{eyebrowThickness}</li>
+                        <li>{beard}</li>
+                        <li>{beardColor}</li>
+                        <li>{beardThickness}</li>
+                    </ul>
+                </div>}
+
             <div className="skinCreator__sideLeft">
                 <h2>Morphology</h2>
                 <div className="input">

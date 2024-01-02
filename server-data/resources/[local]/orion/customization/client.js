@@ -17,7 +17,7 @@ exports('requestNewModel', hash => {
   loadNewModel(hash);
 });
 
-const loadNewModel = async modelHash => {
+const loadNewModel = async (modelHash) => {
   if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
     return;
   }
@@ -166,8 +166,6 @@ exports('ShowSkinCreator', ShowSkinCreator);
 exports('applySkin', (skin) => {
   let ped = GetPlayerPed(-1);
   let playerId = PlayerId();
-
-  console.log('applySkin', skin.Model.Hash)
 
   ApplyPlayerModelHash(playerId, skin.Model.Hash);
 

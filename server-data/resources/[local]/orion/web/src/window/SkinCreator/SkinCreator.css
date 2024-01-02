@@ -10,6 +10,12 @@
   overflow: hidden;
 }
 
+.skinCreator__debug {
+  position: absolute;
+  top: 15px;
+  right: 0;
+}
+
 .skinCreator__sideLeft {
   display: flex;
   flex-direction: column;
