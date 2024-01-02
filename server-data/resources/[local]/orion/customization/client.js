@@ -440,6 +440,10 @@
     zoomToPartBody(args[0]);
   });
 
+  RegisterCommand('zoomHead', (source, args) => {
+    zoomToHead();
+  }, false);
+
   // REGISTER NUI CALLBACKS
   RegisterNuiCallbackType('zoom');
   on('__cfx_nui:zoom', (data, cb) => {
