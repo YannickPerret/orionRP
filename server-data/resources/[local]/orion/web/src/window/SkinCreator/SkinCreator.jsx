@@ -23,6 +23,20 @@ export default function SkinCreator() {
 
     const [debug, setDebug] = useState(true);
 
+    const handleFatherChange = (father) => {
+        setSkin(prevSkin => ({
+            ...prevSkin,
+            father: father
+        }));
+    };
+
+    const handleMotherChange = (mother) => {
+        setSkin(prevSkin => ({
+            ...prevSkin,
+            mother: mother
+        }));
+    };
+
     const handleSubmit = async () => {
         console.log("sex", Number(sex))
 
@@ -141,8 +155,8 @@ export default function SkinCreator() {
                 </div>
 
 
-                <Father handleFatherChange={setDad} />
-                <Mother handleMotherChange={setMom} />
+                <Father handleFatherChange={handleFatherChange} />
+                <Mother handleMotherChange={handleMotherChange} />
 
 
                 <div className="input">
@@ -153,35 +167,26 @@ export default function SkinCreator() {
                     <div className="label-value" data-legend=""></div>
                     <div className="type-range">
                         <a href="#" className="arrow arrow-left">&nbsp;</a>
-                        <input value={heritage} type="range" className="morphologie" max="1.0" min="0.0" step="0.1" onChange={(e) => setHeritage(e.target.value)} />
+                        <input value={skin.shapeMix} type="range" className="morphologie" max="1.0" min="0.0" step="0.1" onChange={(e) => setSkin(prevData => ({ ...prevData, shapeMix: e.target.value }))} />
                         <a href="#" className="arrow arrow-right" >&nbsp;</a>
                     </div>
                 </div>
 
 
                 <SkinTone handleSkinToneChange={(skinToneData) => {
-                    setSkinColor(skinToneData.skinColor);
-                    setAcne(skinToneData.acne);
-                    setSkinProblem(skinToneData.skinProblem);
-                    setFreckle(skinToneData.freckle);
-                    setWrinkle(skinToneData.wrinkle);
-                    setWrinkleIntensity(skinToneData.wrinkleIntensity);
+                    setSkin(prevData => ({ ...prevData, skinColor: skinToneData.skinColor }));
+                    setFace(prevData => ({ ...prevData, acne: skinToneData.acne, skinProblem: skinToneData.skinProblem, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity }));
                 }} />
 
                 <Hair handleHairChange={(hairData) => {
-                    setHairColor(hairData.hairColor);
-                    setHair(hairData.hair);
+                    setHair(prevData => ({ ...prevData, hairColor: hairData.hairColor, hair: hairData.hair }));
                 }} />
 
                 <Eyes handleEyesChange={(eyes => {
-                    setEyeColor(eyes.eyeColor);
-                    setEyeBrow(eyes.eyeBrow);
-                    setEyebrowThickness(eyes.eyebrowThickness);
+                    setFace(prevData => ({ ...prevData, eyeColor: eyes.eyeColor, eyeBrow: eyes.eyeBrow, eyebrowOpacity: eyes.eyebrowThickness }));
                 })} />
                 <Beard handleBeardChange={(beard) => {
-                    setBeard(beard.beard);
-                    setBeardColor(beard.beardColor);
-                    setBeardThickness(beard.beardThickness);
+                    setBeard(prevData => ({ ...prevData, beard: beard.beard, beardColor: beard.beardColor, beardOpacity: beard.beardThickness }));
                 }} />
             </div>
 
