@@ -143,7 +143,7 @@ export default function SkinCreator() {
                     setFace(prevData => ({ ...prevData, acne: skinToneData.acne, skinProblem: skinToneData.skinProblem, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity }));
                 }} />
 
-                <Hair handleHairChange={(hairData) => {
+                <Hair hair={hair.hair} hairColor={hair.hairColor} handleHairChange={(hairData) => {
                     setHair(prevData => ({ ...prevData, hairColor: hairData.hairColor, hair: hairData.hair }));
                 }} />
 
