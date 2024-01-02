@@ -35,7 +35,7 @@ export default function SkinCreator() {
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {
-            sex: sex,
+            sex: Number(sex),
             dad: dad,
             mom: mom,
             heritage: heritage,

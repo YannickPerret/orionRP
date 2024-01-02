@@ -159,6 +159,8 @@ exports('applySkin', skin => {
   let ped = GetPlayerPed(-1);
   let playerId = PlayerId();
 
+  console.log('applySkin', skin)
+
   ApplyPlayerModelHash(playerId, skin.Model.Hash);
 
   SetPedDefaultComponentVariation(ped);
