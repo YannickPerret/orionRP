@@ -155,13 +155,13 @@ const ShowSkinCreator = enable => {
 
 exports('ShowSkinCreator', ShowSkinCreator);
 
-exports('applySkin', skin => {
+exports('applySkin', (skin) => {
   let ped = GetPlayerPed(-1);
   let playerId = PlayerId();
 
-  console.log('applySkin', skin)
+  console.log('applySkin', skin.Model.Hash)
 
-  ApplyPlayerModelHash(playerId, skin[0].Model.Hash);
+  ApplyPlayerModelHash(playerId, skin.Model.Hash);
 
   SetPedDefaultComponentVariation(ped);
 
