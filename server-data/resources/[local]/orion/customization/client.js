@@ -422,7 +422,7 @@
 
     ApplyPedFaceTrait(model.skin);
     applyPedFace(ped, model.face);
-    ApplyPedHair(ped, model.hair);
+    ApplyPedHair(playerId, model.hair);
     //emit('orion:customization:c:applyMakeup', model.makeup);
     //emit('orion:customization:c:applyClothes', model.clothes)
     //emit('orion:customization:c:applyTattoos', model.tattoos)
