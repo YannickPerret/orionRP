@@ -129,7 +129,7 @@ export default function SkinCreator() {
     }, []);
     return (
         <div className="skinCreator">
-            <div className="sideLeft">
+            <div className="skinCreator__sideLeft">
                 <h2>Morphology</h2>
                 <div className="input">
                     <div className="label">Sex</div>
