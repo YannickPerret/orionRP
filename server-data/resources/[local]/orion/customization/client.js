@@ -15,8 +15,6 @@
       Sex: 0,
       Father: 0,
       Mother: 0,
-      WeightFace: 0.5,
-      WeightSkin: 0.5,
       ShapeMix: 0.5,
       SkinMix: 0.5,
       SkinColor: 0,
@@ -339,15 +337,23 @@
 
   RegisterNuiCallbackType('updateSkin');
   on('__cfx_nui:updateSkin', async (data, cb) => {
-    const model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
+    emit('orion:customization:c:updatePlayerSkin', data);
+    cb({ ok: true });
+  });
 
-    const models = {
+  onNet('orion:customization:c:updatePlayerSkin', (data) => {
+    let ped = GetPlayerPed(-1);
+    let playerId = PlayerId();
+
+    const _model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
+
+    const model = {
       Skin: {
-        Hash: model,
+        Hash: _model,
         Father: Number(data.dad),
         Mother: Number(data.mom),
-        WeightFace: Number(data.heritage * 0.1).toFixed(2),
-        WeightSkin: Number(data.heritage * 0.1).toFixed(2),
+        ShapeMix: Number(data.heritage).toFixed(2),
+        SkinMix: Number(data.heritage).toFixed(2),
         Skin: Number(data.skin),
       },
       Hair: {
@@ -372,29 +378,20 @@
         WrinkleOpacity: Number(data.wrinkleOpacity),
       },
     }
-    emitNet('orion:customization:c:applySkin', models);
-
-    cb({ ok: true });
-  });
-
-  onNet('orion:customization:c:applySkin', (skin) => {
-    let ped = GetPlayerPed(-1);
-    let playerId = PlayerId();
-
-    ApplyPlayerModelHash(playerId, skin.Model.Hash);
+    ApplyPlayerModelHash(playerId, model.Skin.Hash);
 
     SetPedDefaultComponentVariation(ped);
 
     ClearPedDecorations(ped);
 
-    ApplyPedFaceTrait(skin.Model);
-    applyPedFace(ped, skin.Face);
-    ApplyPedHair(PlayerPedId(), skin.Hair);
-    emit('orion:customization:c:applyMakeup', skin.Makeup);
-    emit('orion:customization:c:applyClothes', skin.Clothes)
-    emit('orion:customization:c:applyTattoos', skin.Tattoos)
+    ApplyPedFaceTrait(model.Skin);
+    applyPedFace(ped, model.Face);
+    ApplyPedHair(PlayerPedId(), model.Hair);
+    emit('orion:customization:c:applyMakeup', model.Makeup);
+    emit('orion:customization:c:applyClothes', model.Clothes)
+    emit('orion:customization:c:applyTattoos', model.Tattoos)
+    // emit('orion:customization:c:applyBag', model.Bag, model.Clothes.Bag.Type != 0)
   });
-
 
   // REGISTER COMMANDS
   RegisterCommand('skin', (source, args) => {

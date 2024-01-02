@@ -20,7 +20,7 @@ export default function SkinCreator() {
     const [mom, setMom] = useState(data.player.skin.Skin.Mother);
     const [sex, setSex] = useState(data.player.skin.Skin.Sex);
 
-    const [heritage, setHeritage] = useState(5);
+    const [heritage, setHeritage] = useState(data.player.skin.Skin.ShapeMix);
     const [skinColor, setSkinColor] = useState(data.player.skin.Skin.SkinColor);
     const [acne, setAcne] = useState(data.player.skin.Face.Acne);
     const [skinProblem, setSkinProblem] = useState(data.player.skin.Face.SkinProblem);
@@ -38,6 +38,8 @@ export default function SkinCreator() {
     const [debug, setDebug] = useState(true);
 
     const handleSubmit = async () => {
+        console.log("sex", Number(sex))
+
         await sendNui('updateSkin', {
             sex: Number(sex),
             dad: dad,
@@ -188,7 +190,7 @@ export default function SkinCreator() {
                     <div className="label-value" data-legend=""></div>
                     <div className="type-range">
                         <a href="#" className="arrow arrow-left">&nbsp;</a>
-                        <input value={heritage} type="range" className="morphologie" min="0" max="100" onChange={(e) => setHeritage(e.target.value)} />
+                        <input value={heritage} type="range" className="morphologie" max="1.0" min="0.0" step="0.1" onChange={(e) => setHeritage(e.target.value)} />
                         <a href="#" className="arrow arrow-right" >&nbsp;</a>
                     </div>
                 </div>
