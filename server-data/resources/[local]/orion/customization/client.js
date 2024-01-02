@@ -9,6 +9,14 @@ var positionNewPlayer = {
   z: 29.84,
 };
 
+exports('skinCreatorZoom', body => {
+  zoomToPartBody(body);
+});
+
+exports('requestNewModel', hash => {
+  loadNewModel(hash);
+});
+
 const loadNewModel = async modelHash => {
   if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
     return;
@@ -21,7 +29,7 @@ const loadNewModel = async modelHash => {
   RequestModel(modelHash);
 
   while (!HasModelLoaded(modelHash)) {
-    await exports['orion'].delay(100);
+    await exports['orion'].delay(10);
   }
 };
 
@@ -175,13 +183,7 @@ exports('applySkin', (skin) => {
   //ApplyPedProps(ped, skin);
 });
 
-exports('skinCreatorZoom', body => {
-  zoomToPartBody(body);
-});
 
-exports('requestNewModel', hash => {
-  loadNewModel(hash);
-});
 
 // REGISTER COMMANDS
 RegisterCommand('skin', (source, args) => {
