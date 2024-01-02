@@ -38,7 +38,6 @@ export default function SkinCreator() {
     };
 
     const handleSubmit = async () => {
-        console.log("2")
         await sendNui('updateSkin', {
             skin: skin,
             face: face,
@@ -71,7 +70,6 @@ export default function SkinCreator() {
     }
 
     const handleValidate = async () => {
-        console.log("1")
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,
@@ -138,7 +136,7 @@ export default function SkinCreator() {
                 </div>
 
 
-                <SkinTone handleSkinToneChange={(skinToneData) => {
+                <SkinTone _acne={face.acne} _freckle={face.freckle} _skinColor={skin.skinColor} _wrinkle={face.wrinkle} _wrinkleOpcity={face.wrinkleOpacity} handleSkinToneChange={(skinToneData) => {
                     setSkin(prevData => ({ ...prevData, skinColor: skinToneData.skinColor }));
                     setFace(prevData => ({ ...prevData, acne: skinToneData.acne, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity }));
                 }} />

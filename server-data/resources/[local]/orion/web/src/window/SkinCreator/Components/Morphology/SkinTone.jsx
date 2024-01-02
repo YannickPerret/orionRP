@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-export default function SkinTone({ handleSkinToneChange }) {
-  const [skinColor, setSkinColor] = useState(12);
-  const [acne, setAcne] = useState(0);
-  const [skinProblem, setSkinProblem] = useState(0);
-  const [freckle, setFreckle] = useState(0);
-  const [wrinkle, setWrinkle] = useState(0);
-  const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
+export default function SkinTone({ _acne, _skinColor, _freckle, _wrinkle, _wrinkleOpacity, handleSkinToneChange }) {
+  const [skinColor, setSkinColor] = useState(_skinColor);
+  const [acne, setAcne] = useState(_acne);
+  const [freckle, setFreckle] = useState(_freckle);
+  const [wrinkle, setWrinkle] = useState(_wrinkle);
+  const [wrinkleIntensity, setWrinkleIntensity] = useState(_wrinkleOpacity);
 
   const skinColorOptions = [
     { value: '12', color: '#ecc8ae' },
@@ -15,14 +14,9 @@ export default function SkinTone({ handleSkinToneChange }) {
     { value: '14', color: '#4e3a26' }
   ];
 
-
-  const handleSkinToneChanged = (e) => {
-    handleSkinToneChange({ skinColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity });
-  }
-
   useEffect(() => {
-    handleSkinToneChanged();
-  }, [skinColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
+    handleSkinToneChange({ skinColor, acne, freckle, wrinkle, wrinkleIntensity });
+  }, [skinColor, acne, freckle, wrinkle, wrinkleIntensity]);
 
   return (
     <div className="group">
@@ -73,7 +67,7 @@ export default function SkinTone({ handleSkinToneChange }) {
         <div className="label">Intensité des rides</div>
         <div className="label-value" data-legend="/10"></div>
         <div className="type-range">
-          <input type="range" className="intensiterides" min="0" max="10" value={wrinkleIntensity} onInput={(e) => setWrinkleIntensity(e.target.value)} />
+          <input type="range" className="intensiterides" min="0.0" max="1.0" step="1.0" value={wrinkleIntensity} onInput={(e) => setWrinkleIntensity(e.target.value)} />
         </div>
       </div>
     </div>
