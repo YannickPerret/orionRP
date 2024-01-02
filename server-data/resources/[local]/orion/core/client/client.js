@@ -100,10 +100,13 @@ setTick(async () => {
 
 onNet('orion:blips:c:createBlips', (blips) => {
   blips.stations.forEach(station => {
-    exports['orion'].createBlip(station.position, 361, 1, station.name);
+    exports['orion'].createBlip(station.position, 361, 13, station.name);
   });
   blips.banks.forEach(bank => {
-    exports['orion'].createBlip(bank.position, 108, 1, bank.name);
+    exports['orion'].createBlip(bank.position, 108, 2, bank.name);
+  });
+  blips.bankNational.forEach(bank => {
+    exports['orion'].createBlip(bank.position, 108, 2, bank.name);
   });
 });
 
