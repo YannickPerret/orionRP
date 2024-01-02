@@ -266,15 +266,18 @@
     //eyebrows
     SetPedHeadOverlay(ped, 5, face.eyebrowType, face.eyebrowOpacity);
     SetPedHeadOverlayColor(ped, 5, 0, face.eyebrowColor, 0);
+  };
 
-    //beard
-    if (face.beard == 0) {
-      SetPedHeadOverlay(ped, 1, face.beard, 0.0);
+  onNet('orion:customization:c:applyPedBeard', (beard) => {
+    let ped = GetPlayerPed(-1);
+
+    if (beard.beard == 0) {
+      SetPedHeadOverlay(ped, 1, beard.beard, 0.0);
     }
     else
-      SetPedHeadOverlay(ped, 1, face.beard, 1.0);
+      SetPedHeadOverlay(ped, 1, beard.beard, 1.0);
+  });
 
-  };
 
   const ApplyPedFaceTrait = model => {
     SetPedHeadBlendData(
@@ -430,6 +433,7 @@
     ApplyPedFaceTrait(model.skin);
     applyPedFace(ped, model.face);
     ApplyPedHair(PlayerPedId(), model.hair);
+    emit('orion:customization:c:applyPedBeard', model.beard);
     //emit('orion:customization:c:applyMakeup', model.makeup);
     //emit('orion:customization:c:applyClothes', model.clothes)
     //emit('orion:customization:c:applyTattoos', model.tattoos)
