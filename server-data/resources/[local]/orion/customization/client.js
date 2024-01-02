@@ -341,7 +341,7 @@
     cb({ ok: true });
   });
 
-  onNet('orion:customization:c:updatePlayerSkin', (data) => {
+  onNet('orion:customization:c:updatePlayerSkin', async (data) => {
     let ped = GetPlayerPed(-1);
     let playerId = PlayerId();
 
@@ -410,7 +410,7 @@
       tattoos: {},
     };
 
-    ApplyPlayerModelHash(playerId, model.skin.hash);
+    await ApplyPlayerModelHash(playerId, model.skin.hash);
 
     SetPedDefaultComponentVariation(ped);
 
@@ -419,10 +419,10 @@
     ApplyPedFaceTrait(model.skin);
     applyPedFace(ped, model.face);
     ApplyPedHair(PlayerPedId(), model.hair);
-    emit('orion:customization:c:applyMakeup', model.makeup);
+    //emit('orion:customization:c:applyMakeup', model.makeup);
     //emit('orion:customization:c:applyClothes', model.clothes)
     //emit('orion:customization:c:applyTattoos', model.tattoos)
-    // emit('orion:customization:c:applyBag', model.Bag, model.Clothes.Bag.Type != 0)
+    //emit('orion:customization:c:applyBag', model.Bag, model.Clothes.Bag.Type != 0)
   });
 
   // REGISTER COMMANDS
