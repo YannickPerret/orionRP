@@ -38,6 +38,7 @@ export default function SkinCreator() {
     };
 
     const handleSubmit = async () => {
+        console.log("change sex")
         await sendNui('updateSkin', {
             skin: skin,
             face: face,
@@ -61,26 +62,11 @@ export default function SkinCreator() {
     }
 
     const handleReset = async () => {
-        setFirstname('');
-        setLastname('');
-        setDad(0);
-        setMom(0);
-        setSex(0);
-        setHeritage(5);
-        setSkinColor(0);
-        setAcne(0);
-        setSkinProblem(0);
-        setFreckle(0);
-        setWrinkle(0);
-        setWrinkleIntensity(10);
-        setHairColor(0);
-        setHair(0);
-        setEyeBrow(0);
-        setEyeColor(0);
-        setEyebrowThickness(0);
-        setBeard(0);
-        setBeardColor(0);
-        setBeardThickness(0);
+        setSkin(data.player.skin.skin);
+        setFace(data.player.skin.face);
+        setHair(data.player.skin.hair);
+        setBeard(data.player.skin.Beard);
+        setMakeup(data.player.skin.Makeup);
         await sendNui('resetSkin');
     }
 
