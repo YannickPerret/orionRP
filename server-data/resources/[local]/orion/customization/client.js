@@ -348,28 +348,28 @@
     const _model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
 
     const model = {
-      Skin: {
-        Sex: Number(data.Skin.sex),
-        Hash: _model,
-        Father: Number(data.dad),
-        Mother: Number(data.mom),
-        ShapeMix: Number(data.heritage).toFixed(2),
-        SkinMix: Number(data.heritage).toFixed(2),
-        Skin: Number(data.skin),
+      skin: {
+        sex: Number(data.Skin.sex),
+        hash: _model,
+        father: Number(data.dad),
+        mother: Number(data.mom),
+        shapeMix: Number(data.heritage).toFixed(2),
+        skinMix: Number(data.heritage).toFixed(2),
+        skin: Number(data.skin),
       },
-      Hair: {
+      hair: {
         HairType: Number(data.hair),
         HairColor: Number(data.hairColor),
         HairSecondaryColor: Number(data.highlight),
       },
-      Face: {
+      face: {
         Acne: Number(data.acne),
         SkinProblem: Number(data.skinProblem),
         Freckle: Number(data.freckle),
         Wrinkle: Number(data.wrinkle),
         WrinkleOpacity: Number(data.wrinkleOpacity),
       },
-      Makeup: {
+      makeup: {
         LipstickType: Number(data.lipstick),
         LipstickOpacity: Number(data.lipstickOpacity),
         LipstickColor: Number(data.lipstickColor),
@@ -404,12 +404,12 @@
         ChestHairOpacity: Number(data.chestHairOpacity),
         ChestHairColor: Number(data.chestHairColor),
       },
-      Beard: {
+      beard: {
         Beard: Number(data.beard),
         BeardOpacity: Number(data.beardThickness),
         BeardColor: Number(data.beardColor),
       },
-      Tattoos: {},
+      tattoos: {},
     }
     ApplyPlayerModelHash(playerId, model.Skin.Hash);
 

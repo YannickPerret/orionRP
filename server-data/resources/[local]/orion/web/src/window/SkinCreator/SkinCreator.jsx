@@ -104,25 +104,11 @@ export default function SkinCreator() {
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,
-            dad: dad,
-            mom: mom,
-            sex: sex,
-            heritage: heritage,
-            skin: skinColor,
-            acne: acne,
-            skinProblem: skinProblem,
-            freckle: freckle,
-            wrinkle: wrinkle,
-            wrinkleIntensity: wrinkleIntensity,
-            eyeColor: eyeColor,
-            hairColor: hairColor,
+            skin: skin,
+            face: face,
             hair: hair,
-            highlight: 0,
-            eyeBrow: eyeBrow,
-            eyebrowThickness: eyebrowThickness,
             beard: beard,
-            beardColor: beardColor,
-            beardThickness: beardThickness
+            makeup: makeup
         });
     }
 
