@@ -7,7 +7,7 @@
 
         if (!player) {
             emitNet('orion:showNotification', source, 'Vous n\'êtes pas connecté.');
-            return;
+            emitNet('orion:station:c:detachRope', source);
         }
         emitNet('orion:station:c:attachRope', source, netIdProp, coordPumps, model, player.id);
     })
