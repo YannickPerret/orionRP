@@ -411,18 +411,18 @@
       },
       tattoos: {},
     }
-    ApplyPlayerModelHash(playerId, model.Skin.Hash);
+    ApplyPlayerModelHash(playerId, model.skin.hash);
 
     SetPedDefaultComponentVariation(ped);
 
     ClearPedDecorations(ped);
 
-    ApplyPedFaceTrait(model.Skin);
-    applyPedFace(ped, model.Face);
-    ApplyPedHair(PlayerPedId(), model.Hair);
-    emit('orion:customization:c:applyMakeup', model.Makeup);
-    emit('orion:customization:c:applyClothes', model.Clothes)
-    emit('orion:customization:c:applyTattoos', model.Tattoos)
+    ApplyPedFaceTrait(model.skin);
+    applyPedFace(ped, model.face);
+    ApplyPedHair(PlayerPedId(), model.hair);
+    emit('orion:customization:c:applyMakeup', model.makeup);
+    emit('orion:customization:c:applyClothes', model.clothes)
+    emit('orion:customization:c:applyTattoos', model.tattoos)
     // emit('orion:customization:c:applyBag', model.Bag, model.Clothes.Bag.Type != 0)
   });
 
