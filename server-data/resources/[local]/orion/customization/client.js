@@ -413,6 +413,8 @@
       tattoos: {},
     };
 
+    console.log('model hash', model.skin.hash, "Hash pour un homme", GetHashKey('mp_m_freemode_01'))
+
     ApplyPlayerModelHash(playerId, model.skin.hash);
 
     SetPedDefaultComponentVariation(ped);
