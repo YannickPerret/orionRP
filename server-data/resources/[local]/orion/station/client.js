@@ -139,7 +139,6 @@
       let vehicle = vehicleInFront();
 
       if (playerPickupPump && vehicle) {
-        console.log('vehicle in front', vehicle);
         handleVehicleInteraction(vehicle);
       }
     }
