@@ -188,7 +188,7 @@
     }
   });
 
-  onNet('orion:customization:c:loadNewModel', async (modelHash) => {
+  onNet('orion:customization:c:loadNewModel', async (modelHash, cb) => {
     if (modelHash == GetEntityModel(GetPlayerPed(-1))) {
       return;
     }
@@ -202,6 +202,8 @@
     while (!HasModelLoaded(modelHash)) {
       await exports['orion'].delay(100);
     }
+
+    return cb();
   });
 
   const zoomToPartBody = body => {
@@ -285,10 +287,14 @@
   };
 
   const ApplyPlayerModelHash = async (playerId, hash) => {
-    await emit('orion:customization:c:loadNewModel', hash)
+    console.log('ApplyPlayerModelHash', playerId, hash)
 
-    SetPlayerModel(playerId, hash);
-    SetModelAsNoLongerNeeded(hash);
+    await emit('orion:customization:c:loadNewModel', hash, () => {
+      console.log('ApplyPlayerModelHash', playerId, hash)
+      SetPlayerModel(playerId, hash);
+      SetModelAsNoLongerNeeded(hash);
+
+    })
   };
 
   onNet('orion:customization:c:ShowSkinCreator', (enable) => {
@@ -341,7 +347,7 @@
     cb({ ok: true });
   });
 
-  onNet('orion:customization:c:updatePlayerSkin', async (data) => {
+  onNet('orion:customization:c:updatePlayerSkin', (data) => {
     let ped = GetPlayerPed(-1);
     let playerId = PlayerId();
 
@@ -410,7 +416,7 @@
       tattoos: {},
     };
 
-    await ApplyPlayerModelHash(playerId, model.skin.hash);
+    ApplyPlayerModelHash(playerId, model.skin.hash);
 
     SetPedDefaultComponentVariation(ped);
 
