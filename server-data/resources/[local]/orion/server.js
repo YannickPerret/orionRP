@@ -5,6 +5,8 @@
     await db.initializeMigration().then(async () => {
         // initialize blips and markers
         await exports['orion'].initializeBlips();
+        //await exports['orion'].initializeMarkers();
+
     });
 
     on('playerDropped', reason => {

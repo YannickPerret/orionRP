@@ -1,7 +1,4 @@
 (async () => {
-  const { db, r } = await require('../core/server/database.js');
-  const banks = await db.getAll('banks');
-  console.log(banks);
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
   let showBankInterface = false;
   let maxWithdraw = 0;
@@ -103,6 +100,7 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque nationale');
             if (IsControlJustReleased(0, 38)) {
               emitNet('orion:bank:s:getAccountInterface', "bank");
+              maxWithdraw = 100000000;
             }
           }
         }
@@ -115,6 +113,7 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
             if (IsControlJustReleased(0, 38)) {
               emitNet('orion:bank:s:getAccountInterface', "bank");
+              maxWithdraw = 1000000;
             }
           }
         }
@@ -127,6 +126,7 @@
             emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
             if (IsControlJustReleased(0, 38)) {
               emitNet('orion:bank:s:getAccountInterface', "atm");
+              maxWithdraw = 100000;
             }
           }
         }
