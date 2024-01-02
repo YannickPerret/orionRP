@@ -277,6 +277,7 @@
     }
     else
       SetPedHeadOverlay(ped, 1, beard.beard, 1.0);
+    SetPedHeadOverlayColor(ped, 1, 1, beard.beardColor, 0);
   });
 
 
