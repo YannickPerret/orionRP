@@ -38,6 +38,7 @@ export default function SkinCreator() {
     };
 
     const handleSubmit = async () => {
+        console.log(beard)
         await sendNui('updateSkin', {
             skin: skin,
             face: face,
