@@ -277,7 +277,7 @@
 
   const ApplyPedHair = (ped, hair) => {
     console.log('ApplyPedHair', hair)
-    SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
+    SetPedComponentVariation(ped, 2, hair.HairType, 0, 2);
     SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
     SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
     SetPedHeadOverlayColor(ped, 2, 1, hair.EyebrowColor, 0);
@@ -422,7 +422,7 @@
 
     ApplyPedFaceTrait(model.skin);
     applyPedFace(ped, model.face);
-    ApplyPedHair(PlayerPedId(), model.hair);
+    ApplyPedHair(ped, model.hair);
     //emit('orion:customization:c:applyMakeup', model.makeup);
     //emit('orion:customization:c:applyClothes', model.clothes)
     //emit('orion:customization:c:applyTattoos', model.tattoos)
