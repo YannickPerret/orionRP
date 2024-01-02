@@ -142,10 +142,53 @@
     SetPedComponentVariation(ped, 8, clothes.Top.Type, clothes.Top.Color, 2);
   });
 
+  onNet('orion:customization:c:applyMakeup', (makeup) => {
+    let ped = GetPlayerPed(-1);
 
+    SetPedHeadOverlay(ped, 8, makeup.LipstickType, makeup.LipstickOpacity);
+    SetPedHeadOverlayColor(ped, 8, 2, makeup.LipstickColor, 0);
+    SetPedHeadOverlay(ped, 5, makeup.BlushType, makeup.BlushOpacity);
+    SetPedHeadOverlayColor(ped, 5, 2, makeup.BlushColor, 0);
+    SetPedHeadOverlay(ped, 4, makeup.EyeShadowType, makeup.EyeShadowOpacity);
+    SetPedHeadOverlayColor(ped, 4, 2, makeup.EyeShadowColor, 0);
+    SetPedHeadOverlay(ped, 2, makeup.EyeLinerType, makeup.EyeLinerOpacity);
+    SetPedHeadOverlayColor(ped, 2, 2, makeup.EyeLinerColor, 0);
+    SetPedHeadOverlay(ped, 1, makeup.EyeType, makeup.EyeOpacity);
+    SetPedHeadOverlayColor(ped, 1, 2, makeup.EyeColor, 0);
+    SetPedHeadOverlay(ped, 0, makeup.EyebrowType, makeup.EyebrowOpacity);
+    SetPedHeadOverlayColor(ped, 0, 2, makeup.EyebrowColor, 0);
+    SetPedHeadOverlay(ped, 3, makeup.AgeingType, makeup.AgeingOpacity);
+    SetPedHeadOverlayColor(ped, 3, 2, makeup.AgeingColor, 0);
+    SetPedHeadOverlay(ped, 6, makeup.ComplexionType, makeup.ComplexionOpacity);
+    SetPedHeadOverlayColor(ped, 6, 2, makeup.ComplexionColor, 0);
+    SetPedHeadOverlay(ped, 7, makeup.SunDamageType, makeup.SunDamageOpacity);
+    SetPedHeadOverlayColor(ped, 7, 2, makeup.SunDamageColor, 0);
+    SetPedHeadOverlay(ped, 9, makeup.MolesFrecklesType, makeup.MolesFrecklesOpacity);
+    SetPedHeadOverlayColor(ped, 9, 2, makeup.MolesFrecklesColor, 0);
+    SetPedHeadOverlay(ped, 10, makeup.ChestHairType, makeup.ChestHairOpacity);
+    SetPedHeadOverlayColor(ped, 10, 2, makeup.ChestHairColor, 0);
+  });
 
-  exports('skinCreatorZoom', body => {
-    zoomToPartBody(body);
+  onNet('orion:customization:c:applyTattoos', (tattoos) => {
+    let ped = GetPlayerPed(-1);
+
+    ClearPedDecorations(ped);
+
+    for (let i = 0; i < 25; i++) {
+      if (tattoos[i]) {
+        AddPedDecorationFromHashes(ped, tattoos[i].Collection, tattoos[i].Hash);
+      }
+    }
+  });
+
+  onNet('orion:customization:c:applyBag', (bag, enable) => {
+    let ped = GetPlayerPed(-1);
+    if (enable) {
+      SetPedComponentVariation(ped, 5, bag.Type, bag.Color, 2);
+    }
+    else {
+      SetPedComponentVariation(ped, 5, 0, 0, 2);
+    }
   });
 
   onNet('orion:customization:c:loadNewModel', async (modelHash) => {
@@ -160,7 +203,7 @@
     RequestModel(modelHash);
 
     while (!HasModelLoaded(modelHash)) {
-      await exports['orion'].delay(0);
+      await exports['orion'].delay(100);
     }
   });
 
@@ -226,10 +269,10 @@
       model.Mother,
       model.Father,
       0,
-      model.WeightFace,
-      model.WeightSkin,
+      model.shapeMix,
+      model.skinMix,
       0.0,
-      false
+      true
     );
   };
 
@@ -294,14 +337,6 @@
     isSkinCreatorOpened = enable;
   });
 
-  const ApplyPedTattoos = (ped, tattoos) => {
-    for (let i = 0; i < 25; i++) {
-      if (tattoos[i]) {
-        AddPedDecorationFromHashes(ped, tattoos[i].Collection, tattoos[i].Hash);
-      }
-    }
-  };
-
   RegisterNuiCallbackType('updateSkin');
   on('__cfx_nui:updateSkin', async (data, cb) => {
     const model = data.sex == 0 ? GetHashKey('mp_m_freemode_01') : GetHashKey('mp_f_freemode_01');
@@ -342,9 +377,6 @@
     cb({ ok: true });
   });
 
-
-  exports('ShowSkinCreator', ShowSkinCreator);
-
   onNet('orion:customization:c:applySkin', (skin) => {
     let ped = GetPlayerPed(-1);
     let playerId = PlayerId();
@@ -358,10 +390,10 @@
     ApplyPedFaceTrait(skin.Model);
     applyPedFace(ped, skin.Face);
     ApplyPedHair(PlayerPedId(), skin.Hair);
-    //ApplyPedMakeup(ped, skin.Makeup)
-    ApplyPedTattoos(ped, skin.Tattoos || {})
+    emit('orion:customization:c:applyMakeup', skin.Makeup);
+    emit('orion:customization:c:applyClothes', skin.Clothes)
+    emit('orion:customization:c:applyTattoos', skin.Tattoos)
   });
-
 
 
   // REGISTER COMMANDS
