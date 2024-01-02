@@ -142,7 +142,7 @@ export default function SkinCreator() {
                 }} />
 
                 <Hair handleHairChange={(hairData) => {
-                    setHair(prevData => ({ ...prevData, hairColor: hairData.hairColor, hairType: hairData.hair }));
+                    setHair(prevData => ({ ...prevData, hairColor: hairData.hairColor, hair: hairData.hair }));
                 }} />
 
                 <Eyes handleEyesChange={(eyes => {
