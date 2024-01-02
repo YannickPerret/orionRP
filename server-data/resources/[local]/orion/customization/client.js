@@ -19,7 +19,7 @@
       skinMix: 0.5,
       skinColor: 0,
     },
-    Face: {
+    face: {
       Acne: 0,
       SkinProblem: 0,
       Freckle: 0,
@@ -29,17 +29,17 @@
       EyebrowOpacity: 0.0,
       EyebrowColor: 0,
     },
-    Hair: {
+    hair: {
       Hair: 0,
       HairColor: 0,
       HairSecondaryColor: 0,
     },
-    Beard: {
+    beard: {
       Beard: 0,
       BeardOpacity: 0.0,
       BeardColor: 0,
     },
-    Makeup: {
+    makeup: {
       LipstickType: 0,
       LipstickOpacity: 0.0,
       LipstickColor: 0,
@@ -69,8 +69,8 @@
       ChestHairOpacity: 0.0,
       ChestHairColor: 0,
     },
-    Tattoos: {},
-    Clothers: {
+    tattoos: {},
+    clothers: {
       Tshirt: {
         Type: 0,
         Color: 0,

@@ -16,8 +16,8 @@ export default function SkinCreator() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [skin, setSkin] = useState(data.player.skin.skin);
-    const [face, setFace] = useState(data.player.skin.Face);
-    const [hair, setHair] = useState(data.player.skin.Hair);
+    const [face, setFace] = useState(data.player.skin.face);
+    const [hair, setHair] = useState(data.player.skin.hair);
     const [beard, setBeard] = useState(data.player.skin.Beard);
     const [makeup, setMakeup] = useState(data.player.skin.Makeup);
 
@@ -130,7 +130,6 @@ export default function SkinCreator() {
         handleSubmit();
     }, [skin, face, hair, beard, makeup]);
 
-    console.log("skin", skin)
     return (
         <div className="skinCreator">
             {debug &&
