@@ -269,6 +269,7 @@
   };
 
   onNet('orion:customization:c:applyPedBeard', (beard) => {
+    console.log('applyPedBeard', beard)
     let ped = GetPlayerPed(-1);
 
     if (beard.beard == 0) {

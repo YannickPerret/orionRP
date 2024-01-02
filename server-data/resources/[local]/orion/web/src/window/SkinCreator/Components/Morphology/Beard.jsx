@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Beard({handleBeardChange}) {
-  const [beard, setBeard] = useState(0);
+export default function Beard({ _beard, _beardColor, handleBeardChange }) {
+  const [beard, setBeard] = useState(_beard);
   const [beardThickness, setBeardThickness] = useState(0);
-  const [beardColor, setBeardColor] = useState(0);
+  const [beardColor, setBeardColor] = useState(_beardColor);
 
   const handleBeardTypeChange = (e) => {
     setBeard(e.target.value);
@@ -18,7 +18,7 @@ export default function Beard({handleBeardChange}) {
   };
 
   useEffect(() => {
-    handleBeardChange({beard, beardColor, beardThickness});
+    handleBeardChange({ beard, beardColor, beardThickness });
   }, [beard, beardThickness, beardColor]);
 
   return (
@@ -43,14 +43,14 @@ export default function Beard({handleBeardChange}) {
           {/* Generate radio buttons for beard colors */}
           {['#1D1D1A', '#4B392D', '#7A3B1F', '#A35631', '#A96F49', '#BD8D5E', '#CBA66F', '#E8BE78', '#D09E6A', '#C85831', '#947A67', '#D8C1AC'].map((color, index) => (
             <label htmlFor={`bc${index + 1}`} key={index}>
-              <input 
-                type="radio" 
-                name="barbecolor" 
-                className="barbecolor" 
-                value={(index * 2).toString()} 
-                id={`bc${index + 1}`} 
-                checked={beardColor === (index * 2).toString()} 
-                onChange={handleBeardColorChange} 
+              <input
+                type="radio"
+                name="barbecolor"
+                className="barbecolor"
+                value={(index * 2).toString()}
+                id={`bc${index + 1}`}
+                checked={beardColor === (index * 2).toString()}
+                onChange={handleBeardColorChange}
               />
               <span className="color" data-color={color} style={{ backgroundColor: color }}></span>
             </label>

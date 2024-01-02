@@ -148,7 +148,7 @@ export default function SkinCreator() {
                 <Eyes _eyeColor={face.eyeColor} _eyeBrowType={face.eyebrowType} _eyeBrowOpacity={face.eyebrowOpacity} _eyebrowColor={face.eyebrowColor} handleEyesChange={(eyes => {
                     setFace(prevData => ({ ...prevData, eyeColor: eyes.eyeColor, eyebrowType: eyes.eyeBrow, eyebrowOpacity: eyes.eyebrowThickness, eyebrowColor: eyes.eyeBrowColor }));
                 })} />
-                <Beard handleBeardChange={(beard) => {
+                <Beard _beard={beard.beard} _beardColor={beard.beardColor} handleBeardChange={(beard) => {
                     setBeard(prevData => ({ ...prevData, beard: beard.beard, beardColor: beard.beardColor, beardOpacity: beard.beardThickness }));
                 }} />
             </div>
