@@ -21,12 +21,9 @@
     },
     face: {
       acne: 0,
-      skinProblem: 0,
       freckle: 0,
       wrinkle: 0,
       wrinkleOpacity: 0.0,
-      eyeType: 0,
-      eyeOpacity: 0.0,
       eyeColor: 0,
       eyebrowType: 0,
       eyebrowOpacity: 0.0,
@@ -254,11 +251,6 @@
     } else
       SetPedHeadOverlay(ped, 0, face.acne, 1.0);
 
-    if (face.skinProblem == 0) {
-      SetPedHeadOverlay(ped, 1, face.skinProblem, 0.0);
-    } else
-      SetPedHeadOverlay(ped, 1, face.skinProblem, 1.0);
-
     if (face.freckle == 0) {
       SetPedHeadOverlay(ped, 2, face.freckle, 0.0);
     } else
@@ -267,7 +259,6 @@
 
     //eyes
     SetPedEyeColor(ped, face.eyeColor);
-    SetPedHeadOverlay(ped, 4, face.eyeType, face.eyeOpacity);
     SetPedHeadOverlayColor(ped, 4, 0, face.eyeColor, 0);
 
     //eyebrows
@@ -376,12 +367,9 @@
       },
       face: {
         acne: Number(data.face.acne),
-        skinProblem: Number(data.face.skinProblem),
         freckle: Number(data.face.freckle),
         wrinkle: Number(data.face.wrinkle),
         wrinkleOpacity: Number(data.face.wrinkleOpacity),
-        eyeType: Number(data.eye),
-        eyeOpacity: Number(data.eyeOpacity),
         eyeColor: Number(data.eyeColor),
         eyebrowType: Number(data.eyebrow),
         eyebrowOpacity: Number(data.eyebrowOpacity),

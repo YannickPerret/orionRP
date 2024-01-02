@@ -27,7 +27,7 @@ export default function SkinTone({ handleSkinToneChange }) {
   return (
     <div className="group">
       <div className="input">
-        <div className="label">Skin tone</div>
+        <div className="label">Couleur de peau</div>
         <div className="type-radio">
           {skinColorOptions.map((option, index) => (
             <label htmlFor={`peaucolor${option.value}`} key={index}>
@@ -54,15 +54,7 @@ export default function SkinTone({ handleSkinToneChange }) {
       </div>
 
       <div className="input">
-        <div className="label">Skin problems</div>
-        <div className="label-value" data-legend="/11"></div>
-        <div className="type-range">
-          <input type="range" className="pbpeau" min="0" max="11" value={skinProblem} onInput={(e) => setSkinProblem(e.target.value)} />
-        </div>
-      </div>
-
-      <div className="input">
-        <div className="label">Freckles</div>
+        <div className="label">Taches de rousseur</div>
         <div className="label-value" data-legend="/17"></div>
         <div className="type-range">
           <input type="range" className="tachesrousseur" min="0" max="17" value={freckle} onInput={(e) => setFreckle(e.target.value)} />
@@ -70,7 +62,7 @@ export default function SkinTone({ handleSkinToneChange }) {
       </div>
 
       <div className="input">
-        <div className="label">Wrinkles</div>
+        <div className="label">Les rides</div>
         <div className="label-value" data-legend="/14"></div>
         <div className="type-range">
           <input type="range" className="rides" min="0" max="14" value={wrinkle} onInput={(e) => setWrinkle(e.target.value)} />
@@ -78,7 +70,7 @@ export default function SkinTone({ handleSkinToneChange }) {
       </div>
 
       <div className="input">
-        <div className="label">Wrinkles intensity</div>
+        <div className="label">Intensité des rides</div>
         <div className="label-value" data-legend="/10"></div>
         <div className="type-range">
           <input type="range" className="intensiterides" min="0" max="10" value={wrinkleIntensity} onInput={(e) => setWrinkleIntensity(e.target.value)} />

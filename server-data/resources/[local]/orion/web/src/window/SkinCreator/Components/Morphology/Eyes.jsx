@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Eyes({ handleEyesChange }) {
-  const [eyeBrow, setEyeBrow] = useState(0);
-  const [eyebrowThickness, setEyebrowThickness] = useState(10);
-  const [eyeColor, setEyeColor] = useState(0);
-  const [EyeShadowType, setEyeShadowType] = useState(0);
-  const [EyeShadowColor, setEyeShadowColor] = useState(0);
-  const [EyeLinerType, setEyeLinerType] = useState(0);
-  const [EyeLinerOpacity, setEyeLinerOpacity] = useState(0);
-  const [EyeLinerColor, setEyeLinerColor] = useState(0);
-
+export default function Eyes({ _eyeColor, _eyeBrowType, _eyeBrowOpacity, _eyebrowColor, handleEyesChange }) {
+  const [eyeBrow, setEyeBrow] = useState(_eyeBrowType);
+  const [eyebrowThickness, setEyebrowThickness] = useState(_eyeBrowOpacity);
+  const [eyeBrowColor, setEyeBrowColor] = useState(_eyebrowColor);
+  const [eyeColor, setEyeColor] = useState(_eyeColor);
 
   const handleEyebrowTypeChange = (e) => {
     setEyeBrow(e.target.value);
@@ -24,8 +19,8 @@ export default function Eyes({ handleEyesChange }) {
   };
 
   useEffect(() => {
-    handleEyesChange({ eyeBrow, eyebrowThickness, eyeColor });
-  }, [eyeBrow, eyebrowThickness, eyeColor]);
+    handleEyesChange({ eyeBrow, eyebrowThickness, eyeColor, eyeBrowColor });
+  }, [eyeBrow, eyebrowThickness, eyeColor, eyeBrowColor]);
 
   const eyesColor = [
     { value: 1, color: '#525e37', title: 'Green' },
@@ -64,22 +59,9 @@ export default function Eyes({ handleEyesChange }) {
 
   return (
     <div className="group">
-      <div className="input">
-        <div className="label">Eyebrow type</div>
-        <div className="type-range">
-          <input type="range" className="sourcils" min="0" max="34" value={eyeBrow} onChange={handleEyebrowTypeChange} />
-        </div>
-      </div>
 
       <div className="input">
-        <div className="label">Eyebrows thickness</div>
-        <div className="type-range">
-          <input type="range" className="epaisseursourcils" min="0" max="10" value={eyebrowThickness} onChange={handleEyebrowThicknessChange} />
-        </div>
-      </div>
-
-      <div className="input">
-        <div className="label">Eye color</div>
+        <div className="label">Couleur des yeux</div>
         <div className="type-radio">
           {eyesColor.map((color, index) => (
             <label htmlFor={`eye${color.value}`} key={index}>
@@ -97,6 +79,29 @@ export default function Eyes({ handleEyesChange }) {
           ))}
         </div>
       </div>
+
+      <div className="input">
+        <div className="label">Type de sourcils</div>
+        <div className="type-range">
+          <input type="range" className="sourcils" min="0" max="34" value={eyeBrow} onChange={handleEyebrowTypeChange} />
+        </div>
+      </div>
+
+      <div className="input">
+        <div className="label">Épaisseur des sourcils</div>
+        <div className="type-range">
+          <input type="range" className="epaisseursourcils" min="0" max="10" value={eyebrowThickness} onChange={handleEyebrowThicknessChange} />
+        </div>
+      </div>
+
+      <div className='input'>
+        <div className='label'>Couleur des sourcils</div>
+        <div className='type-range'>
+          <input type='range' className='couleursourcils' min='0' max='63' value={eyeBrowColor} onChange={(e) => setEyeBrowColor(e.target.value)} />
+        </div>
+      </div>
+
+
     </div>
   );
 }

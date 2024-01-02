@@ -140,15 +140,15 @@ export default function SkinCreator() {
 
                 <SkinTone handleSkinToneChange={(skinToneData) => {
                     setSkin(prevData => ({ ...prevData, skinColor: skinToneData.skinColor }));
-                    setFace(prevData => ({ ...prevData, acne: skinToneData.acne, skinProblem: skinToneData.skinProblem, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity }));
+                    setFace(prevData => ({ ...prevData, acne: skinToneData.acne, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity }));
                 }} />
 
                 <Hair _hair={hair.hair} _hairColor={hair.hairColor} _sex={skin.sex} handleHairChange={(hairData) => {
                     setHair(prevData => ({ ...prevData, hairColor: hairData.hairColor, hair: hairData.hair }));
                 }} />
 
-                <Eyes handleEyesChange={(eyes => {
-                    setFace(prevData => ({ ...prevData, eyeColor: eyes.eyeColor, eyeBrow: eyes.eyeBrow, eyebrowOpacity: eyes.eyebrowThickness }));
+                <Eyes _eyeColor={face.eyeColor} _eyeBrowType={face.eyebrowType} _eyeBrowOpacity={face.eyebrowOpacity} _eyebrowColor={face.eyebrowColor} handleEyesChange={(eyes => {
+                    setFace(prevData => ({ ...prevData, eyeColor: eyes.eyeColor, eyebrowType: eyes.eyeBrow, eyebrowOpacity: eyes.eyebrowThickness, eyebrowColor: eyes.eyeBrowColor }));
                 })} />
                 <Beard handleBeardChange={(beard) => {
                     setBeard(prevData => ({ ...prevData, beard: beard.beard, beardColor: beard.beardColor, beardOpacity: beard.beardThickness }));

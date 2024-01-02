@@ -102,7 +102,7 @@ export default function Hair({ _hair, _hairColor, _sex, handleHairChange }) {
   return (
     <div className="group">
       <div className="input">
-        <div className="label">Hair</div>
+        <div className="label">Coupe de cheveux</div>
         <div className="label-value" data-legend="/74"></div>
         <div className="type-range">
           <input
@@ -117,7 +117,7 @@ export default function Hair({ _hair, _hairColor, _sex, handleHairChange }) {
       </div>
 
       <div className="input">
-        <div className="label">Hair color</div>
+        <div className="label">Couleur de cheveux</div>
         <div className="type-radio">
           {hairColors.map((color, index) => (
             <label htmlFor={`c${index + 1}`} key={index}>
