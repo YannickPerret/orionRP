@@ -56,8 +56,6 @@ export default function Eyes({ _eyeColor, _eyeBrowType, _eyeBrowOpacity, _eyebro
     { value: 31, color: '#800000', title: 'Zombie' }
   ];
 
-  console.log(_eyeColor, _eyeBrowType, _eyeBrowOpacity, _eyebrowColor)
-
   return (
     <div className="group">
 

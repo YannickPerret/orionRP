@@ -267,6 +267,10 @@
     SetPedHeadOverlay(ped, 5, face.eyebrowType, face.eyebrowOpacity);
     SetPedHeadOverlayColor(ped, 5, 0, face.eyebrowColor, 0);
 
+    //beard
+    SetPedHeadOverlay(ped, 1, face.beard, face.beardOpacity);
+    SetPedHeadOverlayColor(ped, 1, 1, face.beardColor, 0);
+
   };
 
   const ApplyPedFaceTrait = model => {
