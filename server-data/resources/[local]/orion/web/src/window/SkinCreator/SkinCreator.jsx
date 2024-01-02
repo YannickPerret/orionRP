@@ -18,8 +18,8 @@ export default function SkinCreator() {
     const [skin, setSkin] = useState(data.player.skin.skin);
     const [face, setFace] = useState(data.player.skin.face);
     const [hair, setHair] = useState(data.player.skin.hair);
-    const [beard, setBeard] = useState(data.player.skin.Beard);
-    const [makeup, setMakeup] = useState(data.player.skin.Makeup);
+    const [beard, setBeard] = useState(data.player.skin.beard);
+    const [makeup, setMakeup] = useState(data.player.skin.makeup);
 
     const [debug, setDebug] = useState(true);
 
