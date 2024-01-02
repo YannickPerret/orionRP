@@ -38,7 +38,6 @@ export default function SkinCreator() {
     };
 
     const handleSubmit = async () => {
-        console.log(beard)
         await sendNui('updateSkin', {
             skin: skin,
             face: face,
@@ -71,6 +70,7 @@ export default function SkinCreator() {
     }
 
     const handleValidate = async () => {
+        console.log("validate")
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,
