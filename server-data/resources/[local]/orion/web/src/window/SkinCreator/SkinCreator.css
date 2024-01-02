@@ -13,10 +13,10 @@
 .skinCreator__sideLeft {
   display: flex;
   flex-direction: column;
-  width: 30vw;
+  width: 20vw;
   height: 100vh;
   overflow-y: scroll;
-  background-color: rgba(24, 27, 32, 0.9);
+  background-color: rgb(24, 27, 32);
   padding: 1%;
 }
 
