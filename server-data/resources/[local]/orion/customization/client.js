@@ -276,6 +276,7 @@
   };
 
   const ApplyPedHair = (ped, hair) => {
+    console.log('ApplyPedHair', hair)
     SetPedComponentVariation(PlayerPedId(), 2, hair.HairType, 0, 2);
     SetPedHairColor(ped, hair.HairColor, hair.HairSecondaryColor || 0.0);
     SetPedHeadOverlay(ped, 2, hair.EyebrowType, hair.EyebrowOpacity || 1.0);
@@ -412,8 +413,6 @@
       },
       tattoos: {},
     };
-
-    console.log('model hash', model.skin.hash, "Hash pour un homme", GetHashKey('mp_m_freemode_01'))
 
     ApplyPlayerModelHash(playerId, model.skin.hash);
 
