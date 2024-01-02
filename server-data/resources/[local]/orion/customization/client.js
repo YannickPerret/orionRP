@@ -384,7 +384,7 @@
         wrinkle: Number(data.face.wrinkle),
         wrinkleOpacity: Number(data.face.wrinkleOpacity),
         eyeColor: Number(data.face.eyeColor),
-        eyebrowType: Number(data.face.eyebrow),
+        eyebrowType: Number(data.face.eyebrowType),
         eyebrowOpacity: Number(data.face.eyebrowOpacity),
         eyebrowColor: Number(data.face.eyebrowColor),
       },
