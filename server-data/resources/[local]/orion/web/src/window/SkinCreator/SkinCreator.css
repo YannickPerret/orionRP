@@ -16,6 +16,8 @@
   width: 30vw;
   height: 100vh;
   overflow-y: scroll;
+  background-color: rgba(24, 27, 32, 0.9);
+  padding: 1%;
 }
 
 .skinCreator__bottom {
