@@ -246,6 +246,8 @@
   };
 
   const applyPedFace = (ped, face) => {
+    console.log('applyPedFace', face)
+    //face
     if (face.acne == 0) {
       SetPedHeadOverlay(ped, 0, face.acne, 0.0);
     } else
