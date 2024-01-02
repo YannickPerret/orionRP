@@ -57,12 +57,6 @@
 
   const getVehicleRefuelPositions = (vehicle) => {
     let ped = PlayerPedId();
-    let [rightVector, forwardVector, upVector, position] = GetEntityMatrix(ped);
-    let ptankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
-    if (ptankBone === -1) {
-      let [x, y, z] = GetWorldPositionOfEntityBone(vehicle, ptankBone);
-
-    }
 
     let leftWheelBone = GetEntityBoneIndexByName(vehicle, 'wheel_lr');
     let rightWheelBone = GetEntityBoneIndexByName(vehicle, 'wheel_rr');
