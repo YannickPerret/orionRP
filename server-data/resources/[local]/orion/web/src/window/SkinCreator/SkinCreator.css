@@ -64,6 +64,10 @@
   background-color: rgba(24, 27, 32, 0.9);
 }
 
+.arrow {
+  color: #fa0202;
+}
+
 .input .type-img {
   position: absolute;
   display: flex;
