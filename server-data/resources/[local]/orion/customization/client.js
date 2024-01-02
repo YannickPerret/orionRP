@@ -23,14 +23,18 @@
       acne: 0,
       freckle: 0,
       wrinkle: 0,
-      wrinkleOpacity: 0.0,
+      wrinkleOpacity: 1.0,
       eyeColor: 0,
       eyebrowType: 0,
-      eyebrowOpacity: 0.0,
+      eyebrowOpacity: 1.0,
       eyebrowColor: 0,
       eyebrowType: 0,
-      eyebrowOpacity: 0.0,
+      eyebrowOpacity: 1.0,
       eyebrowColor: 0,
+      ageingType: 0,
+      ageingOpacity: 1.0,
+      sunDamageType: 0,
+      sunDamageOpacity: 1.0,
     },
     hair: {
       hair: 2,
@@ -54,14 +58,9 @@
       eyeLinerType: 0,
       eyeLinerOpacity: 0.0,
       eyeLinerColor: 0,
-      ageingType: 0,
-      ageingOpacity: 0.0,
-      ageingColor: 0,
       complexionOpacity: 0.0,
       complexionColor: 0,
-      sunDamageType: 0,
-      sunDamageOpacity: 0.0,
-      sunDamageColor: 0,
+
       molesFrecklesOpacity: 0.0,
       molesFrecklesColor: 0,
       chestHairOpacity: 0.0,
@@ -149,12 +148,8 @@
     SetPedHeadOverlayColor(ped, 4, 2, makeup.eyeShadowColor, 0);
     SetPedHeadOverlay(ped, 2, makeup.eyeLinerType, makeup.eyeLinerOpacity);
     SetPedHeadOverlayColor(ped, 2, 2, makeup.eyeLinerColor, 0);
-    SetPedHeadOverlay(ped, 3, makeup.ageingType, makeup.ageingOpacity);
-    SetPedHeadOverlayColor(ped, 3, 2, makeup.ageingColor, 0);
     SetPedHeadOverlay(ped, 6, makeup.complexionType, makeup.complexionOpacity);
     SetPedHeadOverlayColor(ped, 6, 2, makeup.complexionColor, 0);
-    SetPedHeadOverlay(ped, 7, makeup.sunDamageType, makeup.sunDamageOpacity);
-
     SetPedHeadOverlay(ped, 9, makeup.molesFrecklesType, makeup.molesFrecklesOpacity);
     SetPedHeadOverlayColor(ped, 9, 2, makeup.molesFrecklesColor, 0);
     SetPedHeadOverlay(ped, 10, makeup.chestHairType, makeup.chestHairOpacity);
@@ -283,6 +278,10 @@
     //eyebrows
     SetPedHeadOverlay(ped, 5, face.eyebrowType, face.eyebrowOpacity);
     SetPedHeadOverlayColor(ped, 5, 0, face.eyebrowColor, 0);
+
+    //ageing and sunDamage
+    SetPedHeadOverlay(ped, 7, face.sunDamageType, face.sunDamageOpacity);
+    SetPedHeadOverlay(ped, 3, face.ageingType, face.ageingOpacity);
   };
 
   onNet('orion:customization:c:applyPedBeard', (beard) => {
@@ -405,6 +404,10 @@
         eyebrowType: Number(data.face.eyebrowType),
         eyebrowOpacity: Number(data.face.eyebrowOpacity),
         eyebrowColor: Number(data.face.eyebrowColor),
+        sunDamageType: Number(data.face.sunDamage),
+        sunDamageOpacity: Number(data.face.sunDamageOpacity),
+        ageingType: Number(data.face.ageing),
+        ageingOpacity: Number(data.face.ageingOpacity),
       },
       makeup: {
         lipstickType: Number(data.makeup.lipstick),
@@ -419,15 +422,9 @@
         eyeLinerType: Number(data.makeup.eyeLiner),
         eyeLinerOpacity: Number(data.makeup.eyeLinerOpacity),
         eyeLinerColor: Number(data.makeup.eyeLinerColor),
-        ageingType: Number(data.makeup.ageing),
-        ageingOpacity: Number(data.makeup.ageingOpacity),
-        ageingColor: Number(data.makeup.ageingColor),
         complexionType: Number(data.makeup.complexion),
         complexionOpacity: Number(data.makeup.complexionOpacity),
         complexionColor: Number(data.makeup.complexionColor),
-        sunDamageType: Number(data.makeup.sunDamage),
-        sunDamageOpacity: Number(data.makeup.sunDamageOpacity),
-        sunDamageColor: Number(data.makeup.sunDamageColor),
         molesFrecklesType: Number(data.makeup.molesFreckles),
         molesFrecklesOpacity: Number(data.makeup.molesFrecklesOpacity),
         molesFrecklesColor: Number(data.makeup.molesFrecklesColor),
