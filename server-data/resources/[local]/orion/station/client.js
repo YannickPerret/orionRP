@@ -253,7 +253,7 @@
 
   (async () => {
     while (true) {
-      await exports['orion'].delay(100);
+      await exports['orion'].delay(1000);
       if (pistoletInVehicle) {
         if (!vehicleEntityInFront) {
           pistoletInVehicle = false;
@@ -270,6 +270,14 @@
             ClearPedTasks(PlayerPedId());
           }
         }
+      }
+    }
+  })();
+
+  (async () => {
+    while (true) {
+      await exports['orion'].delay(10);
+      if (pistoletInVehicle) {
         exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
       }
     }
