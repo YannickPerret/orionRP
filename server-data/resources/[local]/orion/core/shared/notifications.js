@@ -48,10 +48,9 @@ onNet('orion:showHelpText', (message) => {
 });
 
 exports('showHelpText', (message) => {
-  console.log(message)
-  SetTextFont(0)
+  SetTextFont(3)
   SetTextProportional(1)
-  SetTextScale(0.0, 0.3)
+  SetTextScale(0.4, 0.4)
   SetTextColour(255, 255, 255, 255)
   SetTextDropshadow(0, 0, 0, 0, 255)
   SetTextEdge(1, 0, 0, 0, 255)
@@ -59,7 +58,7 @@ exports('showHelpText', (message) => {
   SetTextOutline()
   SetTextEntry("STRING")
   AddTextComponentString(message)
-  DrawText(0.005, 0.005)
+  DrawText(0.010, 0.005)
 });
 
 exports('showNotification', (message) => {
