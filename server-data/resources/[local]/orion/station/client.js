@@ -230,9 +230,10 @@
     }
   })();
 
-  onNet('orion:station:c:canceledRefuel', () => {
+  onNet('orion:station:c:canceledRefuel', (message) => {
     pistoletInVehicle = false;
     ClearPedTasks(PlayerPedId());
+    emit('orion:showNotification', message);
   })
 
 
