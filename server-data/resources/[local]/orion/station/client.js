@@ -5,6 +5,7 @@
   let playerBone = null;
   let FUEL_DECOR = "_ANDY_FUEL_DECORE_"
   let pistoletInVehicle = false;
+  let vehicleEntityInFront = null;
 
 
   let pistoletObject = null;
@@ -169,22 +170,23 @@
           }
         }
       }
-      let vehicle = vehicleInFront();
+      vehicleEntityInFront = vehicleInFront();
 
-      if (playerPickupPump && vehicle) {
+      if (playerPickupPump && vehicleEntityInFront) {
         if (!pistoletInVehicle) {
 
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
           if (IsControlJustReleased(0, 38)) {
-            if (IsVehicleEngineOn(vehicle)) {
+            if (IsVehicleEngineOn(vehicleEntityInFront)) {
               emit('orion:showNotification', 'Vous devez éteindre le moteur du véhicule.');
               return;
             }
 
-            const currentFuelInVehicle = GetVehicleFuelLevel(vehicle);
-            const maxFuelInVehicle = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume');
+            const currentFuelInVehicle = GetVehicleFuelLevel(vehicleEntityInFront);
+            const maxFuelInVehicle = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
             const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
-            emitNet('orion:station:s:refuelVehicle', vehicle, missingFuel);
+            console.log(missingFuel);
+            emitNet('orion:station:s:refuelVehicle', vehicleEntityInFront, missingFuel);
           }
 
         }
@@ -198,6 +200,28 @@
       }
     }
   });
+
+  (async () => {
+    while (pistoletInVehicle) {
+      await exports['orion'].delay(1000);
+      if (!vehicleEntityInFront) {
+        pistoletInVehicle = false;
+        ClearPedTasks(PlayerPedId());
+      }
+      else {
+        let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
+        let maxFuel = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
+        if (fuel < maxFuel) {
+          SetFuel(vehicleEntityInFront, fuel + 1);
+        }
+        else {
+          pistoletInVehicle = false;
+          ClearPedTasks(PlayerPedId());
+        }
+      }
+    }
+  })();
+
 
 
   onNet('orion:station:c:refuelVehicle', async (vehicle, maxMoney) => {
