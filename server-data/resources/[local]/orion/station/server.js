@@ -31,12 +31,12 @@
             emitNet('orion:showNotification', source, 'Vous n\'êtes pas connecté.');
             return;
         }
-        playerData.money -= money;
-        if (playerData.money < 0) {
+        player.money -= money;
+        if (player.money < 0) {
             emitNet('orion:station:c:canceledRefuel', source, 'Vous n\'avez pas assez d\'argent.');
             return;
         }
-        await playerData.save();
+        await player.save();
     })
 
 })()
