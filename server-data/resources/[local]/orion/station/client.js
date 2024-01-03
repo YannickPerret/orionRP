@@ -267,7 +267,7 @@
 
         putPipeInVehicle(vehicle, tankBone, isBike, true, nozzleModifiedPosition);
         SetFuel(vehicle, 100);
-        pistoletInVehicle = false;
+        pistoletInVehicle = true;
       }
     }
   };
