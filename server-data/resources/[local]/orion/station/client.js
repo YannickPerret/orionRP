@@ -273,7 +273,7 @@
           }
           else {
             emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
-            emit('orion:station:c:canceledRefuel', 'Le véhicule est plein.')
+            emit('orion:station:c:canceledRefuel', 'Merci pour votre achat ! Prix total: ~g~' + totPrice + '$')
           }
         }
       }
