@@ -142,7 +142,7 @@
   };
 
 
-  setInterval(async () => {
+  setTick(async () => {
 
     const playerPed = PlayerPedId();
 
@@ -197,7 +197,7 @@
         }
       }
     }
-  }, 100);
+  });
 
 
   onNet('orion:station:c:refuelVehicle', async (vehicle, maxMoney) => {
