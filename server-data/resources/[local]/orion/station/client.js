@@ -278,7 +278,7 @@
         exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
       }
     }
-  });
+  })();
 
   onNet('orion:station:c:canceledRefuel', (message) => {
     pistoletInVehicle = false;
