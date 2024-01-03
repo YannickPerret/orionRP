@@ -224,6 +224,13 @@
     } else {
       emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
       if (IsControlJustReleased(0, 38)) {
+        let money = 0
+        emitNet('orion:player:s:getMoney', () => {
+          money = money
+        })
+
+        console.log('money : ', money)
+
         let isBike = IsThisModelABike(GetEntityModel(vehicle));
         let vehClass = GetVehicleClass(vehicle)
         let nozzleModifiedPosition = {
@@ -231,6 +238,7 @@
           y: 0.0,
           z: 0.0
         }
+
         let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
 
         if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicle)]) {

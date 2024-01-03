@@ -206,6 +206,15 @@
     }
   });
 
+  onNet('orion:player:s:getMoney', (cb) => {
+    const source = global.source;
+    const playerData = PlayerManager.getPlayerBySource(source);
+    if (playerData) {
+      emitNet('orion:showNotification', source, `Vous avez ${playerData.money} $`);
+      cb(playerData.money);
+    }
+  })
+
   onNet('orion:saveMugshotUrl', async mugshotUrl => {
     const source = global.source;
     const playerData = PlayerManager.getPlayerBySource(source);
