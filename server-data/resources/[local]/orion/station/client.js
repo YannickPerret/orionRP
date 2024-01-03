@@ -4,6 +4,7 @@
   let playerPickupPump = false;
   let playerBone = null;
   let FUEL_DECOR = "_ANDY_FUEL_DECORE_"
+  let pistoletInVehicle = false;
 
 
   let pistoletObject = null;
