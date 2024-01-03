@@ -217,7 +217,7 @@
     emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
     if (IsControlJustReleased(0, 38)) {
       let isBike = IsThisModelABike(GetEntityModel(vehicle));
-      let vehClass = GetVehicleClass(veh)
+      let vehClass = GetVehicleClass(vehicle)
       let nozzleModifiedPosition = {
         x: 0.0,
         y: 0.0,
