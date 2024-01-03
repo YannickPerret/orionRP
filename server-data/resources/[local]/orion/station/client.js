@@ -187,7 +187,7 @@
             const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
             if (missingFuel <= 0) {
               emit('orion:showNotification', 'Le véhicule est déjà plein.');
-              clearPedTasks(PlayerPedId());
+              ClearPedTasks(PlayerPedId());
               pistoletInVehicle = false;
               return;
             }
