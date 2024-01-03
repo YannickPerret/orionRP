@@ -232,7 +232,6 @@
             //let fuelposition = getVehicleRefuelPositions(vehicle);
 
             putPipeInVehicle(vehicleEntityInFront, tankBone, isBike, true, nozzleModifiedPosition);
-
             pistoletInVehicle = true;
 
           }
@@ -251,6 +250,7 @@
 
   (async () => {
     while (pistoletInVehicle) {
+      console.log("oui")
       await exports['orion'].delay(1000);
       if (!vehicleEntityInFront) {
         pistoletInVehicle = false;
