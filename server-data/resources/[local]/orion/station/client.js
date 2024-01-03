@@ -252,25 +252,27 @@
   });
 
   setTick(async () => {
-    if (pistoletInVehicle) {
-      console.log("oui")
-      await exports['orion'].delay(1000);
-      if (!vehicleEntityInFront) {
-        pistoletInVehicle = false;
-        ClearPedTasks(PlayerPedId());
-      }
-      else {
-        let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
-        if (fuel < 100) {
-          await onNet('orion:player:s:payWithMoney', (1 * fuelPrice));
-          setFuel(vehicleEntityInFront, fuel + 1);
-        }
-        else {
+    while (true) {
+      if (pistoletInVehicle) {
+        console.log("oui")
+        await exports['orion'].delay(1000);
+        if (!vehicleEntityInFront) {
           pistoletInVehicle = false;
           ClearPedTasks(PlayerPedId());
         }
+        else {
+          let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
+          if (fuel < 100) {
+            await onNet('orion:player:s:payWithMoney', (1 * fuelPrice));
+            setFuel(vehicleEntityInFront, fuel + 1);
+          }
+          else {
+            pistoletInVehicle = false;
+            ClearPedTasks(PlayerPedId());
+          }
+        }
+        exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
       }
-      exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
     }
   });
 
