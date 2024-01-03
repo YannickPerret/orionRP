@@ -245,7 +245,7 @@
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour arrêter de mettre de l\'essence');
           if (IsControlJustReleased(0, 38)) {
             if (totPrice > 0) {
-              emitNet('orion:showNotification', 'Vous avez payé ' + totPrice + '$')
+              exports['orion'].showNotification('Vous avez payé ' + totPrice + '$')
             }
             pistoletInVehicle = false;
             totPrice = 0;
