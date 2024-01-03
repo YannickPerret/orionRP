@@ -272,8 +272,9 @@
             totPrice = totPrice + (1 * fuelPrice);
           }
           else {
-            pistoletInVehicle = false;
-            ClearPedTasks(PlayerPedId());
+            emit('orion:station:c:canceledRefuel', 'Le véhicule est plein.')
+            emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
+
           }
         }
       }
