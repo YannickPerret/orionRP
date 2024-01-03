@@ -278,7 +278,8 @@
     while (true) {
       await exports['orion'].delay(10);
       if (pistoletInVehicle) {
-        BeginTextCommandDisplayHelp("Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100")
+        BeginTextCommandDisplayHelp("THREESTRINGS")
+        AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100')
         EndTextCommandDisplayHelp(0, true, false, 0)
       }
     }
