@@ -257,7 +257,7 @@
       await exports['orion'].delay(300);
       let fuelposition = getVehicleRefuelPositions(vehicle);
 
-      putPipeInVehicle(vehicle, tankBone, isBike, true, tankPosition)
+      putPipeInVehicle(vehicle, tankBone, isBike, true, nozzleModifiedPosition)
 
       SetFuel(vehicle, 100);
       pistoletInVehicle = false;
