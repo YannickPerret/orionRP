@@ -248,7 +248,7 @@
     }
   });
 
-  (async () => {
+  setTick(async () => {
     while (pistoletInVehicle) {
       console.log("oui")
       await exports['orion'].delay(1000);
@@ -269,7 +269,7 @@
       }
       exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
     }
-  })();
+  });
 
   onNet('orion:station:c:canceledRefuel', (message) => {
     pistoletInVehicle = false;
