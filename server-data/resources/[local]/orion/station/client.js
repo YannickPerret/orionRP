@@ -285,7 +285,7 @@
       await exports['orion'].delay(10);
       if (pistoletInVehicle) {
         BeginTextCommandDisplayHelp("THREESTRINGS")
-        AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100 ~w~| Prix total: ~g~' + (1 * fuelPrice) + '$')
+        AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100 ~w~| Prix total: ~g~' + totPrice + '$')
         EndTextCommandDisplayHelp(0, false, false, 100)
       }
     }
