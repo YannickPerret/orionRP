@@ -278,7 +278,8 @@
     while (true) {
       await exports['orion'].delay(10);
       if (pistoletInVehicle) {
-        exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
+        DisplayHelpTextThisFrame('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100')
+
       }
     }
   })();
