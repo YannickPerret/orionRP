@@ -210,7 +210,6 @@
     const source = global.source;
     const playerData = PlayerManager.getPlayerBySource(source);
     if (playerData) {
-      emitNet('orion:showNotification', source, `Vous avez ${playerData.money} $`);
       cb(playerData.money);
     }
   })
