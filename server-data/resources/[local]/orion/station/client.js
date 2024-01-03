@@ -285,7 +285,7 @@
       await exports['orion'].delay(10);
       if (pistoletInVehicle) {
         BeginTextCommandDisplayHelp("THREESTRINGS")
-        AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100')
+        AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100 ~w~| Prix total: ~g~' + (1 * fuelPrice) + '$')
         EndTextCommandDisplayHelp(0, false, false, 100)
       }
     }
@@ -294,7 +294,7 @@
   onNet('orion:station:c:canceledRefuel', (message) => {
     pistoletInVehicle = false;
     ClearPedTasks(PlayerPedId());
-    emit('orion:showNotification', message + "Prix actuel : " + totPrice + "$");
+    emit('orion:showNotification', message);
   })
 
   onNet('orion:station:c:pickUpPump', async () => {
