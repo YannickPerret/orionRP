@@ -46,10 +46,10 @@
 
   const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 
-  const SetFuel = (vehicle, fuel) => {
+  const setFuel = (vehicle, fuel) => {
     if (Number(fuel) && fuel >= 0 && fuel <= 100) {
       SetVehicleFuelLevel(vehicle, fuel);
-      //DecorSetFloat(vehicle, fuelDecor, GetVehicleFuelLevel(vehicle));
+      DecorSetFloat(vehicle, FUEL_DECOR, GetVehicleFuelLevel(vehicle));
     }
   };
 
@@ -182,8 +182,7 @@
               return;
             }
 
-            const currentFuelInVehicle = GetVehicleFuelLevel(vehicleEntityInFront);
-            console.log(getFuel(vehicleEntityInFront));
+            const currentFuelInVehicle = getFuel(vehicleEntityInFront);
 
             const maxFuelInVehicle = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
             const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
@@ -220,7 +219,8 @@
         let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
         let maxFuel = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
         if (fuel < maxFuel) {
-          SetFuel(vehicleEntityInFront, fuel + 1);
+          onNet('orion:player:s:payWithMoney', money);
+          setFuel(vehicleEntityInFront, fuel + 1);
         }
         else {
           pistoletInVehicle = false;
@@ -230,6 +230,10 @@
     }
   })();
 
+  onNet('orion:station:c:canceledRefuel', () => {
+    pistoletInVehicle = false;
+    ClearPedTasks(PlayerPedId());
+  })
 
 
   onNet('orion:station:c:refuelVehicle', async (vehicle, maxMoney) => {

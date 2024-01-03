@@ -224,6 +224,15 @@
     }
   });
 
+  onNet('orion:player:s:payWithMoney', async (money) => {
+    const source = global.source;
+    const playerData = PlayerManager.getPlayerBySource(source);
+    if (playerData) {
+      playerData.money -= money;
+      await playerData.save();
+    }
+  });
+
   RegisterCommand('giveMoney', async (source, args) => {
     const targetSource = args[1] || source;
     const playerData = PlayerManager.getPlayerBySource(targetSource);
