@@ -7,6 +7,7 @@
   let pistoletInVehicle = false;
   let vehicleEntityInFront = null;
   let fuelPrice = 1;
+  let totPrice = 0;
 
 
   let pistoletObject = null;
@@ -243,7 +244,11 @@
         else {
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour arrêter de mettre de l\'essence');
           if (IsControlJustReleased(0, 38)) {
+            if (totPrice > 0) {
+              emitNet('orion:showNotification', 'Vous avez payé ' + totPrice + '$')
+            }
             pistoletInVehicle = false;
+            totPrice = 0;
             ClearPedTasks(PlayerPedId());
           }
         }
@@ -264,6 +269,7 @@
           if (fuel < 100) {
             emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
             setFuel(vehicleEntityInFront, fuel + 1);
+            totPrice = totPrice + (1 * fuelPrice);
           }
           else {
             pistoletInVehicle = false;
