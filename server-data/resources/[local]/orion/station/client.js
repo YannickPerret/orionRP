@@ -262,7 +262,7 @@
       else {
         let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
         if (fuel < 100) {
-          onNet('orion:player:s:payWithMoney', 1 * fuelPrice);
+          await onNet('orion:player:s:payWithMoney', (1 * fuelPrice));
           setFuel(vehicleEntityInFront, fuel + 1);
         }
         else {
