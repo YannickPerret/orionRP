@@ -184,16 +184,57 @@
 
             const currentFuelInVehicle = getFuel(vehicleEntityInFront);
 
-            const maxFuelInVehicle = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
-            const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
+            const missingFuel = 100 - currentFuelInVehicle;
             if (missingFuel <= 0) {
-              emit('orion:showNotification', 'Le véhicule est déjà plein.');
-              ClearPedTasks(PlayerPedId());
-              pistoletInVehicle = false;
+              emit('orion:station:c:canceledRefuel', 'Le véhicule est déjà plein.')
               return;
             }
-            console.log(missingFuel);
-            emitNet('orion:station:s:refuelVehicle', vehicleEntityInFront, missingFuel);
+            let isBike = IsThisModelABike(GetEntityModel(vehicle));
+            let vehClass = GetVehicleClass(vehicle)
+            let nozzleModifiedPosition = {
+              x: 0.0,
+              y: 0.0,
+              z: 0.0
+            }
+
+            let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
+
+            if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicle)]) {
+              tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
+              if (tankBone == -1) {
+                tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
+              }
+              if (tankBone == -1) {
+                tankBone = GetEntityBoneIndexByName(vehicle, 'engine');
+              }
+              isBike = true;
+            }
+            else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicle)]) {
+              tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
+              if (tankBone == -1) {
+                tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank_l');
+              }
+              if (tankBone == -1) {
+                tankBone = GetEntityBoneIndexByName(vehicle, 'hub_lr');
+              }
+              if (tankBone == -1) {
+                tankBone = GetEntityBoneIndexByName(vehicle, "handle_dside_r")
+                nozzleModifiedPosition.x = 0.1
+                nozzleModifiedPosition.y = -0.5
+                nozzleModifiedPosition.z = -0.6
+              }
+            }
+            tankPosition = GetWorldPositionOfEntityBone(vehicle, tankBone);
+
+            LoadAnimDict('timetable@gardener@filling_can');
+            TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
+            await exports['orion'].delay(300);
+            //let fuelposition = getVehicleRefuelPositions(vehicle);
+
+            putPipeInVehicle(vehicle, tankBone, isBike, true, nozzleModifiedPosition);
+
+            pistoletInVehicle = true;
+
           }
 
         }
@@ -217,8 +258,7 @@
       }
       else {
         let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
-        let maxFuel = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
-        if (fuel < maxFuel) {
+        if (fuel < 100) {
           onNet('orion:player:s:payWithMoney', money);
           setFuel(vehicleEntityInFront, fuel + 1);
         }
@@ -234,56 +274,6 @@
     pistoletInVehicle = false;
     ClearPedTasks(PlayerPedId());
     emit('orion:showNotification', message);
-  })
-
-
-  onNet('orion:station:c:refuelVehicle', async (vehicle, maxMoney) => {
-    let isBike = IsThisModelABike(GetEntityModel(vehicle));
-    let vehClass = GetVehicleClass(vehicle)
-    let nozzleModifiedPosition = {
-      x: 0.0,
-      y: 0.0,
-      z: 0.0
-    }
-
-    let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
-
-    if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicle)]) {
-      tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
-      if (tankBone == -1) {
-        tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
-      }
-      if (tankBone == -1) {
-        tankBone = GetEntityBoneIndexByName(vehicle, 'engine');
-      }
-      isBike = true;
-    }
-    else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicle)]) {
-      tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
-      if (tankBone == -1) {
-        tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank_l');
-      }
-      if (tankBone == -1) {
-        tankBone = GetEntityBoneIndexByName(vehicle, 'hub_lr');
-      }
-      if (tankBone == -1) {
-        tankBone = GetEntityBoneIndexByName(vehicle, "handle_dside_r")
-        nozzleModifiedPosition.x = 0.1
-        nozzleModifiedPosition.y = -0.5
-        nozzleModifiedPosition.z = -0.6
-      }
-    }
-    tankPosition = GetWorldPositionOfEntityBone(vehicle, tankBone);
-
-    LoadAnimDict('timetable@gardener@filling_can');
-    TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
-    await exports['orion'].delay(300);
-    //let fuelposition = getVehicleRefuelPositions(vehicle);
-
-    putPipeInVehicle(vehicle, tankBone, isBike, true, nozzleModifiedPosition);
-    SetFuel(vehicle, 100);
-    pistoletInVehicle = true;
-
   })
 
   onNet('orion:station:c:pickUpPump', async () => {
