@@ -183,7 +183,8 @@
             }
 
             const currentFuelInVehicle = GetVehicleFuelLevel(vehicleEntityInFront);
-            console.log(currentFuelInVehicle, 'currentFuelInVehicle', vehicleEntityInFront)
+            console.log(getFuel(vehicleEntityInFront));
+
             const maxFuelInVehicle = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
             const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
             if (missingFuel <= 0) {
