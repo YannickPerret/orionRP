@@ -28,7 +28,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         if (!player) {
-            emitNet('orion:showNotification', source, 'Vous n\'êtes pas connecté.');
+            emit('orion:showNotification', source, 'Vous n\'êtes pas connecté.');
             return;
         }
         player.money -= money;
