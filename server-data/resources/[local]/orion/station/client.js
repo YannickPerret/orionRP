@@ -40,6 +40,27 @@
     0.75, //Commercial
     0.0 // Trains
   ];
+
+  let electricVehicles = [
+    `Imorgon`,
+    `Neon`,
+    `Raiden`,
+    `Cyclone`,
+    `Voltic`,
+    `Voltic2`,
+    `Tezeract`,
+    `Dilettante`,
+    `Dilettante2`,
+    `Airtug`,
+    `Caddy`,
+    `Caddy2`,
+    `Caddy3`,
+    `Surge`,
+    `Khamelion`,
+    `RCBandito`,
+    `Models`,
+  ];
+
   //  let ropeAnchor = null;
   // let pistoletInVehicle = false;
 
@@ -195,13 +216,48 @@
   const handleVehicleInteraction = async (vehicle) => {
     emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
     if (IsControlJustReleased(0, 38)) {
+      let isBike = IsThisModelABike(GetEntityModel(vehicle));
+      let vehClass = GetVehicleClass(veh)
+      let nozzleModifiedPosition = {
+        x: 0.0,
+        y: 0.0,
+        z: 0.0
+      }
+      let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
+
+      if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicle)]) {
+        tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
+        if (tankBone == -1) {
+          tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
+        }
+        if (tankBone == -1) {
+          tankBone = GetEntityBoneIndexByName(vehicle, 'engine');
+        }
+        isBike = true;
+      }
+      else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicle)]) {
+        tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
+        if (tankBone == -1) {
+          tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank_l');
+        }
+        if (tankBone == -1) {
+          tankBone = GetEntityBoneIndexByName(vehicle, 'hub_lr');
+        }
+        if (tankBone == -1) {
+          tankBone = GetEntityBoneIndexByName(vehicle, "handle_dside_r")
+          nozzleModifiedPosition.x = 0.1
+          nozzleModifiedPosition.y = -0.5
+          nozzleModifiedPosition.z = -0.6
+        }
+      }
+      tankPosition = GetWorldPositionOfEntityBone(vehicle, tankBone);
+
       LoadAnimDict('timetable@gardener@filling_can');
       TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
       await exports['orion'].delay(300);
-      let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
       let fuelposition = getVehicleRefuelPositions(vehicle);
 
-      putPipeInVehicle(vehicle, tankBone, isBike, true, fuelposition)
+      putPipeInVehicle(vehicle, tankBone, isBike, true, tankPosition)
 
       SetFuel(vehicle, 100);
       pistoletInVehicle = false;
