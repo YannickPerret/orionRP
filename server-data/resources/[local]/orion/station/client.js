@@ -255,11 +255,13 @@
     while (true) {
       await exports['orion'].delay(1000);
       if (pistoletInVehicle) {
+        console.log('pistoletInVehicle');
         if (!vehicleEntityInFront) {
           pistoletInVehicle = false;
           ClearPedTasks(PlayerPedId());
         }
         else {
+          console.log('vroumvrom');
           let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
           if (fuel < 100) {
             emitNet('orion:player:s:payWithMoney', (1 * fuelPrice));
