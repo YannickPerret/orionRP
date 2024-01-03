@@ -272,9 +272,8 @@
             totPrice = totPrice + (1 * fuelPrice);
           }
           else {
-            emit('orion:station:c:canceledRefuel', 'Le véhicule est plein.')
             emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
-
+            emit('orion:station:c:canceledRefuel', 'Le véhicule est plein.')
           }
         }
       }
