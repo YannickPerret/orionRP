@@ -19,4 +19,15 @@
         emitNet('orion:station:c:detachRope', source, player.id);
     })
 
+    onNet('orion:station:s:payRefuelVehicle', (money) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        if (!player) {
+            emitNet('orion:showNotification', source, 'Vous n\'êtes pas connecté.');
+            return;
+        }
+
+        player.setMoney(-money);
+    })
+
 })()

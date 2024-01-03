@@ -10,8 +10,8 @@ class Player {
     this.license = license || '';
     this.discord = discord || '';
     this.accountId = accountId || false;
-    this.faim = 100;
-    this.soif = 100;
+    this.hunger = 100;
+    this.thirst = 100;
     this.fatigue = 0;
     this.inventoryId = inventoryId || '';
     this.position = {
@@ -39,28 +39,12 @@ class Player {
     this.#isDead = value;
   }
 
-  manger(quantite) {
-    this.faim = Math.min(this.faim + quantite, 100);
+  eat(value) {
+    this.faim = Math.min(this.faim + value, 100);
   }
 
-  boire(quantite) {
-    this.soif = Math.min(this.soif + quantite, 100);
-  }
-
-  changeFaim(value = undefined) {
-    if (value) {
-      this.faim = Math.max(this.faim + value, 0);
-      return;
-    }
-    return new Error('Valeur invalide');
-  }
-
-  changeSoif(value = undefined) {
-    if (value) {
-      this.soif = Math.max(this.soif + value, 0);
-      return;
-    }
-    return new Error('Valeur invalide');
+  drink(value) {
+    this.soif = Math.min(this.soif + value, 100);
   }
 
   setAccountId(accountId) {

@@ -10,6 +10,8 @@ const initialState = {
   player: {
     firstname: 'John',
     lastname: 'Doe',
+    hunger: 100,
+    thirst: 100,
     phone: '06 06 06 06 06',
     money: 0,
     inventory: [],

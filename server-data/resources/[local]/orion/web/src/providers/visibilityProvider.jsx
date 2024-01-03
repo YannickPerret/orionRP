@@ -9,6 +9,7 @@ export const VisibilityProvider = ({ children }) => {
   const [visible, setVisible] = useState({
     main: false,
     playerMenu: false,
+    showPlayerHUD: false,
     jobMenu: false,
     amountMenu: false,
     skinCreator: false,
@@ -46,6 +47,7 @@ export const VisibilityProvider = ({ children }) => {
   const closeAllMenus = (sendToNui = true) => {
     setVisible({
       main: false,
+      showPlayerHUD: false,
       playerMenu: false,
       jobMenu: false,
       amountMenu: false,

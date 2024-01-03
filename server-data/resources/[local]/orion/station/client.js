@@ -16,7 +16,6 @@
   let currentPumpProp = null;
 
   let currentPumpObj = {};
-  let vehicleFuelCapOffset = {};
   let nozzleBasedOnClass = [
     0.65, //Compacts
     0.65, //Sedans
@@ -42,28 +41,7 @@
     0.0 // Trains
   ];
 
-  let electricVehicles = [
-    `Imorgon`,
-    `Neon`,
-    `Raiden`,
-    `Cyclone`,
-    `Voltic`,
-    `Voltic2`,
-    `Tezeract`,
-    `Dilettante`,
-    `Dilettante2`,
-    `Airtug`,
-    `Caddy`,
-    `Caddy2`,
-    `Caddy3`,
-    `Surge`,
-    `Khamelion`,
-    `RCBandito`,
-    `Models`,
-  ];
-
-  //  let ropeAnchor = null;
-  // let pistoletInVehicle = false;
+  let electricVehicles = [`Imorgon`, `Neon`, `Raiden`, `Cyclone`, `Voltic`, `Voltic2`, `Tezeract`, `Dilettante`, `Dilettante2`, `Airtug`, `Caddy`, `Caddy2`, `Caddy3`, `Surge`, `Khamelion`, `RCBandito`, `Models`];
 
   const pumpModels = [-2007231801, 1339433404, 1694452750, 1933174915, -462817101, -469694731];
 
@@ -91,9 +69,9 @@
 
   const playEffect = (pdict, pname) => {
     setTick(async () => {
-      let position = GetOffsetFromEntityInWorldCoords(nozzle, 0.0, 0.28, 0.17)
-      UseParticleFxAssetNextCall(pdict)
-      let pfx = StartParticleFxLoopedAtCoord(pname, position.x, position.y, position.z, 0.0, 0.0, GetEntityHeading(nozzle), 1.0, false, false, false, false)
+      let position = GetOffsetFromEntityInWorldCoords(pistoletObject, 0.0, 0.28, 0.17)
+      UseParticleFxAsset(pdict)
+      let pfx = StartParticleFxLoopedAtCoord(pname, position.x, position.y, position.z, 0.0, 0.0, GetEntityHeading(pistoletObject), 1.0, false, false, false, false)
       await exports['orion'].delay(1000)
       StopParticleFxLooped(pfx, 0)
     })
@@ -140,21 +118,10 @@
     return tankPosition
   }
 
-
   const vehicleInFront = () => {
     const [offsetX, offsetY, offsetZ] = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 2.0, 0.0);
     const [playerCoordsX, playerCoordsY, playerCoordsZ] = GetEntityCoords(PlayerPedId(), false);
-    let rayHandle = CastRayPointToPoint(
-      playerCoordsX,
-      playerCoordsY,
-      playerCoordsZ - 1.3,
-      offsetX,
-      offsetY,
-      offsetZ,
-      10,
-      PlayerPedId(),
-      0
-    );
+    let rayHandle = CastRayPointToPoint(playerCoordsX, playerCoordsY, playerCoordsZ - 1.3, offsetX, offsetY, offsetZ, 10, PlayerPedId(), 0);
     let [A, B, C, D, entity] = GetRaycastResult(rayHandle);
     if (IsEntityAVehicle(entity)) {
       return entity;
@@ -175,7 +142,7 @@
   };
 
 
-  (async () => {
+  setTick(async () => {
 
     const playerPed = PlayerPedId();
 
@@ -187,7 +154,18 @@
         for (const pumpCoords of station.pumps) {
           const distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
           if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
-            handlePumpInteraction(playerPed, pumpCoords);
+            if (!playerPickupPump) {
+              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+              if (IsControlJustReleased(0, 38)) {
+                currentPump = getClosestPumpHandle();
+                emit('orion:station:c:pickUpPump')
+              }
+            } else {
+              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
+              if (IsControlJustReleased(0, 38)) {
+                emit('orion:station:c:pickUpPump')
+              }
+            }
           }
         }
       }
@@ -195,7 +173,20 @@
 
       if (playerPickupPump && vehicle) {
         if (!pistoletInVehicle) {
-          handleVehicleInteraction(vehicle);
+
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
+          if (IsControlJustReleased(0, 38)) {
+            if (IsVehicleEngineOn(vehicle)) {
+              emit('orion:showNotification', 'Vous devez éteindre le moteur du véhicule.');
+              return;
+            }
+
+            const currentFuelInVehicle = GetVehicleFuelLevel(vehicle);
+            const maxFuelInVehicle = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume');
+            const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
+            emitNet('orion:station:s:refuelVehicle', vehicle, missingFuel);
+          }
+
         }
         else {
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour arrêter de mettre de l\'essence');
@@ -206,79 +197,57 @@
         }
       }
     }
-  })();
+  });
 
-  const handlePumpInteraction = (playerPed, pumpCoords) => {
-    if (!playerPickupPump) {
-      emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
-      if (IsControlJustReleased(0, 38)) {
-        currentPump = getClosestPumpHandle();
-        emit('orion:station:c:pickUpPump')
+
+  onNet('orion:station:c:refuelVehicle', async (vehicle, maxMoney) => {
+    let isBike = IsThisModelABike(GetEntityModel(vehicle));
+    let vehClass = GetVehicleClass(vehicle)
+    let nozzleModifiedPosition = {
+      x: 0.0,
+      y: 0.0,
+      z: 0.0
+    }
+
+    let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
+
+    if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicle)]) {
+      tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
+      if (tankBone == -1) {
+        tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
       }
-    } else {
-      emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
-      if (IsControlJustReleased(0, 38)) {
-        emit('orion:station:c:pickUpPump')
+      if (tankBone == -1) {
+        tankBone = GetEntityBoneIndexByName(vehicle, 'engine');
+      }
+      isBike = true;
+    }
+    else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicle)]) {
+      tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
+      if (tankBone == -1) {
+        tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank_l');
+      }
+      if (tankBone == -1) {
+        tankBone = GetEntityBoneIndexByName(vehicle, 'hub_lr');
+      }
+      if (tankBone == -1) {
+        tankBone = GetEntityBoneIndexByName(vehicle, "handle_dside_r")
+        nozzleModifiedPosition.x = 0.1
+        nozzleModifiedPosition.y = -0.5
+        nozzleModifiedPosition.z = -0.6
       }
     }
-  };
+    tankPosition = GetWorldPositionOfEntityBone(vehicle, tankBone);
 
-  const handleVehicleInteraction = async (vehicle) => {
+    LoadAnimDict('timetable@gardener@filling_can');
+    TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
+    await exports['orion'].delay(300);
+    //let fuelposition = getVehicleRefuelPositions(vehicle);
 
-    emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
-    if (IsControlJustReleased(0, 38)) {
-      let isBike = IsThisModelABike(GetEntityModel(vehicle));
-      let vehClass = GetVehicleClass(vehicle)
-      let nozzleModifiedPosition = {
-        x: 0.0,
-        y: 0.0,
-        z: 0.0
-      }
+    putPipeInVehicle(vehicle, tankBone, isBike, true, nozzleModifiedPosition);
+    SetFuel(vehicle, 100);
+    pistoletInVehicle = true;
 
-      let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
-
-      if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicle)]) {
-        tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
-        if (tankBone == -1) {
-          tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
-        }
-        if (tankBone == -1) {
-          tankBone = GetEntityBoneIndexByName(vehicle, 'engine');
-        }
-        isBike = true;
-      }
-      else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicle)]) {
-        tankBone = GetEntityBoneIndexByName(vehicle, 'petrolcap');
-        if (tankBone == -1) {
-          tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank_l');
-        }
-        if (tankBone == -1) {
-          tankBone = GetEntityBoneIndexByName(vehicle, 'hub_lr');
-        }
-        if (tankBone == -1) {
-          tankBone = GetEntityBoneIndexByName(vehicle, "handle_dside_r")
-          nozzleModifiedPosition.x = 0.1
-          nozzleModifiedPosition.y = -0.5
-          nozzleModifiedPosition.z = -0.6
-        }
-      }
-      tankPosition = GetWorldPositionOfEntityBone(vehicle, tankBone);
-
-      LoadAnimDict('timetable@gardener@filling_can');
-      TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
-      await exports['orion'].delay(300);
-      //let fuelposition = getVehicleRefuelPositions(vehicle);
-
-      putPipeInVehicle(vehicle, tankBone, isBike, true, nozzleModifiedPosition);
-      SetFuel(vehicle, 100);
-      pistoletInVehicle = true;
-    }
-  };
-
-
-
-
-  // new code 
+  })
 
   onNet('orion:station:c:pickUpPump', async () => {
     let playerPed = PlayerPedId();
@@ -373,7 +342,6 @@
 
     playerPickupPump = false;
   })
-
 
   on('onResourceStop', async (resourceName) => {
     if (GetCurrentResourceName() !== resourceName) {

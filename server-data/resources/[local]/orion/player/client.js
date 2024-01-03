@@ -6,6 +6,44 @@ let playerData = {};
 
   let handsUp = false;
   let isDead = false;
+  let mug = false;
+
+  function modelLoadedAsync() {
+    return new Promise((resolve) => {
+      const timer = setInterval(() => {
+        const ped = PlayerPedId();
+        const model = GetEntityModel(ped);
+
+        if (model && HasModelLoaded(model)) {
+          resolve(ped);
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+  }
+
+  async function getMugshot() {
+    const ped = await modelLoadedAsync();
+
+    mug = RegisterPedheadshotTransparent(ped);
+
+    const timer = setInterval(() => {
+      if (!IsPedheadshotValid(mug)) {
+        UnregisterPedheadshot(mug);
+
+        mug = RegisterPedheadshotTransparent(ped);
+      } else {
+        if (IsPedheadshotReady(mug)) {
+          SendNUIMessage({
+            mugshot: GetPedheadshotTxdString(mug),
+          });
+          UnregisterPedheadshot(mug);
+          clearInterval(timer);
+        }
+      }
+    }, 100);
+  }
+
 
   on('onClientGameTypeStart', () => {
     exports.spawnmanager.setAutoSpawn(false);
@@ -21,6 +59,13 @@ let playerData = {};
       false,
       true
     );
+  });
+
+  on('onClientResourceStart', async (resourceName) => {
+    if (GetCurrentResourceName() != resourceName) {
+      return;
+    }
+    getMugshot();
   });
 
   exports("getPlayerData", () => {
@@ -176,6 +221,41 @@ let playerData = {};
     SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
 
     emit('orion:showNotification', `Bienvenue ${playerDataServer.firstname} ${playerDataServer.lastname} sur Orion !`);
+  });
+
+
+  setInterval(async () => {
+    const ped = PlayerPedId();
+
+    SendNUIMessage({
+      action: 'updatePlayerStatus',
+      payload: {
+        showPlayerHUD: !IsPauseMenuActive(),
+        //health: GetEntityHealth(ped) - (GetEntityMaxHealth(ped) === 175 ? 75 : 100),
+        //armor: GetPedArmour(ped),
+      },
+    });
+  }, 100);
+
+  setInterval(async () => {
+    const hunger = playerData.hunger;
+    const thirst = playerData.thirst;
+
+    SendNUIMessage({
+      action: 'updatePlayerStatus',
+      payload: {
+        hunger,
+        thirst,
+      },
+    });
+  }, 1000);
+
+
+  on('onClientResourceStop', (resourceName) => {
+    if (GetCurrentResourceName() != resourceName) {
+      return;
+    }
+    if (mug) UnregisterPedheadshot(mug);
   });
 
 })()
