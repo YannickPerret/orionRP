@@ -201,7 +201,7 @@
       let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
       let fuelposition = getVehicleRefuelPositions(vehicle);
 
-      putNozzleInVehicle(vehicle, tankBone, isBike, true, fuelposition)
+      putPipeInVehicle(vehicle, tankBone, isBike, true, fuelposition)
 
       SetFuel(vehicle, 100);
       pistoletInVehicle = false;
