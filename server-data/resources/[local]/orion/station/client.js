@@ -185,6 +185,12 @@
             const currentFuelInVehicle = GetVehicleFuelLevel(vehicleEntityInFront);
             const maxFuelInVehicle = GetVehicleHandlingFloat(vehicleEntityInFront, 'CHandlingData', 'fPetrolTankVolume');
             const missingFuel = maxFuelInVehicle - currentFuelInVehicle;
+            if (missingFuel <= 0) {
+              emit('orion:showNotification', 'Le véhicule est déjà plein.');
+              clearPedTasks(PlayerPedId());
+              pistoletInVehicle = false;
+              return;
+            }
             console.log(missingFuel);
             emitNet('orion:station:s:refuelVehicle', vehicleEntityInFront, missingFuel);
           }
