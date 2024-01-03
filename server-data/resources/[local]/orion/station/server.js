@@ -16,6 +16,11 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
 
+        if (!player) {
+            emitNet('orion:showNotification', source, 'Vous n\'êtes pas connecté.');
+            return;
+        }
+
         emitNet('orion:station:c:detachRope', source, player.id);
     })
 
