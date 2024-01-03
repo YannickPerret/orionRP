@@ -6,6 +6,7 @@
   let FUEL_DECOR = "_ANDY_FUEL_DECORE_"
   let pistoletInVehicle = false;
   let vehicleEntityInFront = null;
+  let fuelPrice = 1;
 
 
   let pistoletObject = null;
@@ -157,8 +158,10 @@
           if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
             if (!playerPickupPump) {
               emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+              //ajouter le prix du fuel
               if (IsControlJustReleased(0, 38)) {
                 currentPump = getClosestPumpHandle();
+                //Add le fuel price de la pump
                 emit('orion:station:c:pickUpPump')
               }
             } else {
@@ -259,7 +262,7 @@
       else {
         let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
         if (fuel < 100) {
-          onNet('orion:player:s:payWithMoney', money);
+          onNet('orion:player:s:payWithMoney', 1 * fuelPrice);
           setFuel(vehicleEntityInFront, fuel + 1);
         }
         else {
