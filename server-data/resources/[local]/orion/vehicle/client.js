@@ -175,7 +175,7 @@ const playSound = sound => {
       if (currSpeed > 0) {
         consumption = currSpeed * 0.0001;
       } else {
-        consumption = 0.0;
+        consumption = 0.1;
       }
 
       if (fuel - consumption > 0) {
