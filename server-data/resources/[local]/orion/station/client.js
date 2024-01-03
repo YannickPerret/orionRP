@@ -253,7 +253,7 @@
 
   (async () => {
     while (true) {
-      await exports['orion'].delay(1000);
+      await exports['orion'].delay(100);
       if (pistoletInVehicle) {
         if (!vehicleEntityInFront) {
           pistoletInVehicle = false;
