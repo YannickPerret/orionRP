@@ -197,7 +197,7 @@
         }
       }
     }
-  }, 10);
+  }, 100);
 
 
   onNet('orion:station:c:refuelVehicle', async (vehicle, maxMoney) => {
