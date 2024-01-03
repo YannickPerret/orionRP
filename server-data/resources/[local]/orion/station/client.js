@@ -249,7 +249,7 @@
   });
 
   setTick(async () => {
-    while (pistoletInVehicle) {
+    if (pistoletInVehicle) {
       console.log("oui")
       await exports['orion'].delay(1000);
       if (!vehicleEntityInFront) {
