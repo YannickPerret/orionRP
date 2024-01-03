@@ -262,8 +262,7 @@
         else {
           let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
           if (fuel < 100) {
-            console.log('vroumvrom');
-            emitNet('orion:player:s:payWithMoney', (1 * fuelPrice));
+            emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
             setFuel(vehicleEntityInFront, fuel + 1);
           }
           else {
