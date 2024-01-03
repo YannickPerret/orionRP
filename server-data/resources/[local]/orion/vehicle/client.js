@@ -232,6 +232,7 @@ RegisterCommand(
   async (source, args) => {
     const model = args[0];
     createVehiclePedInside(model);
+    SetVehicleFuelLevel(GetVehiclePedIsIn(PlayerPedId()), 100.0);
   },
   false
 );
