@@ -3,6 +3,8 @@
   const gazStationsBlips = JSON.parse(gazStationsString);
   let playerPickupPump = false;
   let playerBone = null;
+  let FUEL_DECOR = "_ANDY_FUEL_DECORE_"
+
 
   let pistoletObject = null;
   let pistoletProps = null;
@@ -14,7 +16,30 @@
 
   let currentPumpObj = {};
   let vehicleFuelCapOffset = {};
-
+  let nozzleBasedOnClass = [
+    0.65, //Compacts
+    0.65, //Sedans
+    0.85, //SUVs
+    0.6, //Coupes
+    0.55, //Muscle
+    0.6, //Sports Classics
+    0.6, //Sports
+    0.55, //Super
+    0.12, //Motorcycles
+    0.8, //Off - road
+    0.7, //Industrial
+    0.6, //Utility
+    0.7, //Vans
+    0.0, //Cycles
+    0.0, //Boats
+    0.0, //Helicopters
+    0.0, //Planes
+    0.6, //Service
+    0.65, //Emergency
+    0.65, //Military
+    0.75, //Commercial
+    0.0 // Trains
+  ];
   //  let ropeAnchor = null;
   // let pistoletInVehicle = false;
 
@@ -34,6 +59,23 @@
 
     }
   };
+
+  const getFuel = (vehicle) => {
+    if (!DecorExistOn(vehicle, FUEL_DECOR)) {
+      return GetVehicleFuelLevel(vehicle)
+    }
+    return DecorGetFloat(vehicle, FUEL_DECOR)
+  }
+
+  const playEffect = (pdict, pname) => {
+    setTick(async () => {
+      let position = GetOffsetFromEntityInWorldCoords(nozzle, 0.0, 0.28, 0.17)
+      UseParticleFxAssetNextCall(pdict)
+      let pfx = StartParticleFxLoopedAtCoord(pname, position.x, position.y, position.z, 0.0, 0.0, GetEntityHeading(nozzle), 1.0, false, false, false, false)
+      await exports['orion'].delay(1000)
+      StopParticleFxLooped(pfx, 0)
+    })
+  }
 
   const getClosestPumpHandle = () => {
     let ped = PlayerPedId();
@@ -73,7 +115,7 @@
     else {
       tankPosition = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, -1.0, 0.0);
     }
-    return tankPosition;
+    return tankPosition
   }
 
 
@@ -100,43 +142,11 @@
   // attach nozzle to vehicle.
   const putPipeInVehicle = (vehicle, ptankBone, isBike, dontClear, newTankPosition) => {
     if (isBike) {
-      AttachEntityToEntity(
-        pistoletObject,
-        vehicle,
-        ptankBone,
-        0.0 + newTankPosition.x,
-        -0.2 + newTankPosition.y,
-        0.2 + newTankPosition.z,
-        -80.0,
-        0.0,
-        0.0,
-        true,
-        true,
-        false,
-        false,
-        1,
-        true
-      );
+      AttachEntityToEntity(pistoletObject, vehicle, ptankBone, 0.0 + newTankPosition.x, -0.2 + newTankPosition.y, 0.2 + newTankPosition.z, -80.0, 0.0, 0.0, true, true, false, false, 1, true);
     } else {
-      AttachEntityToEntity(
-        pistoletObject,
-        vehicle,
-        ptankBone,
-        -0.18 + newTankPosition.x,
-        0.0 + newTankPosition.y,
-        0.75 + newTankPosition.z,
-        -125.0,
-        -90.0,
-        -90.0,
-        true,
-        true,
-        false,
-        false,
-        1,
-        true
-      );
+      AttachEntityToEntity(pistoletObject, vehicle, ptankBone, -0.18 + newTankPosition.x, 0.0 + newTankPosition.y, 0.75 + newTankPosition.z, -125.0, -90.0, -90.0, true, true, false, false, 1, true);
     }
-    if (IsEntityPlayingAnim(PlayerPedId(), 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 3)) {
+    if (!dontClear && IsEntityPlayingAnim(PlayerPedId(), 'timetable@gardener@filling_can', 'gar_ig_5_filling_can', 3)) {
       ClearPedTasks(PlayerPedId());
     }
     pistoletInVehicle = true;
@@ -182,14 +192,17 @@
     }
   };
 
-  const handleVehicleInteraction = vehicle => {
+  const handleVehicleInteraction = async (vehicle) => {
     emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
     if (IsControlJustReleased(0, 38)) {
-      // 38 est le code pour la touche E
-      //putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: 0.0, y: 0.0, z: 0.0 });
+      LoadAnimDict('timetable@gardener@filling_can');
+      TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
+      await exports['orion'].delay(300);
+      let tankBone = GetEntityBoneIndexByName(vehicle, 'petroltank');
       let fuelposition = getVehicleRefuelPositions(vehicle);
-      console.log(fuelposition)
-      putPipeInVehicle(vehicle, 0x4d36b5e0, false, false, { x: fuelposition[0], y: fuelposition[1], z: fuelposition[2] });
+
+      putNozzleInVehicle(vehicle, tankBone, isBike, true, fuelposition)
+
       SetFuel(vehicle, 100);
       pistoletInVehicle = false;
     }
