@@ -225,7 +225,7 @@ let playerData = {};
 
 
   setInterval(async () => {
-    const ped = PlayerPedId();
+    //const ped = PlayerPedId();
 
     SendNUIMessage({
       action: 'updatePlayerStatus',
