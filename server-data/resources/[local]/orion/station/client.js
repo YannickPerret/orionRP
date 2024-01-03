@@ -294,7 +294,7 @@
   onNet('orion:station:c:canceledRefuel', (message) => {
     pistoletInVehicle = false;
     ClearPedTasks(PlayerPedId());
-    emit('orion:showNotification', message);
+    emit('orion:showNotification', message + "Prix actuel : " + totPrice + "$");
   })
 
   onNet('orion:station:c:pickUpPump', async () => {
