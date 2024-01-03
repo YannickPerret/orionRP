@@ -251,6 +251,7 @@
 
   (async () => {
     while (pistoletInVehicle) {
+      exports['orion'].showHelpText('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100');
       await exports['orion'].delay(1000);
       if (!vehicleEntityInFront) {
         pistoletInVehicle = false;

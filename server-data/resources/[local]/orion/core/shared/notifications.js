@@ -11,11 +11,6 @@ onNet('orion:showAdvancedNotification', (title, subject, message, icon) => {
   DrawNotification(false, true);
 });
 
-onNet('orion:showHelpNotification', (message, thisFrame, beep, duration) => {
-  BeginTextCommandDisplayHelp('STRING');
-  AddTextComponentSubstringPlayerName(message);
-  EndTextCommandDisplayHelp(thisFrame, beep, duration, -1);
-});
 
 // show text in the top left corner of the screen
 onNet('orion:showText', (message, duration) => {
@@ -36,6 +31,34 @@ onNet('draw3DText', (x, y, z, text) => {
   SetTextOutline();
   AddTextComponentString(text);
   DrawText(_x, _y);
+});
+
+onNet('orion:showHelpText', (message) => {
+  SetTextFont(0)
+  SetTextProportional(1)
+  SetTextScale(0.0, 0.3)
+  SetTextColour(128, 128, 128, 255)
+  SetTextDropshadow(0, 0, 0, 0, 255)
+  SetTextEdge(1, 0, 0, 0, 255)
+  SetTextDropShadow()
+  SetTextOutline()
+  SetTextEntry("STRING")
+  AddTextComponentString(message)
+  DrawText(0.005, 0.005)
+});
+
+exports('showHelpText', (message) => {
+  SetTextFont(0)
+  SetTextProportional(1)
+  SetTextScale(0.0, 0.3)
+  SetTextColour(128, 128, 128, 255)
+  SetTextDropshadow(0, 0, 0, 0, 255)
+  SetTextEdge(1, 0, 0, 0, 255)
+  SetTextDropShadow()
+  SetTextOutline()
+  SetTextEntry("STRING")
+  AddTextComponentString(message)
+  DrawText(0.005, 0.005)
 });
 
 exports('showNotification', (message) => {
