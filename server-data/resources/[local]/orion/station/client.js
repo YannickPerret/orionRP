@@ -251,15 +251,10 @@
     }
   });
 
-  const sendPayToServer = async (amount) => {
-    await onNet('orion:player:s:payWithMoney', (amount));
-  }
-
   (async () => {
     while (true) {
       await exports['orion'].delay(1000);
       if (pistoletInVehicle) {
-        console.log("oui")
         if (!vehicleEntityInFront) {
           pistoletInVehicle = false;
           ClearPedTasks(PlayerPedId());
@@ -267,7 +262,7 @@
         else {
           let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
           if (fuel < 100) {
-            await sendPayToServer(1 * fuelPrice)
+            emitNet('orion:player:s:payWithMoney', (1 * fuelPrice));
             setFuel(vehicleEntityInFront, fuel + 1);
           }
           else {
