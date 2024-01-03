@@ -227,13 +227,12 @@ RegisterCommand(
   false
 );
 
-RegisterCommand(
-  'veh',
-  async (source, args) => {
-    const model = args[0];
-    createVehiclePedInside(model);
-    SetVehicleFuelLevel(GetVehiclePedIsIn(PlayerPedId()), 100.0);
-  },
+RegisterCommand('veh', async (source, args) => {
+  const model = args[0];
+  createVehiclePedInside(model);
+  await exports['orion'].delay(5000);
+  SetVehicleFuelLevel(GetVehiclePedIsIn(PlayerPedId()), 100.0);
+},
   false
 );
 
