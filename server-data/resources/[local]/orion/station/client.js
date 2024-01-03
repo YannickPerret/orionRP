@@ -280,7 +280,7 @@
       if (pistoletInVehicle) {
         BeginTextCommandDisplayHelp("THREESTRINGS")
         AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100')
-        EndTextCommandDisplayHelp(0, true, false, 0)
+        EndTextCommandDisplayHelp(0, false, false, 100)
       }
     }
   })();
