@@ -48,6 +48,7 @@ onNet('orion:showHelpText', (message) => {
 });
 
 exports('showHelpText', (message) => {
+  console.log(message)
   SetTextFont(0)
   SetTextProportional(1)
   SetTextScale(0.0, 0.3)
