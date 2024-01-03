@@ -73,11 +73,9 @@ const toggleSeatbelt = () => {
   if (seatbelt) {
     playSound('buckle');
     SetFlyThroughWindscreenParams(10000.0, 10000.0, 17.0, 500.0);
-    emit('orion:showNotification', 'Vous avez attaché votre ceinture de sécurité.');
   } else {
     playSound('unbuckle');
     SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
-    emit('orion:showNotification', 'Vous avez détaché votre ceinture de sécurité.');
   }
 
   SendNUIMessage({
