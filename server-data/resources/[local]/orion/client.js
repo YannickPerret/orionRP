@@ -22,7 +22,6 @@ on('playerSpawned', () => {
 onNet('orion:playerConnected', playerData => {
 
   exports['orion'].setPlayerData(playerData);
-  emitNet('orion:s:initializeServer')
 
   SetEntityCoords(
     GetPlayerPed(-1),
@@ -32,8 +31,7 @@ onNet('orion:playerConnected', playerData => {
     false,
     false,
     false,
-    false
-  );
+    false);
 
   //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
 
@@ -41,4 +39,7 @@ onNet('orion:playerConnected', playerData => {
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
     emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
   }, 900000);
+
+  emitNet('orion:s:initializeServer')
+
 });

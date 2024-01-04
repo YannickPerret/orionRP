@@ -17,6 +17,7 @@
         const source = global.source;
         const blipList = await exports['orion'].initializeBlips();
 
+        console.log(blipList)
         emit('orion:blips:c:createBlips', source, blipList)
 
     })
