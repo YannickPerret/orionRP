@@ -24,7 +24,7 @@ class Database {
     }
   }
 
-  initializeMigration() {
+  /*initializeMigration() {
     let latestVersion = -1;
     return new Promise((resolve, reject) => {
       this.createDatabase(this.db)
@@ -44,17 +44,17 @@ class Database {
           reject(error);
         });
     });
-  }
+  }*/
 
   initializeMigration() {
     let latestVersion = -1;
     return new Promise((resolve, reject) => {
       this.createDatabase(this.db)
-        .then(() => {
-          this.createTable('system').then((result) => {
+        .then(async () => {
+          await this.createTable('system').then(async (result) => {
             console.log(result)
             if (!result)
-              this.getLatestDbVersion()
+              await this.getLatestDbVersion()
           })
         })
         .then(version => {
