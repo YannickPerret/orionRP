@@ -210,7 +210,7 @@ const playSound = sound => {
     await exports['orion'].delay(0);
   }
 })();
-
+/*
 let count_bcast_timer = 0
 let delay_bcast_timer = 200
 
@@ -259,7 +259,7 @@ setTick(async () => {
       }
     }
   }
-});
+});*/
 
 
 RegisterKeyMapping('seatbelt', 'Attacher sa ceinture', 'keyboard', 'N');
