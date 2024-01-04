@@ -1,9 +1,8 @@
-const garagesJson = LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json');
+const garagesJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'));
 module.exports = {
     version: 17,
     migrate: async (db) => {
-        const garages = JSON.parse(garagesJson);
-        garages.forEach(async (garage, index) => {
+        garagesJson.forEach(async (garage, index) => {
             await db.insert('garages', {
                 name: garage.name,
                 type: garage.type,
