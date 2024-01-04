@@ -6,7 +6,7 @@
 (async () => {
     const garageJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'))
 
-    const parking = []
+    let parking;
     const showGarageHUD = false
 
     onNet('orion:garage:c:initializeGarages', () => {
