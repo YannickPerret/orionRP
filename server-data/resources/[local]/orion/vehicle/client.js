@@ -211,6 +211,57 @@ const playSound = sound => {
   }
 })();
 
+let count_bcast_timer = 0
+let delay_bcast_timer = 200
+
+setTick(async () => {
+
+  while (true) {
+
+    let playerPed = PlayerPedId();
+    if (IsPedInAnyVehicle(playerPed, false)) {
+      let vehicle = GetVehiclePedIsIn(playerPed, false);
+      let classVehicle = GetVehicleClass(vehicle);
+
+      if (GetPedInVehicleSeat(vehicle, -1) == playerPed) {
+        DisableControlAction(0, 84, true)
+        DisableControlAction(0, 83, true)
+
+        if (classVehicle == 18) {
+          let actv_manu = false
+          let actv_horn = false
+
+          DisableControlAction(0, 86, true)
+          DisableControlAction(0, 172, true)
+          DisableControlAction(0, 81, true)
+          DisableControlAction(0, 82, true)
+          DisableControlAction(0, 85, true)
+          DisableControlAction(0, 80, true)
+          DisableControlAction(0, 19, true)
+
+          SetVehRadioStation(vehicle, 'OFF')
+          SetVehicleRadioEnabled(vehicle, false)
+
+          if (!IsPauseMenuActive()) {
+            if (IsDisabledControlJustPressed(0, 85) || IsDisabledControlJustPressed(0, 246)) {
+              if (IsVehicleSirenOn(vehicle)) {
+                PlaySoundFromEntity(-1, 'VEHICLES_HORNS_SIREN_1', vehicle, 'DLC_AW_01_Sounds', 1, 0)
+                SetVehicleSiren(vehicle, false)
+              }
+              else {
+                PlaySoundFromEntity(-1, 'VEHICLES_HORNS_SIREN_1', vehicle, 'DLC_AW_01_Sounds', 1, 0)
+                SetVehicleSiren(vehicle, true)
+                count_bcast_timer = delay_bcast_timer
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+
 RegisterKeyMapping('seatbelt', 'Attacher sa ceinture', 'keyboard', 'N');
 
 RegisterCommand(
