@@ -25,16 +25,28 @@ class Database {
   }
 
 
-  async initializeMigration() {
+  initializeMigration() {
     let latestVersion = -1;
-    await this.createDatabase(this.db);
-    await this.createTable('system').catch(async () => {
-      latestVersion = await this.getLatestDbVersion();
-    });
 
-    console.log('Latest version:', latestVersion)
-    await this.applyMigrations(latestVersion);
+    return new Promise((resolve, reject) => {
+      this.createDatabase(this.db)
+        .then(() => this.createTable('system'))
+        .catch(() => this.getLatestDbVersion())
+        .then(version => {
+          if (version !== undefined) {
+            latestVersion = version;
+          }
+          console.log('Latest version:', latestVersion);
+          return this.applyMigrations(latestVersion);
+        })
+        .then(() => resolve())
+        .catch(error => {
+          console.error('Error during migration initialization:', error);
+          reject(error);
+        });
+    });
   }
+
 
   async getLatestDbVersion() {
     if (!this.connection) {
