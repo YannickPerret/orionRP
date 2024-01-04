@@ -24,28 +24,6 @@ class Database {
     }
   }
 
-  /*initializeMigration() {
-    let latestVersion = -1;
-    return new Promise((resolve, reject) => {
-      this.createDatabase(this.db)
-        .then(() => this.createTable('system'))
-
-        .catch(() => this.getLatestDbVersion())
-        .then(version => {
-          if (version !== undefined) {
-            latestVersion = version;
-          }
-          console.log('Latest version:', latestVersion);
-          return this.applyMigrations(latestVersion);
-        })
-        .then(() => resolve())
-        .catch(error => {
-          console.error('Error during migration initialization:', error);
-          reject(error);
-        });
-    });
-  }*/
-
   initializeMigration() {
     let latestVersion = -1;
     return new Promise((resolve, reject) => {
