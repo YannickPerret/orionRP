@@ -11,7 +11,7 @@ class GarageManager {
         this.garages.delete(id);
     }
 
-    getGarage(id) {
+    getGarageById(id) {
         return this.garages.get(id);
     }
 
