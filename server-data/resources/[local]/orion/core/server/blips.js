@@ -1,5 +1,4 @@
 (async () => {
-    let blipsManager = [] //en faire une classe
     const { db, r } = require('./core/server/database.js');
 
     const createBlip = (coords, sprite, color, text) => {
@@ -20,7 +19,7 @@
     }
     exports('createBlip', createBlip);
 
-    const initializeBlips = async () => {
+    /*const initializeBlips = async () => {
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
         const bankNationals = await db.getByWithFilter('banks', { type: 'bank_nation' });
@@ -29,7 +28,7 @@
         return blipsList;
     }
 
-    exports('initializeBlips', initializeBlips);
+    exports('initializeBlips', initializeBlips);*/
 
 
     onNet('orion:blips:s:initializeBlips', async () => {
@@ -39,8 +38,6 @@
         const bankNationals = await db.getByWithFilter('banks', { type: 'bank_nation' });
         const garages = await db.getByWithFilter('garages', { isActive: true });
         const blipsList = { stations: [...stations], banks: [...banks], bankNationals: [...bankNationals], garages: [...garages] };
-
-        console.log(blipsList.garages)
         emitNet('orion:blips:c:createBlips', source, blipsList)
     })
 

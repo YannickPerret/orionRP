@@ -113,6 +113,13 @@ onNet('orion:blips:c:createBlips', async (blips) => {
   });
 });
 
+onNet('orion:markers:c:createMarkers', async (markers) => {
+  markers.garages.forEach(garage => {
+    exports['orion'].createMarker(1, garage.position, 1.0, { r: 255, g: 255, b: 255, a: 100 });
+  });
+});
+
+
 onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
   RequestAnimDict(dict);
   while (!HasAnimDictLoaded(dict)) {

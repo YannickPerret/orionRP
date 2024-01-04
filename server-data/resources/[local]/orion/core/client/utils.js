@@ -47,6 +47,11 @@
     }, time);
   }
 
+  const createMarker = (type, coords, scale, color) => {
+    DrawMarker(type, coords.X, coords.Y, coords.Z, 0, 0, 0, 0, 0, 0, scale, scale, scale, color.r, color.g, color.b, color.a, false, false, 2, false, false, false, false);
+  }
+
+  exports('createMarker', createMarker);
   exports('waitingLoader', waitingLoader);
   exports('createBlip', createBlip);
   exports('delay', delay);

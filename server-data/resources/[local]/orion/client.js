@@ -8,7 +8,6 @@
 
     SetCanAttackFriendly(PlayerPedId(), true, false);
     NetworkSetFriendlyFireOption(true);
-    console.log(1)
     emitNet('orion:player:s:playerSpawned');
   };
 

@@ -54,6 +54,7 @@ const createVehicle = async (model, coords) => {
   SetModelAsNoLongerNeeded(model);
 };
 
+
 const createVehiclePedInside = async model => {
   const ped = PlayerPedId();
   const coords = GetEntityCoords(ped);
