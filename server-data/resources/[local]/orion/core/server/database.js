@@ -30,7 +30,6 @@ class Database {
       this.createDatabase(this.db)
         .then(async () => {
           await this.createTable('system').then(async (result) => {
-            console.log(result)
             if (!result)
               latestVersion = await this.getLatestDbVersion()
           })
