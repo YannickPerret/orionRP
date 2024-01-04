@@ -64,7 +64,6 @@ client_scripts{
 server_scripts{
    'core/server/utils.js',
    'core/server/blips.js',
-   'core/server/markers.js',
    'server.js',
     'player/server.js',
     'vehicle/server.js',
