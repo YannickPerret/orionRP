@@ -20,14 +20,13 @@
     }
     exports('createBlip', createBlip);
 
-    const initializeBlips = async (source) => {
-        console.log(source)
+    const initializeBlips = async () => {
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
         const bankNationals = await db.getByWithFilter('banks', { type: 'bank_nation' });
         const garages = await db.getByWithFilter('garages', { isActive: true });
         const blipsList = { stations: [...stations], banks: [...banks], bankNationals: [...bankNationals], garages: [...garages] };
-        emitNet('orion:blips:c:createBlips', source, blipsList)
+        emitNet('orion:blips:c:createBlips', -1, blipsList)
     }
     exports('initializeBlips', initializeBlips);
 

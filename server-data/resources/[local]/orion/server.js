@@ -6,6 +6,7 @@
         // Les actions à effectuer après la fin de la migration
         //emit('orion:blips:s:createBlips')
 
+        emit('orion:s:initializeServer')
         //await exports['orion'].initializeMarkers();
     }).catch(error => {
         // Gérer les erreurs éventuelles de la migration
@@ -13,9 +14,7 @@
     });
 
     onNet('orion:s:initializeServer', async () => {
-        let sourceId = global.source;
-        console.log('orion:s:initializeServer', sourceId)
-        await exports['orion'].initializeBlips(sourceId);
+        await exports['orion'].initializeBlips();
     })
 
     on('playerDropped', reason => {

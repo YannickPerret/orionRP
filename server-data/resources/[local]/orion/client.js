@@ -12,11 +12,6 @@ const spawnLogin = () => {
 
 exports('spawnLogin', spawnLogin);
 
-on('onClientGameTypeStart', () => {
-  console.log('onClientResourceStart', resourceName);
-  emitNet('orion:s:initializeServer');
-
-});
 
 on('playerSpawned', () => {
   spawnLogin();
