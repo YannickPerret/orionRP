@@ -8,7 +8,7 @@
         //initialize garages
         Garage.getAll().then((garages) => {
             console.log(garages);
-            //GarageManager.addGarage(garages.id, garages);
+            GarageManager.addGarage(garages.id, garages);
         })
 
     }).catch(error => {
