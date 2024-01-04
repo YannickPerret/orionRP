@@ -396,34 +396,8 @@
         {
             "name": "Parking",
             "position": {
-                "x": -693.79,
-                "y": -747.92,
-                "z": 38.61
-            },
-            "type": "public",
-            "maxSlots": 10,
-            "allowsVehicleTypes": [
-                3
-            ],
-            "parkingFee": 100,
-            "spawnPlaces": [
-                {
-                    "x": -693.79,
-                    "y": -747.92,
-                    "z": 38.61
-                },
-                {
-                    "x": -693.79,
-                    "y": -747.92,
-                    "z": 38.61
-                }
-            ]
-        },
-        {
-            "name": "Parking",
-            "position": {
                 "x": 285.47,
-                "y": 285.47,
+                "y": -335.92,
                 "z": 44.92
             },
             "type": "public",
@@ -482,58 +456,6 @@
             "maxSlots": 10,
             "allowsVehicleTypes": [
                 6
-            ],
-            "parkingFee": 100,
-            "spawnPlaces": [
-                {
-                    "x": 285.47,
-                    "y": 285.47,
-                    "z": 44.92
-                },
-                {
-                    "x": 285.47,
-                    "y": 285.47,
-                    "z": 44.92
-                }
-            ]
-        },
-        {
-            "name": "Parking",
-            "position": {
-                "x": -971.16,
-                "y": -2617.88,
-                "z": 34.69
-            },
-            "type": "public",
-            "maxSlots": 10,
-            "allowsVehicleTypes": [
-                7
-            ],
-            "parkingFee": 100,
-            "spawnPlaces": [
-                {
-                    "x": -693.79,
-                    "y": -747.92,
-                    "z": 38.61
-                },
-                {
-                    "x": -693.79,
-                    "y": -747.92,
-                    "z": 38.61
-                }
-            ]
-        },
-        {
-            "name": "Parking",
-            "position": {
-                "x": -971.16,
-                "y": -2617.88,
-                "z": 34.69
-            },
-            "type": "public",
-            "maxSlots": 10,
-            "allowsVehicleTypes": [
-                8
             ],
             "parkingFee": 100,
             "spawnPlaces": [
@@ -638,32 +560,6 @@
             "maxSlots": 10,
             "allowsVehicleTypes": [
                 12
-            ],
-            "parkingFee": 100,
-            "spawnPlaces": [
-                {
-                    "x": 285.47,
-                    "y": 285.47,
-                    "z": 44.92
-                },
-                {
-                    "x": 285.47,
-                    "y": 285.47,
-                    "z": 44.92
-                }
-            ]
-        },
-        {
-            "name": "Parking",
-            "position": {
-                "x": 1868.8,
-                "y": 3657.42,
-                "z": 33.85
-            },
-            "type": "public",
-            "maxSlots": 10,
-            "allowsVehicleTypes": [
-                13
             ],
             "parkingFee": 100,
             "spawnPlaces": [
