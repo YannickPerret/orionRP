@@ -108,10 +108,11 @@ onNet('orion:blips:c:createBlips', async (blips) => {
   blips.bankNational.forEach(bank => {
     exports['orion'].createBlip(bank.position, 108, 2, bank.name);
   });
-  await exports['orion'].delay(100);
+  console.log(blips.garages)
+  /*await exports['orion'].delay(100);
   blips.garages.forEach(garage => {
     exports['orion'].createBlip(garage.position, 357, 4, garage.name);
-  });
+  });*/
 });
 
 onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
