@@ -99,21 +99,18 @@ setTick(async () => {
 });
 
 onNet('orion:blips:c:createBlips', async (blips) => {
-  console.log("lol")
-
   blips.garages.forEach(garage => {
-    exports['orion'].createBlip(garage.position, 357, 4, garage.name);
+    exports['orion'].createBlip(garage.position, 326, 4, garage.name);
   });
-  /*
-    await blips.stations.forEach(station => {
-      exports['orion'].createBlip(station.position, 361, 13, station.name);
-    });
-    await blips.banks.forEach(bank => {
-      exports['orion'].createBlip(bank.position, 108, 2, bank.name);
-    });
-    await blips.bankNationals.forEach(bank => {
-      exports['orion'].createBlip(bank.position, 108, 2, bank.name);
-    });*/
+  blips.stations.forEach(station => {
+    exports['orion'].createBlip(station.position, 361, 13, station.name);
+  });
+  blips.banks.forEach(bank => {
+    exports['orion'].createBlip(bank.position, 108, 2, bank.name);
+  });
+  blips.bankNationals.forEach(bank => {
+    exports['orion'].createBlip(bank.position, 108, 2, bank.name);
+  });
 });
 
 onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
