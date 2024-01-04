@@ -14,7 +14,7 @@
 
     onNet('orion:s:initializeServer', async () => {
         let sourceId = global.source;
-        await exports['orion'].initializeBlips(source);
+        await exports['orion'].initializeBlips(sourceId);
     })
 
     on('playerDropped', reason => {
