@@ -21,7 +21,12 @@
                 8
             ],
             "parkingFee": 100,
-            "spawnPlaces": []
+            "spawnPlaces": [],
+            "dispawnPlace": {
+                "X": 493.19,
+                "Y": -55.84,
+                "Z": 77.36
+            }
         },
         {
             "name": "Parking",
@@ -45,7 +50,12 @@
                 9
             ],
             "parkingFee": 100,
-            "spawnPlaces": []
+            "spawnPlaces": [],
+            "dispawnPlace": {
+                "X": 284.14,
+                "Y": -337.61,
+                "Z": 44.92
+            }
         },
         {
             "name": "Parking",
