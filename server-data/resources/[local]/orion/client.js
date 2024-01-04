@@ -35,11 +35,11 @@ onNet('orion:playerConnected', playerData => {
 
   //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
 
+  emitNet('orion:blips:s:initializeBlips')
+
   setInterval(() => {
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
     emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
   }, 900000);
-
-  emitNet('orion:s:initializeServer')
 
 });

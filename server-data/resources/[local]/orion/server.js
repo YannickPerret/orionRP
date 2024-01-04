@@ -13,14 +13,6 @@
         console.error("Erreur lors de l'initialisation de la migration :", error);
     });
 
-    onNet('orion:s:initializeServer', async () => {
-        const source = global.source;
-        const blipList = await exports['orion'].initializeBlips();
-
-        console.log(blipList)
-        emit('orion:blips:c:createBlips', source, blipList)
-
-    })
 
     on('playerDropped', reason => {
         let sourceId = global.source;
