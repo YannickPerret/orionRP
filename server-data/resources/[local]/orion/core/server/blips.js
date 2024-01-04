@@ -21,6 +21,7 @@
     exports('createBlip', createBlip);
 
     const initializeBlips = async (source) => {
+        console.log(source)
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
         const bankNationals = await db.getByWithFilter('banks', { type: 'bank_nation' });
