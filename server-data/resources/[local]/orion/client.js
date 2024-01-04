@@ -35,6 +35,7 @@ onNet('orion:playerConnected', playerData => {
 
   //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
 
+  console.log('playerConnected');
   emitNet('orion:blips:s:initializeBlips')
 
   setInterval(() => {
