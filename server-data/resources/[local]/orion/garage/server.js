@@ -4,8 +4,9 @@
     const Vehicle = require('./vehicle/vehicle.js');
 
     onNet('orion:garage:s:setParking', async () => {
+        const source = global.source;
         const parking = await db.getAll('parking');
-        emitNet('orion:garage:setParking', parking);
+        emitNet('orion:garage:c:setParking', source, parking);
     })
 
     onNet('orion:garage:s:openGarage', async (garageId) => {
