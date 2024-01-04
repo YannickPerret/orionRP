@@ -12,6 +12,13 @@ const spawnLogin = () => {
 
 exports('spawnLogin', spawnLogin);
 
+on('onClientResourceStart', async resourceName => {
+  if (GetCurrentResourceName() != resourceName) {
+    return;
+  }
+  emitNet('orion:s:initializeServer');
+
+);
 
 on('playerSpawned', () => {
   spawnLogin();

@@ -108,7 +108,7 @@ onNet('orion:blips:c:createBlips', async (blips) => {
       else if (index == 'bankNationals')
         exports['orion'].createBlip(item.position, 108, 2, item.name);
       else if (index == 'garages')
-        exports['orion'].createBlip(item.position, 357, 4, item.name);
+        exports['orion'].createBlip(item.position, 326, 4, item.name);
     })
   })
 
