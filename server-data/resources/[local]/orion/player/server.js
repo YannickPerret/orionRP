@@ -168,7 +168,7 @@
             x: playerPosition[0],
             y: playerPosition[1],
             z: playerPosition[2],
-            heading: playerPositionHeading,
+            heading: playerPosition[3],
           },
           discord: null,
           mugshot: null,
