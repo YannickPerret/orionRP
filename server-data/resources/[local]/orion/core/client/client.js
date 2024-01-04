@@ -100,8 +100,7 @@ setTick(async () => {
 
 onNet('orion:blips:c:createBlips', async (blips) => {
   blips.garages.forEach(garage => {
-    console.log(garage.position, garage.name)
-    //exports['orion'].createBlip(garage.position, 357, 4, garage.name);
+    exports['orion'].createBlip(garage.position, 357, 4, garage.name);
   });
 
   blips.stations.forEach(station => {
