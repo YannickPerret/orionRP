@@ -109,6 +109,7 @@ onNet('orion:blips:c:createBlips', (blips) => {
     exports['orion'].createBlip(bank.position, 108, 2, bank.name);
   });
   blips.garages.forEach(garage => {
+    console.log(garage.position)
     exports['orion'].createBlip(garage.position, 357, 4, garage.name);
   });
 });

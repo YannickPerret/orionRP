@@ -1,7 +1,7 @@
 (async () => {
 
-    on('PlayerSpawned', async () => {
+    /*on('PlayerSpawned', async () => {
         emitNet('orion:garage:c:initializeGarages');
-    })
+    })*/
 
 })();
