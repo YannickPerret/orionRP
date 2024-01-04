@@ -22,6 +22,7 @@ files {
     'core/server/database.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
+    'core/server/garageManager.js',
 
 
     'player/player.js',
