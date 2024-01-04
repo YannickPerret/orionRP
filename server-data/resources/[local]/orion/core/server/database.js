@@ -54,16 +54,14 @@ class Database {
           await this.createTable('system').then(async (result) => {
             console.log(result)
             if (!result)
-              await this.getLatestDbVersion()
+              latestVersion = await this.getLatestDbVersion()
           })
         })
-        .then(version => {
-          if (version !== undefined) {
-            latestVersion = version;
-          }
+        .then(() => {
           console.log('Latest version:', latestVersion);
           return this.applyMigrations(latestVersion);
         })
+
         .then(() => resolve())
         .catch(error => {
           console.error('Error during migration initialization:', error);
