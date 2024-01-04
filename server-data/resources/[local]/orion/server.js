@@ -14,6 +14,7 @@
 
     onNet('orion:s:initializeServer', async () => {
         let sourceId = global.source;
+        console.log('orion:s:initializeServer', sourceId)
         await exports['orion'].initializeBlips(sourceId);
     })
 
