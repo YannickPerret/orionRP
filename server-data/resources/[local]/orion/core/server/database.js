@@ -30,8 +30,12 @@ class Database {
 
     return new Promise((resolve, reject) => {
       this.createDatabase(this.db)
-        .then(() => this.createTable('system'))
-        .catch(() => this.getLatestDbVersion())
+        .then(() => {
+          this.createTable('system').then((result) => {
+            if (!result)
+              this.getLatestDbVersion()
+          })
+        })
         .then(version => {
           if (version !== undefined) {
             latestVersion = version;
@@ -140,7 +144,8 @@ class Database {
         console.log('Table créée avec succès');
         return result;
       } else {
-        throw 'La table existe déjà';
+        console.log('La table existe déjà')
+        return false;
       }
     } catch (err) {
       console.error('Erreur lors de la création de la table:', err);
