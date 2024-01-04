@@ -18,7 +18,7 @@ on('onClientResourceStart', async resourceName => {
   }
   emitNet('orion:s:initializeServer');
 
-);
+});
 
 on('playerSpawned', () => {
   spawnLogin();
