@@ -4,6 +4,7 @@
 
     db.initializeMigration().then(async () => {
         // Les actions à effectuer après la fin de la migration
+        //emit('orion:blips:s:createBlips')
         await exports['orion'].initializeBlips();
         //await exports['orion'].initializeMarkers();
     }).catch(error => {
