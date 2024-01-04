@@ -6,15 +6,18 @@
 (async () => {
     const garageJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'))
 
-    let parking;
+    let parking = null;
     const showGarageHUD = false
 
     onNet('orion:garage:c:initializeGarages', () => {
+        console.log('initializeGarages')
         emitNet('orion:garage:s:setParking')
     })
 
     onNet('orion:garage:c:setParking', (parking) => {
         parking = parking
+
+        console.log(parking)
     })
 
     RegisterNuiCallbackType('storeVehicle');
@@ -59,7 +62,6 @@
         while (true) {
             let playerPed = PlayerPedId();
             let playerCoords = GetEntityCoords(playerPed);
-            console.log(parking)
             garageJson.garages.forEach(garage => {
                 if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], garage.dispawnPlace.X, garage.dispawnPlace.Y, garage.dispawnPlace.Z, true) < 15) {
                     DrawMarker(1, garage.dispawnPlace.X, garage.dispawnPlace.Y, garage.dispawnPlace.Z, 0.0, 0.0, 0.0, 0.0, 180.0, 0, 3.0, 3.0, 2.0, 0, 128, 0, 50, false, true, 2, false, false, false, false)
