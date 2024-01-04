@@ -10,6 +10,7 @@
 
     onNet('orion:garage:s:openGarage', async (garageId) => {
         const garage = await GarageManager.getGarageById(garageId);
+        console.log(garage);
         garage.vehicles = await garage.getVehicles();
 
         console.log(garage);
