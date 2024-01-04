@@ -18,6 +18,7 @@ class Player {
       x: position.x || 0,
       y: position.y || 0,
       z: position.z || 0,
+      heading: position.heading || 0,
     };
     this.firstname = firstname;
     this.lastname = lastname;

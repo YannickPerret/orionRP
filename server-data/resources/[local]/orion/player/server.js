@@ -7,8 +7,7 @@
   const Inventory = require('./inventory/inventory.js');
 
   // Position par défaut du joueur
-  const playerPosition = [-530.77, -2113.83, 9.0];
-  const playerPosition2 = [-530.77, -2113.83, 9.0];
+  const playerPosition = [-1044.88, -2750.35, 21.36, 331.01];
 
   const enableDiscordWhitelist = true;
   const discordGuildId = '1234567890';
@@ -169,6 +168,7 @@
             x: playerPosition[0],
             y: playerPosition[1],
             z: playerPosition[2],
+            heading: playerPositionHeading,
           },
           discord: null,
           mugshot: null,
