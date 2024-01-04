@@ -178,7 +178,7 @@
 
         if (await newPlayer.save()) {
           PlayerManager.addPlayer(source, newPlayer);
-          emitNet('rorion:player:c:completRegiste', source, newPlayer);
+          emitNet('orion:player:c:completRegister', source, newPlayer);
         } else {
           emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
           throw new Error('Erreur lors de la création du joueur');
