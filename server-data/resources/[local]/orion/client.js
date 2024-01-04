@@ -22,6 +22,7 @@ on('playerSpawned', () => {
 onNet('orion:playerConnected', playerData => {
 
   exports['orion'].setPlayerData(playerData);
+  emitNet('orion:s:initializeServer')
 
   SetEntityCoords(
     GetPlayerPed(-1),
