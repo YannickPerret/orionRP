@@ -1,10 +1,38 @@
 (async () => {
     const { db, r } = require('./core/server/database.js');
+    const GarageManager = require('./core/server/garageManager.js');
+    const Vehicle = require('./vehicle/vehicle.js');
 
     onNet('orion:garage:s:setParking', async () => {
         const parking = await db.getAll('parking');
         emitNet('orion:garage:setParking', parking);
     })
 
+    onNet('orion:garage:s:openGarage', async (garageId) => {
+        const garage = await GarageManager.getGarageById(garageId);
+        garage.vehicles = await garage.getVehicles();
+
+        console.log(garage);
+        emitNet('orion:garage:c:openGarage', garage);
+    })
+
+    emitNet('orion:garage:s:storeVehicle', async (vehicleId, parkingId) => {
+        const source = global.source;
+        const vehicle = await Vehicle.getById(vehicleId);
+        const parking = await db.getById('parking', parkingId);
+        if (!parking) {
+            emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
+            return;
+        }
+        if (!vehicle) {
+            emit('orion:garage:c:closeGarage', source, "Vous n'avez aucun véhicule devant vous");
+            return;
+        }
+
+        parking.vehicles.push(vehicleId);
+        await parking.save();
+
+        emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
+    })
 
 })();

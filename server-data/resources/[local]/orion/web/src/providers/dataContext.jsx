@@ -31,6 +31,7 @@ const initialState = {
     isDriver: false,
     inventory: [],
   },
+  garage: {},
   bankMaxWithdraw: 0,
   isPlayerDead: false,
   playerDeadMessage: '',

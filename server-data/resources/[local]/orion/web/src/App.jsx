@@ -16,6 +16,7 @@ import { useVisibility } from './providers/visibilityProvider';
 import Speed from './components/vehicle/speed';
 import Inventory from './window/inventory/Inventory';
 import DialogBox from './components/dialogBox/dialogBox';
+import Garage from './window/garage/Garage';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -79,6 +80,10 @@ const App = () => {
           setVisible(prevState => ({ ...prevState, dialogHUD: payload.dialogHUD }));
           setData(prevData => ({ ...prevData, dialogData: payload.dialogData }));
           break;
+        case "showGarage":
+          setVisible(prevState => ({ ...prevState, garageHUD: payload.garageHUD }));
+          setData(prevData => ({ ...prevData, garage: payload.garage }));
+          break;
         default:
           break;
       }
@@ -129,6 +134,10 @@ const App = () => {
 
       {visible.bankHUD && (
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
+      )}
+
+      {visible.garageHUD && (
+        <Garage />
       )}
 
       {visible.vehicleHUD && (

@@ -16,6 +16,31 @@ class Garage {
         this.isActive = isActive || true;
     }
 
+    async addVehicle(vehicleId) {
+        if (this.vehicles.length >= this.maxSlots) {
+            return false;
+        }
+
+        this.vehicles.push(vehicleId);
+        await this.save();
+        return true;
+    }
+
+    async removeVehicle(vehicleId) {
+        const index = this.vehicles.indexOf(vehicleId);
+        if (index > -1) {
+            this.vehicles.splice(index, 1);
+            await this.save();
+            return true;
+        }
+        return false;
+    }
+
+    async getVehicles() {
+        const vehicles = await db.getAll('vehicles');
+        return vehicles.filter(vehicle => this.vehicles.includes(vehicle.id));
+    }
+
     static async getById(id) {
         const garage = await db.getById('garages', id);
         return new Garage(garage);

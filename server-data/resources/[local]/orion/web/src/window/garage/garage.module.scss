@@ -1,0 +1,20 @@
+.garage {
+    display: flex;
+    flex-direction: column;
+    height: 30%;
+    width: 30%;
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    padding: 2%;
+    background-color: #050505;
+    border-radius: 15px;
+    border: 1px solid #e9a111;
+
+    &__container {}
+
+    &__header {}
+
+
+    &__content {}
+}
