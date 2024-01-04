@@ -33,6 +33,20 @@ onNet('draw3DText', (x, y, z, text) => {
   DrawText(_x, _y);
 });
 
+exports('draw3DText', (x, y, z, text) => {
+  let [onScreen, _x, _y] = World3dToScreen2d(x, y, z);
+  let [pX, pY, pZ] = table.unpack(GetGameplayCamCoords());
+  SetTextScale(0.4, 0.4);
+  SetTextFont(4);
+  SetTextProportional(1);
+  SetTextEntry('STRING');
+  SetTextCentre(true);
+  SetTextColour(255, 255, 255, 255);
+  SetTextOutline();
+  AddTextComponentString(text);
+  DrawText(_x, _y);
+});
+
 onNet('orion:showHelpText', (message) => {
   SetTextFont(0)
   SetTextProportional(1)
