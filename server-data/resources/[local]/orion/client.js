@@ -16,6 +16,7 @@ on('onClientResourceStart', async resourceName => {
   if (GetCurrentResourceName() != resourceName) {
     return;
   }
+  console.log('onClientResourceStart', resourceName);
   emitNet('orion:s:initializeServer');
 
 });
