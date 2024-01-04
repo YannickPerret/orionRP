@@ -117,7 +117,7 @@
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
 
         emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
-        emitNet('orion:playerConnected', source, newPlayer);
+        emitNet('orion:player:c:playerConnected', source, newPlayer);
         //deferrals.done();
       } else {
         console.log("Le joueur n'existe pas, création en cours...");
@@ -178,7 +178,7 @@
 
         if (await newPlayer.save()) {
           PlayerManager.addPlayer(source, newPlayer);
-          emitNet('orion:playerConnected', source, newPlayer);
+          emitNet('orion:player:c:playerConnected', source, newPlayer);
         } else {
           emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
           throw new Error('Erreur lors de la création du joueur');
