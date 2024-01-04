@@ -26,7 +26,7 @@
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
         const bankNational = await db.getByWithFilter('banks', { type: 'bank_nation' });
         const garages = await db.getByWithFilter('garages', { isActive: true });
-        const blipsList = { stations: [...stations], banks: [...banks], bankNational: [...bankNational], garages: [...garages] };
+        const blipsList = { stations: [...stations], banks: [...banks], bankNational: [...bankNational], garages: garages };
         emitNet('orion:blips:c:createBlips', source, blipsList)
     }
     exports('initializeBlips', initializeBlips);
