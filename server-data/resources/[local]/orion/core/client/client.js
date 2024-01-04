@@ -99,17 +99,17 @@ setTick(async () => {
 });
 
 onNet('orion:blips:c:createBlips', async (blips) => {
-  blips.garages.forEach(garage => {
+  await blips.garages.forEach(garage => {
     exports['orion'].createBlip(garage.position, 357, 4, garage.name);
   });
 
-  blips.stations.forEach(station => {
+  await blips.stations.forEach(station => {
     exports['orion'].createBlip(station.position, 361, 13, station.name);
   });
-  blips.banks.forEach(bank => {
+  await blips.banks.forEach(bank => {
     exports['orion'].createBlip(bank.position, 108, 2, bank.name);
   });
-  blips.bankNational.forEach(bank => {
+  await blips.bankNationals.forEach(bank => {
     exports['orion'].createBlip(bank.position, 108, 2, bank.name);
   });
 });
