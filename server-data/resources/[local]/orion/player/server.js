@@ -117,6 +117,7 @@
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
 
         emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
+        console.log(2)
         emitNet('orion:player:c:playerConnected', source, newPlayer);
         //deferrals.done();
       } else {

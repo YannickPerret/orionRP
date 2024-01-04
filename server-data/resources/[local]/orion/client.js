@@ -8,7 +8,7 @@
 
     SetCanAttackFriendly(PlayerPedId(), true, false);
     NetworkSetFriendlyFireOption(true);
-
+    console.log(1)
     emitNet('orion:player:s:playerSpawned');
   };
 
@@ -18,25 +18,6 @@
   on('playerSpawned', () => {
     spawnLogin();
     //SendNuiMessage(JSON.stringify({ action: 'connectVoice' }));
-
-  });
-
-  onNet('orion:player:c:playerConnected', (playerData) => {
-
-    console.log('playerData', playerData)
-    exports['orion'].setPlayerData(playerData);
-
-    SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
-
-    //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
-
-    console.log('playerConnected');
-    emitNet('orion:blips:s:initializeBlips')
-
-    setInterval(() => {
-      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
-      emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
-    }, 900000);
 
   });
 

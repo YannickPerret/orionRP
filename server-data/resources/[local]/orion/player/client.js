@@ -228,15 +228,7 @@ let playerData = {};
 
     exports['orion'].setPlayerData(playerData);
 
-    SetEntityCoords(
-      GetPlayerPed(-1),
-      parseFloat(playerData.position.x),
-      parseFloat(playerData.position.y),
-      parseFloat(playerData.position.z),
-      false,
-      false,
-      false,
-      false);
+    SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
 
     //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
 
