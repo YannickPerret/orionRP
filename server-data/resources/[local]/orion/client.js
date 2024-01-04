@@ -1,46 +1,50 @@
-const spawnLogin = () => {
-  const ped = GetPlayerPed(-1);
-  SetPlayerInvincible(ped, false);
-  SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
+(async () => {
 
-  SetCanAttackFriendly(PlayerPedId(), true, false);
-  NetworkSetFriendlyFireOption(true);
+  const spawnLogin = () => {
+    const ped = GetPlayerPed(-1);
+    SetPlayerInvincible(ped, false);
+    SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
+    SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
 
-  emitNet('orion:player:s:playerSpawned');
-};
+    SetCanAttackFriendly(PlayerPedId(), true, false);
+    NetworkSetFriendlyFireOption(true);
 
-exports('spawnLogin', spawnLogin);
+    emitNet('orion:player:s:playerSpawned');
+  };
+
+  exports('spawnLogin', spawnLogin);
 
 
-on('playerSpawned', () => {
-  spawnLogin();
-  //SendNuiMessage(JSON.stringify({ action: 'connectVoice' }));
+  on('playerSpawned', () => {
+    spawnLogin();
+    //SendNuiMessage(JSON.stringify({ action: 'connectVoice' }));
 
-});
+  });
 
-onNet('orion:playerConnected', playerData => {
+  onNet('orion:player:c:playerConnected', (playerData) => {
 
-  exports['orion'].setPlayerData(playerData);
+    exports['orion'].setPlayerData(playerData);
 
-  SetEntityCoords(
-    GetPlayerPed(-1),
-    parseFloat(playerData.position.x),
-    parseFloat(playerData.position.y),
-    parseFloat(playerData.position.z),
-    false,
-    false,
-    false,
-    false);
+    SetEntityCoords(
+      GetPlayerPed(-1),
+      parseFloat(playerData.position.x),
+      parseFloat(playerData.position.y),
+      parseFloat(playerData.position.z),
+      false,
+      false,
+      false,
+      false);
 
-  //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
+    //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
 
-  console.log('playerConnected');
-  emitNet('orion:blips:s:initializeBlips')
+    console.log('playerConnected');
+    emitNet('orion:blips:s:initializeBlips')
 
-  setInterval(() => {
-    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
-    emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
-  }, 900000);
+    setInterval(() => {
+      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
+      emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
+    }, 900000);
 
-});
+  });
+
+})()

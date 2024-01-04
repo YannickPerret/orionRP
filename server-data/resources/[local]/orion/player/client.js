@@ -216,11 +216,38 @@ let playerData = {};
     emit('orion:customization:c:ShowSkinCreator', true);
   })
 
+
   onNet('orion:player:c:completRegister', (playerDataServer) => {
     exports['orion'].setPlayerData(playerDataServer);
     SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
 
     emit('orion:showNotification', `Bienvenue ${playerDataServer.firstname} ${playerDataServer.lastname} sur Orion !`);
+  });
+
+  onNet('orion:player:c:playerConnected', (playerData) => {
+
+    exports['orion'].setPlayerData(playerData);
+
+    SetEntityCoords(
+      GetPlayerPed(-1),
+      parseFloat(playerData.position.x),
+      parseFloat(playerData.position.y),
+      parseFloat(playerData.position.z),
+      false,
+      false,
+      false,
+      false);
+
+    //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
+
+    console.log('playerConnected');
+    emitNet('orion:blips:s:initializeBlips')
+
+    setInterval(() => {
+      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
+      emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
+    }, 900000);
+
   });
 
 
