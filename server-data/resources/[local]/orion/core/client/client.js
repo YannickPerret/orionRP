@@ -113,7 +113,7 @@ onNet('orion:blips:c:createBlips', async (blips) => {
   })*/
 
 
-  await blips.garages.forEach(garage => {
+  blips.garages.forEach(garage => {
     exports['orion'].createBlip(garage.position, 357, 4, garage.name);
   });
   /*
