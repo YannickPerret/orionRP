@@ -108,7 +108,7 @@ onNet('orion:blips:c:createBlips', async (blips) => {
   blips.bankNational.forEach(bank => {
     exports['orion'].createBlip(bank.position, 108, 2, bank.name);
   });
-  console.log(blips.garages)
+  console.log(blips.garages[0].position)
   /*await exports['orion'].delay(100);
   blips.garages.forEach(garage => {
     exports['orion'].createBlip(garage.position, 357, 4, garage.name);
