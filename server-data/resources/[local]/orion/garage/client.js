@@ -19,6 +19,7 @@
             let playerCoords = GetEntityCoords(playerPed);
             garageJson.garages.forEach(garage => {
                 if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], garage.dispawnPlace.X, garage.dispawnPlace.Y, garage.dispawnPlace.Z, true) < 15) {
+                    console.log('test')
                     DrawMarker(1, garage.x, garage.y, garage.z - 1, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 0.5, 0, 255, 0, 100, false, true, 2, false, false, false, false)
 
                     if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], garage.dispawnPlace.X, garage.dispawnPlace.Y, garage.dispawnPlace.Z, true) < 2) {
