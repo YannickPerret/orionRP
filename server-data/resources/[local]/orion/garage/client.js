@@ -29,7 +29,7 @@
                     }
                 }
             })
-            await exports['orion'].delay(10)
+            await exports['orion'].delay(5)
 
         }
 
