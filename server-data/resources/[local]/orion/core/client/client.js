@@ -99,19 +99,7 @@ setTick(async () => {
 });
 
 onNet('orion:blips:c:createBlips', async (blips) => {
-  /*blips.map(blip, index => {
-    blip.map(item => {
-      if (index == 'stations')
-        exports['orion'].createBlip(item.position, 361, 13, item.name);
-      else if (index == 'banks')
-        exports['orion'].createBlip(item.position, 108, 2, item.name);
-      else if (index == 'bankNationals')
-        exports['orion'].createBlip(item.position, 108, 2, item.name);
-      else if (index == 'garages')
-        exports['orion'].createBlip(item.position, 326, 4, item.name);
-    })
-  })*/
-
+  console.log("lol")
 
   blips.garages.forEach(garage => {
     exports['orion'].createBlip(garage.position, 357, 4, garage.name);
