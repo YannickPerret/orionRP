@@ -3,7 +3,7 @@
     const { db, r } = require('./core/server/database.js');
 
     const createBlip = (coords, sprite, color, text) => {
-        let blip = AddBlipForCoord(coords.X, coords.Y, coords.Z);
+        let blip = AddBlipForCoord(coords);
         SetBlipSprite(blip, sprite);
         //SetBlipDisplay(blip, 4);
         SetBlipScale(blip, 0.9);
