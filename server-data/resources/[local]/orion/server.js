@@ -7,7 +7,8 @@
     db.initializeMigration().then(async () => {
         //initialize garages
         Garage.getAll().then((garages) => {
-            GarageManager.addGarage(garages.id, garages);
+            console.log(garages);
+            //GarageManager.addGarage(garages.id, garages);
         })
 
     }).catch(error => {

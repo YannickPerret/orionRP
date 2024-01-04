@@ -20,4 +20,4 @@ class GarageManager {
     }
 }
 
-module.exports = GarageManager;
+module.exports = new GarageManager();
