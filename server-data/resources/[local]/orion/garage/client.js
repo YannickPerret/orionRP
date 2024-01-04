@@ -4,7 +4,7 @@
 // spawn la voiture à un emplacement libre du parking, sinon interdir le spawn si pas libre
 // créer un marker pour ranger la voiture de chaque parking
 (async () => {
-    const garageJson = LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json')
+    const garageJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'))
 
     const parking = []
 
