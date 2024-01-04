@@ -1,10 +1,7 @@
 (async () => {
-    /*on('onResourceStart', async (resourceName) => {
-        if (GetCurrentResourceName() != resourceName) {
-            return;
-        }
 
+    on('PlayerSpawned', async () => {
         emitNet('orion:garage:c:initializeGarages');
-    });*/
+    })
 
 })();
