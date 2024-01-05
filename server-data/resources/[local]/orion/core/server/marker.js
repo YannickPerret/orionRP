@@ -22,6 +22,7 @@
             return;
         }
 
+        console.log(MarkerManager.getMarkers().size)
         emitNet('orion:marker:c:initializeMarkers', source, MarkerManager.getMarkers());
     })
 })()
