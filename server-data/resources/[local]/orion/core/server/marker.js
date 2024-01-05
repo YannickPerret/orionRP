@@ -8,11 +8,12 @@
         console.log(garages);
         // add in marker the garage spawnPosition
         garages.forEach(garage => {
-            MarkerManager.addMarker(garage.position, {
+            MarkerManager.addMarker(garage.id, {
                 color: { r: 0, g: 128, b: 0 },
                 icon: 1,
                 scale: { X: 3.0, Y: 3.0, Z: 2.0 },
-                garageId: garage.id
+                position: garage.spawnPosition,
+                type: 'garage'
             });
         }
         );

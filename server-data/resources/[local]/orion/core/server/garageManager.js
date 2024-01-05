@@ -3,12 +3,12 @@ class GarageManager {
         this.garages = new Map();
     }
 
-    addGarage(position, garage) {
-        this.garages.set(position, garage);
+    addGarage(id, garage) {
+        this.garages.set(id, garage);
     }
 
-    removeGarage(position) {
-        this.garages.delete(position);
+    removeGarage(id) {
+        this.garages.delete(id);
     }
 
     getGarageById(id) {
