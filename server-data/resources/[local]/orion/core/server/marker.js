@@ -5,6 +5,7 @@
     onNet('orion:markers:s:initializeMarkers', async () => {
         const source = global.source;
         const garages = GarageManager.getGarages();
+        console.log(garages)
         // add in marker the garage spawnPosition
 
         garages.forEach((garage, garageId) => {
