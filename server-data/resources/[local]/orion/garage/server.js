@@ -41,6 +41,7 @@
 
     onNet('orion:garage:s:init', async () => {
         await Garage.getAll().then((garage) => {
+            console.log(garage);
             GarageManager.addGarage(garage.id, garage);
         })
     })
