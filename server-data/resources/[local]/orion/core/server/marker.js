@@ -20,6 +20,7 @@
         // Convertir la Map en un tableau d'objets avec les IDs inclus
         const markersArray = Array.from(MarkerManager.getMarkers(), ([id, marker]) => ({ id, ...marker }));
 
+        console.log(markersArray)
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
