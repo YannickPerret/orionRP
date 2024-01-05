@@ -7,10 +7,17 @@
     exports('createMarker', createMarker)
 
     onNet('orion:marker:s:initializeMarkers', async (markers) => {
-        markers.garages.forEach(garage => {
-            createMarker(garage.position, garage.color, garage.icon, garage.scale);
-        });
+        const playerPed = PlayerPedId();
 
+        setTick(() => {
+            const playerCoords = GetEntityCoords(playerPed);
+            markers.forEach(marker => {
+                if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true) < 15)
+                    createMarker(marker.position, marker.color, marker.icon, marker.scale);
+            });
+
+            exports['orion'].delay(10);
+        })
     })
 
 })()
