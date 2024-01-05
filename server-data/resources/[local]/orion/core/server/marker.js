@@ -17,16 +17,14 @@
             });
         });
 
-        // Convertir la Map en un tableau d'objets avec les IDs inclus
-        const markersArray = Array.from(MarkerManager.getMarkers().entries()).map(([id, marker]) => {
-            return { id, ...marker };
-        });
+        const markersArray = MarkerManager.getMarkers();
 
         console.log(markersArray)
+
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
-        emitNet('orion:marker:c:initializeMarkers', source, markersArray);
+        emitNet('orion:marker:c:initializeMarkers', source, MarkerManager);
     });
 })()
