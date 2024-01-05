@@ -17,7 +17,7 @@
         }
         );
 
-        if (MarkerManager.getMarkers().size() <= 0) {
+        if (MarkerManager.getMarkers().size <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
