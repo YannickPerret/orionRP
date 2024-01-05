@@ -16,17 +16,14 @@
                 type: 'garage'
             });
         });
-        MarkerManager.getMarkers().values().forEach(marker => {
-            console.log(marker);
-        })
 
-        const markersArray = Array.from(MarkerManager.getMarkers().values());
-
+        // Convertir la Map en un tableau d'objets avec les IDs inclus
+        const markersArray = Array.from(MarkerManager.getMarkers(), ([id, marker]) => ({ id, ...marker }));
 
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
         emitNet('orion:marker:c:initializeMarkers', source, markersArray);
-    })
+    });
 })()
