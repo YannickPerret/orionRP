@@ -6,7 +6,9 @@
 
     exports('createMarker', createMarker)
 
-    onNet('orion:marker:s:initializeMarkers', async (markers) => {
+    onNet('orion:marker:c:initializeMarkers', async (markers) => {
+
+        console.log(markers)
         const playerPed = PlayerPedId();
 
         setTick(() => {
