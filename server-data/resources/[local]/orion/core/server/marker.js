@@ -17,6 +17,11 @@
         }
         );
 
+        if (MarkerManager.size() <= 0) {
+            emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
+            return;
+        }
+
         emitNet('orion:marker:c:initializeMarkers', source, MarkerManager.getMarkers());
     })
 })()
