@@ -18,7 +18,9 @@
         });
 
         // Convertir la Map en un tableau d'objets avec les IDs inclus
-        const markersArray = Array.from(MarkerManager.getMarkers(), ([id, marker]) => ({ id, ...marker }));
+        const markersArray = Array.from(MarkerManager.getMarkers().entries()).map(([id, marker]) => {
+            return { id, ...marker };
+        });
 
         console.log(markersArray)
         if (markersArray.length <= 0) {
