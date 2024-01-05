@@ -5,7 +5,6 @@
     const { db, r } = require('./core/server/database.js');
 
     db.initializeMigration().then(async () => {
-        console.log("Migration initialized")
         //initialize garages
         emit('orion:garage:s:init')
 

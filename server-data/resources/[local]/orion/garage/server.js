@@ -20,7 +20,7 @@
         emitNet('orion:garage:c:openGarage', garage);
     })
 
-    emitNet('orion:garage:s:storeVehicle', async (vehicleId, parkingId) => {
+    onNet('orion:garage:s:storeVehicle', async (vehicleId, parkingId) => {
         const source = global.source;
         const vehicle = await Vehicle.getById(vehicleId);
         const parking = await db.getById('parking', parkingId);
@@ -39,7 +39,7 @@
         emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
-    emitNet('orion:garage:s:init', async () => {
+    onNet('orion:garage:s:init', async () => {
         await Garage.getAll().then((garage) => {
             GarageManager.addGarage(garage.id, garage);
         })
