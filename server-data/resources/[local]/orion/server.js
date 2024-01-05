@@ -6,9 +6,7 @@
 
     db.initializeMigration().then(async () => {
         //initialize garages
-        await Garage.getAll().then((garage) => {
-            GarageManager.addGarage(garage.id, garage);
-        })
+        emit('orion:garage:s:init')
 
     }).catch(error => {
         // Gérer les erreurs éventuelles de la migration

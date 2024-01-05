@@ -20,6 +20,7 @@ files {
 
     'core/server/migrations/*',
     'core/server/database.js',
+    'core/server/markerManager.js',
     'core/server/playerManager.js',
     'core/server/vehicleManager.js',
     'core/server/garageManager.js',
@@ -47,6 +48,8 @@ client_scripts{
     'core/client/player.js',
     'core/client/utils.js',
     'core/client/commands.js',
+    'core/client/marker.js',
+    'core/client/blip.js',
     'core/client/dialog.js',
     'admin/commands.js',
     'events/winter/client.js',
@@ -64,6 +67,7 @@ client_scripts{
 server_scripts{
    'core/server/utils.js',
    'core/server/blips.js',
+   'core/server/marker.js',
    'server.js',
     'player/server.js',
     'vehicle/server.js',

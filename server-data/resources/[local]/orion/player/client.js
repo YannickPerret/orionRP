@@ -234,7 +234,7 @@ let playerData = {};
     //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
 
     emitNet('orion:blips:s:initializeBlips')
-    emitNet('orion:garage:c:initializeGarages')
+    emitNet('orion:markers:s:initializeMarkers')
 
     setInterval(() => {
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);

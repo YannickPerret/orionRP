@@ -98,26 +98,12 @@ setTick(async () => {
   }
 });
 
-onNet('orion:blips:c:createBlips', async (blips) => {
-  blips.garages.forEach(garage => {
-    exports['orion'].createBlip(garage.position, 326, 4, garage.name);
-  });
-  blips.stations.forEach(station => {
-    exports['orion'].createBlip(station.position, 361, 13, station.name);
-  });
-  blips.banks.forEach(bank => {
-    exports['orion'].createBlip(bank.position, 108, 2, bank.name);
-  });
-  blips.bankNationals.forEach(bank => {
-    exports['orion'].createBlip(bank.position, 108, 2, bank.name);
-  });
-});
 
-onNet('orion:markers:c:createMarkers', async (markers) => {
+/*onNet('orion:markers:c:createMarkers', async (markers) => {
   markers.garages.forEach(garage => {
     exports['orion'].createMarker(1, garage.position, 1.0, { r: 255, g: 255, b: 255, a: 100 });
   });
-});
+});*/
 
 
 onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {

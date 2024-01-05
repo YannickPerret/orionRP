@@ -21,22 +21,6 @@
     return getEntityInFrontOfPlayer(player, distance, 10); // 10 pour les véhicules
   }
 
-  function createBlip(coords, sprite, color, text) {
-    let blip = AddBlipForCoord(coords.X, coords.Y, coords.Z);
-    SetBlipSprite(blip, sprite);
-    SetBlipDisplay(blip, 4);
-    SetBlipScale(blip, 0.9);
-    SetBlipColour(blip, color);
-    SetBlipAsShortRange(blip, true);
-
-    if (text) {
-      BeginTextCommandSetBlipName('STRING');
-      AddTextComponentSubstringPlayerName(text);
-      EndTextCommandSetBlipName(blip);
-    }
-    return blip;
-  }
-
   const waitingLoader = (time) => {
     let interval = setInterval(() => {
       //draw charging bar circle thing 
@@ -53,7 +37,6 @@
 
   exports('createMarker', createMarker);
   exports('waitingLoader', waitingLoader);
-  exports('createBlip', createBlip);
   exports('delay', delay);
   exports('getVehicleInFront', getVehicleInFront);
 

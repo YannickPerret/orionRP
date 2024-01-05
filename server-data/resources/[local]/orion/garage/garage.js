@@ -2,7 +2,7 @@ const { db, r } = require('../core/server/database.js');
 const { v4: uuid } = require('uuid');
 
 class Garage {
-    constructor({ id, name, type, position, maxSlots, allowsVehicleTypes, price, owner, spawnPlaces, isActive }) {
+    constructor({ id, name, type, position, maxSlots, allowsVehicleTypes, price, owner, spawnPlaces, isActive, dispawnPlaces }) {
         this.id = id || uuid();
         this.name = name;
         this.type = type;
@@ -14,6 +14,7 @@ class Garage {
         this.owner = owner || null;
         this.spawnPlaces = spawnPlaces || [];
         this.isActive = isActive || true;
+        this.dispawnPlaces = dispawnPlaces || [];
     }
 
     async addVehicle(vehicleId) {
@@ -50,6 +51,7 @@ class Garage {
         const garages = await db.getAll('garages');
         return garages.map(garage => new Garage(garage));
     }
+
 
     async save() {
         if (await db.getById('garages', this.id)) {

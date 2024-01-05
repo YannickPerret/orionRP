@@ -1,6 +1,7 @@
 (async () => {
     const { db, r } = require('./core/server/database.js');
     const GarageManager = require('./core/server/garageManager.js');
+    const Garage = require('./garage/garage.js');
     const Vehicle = require('./vehicle/vehicle.js');
 
     onNet('orion:garage:s:setParking', async () => {
@@ -36,6 +37,12 @@
         await parking.save();
 
         emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
+    })
+
+    emitNet('orion:garage:s:init', async () => {
+        await Garage.getAll().then((garage) => {
+            GarageManager.addGarage(garage.id, garage);
+        })
     })
 
 })();
