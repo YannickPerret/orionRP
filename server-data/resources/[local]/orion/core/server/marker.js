@@ -2,9 +2,10 @@
     const MarkerManager = require('./core/server/markerManager.js');
     const GarageManager = require('./core/server/garageManager.js');
 
-    onNet('orion:marker:s:initializeMarkers', async () => {
+    onNet('orion:markers:s:initializeMarkers', async () => {
         const source = global.source;
         const garages = await GarageManager.getAll();
+        console.log(garages);
         // add in marker the garage spawnPosition
         garages.forEach(garage => {
             MarkerManager.addMarker(garage.position, {
