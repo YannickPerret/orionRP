@@ -43,6 +43,8 @@
         await Garage.getAll().then((garage) => {
             GarageManager.addGarage(garage.id, garage);
         })
+
+        console.log("Garages initialized")
     })
 
 })();
