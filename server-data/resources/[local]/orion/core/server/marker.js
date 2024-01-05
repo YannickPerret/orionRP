@@ -6,7 +6,8 @@
         const source = global.source;
         const garages = await GarageManager.getGarages();
         // add in marker the garage spawnPosition
-        console.log(garages.length)
+        console.log(garages)
+
         garages.forEach(garage => {
             MarkerManager.addMarker(garage.id, {
                 color: { r: 0, g: 128, b: 0 },
