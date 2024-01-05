@@ -6,7 +6,6 @@
         const source = global.source;
         const garages = GarageManager.getGarages();
         // add in marker the garage spawnPosition
-        console.log(garages)
 
         garages.forEach((garage, garageId) => {
             MarkerManager.addMarker(garageId, {
@@ -17,6 +16,7 @@
                 type: 'garage'
             });
         });
+        console.log(MarkerManager.getMarkers().values())
 
         const markersArray = Array.from(MarkerManager.getMarkers().values());
 
