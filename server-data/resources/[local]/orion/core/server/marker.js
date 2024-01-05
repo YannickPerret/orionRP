@@ -16,7 +16,9 @@
                 type: 'garage'
             });
         });
-        console.log(MarkerManager.getMarkers().values())
+        MarkerManager.getMarkers().values().forEach(marker => {
+            console.log(marker);
+        })
 
         const markersArray = Array.from(MarkerManager.getMarkers().values());
 
