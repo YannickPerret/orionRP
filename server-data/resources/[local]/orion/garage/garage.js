@@ -43,9 +43,10 @@ class Garage {
         const vehicles = await Promise.all(this.vehicles.map(async vehicleDb => {
             vehicleDetails = await db.getById('vehicles', vehicleDb.id);
             return {
-                ...vehicleDetails,
+                id: vehicleDb.id,
                 dateStored: vehicleDb.dateStored,
-                priceToRetrieve: vehicleDb.priceToRetrieve
+                priceToRetrieve: vehicleDb.priceToRetrieve,
+                ...vehicleDetails,
             }
 
         }));
