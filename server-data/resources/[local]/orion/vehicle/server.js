@@ -117,14 +117,16 @@
     }
   });
 
-  RegisterCommand('delveh', async (source, args) => {
-    console.log("knkjjh")
-    const ped = GetPlayerPed(source);
-    console.log(ped);
-    if (IsPedInAnyVehicle(ped, false)) {
-      const vehicleId = GetVehiclePedIsIn(ped, false);
-      DeleteEntity(vehicleId);
-      emit('orion:vehicle:s:deleteVehicle', vehicleId, source);
+  RegisterCommand('delveh', async (source, args, rawCommand) => {
+    if (source > 0) {
+      const player = PlayerManager.getPlayerBySource(source);
+      if (player) {
+        if (IsPedInAnyVehicle(GetPlayerPed(source), false)) {
+          const vehicleId = GetVehiclePedIsIn(GetPlayerPed(source), false);
+          DeleteEntity(vehicleId);
+          emit('orion:vehicle:s:deleteVehicle', vehicleId, source);
+        }
+      }
     }
   }, false);
 
