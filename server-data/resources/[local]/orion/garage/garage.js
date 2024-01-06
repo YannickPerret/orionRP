@@ -2,7 +2,7 @@ const { db, r } = require('../core/server/database.js');
 const { v4: uuid } = require('uuid');
 
 class Garage {
-    constructor({ id, name, type, position, maxSlots, allowsVehicleTypes, price, owner, spawnPlaces, isActive, dispawnPlaces }) {
+    constructor({ id, name, type, position, maxSlots, allowsVehicleTypes, price, owner, spawnPlaces, isActive, marker }) {
         this.id = id || uuid();
         this.name = name;
         this.type = type;
