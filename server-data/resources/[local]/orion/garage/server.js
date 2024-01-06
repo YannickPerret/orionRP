@@ -58,13 +58,12 @@
         const vehicle = VehicleManager.getVehicleById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
 
-        console.log(vehicleId, garageId)
         if (!garage) {
-            emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
+            emitNet('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
             return;
         }
         if (!vehicle) {
-            emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de véhicule");
+            emitNet('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de véhicule");
             return;
         }
 
@@ -72,6 +71,10 @@
         if (index > -1) {
             garage.vehicles.splice(index, 1);
             await garage.save();
+        }
+        else {
+            emitNet('orion:garage:c:closeGarage', source, "Ce véhicule n'est pas dans ce garage");
+            return;
         }
 
         emit('orion:vehicle:s:spawnVehicle', source, vehicle);
