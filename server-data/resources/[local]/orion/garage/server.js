@@ -16,7 +16,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
-
+        console.log(garage.vehicles)
         garage.vehicles = await garage.getVehicles()//.value.filter(vehicle => vehicle.owner === player.id)
 
         console.log(garage.vehicles)
