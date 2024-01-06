@@ -1,4 +1,4 @@
-(() => {
+(async () => {
   const VehicleManager = require('./core/server/vehicleManager.js');
   const Vehicle = require('./vehicle/vehicle.js');
   const PlayerManager = require('./core/server/playerManager.js');
@@ -30,11 +30,13 @@
 
       await exports['orion'].delay(300)
 
+      console.log("create vehicle", model)
+
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
-      VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
-      emitNet('orion:vehicle:c:createVehicle', source, vehicleObj);
+      VehicleManager.addVehicle(vehicleObj.id, vehicleObj);
+      //emitNet('orion:vehicle:c:createVehicle', source, vehicleObj);
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
@@ -117,7 +119,8 @@
     }
   });
 
-  RegisterCommand('delveh', async (source, args, rawCommand) => {
+
+  RegisterCommand('delveh', async (source, args) => {
     if (source > 0) {
       const player = PlayerManager.getPlayerBySource(source);
       if (player) {
