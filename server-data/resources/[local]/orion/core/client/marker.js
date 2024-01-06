@@ -10,6 +10,7 @@
         //map markers map to create marker
         const playerPed = PlayerPedId();
 
+        console.log(markers)
         setTick(() => {
             const playerCoords = GetEntityCoords(playerPed);
             markers.forEach(marker => {
