@@ -53,6 +53,31 @@
         emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
+    // ici à revoir
+    onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId) => {
+        const source = global.source;
+        const vehicle = VehicleManager.getVehicleById(vehicleId);
+        const garage = GarageManager.getGarageById(garageId);
+
+        if (!garage) {
+            emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
+            return;
+        }
+        if (!vehicle) {
+            emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de véhicule");
+            return;
+        }
+
+        const index = garage.vehicles.findIndex(vehicleDb => vehicleDb.id === vehicle.id);
+        if (index > -1) {
+            garage.vehicles.splice(index, 1);
+            await garage.save();
+        }
+
+        emit('orion:vehicle:s:spawnVehicle', source, vehicle);
+        emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été sorti du garage");
+    })
+
     onNet('orion:garage:s:init', async () => {
         await Garage.getAll().then((garageDB) => {
             garageDB.forEach(garage => {

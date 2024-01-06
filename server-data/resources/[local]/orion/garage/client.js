@@ -46,6 +46,20 @@
         cb({ ok: true });
     });
 
+    RegisterNuiCallbackType('retrieveVehicle');
+    on('__cfx_nui:retrieveVehicle', (data, cb) => {
+        if (data.garageId === undefined) {
+            exports['orion'].showNotification("Vous n'avez pas sélectionné de garage");
+            return cb({ ok: false });
+        }
+        if (data.vehicleId === undefined) {
+            exports['orion'].showNotification("Vous n'avez pas sélectionné de véhicule");
+            return cb({ ok: false });
+        }
+        emitNet('orion:garage:s:retrieveVehicle', data.vehicleId, data.garageId);
+        cb({ ok: true });
+    });
+
     RegisterNuiCallbackType('closeGarage');
     on('__cfx_nui:closeGarage', (data, cb) => {
         emit('orion:garage:c:closeGarage');
