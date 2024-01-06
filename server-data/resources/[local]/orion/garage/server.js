@@ -12,11 +12,11 @@
     })
 
     onNet('orion:garage:s:openGarage', async (garageMarker) => {
+        const source = global.source;
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
         garage.vehicles = await garage.getVehicles();
 
-        console.log(garage);
-        emitNet('orion:garage:c:openGarage', garage);
+        emitNet('orion:garage:c:openGarage', source, garage);
     })
 
     onNet('orion:garage:s:storeVehicle', async (vehicleId, parkingId) => {
