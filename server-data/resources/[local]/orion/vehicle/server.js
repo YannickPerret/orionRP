@@ -119,12 +119,14 @@
 
   RegisterCommand('delveh', async (source, args) => {
     const ped = GetPlayerPed(source);
+    console.log(ped);
     if (IsPedInAnyVehicle(ped, false)) {
       const vehicleId = GetVehiclePedIsIn(ped, false);
       DeleteEntity(vehicleId);
       emit('orion:vehicle:s:deleteVehicle', vehicleId, source);
     }
   }, false);
+
 
 })()
 
