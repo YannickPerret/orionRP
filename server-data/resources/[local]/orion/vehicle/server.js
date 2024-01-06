@@ -81,9 +81,9 @@
   onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, vehicleDamage = {}, _source) => {
     const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
+    let vehicle = VehicleManager.getVehicleById(vehicleNetId);
 
     if (player) {
-      let vehicle = VehicleManager.getVehicleById(vehicleNetId);
       if (vehicle) {
         vehicle.colours = GetVehicleColours(vehicle.spawnId);
         vehicle.pearlescentColor = GetVehicleExtraColours(vehicle.spawnId)[1];
@@ -93,18 +93,18 @@
         vehicle.position = GetEntityCoords(vehicle.spawnId);
         vehicle.doorsBroken = vehicleDamage.doorsBroken;
 
-        console.log(vehicle)
         await vehicle.save();
 
         VehicleManager.remove(vehicle.netId);
-        DeleteEntity(vehicle.spawnId);
 
-        delete vehicle;
       }
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
     }
+
+    DeleteEntity(vehicle.spawnId);
+    delete vehicle;
   });
 
   onNet('orion:vehicle:saveVehicle', async vehicle => {
