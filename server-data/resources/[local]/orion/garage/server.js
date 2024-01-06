@@ -18,11 +18,15 @@
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
 
         const vehicles = await garage.getVehicles();
-        garage.vehicles = vehicles;
-        // get price by time between now and dateStored * garage.price
-        /*garage.vehicles.forEach(vehicle => {
+        vehicles.forEach(vehicle => {
             vehicle.priceToRetrieve = (garage.price * (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60) - garage.price;
-        })*/
+        })
+
+        garage.vehicles = vehicles;
+
+        console.log(garage.vehicles)
+        // get price by time between now and dateStored * garage.price
+
 
         emitNet('orion:garage:c:openGarage', source, garage);
     })

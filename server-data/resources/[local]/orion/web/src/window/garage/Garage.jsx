@@ -10,8 +10,8 @@ const GarageItem = ({ item }) => {
         <li className={style.garage__item}>
             <div>
                 <div>
-                    <h3>{item.name}</h3>
-                    <h2>Prix : ${item.priceToRetrieve}</h2>
+                    <h3>{item.id}</h3>
+                    <h2>Prix : {item.priceToRetrieve}$</h2>
                 </div>
                 <div>
                     <button>Sortir</button>
