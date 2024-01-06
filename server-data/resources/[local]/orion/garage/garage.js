@@ -38,8 +38,12 @@ class Garage {
     }
 
     async getVehicles() {
-        const vehicles = await db.getAll('vehicles');
-        return vehicles.filter(vehicle => this.vehicles.includes(vehicle.id));
+        let vehicles = [];
+        for (let i = 0; i < this.vehicles.length; i++) {
+            const vehicle = await db.getById('vehicles', this.vehicles[i]);
+            vehicles.push(vehicle);
+        }
+        return vehicles;
     }
 
     static async getById(id) {

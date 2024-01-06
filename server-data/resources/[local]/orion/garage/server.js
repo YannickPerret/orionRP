@@ -16,9 +16,12 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
-        console.log("est de type garage : ", garage instanceof Garage)
+        console.log("oui", garage.vehicles)
+
+
         garage.vehicles = await garage.getVehicles()//.value.filter(vehicle => vehicle.owner === player.id)
 
+        console.log("oui333", garage.vehicles)
         // get price by time between now and dateStored * garage.price
         /*garage.vehicles.forEach(vehicle => {
             vehicle.priceToRetrieve = (garage.price * (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60) - garage.price;
