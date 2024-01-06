@@ -19,7 +19,11 @@
 
         const vehicles = await garage.getVehicles();
         vehicles.forEach(vehicle => {
-            vehicle.priceToRetrieve = (garage.price * (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60) - garage.price;
+            // Calcul du temps en heures
+            const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
+
+            // Calcul du prix total
+            vehicle.priceToRetrieve = (garage.price * hoursParked).toFixed(2);
         })
 
         garage.vehicles = vehicles;
