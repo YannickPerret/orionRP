@@ -44,7 +44,7 @@
 
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime(), priceToRetrieve: garage.price });
 
-        console.log(garage.vehicles)
+        console.log("1", garage.vehicles)
         await garage.save();
 
         emit('orion:vehicle:s:dispawnVehicle', vehicle.netId, vehicleDamage, source);
