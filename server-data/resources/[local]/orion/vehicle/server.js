@@ -5,6 +5,7 @@
   const { db } = require('./core/server/database.js');
 
   onNet('orion:vehicle:s:spawnNewVehicle', async (model, coords, pedHead) => {
+    console.log("spawn new vehicle")
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
