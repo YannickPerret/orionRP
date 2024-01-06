@@ -18,7 +18,7 @@ class GarageManager {
     getGarageByPosition(position) {
         const garages = Array.from(this.garages.values());
         const garage = garages.find(garage => {
-            return garage.position.x === position.x && garage.position.y === position.y && garage.position.z === position.z;
+            return garage.position.X === position.X && garage.position.Y === position.Y && garage.position.Z === position.Z;
         });
         return garage;
     }
@@ -26,7 +26,7 @@ class GarageManager {
     getGarageByMarkerPosition(position) {
         const garages = Array.from(this.garages.values());
         const garage = garages.find(garage => {
-            return garage.marker.x === position.x && garage.marker.y === position.y && garage.marker.z === position.z;
+            return garage.marker.X === position.X && garage.marker.Y === position.Y && garage.marker.Z === position.Z;
         });
         return garage;
     }
