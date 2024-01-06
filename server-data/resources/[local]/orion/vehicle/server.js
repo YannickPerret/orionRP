@@ -21,6 +21,7 @@
 
       let vehicleObj = new Vehicle({
         netId: NetworkGetNetworkIdFromEntity(vehicleSpawn),
+        spawnId: vehicleSpawn,
         model: model,
         owner: player.id,
         plate: GetVehicleNumberPlateText(vehicleSpawn),

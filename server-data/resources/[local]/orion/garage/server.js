@@ -24,7 +24,6 @@
         const vehicle = VehicleManager.getVehicleById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
 
-        console.log('vehicle', vehicle)
         if (!garage) {
             emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
             return;
@@ -34,8 +33,9 @@
             return;
         }
 
-        garage.vehicles.push(vehicleId);
+        garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime() });
         await garage.save();
+
         emit('orion:vehicle:s:deleteVehicle', source, vehicleId);
         emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
