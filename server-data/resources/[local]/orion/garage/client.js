@@ -63,6 +63,7 @@
     const showGarage = async (garage) => {
         showGarageHUD = !showGarageHUD
         SetNuiFocus(showGarageHUD, showGarageHUD)
+        console.log(garage)
         SendNUIMessage({
             action: "showGarage",
             payload: {
