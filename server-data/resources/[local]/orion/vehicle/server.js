@@ -36,13 +36,9 @@
 
       await vehicleObj.save();
 
-      //await exports['orion'].delay(300)
-
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-      //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
       VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
-      //emitNet('orion:vehicle:c:createVehicle', source, vehicleObj);
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')

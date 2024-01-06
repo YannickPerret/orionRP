@@ -16,8 +16,6 @@
 
     onNet('orion:garage:c:setParking', (parking) => {
         garageObj = parking
-
-        console.log(garageObj)
     })
 
     RegisterNuiCallbackType('storeVehicle');
@@ -32,6 +30,9 @@
             exports['orion'].showNotification("Vous n'avez aucun véhicule devant vous");
             return cb({ ok: false });
         }
+        console.log("netId", NetworkGetNetworkIdFromEntity(vehicleTarget))
+        console.log(NetworkGetEntityFromNetworkId(NetworkGetNetworkIdFromEntity(vehicleTarget)))
+        console.log()
         emitNet('orion:garage:s:storeVehicle', vehicleTarget, data.garageId);
         cb({ ok: true });
     });
