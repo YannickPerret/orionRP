@@ -52,6 +52,11 @@ class Vehicle {
     return this.fuel;
   }
 
+  async getById(id) {
+    const vehicle = await db.getById('vehicles', id);
+    return new Vehicle(vehicle);
+  }
+
   async save() {
     try {
       let result;

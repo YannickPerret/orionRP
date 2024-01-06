@@ -19,11 +19,11 @@
         emitNet('orion:garage:c:openGarage', source, garage);
     })
 
-    onNet('orion:garage:s:storeVehicle', async (vehicleId, parkingId) => {
+    onNet('orion:garage:s:storeVehicle', async (vehicleId, garageId) => {
         const source = global.source;
         const vehicle = await Vehicle.getById(vehicleId);
-        const parking = await db.getById('parking', parkingId);
-        if (!parking) {
+        const garage = GarageManager.getGarageById(garageId);
+        if (!garage) {
             emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
             return;
         }
@@ -32,8 +32,8 @@
             return;
         }
 
-        parking.vehicles.push(vehicleId);
-        await parking.save();
+        garage.vehicles.push(vehicleId);
+        await garage.save();
         emit('orion:vehicle:s:deleteVehicle', source, vehicleId);
         emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
