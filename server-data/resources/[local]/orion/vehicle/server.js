@@ -10,6 +10,11 @@
 
     if (player) {
       let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords[0], coords[1], coords[2], pedHead);
+
+      while (!DoesEntityExist(vehicleSpawn)) {
+        await exports['orion'].delay(0)
+      }
+
       SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
       console.log('vehicleSpawn', vehicleSpawn, NetworkGetNetworkIdFromEntity(vehicleSpawn))
@@ -31,7 +36,7 @@
 
       await vehicleObj.save();
 
-      await exports['orion'].delay(300)
+      //await exports['orion'].delay(300)
 
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
