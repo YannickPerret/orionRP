@@ -13,12 +13,13 @@
                 let playerPed = PlayerPedId();
                 let playerCoords = GetEntityCoords(playerPed);
                 markers.forEach(marker => {
+                    console.log(GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true))
                     if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true) < 15) {
                         console.log('draw marker')
                         createMarker(marker.position, marker.color, marker.icon, marker.scale);
                     }
                 });
-                await exports['orion'].delay(10);
+                await exports['orion'].delay(5);
             }
         })
     })
