@@ -1,8 +1,8 @@
 (async () => {
     const { db, r } = require('./core/server/database.js');
     const GarageManager = require('./core/server/garageManager.js');
+    const VehicleManager = require('./core/server/vehicleManager.js');
     const Garage = require('./garage/garage.js');
-    const Vehicle = require('./vehicle/vehicle.js');
 
     onNet('orion:garage:s:setParking', async () => {
         const source = global.source;
