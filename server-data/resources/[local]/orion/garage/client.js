@@ -28,6 +28,7 @@
         }
         const playerPed = PlayerPedId();
         const vehicleTarget = exports['orion'].getVehicleInFront(playerPed, 2.0);
+        console.log(vehicleTarget)
         if (!vehicleTarget) {
             exports['orion'].showNotification("Vous n'avez aucun véhicule devant vous");
             return cb({ ok: false });
