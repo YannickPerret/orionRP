@@ -81,6 +81,7 @@
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
+    console.log('dispawnVehicle', vehicle, NetworkGetNetworkIdFromEntity(vehicle)
     if (player) {
       let vehicleObj = VehicleManager.getVehicleById(vehicle);
       if (vehicleObj) {
