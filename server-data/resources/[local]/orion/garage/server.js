@@ -17,8 +17,6 @@
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
 
-        console.log(garage)
-
         garage.vehicles = await garage.getVehicles()//.value.filter(vehicle => vehicle.owner === player.id)
 
         console.log(garage.vehicles)
@@ -54,7 +52,6 @@
     onNet('orion:garage:s:init', async () => {
         await Garage.getAll().then((garage) => {
             garage.forEach(garage => {
-                console.log(garage.vehicles)
                 GarageManager.addGarage(garage.id, garage);
             })
         })
