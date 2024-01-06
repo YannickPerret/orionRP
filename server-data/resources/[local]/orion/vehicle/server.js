@@ -108,7 +108,8 @@
     await vehicleObj.save();
   });
 
-  onNet('orion:vehicle:s:deleteVehicle', async (vehicleId) => {
+  onNet('orion:vehicle:s:deleteVehicle', async (vehicleId, source = undefined) => {
+    const source = source || global.source;
     if (typeof vehicleId === 'number') {
       let vehicleObj = VehicleManager.getVehicleById(vehicleId);
       VehicleManager.remove(vehicleObj.id);
@@ -117,11 +118,11 @@
   });
 
   RegisterCommand('delveh', async (source, args) => {
-    const ped = PlayerPedId();
+    const ped = GetPlayerPed(source);
     if (IsPedInAnyVehicle(ped, false)) {
-      const vehicleId = GetVehiclePedIsIn(ped);
+      const vehicleId = GetVehiclePedIsIn(ped, false);
       DeleteEntity(vehicleId);
-      emit('orion:vehicle:s:deleteVehicle', vehicleId);
+      emit('orion:vehicle:s:deleteVehicle', vehicleId, source);
     }
   }, false);
 
