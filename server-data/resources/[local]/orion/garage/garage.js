@@ -39,8 +39,8 @@ class Garage {
 
     async getVehicles() {
         // vehicles = [{id: 1, dateStored: 123456789, priceToRetrieve: 1000}]
-        const vehicles = await Promise.all(this.vehicles.map(async vehicleId => {
-            const vehicle = await db.getById('vehicles', vehicleId);
+        const vehicles = await Promise.all(this.vehicles.map(async vehicleDb => {
+            const vehicle = await db.getById('vehicles', vehicleDb.id);
             return vehicle;
         }));
         return vehicles;
