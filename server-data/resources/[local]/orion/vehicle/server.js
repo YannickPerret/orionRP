@@ -4,7 +4,7 @@
   const PlayerManager = require('./core/server/playerManager.js');
   const { db } = require('./core/server/database.js');
 
-  onNet('orion:vehicle:s:spawnNewVehicle', async (model, coords, pedHead) => {
+  onNet('orion:vehicle:s:spawnNewVehicle', async (model, name = '', coords, pedHead) => {
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
@@ -20,6 +20,7 @@
       let vehicleObj = new Vehicle({
         netId: NetworkGetNetworkIdFromEntity(vehicleSpawn),
         spawnId: vehicleSpawn,
+        title: name,
         model: model,
         owner: player.id,
         plate: GetVehicleNumberPlateText(vehicleSpawn),

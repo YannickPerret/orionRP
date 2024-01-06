@@ -28,7 +28,6 @@
 
         garage.playerVehicle = vehicles.filter(vehicle => vehicle.owner === player.id);
 
-        console.log(garage)
         emitNet('orion:garage:c:openGarage', source, garage);
     })
 
