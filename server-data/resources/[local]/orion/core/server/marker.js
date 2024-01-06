@@ -25,8 +25,6 @@
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
-
-        console.log(markersArray);
-        emitNet('orion:marker:c:initializeMarkers', source, MarkerManager.getMarkers());
+        emitNet('orion:marker:c:initializeMarkers', source, markersArray);
     });
 })()
