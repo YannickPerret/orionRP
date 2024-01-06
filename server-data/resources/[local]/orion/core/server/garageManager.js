@@ -24,6 +24,7 @@ class GarageManager {
     }
 
     getGarageByMarkerPosition(position) {
+        console.log(position)
         const garages = Array.from(this.garages.values());
         const garage = garages.find(garage => {
             return garage.marker.X === position.X && garage.marker.Y === position.Y && garage.marker.Z === position.Z;
