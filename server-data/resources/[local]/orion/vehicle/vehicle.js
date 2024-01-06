@@ -5,10 +5,11 @@ const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
 
 class Vehicle {
-  constructor({ id, netId, spawnId, model, owner, plate, position, state, colours, pearlescentColor, customizations, isEngineOn, maxFuel, fuel, fuel_consumption, dirtLevel, doorsBroken, bodyHealth, }) {
+  constructor({ id, netId, spawnId, title, model, owner, plate, position, state, colours, pearlescentColor, customizations, isEngineOn, maxFuel, fuel, fuel_consumption, dirtLevel, doorsBroken, bodyHealth, }) {
     this.id = id || uuidv4();
     this.netId = netId;
     this.spawnId = spawnId || null;
+    this.title = title || model
     this.model = model;
     this.owner = owner;
     this.plate = plate;
