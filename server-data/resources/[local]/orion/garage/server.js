@@ -53,7 +53,6 @@
         emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
-    // ici à revoir
     onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId) => {
         const source = global.source;
         const vehicle = VehicleManager.getVehicleById(vehicleId);
