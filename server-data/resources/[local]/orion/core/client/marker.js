@@ -8,7 +8,10 @@
 
     onNet('orion:marker:c:initializeMarkers', async (markers) => {
 
-        console.log(markers)
+        markers.forEach(marker => {
+            console.log(marker)
+        });
+
         const playerPed = PlayerPedId();
 
         /* setTick(() => {
