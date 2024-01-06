@@ -19,15 +19,14 @@
             });
         });
 
-        const markersArray = MarkerManager.getMarkers();
-
-        console.log(markersArray)
-
+        const markersArray = Array.from(MarkerManager.getMarkers().values());
 
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
+
+        console.log(markersArray);
         emitNet('orion:marker:c:initializeMarkers', source, MarkerManager.getMarkers());
     });
 })()

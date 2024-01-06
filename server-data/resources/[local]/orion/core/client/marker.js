@@ -7,10 +7,8 @@
     exports('createMarker', createMarker)
 
     onNet('orion:marker:c:initializeMarkers', async (markers) => {
-
-        markers.forEach(marker => {
-            console.log(marker)
-        });
+        //map markers map to create marker
+        
 
         const playerPed = PlayerPedId();
 
