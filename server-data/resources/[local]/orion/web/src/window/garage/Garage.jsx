@@ -41,7 +41,7 @@ export default function Garage() {
                 <div className={style.garage__content}>
                     <ul>
                         <li onClick={handleVehicleStorage} className={style.garage__item}>Ranger le véhicule</li>
-                        {data.garage.vehicles.length == 0 ? (
+                        {data.garage.vehicles.length >= 0 ? (
                             data.garage.vehicles.map((vehicle, index) => (
                                 <GarageItem key={index} item={vehicle} />
                             ))
