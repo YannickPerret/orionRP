@@ -13,8 +13,7 @@
                 let playerPed = PlayerPedId();
                 let playerCoords = GetEntityCoords(playerPed);
                 markers.forEach(marker => {
-                    if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true) < 25) {
-                        console.log('draw marker')
+                    if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true) < 30) {
                         createMarker(marker.position, marker.color, marker.icon, marker.scale);
                     }
                 });
