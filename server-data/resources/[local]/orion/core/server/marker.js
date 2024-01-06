@@ -8,7 +8,8 @@
         // add in marker the garage spawnPosition
 
         garages.forEach((garage, garageId) => {
-            console.log("oui", garageId, garage)
+            console.log("1DFD :", garage)
+            console.log("2DFD :", garageId)
             MarkerManager.addMarker(garageId, {
                 color: { r: 0, g: 128, b: 0 },
                 icon: 1,
