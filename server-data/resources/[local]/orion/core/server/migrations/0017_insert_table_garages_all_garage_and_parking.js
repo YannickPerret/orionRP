@@ -13,6 +13,7 @@ module.exports = {
                 owner: [],
                 spawnPlaces: garage.spawnPlaces,
                 isActive: true,
+                marker: garage.marker
             });
             console.log(`Garage ${index} créée`);
         });
