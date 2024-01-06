@@ -3,8 +3,12 @@ class MarkerManager {
         this.markers = new Map();
     }
 
-    addMarker(marker) {
-        this.markers.set(marker.id, marker);
+    addMarker(markerId, marker) {
+        if (!marker.id) {
+            console.log(`Erreur: le marker ajouté n'a pas d'ID.`);
+            return;
+        }
+        this.markers.set(markerId, marker);
     }
 
     getMarker(id) {

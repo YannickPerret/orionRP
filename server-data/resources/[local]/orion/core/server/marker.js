@@ -10,6 +10,7 @@
         garages.forEach((garage, garageId) => {
 
             MarkerManager.addMarker(garageId, {
+                id: garageId,
                 color: { r: 0, g: 128, b: 0 },
                 icon: 1,
                 scale: { X: 3.0, Y: 3.0, Z: 2.0 },
