@@ -8,13 +8,11 @@ const GarageItem = ({ item }) => {
     return (
         <li className={style.garage__item}>
             <div>
-                <div>
-                    <h3>{item.title}</h3>
-                    <h2>Prix : {item.priceToRetrieve}$</h2>
-                </div>
-                <div>
-                    <button>Sortir</button>
-                </div>
+                <h3>{item.title}</h3>
+                <h2>Prix : {item.priceToRetrieve}$</h2>
+            </div>
+            <div>
+                <button>Sortir</button>
             </div>
         </li>
     )
