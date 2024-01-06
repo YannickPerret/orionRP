@@ -118,6 +118,7 @@
   });
 
   RegisterCommand('delveh', async (source, args) => {
+    console.log("knkjjh")
     const ped = GetPlayerPed(source);
     console.log(ped);
     if (IsPedInAnyVehicle(ped, false)) {
