@@ -30,13 +30,9 @@
             exports['orion'].showNotification("Vous n'avez aucun véhicule devant vous");
             return cb({ ok: false });
         }
-        console.log("fffff")
-        const vehicleModelName = GetMakeNameFromVehicleModel(GetEntityModel(vehicleTarget))
-        console.log(vehicleModelName)
-
         const vehicleDamage = await exports['orion'].getVehicleDamage(vehicleTarget);
 
-        emitNet('orion:garage:s:storeVehicle', NetworkGetNetworkIdFromEntity(vehicleTarget), vehicleModelName, vehicleDamage, data.garageId);
+        emitNet('orion:garage:s:storeVehicle', NetworkGetNetworkIdFromEntity(vehicleTarget), vehicleDamage, data.garageId);
         cb({ ok: true });
     });
 
