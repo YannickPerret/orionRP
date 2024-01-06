@@ -80,27 +80,27 @@
     }
   });
 
-  onNet('orion:vehicle:s:dispawnVehicle', async (vehicle) => {
-    const source = global.source;
+  onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, _source) => {
+    const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
-    console.log('dispawnVehicle', vehicle, NetworkGetNetworkIdFromEntity(vehicle))
     if (player) {
-      let vehicleObj = VehicleManager.getVehicleById(vehicle);
-      if (vehicleObj) {
-        vehicleObj.colours = GetVehicleColours(vehicleObj.id);
-        vehicleObj.pearlescentColor = GetVehicleExtraColours(vehicleObj.id)[1];
-        vehicleObj.bodyHealth = GetVehicleBodyHealth(vehicleObj.id);
-        vehicleObj.dirtLevel = GetVehicleDirtLevel(vehicleObj.id);
-        vehicleObj.plate = GetVehicleNumberPlateText(vehicleObj.id);
+      let vehicle = VehicleManager.getVehicleById(vehicleNetId);
+      if (vehicle) {
+        vehicle.colours = GetVehicleColours(vehicle.spawnId);
+        vehicle.pearlescentColor = GetVehicleExtraColours(vehicle.spawnId)[1];
+        vehicle.bodyHealth = GetVehicleBodyHealth(vehicle.spawnId);
+        vehicle.dirtLevel = GetVehicleDirtLevel(vehicle.spawnId);
+        vehicle.plate = GetVehicleNumberPlateText(vehicle.spawnId);
         for (let doors = 0; doors < 7; doors++) {
-          vehicleObj.doorsBroken[doors] = IsVehicleDoorDamaged(vehicleObj.id, doors);
+          vehicle.doorsBroken[doors] = IsVehicleDoorDamaged(vehicle.spawnId, doors);
         }
-        await vehicleObj.save();
+        await vehicle.save();
 
-        DeleteEntity(vehicleObj.id);
-        VehicleManager.remove(vehicleObj.id);
-        delete vehicleObj;
+        VehicleManager.remove(vehicle.netId);
+        DeleteEntity(vehicle.spawnId);
+
+        delete vehicle;
       }
     }
     else {

@@ -263,6 +263,8 @@ setTick(async () => {
 });*/
 
 
+
+
 RegisterKeyMapping('seatbelt', 'Attacher sa ceinture', 'keyboard', 'N');
 
 RegisterCommand(

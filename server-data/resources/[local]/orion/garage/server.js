@@ -36,7 +36,7 @@
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime() });
         await garage.save();
 
-        emit('orion:vehicle:s:deleteVehicle', source, vehicle.spawnId);
+        emit('orion:vehicle:s:dispawnVehicle', source, vehicle.netId, source);
         emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
