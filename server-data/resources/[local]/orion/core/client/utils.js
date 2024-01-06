@@ -13,6 +13,17 @@
     return hit ? entity : null;
   }
 
+  const vehicleInFront = (playerPed, distance = 2.0) => {
+    const [offsetX, offsetY, offsetZ] = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, distance, 0.0);
+    const [playerCoordsX, playerCoordsY, playerCoordsZ] = GetEntityCoords(playerPed, false);
+    let rayHandle = CastRayPointToPoint(playerCoordsX, playerCoordsY, playerCoordsZ - 1.3, offsetX, offsetY, offsetZ, 10, playerPed, 0);
+    let [A, B, C, D, entity] = GetRaycastResult(rayHandle);
+    if (IsEntityAVehicle(entity)) {
+      return entity;
+    }
+    return null
+  };
+
   exports('getPedInFront', (player, distance = 10.0) => {
     return getEntityInFrontOfPlayer(player, distance, 8); // 8 pour les peds
   });
@@ -38,6 +49,6 @@
   exports('createMarker', createMarker);
   exports('waitingLoader', waitingLoader);
   exports('delay', delay);
-  exports('getVehicleInFront', getVehicleInFront);
+  exports('getVehicleInFront', vehicleInFront);
 
 })()

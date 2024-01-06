@@ -43,13 +43,7 @@
             exports['orion'].showNotification("Vous n'avez pas sélectionné de garage");
             return cb({ ok: false });
         }
-        const playerPed = PlayerPedId();
-        const vehicleTarget = exports['orion'].getVehicleInFront(playerPed, 2.0);
-        if (!vehicleTarget) {
-            exports['orion'].showNotification("Vous n'avez aucun véhicule devant vous");
-            return cb({ ok: false });
-        }
-        emitNet('orion:garage:s:takeVehicle', vehicleTarget, data.garageId);
+        emitNet('orion:garage:s:takeVehicle', data.vehicleId, data.garageId);
         cb({ ok: true });
     });
 
