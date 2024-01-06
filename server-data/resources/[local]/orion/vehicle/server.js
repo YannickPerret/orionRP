@@ -20,7 +20,6 @@
       console.log('vehicleSpawn', vehicleSpawn, NetworkGetNetworkIdFromEntity(vehicleSpawn))
 
       let vehicleObj = new Vehicle({
-        id: vehicleSpawn,
         netId: NetworkGetNetworkIdFromEntity(vehicleSpawn),
         model: model,
         owner: player.id,
@@ -38,7 +37,7 @@
 
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
-      VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
+      VehicleManager.addVehicle(vehicleObj.netId, vehicleObj);
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
