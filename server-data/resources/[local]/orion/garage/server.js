@@ -2,6 +2,7 @@
     const { db, r } = require('./core/server/database.js');
     const GarageManager = require('./core/server/garageManager.js');
     const VehicleManager = require('./core/server/vehicleManager.js');
+    const PlayerManager = require('./core/server/playerManager.js');
     const Garage = require('./garage/garage.js');
 
     onNet('orion:garage:s:setParking', async () => {
@@ -13,9 +14,16 @@
 
     onNet('orion:garage:s:openGarage', async (garageMarker) => {
         const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
-        garage.vehicles = await garage.getVehicles();
+        garage.vehicles = await garage.getVehicles().filter(vehicle => vehicle.owner === player.id)
 
+        // get price by time between now and dateStored * garage.price
+        garage.vehicles.forEach(vehicle => {
+            vehicle.priceToRetrieve = (garage.price * (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60) - garage.price;
+        })
+
+        console.log(garage.vehicles)
         emitNet('orion:garage:c:openGarage', source, garage);
     })
 
@@ -33,7 +41,7 @@
             return;
         }
 
-        garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime() });
+        garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime(), priceToRetrieve: garage.price });
 
         await garage.save();
 
