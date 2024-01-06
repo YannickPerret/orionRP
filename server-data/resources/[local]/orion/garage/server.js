@@ -26,7 +26,6 @@
         const garage = GarageManager.getGarageById(garageId);
 
         console.log('vehicle', vehicle)
-        console.log('garage', garage)
         if (!garage) {
             emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
             return;
