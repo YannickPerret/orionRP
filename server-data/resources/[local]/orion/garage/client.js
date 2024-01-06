@@ -36,8 +36,32 @@
         cb({ ok: true });
     });
 
-    emitNet('orion:garage:c:closeGarage', (message) => {
-        exports['orion'].showNotification(message)
+    RegisterNuiCallbackType('takeVehicle');
+    on('__cfx_nui:takeVehicle', (data, cb) => {
+        if (data.garageId === undefined) {
+            exports['orion'].showNotification("Vous n'avez pas sélectionné de garage");
+            return cb({ ok: false });
+        }
+        const playerPed = PlayerPedId();
+        const vehicleTarget = exports['orion'].getVehicleInFront(playerPed, 2.0);
+        if (!vehicleTarget) {
+            exports['orion'].showNotification("Vous n'avez aucun véhicule devant vous");
+            return cb({ ok: false });
+        }
+        emitNet('orion:garage:s:takeVehicle', vehicleTarget, data.garageId);
+        cb({ ok: true });
+    });
+
+    RegisterNuiCallbackType('closeGarage');
+    on('__cfx_nui:closeGarage', (data, cb) => {
+        emit('orion:garage:c:closeGarage', data.message);
+        cb({ ok: true });
+    });
+
+    emitNet('orion:garage:c:closeGarage', (message = undefined) => {
+        if (message) {
+            exports['orion'].showNotification(message)
+        }
         showGarageHUD = false
         SetNuiFocus(false, false)
     })

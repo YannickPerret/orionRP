@@ -5,11 +5,8 @@ import { sendNui } from '../../utils/fetchNui'
 import { useVisibility } from '../../providers/visibilityProvider'
 
 const GarageItem = ({ item }) => {
-    const { data } = useData();
-    const { closeAllMenus } = useVisibility();
-
     return (
-        <li>
+        <li className={style.garage__item}>
             <div>
                 <div>
                     <h3>{item.name}</h3>
@@ -24,6 +21,8 @@ const GarageItem = ({ item }) => {
 
 export default function Garage() {
     const { data } = useData();
+    const { closeAllMenus } = useVisibility();
+
 
     const handleVehicleStorage = () => {
         console.log('handleVehicleStorage');
@@ -40,7 +39,7 @@ export default function Garage() {
 
                 <div className={style.garage__content}>
                     <ul>
-                        <li onClick={handleVehicleStorage}>Ranger le véhicule</li>
+                        <li onClick={handleVehicleStorage} className={style.garage__item}>Ranger le véhicule</li>
                         {data.garage.vehicles.length == 0 ? (
                             data.garage.vehicles.map((vehicle, index) => (
                                 <GarageItem key={index} item={vehicle} />
