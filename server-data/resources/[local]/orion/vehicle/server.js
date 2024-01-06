@@ -130,7 +130,6 @@
 
         if (GetVehiclePedIsIn(GetPlayerPed(source), false)) {
           const vehicleId = GetVehiclePedIsIn(GetPlayerPed(source), false);
-          DeleteEntity(vehicleId);
           emit('orion:vehicle:s:deleteVehicle', vehicleId, source);
         }
       }
