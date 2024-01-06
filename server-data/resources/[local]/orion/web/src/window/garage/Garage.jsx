@@ -5,6 +5,7 @@ import { sendNui } from '../../utils/fetchNui'
 import { useVisibility } from '../../providers/visibilityProvider'
 
 const GarageItem = ({ item }) => {
+    console.log(item)
     return (
         <li className={style.garage__item}>
             <div>
