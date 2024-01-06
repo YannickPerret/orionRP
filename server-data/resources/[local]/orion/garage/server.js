@@ -17,7 +17,7 @@
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
 
-        garage.vehicles = await garage.getVehicles().filter(vehicle => vehicle.owner === player.id)
+        // filter vehicle by owner
 
         console.log("oui333", garage.vehicles)
         // get price by time between now and dateStored * garage.price
