@@ -7,7 +7,7 @@
     const garageJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'))
 
     let garageObj = [];
-    const showGarageHUD = false
+    let showGarageHUD = false
 
     onNet('orion:garage:c:initializeGarages', () => {
         console.log('initializeGarages')
