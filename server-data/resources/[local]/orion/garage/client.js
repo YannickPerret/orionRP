@@ -6,7 +6,7 @@
 (async () => {
     const garageJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'))
 
-    let parking = null;
+    let garageObj = [];
     const showGarageHUD = false
 
     onNet('orion:garage:c:initializeGarages', () => {
@@ -15,9 +15,9 @@
     })
 
     onNet('orion:garage:c:setParking', (parking) => {
-        parking = parking
+        garageObj = parking
 
-        console.log(parking)
+        console.log(garageObj)
     })
 
     RegisterNuiCallbackType('storeVehicle');
@@ -55,6 +55,7 @@
     }
 
     onNet('orion:garage:c:openGarage', (garage) => {
+        console.log(garage)
         showGarage(garage)
     })
 
@@ -67,7 +68,7 @@
                     if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], garage.marker.X, garage.marker.Y, garage.marker.Z, true) < 1.8) {
                         emit('orion:showText', `Appuyez sur ~g~E~w~ pour ouvrir le garage`)
                         if (IsControlJustReleased(0, 38)) {
-                            emitNet('orion:garage:s:openGarage', garage.id)
+                            emitNet('orion:garage:s:openGarage', garage.marker)
                         }
                     }
                 }

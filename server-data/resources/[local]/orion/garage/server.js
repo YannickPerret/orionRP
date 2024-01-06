@@ -6,14 +6,13 @@
 
     onNet('orion:garage:s:setParking', async () => {
         const source = global.source;
-        const parking = await db.getAll('parking');
-        emitNet('orion:garage:c:setParking', source, parking);
+        const parkingArray = Array.from(MarkerManager.getMarkers().values());
+
+        emitNet('orion:garage:c:setParking', source, parkingArray);
     })
 
-    onNet('orion:garage:s:openGarage', async (garageId) => {
-        console.log(garageId)
-        const garage = await GarageManager.getGarageById(garageId);
-        console.log(garage);
+    onNet('orion:garage:s:openGarage', async (garageMarker) => {
+        const garage = GarageManager.getGarageByMarkerPosition()
         garage.vehicles = await garage.getVehicles();
 
         console.log(garage);
