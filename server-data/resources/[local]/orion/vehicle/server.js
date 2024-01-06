@@ -17,8 +17,6 @@
 
       SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
-      console.log('vehicleSpawn', vehicleSpawn, NetworkGetNetworkIdFromEntity(vehicleSpawn))
-
       let vehicleObj = new Vehicle({
         netId: NetworkGetNetworkIdFromEntity(vehicleSpawn),
         spawnId: vehicleSpawn,
@@ -35,6 +33,8 @@
       });
 
       await vehicleObj.save();
+
+      console.log("Vehicle spawned")
 
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
