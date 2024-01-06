@@ -55,8 +55,6 @@
                 GarageManager.addGarage(garage.id, garage);
             })
         })
-
-        console.log()
     })
 
 })();
