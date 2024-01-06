@@ -77,8 +77,9 @@
     })
 
     setTick(async () => {
+        let playerPed = PlayerPedId();
+
         while (true) {
-            let playerPed = PlayerPedId();
             let playerCoords = GetEntityCoords(playerPed);
             garageJson.garages.forEach(garage => {
                 if (!showGarageHUD) {

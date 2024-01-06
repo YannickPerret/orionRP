@@ -29,6 +29,8 @@
         doorsBroken: [0, 0, 0, 0, 0, 0, 0],
       });
 
+      await vehicleObj.save();
+
       await exports['orion'].delay(300)
 
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);

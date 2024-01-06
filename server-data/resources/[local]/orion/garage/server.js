@@ -21,7 +21,7 @@
 
     onNet('orion:garage:s:storeVehicle', async (vehicleId, garageId) => {
         const source = global.source;
-        const vehicle = await Vehicle.getById(vehicleId);
+        const vehicle = VehicleManager.getVehicleById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
         if (!garage) {
             emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
