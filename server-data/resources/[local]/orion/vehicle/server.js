@@ -93,7 +93,7 @@
         vehicle.position = GetEntityCoords(vehicle.spawnId);
 
         for (let doors = 0; doors < 7; doors++) {
-          vehicle.doorsBroken[doors] = vehicleDamage.doors[doors];
+          vehicle.doorsBroken[doors] = vehicleDamage.doorsBroken[doors];
         }
         await vehicle.save();
 

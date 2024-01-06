@@ -37,11 +37,12 @@ let seatbeltProp = null;
 
 exports('getVehicleDamage', (vehicle) => {
   let vehicleDamage = {}
-  for (let doors = 0; doors < 5; doors++) {
-    vehicleDamage.doors[doors] = IsVehicleDoorDamaged(vehicle, doors);
+  for (let doors = 0; doors < 6; doors++) {
+    console.log(IsVehicleDoorDamaged(vehicle, doors);)
+vehicleDamage.doorsBroken[doors] = IsVehicleDoorDamaged(vehicle, doors);
   }
 
-  return vehicleDamage
+return vehicleDamage
 })
 
 
