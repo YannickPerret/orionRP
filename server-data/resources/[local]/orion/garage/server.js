@@ -19,7 +19,7 @@
         emitNet('orion:garage:c:openGarage', source, garage);
     })
 
-    onNet('orion:garage:s:storeVehicle', async (vehicleNetId, garageId) => {
+    onNet('orion:garage:s:storeVehicle', async (vehicleNetId, vehicleDamage = {}, garageId) => {
         const source = global.source;
         const vehicle = VehicleManager.getVehicleById(vehicleNetId);
         const garage = GarageManager.getGarageById(garageId);
@@ -38,7 +38,7 @@
         await garage.save();
         console.log("vehicletored")
 
-        emit('orion:vehicle:s:dispawnVehicle', vehicle.netId, source);
+        emit('orion:vehicle:s:dispawnVehicle', vehicle.netId, vehicleDamage, source);
         emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
