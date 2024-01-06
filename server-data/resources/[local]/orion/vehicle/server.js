@@ -91,10 +91,9 @@
         vehicle.dirtLevel = GetVehicleDirtLevel(vehicle.spawnId);
         vehicle.plate = GetVehicleNumberPlateText(vehicle.spawnId);
         vehicle.position = GetEntityCoords(vehicle.spawnId);
+        vehicle.doorsBroken = vehicleDamage.doorsBroken;
 
-        for (let doors = 0; doors < 7; doors++) {
-          vehicle.doorsBroken[doors] = vehicleDamage.doorsBroken[doors];
-        }
+        console.log(vehicle)
         await vehicle.save();
 
         VehicleManager.remove(vehicle.netId);
