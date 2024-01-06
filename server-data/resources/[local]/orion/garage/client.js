@@ -48,7 +48,12 @@
 
     RegisterNuiCallbackType('closeGarage');
     on('__cfx_nui:closeGarage', (data, cb) => {
-        emit('orion:garage:c:closeGarage', data.message);
+        if (data.message) {
+            emit('orion:garage:c:closeGarage', data.message);
+        }
+        else {
+            emit('orion:garage:c:closeGarage');
+        }
         cb({ ok: true });
     });
 
