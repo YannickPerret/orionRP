@@ -17,6 +17,8 @@
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
 
+        console.log(garage)
+
         garage.vehicles = await garage.getVehicles()//.value.filter(vehicle => vehicle.owner === player.id)
 
         console.log(garage.vehicles)
@@ -43,8 +45,6 @@
         }
 
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime(), priceToRetrieve: garage.price });
-
-        console.log("1", garage.vehicles)
         await garage.save();
 
         emit('orion:vehicle:s:dispawnVehicle', vehicle.netId, vehicleDamage, source);
