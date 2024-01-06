@@ -34,8 +34,6 @@
 
       await vehicleObj.save();
 
-      console.log("Vehicle spawned")
-
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
       VehicleManager.addVehicle(vehicleObj.netId, vehicleObj);

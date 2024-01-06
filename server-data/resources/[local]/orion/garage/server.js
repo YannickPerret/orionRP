@@ -19,9 +19,9 @@
         emitNet('orion:garage:c:openGarage', source, garage);
     })
 
-    onNet('orion:garage:s:storeVehicle', async (vehicleId, garageId) => {
+    onNet('orion:garage:s:storeVehicle', async (vehicleNetId, garageId) => {
         const source = global.source;
-        const vehicle = VehicleManager.getVehicleById(vehicleId);
+        const vehicle = VehicleManager.getVehicleById(vehicleNetId);
         const garage = GarageManager.getGarageById(garageId);
 
         if (!garage) {
@@ -34,6 +34,8 @@
         }
 
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime() });
+
+        console.log(garage)
         await garage.save();
 
         emit('orion:vehicle:s:dispawnVehicle', source, vehicle.netId, source);
