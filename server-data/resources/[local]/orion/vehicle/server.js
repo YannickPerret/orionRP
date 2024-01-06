@@ -5,7 +5,6 @@
   const { db } = require('./core/server/database.js');
 
   onNet('orion:vehicle:s:spawnNewVehicle', async (model, coords, pedHead) => {
-    console.log("spawn new vehicle")
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
@@ -30,8 +29,6 @@
       });
 
       await exports['orion'].delay(300)
-
-      console.log("create vehicle", model)
 
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
@@ -111,9 +108,10 @@
     await vehicleObj.save();
   });
 
-  onNet('orion:vehicle:s:deleteVehicle', async (vehicleId, source = undefined) => {
-    const source = source || global.source;
-    if (typeof vehicleId === 'number') {
+  onNet('orion:vehicle:s:deleteVehicle', async (vehicleId, _source) => {
+    const source = _source || global.source;
+
+    if (typeof vehicleId === 'number' && vehicleId > 0) {
       let vehicleObj = VehicleManager.getVehicleById(vehicleId);
       VehicleManager.remove(vehicleObj.id);
       delete vehicleObj;

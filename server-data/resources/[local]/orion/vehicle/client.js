@@ -64,7 +64,6 @@ const createVehiclePedInside = async model => {
     await exports['orion'].delay(400)
   }
 
-  console.log("create vehicle112222", model)
   emitNet('orion:vehicle:s:spawnNewVehicle', GetHashKey(model), coords, GetEntityHeading(ped));
 };
 
@@ -282,7 +281,6 @@ RegisterCommand(
 
 RegisterCommand('veh', async (source, args) => {
   const model = args[0];
-  console.log(model);
   createVehiclePedInside(model);
   await exports['orion'].delay(3000);
   SetVehicleFuelLevel(GetVehiclePedIsIn(PlayerPedId()), 100.0);
