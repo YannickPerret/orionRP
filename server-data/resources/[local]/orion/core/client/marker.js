@@ -8,20 +8,18 @@
 
     onNet('orion:marker:c:initializeMarkers', async (markers) => {
         //map markers map to create marker
-        const playerPed = PlayerPedId();
-
-        console.log(markers)
-        setTick(() => {
-            const playerCoords = GetEntityCoords(playerPed);
-            markers.forEach(marker => {
-                console.log(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z)
-                if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true) < 15) {
-                    console.log('draw marker')
-                    createMarker(marker.position, marker.color, marker.icon, marker.scale);
-                }
-            });
-
-            exports['orion'].delay(10);
+        setTick(async () => {
+            while (true) {
+                let playerPed = PlayerPedId();
+                let playerCoords = GetEntityCoords(playerPed);
+                markers.forEach(marker => {
+                    if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], marker.position.X, marker.position.Y, marker.position.Z, true) < 15) {
+                        console.log('draw marker')
+                        createMarker(marker.position, marker.color, marker.icon, marker.scale);
+                    }
+                });
+                await exports['orion'].delay(10);
+            }
         })
     })
 
