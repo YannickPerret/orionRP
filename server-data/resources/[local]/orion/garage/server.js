@@ -21,7 +21,7 @@
 
     onNet('orion:garage:s:storeVehicle', async (vehicleId, garageId) => {
         const source = global.source;
-        console.log('vehicleId', vehicleId, "VehicleNetId", GetVehicleNetId(vehicleId))
+        console.log('vehicleId', vehicleId, "VehicleNetId", NetworkGetNetworkIdFromEntity(vehicleId))
         const vehicle = VehicleManager.getVehicleById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
 
