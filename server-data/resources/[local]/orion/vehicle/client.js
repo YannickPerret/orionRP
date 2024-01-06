@@ -76,7 +76,7 @@ const createVehiclePedInside = async model => {
 
   const vehicleName = GetDisplayNameFromVehicleModel(model);
 
-  emitNet('orion:vehicle:s:spawnNewVehicle', GetHashKey(model), vehicleName, coords, GetEntityHeading(ped));
+  emitNet('orion:vehicle:s:spawnNewVehicle', GetHashKey(model), model, coords, GetEntityHeading(ped));
 };
 
 SetFlyThroughWindscreenParams(ejectVelocity, unknownEjectVelocity, unknownModifier, minDamage);
