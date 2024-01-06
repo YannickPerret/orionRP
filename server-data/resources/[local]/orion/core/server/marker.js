@@ -20,6 +20,8 @@
 
         const markersArray = MarkerManager.getMarkers();
 
+        console.log(markersArray)
+
 
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
