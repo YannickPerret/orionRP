@@ -23,14 +23,10 @@
             const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
 
             // Calcul du prix total
-            vehicle.priceToRetrieve = (garage.price * hoursParked).toFixed(2);
+            vehicle.priceToRetrieve = Math.round((garage.price * hoursParked).toFixed(0));
         })
 
         garage.vehicles = vehicles;
-
-        console.log(garage.vehicles)
-        // get price by time between now and dateStored * garage.price
-
 
         emitNet('orion:garage:c:openGarage', source, garage);
     })

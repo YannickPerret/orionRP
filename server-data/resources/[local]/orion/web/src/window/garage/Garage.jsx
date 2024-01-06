@@ -5,7 +5,6 @@ import { sendNui } from '../../utils/fetchNui'
 import { useVisibility } from '../../providers/visibilityProvider'
 
 const GarageItem = ({ item }) => {
-    console.log(item)
     return (
         <li className={style.garage__item}>
             <div>
@@ -32,6 +31,11 @@ export default function Garage() {
         closeAllMenus(true);
     }
 
+    const handleClose = () => {
+        sendNui('closeGarage');
+        closeAllMenus();
+    }
+
     return (
         <div className={style.garage}>
             <div className={style.garage__container}>
@@ -50,6 +54,16 @@ export default function Garage() {
                             <p>Vous n'avez pas de véhicule dans ce garage</p>
                         )}
                     </ul>
+
+                    <div onClick={handleClose}>
+                        <button>Fermer</button>
+                    </div>
+
+                    <div>
+                        <h2>Infos</h2>
+                        <p>Nombre de véhicule : {data.garage.vehicles.length}</p>
+                        <p>Nombre de place : {data.garage.maxSlots}</p>
+                    </div>
                 </div>
             </div>
         </div>
