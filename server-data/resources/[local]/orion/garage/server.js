@@ -26,7 +26,7 @@
             vehicle.priceToRetrieve = Math.round((garage.price * hoursParked).toFixed(0));
         })
 
-        garage.vehicles = vehicles;
+        garage.playerVehicle = vehicles.find(vehicle => vehicle.owner === player.id);
 
         emitNet('orion:garage:c:openGarage', source, garage);
     })
