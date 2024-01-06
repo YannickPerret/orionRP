@@ -16,7 +16,7 @@
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
-        console.log(garage, typeof garage)
+        console.log("est de type garage : ", garage instanceof Garage)
         garage.vehicles = await garage.getVehicles()//.value.filter(vehicle => vehicle.owner === player.id)
 
         // get price by time between now and dateStored * garage.price
@@ -42,7 +42,7 @@
         }
 
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime(), priceToRetrieve: garage.price });
-        console.log("LOL", garage)
+
         await garage.save();
 
         emit('orion:vehicle:s:dispawnVehicle', vehicle.netId, vehicleDamage, source);
@@ -55,6 +55,8 @@
                 GarageManager.addGarage(garage.id, garage);
             })
         })
+
+        console.log()
     })
 
 })();
