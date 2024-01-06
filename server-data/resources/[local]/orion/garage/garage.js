@@ -54,10 +54,16 @@ class Garage {
 
 
     async save() {
-        if (await db.getById('garages', this.id)) {
-            return await db.update('garages', this.id, this);
-        } else {
-            return await db.insert('garages', this);
+        try {
+            let result;
+            if (await db.getById('garages', this.id)) {
+                result = await db.update('garages', this);
+            } else {
+                result = await db.insert('garages', this);
+            }
+            return result;
+        } catch (e) {
+            console.error(e);
         }
     }
 }
