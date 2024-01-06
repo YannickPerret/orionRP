@@ -34,7 +34,7 @@ export default function Garage() {
     }
 
     const handleVehicleRetrieve = (vehicleId) => {
-        sendNui('retrieveVehicle', { garageId: data.garage.id, vehicleId });
+        sendNui('retrieveVehicle', { garageId: data.garage.id, vehicleId: vehicleId });
         closeAllMenus(true);
     }
 
