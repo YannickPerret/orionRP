@@ -25,7 +25,6 @@
             vehicle.priceToRetrieve = (garage.price * (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60) - garage.price;
         })*/
 
-        console.log(garage.vehicles)
         emitNet('orion:garage:c:openGarage', source, garage);
     })
 
@@ -45,6 +44,7 @@
 
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime(), priceToRetrieve: garage.price });
 
+        console.log(garage.vehicles)
         await garage.save();
 
         emit('orion:vehicle:s:dispawnVehicle', vehicle.netId, vehicleDamage, source);
