@@ -288,16 +288,5 @@ RegisterCommand('veh', async (source, args) => {
   false
 );
 
-RegisterCommand(
-  'delveh',
-  async (source, args) => {
-    const ped = PlayerPedId();
-    if (IsPedInAnyVehicle(ped, false)) {
-      const vehicle = GetVehiclePedIsIn(ped);
-      DeleteEntity(vehicle);
-      emitNet('orion:vehicle:deleteVehicle', vehicle);
-    }
-  },
-  false
-);
+
 

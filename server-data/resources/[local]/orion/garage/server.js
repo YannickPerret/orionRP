@@ -34,7 +34,7 @@
 
         parking.vehicles.push(vehicleId);
         await parking.save();
-
+        emit('orion:vehicle:s:deleteVehicle', source, vehicleId);
         emit('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
