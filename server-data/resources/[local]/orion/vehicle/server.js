@@ -12,6 +12,7 @@
       let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords[0], coords[1], coords[2], pedHead);
       SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
+      console.log('vehicleSpawn', vehicleSpawn, NetworkGetNetworkIdFromEntity(vehicleSpawn))
 
       let vehicleObj = new Vehicle({
         id: vehicleSpawn,
@@ -33,7 +34,7 @@
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
       //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
-      VehicleManager.addVehicle(vehicleObj.id, vehicleObj);
+      VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
       //emitNet('orion:vehicle:c:createVehicle', source, vehicleObj);
     }
     else {
