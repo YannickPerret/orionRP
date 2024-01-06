@@ -48,7 +48,6 @@
 
     RegisterNuiCallbackType('retrieveVehicle');
     on('__cfx_nui:retrieveVehicle', (data, cb) => {
-        console.log(data)
         if (data.garageId === undefined) {
             exports['orion'].showNotification("Vous n'avez pas sélectionné de garage");
             return cb({ ok: false });
