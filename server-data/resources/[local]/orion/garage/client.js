@@ -59,7 +59,7 @@
         cb({ ok: true });
     });
 
-    emitNet('orion:garage:c:closeGarage', (message = undefined) => {
+    onNet('orion:garage:c:closeGarage', (message = undefined) => {
         if (message) {
             exports['orion'].showNotification(message)
         }
@@ -80,7 +80,6 @@
     }
 
     onNet('orion:garage:c:openGarage', (garage) => {
-        console.log(garage)
         showGarage(garage)
     })
 
@@ -94,6 +93,11 @@
                         emit('orion:showText', `Appuyez sur ~g~E~w~ pour ouvrir le garage`)
                         if (IsControlJustReleased(0, 38)) {
                             emitNet('orion:garage:s:openGarage', garage.marker)
+                        }
+                    }
+                    else {
+                        if (showGarageHUD) {
+                            emit('orion:garage:c:closeGarage')
                         }
                     }
                 }
