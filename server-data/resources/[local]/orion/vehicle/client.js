@@ -35,6 +35,14 @@ let seatbeltEjectAccel = 100.0;
 let seatbeltPropModel = 'prop_seatbelt_01';
 let seatbeltProp = null;
 
+exports('getVehicleDamage', (vehicle) => {
+  let vehicleDamage = {}
+  for (let doors = 0; doors < 5; doors++) {
+    vehicleDamage.doors[doors] = IsVehicleDoorDamaged(vehicle, doors);
+  }
+
+  return vehicleDamage
+})
 
 
 const createVehicle = async (model, coords) => {

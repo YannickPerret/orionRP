@@ -78,11 +78,9 @@
     }
   });
 
-  onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, _source) => {
+  onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, vehicleDamage = {}, _source) => {
     const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
-
-    console.log('dispawnVehicle', vehicleNetId, source)
 
     if (player) {
       let vehicle = VehicleManager.getVehicleById(vehicleNetId);
@@ -92,8 +90,10 @@
         vehicle.bodyHealth = GetVehicleBodyHealth(vehicle.spawnId);
         vehicle.dirtLevel = GetVehicleDirtLevel(vehicle.spawnId);
         vehicle.plate = GetVehicleNumberPlateText(vehicle.spawnId);
+        vehicle.position = GetEntityCoords(vehicle.spawnId);
+
         for (let doors = 0; doors < 7; doors++) {
-          vehicle.doorsBroken[doors] = IsVehicleDoorDamaged(vehicle.spawnId, doors);
+          vehicle.doorsBroken[doors] = vehicleDamage.doors[doors];
         }
         await vehicle.save();
 
