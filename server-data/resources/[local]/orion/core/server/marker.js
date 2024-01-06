@@ -8,8 +8,7 @@
         // add in marker the garage spawnPosition
 
         garages.forEach((garage, garageId) => {
-            console.log("1DFD :", garage)
-            console.log("2DFD :", garageId)
+
             MarkerManager.addMarker(garageId, {
                 color: { r: 0, g: 128, b: 0 },
                 icon: 1,
@@ -21,12 +20,11 @@
 
         const markersArray = MarkerManager.getMarkers();
 
-        console.log(markersArray)
 
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
-        emitNet('orion:marker:c:initializeMarkers', source, MarkerManager);
+        emitNet('orion:marker:c:initializeMarkers', source, MarkerManager.getMarkers());
     });
 })()
