@@ -22,7 +22,7 @@
             ],
             "parkingFee": 100,
             "spawnPlaces": [],
-            "dispawnPlace": {
+            "marker": {
                 "X": 493.19,
                 "Y": -55.84,
                 "Z": 77.36
@@ -51,7 +51,7 @@
             ],
             "parkingFee": 100,
             "spawnPlaces": [],
-            "dispawnPlace": {
+            "marker": {
                 "X": 284.14,
                 "Y": -337.61,
                 "Z": 44.92
@@ -100,7 +100,7 @@
                     "Heading": 70.44
                 }
             ],
-            "dispawnPlace": {
+            "marker": {
                 "X": 222.66,
                 "Y": -800.03,
                 "Z": 30.67,
@@ -130,7 +130,7 @@
             ],
             "parkingFee": 100,
             "spawnPlaces": [],
-            "dispawnPlace": {
+            "marker": {
                 "X": 127.52,
                 "Y": -1068.75,
                 "Z": 29.19
@@ -159,7 +159,7 @@
             ],
             "parkingFee": 100,
             "spawnPlaces": [],
-            "dispawnPlace": {
+            "marker": {
                 "X": -945.18,
                 "Y": -2640.01,
                 "Z": 14.13
@@ -188,7 +188,7 @@
             ],
             "parkingFee": 100,
             "spawnPlaces": [],
-            "dispawnPlace": {
+            "marker": {
                 "X": -752.09,
                 "Y": -2044.50,
                 "Z": 8.92

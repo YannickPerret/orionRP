@@ -14,7 +14,7 @@ class Garage {
         this.owner = owner || null;
         this.spawnPlaces = spawnPlaces || [];
         this.isActive = isActive || true;
-        this.dispawnPlaces = dispawnPlaces || [];
+        this.marker = marker || [];
     }
 
     async addVehicle(vehicleId) {
