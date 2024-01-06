@@ -33,6 +33,7 @@
         const vehicleModelName = GetDisplayNameFromVehicleModel(GetEntityModel(vehicleTarget));
         const vehicleDamage = await exports['orion'].getVehicleDamage(vehicleTarget);
 
+        console.log(vehicleModelName)
         emitNet('orion:garage:s:storeVehicle', NetworkGetNetworkIdFromEntity(vehicleTarget), vehicleModelName, vehicleDamage, data.garageId);
         cb({ ok: true });
     });
