@@ -46,7 +46,6 @@
 
   onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, pedHead, _source) => {
 
-    console.log('spawnVehicle', vehicleId, coords, pedHead)
     const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
@@ -54,6 +53,7 @@
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
+      console.log("ici222")
       let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords[0], coords[1], coords[2], pedHead);
       while (!DoesEntityExist(vehicleSpawn)) {
         await exports['orion'].delay(0)
@@ -62,6 +62,7 @@
       vehicle.spawnId = vehicleSpawn;
       await vehicle.save();
 
+      console.log("ici")
       SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
       SetVehicleBodyHealth(vehicleSpawn, vehicle.bodyHealth);
