@@ -78,6 +78,7 @@
             return;
         }
 
+        console.log('vehicle', vehicle);
         // get price to retrieve vehicle
         const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
         console.log('hoursParked', hoursParked, 'price', garage.price, 'priceToRetrieve', calculatePriceWithOneHoursFree(Number(garage.price), Number(hoursParked)));
