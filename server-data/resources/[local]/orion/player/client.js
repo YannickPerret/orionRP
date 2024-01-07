@@ -7,6 +7,8 @@ let playerData = {};
   let handsUp = false;
   let isDead = false;
   let mug = false;
+  let hunger = 100;
+  let thirst = 100;
 
   function modelLoadedAsync() {
     return new Promise((resolve) => {
@@ -258,8 +260,8 @@ let playerData = {};
   }, 100);
 
   setInterval(async () => {
-    const hunger = playerData.hunger;
-    const thirst = playerData.thirst;
+    /*const hunger = playerData.hunger;
+    const thirst = playerData.thirst;*/
 
     SendNUIMessage({
       action: 'updatePlayerStatus',
