@@ -67,7 +67,6 @@
         SetVehicleNumberPlateText(vehicleSpawn, vehicle.plate);
         SetVehicleDirtLevel(vehicleSpawn, vehicle.dirtLevel);
 
-        console.log(vehicle.doorsBroken)
         for (let doors = 0; doors <= vehicle.doorsBroken.length; doors++) {
           SetVehicleDoorBroken(vehicleSpawn, doors, vehicle.doorsBroken[doors]);
         }

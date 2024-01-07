@@ -18,6 +18,7 @@
         const player = PlayerManager.getPlayerBySource(source);
         const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
 
+        console.log("test")
         const vehicles = await garage.getVehicles();
         vehicles.forEach(vehicle => {
             // Calcul du temps en heures
