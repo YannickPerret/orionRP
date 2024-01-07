@@ -37,7 +37,7 @@ class Vehicle {
     return this.fuel;
   }
 
-  async getById(id) {
+  static async getById(id) {
     const vehicle = await db.getById('vehicles', id);
     return new Vehicle(vehicle);
   }
