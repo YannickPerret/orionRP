@@ -48,7 +48,7 @@
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
-    const vehicleDb = await db.getById('vehicles', vehicleId);
+    const vehicleDb = await Vehicle.getById(vehicleId);
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
