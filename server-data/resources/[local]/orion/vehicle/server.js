@@ -53,7 +53,6 @@
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
-      console.log(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, pedHead)
       let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, pedHead);
       while (!DoesEntityExist(vehicleSpawn)) {
         await exports['orion'].delay(0)
@@ -68,6 +67,7 @@
         SetVehicleNumberPlateText(vehicleSpawn, vehicle.plate);
         SetVehicleDirtLevel(vehicleSpawn, vehicle.dirtLevel);
 
+        console.log(vehicle.doorsBroken)
         for (let doors = 0; doors <= vehicle.doorsBroken.length; doors++) {
           SetVehicleDoorBroken(vehicleSpawn, doors, vehicle.doorsBroken[doors]);
         }
