@@ -246,32 +246,33 @@ let playerData = {};
   });
 
 
-  setInterval(async () => {
-    //const ped = PlayerPedId();
+  /*setInterval(async () => {
+     //const ped = PlayerPedId();
+ 
+     SendNUIMessage({
+       action: 'updatePlayerStatus',
+       payload: {
+         showPlayerHUD: !IsPauseMenuActive(),
+         //health: GetEntityHealth(ped) - (GetEntityMaxHealth(ped) === 175 ? 75 : 100),
+         //armor: GetPedArmour(ped),
+       },
+     });
+   }, 100);
+ 
+   setInterval(async () => {
+ 
+    
+     });
+}, 10000);*/
+  SendNUIMessage({
+    action: 'updatePlayerStatus',
+    payload: {
+      showPlayerHUD: !IsPauseMenuActive(),
 
-    SendNUIMessage({
-      action: 'updatePlayerStatus',
-      payload: {
-        showPlayerHUD: !IsPauseMenuActive(),
-        //health: GetEntityHealth(ped) - (GetEntityMaxHealth(ped) === 175 ? 75 : 100),
-        //armor: GetPedArmour(ped),
-      },
-    });
-  }, 10000000);
-
-  setInterval(async () => {
-    /*const hunger = playerData.hunger;
-    const thirst = playerData.thirst;*/
-
-    SendNUIMessage({
-      action: 'updatePlayerStatus',
-      payload: {
-        hunger: hunger,
-        thirst: thirst,
-      },
-    });
-  }, 10000000);
-
+      hunger: hunger,
+      thirst: thirst,
+    },
+  });
 
   on('onClientResourceStop', (resourceName) => {
     if (GetCurrentResourceName() != resourceName) {
