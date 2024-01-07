@@ -35,6 +35,7 @@
             // Calcul du temps en heures
             const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
 
+            console.log('hoursParked', hoursParked, 'vehicle.dateStored', vehicle.dateStored, 'new Date().getTime()', new Date().getTime(), "garagePrice", garage.price);
             // Calcul du prix total
             vehicle.priceToRetrieve = Number(Math.round((garage.price * hoursParked).toFixed(0)))
         })
