@@ -53,30 +53,36 @@
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
-      console.log(vehicle.model, 'automobile', coords[0], coords[1], coords[2], pedHead)
+      console.log(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, pedHead)
       let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords[0], coords[1], coords[2], pedHead);
       while (!DoesEntityExist(vehicleSpawn)) {
         await exports['orion'].delay(0)
       }
 
-      SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
+      if (vehicleSpawn) {
 
-      SetVehicleBodyHealth(vehicleSpawn, vehicle.bodyHealth);
-      SetVehicleColours(vehicleSpawn, vehicle.primaryColor, vehicle.secondaryColor);
-      SetVehicleNumberPlateText(vehicleSpawn, vehicle.plate);
-      SetVehicleDirtLevel(vehicleSpawn, vehicle.dirtLevel);
+        SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
-      for (let doors = 0; doors <= vehicle.doorsBroken.length; doors++) {
-        SetVehicleDoorBroken(vehicleSpawn, doors, vehicle.doorsBroken[doors]);
+        SetVehicleBodyHealth(vehicleSpawn, vehicle.bodyHealth);
+        SetVehicleColours(vehicleSpawn, vehicle.primaryColor, vehicle.secondaryColor);
+        SetVehicleNumberPlateText(vehicleSpawn, vehicle.plate);
+        SetVehicleDirtLevel(vehicleSpawn, vehicle.dirtLevel);
+
+        for (let doors = 0; doors <= vehicle.doorsBroken.length; doors++) {
+          SetVehicleDoorBroken(vehicleSpawn, doors, vehicle.doorsBroken[doors]);
+        }
+
+        vehicle.netId = NetworkGetNetworkIdFromEntity(vehicleSpawn);
+        vehicle.spawnId = vehicleSpawn;
+        await vehicle.save();
+
+        TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
+
+        VehicleManager.addVehicle(vehicleSpawn, vehicle);
       }
-
-      vehicle.netId = NetworkGetNetworkIdFromEntity(vehicleSpawn);
-      vehicle.spawnId = vehicleSpawn;
-      await vehicle.save();
-
-      TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-
-      VehicleManager.addVehicle(vehicleSpawn, vehicle);
+      else {
+        emitNet('orion:showNotification', source, 'Vehicle not found!')
+      }
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
