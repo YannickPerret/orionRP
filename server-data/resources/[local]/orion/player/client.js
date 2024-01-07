@@ -257,7 +257,7 @@ let playerData = {};
         //armor: GetPedArmour(ped),
       },
     });
-  }, 10);
+  }, 100);
 
   setInterval(async () => {
     /*const hunger = playerData.hunger;
@@ -270,7 +270,7 @@ let playerData = {};
         thirst: thirst,
       },
     });
-  }, 10);
+  }, 1000);
 
 
   on('onClientResourceStop', (resourceName) => {
