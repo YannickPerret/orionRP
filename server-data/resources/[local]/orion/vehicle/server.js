@@ -98,7 +98,7 @@
     }
   });
 
-  onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, vehicleDamage = {}, _source) => {
+  onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, vehicleProperties = {}, _source) => {
     const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
     let vehicle = VehicleManager.getVehicleById(vehicleNetId);
@@ -111,8 +111,11 @@
         vehicle.dirtLevel = GetVehicleDirtLevel(vehicle.spawnId);
         vehicle.plate = GetVehicleNumberPlateText(vehicle.spawnId);
         vehicle.position = GetEntityCoords(vehicle.spawnId);
-        vehicle.doorsBroken = vehicleDamage.doorsBroken;
-        vehicle.interiorColor = GetVehicleInteriorColour(vehicle.spawnId);
+        vehicle.doorsBroken = vehicleProperties.doorsBroken;
+        vehicle.interiorColor = vehicleProperties.interiorColor;
+        vehicle.fuel = vehicleProperties.fuel;
+        //GetVehicleTyreSmokeColor
+        //TaskDriveBy
 
         await vehicle.save();
 

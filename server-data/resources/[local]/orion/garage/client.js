@@ -30,9 +30,9 @@
             exports['orion'].showNotification("Vous n'avez aucun véhicule devant vous");
             return cb({ ok: false });
         }
-        const vehicleDamage = await exports['orion'].getVehicleDamage(vehicleTarget);
+        const vehicleProperties = await exports['orion'].getVehicleProprieties(vehicleTarget);
 
-        emitNet('orion:garage:s:storeVehicle', NetworkGetNetworkIdFromEntity(vehicleTarget), vehicleDamage, data.garageId);
+        emitNet('orion:garage:s:storeVehicle', NetworkGetNetworkIdFromEntity(vehicleTarget), vehicleProperties, data.garageId);
         cb({ ok: true });
     });
 

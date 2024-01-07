@@ -35,15 +35,18 @@ let seatbeltEjectAccel = 100.0;
 let seatbeltPropModel = 'prop_seatbelt_01';
 let seatbeltProp = null;
 
-exports('getVehicleDamage', async (vehicle) => {
-  let vehicleDamage = {
+exports('getVehicleProprieties', async (vehicle) => {
+  let vehicleProprieties = {
     doorsBroken: [false, false, false, false, false, false, false],
   }
   for (let doors = 0; doors <= 5; doors++) {
-    vehicleDamage.doorsBroken[doors] = IsVehicleDoorDamaged(vehicle, doors);
+    vehicleProprieties.doorsBroken[doors] = IsVehicleDoorDamaged(vehicle, doors);
   }
+  vehicleProprieties.fuel = GetVehicleFuelLevel(vehicle);
+  vehicleProprieties.interiorColor = GetVehicleInteriorColor(vehicle);
 
-  return vehicleDamage
+
+  return vehicleProprieties
 })
 
 onNet('orion:vehicle:c:setVehicleProperties', async (vehicleId, setVehicleProperties) => {
