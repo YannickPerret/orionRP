@@ -34,8 +34,6 @@
         vehicles.forEach(vehicle => {
             // Calcul du temps en heures
             const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
-
-            console.log('hoursParked', hoursParked, 'vehicle.dateStored', vehicle.dateStored, 'new Date().getTime()', new Date().getTime(), "garagePrice", garage.price);
             // Calcul du prix total
             vehicle.priceToRetrieve = Number(Math.round((garage.price * hoursParked).toFixed(0)))
         })
@@ -82,7 +80,8 @@
 
         // get price to retrieve vehicle
         const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
-        const priceToRetrieve = calculcalculatePriceWithOneHoursFreetePrice(garage.price, hoursParked);
+        console.log('hoursParked', hoursParked, 'price', garage.price, 'priceToRetrieve', calculatePriceWithOneHoursFree(Number(garage.price), Number(hoursParked)));
+        const priceToRetrieve = calculatePriceWithOneHoursFree(Number(garage.price), Number(hoursParked));
 
         if (await exports['orion'].playerPaidWithMoney(source, priceToRetrieve)) {
 
