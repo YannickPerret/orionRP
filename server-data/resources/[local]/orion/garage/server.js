@@ -4,6 +4,7 @@
     const VehicleManager = require('./core/server/vehicleManager.js');
     const PlayerManager = require('./core/server/playerManager.js');
     const Garage = require('./garage/garage.js');
+    const Vehicle = require('./vehicle/vehicle.js');
 
     onNet('orion:garage:s:setParking', async () => {
         const source = global.source;
@@ -55,7 +56,7 @@
 
     onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId) => {
         const source = global.source;
-        const vehicle = VehicleManager.getVehicleById(vehicleId);
+        const vehicle = await Vehicle.getById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
 
         if (!garage) {
