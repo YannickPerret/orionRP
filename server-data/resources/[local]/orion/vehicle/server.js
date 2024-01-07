@@ -54,7 +54,7 @@
 
     if (player && vehicle) {
       console.log(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, pedHead)
-      let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords[0], coords[1], coords[2], pedHead);
+      let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, pedHead);
       while (!DoesEntityExist(vehicleSpawn)) {
         await exports['orion'].delay(0)
       }
