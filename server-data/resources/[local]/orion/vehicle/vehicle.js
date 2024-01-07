@@ -5,7 +5,7 @@ const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
 
 class Vehicle {
-  constructor({ id, netId, spawnId, title, model, owner, plate, position, state, colours, pearlescentColor, customizations, isEngineOn, maxFuel, fuel, fuel_consumption, dirtLevel, doorsBroken, bodyHealth }) {
+  constructor({ id, netId, spawnId, title, model, owner, plate, position, state, colours, interiorColor, pearlescentColor, customizations, isEngineOn, maxFuel, fuel, fuel_consumption, dirtLevel, doorsBroken, bodyHealth }) {
     this.id = id || uuidv4();
     this.netId = netId;
     this.spawnId = spawnId || null;
@@ -18,6 +18,7 @@ class Vehicle {
     this.dirtLevel = dirtLevel || 0.0;
     this.bodyHealth = bodyHealth || 1000.0;
     this.colours = colours || [];
+    this.interiorColor = interiorColor;
     this.pearlescentColor = pearlescentColor;
     this.customizations = customizations || [];
     this.isEngineOn = isEngineOn || true;

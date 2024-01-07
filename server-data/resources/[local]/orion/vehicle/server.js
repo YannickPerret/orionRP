@@ -38,6 +38,11 @@
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
       VehicleManager.addVehicle(vehicleObj.netId, vehicleObj);
+
+      emitNet('orion:vehicle:c:setVehicleProperties', source, vehicle.netId, {
+        fuel: vehicleObj.fuel,
+        interiorColor: vehicleObj.interiorColor,
+      });
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
@@ -78,6 +83,11 @@
         TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
         VehicleManager.addVehicle(vehicle.netId, vehicle);
+
+        emitNet('orion:vehicle:c:setVehicleProperties', source, vehicle.netId, {
+          fuel: vehicle.fuel,
+          interiorColor: vehicle.interiorColor,
+        });
       }
       else {
         emitNet('orion:showNotification', source, 'Vehicle not found!')
@@ -102,6 +112,7 @@
         vehicle.plate = GetVehicleNumberPlateText(vehicle.spawnId);
         vehicle.position = GetEntityCoords(vehicle.spawnId);
         vehicle.doorsBroken = vehicleDamage.doorsBroken;
+        vehicle.interiorColor = GetVehicleInteriorColour(vehicle.spawnId);
 
         await vehicle.save();
 
