@@ -34,7 +34,9 @@ const App = () => {
         case "updatePlayerStatus":
           console.log(payload)
           setVisible(prevData => ({ ...prevData, showPlayerHUD: payload.showPlayerHUD }));
-          setData(prevData => ({ ...prevData, player: { ...prevData.player, hunger: payload.hunger, thirst: payload.thirst } }))
+          if (payload.hunger && payload.thirst) {
+            setData(prevData => ({ ...prevData, player: { ...prevData.player, hunger: payload.hunger, thirst: payload.thirst } }));
+          }
           break;
         case "showJobMenu":
           setVisible('jobMenu', true);
