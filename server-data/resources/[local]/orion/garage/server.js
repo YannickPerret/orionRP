@@ -57,6 +57,7 @@
     onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId, position) => {
         const source = global.source;
         const vehicle = await Vehicle.getById(vehicleId);
+        console.log(vehicle)
         const garage = GarageManager.getGarageById(garageId);
 
         if (!garage) {
