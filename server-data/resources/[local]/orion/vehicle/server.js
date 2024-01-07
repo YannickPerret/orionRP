@@ -31,6 +31,8 @@
         bodyHealth: GetVehicleBodyHealth(vehicleSpawn),
         dirtLevel: GetVehicleDirtLevel(vehicleSpawn),
         doorsBroken: [0, 0, 0, 0, 0, 0, 0],
+        fuel: 100,
+        interiorColor: GetVehicleInteriorColor(vehicleSpawn),
       });
 
       await vehicleObj.save();
