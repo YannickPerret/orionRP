@@ -45,6 +45,8 @@
   });
 
   onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, pedHead, _source) => {
+
+    console.log('spawnVehicle', vehicleId, coords, pedHead)
     const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
 

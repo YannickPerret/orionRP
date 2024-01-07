@@ -54,7 +54,7 @@
         emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
-    onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId, position) => {
+    onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId) => {
         const source = global.source;
         const vehicle = await Vehicle.getById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
@@ -82,7 +82,7 @@
         const spawnPosition = { "X": 117.42, "Y": -1081.14, "Z": 30.20 };
         const spawnHeading = 181.54
 
-        emit('orion:vehicle:s:spawnVehicle', vehicle.id, spawnPosition, spawnHeading);
+        emit('orion:vehicle:s:spawnVehicle', vehicle.id, spawnPosition, spawnHeading, source);
         emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été sorti du garage");
     })
 
