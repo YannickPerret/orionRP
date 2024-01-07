@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
     BahamaMamas.Enable(true)
 
     -- Pillbox hospital: 307.1680, -590.807, 43.280
-    PillboxHospital.Enable(true)
+    PillboxHospital.Enable(false)
 
     -- Zancudo Gates (GTAO like): -1600.30100000, 2806.73100000, 18.79683000
     ZancudoGates.LoadDefault()
@@ -38,15 +38,15 @@ Citizen.CreateThread(function()
     Graffitis.Enable(true)
 
     -- UFO
-    UFO.Hippie.Enable(true) -- 2490.47729, 3774.84351, 2414.035
+    UFO.Hippie.Enable(false) -- 2490.47729, 3774.84351, 2414.035
     UFO.Chiliad.Enable(false) -- 501.52880000, 5593.86500000, 796.23250000
     UFO.Zancudo.Enable(false) -- -2051.99463, 3237.05835, 1456.97021
 
     -- Red Carpet: 300.5927, 199.7589, 104.3776
-    RedCarpet.Enable(true)
+    RedCarpet.Enable(false)
 
     -- North Yankton: 3217.697, -4834.826, 111.8152
-    NorthYankton.Enable(true)
+    NorthYankton.Enable(false)
 
     -- ====================================================================
     -- =-------------------------- [GTA Online] --------------------------=
