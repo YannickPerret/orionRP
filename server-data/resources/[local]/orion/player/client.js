@@ -270,7 +270,7 @@ let playerData = {};
         thirst: thirst,
       },
     });
-  }, 1000);
+  }, 10000);
 
 
   on('onClientResourceStop', (resourceName) => {

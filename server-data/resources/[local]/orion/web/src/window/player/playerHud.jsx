@@ -6,7 +6,6 @@ import CircleBar from '../../components/circle/purcentCircle';
 
 export default function PlayerHud() {
     const { data } = useData();
-    console.log(data.player, data.player)
     return (
         <div className={style.playerHud}>
             <CircleBar percentage={data.player.hunger} color="#FF0000" image="https://i.imgur.com/0QZaY5b.png" />
