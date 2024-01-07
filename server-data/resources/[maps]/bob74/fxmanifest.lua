@@ -28,6 +28,7 @@ client_scripts {
     , "gtav/pillbox_hospital.lua"
     , "gtav/lester_factory.lua"
     , "gtav/michael.lua"
+    , "gtav/north_yankton.lua"
     , "gtav/red_carpet.lua"
     , "gtav/simeon.lua"
     , "gtav/stripclub.lua"
