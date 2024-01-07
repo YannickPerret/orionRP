@@ -41,7 +41,7 @@
 
       VehicleManager.addVehicle(vehicleObj.netId, vehicleObj);
 
-      emitNet('orion:vehicle:c:setVehicleProperties', source, vehicle.netId, {
+      emitNet('orion:vehicle:c:setVehicleProperties', source, vehicleObj.netId, {
         fuel: vehicleObj.fuel,
         interiorColor: vehicleObj.interiorColor,
       });
