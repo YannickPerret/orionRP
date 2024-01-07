@@ -36,8 +36,6 @@
         const source = global.source;
         const vehicle = VehicleManager.getVehicleById(vehicleNetId);
         const garage = GarageManager.getGarageById(garageId);
-
-        console.log(source, vehicle, garage, vehicleNetId, vehicleDamage, garageId)
         if (!garage) {
             emit('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de garage");
             return;
@@ -80,7 +78,7 @@
         }
 
         // get spawn position from garage and check if place it's free
-        const spawnPosition = { "X": 117.42, "Y": -1081.14, "Z": 30.20 };
+        const spawnPosition = { "X": 117.42, "Y": -1081.14, "Z": 29.22 };
         const spawnHeading = 181.54
 
         emit('orion:vehicle:s:spawnVehicle', vehicle.id, spawnPosition, spawnHeading, source);
