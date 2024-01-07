@@ -1,6 +1,8 @@
 import React from 'react'
 import { useData } from '../../providers/dataContext';
 import style from './playerHud.module.scss';
+import CircleBar from '../../components/circle/purcentCircle';
+
 
 export default function PlayerHud() {
     const { data } = useData();
