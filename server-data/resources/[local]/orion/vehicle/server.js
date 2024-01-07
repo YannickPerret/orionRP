@@ -44,8 +44,8 @@
     }
   });
 
-  onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, pedHead) => {
-    const source = global.source;
+  onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, pedHead, _source) => {
+    const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
     const vehicleDb = await Vehicle.getById(vehicleId);
