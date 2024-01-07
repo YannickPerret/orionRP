@@ -32,6 +32,7 @@ const App = () => {
           setVisible('playerMenu', true);
           break;
         case "updatePlayerStatus":
+          console.log(payload)
           setVisible(prevData => ({ ...prevData, showPlayerHUD: payload.showPlayerHUD }));
           setData(prevData => ({ ...prevData, player: { ...prevData.player, hunger: payload.hunger, thirst: payload.thirst } }))
           break;
