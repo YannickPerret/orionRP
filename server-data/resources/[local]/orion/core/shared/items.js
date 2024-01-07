@@ -71,6 +71,26 @@ const items = [
         shouldClose: false,
         description: 'Procuration perte de carte bancaire',
     },
+
+    // Weapons
+    {
+        name: 'w_me_katana_02',
+        label: 'Katana 1',
+        weight: 8000,
+        type: 'weapon',
+        ammotype: null,
+        image: 'weapons/weapon_katana.png',
+        unique: true,
+        useable: false,
+        description: 'An instrument composed of a blade fixed into a handle, used as a decoration or as a weapo'
+    },
+    /*
+    ['w_me_katana_03'] 				 = {['name'] = 'w_me_katana_03', 			 	  	['label'] = 'Katana 2', 					['weight'] = 8000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'katana.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'An instrument composed of a blade fixed into a handle, used as a decoration or as a weapon'},
+    ['w_me_katana_04'] 				 = {['name'] = 'w_me_katana_04', 			 	  	['label'] = 'Katana 3', 					['weight'] = 8000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'katana.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'An instrument composed of a blade fixed into a handle, used as a decoration or as a weapon'},
+    ['w_me_katana_05'] 				 = {['name'] = 'w_me_katana_05', 			 	  	['label'] = 'Katana 4', 					['weight'] = 8000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'katana.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'An instrument composed of a blade fixed into a handle, used as a decoration or as a weapon'},
+    ['w_me_katana_lr'] 				 = {['name'] = 'w_me_katana_lr', 			 	  	['label'] = 'Katana 5', 					['weight'] = 8000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'katana.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'An instrument composed of a blade fixed into a handle, used as a decoration or as a weapon'},
+    */
+
     {
         name: 'weapon_unarmed',
         label: 'Fists',
