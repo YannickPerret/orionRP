@@ -266,8 +266,8 @@ let playerData = {};
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
-        hunger,
-        thirst,
+        hunger: hunger,
+        thirst: thirst,
       },
     });
   }, 1000);
