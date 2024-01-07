@@ -22,3 +22,13 @@
     transform: rotate(180deg);
     /* rotation pour commencer de gauche */
 }
+
+.circle__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Taille de l'icône, si nécessaire */
+    width: 30px;
+    height: 30px;
+}
