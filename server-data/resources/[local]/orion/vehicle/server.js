@@ -77,7 +77,7 @@
 
         TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
 
-        VehicleManager.addVehicle(vehicleSpawn, vehicle);
+        VehicleManager.addVehicle(vehicle.netId, vehicle);
       }
       else {
         emitNet('orion:showNotification', source, 'Vehicle not found!')
