@@ -7,7 +7,7 @@
     const Vehicle = require('./vehicle/vehicle.js');
 
     const calculatePrice = (price, hoursParked) => {
-        return Math.round((price * hoursParked).toFixed(0));
+        return Math.round((Number(price) * Number(hoursParked)).toFixed(0));
     }
 
     const calculatePriceWithOneHoursFree = (price, hoursParked) => {
@@ -36,7 +36,7 @@
             const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
 
             // Calcul du prix total
-            vehicle.priceToRetrieve = Math.round((garage.price * hoursParked).toFixed(0));
+            vehicle.priceToRetrieve = Number(Math.round((garage.price * hoursParked).toFixed(0)))
         })
 
         garage.playerVehicle = vehicles.filter(vehicle => vehicle.owner === player.id);
@@ -81,7 +81,7 @@
 
         // get price to retrieve vehicle
         const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
-        const priceToRetrieve = calculatePrice(garage.price, hoursParked);
+        const priceToRetrieve = calculcalculatePriceWithOneHoursFreetePrice(garage.price, hoursParked);
 
         if (await exports['orion'].playerPaidWithMoney(source, priceToRetrieve)) {
 
