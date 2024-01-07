@@ -56,6 +56,11 @@
             return;
         }
 
+        if (garage.vehicles.length >= garage.maxSlots) {
+            emit('orion:garage:c:closeGarage', source, "Ce garage est plein");
+            return;
+        }
+
         garage.vehicles.push({ id: vehicle.id, dateStored: new Date().getTime(), priceToRetrieve: garage.price });
 
         await garage.save();

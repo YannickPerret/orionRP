@@ -1,0 +1,24 @@
+.circle__container {
+    width: 200px;
+    height: 100px;
+    /* la moitié de la largeur pour créer un demi-cercle */
+    overflow: hidden;
+    /* masquer la partie inférieure du cercle */
+    position: relative;
+}
+
+.circle__bar {
+    background-color: #4caf50;
+    /* couleur de remplissage */
+    width: 0;
+    /* défini par le style en ligne */
+    height: 200px;
+    /* double de la hauteur du conteneur pour faire un cercle complet */
+    border-radius: 100%;
+    /* arrondir les bords */
+    position: absolute;
+    bottom: 0;
+    transform-origin: center bottom;
+    transform: rotate(180deg);
+    /* rotation pour commencer de gauche */
+}

@@ -140,9 +140,8 @@
 
   onNet('orion:vehicle:s:deleteVehicle', async (vehicleId, _source) => {
     const source = _source || global.source;
-
     if (typeof vehicleId === 'number' && vehicleId > 0) {
-      let vehicleObj = VehicleManager.getVehicleById(vehicleId);
+      let vehicleObj = VehicleManager.getVehicleBySpawnId(vehicleId);
       VehicleManager.remove(vehicleObj.id);
       delete vehicleObj;
     }

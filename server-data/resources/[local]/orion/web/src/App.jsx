@@ -17,6 +17,7 @@ import Speed from './components/vehicle/speed';
 import Inventory from './window/inventory/Inventory';
 import DialogBox from './components/dialogBox/dialogBox';
 import Garage from './window/garage/Garage';
+import PlayerHud from './window/player/playerHud';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -106,6 +107,10 @@ const App = () => {
 
   return (
     <>
+      {visible.showPlayerHUD && (
+        <PlayerHud />
+      )}
+
       {visible.playerMenu && (
         <SideMenu>
           <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />

@@ -12,6 +12,10 @@ class VehicleManagerClass {
     return this.vehicles.get(id);
   }
 
+  getVehicleBySpawnId(spawnId) {
+    return Array.from(this.vehicles.values()).find(vehicle => vehicle.spawnId === spawnId);
+  }
+
   getVehicles() {
     return this.vehicles;
   }
