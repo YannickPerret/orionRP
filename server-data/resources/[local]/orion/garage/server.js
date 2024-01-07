@@ -6,6 +6,18 @@
     const Garage = require('./garage/garage.js');
     const Vehicle = require('./vehicle/vehicle.js');
 
+    const calculatePrice = (price, hoursParked) => {
+        return Math.round((price * hoursParked).toFixed(0));
+    }
+
+    const calculatePriceWithOneHoursFree = (price, hoursParked) => {
+        if (hoursParked <= 1) {
+            return 0;
+        }
+        return Math.round((price * (hoursParked - 1)).toFixed(0));
+    }
+
+
     onNet('orion:garage:s:setParking', async () => {
         const source = global.source;
         const parkingArray = Array.from(MarkerManager.getMarkers().values());
@@ -67,22 +79,32 @@
             return;
         }
 
-        const index = garage.vehicles.findIndex(vehicleDb => vehicleDb.id === vehicle.id);
-        if (index > -1) {
-            garage.vehicles.splice(index, 1);
-            await garage.save();
+        // get price to retrieve vehicle
+        const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
+        const priceToRetrieve = calculatePrice(garage.price, hoursParked);
+
+        if (await exports['orion'].playerPaidWithMoney(source, priceToRetrieve)) {
+
+            const index = garage.vehicles.findIndex(vehicleDb => vehicleDb.id === vehicle.id);
+            if (index > -1) {
+                garage.vehicles.splice(index, 1);
+                await garage.save();
+            }
+            else {
+                emitNet('orion:garage:c:closeGarage', source, "Ce véhicule n'est pas dans ce garage");
+                return;
+            }
+
+            // get spawn position from garage and check if place it's free
+            const spawnPosition = { "X": 117.42, "Y": -1081.14, "Z": 29.22 };
+            const spawnHeading = 181.54
+
+            emit('orion:vehicle:s:spawnVehicle', vehicle.id, spawnPosition, spawnHeading, source);
+            emitNet('orion:garage:c:closeGarage', source);
         }
         else {
-            emitNet('orion:garage:c:closeGarage', source, "Ce véhicule n'est pas dans ce garage");
-            return;
+            emitNet('orion:garage:c:closeGarage', source, "Vous n'avez pas assez d'argent pour sortir ce véhicule du garage");
         }
-
-        // get spawn position from garage and check if place it's free
-        const spawnPosition = { "X": 117.42, "Y": -1081.14, "Z": 29.22 };
-        const spawnHeading = 181.54
-
-        emit('orion:vehicle:s:spawnVehicle', vehicle.id, spawnPosition, spawnHeading, source);
-        emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été sorti du garage");
     })
 
     onNet('orion:garage:s:init', async () => {

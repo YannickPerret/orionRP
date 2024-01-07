@@ -36,16 +36,6 @@
         cb({ ok: true });
     });
 
-    RegisterNuiCallbackType('takeVehicle');
-    on('__cfx_nui:takeVehicle', (data, cb) => {
-        if (data.garageId === undefined) {
-            exports['orion'].showNotification("Vous n'avez pas sélectionné de garage");
-            return cb({ ok: false });
-        }
-        emitNet('orion:garage:s:takeVehicle', data.vehicleId, data.garageId);
-        cb({ ok: true });
-    });
-
     RegisterNuiCallbackType('retrieveVehicle');
     on('__cfx_nui:retrieveVehicle', (data, cb) => {
         if (data.garageId === undefined) {
