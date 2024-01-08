@@ -347,6 +347,21 @@ let playerData = {};
         }
       }
 
+      // Get closest paper
+      if ((GetClosestObjectOfType((playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('p_cs_paper_disp_1'), false, false, false) !== 0)) || GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('p_cs_paper_disp_2'), false, false, false) !== 0) {
+        emit('orion:showText', `Appuyez sur ~g~E~w~ pour lire le journal`)
+        if (IsControlJustReleased(0, 38)) {
+          emitNet('orion:shop:s:buyNewspaper');
+        }
+      }
+
+      // Get bin
+      if (((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_bin_01a'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_bin_01b'), false, false, false) !== 0)) || GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_cs_bin_03'), false, false, false) !== 0) {
+        emit('orion:showText', `Appuyez sur ~g~E~w~ pour jeter à la poubelle`)
+        if (IsControlJustReleased(0, 38)) {
+          emitNet('orion:inventory:c:dropItem');
+        }
+      }
 
     }
   })
