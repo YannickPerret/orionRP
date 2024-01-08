@@ -315,6 +315,38 @@ let playerData = {};
           emitNet('orion:bank:s:getAccountInterface', "atm");
         }
       }
+      //Get closest phoneBox
+      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_01a'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_03'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_01c'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_01b'), false, false, false) !== 0)) {
+        emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le téléphone`)
+        if (IsControlJustReleased(0, 38)) {
+          emitNet('orion:phone:s:getPhoneInterface');
+        }
+      }
+
+      //Get All closest water fountain
+      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_watercooler'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_watercooler_dark'), false, false, false) !== 0)) {
+        emit('orion:showText', `Appuyez sur ~g~E~w~ pour boire de l'eau`)
+        if (IsControlJustReleased(0, 38)) {
+          emitNet('orion:shop:s:drinkWater');
+        }
+      }
+
+      // Get closest soda machine and cafe
+      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_soda_01'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_soda_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_coffe_01'), false, false, false) !== 0)) {
+        emit('orion:showText', `Appuyez sur ~g~E~w~ pour acheter une boisson`)
+        if (IsControlJustReleased(0, 38)) {
+          emitNet('orion:shop:s:buyDrink');
+        }
+      }
+
+      //Get closest food machine
+      if (((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_snak_01'), false, false, false) !== 0)) || GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_snak_02'), false, false, false) !== 0) {
+        emit('orion:showText', `Appuyez sur ~g~E~w~ pour acheter un snack`)
+        if (IsControlJustReleased(0, 38)) {
+          emitNet('orion:shop:s:buySnack');
+        }
+      }
+
 
     }
   })
