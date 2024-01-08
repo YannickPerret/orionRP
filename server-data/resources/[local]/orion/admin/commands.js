@@ -3,18 +3,6 @@ let isBlackout = false;
 const flymodeSpeed = 100;
 let isAdminEnable = false;
 
-RegisterCommand('tp', (source, args) => {
-  SetEntityCoordsNoOffset(
-    GetPlayerPed(),
-    parseFloat(args[0]),
-    parseFloat(args[1]),
-    parseFloat(args[2]),
-    false,
-    false,
-    true
-  );
-});
-
 RegisterCommand('admin', (aource, args) => {
   isAdminEnable = !isAdminEnable;
   let playerPed = GetPlayerPed(-1);
@@ -133,3 +121,11 @@ RegisterCommand(
   },
   false
 );
+
+RegisterCommand('giveWeapon', (source, args) => {
+  if (!args[0]) return emit('orion:showNotification', 'Vous devez entrer un nom d\'arme !');
+  const weapon = args[0];
+  const number = args[1] || 1;
+  const targetSource = args[2] || source;
+  GiveWeaponToPed(GetPlayerPed(targetSource), GetHashKey(weapon), number, false, true);
+}, false);
