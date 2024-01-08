@@ -4,7 +4,7 @@
     onNet('orion:inventory:c:open', (inventory) => {
         inventoryUiOpen = !inventoryUiOpen;
         SetNuiFocus(inventoryUiOpen, inventoryUiOpen);
-        SetNuiFocusKeepInput(true)
+        SetNuiFocusKeepInput(inventoryUiOpen)
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
@@ -12,6 +12,12 @@
                 inventory: inventory,
             }
         }));
+    });
+
+    onNet('orion:inventory:c:close', () => {
+        inventoryUiOpen = false;
+        SetNuiFocus(false, false);
+        SetNuiFocusKeepInput(false)
     });
 
     RegisterKeyMapping('inventory', 'Ouvrir l\'inventaire', 'keyboard', 'I');
