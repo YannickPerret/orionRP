@@ -308,30 +308,13 @@ let playerData = {};
       const ped = PlayerPedId();
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
 
-      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_03'), false, false, false) !== 0) {
+      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_03'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_fleeca_atm'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_01'), false, false, false) !== 0)) {
         emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le distributeur`)
         if (IsControlJustReleased(0, 38)) {
-          console.log("test")
+          emitNet('orion:bank:s:getAccountInterface', "atm");
         }
       }
-      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_fleeca_atm'), false, false, false) !== 0) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le distributeur`)
-        if (IsControlJustReleased(0, 38)) {
-          console.log("test")
-        }
-      }
-      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_02'), false, false, false) !== 0) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le distributeur`)
-        if (IsControlJustReleased(0, 38)) {
-          console.log("test")
-        }
-      }
-      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_01'), false, false, false) !== 0) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le distributeur`)
-        if (IsControlJustReleased(0, 38)) {
-          console.log("test")
-        }
-      }
+
     }
   })
 
