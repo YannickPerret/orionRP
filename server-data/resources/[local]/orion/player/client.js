@@ -300,14 +300,16 @@ let playerData = {};
 
   setInterval(() => {
     if (playerNeedsActivated && !playerIsDead) {
-      hunger = hunger - exports['orion'].getRandomBetween(4, 10);
-      thirst = thirst - exports['orion'].getRandomBetween(4, 10);
+      hunger = hunger - exports['orion'].getRandomBetween(1, 5);
+      thirst = thirst - exports['orion'].getRandomBetween(1, 5);
       if (hunger < 0) {
         hunger = 0;
         onNet('orion:player:c:playerDead', true);
-
       }
-      console.log('hunger', hunger, 'thirst', thirst);
+      if (thirst < 0) {
+        thirst = 0;
+        onNet('orion:player:c:playerDead', true);
+      }
 
       SendNUIMessage({
         action: 'updatePlayerStatus',
@@ -317,7 +319,7 @@ let playerData = {};
         },
       });
     }
-  }, 60000);
+  }, 150000);
 
 
   on('onClientResourceStop', (resourceName) => {
