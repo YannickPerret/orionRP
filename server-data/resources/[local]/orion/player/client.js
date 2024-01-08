@@ -303,7 +303,7 @@ let playerData = {};
 
   setTick(async () => {
     const ped = PlayerPedId();
-    const distance = 1.0;
+    const distance = 0.8;
     while (true) {
       await exports['orion'].delay(5);
 
