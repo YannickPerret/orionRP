@@ -248,14 +248,13 @@ let playerData = {};
   });
 
 
-  setTimeout(async () => {
+  setInterval(async () => {
     //const ped = PlayerPedId();
 
-    console.log(!IsPauseMenuActive() && playerNeedsActivated)
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
-        showPlayerHUD: !IsPauseMenuActive() && playerNeedsActivated,
+        showPlayerHUD: !IsPauseMenuActive(),
         //health: GetEntityHealth(ped) - (GetEntityMaxHealth(ped) === 175 ? 75 : 100),
         //armor: GetPedArmour(ped),
       },
