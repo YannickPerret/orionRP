@@ -262,15 +262,18 @@ let playerData = {};
   }, 100);
 
   setTimeout(async () => {
-    hunger = hunger - exports['orion'].getRandomBetween(4, 10);
-    thirst = thirst - exports['orion'].getRandomBetween(4, 10);
-    SendNUIMessage({
-      action: 'updatePlayerStatus',
-      payload: {
-        hunger: hunger,
-        thirst: thirst,
-      },
-    });
+    if (playerNeedsActivated) {
+      hunger = hunger - exports['orion'].getRandomBetween(4, 10);
+      thirst = thirst - exports['orion'].getRandomBetween(4, 10);
+
+      SendNUIMessage({
+        action: 'updatePlayerStatus',
+        payload: {
+          hunger: hunger,
+          thirst: thirst,
+        },
+      });
+    }
   }, 60000);
 
 
