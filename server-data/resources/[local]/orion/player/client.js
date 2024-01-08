@@ -7,6 +7,7 @@ let playerData = {};
   let handsUp = false;
   let isDead = false;
   let mug = false;
+  let playerNeedsActivated = false;
   let hunger = 100;
   let thirst = 100;
 
@@ -229,6 +230,7 @@ let playerData = {};
   onNet('orion:player:c:playerConnected', (playerData) => {
 
     exports['orion'].setPlayerData(playerData);
+    playerNeedsActivated = true;
 
     SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
     SetEntityHeading(GetPlayerPed(-1), parseFloat(playerData.position.heading));
@@ -246,7 +248,7 @@ let playerData = {};
   });
 
 
-  setInterval(async () => {
+  setTick(async () => {
     //const ped = PlayerPedId();
 
     SendNUIMessage({
@@ -259,7 +261,7 @@ let playerData = {};
     });
   }, 100);
 
-  setInterval(async () => {
+  setTick(async () => {
     /*const hunger = playerData.hunger;
     const thirst = playerData.thirst;*/
 
@@ -270,7 +272,7 @@ let playerData = {};
         thirst: thirst,
       },
     });
-  }, 10000);
+  }, 60000);
 
 
   on('onClientResourceStop', (resourceName) => {
