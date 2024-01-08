@@ -1,11 +1,11 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
-
+//ReportCrime
 let playerData = {};
 
 (async () => {
 
   let handsUp = false;
-  let isDead = false;
+  let playerIsDead = false;
   let mug = false;
   let playerNeedsActivated = false;
   let hunger = 100;
@@ -47,6 +47,35 @@ let playerData = {};
     }, 100);
   }
 
+  onNet('orion:player:c:modifyNeeds', async (duration, hungerValue, thirstValue) => {
+    await exports['orion'].delay(duration);
+    if (Number(hungerValue)) {
+      hunger = hunger + hungerValue;
+      if (hunger > 100) {
+        hunger = 100;
+      }
+      SendNUIMessage({
+        action: 'updatePlayerStatus',
+        payload: {
+          hunger: hunger,
+        },
+      });
+    }
+
+    if (Number(thirstValue)) {
+      thirst = thirst + amount;
+      if (thirst > 100) {
+        thirst = 100;
+      }
+      SendNUIMessage({
+        action: 'updatePlayerStatus',
+        payload: {
+          thirst: thirst,
+        },
+      });
+
+    }
+  })
 
   on('onClientGameTypeStart', () => {
     exports.spawnmanager.setAutoSpawn(false);
@@ -198,19 +227,6 @@ let playerData = {};
     });
   });
 
-  setInterval(() => {
-    isDead = IsPlayerDead(GetPlayerPed(-1));
-
-    if (isDead) {
-      emitNet('orion:player:c:playerDied', 'Vous avez perdu connaissance !');
-    }
-
-    if (handsUp) {
-      console.log('handsUp');
-      TaskHandsUp(PlayerPedId(), 250, PlayerPedId(), -1, true);
-    }
-  }, 100);
-
   onNet('orion:player:c:teleport', coords => {
     SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
   });
@@ -247,10 +263,32 @@ let playerData = {};
 
   });
 
+  onNet('orion:player:c:playerDead', (enable) => {
+    let ped = PlayerPedId();
+    playerIsDead = enable;
+    if (enable) {
+      if (IsPlayerDead(ped)) {
+        SetEntityHealth(PlayerPedId(), 0);
+        StartScreenEffect('DeathFailOut', 0, false);
+        SendNUIMessage({
+          action: 'showDeathMessage',
+          payload: {
+            playerDeadMessage: 'Vous êtes dans le coma, veuillez attendre un médecin'
+          },
+        });
+      }
+    }
+    else {
+      SetEntityHealth(PlayerPedId(), 200);
+      ClearPedBloodDamage(PlayerPedId());
+      StopScreenEffect('DeathFailOut');
+      NetworkResurrectLocalPlayer(GetEntityCoords(ped, false), GetEntityHeading(ped), true, false);
+    }
+  })
 
-  setInterval(async () => {
+  setInterval(() => {
     //const ped = PlayerPedId();
-
+    console.log(1)
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
@@ -261,10 +299,16 @@ let playerData = {};
     });
   }, 100);
 
-  setTimeout(async () => {
-    if (playerNeedsActivated) {
+  setTimeout(() => {
+    console.log(2)
+    if (playerNeedsActivated && !playerIsDead) {
       hunger = hunger - exports['orion'].getRandomBetween(4, 10);
       thirst = thirst - exports['orion'].getRandomBetween(4, 10);
+      if (hunger < 0) {
+        hunger = 0;
+        onNet('orion:player:c:playerDead', true);
+
+      }
       console.log('hunger', hunger, 'thirst', thirst);
 
       SendNUIMessage({
