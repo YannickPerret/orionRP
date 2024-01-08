@@ -303,7 +303,7 @@ let playerData = {};
 
   setTick(async () => {
     while (true) {
-      exports['orion'].delay(5);
+      await exports['orion'].delay(5);
 
       const ped = PlayerPedId();
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
