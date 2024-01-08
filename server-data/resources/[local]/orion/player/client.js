@@ -278,13 +278,13 @@ let playerData = {};
     if (playerNeedsActivated && !playerIsDead) {
       hunger = hunger - exports['orion'].getRandomBetween(1, 5);
       thirst = thirst - exports['orion'].getRandomBetween(1, 5);
-      if (hunger < 0) {
+      if (hunger <= 0) {
         hunger = 0;
-        onNet('orion:player:c:playerDead', true);
+        emit('orion:player:c:playerDead', true);
       }
-      if (thirst < 0) {
+      if (thirst <= 0) {
         thirst = 0;
-        onNet('orion:player:c:playerDead', true);
+        emit('orion:player:c:playerDead', true);
       }
 
       SendNUIMessage({
