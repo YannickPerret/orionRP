@@ -33,15 +33,6 @@ on('__cfx_nui:closeNUI', (data, cb) => {
 });
 
 
-
-
-/*onNet('orion:markers:c:createMarkers', async (markers) => {
-  markers.garages.forEach(garage => {
-    exports['orion'].createMarker(1, garage.position, 1.0, { r: 255, g: 255, b: 255, a: 100 });
-  });
-});*/
-
-
 onNet('orion:core:c:animations:playAnimation', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
   RequestAnimDict(dict);
   while (!HasAnimDictLoaded(dict)) {
@@ -89,16 +80,36 @@ onNet('orion:core:c:hideFrame', async () => {
   );
 });
 
-RegisterCommand(
-  'login',
-  () => {
-    exports['orion'].spawnLogin();
-  },
-  false
-);
-
 (async () => {
   for (var i = 1; i <= 15; i++) {
     EnableDispatchService(i, false);
   }
+
+  setTick(async () => {
+
+    if (GetPlayerWantedLevel(PlayerId()) > 0) {
+      SetPlayerWantedLevel(PlayerId(), 0, false);
+      SetPlayerWantedLevelNow(PlayerId(), false);
+      SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
+    }
+
+    SetRelationshipBetweenGroups(0, GetHashKey('COP'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_HILLBILLY'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_BALLAS'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_MEXICAN'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_FAMILY'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_MARABUNTE'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_SALVA'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('AMBIENT_GANG_LOST'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('GANG_1'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('GANG_2'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('GANG_9'), GetHashKey('PLAYER'));
+    SetRelationshipBetweenGroups(1, GetHashKey('GANG_10'), GetHashKey('PLAYER'));
+
+    HideHudComponentThisFrame(3);
+    HideHudComponentThisFrame(4);
+    HideHudComponentThisFrame(13);
+    HideHudComponentThisFrame(14);
+    await exports['orion'].delay(5);
+  });
 })();

@@ -15,3 +15,7 @@ RegisterCommand('pos', (source, args) => {
     args: [`X: ${pos[0].toFixed(2)}, Y: ${pos[1].toFixed(2)}, Z: ${pos[2].toFixed(2)}, Heading: ${heading.toFixed(2)}`],
   });
 });
+
+RegisterCommand('login', (source, args) => {
+  exports['orion'].spawnLogin();
+}, false);
