@@ -109,6 +109,8 @@ const App = () => {
 
   return (
     <>
+      <PlayerHud />
+
       {visible.showPlayerHUD && (
         <PlayerHud />
       )}

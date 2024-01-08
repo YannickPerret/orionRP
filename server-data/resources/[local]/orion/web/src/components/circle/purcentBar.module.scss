@@ -1,34 +1,26 @@
-.circle__container {
-    width: 200px;
-    height: 100px;
-    /* la moitié de la largeur pour créer un demi-cercle */
-    overflow: hidden;
-    /* masquer la partie inférieure du cercle */
+.progress__circle {
     position: relative;
-}
+    width: 100px; // Largeur réduite de moitié
+    height: 50px; // Hauteur réduite de moitié
+    overflow: hidden;
 
-.circle__bar {
-    background-color: #4caf50;
-    /* couleur de remplissage */
-    width: 0;
-    /* défini par le style en ligne */
-    height: 200px;
-    /* double de la hauteur du conteneur pour faire un cercle complet */
-    border-radius: 100%;
-    /* arrondir les bords */
-    position: absolute;
-    bottom: 0;
-    transform-origin: center bottom;
-    transform: rotate(180deg);
-    /* rotation pour commencer de gauche */
-}
+    .progress__svg {
+        width: 100px; // Largeur du SVG réduite de moitié
+        height: 100px; // Hauteur du SVG réduite de moitié
+        transform: rotate(-90deg) scaleX(-1);
 
-.circle__icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* Taille de l'icône, si nécessaire */
-    width: 30px;
-    height: 30px;
+        circle {
+            cx: 50; // Coordonnée X du centre du cercle ajustée
+            cy: 50; // Coordonnée Y du centre du cercle ajustée
+            r: 45; // Rayon ajusté pour garder la proportion
+            stroke-width: 10; // Épaisseur de la bordure ajustée
+        }
+    }
+
+    .icon__container {
+        position: absolute;
+        top: 66%;
+        left: 50%;
+        transform: translate(-50%, -48%);
+    }
 }
