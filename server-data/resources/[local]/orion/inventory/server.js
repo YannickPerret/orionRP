@@ -126,8 +126,6 @@
     //item effects
     onNet('orion:inventory:s:useItem:item_consumable', (item, _source = undefined) => {
         const source = _source || global.source;
-        const player = PlayerManager.getPlayerBySource(source);
-        console.log(item)
         emitNet('orion:core:c:animations:playAnimationWithTime', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
         emitNet('orion:player:c:modifyNeeds', source, item.animation.duration, item.hunger, item.thirst);
 

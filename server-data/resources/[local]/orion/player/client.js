@@ -73,12 +73,9 @@ let playerData = {};
   });
 
   onNet('orion:player:c:modifyNeeds', async (duration, hungerValue, thirstValue) => {
-    console.log(duration, hungerValue, thirstValue)
     await exports['orion'].delay(duration);
 
     if (Number(hungerValue)) {
-      console.log("test")
-
       hunger = hunger + hungerValue;
       if (hunger > 100) {
         hunger = 100;
@@ -86,7 +83,6 @@ let playerData = {};
     }
 
     if (Number(thirstValue)) {
-      console.log("test2")
       thirst = thirst + thirstValue;
       if (thirst > 100) {
         thirst = 100;
