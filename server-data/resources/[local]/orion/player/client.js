@@ -262,9 +262,8 @@ let playerData = {};
   }, 100);
 
   setTimeout(async () => {
-    /*const hunger = playerData.hunger;
-    const thirst = playerData.thirst;*/
-
+    hunger = hunger - exports['orion'].getRandomBetween(4, 10);
+    thirst = thirst - exports['orion'].getRandomBetween(4, 10);
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
@@ -272,7 +271,7 @@ let playerData = {};
         thirst: thirst,
       },
     });
-  }, 10000);
+  }, 60000);
 
 
   on('onClientResourceStop', (resourceName) => {

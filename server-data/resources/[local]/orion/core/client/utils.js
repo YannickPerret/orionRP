@@ -46,6 +46,14 @@
     DrawMarker(type, coords.X, coords.Y, coords.Z, 0, 0, 0, 0, 0, 0, scale, scale, scale, color.r, color.g, color.b, color.a, false, false, 2, false, false, false, false);
   }
 
+  const getRandomBetween = (min, max) => {
+    if (min > max) {
+      [min, max] = [max, min]; // Échange les valeurs si min est plus grand que max
+    }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  exports('getRandomBetween', getRandomBetween);
   exports('createMarker', createMarker);
   exports('waitingLoader', waitingLoader);
   exports('delay', delay);

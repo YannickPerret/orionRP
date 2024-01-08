@@ -9,6 +9,8 @@ RegisterCommand(
   false
 );
 
+
+
 onNet('orion:openPlayerMenu', playerData => {
   isNuiOpen = !isNuiOpen;
   SetNuiFocus(isNuiOpen, isNuiOpen);
