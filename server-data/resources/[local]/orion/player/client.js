@@ -248,7 +248,7 @@ let playerData = {};
   });
 
 
-  setTick(async () => {
+  setTimeout(async () => {
     //const ped = PlayerPedId();
 
     SendNUIMessage({
@@ -259,9 +259,9 @@ let playerData = {};
         //armor: GetPedArmour(ped),
       },
     });
-  }, 10);
+  }, 100);
 
-  setTick(async () => {
+  setTimeout(async () => {
     /*const hunger = playerData.hunger;
     const thirst = playerData.thirst;*/
 
@@ -272,7 +272,7 @@ let playerData = {};
         thirst: thirst,
       },
     });
-  }, 100);
+  }, 6000);
 
 
   on('onClientResourceStop', (resourceName) => {
