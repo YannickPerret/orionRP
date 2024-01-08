@@ -228,8 +228,13 @@
     const source = global.source;
     const playerData = PlayerManager.getPlayerBySource(source);
     if (playerData) {
-      playerData.money -= money;
-      await playerData.save();
+      if (playerData.money <= money) {
+        playerData.money -= money;
+        await playerData.save();
+      }
+      else {
+        return false
+      }
     }
   });
 
