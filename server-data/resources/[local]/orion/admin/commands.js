@@ -32,6 +32,17 @@ RegisterCommand('admin', (aource, args) => {
 
 }, false);
 
+RegisterCommand('tp', (source, args) => {
+  SetEntityCoordsNoOffset(
+    GetPlayerPed(),
+    parseFloat(args[0]),
+    parseFloat(args[1]),
+    parseFloat(args[2]),
+    false,
+    false,
+    true
+  );
+});
 
 RegisterCommand(
   'tpto',

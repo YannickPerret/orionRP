@@ -49,6 +49,7 @@ let playerData = {};
 
   onNet('orion:player:c:modifyNeeds', async (duration, hungerValue, thirstValue) => {
     await exports['orion'].delay(duration);
+    console.log("test")
     if (Number(hungerValue)) {
       hunger = hunger + hungerValue;
       if (hunger > 100) {
@@ -79,18 +80,6 @@ let playerData = {};
 
   on('onClientGameTypeStart', () => {
     exports.spawnmanager.setAutoSpawn(false);
-  });
-
-  RegisterCommand('tp', (source, args) => {
-    SetEntityCoordsNoOffset(
-      GetPlayerPed(),
-      parseFloat(args[0]),
-      parseFloat(args[1]),
-      parseFloat(args[2]),
-      false,
-      false,
-      true
-    );
   });
 
   on('onClientResourceStart', async (resourceName) => {
@@ -170,18 +159,6 @@ let playerData = {};
     NetworkResurrectLocalPlayer(coords[0], coords[1], coords[2], heading, true, false);
   });
 
-  //player died
-  onNet('orion:playerDied', message => {
-    SetEntityHealth(PlayerPedId(), 0);
-    StartScreenEffect('DeathFailOut', 0, false);
-    SendNUIMessage({
-      action: 'showDeathMessage',
-      payload: {
-        playerDeadMessage: message
-      },
-    });
-  });
-
   RegisterNuiCallbackType('validateSkin');
   on('__cfx_nui:validateSkin', (data, cb) => {
     const firstname = data.firstname;
@@ -234,7 +211,6 @@ let playerData = {};
   onNet('orion:c:player:createNewPlayer', () => {
     emit('orion:customization:c:ShowSkinCreator', true);
   })
-
 
   onNet('orion:player:c:completRegister', (playerDataServer) => {
     exports['orion'].setPlayerData(playerDataServer);
