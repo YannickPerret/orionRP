@@ -254,7 +254,7 @@ let playerData = {};
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
-        showPlayerHUD: !IsPauseMenuActive(),
+        showPlayerHUD: !IsPauseMenuActive() && playerNeedsActivated,
         //health: GetEntityHealth(ped) - (GetEntityMaxHealth(ped) === 175 ? 75 : 100),
         //armor: GetPedArmour(ped),
       },
@@ -272,7 +272,7 @@ let playerData = {};
         thirst: thirst,
       },
     });
-  }, 60000);
+  }, 1000);
 
 
   on('onClientResourceStop', (resourceName) => {
