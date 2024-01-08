@@ -251,7 +251,7 @@ let playerData = {};
   setTimeout(async () => {
     //const ped = PlayerPedId();
 
-    SendNUIMessage({
+    setInterval({
       action: 'updatePlayerStatus',
       payload: {
         showPlayerHUD: !IsPauseMenuActive() && playerNeedsActivated,
@@ -265,14 +265,14 @@ let playerData = {};
     /*const hunger = playerData.hunger;
     const thirst = playerData.thirst;*/
 
-    SendNUIMessage({
+    setInterval({
       action: 'updatePlayerStatus',
       payload: {
         hunger: hunger,
         thirst: thirst,
       },
     });
-  }, 6000);
+  }, 10000);
 
 
   on('onClientResourceStop', (resourceName) => {
