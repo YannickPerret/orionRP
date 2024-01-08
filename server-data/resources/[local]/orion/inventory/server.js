@@ -11,10 +11,12 @@
 
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
+        console.log(itemInstance instanceof Item)
+        console.log(itemInstance instanceof Item)
 
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
-                if (itemInstance.type !== 'special') {
+                if (itemInstance.type !== 'item_custom') {
                     emit(`orion:inventory:s:useItem:${itemInstance.type}`, itemInstance, source);
                 }
                 else {

@@ -34,12 +34,14 @@ class Item {
     }
 }
 class UsableItem extends Item {
-    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, consumption }) {
+    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, consumption, hunger, thirst }) {
         super({ id, name, label, weight, type, ammotype, image, unique, useable, description });
 
         this.consumption = consumption || null;
         this.animation = animation || {};
         this.shouldClose = shouldClose || false;
+        this.hunger = hunger || null;
+        this.thirst = thirst || null;
     }
 }
 module.exports = { Item, UsableItem };
