@@ -265,6 +265,7 @@ let playerData = {};
     if (playerNeedsActivated) {
       hunger = hunger - exports['orion'].getRandomBetween(4, 10);
       thirst = thirst - exports['orion'].getRandomBetween(4, 10);
+      console.log('hunger', hunger, 'thirst', thirst);
 
       SendNUIMessage({
         action: 'updatePlayerStatus',
