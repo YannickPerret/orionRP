@@ -20,7 +20,7 @@
                 7,
                 8
             ],
-            "parkingFee": 100,
+            "parkingFee": 3,
             "spawnPlaces": [],
             "marker": {
                 "X": 493.19,
@@ -49,7 +49,7 @@
                 8,
                 9
             ],
-            "parkingFee": 100,
+            "parkingFee": 2,
             "spawnPlaces": [],
             "marker": {
                 "X": 284.14,
@@ -79,7 +79,7 @@
                 9,
                 12
             ],
-            "parkingFee": 100,
+            "parkingFee": 3,
             "spawnPlaces": [
                 {
                     "X": 222.66,
@@ -128,7 +128,7 @@
                 8,
                 9
             ],
-            "parkingFee": 100,
+            "parkingFee": 1,
             "spawnPlaces": [
                 {
                     "X": 117.42,
@@ -193,12 +193,47 @@
                 8,
                 9
             ],
-            "parkingFee": 100,
+            "parkingFee": 2.5,
             "spawnPlaces": [],
             "marker": {
                 "X": -752.09,
                 "Y": -2044.50,
                 "Z": 8.92
+            }
+        },
+        {
+            "name": "Parking",
+            "position": {
+                "X": -33.31,
+                "Y": -1240.32,
+                "Z": 29.34
+            },
+            "type": "public",
+            "maxSlots": 12,
+            "allowsVehicleTypes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                9
+            ],
+            "parkingFee": 2,
+            "spawnPlaces": [
+                {
+                    "X": -27.68,
+                    "Y": -1251.56,
+                    "Z": 29.20,
+                    "Heading": 262.22
+                }
+            ],
+            "marker": {
+                "X": -27.71,
+                "Y": -1215.06,
+                "Z": 29.34
             }
         }
     ]
