@@ -47,36 +47,7 @@ let playerData = {};
     }, 100);
   }
 
-  onNet('orion:player:c:modifyNeeds', async (duration, hungerValue, thirstValue) => {
-    await exports['orion'].delay(duration);
-    console.log("test")
-    if (Number(hungerValue)) {
-      hunger = hunger + hungerValue;
-      if (hunger > 100) {
-        hunger = 100;
-      }
-      SendNUIMessage({
-        action: 'updatePlayerStatus',
-        payload: {
-          hunger: hunger,
-        },
-      });
-    }
 
-    if (Number(thirstValue)) {
-      thirst = thirst + amount;
-      if (thirst > 100) {
-        thirst = 100;
-      }
-      SendNUIMessage({
-        action: 'updatePlayerStatus',
-        payload: {
-          thirst: thirst,
-        },
-      });
-
-    }
-  })
 
   on('onClientGameTypeStart', () => {
     exports.spawnmanager.setAutoSpawn(false);
@@ -101,6 +72,33 @@ let playerData = {};
     playerData = data;
   });
 
+  onNet('orion:player:c:modifyNeeds', async (duration, hungerValue, thirstValue) => {
+    await exports['orion'].delay(duration);
+    if (Number(hungerValue)) {
+      console.log("test")
+
+      hunger = hunger + hungerValue;
+      if (hunger > 100) {
+        hunger = 100;
+      }
+    }
+
+    if (Number(thirstValue)) {
+      console.log("test2")
+      thirst = thirst + thirstValue;
+      if (thirst > 100) {
+        thirst = 100;
+      }
+    }
+
+    SendNUIMessage({
+      action: 'updatePlayerStatus',
+      payload: {
+        thirst: thirst,
+        hunger: hunger,
+      },
+    });
+  })
 
   RegisterCommand('tpto', (source, args) => {
     const playerPed = GetPlayerPed(-1);

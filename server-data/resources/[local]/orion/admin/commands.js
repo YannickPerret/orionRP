@@ -2,6 +2,7 @@ let isFlymodeEnabled = false;
 let isBlackout = false;
 const flymodeSpeed = 100;
 let isAdminEnable = false;
+let adminShowEntityOwner = false;
 
 RegisterCommand('admin', (aource, args) => {
   isAdminEnable = !isAdminEnable;
@@ -11,6 +12,9 @@ RegisterCommand('admin', (aource, args) => {
     SetPlayerInvincible(playerPed, true);
     DisplayRadar(true);
     NetworkSetEntityInvisibleToNetwork(playerPed, true);
+
+    // NetworkGetEntityOwner
+
   } else {
     emit('orion:showNotification', 'Admin désactivé');
     SetPlayerInvincible(playerPed, false);
