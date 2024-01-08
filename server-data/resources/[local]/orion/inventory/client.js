@@ -4,7 +4,7 @@
     onNet('orion:inventory:c:open', (inventory) => {
         inventoryUiOpen = !inventoryUiOpen;
         SetNuiFocus(inventoryUiOpen, inventoryUiOpen);
-        //SetNuiFocusKeepInput(true)
+        SetNuiFocusKeepInput(true)
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
@@ -23,7 +23,6 @@
     RegisterNuiCallbackType('dropItem');
     on('__cfx_nui:dropItem', (data, cb) => {
         if (data.itemId == undefined || data.quantity < 1) return cb({ ok: false });
-        console.log("dropItem", data.itemId, data.quantity)
         emitNet('orion:inventory:s:dropItem', data.itemId, data.quantity);
         cb({ ok: true });
     });
