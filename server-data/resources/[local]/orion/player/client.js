@@ -259,7 +259,7 @@ let playerData = {};
         //armor: GetPedArmour(ped),
       },
     });
-  }, 100);
+  }, 10);
 
   setTick(async () => {
     /*const hunger = playerData.hunger;
