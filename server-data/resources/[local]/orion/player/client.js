@@ -300,6 +300,7 @@ let playerData = {};
 
   setTimeout(() => {
     console.log(2)
+    console.log(playerNeedsActivated, playerIsDead)
     if (playerNeedsActivated && !playerIsDead) {
       hunger = hunger - exports['orion'].getRandomBetween(4, 10);
       thirst = thirst - exports['orion'].getRandomBetween(4, 10);
