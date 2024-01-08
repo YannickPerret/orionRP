@@ -302,13 +302,14 @@ let playerData = {};
   });
 
   setTick(async () => {
+    const ped = PlayerPedId();
+    const distance = 2.0;
     while (true) {
       await exports['orion'].delay(5);
 
-      const ped = PlayerPedId();
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
 
-      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_03'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_fleeca_atm'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, 20.0, GetHashKey('prop_atm_01'), false, false, false) !== 0)) {
+      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_atm_03'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_fleeca_atm'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_atm_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_atm_01'), false, false, false) !== 0)) {
         emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le distributeur`)
         if (IsControlJustReleased(0, 38)) {
           emitNet('orion:bank:s:getAccountInterface', "atm");
