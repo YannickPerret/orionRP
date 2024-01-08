@@ -288,7 +288,6 @@ let playerData = {};
 
   setInterval(() => {
     //const ped = PlayerPedId();
-    console.log(1)
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
