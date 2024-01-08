@@ -241,11 +241,15 @@
   exports('playerPaidWithMoney', async (source, money) => {
     const playerData = PlayerManager.getPlayerBySource(source);
     if (playerData) {
-      playerData.money -= money;
-      await playerData.save();
-      return true
+      if (playerData.money >= money) {
+        playerData.money -= money;
+        await playerData.save();
+        return true
+      }
+      else {
+        return false
+      }
     }
-    return false
   })
 
 
