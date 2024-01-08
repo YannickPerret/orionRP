@@ -246,6 +246,8 @@ let playerData = {};
   onNet('orion:player:c:playerConnected', (playerData) => {
 
     exports['orion'].setPlayerData(playerData);
+
+    console.log("ksdfjksjfksdjf")
     playerNeedsActivated = true;
 
     SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
@@ -298,7 +300,7 @@ let playerData = {};
     });
   }, 100);
 
-  setTimeout(() => {
+  setInterval(() => {
     console.log(2)
     console.log(playerNeedsActivated, playerIsDead)
     if (playerNeedsActivated && !playerIsDead) {
