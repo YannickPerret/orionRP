@@ -251,6 +251,7 @@ let playerData = {};
   setTimeout(async () => {
     //const ped = PlayerPedId();
 
+    console.log(!IsPauseMenuActive() && playerNeedsActivated)
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
