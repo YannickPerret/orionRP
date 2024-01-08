@@ -1,6 +1,7 @@
 let isFlymodeEnabled = false;
 let isBlackout = false;
 const flymodeSpeed = 100;
+let isAdminEnable = false;
 
 RegisterCommand('tp', (source, args) => {
   SetEntityCoordsNoOffset(
@@ -13,6 +14,24 @@ RegisterCommand('tp', (source, args) => {
     true
   );
 });
+
+RegisterCommand('admin', (aource, args) => {
+  isAdminEnable = !isAdminEnable;
+  let playerPed = GetPlayerPed(-1);
+  if (isAdminEnable) {
+    emit('orion:showNotification', 'Admin activé');
+    SetPlayerInvincible(playerPed, true);
+    DisplayRadar(true);
+    NetworkSetEntityInvisibleToNetwork(playerPed, true);
+  } else {
+    emit('orion:showNotification', 'Admin désactivé');
+    SetPlayerInvincible(playerPed, false);
+    DisplayRadar(false);
+    NetworkSetEntityInvisibleToNetwork(playerPed, false);
+  }
+
+}, false);
+
 
 RegisterCommand(
   'tpto',

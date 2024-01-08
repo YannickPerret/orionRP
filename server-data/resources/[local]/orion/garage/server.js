@@ -71,7 +71,6 @@
 
     onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId) => {
         const source = global.source;
-        //const vehicle = await Vehicle.getById(vehicleId);
         const garage = GarageManager.getGarageById(garageId);
         const vehicle = garage.vehicles.find(vehicleDb => vehicleDb.id === vehicleId);
 
@@ -83,11 +82,7 @@
             emitNet('orion:garage:c:closeGarage', source, "Vous n'avez pas sélectionné de véhicule");
             return;
         }
-
-        console.log('vehicle', vehicle);
-        // get price to retrieve vehicle
         const hoursParked = (new Date().getTime() - vehicle.dateStored) / 1000 / 60 / 60;
-        console.log('hoursParked', hoursParked, 'price', garage.price, 'priceToRetrieve', calculatePriceWithOneHoursFree(Number(garage.price), Number(hoursParked)));
         const priceToRetrieve = calculatePriceWithOneHoursFree(Number(garage.price), Number(hoursParked));
 
         if (await exports['orion'].playerPaidWithMoney(source, priceToRetrieve)) {
