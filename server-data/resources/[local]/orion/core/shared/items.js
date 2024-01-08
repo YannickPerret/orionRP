@@ -14,6 +14,7 @@ const items = [
         animation: {
             dict: "mp_player_inteat@burger",
             name: "mp_player_int_eat_burger_fp",
+            prop: "prop_cs_burger_01",
             duration: 10000,
         },
         starter: {
@@ -37,6 +38,7 @@ const items = [
         animation: {
             dict: "mp_player_intdrink",
             name: "loop_bottle",
+            prop: "prop_ld_flow_bottle",
             duration: 10000,
         },
         starter: {

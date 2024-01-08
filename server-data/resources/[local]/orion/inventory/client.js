@@ -14,12 +14,6 @@
         }));
     });
 
-    onNet('orion:inventory:c:close', () => {
-        inventoryUiOpen = false;
-        SetNuiFocus(false, false);
-        SetNuiFocusKeepInput(false)
-    });
-
     RegisterKeyMapping('inventory', 'Ouvrir l\'inventaire', 'keyboard', 'I');
     RegisterCommand('inventory', () => {
         emitNet('orion:inventory:s:loadInventory');
@@ -63,6 +57,18 @@
         emitNet('orion:inventory:s:giveItem', itemId, target);
     });
 
+
+    exports('item:attachProp', (propName, boneIndex, x, y, z, xR, yR, zR) => {
+        const bone = GetPedBoneIndex(PlayerPedId(), boneIndex);
+        const prop = CreateObject(GetHashKey(propName), x, y, z, true, true, true);
+        AttachEntityToEntity(prop, PlayerPedId(), bone, xR, yR, zR, 0.0, 0.0, 0.0, true, true, false, true, 1, true);
+        return prop;
+    });
+
+    exports('item:detachProp', (prop) => {
+        ClearPedProp(PlayerPedId(), prop);
+        DeleteEntity(prop);
+    })
 
     setTick(() => {
         if (inventoryUiOpen) {

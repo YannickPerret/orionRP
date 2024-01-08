@@ -51,6 +51,25 @@ onNet('orion:core:c:animations:playAnimationWithTime', async (dict, anim, durati
   ClearPedTasks(PlayerPedId());
 });
 
+onNet('orion:core:c:animations:playAnimationWithProp', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5, propDict, prop, bone, x, y, z, xRot, yRot, zRot, flag6, flag7) => {
+  RequestAnimDict(dict);
+  while (!HasAnimDictLoaded(dict)) {
+    await exports['orion'].delay(0);
+  }
+  RequestModel(propDict);
+  while (!HasModelLoaded(propDict)) {
+    await exports['orion'].delay(0);
+  }
+  TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
+  await exports['orion'].delay(100);
+  const boneIndex = GetPedBoneIndex(PlayerPedId(), bone);
+  const prop = CreateObject(GetHashKey(propDict), x, y, z, true, true, true);
+  AttachEntityToEntity(prop, PlayerPedId(), boneIndex, x, y, z, xRot, yRot, zRot, flag6, flag7, true, true, false, true);
+  await exports['orion'].delay(duration);
+  ClearPedTasks(PlayerPedId());
+  DeleteEntity(prop);
+});
+
 
 onNet('orion:core:c:animations:playAnimationLoop', async (dict, anim, duration, flag, flag2, flag3, flag4, flag5) => {
   RequestAnimDict(dict);
