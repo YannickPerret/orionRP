@@ -143,8 +143,9 @@ let playerData = {};
 
   onNet('orion:player:c:handsUp', async () => {
     const playerPed = PlayerPedId();
+    let dict = "missminuteman_1ig_2"
+    let anim = "handsup_enter"
 
-    console.log(handsUp)
     if (IsPedInAnyVehicle(GetPlayerPed(-1), false)) {
       return;
     }
@@ -160,8 +161,6 @@ let playerData = {};
     if (IsPedRagdoll(GetPlayerPed(-1))) {
       return;
     }
-    let dict = "missminuteman_1ig_2"
-    let anim = "handsup_enter"
 
     while (!HasAnimDictLoaded(dict)) {
       RequestAnimDict(dict);
@@ -176,7 +175,6 @@ let playerData = {};
         ClearPedTasks(playerPed);
       }
     }
-
     handsUp = !handsUp;
 
   })

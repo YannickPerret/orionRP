@@ -2,7 +2,7 @@
     let inventoryUiOpen = false;
 
     onNet('orion:inventory:c:open', (inventory) => {
-        inventoryUiOpen = !inventoryUiOpen;
+        inventoryUiOpen = true;
         SetNuiFocus(inventoryUiOpen, inventoryUiOpen);
         SetNuiFocusKeepInput(inventoryUiOpen)
         SendNuiMessage(JSON.stringify({
@@ -14,9 +14,26 @@
         }));
     });
 
+    onNet('orion:inventory:c:close', () => {
+        inventoryUiOpen = false;
+        SetNuiFocus(false, false);
+        SendNuiMessage(JSON.stringify({
+            action: 'inventoryHUD',
+            payload: {
+                inventoryHUD: false,
+            }
+        }));
+    });
+
+
     RegisterKeyMapping('inventory', 'Ouvrir l\'inventaire', 'keyboard', 'I');
     RegisterCommand('inventory', () => {
-        emitNet('orion:inventory:s:loadInventory');
+        if (inventoryUiOpen) {
+            emitNet('orion:inventory:c:close');
+        }
+        else {
+            emitNet('orion:inventory:s:loadInventory');
+        }
     }, false);
 
     // drop Item

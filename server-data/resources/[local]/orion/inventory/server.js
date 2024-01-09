@@ -116,6 +116,14 @@
         }
     });
 
+    //item effects
+    onNet('orion:inventory:s:useItem:item_consumable', (item, _source = undefined) => {
+        const source = _source || global.source;
+        emitNet('orion:core:c:animations:playAnimationWithTime', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
+        //emitNet('orion:core:c:animations:playAnimationWithProp', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49, item.prop.dict, item.prop.name, item.prop.bone, item.prop.x, item.prop.y, item.prop.z, item.prop.xRot, item.prop.yRot, item.prop.zRot, item.prop.flag6, item.prop.flag7);
+        emitNet('orion:player:c:modifyNeeds', source, item.animation.duration, item.hunger, item.thirst);
+    })
+
     RegisterCommand('inv', (source, args) => {
         emit('orion:inventory:s:loadInventory', source);
     }, false);
@@ -136,16 +144,6 @@
             emitNet('orion:showNotification', source, "Vous devez entrer un nom d'item valide !");
 
     }, true);
-
-
-    //item effects
-    onNet('orion:inventory:s:useItem:item_consumable', (item, _source = undefined) => {
-        const source = _source || global.source;
-        emitNet('orion:core:c:animations:playAnimationWithTime', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
-        //emitNet('orion:core:c:animations:playAnimationWithProp', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49, item.prop.dict, item.prop.name, item.prop.bone, item.prop.x, item.prop.y, item.prop.z, item.prop.xRot, item.prop.yRot, item.prop.zRot, item.prop.flag6, item.prop.flag7);
-        emitNet('orion:player:c:modifyNeeds', source, item.animation.duration, item.hunger, item.thirst);
-    })
-
 })();
 
 
