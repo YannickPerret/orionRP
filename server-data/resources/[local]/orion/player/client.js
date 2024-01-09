@@ -410,11 +410,13 @@ let playerData = {};
       if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
         if (currentObject !== object) {
           currentObject = object;
-          emit('orion:showText', objectType.message);
+          if (object.message) {
+            emit('orion:showText', object.message);
+          }
         }
         if (IsControlJustReleased(0, 38)) {
-          if (objectType.action) {
-            objectType.action();
+          if (object.action) {
+            object.action();
           }
         }
       }
