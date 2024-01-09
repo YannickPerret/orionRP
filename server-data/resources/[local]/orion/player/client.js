@@ -400,7 +400,7 @@ let playerData = {};
           await exports['orion'].delay(10);
         }
         else {
-          await exports['orion'].delay(200);
+          await exports['orion'].delay(100);
         }
       }
     }
