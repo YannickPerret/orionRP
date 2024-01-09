@@ -1,6 +1,6 @@
 (async () => {
 
-    RegisterCommande('blips', async (source, args) => {
+    RegisterCommand('blips', async (source, args) => {
         //add blip for all players connected
         const blips = [];
         const players = await PlayerManager.getAllPlayers();
