@@ -24,7 +24,6 @@
 
 
     onNet('orion:blips:c:createAllBlips', async (blips) => {
-        console.log(blips.garages);
         blips.garages.forEach(garage => {
             exports['orion'].createBlip(garage.position, 326, 4, garage.name);
         });
