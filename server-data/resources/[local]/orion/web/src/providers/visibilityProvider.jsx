@@ -33,7 +33,6 @@ export const VisibilityProvider = ({ children }) => {
       // "Backspace", 
       if (["Escape"].includes(e.code)) {
         closeAllMenus();
-        sendNui("hideFrame");
       }
     };
 
@@ -45,7 +44,7 @@ export const VisibilityProvider = ({ children }) => {
   }, [visible]);
 
   // Fonction pour fermer tous les menus
-  const closeAllMenus = (sendToNui = true) => {
+  const closeAllMenus = async (sendToNui = true) => {
     setVisible({
       main: false,
       showPlayerHUD: false,
@@ -61,7 +60,7 @@ export const VisibilityProvider = ({ children }) => {
       garageHUD: false,
     });
     if (sendToNui) {
-      sendNui("hideFrame");
+      await sendNui("hideFrame");
     }
   };
 

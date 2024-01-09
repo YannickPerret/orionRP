@@ -85,6 +85,7 @@
 
   RegisterNuiCallbackType('hideFrame');
   on('__cfx_nui:hideFrame', (data, cb) => {
+    console.log('hideFrame')
     SetNuiFocus(false, false);
     SetNuiFocusKeepInput(false)
     cb({ ok: true });
