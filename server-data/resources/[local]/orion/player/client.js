@@ -385,14 +385,14 @@ let playerData = {};
   setTick(async () => {
     const ped = PlayerPedId();
     const distance = 0.8;
-    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
+    const playerCoords = GetEntityCoords(ped, true);
 
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
         const objectPosition = GetEntityCoords(object, true);
-        const [distanceToPlayer, _, __] = GetDistanceBetweenCoords(playerPositionX, playerPositionY, playerPositionZ, objectPosition[0], objectPosition[1], objectPosition[2], true);
+        const [distanceToPlayer, _, __] = exports['orion'].getDistanceBetweenCoords(playerCoords, objectPosition);
         if (distanceToPlayer <= distance) {
-          DrawText3D(objectPosition[0], objectPosition[1], objectPosition[2], objectType.message);
+          DrawText3D(objectPosition, objectType.message);
           if (IsControlJustReleased(0, 38)) {
             if (objectType.action) {
               objectType.action();
