@@ -409,7 +409,7 @@ let playerData = {};
     for (const object of drawnObjects) {
       console.log(object)
 
-      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
+      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object.object, false, false, false) !== 0) {
         if (object.message) {
           emit('orion:showText', object.message);
         }
