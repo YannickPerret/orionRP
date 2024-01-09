@@ -24,20 +24,5 @@ RegisterCommand('stopAnimation', (source, args) => {
 
 RegisterKeyMapping('handUp', 'Hands up', 'keyboard', 'x');
 RegisterCommand('handUp', (source, args) => {
-  if (IsPedInAnyVehicle(GetPlayerPed(-1), false)) {
-    return;
-  }
-  if (IsPedArmed(GetPlayerPed(-1), 7)) {
-    return;
-  }
-  if (IsPedCuffed(GetPlayerPed(-1))) {
-    return;
-  }
-  if (IsPedSwimming(GetPlayerPed(-1))) {
-    return;
-  }
-  if (IsPedRagdoll(GetPlayerPed(-1))) {
-    return;
-  }
-  exports['orion'].handsUp();
+  emit('orion:player:c:handsUp')
 })

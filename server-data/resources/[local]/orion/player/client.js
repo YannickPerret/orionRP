@@ -141,6 +141,25 @@ let playerData = {};
     }, 100);
   }
 
+  onNet('orion:player:c:handsUp', () => {
+    handsUp = !handsUp;
+    if (IsPedInAnyVehicle(GetPlayerPed(-1), false)) {
+      return;
+    }
+    if (IsPedArmed(GetPlayerPed(-1), 7)) {
+      return;
+    }
+    if (IsPedCuffed(GetPlayerPed(-1))) {
+      return;
+    }
+    if (IsPedSwimming(GetPlayerPed(-1))) {
+      return;
+    }
+    if (IsPedRagdoll(GetPlayerPed(-1))) {
+      return;
+    }
+    exports['orion'].handsUp(handsUp);
+  })
 
   exports('getPlayerIsConnected', () => {
     return playerIsConnected;
