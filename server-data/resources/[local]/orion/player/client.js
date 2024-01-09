@@ -411,7 +411,6 @@ let playerData = {};
     await exports['orion'].delay(1000)
     const pedCoords = GetEntityCoords(PlayerPedId(), true);
     const distance = 15;
-
     drawnObjects = [];
     if (!playerIsDead) {
       for (const objectType of objectTypes) {
