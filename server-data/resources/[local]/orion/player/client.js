@@ -144,7 +144,6 @@ let playerData = {};
   onNet('orion:player:c:handsUp', async () => {
     const playerPed = PlayerPedId();
 
-    handsUp = !handsUp;
     console.log(handsUp)
     if (IsPedInAnyVehicle(GetPlayerPed(-1), false)) {
       return;
@@ -170,9 +169,8 @@ let playerData = {};
     }
 
     setTick(async () => {
-      await exports['orion'].delay(0);
       if (IsControlJustPressed(1, 323)) {
-        if (handsUp) {
+        if (!handsUp) {
           TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
         }
         else {
@@ -180,6 +178,9 @@ let playerData = {};
         }
       }
     })
+
+    handsUp = !handsUp;
+
   })
 
   exports('getPlayerIsConnected', () => {
