@@ -29,4 +29,18 @@
         }
         return source;
     })
+
+    RegisterCommand('setBlip', async (source, args) => {
+        //get position by x,y,z
+        const x = args[0];
+        const y = args[1];
+        const z = args[2];
+        const blip = [{
+            position: [x, y, z],
+            sprite: 1,
+            color: 2,
+            text: 'custom blip'
+        }]
+        emitNet('orion:blips:c:createBlips', source, blip);
+    }, false)
 })();
