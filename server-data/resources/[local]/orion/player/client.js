@@ -390,6 +390,7 @@ let playerData = {};
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
         const objectPosition = GetEntityCoords(object, true);
+        console.log(playerCoords, objectPosition)
         const [distanceToPlayer, _, __] = exports['orion'].getDistanceBetweenCoords(playerCoords, objectPosition);
         if (distanceToPlayer <= distance) {
           DrawText3D(objectPosition, objectType.message);
