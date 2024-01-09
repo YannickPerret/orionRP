@@ -127,6 +127,17 @@
       SetRelationshipBetweenGroups(1, GetHashKey('GANG_9'), GetHashKey('PLAYER'));
       SetRelationshipBetweenGroups(1, GetHashKey('GANG_10'), GetHashKey('PLAYER'));
 
+
+      //disable prison ped attack player
+      SetRelationshipBetweenGroups(0, GetHashKey('PRISONER'), GetHashKey('PLAYER'));
+      SetRelationshipBetweenGroups(0, GetHashKey('SECURITY_GUARD'), GetHashKey('PLAYER'));
+      SetRelationshipBetweenGroups(0, GetHashKey('HATES_PLAYER'), GetHashKey('PLAYER'));
+      SetRelationshipBetweenGroups(1, GetHashKey('CIVMALE'), GetHashKey('PLAYER'));
+      SetRelationshipBetweenGroups(1, GetHashKey('CIVFEMALE'), GetHashKey('PLAYER'));
+
+
+
+
       HideHudComponentThisFrame(3);
       HideHudComponentThisFrame(4);
       HideHudComponentThisFrame(13);
