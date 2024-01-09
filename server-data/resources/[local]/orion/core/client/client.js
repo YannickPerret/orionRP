@@ -65,11 +65,11 @@
     TaskPlayAnim(PlayerPedId(), dict, anim, duration, flag, flag2, flag3, flag4, flag5);
     await exports['orion'].delay(100);
     const boneIndex = GetPedBoneIndex(PlayerPedId(), bone);
-    const prop = CreateObject(GetHashKey(propDict), x, y, z, true, true, true);
-    AttachEntityToEntity(prop, PlayerPedId(), boneIndex, x, y, z, xRot, yRot, zRot, flag6, flag7, true, true, false, true);
+    const propSpawn = CreateObject(GetHashKey(propDict), x, y, z, true, true, true);
+    AttachEntityToEntity(propSpawn, PlayerPedId(), boneIndex, x, y, z, xRot, yRot, zRot, flag6, flag7, true, true, false, true);
     await exports['orion'].delay(duration);
     ClearPedTasks(PlayerPedId());
-    DeleteEntity(prop);
+    DeleteEntity(propSpawn);
   });
 
 
