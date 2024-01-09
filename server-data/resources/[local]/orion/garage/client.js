@@ -80,33 +80,29 @@
         showGarage(garage)
     })
 
-        (async () => {
-            let playerPed = PlayerPedId();
+    setTick(async () => {
+        let playerPed = PlayerPedId();
+        let playerCoords = GetEntityCoords(playerPed);
 
-            while (true) {
-                let playerCoords = GetEntityCoords(playerPed);
-                garageJson.garages.forEach(garage => {
-                    if (!showGarageHUD) {
-                        if (GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], garage.marker.X, garage.marker.Y, garage.marker.Z, true) < 1.8) {
-                            emit('orion:showText', `Appuyez sur ~g~E~w~ pour ouvrir le garage`)
-                            if (!IsPedInAnyVehicle(playerPed, false)) {
-                                if (IsControlJustReleased(0, 38)) {
-                                    emitNet('orion:garage:s:openGarage', garage.marker)
-                                }
-                            }
-                        }
-                        else {
-                            if (showGarageHUD) {
-                                emit('orion:garage:c:closeGarage')
-                            }
+        garageJson.garages.forEach(garage => {
+            if (!showGarageHUD) {
+                if (exports['orion'].getDistanceBetweenCoords(playerCoords, garage.marker) <= 1.8) {
+                    emit('orion:showText', `Appuyez sur ~g~E~w~ pour ouvrir le garage`)
+                    if (!IsPedInAnyVehicle(playerPed, false)) {
+                        if (IsControlJustReleased(0, 38)) {
+                            emitNet('orion:garage:s:openGarage', garage.marker)
                         }
                     }
-                })
-                await exports['orion'].delay(5)
-
+                }
+                else {
+                    if (showGarageHUD) {
+                        emit('orion:garage:c:closeGarage')
+                    }
+                }
             }
-
-        });
+        })
+        await exports['orion'].delay(10)
+    });
 
 
 })();

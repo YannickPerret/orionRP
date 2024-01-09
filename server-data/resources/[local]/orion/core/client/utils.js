@@ -53,6 +53,44 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function getDistanceBetweenCoords(point1, point2, useZ = true) {
+    const dx = point1.x - point2.x;
+    const dy = point1.y - point2.y;
+    if (useZ) {
+      const dz = point1.z - point2.z;
+      return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  exports('raycastCamera', async (flag, playerCoords) => {
+    const playerPed = PlayerPedId();
+    if (!playerCoords) {
+      playerCoords = GetEntityCoords(playerPed);
+    }
+    const [rayPos, rayDir] = ScreenPositionToCameraRay();
+    const destination = rayPos + 16 * rayDir;
+    const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, flag || -1, playerPed, 4);
+
+    while (true) {
+      let [result, hit, endCoords, surface, entityHit] = GetShapeTestResult(rayHandle);
+      if (result !== 1) {
+        const distance = exports['orion'].getDistanceBetweenCoords(playerCoords, endCoords);
+        if (flag === 30 && entityHit) {
+          entityHit = HasEntityClearLosToEntity(entityHit, playerPed, 7) && entityHit;
+        }
+        let entityType = entityHit && GetEntityType(entityHit);
+
+        if (entityType === 0 && pcall(GetEntityModel, entityHit)) {
+          entityType = 3;
+        }
+        return [endCoords, distance, entityHit, entityType || 0];
+      }
+      await exports['orion'].delay(0);
+    }
+  })
+
+  exports('getDistanceBetweenCoords', getDistanceBetweenCoords);
   exports('getRandomBetween', getRandomBetween);
   exports('createMarker', createMarker);
   exports('waitingLoader', waitingLoader);

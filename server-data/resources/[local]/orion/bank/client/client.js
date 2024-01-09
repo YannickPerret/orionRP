@@ -93,8 +93,7 @@
     let playerCoords = GetEntityCoords(PlayerPedId(), false);
 
     for (let banksNational of bankCoordsJson.bank_nation) {
-      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], banksNational.coords.X, banksNational.coords.Y, banksNational.coords.Z, true)
-      if (distance <= 1.3) {
+      if (exports['orion'].getDistanceBetweenCoords(playerCoords, banksNational.coords) <= 1.3) {
         if (!showBankInterface) {
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque nationale');
           if (IsControlJustReleased(0, 38)) {
@@ -106,8 +105,7 @@
     }
 
     for (let bankCoords of bankCoordsJson.banks) {
-      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
-      if (distance <= 1.3) {
+      if (exports['orion'].getDistanceBetweenCoords(playerCoords, bankCoords.coords) <= 1.3) {
         if (!showBankInterface) {
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
           if (IsControlJustReleased(0, 38)) {
@@ -118,22 +116,8 @@
       }
     }
 
-    for (let atmCoords of bankCoordsJson.atms) {
-      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
-      if (distance <= 2) {
-        if (!showBankInterface) {
-          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
-          if (IsControlJustReleased(0, 38)) {
-            emitNet('orion:bank:s:getAccountInterface', "atm");
-            maxWithdraw = 100000;
-          }
-        }
-      }
-    }
-
     for (const mangement of bankCoordsJson.managements) {
-      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
-      if (distance <= 2) {
+      if (exports['orion'].getDistanceBetweenCoords(playerCoords, mangement.coords) <= 1.3) {
         if (!showBankInterface) {
           emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
           if (IsControlJustReleased(0, 38)) {

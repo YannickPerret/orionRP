@@ -51,7 +51,8 @@ client_scripts{
     'core/client/marker.js',
     'core/client/blip.js',
     'core/client/dialog.js',
-    'admin/commands.js',
+    'admin/client/client.js'
+    'admin/client/commands.js',
     'events/winter/client.js',
     'vehicle/client.js',
     'station/client.js',
@@ -75,6 +76,8 @@ server_scripts{
     'bank/server/server.js',
     'inventory/server.js',
     'garage/server.js',
+    'admin/server/server.js',
+    'admin/server/commands.js',
 }
 
 

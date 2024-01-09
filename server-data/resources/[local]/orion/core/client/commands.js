@@ -19,3 +19,7 @@ RegisterCommand('pos', (source, args) => {
 RegisterCommand('login', (source, args) => {
   exports['orion'].spawnLogin();
 }, false);
+
+RegisterCommand('stopAnimation', (source, args) => {
+  ClearPedTasks(GetPlayerPed(-1));
+});

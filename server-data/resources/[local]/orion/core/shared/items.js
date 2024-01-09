@@ -11,6 +11,7 @@ const items = [
         shouldClose: true,
         description: 'A burger',
         hunger: 30,
+        expiration: 5,
         animation: {
             dict: "mp_player_inteat@burger",
             name: "mp_player_int_eat_burger_fp",
@@ -20,8 +21,7 @@ const items = [
         starter: {
             enabled: true,
             quantity: 10,
-        },
-        consumption: 5,
+        }
     },
     // Drinks
     {
@@ -35,6 +35,7 @@ const items = [
         shouldClose: true,
         description: 'A bottle of water',
         thirst: 30,
+        expiration: 5,
         animation: {
             dict: "mp_player_intdrink",
             name: "loop_bottle",
@@ -44,10 +45,26 @@ const items = [
         starter: {
             enabled: true,
             quantity: 10,
-        },
-        consumption: 5,
+        }
+    },
+    //Drugs
+    {
+        name: 'cocaine',
+        label: 'Cocaine',
+        weight: 10,
+        type: 'item_standard',
+        image: 'drugs/cocaine.png',
+        unique: false,
+        useable: true,
+        shouldClose: true,
+        description: 'A bag of cocaine',
+        addiction: 3,
+        drogue: 50,
+
+
     },
 
+    //Alcool
     //Banks
     {
         name: 'bank_card',

@@ -148,7 +148,7 @@
       }
 
       itemsStarter.forEach(item => {
-        playerInventory.addItem(item, item.starter.quantity, { consumption: item.consumption });
+        playerInventory.addItem(item, item.starter.quantity, { expiration: item.expiration });
       });
 
       await playerInventory.calculateWeight();

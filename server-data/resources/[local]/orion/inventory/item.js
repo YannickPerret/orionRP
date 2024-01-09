@@ -14,6 +14,10 @@ class Item {
         this.unique = unique || false;
     }
 
+    isUnique() {
+        return this.unique;
+    }
+
     static createNew(id, name, weight, description, usable, usableData) {
         return new this({ id, name, weight, description, usable, usableData });
     }
@@ -34,14 +38,20 @@ class Item {
     }
 }
 class UsableItem extends Item {
-    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, consumption, hunger, thirst }) {
+    constructor({ id, name, label, weight, type, ammotype, image, unique, useable, description, shouldClose, animation, hunger, thirst, expiration }) {
         super({ id, name, label, weight, type, ammotype, image, unique, useable, description });
 
-        this.consumption = consumption || null;
         this.animation = animation || {};
         this.shouldClose = shouldClose || false;
         this.hunger = hunger || null;
         this.thirst = thirst || null;
+        this.expiration = expiration || 0;
+        this.expirationDate = this.expiration !== 0 ? new Date(this.expiration) : null;
+    }
+
+    isExpired() {
+        if (this.expiration === 0) return false;
+        return new Date() > this.expirationDate;
     }
 }
 module.exports = { Item, UsableItem };

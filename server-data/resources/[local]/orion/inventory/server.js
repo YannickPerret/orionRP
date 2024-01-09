@@ -11,20 +11,27 @@
 
         const playerInventory = await Inventory.getById(player.inventoryId);
         const itemInstance = await playerInventory.getItem(itemId);
-        console.log(itemInstance instanceof Item)
-        console.log(itemInstance instanceof Item)
 
         if (playerInventory.hasItem(itemInstance)) {
-            if (Number(itemInstance.quantity) > 0) {
-                if (itemInstance.type !== 'item_custom') {
-                    emit(`orion:inventory:s:useItem:${itemInstance.type}`, itemInstance, source);
+            if (itemInstance.useable) {
+                if (Number(itemInstance.quantity) > 0) {
+                    if (itemInstance.type !== 'item_custom') {
+                        emit(`orion:inventory:s:useItem:${itemInstance.type}`, itemInstance, source);
+                    }
+                    else {
+                        console.log("special item")
+                        emit(`orion:inventory:s:useItem:${itemInstance.name}`, source, itemInstance);
+                    }
+                    if (itemInstance.isExpired()) {
+                        //make player chance to get sick
+                    }
+                    playerInventory.removeItem(itemInstance.id, 1);
+                    await playerInventory.save();
                 }
-                else {
-                    console.log("special item")
-                    emit(`orion:inventory:s:useItem:${itemInstance.name}`, source, itemInstance);
-                }
-                playerInventory.removeItem(itemInstance.id, 1);
-                await playerInventory.save();
+            }
+            else {
+                emitNet('orion:showNotification', source, "Vous ne pouvez pas utiliser cet item !");
+                return
             }
         }
     });
@@ -35,7 +42,7 @@
         const targetPlayer = PlayerManager.getPlayerBySource(target);
 
         if (!player) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
-        if (!targetPlayer) return emitNet('orion:showNotification', source, "Vous devez être connecté pour voir l'inventaire !");
+        if (!targetPlayer) return emitNet('orion:showNotification', source, "Erreur, le joueur n'est pas connecté !");
         if (player.id === targetPlayer.id) return emitNet('orion:showNotification', source, "Vous ne pouvez pas vous donner d'item à vous même !");
         if (targetPlayer.id === null) return emitNet('orion:showNotification', source, "Vous ne pouvez pas vous donner d'item à vous même !");
 
@@ -47,6 +54,14 @@
 
         if (playerInventory.hasItem(itemInstance)) {
             if (Number(itemInstance.quantity) > 0) {
+                //si l'item est unique et que le target la déjà, on ne peut pas lui donner
+                if (itemInstance.isUnique() && targetInventory.hasItem(itemInstance)) {
+                    return emitNet('orion:showNotification', source, "Le joueur ne peut pas avoir plus de cet item !");
+                }
+                //si l'inventaire du target est plein, on ne peut pas lui donner
+                if (targetInventory.isFull(itemInstance.weight)) {
+                    return emitNet('orion:showNotification', source, "L'inventaire du joueur est plein !");
+                }
                 if (playerInventory.removeItem(itemInstance.id, quantity)) {
                     targetInventory.addItem(itemInstance, quantity);
                     await targetInventory.save();
@@ -120,7 +135,7 @@
         else
             emitNet('orion:showNotification', source, "Vous devez entrer un nom d'item valide !");
 
-    }, false);
+    }, true);
 
 
     //item effects
@@ -129,9 +144,7 @@
         emitNet('orion:core:c:animations:playAnimationWithTime', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49);
         //emitNet('orion:core:c:animations:playAnimationWithProp', source, item.animation.dict, item.animation.name, item.animation.duration, 49, 49, 49, 49, 49, item.prop.dict, item.prop.name, item.prop.bone, item.prop.x, item.prop.y, item.prop.z, item.prop.xRot, item.prop.yRot, item.prop.zRot, item.prop.flag6, item.prop.flag7);
         emitNet('orion:player:c:modifyNeeds', source, item.animation.duration, item.hunger, item.thirst);
-
     })
-
 
 })();
 

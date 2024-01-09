@@ -43,6 +43,13 @@ class Inventory {
         }
     }
 
+    isFull(weight = false) {
+        if (weight) {
+            return this.weight + weight >= this.maxWeight;
+        }
+        return this.weight >= this.maxWeight;
+    }
+
 
     hasItem(item) {
         return this.items.some(i => i.itemId === item.id);

@@ -12,6 +12,8 @@ const initialState = {
     lastname: 'Doe',
     hunger: 100,
     thirst: 100,
+    drunk: 0,
+    drogue: 0,
     phone: '06 06 06 06 06',
     money: 0,
     inventory: [],

@@ -1,5 +1,6 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
 //ReportCrime
+//GetPedCauseOfDeath
 let playerData = {};
 
 (async () => {
@@ -8,6 +9,8 @@ let playerData = {};
   let playerIsDead = false;
   let mug = false;
   let playerNeedsActivated = false;
+  let playerIsCuffed = false;
+  let playerIsConnected = false;
   let hunger = 100;
   let thirst = 100;
 
@@ -133,6 +136,9 @@ let playerData = {};
   }
 
 
+  exports('getPlayerIsConnected', () => {
+    return playerIsConnected;
+  });
 
   on('onClientGameTypeStart', () => {
     exports.spawnmanager.setAutoSpawn(false);
@@ -285,25 +291,15 @@ let playerData = {};
     });
   });
 
-  onNet('orion:player:c:teleport', coords => {
-    SetEntityCoordsNoOffset(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, true);
-  });
-
   onNet('orion:c:player:createNewPlayer', () => {
     emit('orion:customization:c:ShowSkinCreator', true);
   })
-
-  onNet('orion:player:c:completRegister', (playerDataServer) => {
-    exports['orion'].setPlayerData(playerDataServer);
-    SetEntityCoordsNoOffset(GetPlayerPed(-1), playerDataServer.position.x, playerDataServer.position.y, playerDataServer.position.z, true, false, true);
-
-    emit('orion:showNotification', `Bienvenue ${playerDataServer.firstname} ${playerDataServer.lastname} sur Orion !`);
-  });
 
   onNet('orion:player:c:playerConnected', (playerData) => {
 
     exports['orion'].setPlayerData(playerData);
     playerNeedsActivated = true;
+    playerIsConnected = true;
 
     SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
     SetEntityHeading(GetPlayerPed(-1), parseFloat(playerData.position.heading));
