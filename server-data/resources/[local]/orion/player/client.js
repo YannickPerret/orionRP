@@ -385,12 +385,12 @@ let playerData = {};
   setTick(async () => {
     const ped = PlayerPedId();
     const distance = 0.8;
-    const playerCoords = GetEntityCoords(ped, true);
+    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
 
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
         //console.log(GetClosestObjectOfType(playerCoords, distance, object, false, false, false), object, playerCoords)
-        if (GetClosestObjectOfType(playerCoords, distance, object, false, false, false) !== 0) {
+        if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
           console.log("dd")
           emit('orion:showText', objectType.message);
           if (IsControlJustReleased(0, 38)) {
@@ -401,7 +401,7 @@ let playerData = {};
           await exports['orion'].delay(500);
         }
         else {
-          await exports['orion'].delay(10);
+          await exports['orion'].delay(5);
         }
       }
     }
