@@ -30,7 +30,7 @@
     RegisterKeyMapping('inventory', 'Ouvrir l\'inventaire', 'keyboard', 'I');
     RegisterCommand('inventory', () => {
         if (inventoryUiOpen) {
-            emitNet('orion:inventory:c:close');
+            emit('orion:inventory:c:close');
         }
         else {
             emitNet('orion:inventory:s:loadInventory');
