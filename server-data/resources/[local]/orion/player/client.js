@@ -168,16 +168,14 @@ let playerData = {};
       await exports['orion'].delay(100);
     }
 
-    setTick(async () => {
-      if (IsControlJustPressed(1, 323)) {
-        if (!handsUp) {
-          TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
-        }
-        else {
-          ClearPedTasks(playerPed);
-        }
+    if (IsControlJustPressed(1, 323)) {
+      if (!handsUp) {
+        TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
       }
-    })
+      else {
+        ClearPedTasks(playerPed);
+      }
+    }
 
     handsUp = !handsUp;
 
@@ -466,5 +464,7 @@ let playerData = {};
       }
     }
   })
+
+
 
 })()
