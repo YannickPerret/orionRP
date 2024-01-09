@@ -382,26 +382,40 @@ let playerData = {};
     if (mug) UnregisterPedheadshot(mug);
   });
 
+  let drawnObjects = [];
+  let currentObject = null;
+
   setTick(async () => {
-    const ped = PlayerPedId();
+    exports['orion'].delay(1000)
+    const pedCoords = GetEntityCoords(PlayerPedId(), true);
+    const distance = 15;
+
+    drawnObjects = [];
+    if (!playerIsDead) {
+      for (const objectType of objectTypes) {
+        for (const object of objectType.objects) {
+          if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, object, false, false, false) !== 0) {
+            drawnObjects.push(object);
+          }
+        }
+      }
+    }
+  })
+
+  setTick(async () => {
+    exports['orion'].delay(0)
     const distance = 0.8;
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
-
-    for (const objectType of objectTypes) {
-      for (const object of objectType.objects) {
-        //console.log(GetClosestObjectOfType(playerCoords, distance, object, false, false, false), object, playerCoords)
-        if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
-          console.log("dd")
+    for (const object of drawnObjects) {
+      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
+        if (currentObject !== object) {
+          currentObject = object;
           emit('orion:showText', objectType.message);
-          if (IsControlJustReleased(0, 38)) {
-            if (objectType.action) {
-              objectType.action();
-            }
-          }
-          await exports['orion'].delay(10);
         }
-        else {
-          await exports['orion'].delay(400);
+        if (IsControlJustReleased(0, 38)) {
+          if (objectType.action) {
+            objectType.action();
+          }
         }
       }
     }
