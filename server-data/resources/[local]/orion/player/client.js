@@ -390,7 +390,7 @@ let playerData = {};
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
         if (GetClosestObjectOfType(playerCoords, distance, object, false, false, false) !== 0) {
-          DrawText3D(objectPosition[0], objectPosition[1], objectPosition[2], objectType.message);
+          emit('orion:showText', objectType.message);
           if (IsControlJustReleased(0, 38)) {
             if (objectType.action) {
               objectType.action();
