@@ -51,7 +51,7 @@ client_scripts{
     'core/client/marker.js',
     'core/client/blip.js',
     'core/client/dialog.js',
-    'admin/client/client.js'
+    'admin/client/client.js',
     'admin/client/commands.js',
     'events/winter/client.js',
     'vehicle/client.js',
