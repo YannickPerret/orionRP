@@ -2,6 +2,7 @@
     const { db, r } = require('./core/server/database.js');
 
     onNet('orion:blips:s:initializeBlips', async () => {
+        console.log('Initializing blips')
         const source = global.source;
         const stations = await db.getAll('stations');
         const banks = await db.getByWithFilter('banks', { type: 'bank' });
