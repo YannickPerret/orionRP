@@ -389,6 +389,7 @@ let playerData = {};
 
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
+        console.log(GetClosestObjectOfType(playerCoords, distance, object, false, false, false), object, playerCoords)
         if (GetClosestObjectOfType(playerCoords, distance, object, false, false, false) !== 0) {
           console.log("dd")
           emit('orion:showText', objectType.message);
@@ -397,10 +398,10 @@ let playerData = {};
               objectType.action();
             }
           }
-          await exports['orion'].delay(10);
+          await exports['orion'].delay(500);
         }
         else {
-          await exports['orion'].delay(100);
+          await exports['orion'].delay(10);
         }
       }
     }
