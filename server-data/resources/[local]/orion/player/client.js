@@ -62,6 +62,10 @@ let playerData = {};
         GetHashKey('prop_vend_coffe_01')
       ],
       message: 'Appuyez sur ~g~E~w~ pour acheter une boisson',
+      action: () => {
+        console.log('buyDrink')
+        emitNet('orion:shop:s:buyDrink');
+      }
     },
     {
       type: 'snack',
@@ -412,8 +416,6 @@ let playerData = {};
     const distance = 0.8;
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
     for (const object of drawnObjects) {
-      console.log(object)
-
       if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object.object, false, false, false) !== 0) {
         if (object.message) {
           emit('orion:showText', object.message);
