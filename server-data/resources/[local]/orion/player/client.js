@@ -408,6 +408,7 @@ let playerData = {};
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
     for (const object of drawnObjects) {
       if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
+        console.log(object)
         if (currentObject !== object) {
           currentObject = object;
           if (object.message) {
