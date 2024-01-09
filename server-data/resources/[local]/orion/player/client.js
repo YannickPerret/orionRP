@@ -407,8 +407,9 @@ let playerData = {};
     const distance = 0.8;
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
     for (const object of drawnObjects) {
+      console.log(object)
+
       if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object, false, false, false) !== 0) {
-        console.log(object)
         if (object.message) {
           emit('orion:showText', object.message);
         }
