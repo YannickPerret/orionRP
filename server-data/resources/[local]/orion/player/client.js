@@ -13,6 +13,8 @@ let playerData = {};
   let playerIsConnected = false;
   let hunger = 100;
   let thirst = 100;
+  let drawnObjects = [];
+
 
   const objectTypes = [
     {
@@ -378,7 +380,6 @@ let playerData = {};
     }
   }, 150000);
 
-
   on('onClientResourceStop', (resourceName) => {
     if (GetCurrentResourceName() != resourceName) {
       return;
@@ -386,8 +387,6 @@ let playerData = {};
     if (mug) UnregisterPedheadshot(mug);
   });
 
-  let drawnObjects = [];
-  let currentObject = null;
 
   setTick(async () => {
     await exports['orion'].delay(1000)
@@ -409,7 +408,6 @@ let playerData = {};
       }
     }
   })
-
 
   setTick(async () => {
     await exports['orion'].delay(0)
