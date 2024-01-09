@@ -413,7 +413,7 @@ let playerData = {};
 
   setTick(async () => {
     await exports['orion'].delay(0)
-    const distance = 0.8;
+    const distance = 0.5;
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
     for (const object of drawnObjects) {
       if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object.object, false, false, false) !== 0) {
