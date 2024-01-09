@@ -389,12 +389,8 @@ let playerData = {};
 
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
-        console.log(object)
-        const objectPosition = GetEntityCoords(object, true);
-        console.log(playerCoords, objectPosition)
-        const [distanceToPlayer, _, __] = exports['orion'].getDistanceBetweenCoords(playerCoords, objectPosition);
-        if (distanceToPlayer <= distance) {
-          DrawText3D(objectPosition, objectType.message);
+        if (GetClosestObjectOfType(playerCoords, distance, object, false, false, false) !== 0) {
+          DrawText3D(objectPosition[0], objectPosition[1], objectPosition[2], objectType.message);
           if (IsControlJustReleased(0, 38)) {
             if (objectType.action) {
               objectType.action();
