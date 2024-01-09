@@ -44,22 +44,21 @@
         RequestAnimDict("mp_facial");
         RequestAnimDict("facials@gen_male@variations@normal");
 
-        while (true) {
-            await exports['orion'].delay(300);
-            let playerId = PlayerId();
+        await exports['orion'].delay(300);
+        let playerId = PlayerId();
 
-            for (let playerIndex = 0; playerIndex < GetActivePlayers().length; playerIndex++) {
-                let boolTalking = NetworkIsPlayerTalking(playerIndex);
-                if (playerIndex != playerId) {
-                    if (boolTalking) {
-                        PlayFacialAnim(GetPlayerPed(playerIndex), "mic_chatter", "mp_facial");
-                    }
-                    else if (!boolTalking) {
-                        PlayFacialAnim(GetPlayerPed(playerIndex), "mood_normal_1", "facials@gen_male@variations@normal");
-                    }
+        for (let playerIndex = 0; playerIndex < GetActivePlayers().length; playerIndex++) {
+            let boolTalking = NetworkIsPlayerTalking(playerIndex);
+            if (playerIndex != playerId) {
+                if (boolTalking) {
+                    PlayFacialAnim(GetPlayerPed(playerIndex), "mic_chatter", "mp_facial");
+                }
+                else if (!boolTalking) {
+                    PlayFacialAnim(GetPlayerPed(playerIndex), "mood_normal_1", "facials@gen_male@variations@normal");
                 }
             }
         }
+
     })
 
     setTick(async () => {

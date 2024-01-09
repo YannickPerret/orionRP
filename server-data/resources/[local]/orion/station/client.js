@@ -146,150 +146,144 @@
 
 
   setTick(async () => {
-
     const playerPed = PlayerPedId();
+    const playerCoords = GetEntityCoords(playerPed, false);
 
-    while (true) {
-      await exports['orion'].delay(5);
-      const playerCoords = GetEntityCoords(playerPed, false);
-
-      for (const station of gazStationsBlips.GasStations) {
-        for (const pumpCoords of station.pumps) {
-          const distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
-          if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
-            if (!playerPickupPump) {
-              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
-              //ajouter le prix du fuel
-              if (IsControlJustReleased(0, 38)) {
-                currentPump = getClosestPumpHandle();
-                //Add le fuel price de la pump
-                emit('orion:station:c:pickUpPump')
-              }
-            } else {
-              emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
-              if (IsControlJustReleased(0, 38)) {
-                emit('orion:station:c:pickUpPump')
-              }
+    for (const station of gazStationsBlips.GasStations) {
+      for (const pumpCoords of station.pumps) {
+        const distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], pumpCoords.X, pumpCoords.Y, pumpCoords.Z, true);
+        if (distance <= 2 && !IsPedInAnyVehicle(playerPed, false)) {
+          if (!playerPickupPump) {
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour prendre une pompe');
+            //ajouter le prix du fuel
+            if (IsControlJustReleased(0, 38)) {
+              currentPump = getClosestPumpHandle();
+              //Add le fuel price de la pump
+              emit('orion:station:c:pickUpPump')
+            }
+          } else {
+            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour ranger la pompe');
+            if (IsControlJustReleased(0, 38)) {
+              emit('orion:station:c:pickUpPump')
             }
           }
+          await exports['orion'].delay(5);
         }
       }
-      vehicleEntityInFront = vehicleInFront();
+    }
+    vehicleEntityInFront = vehicleInFront();
 
-      if (playerPickupPump && vehicleEntityInFront) {
-        if (!pistoletInVehicle) {
+    if (playerPickupPump && vehicleEntityInFront) {
+      if (!pistoletInVehicle) {
 
-          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
-          if (IsControlJustReleased(0, 38)) {
-            if (IsVehicleEngineOn(vehicleEntityInFront)) {
-              emit('orion:showNotification', 'Vous devez éteindre le moteur du véhicule.');
-              return;
-            }
-
-            const currentFuelInVehicle = getFuel(vehicleEntityInFront);
-
-            const missingFuel = 100 - currentFuelInVehicle;
-            if (missingFuel <= 0) {
-              emit('orion:station:c:canceledRefuel', 'Le véhicule est déjà plein.')
-              return;
-            }
-            let isBike = IsThisModelABike(GetEntityModel(vehicleEntityInFront));
-            let vehClass = GetVehicleClass(vehicleEntityInFront)
-            let nozzleModifiedPosition = {
-              x: 0.0,
-              y: 0.0,
-              z: 0.0
-            }
-
-            let tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petroltank');
-
-            if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicleEntityInFront)]) {
-              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petrolcap');
-              if (tankBone == -1) {
-                tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petroltank');
-              }
-              if (tankBone == -1) {
-                tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'engine');
-              }
-              isBike = true;
-            }
-            else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicleEntityInFront)]) {
-              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petrolcap');
-              if (tankBone == -1) {
-                tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petroltank_l');
-              }
-              if (tankBone == -1) {
-                tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'hub_lr');
-              }
-              if (tankBone == -1) {
-                tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, "handle_dside_r")
-                nozzleModifiedPosition.x = 0.1
-                nozzleModifiedPosition.y = -0.5
-                nozzleModifiedPosition.z = -0.6
-              }
-            }
-            tankPosition = GetWorldPositionOfEntityBone(vehicleEntityInFront, tankBone);
-
-            LoadAnimDict('timetable@gardener@filling_can');
-            TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
-            await exports['orion'].delay(300);
-            //let fuelposition = getVehicleRefuelPositions(vehicle);
-
-            putPipeInVehicle(vehicleEntityInFront, tankBone, isBike, true, nozzleModifiedPosition);
-            pistoletInVehicle = true;
-
+        emit('orion:showText', 'Appuyez sur ~g~E~w~ pour mettre la pompe dans le véhicule');
+        if (IsControlJustReleased(0, 38)) {
+          if (IsVehicleEngineOn(vehicleEntityInFront)) {
+            emit('orion:showNotification', 'Vous devez éteindre le moteur du véhicule.');
+            return;
           }
+
+          const currentFuelInVehicle = getFuel(vehicleEntityInFront);
+
+          const missingFuel = 100 - currentFuelInVehicle;
+          if (missingFuel <= 0) {
+            emit('orion:station:c:canceledRefuel', 'Le véhicule est déjà plein.')
+            return;
+          }
+          let isBike = IsThisModelABike(GetEntityModel(vehicleEntityInFront));
+          let vehClass = GetVehicleClass(vehicleEntityInFront)
+          let nozzleModifiedPosition = {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0
+          }
+
+          let tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petroltank');
+
+          if ((vehClass == 8 && vehClass != 13) && !electricVehicles[GetHashKey(vehicleEntityInFront)]) {
+            tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petrolcap');
+            if (tankBone == -1) {
+              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petroltank');
+            }
+            if (tankBone == -1) {
+              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'engine');
+            }
+            isBike = true;
+          }
+          else if (vehClass !== 13 && !electricVehicles[GetHashKey(vehicleEntityInFront)]) {
+            tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petrolcap');
+            if (tankBone == -1) {
+              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'petroltank_l');
+            }
+            if (tankBone == -1) {
+              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, 'hub_lr');
+            }
+            if (tankBone == -1) {
+              tankBone = GetEntityBoneIndexByName(vehicleEntityInFront, "handle_dside_r")
+              nozzleModifiedPosition.x = 0.1
+              nozzleModifiedPosition.y = -0.5
+              nozzleModifiedPosition.z = -0.6
+            }
+          }
+          tankPosition = GetWorldPositionOfEntityBone(vehicleEntityInFront, tankBone);
+
+          LoadAnimDict('timetable@gardener@filling_can');
+          TaskPlayAnim(PlayerPedId(), "timetable@gardener@filling_can", "gar_ig_5_filling_can", 2.0, 8.0, -1, 50, 0, 0, 0, 0)
+          await exports['orion'].delay(300);
+          //let fuelposition = getVehicleRefuelPositions(vehicle);
+
+          putPipeInVehicle(vehicleEntityInFront, tankBone, isBike, true, nozzleModifiedPosition);
+          pistoletInVehicle = true;
 
         }
-        else {
-          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour arrêter de mettre de l\'essence');
-          if (IsControlJustReleased(0, 38)) {
-            if (totPrice > 0) {
-              exports['orion'].showNotification('Vous avez payé ' + totPrice + '$')
-            }
-            pistoletInVehicle = false;
-            totPrice = 0;
-            ClearPedTasks(PlayerPedId());
+
+      }
+      else {
+        emit('orion:showText', 'Appuyez sur ~g~E~w~ pour arrêter de mettre de l\'essence');
+        if (IsControlJustReleased(0, 38)) {
+          if (totPrice > 0) {
+            exports['orion'].showNotification('Vous avez payé ' + totPrice + '$')
           }
+          pistoletInVehicle = false;
+          totPrice = 0;
+          ClearPedTasks(PlayerPedId());
         }
       }
     }
   });
 
-  (async () => {
-    while (true) {
-      await exports['orion'].delay(1000);
-      if (pistoletInVehicle) {
-        if (!vehicleEntityInFront) {
-          pistoletInVehicle = false;
-          ClearPedTasks(PlayerPedId());
+  setTick(async () => {
+    await exports['orion'].delay(1000);
+    if (pistoletInVehicle) {
+      if (!vehicleEntityInFront) {
+        pistoletInVehicle = false;
+        ClearPedTasks(PlayerPedId());
+      }
+      else {
+        let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
+        if (fuel < 100) {
+          emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
+          setFuel(vehicleEntityInFront, fuel + 1);
+          totPrice = totPrice + (1 * fuelPrice);
         }
         else {
-          let fuel = GetVehicleFuelLevel(vehicleEntityInFront);
-          if (fuel < 100) {
-            emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
-            setFuel(vehicleEntityInFront, fuel + 1);
-            totPrice = totPrice + (1 * fuelPrice);
-          }
-          else {
-            emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
-            emit('orion:station:c:canceledRefuel', 'Merci pour votre achat ! Prix total: ~g~' + totPrice + '$')
-          }
+          emitNet('orion:station:s:payRefuelVehicle', (1 * fuelPrice));
+          emit('orion:station:c:canceledRefuel', 'Merci pour votre achat ! Prix total: ~g~' + totPrice + '$')
         }
       }
     }
-  })();
 
-  (async () => {
-    while (true) {
-      await exports['orion'].delay(10);
-      if (pistoletInVehicle) {
-        BeginTextCommandDisplayHelp("THREESTRINGS")
-        AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100 ~w~| Prix total: ~g~' + totPrice + '$')
-        EndTextCommandDisplayHelp(0, false, false, 100)
-      }
+  })
+
+  setTick(async () => {
+    await exports['orion'].delay(10);
+    if (pistoletInVehicle) {
+      BeginTextCommandDisplayHelp("THREESTRINGS")
+      AddTextComponentSubstringPlayerName('Essence: ~g~' + Math.round(GetVehicleFuelLevel(vehicleEntityInFront)) + ' / 100 ~w~| Prix total: ~g~' + totPrice + '$')
+      EndTextCommandDisplayHelp(0, false, false, 100)
     }
-  })();
+
+  })
 
   onNet('orion:station:c:canceledRefuel', (message) => {
     pistoletInVehicle = false;

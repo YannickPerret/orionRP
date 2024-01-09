@@ -89,59 +89,57 @@
 
 
   setTick(async () => {
-    while (true) {
-      await exports['orion'].delay(5);
-      let playerCoords = GetEntityCoords(PlayerPedId(), false);
+    await exports['orion'].delay(5);
+    let playerCoords = GetEntityCoords(PlayerPedId(), false);
 
-      for (let banksNational of bankCoordsJson.bank_nation) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], banksNational.coords.X, banksNational.coords.Y, banksNational.coords.Z, true)
-        if (distance <= 1.3) {
-          if (!showBankInterface) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque nationale');
-            if (IsControlJustReleased(0, 38)) {
-              emitNet('orion:bank:s:getAccountInterface', "bank");
-              maxWithdraw = 100000000;
-            }
+    for (let banksNational of bankCoordsJson.bank_nation) {
+      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], banksNational.coords.X, banksNational.coords.Y, banksNational.coords.Z, true)
+      if (distance <= 1.3) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque nationale');
+          if (IsControlJustReleased(0, 38)) {
+            emitNet('orion:bank:s:getAccountInterface', "bank");
+            maxWithdraw = 100000000;
           }
         }
       }
+    }
 
-      for (let bankCoords of bankCoordsJson.banks) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
-        if (distance <= 1.3) {
-          if (!showBankInterface) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
-            if (IsControlJustReleased(0, 38)) {
-              emitNet('orion:bank:s:getAccountInterface', "bank");
-              maxWithdraw = 1000000;
-            }
+    for (let bankCoords of bankCoordsJson.banks) {
+      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
+      if (distance <= 1.3) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
+          if (IsControlJustReleased(0, 38)) {
+            emitNet('orion:bank:s:getAccountInterface', "bank");
+            maxWithdraw = 1000000;
           }
         }
       }
+    }
 
-      for (let atmCoords of bankCoordsJson.atms) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
-        if (distance <= 2) {
-          if (!showBankInterface) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
-            if (IsControlJustReleased(0, 38)) {
-              emitNet('orion:bank:s:getAccountInterface', "atm");
-              maxWithdraw = 100000;
-            }
+    for (let atmCoords of bankCoordsJson.atms) {
+      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
+      if (distance <= 2) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
+          if (IsControlJustReleased(0, 38)) {
+            emitNet('orion:bank:s:getAccountInterface', "atm");
+            maxWithdraw = 100000;
           }
         }
       }
+    }
 
-      for (const mangement of bankCoordsJson.managements) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
-        if (distance <= 2) {
-          if (!showBankInterface) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
-            if (IsControlJustReleased(0, 38)) {
-              const player = exports['orion'].getPlayerData();
-              exports['orion'].createPnjDialog(showManagementDialog(`${player.firstname} ${player.lastname}`));
-              showBankInterface = true;
-            }
+    for (const mangement of bankCoordsJson.managements) {
+      let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
+      if (distance <= 2) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
+          if (IsControlJustReleased(0, 38)) {
+            const player = exports['orion'].getPlayerData();
+            exports['orion'].createPnjDialog(showManagementDialog(`${player.firstname} ${player.lastname}`));
+            showBankInterface = true;
           }
         }
       }

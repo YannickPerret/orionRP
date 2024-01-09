@@ -11,6 +11,91 @@ let playerData = {};
   let hunger = 100;
   let thirst = 100;
 
+  const objectTypes = [
+    {
+      type: 'bank',
+      objects: [
+        GetHashKey('prop_atm_03'),
+        GetHashKey('prop_fleeca_atm'),
+        GetHashKey('prop_atm_02'),
+        GetHashKey('prop_atm_01')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour utiliser le distributeur',
+      action: () => {
+        emitNet('orion:bank:s:getAccountInterface', "atm");
+      }
+    },
+    {
+      type: 'phone',
+      objects: [
+        GetHashKey('prop_phonebox_01a'),
+        GetHashKey('prop_phonebox_03'),
+        GetHashKey('prop_phonebox_01c'),
+        GetHashKey('prop_phonebox_02'),
+        GetHashKey('prop_phonebox_01b'),
+        GetHashKey('prop_phonebox_04')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour utiliser le téléphone',
+      action: () => {
+        emitNet('orion:phone:s:getPhoneInterface');
+      }
+    },
+    {
+      type: 'water',
+      objects: [
+        GetHashKey('prop_watercooler'),
+        GetHashKey('prop_watercooler_dark')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour boire de l\'eau',
+      action: () => {
+        emitNet('orion:shop:s:drinkWater');
+      }
+    },
+    {
+      type: 'drink',
+      objects: [
+        GetHashKey('prop_vend_soda_01'),
+        GetHashKey('prop_vend_soda_02'),
+        GetHashKey('prop_vend_coffe_01')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour acheter une boisson',
+    },
+    {
+      type: 'snack',
+      objects: [
+        GetHashKey('prop_vend_snak_01'),
+        GetHashKey('prop_vend_snak_02')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour acheter un snack',
+      action: () => {
+        emitNet('orion:shop:s:buySnack');
+      }
+    },
+    {
+      type: 'newspaper',
+      objects: [
+        GetHashKey('p_cs_paper_disp_1'),
+        GetHashKey('p_cs_paper_disp_2')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour lire le journal',
+      action: () => {
+        emitNet('orion:shop:s:buyNewspaper');
+      }
+    },
+    {
+      type: 'bin',
+      objects: [
+        GetHashKey('prop_bin_01a'),
+        GetHashKey('prop_bin_01b'),
+        GetHashKey('prop_cs_bin_03')
+      ],
+      message: 'Appuyez sur ~g~E~w~ pour jeter à la poubelle',
+      action: () => {
+        emitNet('orion:inventory:c:dropItem');
+      }
+    }
+  ]
+
   function modelLoadedAsync() {
     return new Promise((resolve) => {
       const timer = setInterval(() => {
@@ -304,65 +389,25 @@ let playerData = {};
   setTick(async () => {
     const ped = PlayerPedId();
     const distance = 0.8;
-    while (true) {
-      await exports['orion'].delay(5);
+    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
 
-      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(ped, true);
-
-      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_atm_03'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_fleeca_atm'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_atm_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_atm_01'), false, false, false) !== 0)) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le distributeur`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:bank:s:getAccountInterface', "atm");
+    for (const objectType of objectTypes) {
+      for (const object of objectType.objects) {
+        const objectPosition = GetEntityCoords(object, true);
+        const [distanceToPlayer, _, __] = GetDistanceBetweenCoords(playerPositionX, playerPositionY, playerPositionZ, objectPosition[0], objectPosition[1], objectPosition[2], true);
+        if (distanceToPlayer <= distance) {
+          DrawText3D(objectPosition[0], objectPosition[1], objectPosition[2], objectType.message);
+          if (IsControlJustReleased(0, 38)) {
+            if (objectType.action) {
+              objectType.action();
+            }
+          }
+          await exports['orion'].delay(10);
+        }
+        else {
+          await exports['orion'].delay(500);
         }
       }
-      //Get closest phoneBox
-      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_01a'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_03'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_01c'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_01b'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_phonebox_04'), false, false, false) !== 0)) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour utiliser le téléphone`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:phone:s:getPhoneInterface');
-        }
-      }
-
-      //Get All closest water fountain
-      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_watercooler'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_watercooler_dark'), false, false, false) !== 0)) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour boire de l'eau`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:shop:s:drinkWater');
-        }
-      }
-
-      // Get closest soda machine and cafe
-      if ((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_soda_01'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_soda_02'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_coffe_01'), false, false, false) !== 0)) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour acheter une boisson`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:shop:s:buyDrink');
-        }
-      }
-
-      //Get closest food machine
-      if (((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_snak_01'), false, false, false) !== 0)) || GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_vend_snak_02'), false, false, false) !== 0) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour acheter un snack`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:shop:s:buySnack');
-        }
-      }
-
-      // Get closest paper
-      if ((GetClosestObjectOfType((playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('p_cs_paper_disp_1'), false, false, false) !== 0)) || GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('p_cs_paper_disp_2'), false, false, false) !== 0) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour lire le journal`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:shop:s:buyNewspaper');
-        }
-      }
-
-      // Get bin
-      if (((GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_bin_01a'), false, false, false) !== 0) || (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_bin_01b'), false, false, false) !== 0)) || GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, GetHashKey('prop_cs_bin_03'), false, false, false) !== 0) {
-        emit('orion:showText', `Appuyez sur ~g~E~w~ pour jeter à la poubelle`)
-        if (IsControlJustReleased(0, 38)) {
-          emitNet('orion:inventory:c:dropItem');
-        }
-      }
-
     }
   })
 

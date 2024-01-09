@@ -68,12 +68,10 @@ const StopZoomSkyCam = async () => {
   if (DoesCamExist(ZoomSkyCam)) {
     RenderScriptCams(false, true, 4500, true, true);
     let waiting = true;
-    SetTick(() => {
+    SetTick(async () => {
       while (waiting) {
         DisableControlAction(0, 1, true);
         DisableControlAction(0, 2, true);
-        await exports['orion'].delay(0);
-
       }
     });
     await exports['orion'].delay(4500);

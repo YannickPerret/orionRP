@@ -241,8 +241,6 @@ let delay_bcast_timer = 200
  
 setTick(async () => {
  
-  while (true) {
- 
     let playerPed = PlayerPedId();
     if (IsPedInAnyVehicle(playerPed, false)) {
       let vehicle = GetVehiclePedIsIn(playerPed, false);
@@ -282,7 +280,6 @@ setTick(async () => {
           }
         }
       }
-    }
   }
 });*/
 
