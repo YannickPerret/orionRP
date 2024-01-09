@@ -391,6 +391,7 @@ let playerData = {};
       for (const object of objectType.objects) {
         console.log(object)
         if (GetClosestObjectOfType(playerCoords, distance, object, false, false, false) !== 0) {
+          console.log('test')
           emit('orion:showText', objectType.message);
           if (IsControlJustReleased(0, 38)) {
             if (objectType.action) {
