@@ -109,7 +109,6 @@
     setTick(async () => {
 
       if (GetPlayerWantedLevel(PlayerId()) > 0) {
-        console.log('player wanted level > 0');
         SetPlayerWantedLevel(PlayerId(), 0, false);
         SetPlayerWantedLevelNow(PlayerId(), false);
         SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
