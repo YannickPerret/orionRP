@@ -24,7 +24,7 @@ Config.Framework = {
     QB_CORE_NAME = "qb-core",
 
     -- should the script look it self for framework?
-    AutoCheck = true,
+    AutoCheck = false,
 }
 
 Config.Society = "society"
@@ -195,7 +195,7 @@ Config.computerList = {
     -- Retro machines
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.RetroMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -211,7 +211,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.RetroMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -228,7 +228,7 @@ Config.computerList = {
     -- Gaming computers
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -244,7 +244,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -260,7 +260,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -276,7 +276,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -292,7 +292,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -308,7 +308,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -324,7 +324,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
@@ -340,7 +340,7 @@ Config.computerList = {
     },
     {
         -- if false player dont need a ticket to play on this computer.
-        isInGamingHouse = true,
+        isInGamingHouse = false,
 
         computerType = Config.GamingMachine,
         computerGPU = Config.GPUList.ETX1050,
