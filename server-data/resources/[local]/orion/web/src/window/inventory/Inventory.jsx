@@ -83,9 +83,6 @@ export default function Inventory() {
 
     return (
         <div className={style.inventory}>
-            <div className={style.inventory__close} onClick={closeAllMenus}>
-                X
-            </div>
             <div className={style.inventory__container}>
                 <header>
                     <h1>Inventory</h1>

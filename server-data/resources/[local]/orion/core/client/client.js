@@ -86,6 +86,7 @@
   RegisterNuiCallbackType('hideFrame');
   on('__cfx_nui:hideFrame', (data, cb) => {
     SetNuiFocus(false, false);
+    SetNuiFocusKeepInput(false)
     cb({ ok: true });
   });
 
