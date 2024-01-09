@@ -141,8 +141,11 @@ let playerData = {};
     }, 100);
   }
 
-  onNet('orion:player:c:handsUp', () => {
+  onNet('orion:player:c:handsUp', async () => {
+    const playerPed = PlayerPedId();
+
     handsUp = !handsUp;
+    console.log(handsUp)
     if (IsPedInAnyVehicle(GetPlayerPed(-1), false)) {
       return;
     }
@@ -158,7 +161,25 @@ let playerData = {};
     if (IsPedRagdoll(GetPlayerPed(-1))) {
       return;
     }
-    exports['orion'].handsUp(handsUp);
+    let dict = "missminuteman_1ig_2"
+    let anim = "handsup_enter"
+
+    while (!HasAnimDictLoaded(dict)) {
+      RequestAnimDict(dict);
+      await exports['orion'].delay(100);
+    }
+
+    setTick(async () => {
+      await exports['orion'].delay(0);
+      if (IsControlJustPressed(1, 323)) {
+        if (!handsUp) {
+          TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
+        }
+        else {
+          ClearPedTasks(playerPed);
+        }
+      }
+    })
   })
 
   exports('getPlayerIsConnected', () => {

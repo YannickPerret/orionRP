@@ -98,26 +98,7 @@
   })
 
   const handsUp = async (enable) => {
-    const playerPed = PlayerPedId();
-    let dict = "missminuteman_1ig_2"
-    let anim = "handsup_enter"
-
-    while (!HasAnimDictLoaded(dict)) {
-      RequestAnimDict(dict);
-      await delay(100);
-    }
-
-    setTick(async () => {
-      await exports['orion'].delay(0);
-      if (IsControlJustPressed(1, 323)) {
-        if (!enable) {
-          TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
-        }
-        else {
-          ClearPedTasks(playerPed);
-        }
-      }
-    })
+    
   }
 
   exports('handsUp', handsUp);
