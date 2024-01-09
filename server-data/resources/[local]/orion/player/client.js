@@ -395,7 +395,7 @@ let playerData = {};
       for (const objectType of objectTypes) {
         for (const object of objectType.objects) {
           if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, object, false, false, false) !== 0) {
-            drawnObjects.push(objectType);
+            drawnObjects.push({ object: object, message: objectType.message, action: objectType.action });
           }
         }
       }
