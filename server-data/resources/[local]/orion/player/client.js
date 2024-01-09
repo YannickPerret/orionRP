@@ -395,12 +395,17 @@ let playerData = {};
       for (const objectType of objectTypes) {
         for (const object of objectType.objects) {
           if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, object, false, false, false) !== 0) {
-            drawnObjects.push({ object: object, message: objectType.message, action: objectType.action });
+            const drawnObject = { object: object, message: objectType.message };
+            if (objectType.action) {
+              drawnObject.action = objectType.action;
+            }
+            drawnObjects.push(drawnObject);
           }
         }
       }
     }
   })
+
 
   setTick(async () => {
     await exports['orion'].delay(0)
