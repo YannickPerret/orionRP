@@ -107,6 +107,7 @@ onNet('orion:core:c:hideFrame', async () => {
   setTick(async () => {
 
     if (GetPlayerWantedLevel(PlayerId()) > 0) {
+      console.log('player wanted level > 0');
       SetPlayerWantedLevel(PlayerId(), 0, false);
       SetPlayerWantedLevelNow(PlayerId(), false);
       SetPlayerWantedLevelNoDrop(PlayerId(), 0, false);
@@ -129,6 +130,7 @@ onNet('orion:core:c:hideFrame', async () => {
     HideHudComponentThisFrame(4);
     HideHudComponentThisFrame(13);
     HideHudComponentThisFrame(14);
-    await exports['orion'].delay(5);
+    await exports['orion'].delay(0);
   });
+
 })();
