@@ -386,7 +386,7 @@ let playerData = {};
   let currentObject = null;
 
   setTick(async () => {
-    exports['orion'].delay(1000)
+    await exports['orion'].delay(1000)
     const pedCoords = GetEntityCoords(PlayerPedId(), true);
     const distance = 15;
 
@@ -403,7 +403,7 @@ let playerData = {};
   })
 
   setTick(async () => {
-    exports['orion'].delay(0)
+    await exports['orion'].delay(0)
     const distance = 0.8;
     const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
     for (const object of drawnObjects) {
