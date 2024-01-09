@@ -4,7 +4,7 @@
     onNet('orion:inventory:c:open', (inventory) => {
         inventoryUiOpen = true;
         SetNuiFocus(inventoryUiOpen, inventoryUiOpen);
-        SetNuiFocusKeepInput(inventoryUiOpen)
+        SetNuiFocusKeepInput(false)
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
@@ -17,7 +17,7 @@
     onNet('orion:inventory:c:close', () => {
         inventoryUiOpen = false;
         SetNuiFocus(false, false);
-        SetNuiFocusKeepInput(false)
+        SetNuiFocusKeepInput(true)
         SendNuiMessage(JSON.stringify({
             action: 'inventoryHUD',
             payload: {
