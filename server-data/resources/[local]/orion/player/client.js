@@ -389,6 +389,7 @@ let playerData = {};
 
     for (const objectType of objectTypes) {
       for (const object of objectType.objects) {
+        console.log(object)
         const objectPosition = GetEntityCoords(object, true);
         console.log(playerCoords, objectPosition)
         const [distanceToPlayer, _, __] = exports['orion'].getDistanceBetweenCoords(playerCoords, objectPosition);
