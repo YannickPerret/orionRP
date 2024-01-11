@@ -104,7 +104,7 @@
                 }
             }
             else {
-                let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(8);
+                let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(6);
                 //get type of entity and set targetValue by type
                 console.log(haveHit)
                 if (haveHit) {
@@ -159,7 +159,7 @@
                         // if object, know type, hash 
                         console.log("is a object")
                         entityOptions = targetValue[entityType] = {
-                            id: entity,
+                            id: NetworkGetNetworkIdFromEntity(entityHit),
                             hash: entityHit,
                             coords: entityCoords
                         }
