@@ -160,7 +160,7 @@
                         // if object, know type, hash 
                         console.log("is a object")
                         entityOptions = targetValue[entityType] = {
-                            id: NetworkGetNetworkIdFromEntity(entityHit),
+                            id: NetToObj(entityHit),
                             hash: entityHit,
                             coords: entityCoords
                         }
