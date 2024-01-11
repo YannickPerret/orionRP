@@ -20,8 +20,8 @@
 
 
     //events
-    onNet('orion:target:c:registerNewOptions', (options) => {
-
+    onNet('orion:target:c:registerNewOption', (type, options) => {
+        targetValue[type] = options;
     })
 
     //functions
@@ -73,19 +73,18 @@
         }
         return direction;
     }
-    const showEyesTarget = (activeTarget, targetValue) => {
-        SetNuiFocus(activeTarget, activeTarget)
-
+    const showMenuWheel = (options) => {
         SendNuiMessage(JSON.stringify({
-            action: 'showTarget',
+            action: 'targetShowOptions',
             payload: {
-                activeTarget: activeTarget,
-                targetValue: targetValue
+                options: options
             }
         }))
     }
+
     const Close = () => {
         activeTarget = false;
+        isInteract = false;
     }
 
     //threds
@@ -124,21 +123,22 @@
                     }
                     else if (entityType == 1) {
                         // if ped, test if ped normal or player
-                        let entity = NetworkGetPlayerIndexFromPed(entityHit);
+                        let entity = NetworkGetNetworkIdFromEntity(entityHit)
                         if (entity == -1) {
                             // if ped
-                            console.log("is a ped")
+                            console.log("is a pnj ped")
                             entityOptions = targetValue[entityType] = {
                                 id: entity,
-                                name: GetPlayerName(entity),
-                                coords: entityCoords
+                                coords: GetEntityCoords(entityHit),
+                                model: GetEntityModel(entityHit),
+                                hash: GetHashKey(GetEntityModel(entityHit))
                             }
                         }
                         else {
                             // if a player
-                            console.log("is a player")
+                            console.log("is a other player")
                             entityOptions = targetValue['player'] = {
-                                id: NetworkGetNetworkIdFromEntity(entityHit),
+                                id: entity,
                                 name: GetPlayerName(entity),
                                 coords: NetworkGetPlayerCoords(GetPlayerFromServerId(entity))
                             }
@@ -175,12 +175,11 @@
                         id: NetworkGetNetworkIdFromEntity(playerPed),
                         name: GetPlayerName(PlayerId()),
                         coords: GetEntityCoords(playerPed),
+                        actions: []
                     }
                 }
-            }
-            if (IsDisabledControlJustReleased(0, 24)) {
-                isInteract = true;
-                //OnClick()
+                isInteract = true
+                showMenuWheel(entityOptions)
             }
         }
         await exports['orion'].delay(100);
