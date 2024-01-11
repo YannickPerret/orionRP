@@ -1,7 +1,6 @@
 (async () => {
     let dict = 'shared'
     let texture = 'emptydot_32'
-    let player = exports['orion'].getPlayerData()
     let targetValue = {
         [0]: {},
         [1]: {},
@@ -17,6 +16,7 @@
     let keyToOpen = 'LMENU'
     let menuControlKey = 238
 
+    console.log("target loaded")
     //threds
     setTick(async () => {
         if (activeTarget) {
