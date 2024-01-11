@@ -52,6 +52,7 @@
             y: cameraCoord.y + direction.y * distance,
             z: cameraCoord.z + direction.z * distance
         }
+        console.log(cameraRotation, cameraCoord, direction, destination)
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             return [hit, coords, entity];
@@ -79,7 +80,7 @@
     }
 
     //threds
-    setTick(async () => {
+    (async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
@@ -126,7 +127,7 @@
             }
         }
         await exports['orion'].delay(100);
-    })
+    })()
 
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
