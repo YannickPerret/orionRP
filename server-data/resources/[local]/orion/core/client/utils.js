@@ -53,56 +53,32 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  function getDistanceBetweenCoords(point1, point2, useZ = true) {
-    // is X ou [0] is Y ou [1] is Z ou [2]
-    const x1 = point1[0] || point1.x || point1.X;
-    const y1 = point1[1] || point1.y || point1.Y;
-    const z1 = point1[2] || point1.z || point1.Z;
-    const x2 = point2[0] || point2.x || point2.X;
-    const y2 = point2[1] || point2.y || point2.Y;
-    const z2 = point2[2] || point2.z || point2.Z;
-    const dx = x1 - x2;
-    const dy = y1 - y2;
-    const dz = z1 - z2;
-    if (!useZ) {
-      return Math.sqrt(dx * dx + dy * dy);
-    }
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
-  }
-
-  exports('raycastCamera', async (flag, playerCoords) => {
+  exports('raycastCamera', async (distance) => {
     const playerPed = PlayerPedId();
-    if (!playerCoords) {
-      playerCoords = GetEntityCoords(playerPed);
-    }
-    const [rayPos, rayDir] = ScreenPositionToCameraRay();
-    const destination = rayPos + 16 * rayDir;
-    const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, flag || -1, playerPed, 4);
+    let playerCoords = GetEntityCoords(playerPed);
 
-    while (true) {
+    const [rayPos, rayDir] = ScreenPositionToCameraRay();
+    const destination = rayPos + distance * rayDir;
+    const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, -1, playerPed, 0);
+
+    setTick(async () => {
+      await exports['orion'].delay(100);
+
       let [result, hit, endCoords, surface, entityHit] = GetShapeTestResult(rayHandle);
       if (result !== 1) {
-        const distance = exports['orion'].getDistanceBetweenCoords(playerCoords, endCoords);
-        if (flag === 30 && entityHit) {
-          entityHit = HasEntityClearLosToEntity(entityHit, playerPed, 7) && entityHit;
-        }
-        let entityType = entityHit && GetEntityType(entityHit);
-
-        if (entityType === 0 && pcall(GetEntityModel, entityHit)) {
-          entityType = 3;
-        }
-        return [endCoords, distance, entityHit, entityType || 0];
+        return [hit, endCoords, entityHit];
       }
-      await exports['orion'].delay(0);
-    }
+      else {
+        return;
+      }
+    })
   })
 
-  const handsUp = async (enable) => {
-    
+  const isAreaVehicleOccuped = (coords, radius, ignoreEntity) => {
+    return IsPositionOccupied(coords.x, coords.y, coords.z, radius, null, true, false, null, null, ignoreEntity, null);
   }
 
-  exports('handsUp', handsUp);
-  exports('getDistanceBetweenCoords', getDistanceBetweenCoords);
+  exports('isAreaVehicleOccuped', isAreaVehicleOccuped);
   exports('getRandomBetween', getRandomBetween);
   exports('createMarker', createMarker);
   exports('waitingLoader', waitingLoader);

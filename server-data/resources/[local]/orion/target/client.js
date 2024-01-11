@@ -1,30 +1,112 @@
 (async () => {
-    const config = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'target/config.json'))
     let dict = 'shared'
     let texture = 'emptydot_32'
+    let player = exports['orion'].getPlayerData()
+    let targetValue = {
+        [0]: {},
+        [1]: {},
+        [2]: {},
+        [3]: {},
+        ['player']: {},
+        ['inVehicle']: {}
+    }
+    let entityOptions = targetValue[0];
 
+    let activeTarget = false;
+    let currentTarget = {}
+    let keyToOpen = 'LMENU'
+    let menuControlKey = 238
 
+    //threds
     setTick(async () => {
-        let playerPed = PlayerPedId()
-        let playerCoords = GetEntityCoords(playerPed)
-        // quand j'appuie sur la touche LMenu envoie un raycast via la caméra, s'il touche un object non targetable show le eyes fermé.
-        // si l'object est targetable show les yeux ouvert et ouvre le menu avec les options de l'object.
-        if (IsControlJustPressed(0, 19)) {
-            //drawsprite eyes closed
-            //drawtext eyes closed
-            DrawSprite('eyes', 'closed', 0.5, 0.5, 0.1, 0.1, 0, 255, 255, 255, 255)
+        if (activeTarget) {
+            let playerPed = PlayerPedId();
+            let [haveHit, entityCoords, entityHit] = getEntityTargeted(15);
+            console.log(haveHit, entityCoords, entityHit)
+            //get type of entity and set targetValue by type
+            if (haveHit) {
+                let entityType = GetEntityType(entityHit);
+                entityOptions = targetValue[entityType];
 
-            let entityCheck = exports['orion'].raycastCamera(-1, playerCoords)
-            console.log(entityCheck)
-            dict = requestStreamedTextureDict("share", texture)
-            if (dict) {
-                DrawSprite(dict, texture, 0.5, 0.5, 0.1, 0.1, 0, 255, 255, 255, 255)
+                if (entityType == 1) {
+                    // if ped, test if ped normal or player
+                    let entity = NetworkGetPlayerIndexFromPed(entityHit);
+                    if (entity == -1) {
+                        // if ped
+                        entityOptions = targetValue[entityType] = {
+                            id: entity,
+                            name: GetPlayerName(entity),
+                            coords: entityCoords
+                        }
+                    }
+                    else {
+                        // if player
+                        entityOptions = targetValue['player'] = {
+                            id: entity,
+                            name: GetPlayerName(entity),
+                            coords: entityCoords
+                        }
+
+                    }
+                }
+
+                else if (entityType == 2) {
+                    // if vehicle, get vehicle model and hash
+
+                }
+
+                else if (entityType == 3) {
+                    // if object, know type, hash 
+                    entityOptions = targetValue[entityType] = {
+                        id: entity,
+                        hash: GetEntityModel(entityHit),
+                        coords: entityCoords
+                    }
+                }
             }
-
-
-
         }
     })
+    //events
+    onNet('orion:target:c:registerNewOptions', (options) => {
 
+    })
+
+    //function
+    const getEntityTargeted = (distance) => {
+        const [rayPos, rayDir] = ScreenPositionToCameraRay();
+        const destination = rayPos + distance * rayDir;
+        const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0);
+        let [result, hit, endCoords, surface, entityHit] = GetShapeTestResult(rayHandle);
+        if (result !== 1) {
+            return [hit, endCoords, entityHit];
+        }
+        else {
+            return;
+        }
+    }
+
+    const showEyesTarget = () => {
+
+    }
+
+
+    // Register commande
+    RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
+    RegisterCommand('target', function (source, args) {
+        activeTarget = !activeTarget
+        if (activeTarget) {
+            SetNuiFocus(true, true)
+        }
+        else {
+            SetNuiFocus(false, false)
+        }
+        SendNuiMessage(JSON.stringify({
+            action: 'showTarget',
+            payload: {
+                activeTarget: activeTarget,
+                targetValue: targetValue
+            }
+        }))
+    })
 
 })();   

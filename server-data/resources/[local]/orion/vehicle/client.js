@@ -35,6 +35,40 @@ let seatbeltEjectAccel = 100.0;
 let seatbeltPropModel = 'prop_seatbelt_01';
 let seatbeltProp = null;
 
+// airbag
+let airbagProp = 'prop_airbag_01';
+let airbagDeploySpeed = 60.0
+let aribargDamageDeploy = 200.0
+
+const ToggleAirbag = async (currVehicle) => {
+  while (!HasModelLoaded(airbagPropp)) {
+    RequestModel(modelName)
+    await exports['orion'].delay(0)
+  }
+  let pCoords = GetEntityCoords(PlayerPedId())
+  let airbag1 = CreateObject(Config.airbagProp, pCoords.x, pCoords.y, pCoords.z, true, true, true)
+  let airbag2 = CreateObject(Config.airbagProp, pCoords.x, pCoords.y, pCoords.z, true, true, true)
+
+  let driverSideBone = GetEntityBoneIndexByName(currVehicle, "seat_dside_f")
+  let passSideBone = GetEntityBoneIndexByName(currVehicle, "seat_pside_f")
+  AttachEntityToEntity(airbag1, currVehicle, driverSideBone, 0.0, 0.30, 0.40, 0.0, 0.0, 90.0, true, true, false, false, 2, true)
+  AttachEntityToEntity(airbag2, currVehicle, passSideBone, 0.0, 0.40, 0.40, 0.0, 0.0, 90.0, true, true, false, false, 2, true)
+
+  TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10.0, "airbag", 1.0)
+
+  setTick(async () => {
+    StartScreenEffect("DeathFailOut", 0, 0)
+    ShakeGameplayCam("DEATH_FAIL_IN_EFFECT_SHAKE", 1.0)
+
+    await exports['orion'].delay(3000)
+
+    StopScreenEffect("DeathFailOut")
+  })
+
+  Entity(currVehicle).state.airbags = true
+  emitNet('vehicle:airbags:s:setState', NetworkGetNetworkIdFromEntity(currVehicle), true)
+}
+
 exports('getVehicleProprieties', async (vehicle) => {
   let vehicleProprieties = {
     doorsBroken: [false, false, false, false, false, false, false],
@@ -138,7 +172,7 @@ const playSound = sound => {
       let consumption = 0.0;
 
       //currSpeed = GetEntitySpeed(vehicle) * 3.6;
-      currSpeed = GetEntitySpeed(vehicle);
+      currSpeed = GetEntitySpeed(vehicle) * 2.236936;
       SetPedConfigFlag(ped, 32, true);
 
       DisplayRadar(true);
@@ -235,56 +269,6 @@ const playSound = sound => {
     await exports['orion'].delay(0);
   }
 })();
-/*
-let count_bcast_timer = 0
-let delay_bcast_timer = 200
- 
-setTick(async () => {
- 
-    let playerPed = PlayerPedId();
-    if (IsPedInAnyVehicle(playerPed, false)) {
-      let vehicle = GetVehiclePedIsIn(playerPed, false);
-      let classVehicle = GetVehicleClass(vehicle);
- 
-      if (GetPedInVehicleSeat(vehicle, -1) == playerPed) {
-        DisableControlAction(0, 84, true)
-        DisableControlAction(0, 83, true)
- 
-        if (classVehicle == 18) {
-          let actv_manu = false
-          let actv_horn = false
- 
-          DisableControlAction(0, 86, true)
-          DisableControlAction(0, 172, true)
-          DisableControlAction(0, 81, true)
-          DisableControlAction(0, 82, true)
-          DisableControlAction(0, 85, true)
-          DisableControlAction(0, 80, true)
-          DisableControlAction(0, 19, true)
- 
-          SetVehRadioStation(vehicle, 'OFF')
-          SetVehicleRadioEnabled(vehicle, false)
- 
-          if (!IsPauseMenuActive()) {
-            if (IsDisabledControlJustPressed(0, 85) || IsDisabledControlJustPressed(0, 246)) {
-              if (IsVehicleSirenOn(vehicle)) {
-                PlaySoundFromEntity(-1, 'VEHICLES_HORNS_SIREN_1', vehicle, 'DLC_AW_01_Sounds', 1, 0)
-                SetVehicleSiren(vehicle, false)
-              }
-              else {
-                PlaySoundFromEntity(-1, 'VEHICLES_HORNS_SIREN_1', vehicle, 'DLC_AW_01_Sounds', 1, 0)
-                SetVehicleSiren(vehicle, true)
-                count_bcast_timer = delay_bcast_timer
-              }
-            }
-          }
-        }
-      }
-  }
-});*/
-
-
-
 
 RegisterKeyMapping('seatbelt', 'Attacher sa ceinture', 'keyboard', 'N');
 

@@ -6,17 +6,17 @@
 (async () => {
     const garageJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'garage/garages.json'))
 
-    let garageObj = [];
+    let currentGarageObj = {};
     let showGarageHUD = false
 
-    onNet('orion:garage:c:initializeGarages', () => {
-        console.log('initializeGarages')
-        emitNet('orion:garage:s:setParking')
-    })
-
-    onNet('orion:garage:c:setParking', (parking) => {
-        garageObj = parking
-    })
+    const checkIfVehicleIsOnPlace = () => {
+        currentGarageObj.spawnPlaces.forEach((place, index) => {
+            if (!exports['orion'].isAreaVehicleOccuped(place, 2.0, 0)) {
+                return place
+            }
+        })
+        return false
+    }
 
     RegisterNuiCallbackType('storeVehicle');
     on('__cfx_nui:storeVehicle', async (data, cb) => {
@@ -46,7 +46,13 @@
             exports['orion'].showNotification("Vous n'avez pas sélectionné de véhicule");
             return cb({ ok: false });
         }
-        emitNet('orion:garage:s:retrieveVehicle', data.vehicleId, data.garageId);
+
+        const garagePlacePos = checkIfVehicleIsOnPlace();
+        if (!garagePlacePos) {
+            exports['orion'].showNotification("Il n'y a pas de place libre pour sortir votre véhicule");
+            return cb({ ok: false });
+        }
+        emitNet('orion:garage:s:retrieveVehicle', data.vehicleId, data.garageId, garagePlacePos);
         cb({ ok: true });
     });
 
@@ -77,6 +83,7 @@
     }
 
     onNet('orion:garage:c:openGarage', (garage) => {
+        currentGarageObj = garage
         showGarage(garage)
     })
 

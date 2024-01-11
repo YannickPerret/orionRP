@@ -38,6 +38,7 @@ files {
 }
 shared_scripts {
     'core/shared/notifications.js',
+    'core/shared/utils.js',
 }
 
 

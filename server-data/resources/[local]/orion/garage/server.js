@@ -17,14 +17,6 @@
         return Math.round((price * (hoursParked - 1)).toFixed(0));
     }
 
-
-    onNet('orion:garage:s:setParking', async () => {
-        const source = global.source;
-        const parkingArray = Array.from(MarkerManager.getMarkers().values());
-
-        emitNet('orion:garage:c:setParking', source, parkingArray);
-    })
-
     onNet('orion:garage:s:openGarage', async (garageMarker) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
@@ -69,7 +61,7 @@
         emitNet('orion:garage:c:closeGarage', source, "Votre véhicule a été rentré dans le garage");
     })
 
-    onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId) => {
+    onNet('orion:garage:s:retrieveVehicle', async (vehicleId, garageId, spawnPosition) => {
         const source = global.source;
         const garage = GarageManager.getGarageById(garageId);
         const vehicle = garage.vehicles.find(vehicleDb => vehicleDb.id === vehicleId);
@@ -96,10 +88,6 @@
                 emitNet('orion:garage:c:closeGarage', source, "Ce véhicule n'est pas dans ce garage");
                 return;
             }
-
-            // get spawn position from garage and check if place it's free
-            const spawnPosition = { "X": 117.42, "Y": -1081.14, "Z": 29.22 };
-            const spawnHeading = 181.54
 
             emit('orion:vehicle:s:spawnVehicle', vehicle.id, spawnPosition, spawnHeading, source);
             emitNet('orion:garage:c:closeGarage', source);

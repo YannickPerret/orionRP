@@ -4,6 +4,33 @@
   const PlayerManager = require('./core/server/playerManager.js');
   const { db } = require('./core/server/database.js');
 
+  onNet('vehicle:airbags:s:setState', (vehicleNetId, state) => {
+    const vehicle = VehicleManager.getVehicleById(vehicleNetId);
+    if (vehicle) {
+      vehicle.airbags = state;
+      Entity(NetworkGetNetworkIdFromEntity(vehicleNetId)).state.ariaBags = state;
+    }
+  });
+
+  onNet('vehicle:airbags:s:getState', (vehicleNetId) => {
+    const vehicle = VehicleManager.getVehicleById(vehicleNetId);
+    if (vehicle) {
+      emitNet('vehicle:airbags:c:setState', source, Entity(NetworkGetNetworkIdFromEntity(vehicleNetId)).state.ariaBags);
+    }
+  });
+
+  onNet('vehicle:airbags:s:entityRemoved', (entity) => {
+    if (GetEntityType(entity) == 2) {
+      if (Entity(entity).state.ariaBags) {
+        for (let i = 0; i < GetAllObjects().length; i++) {
+          if (exports['orion'].getDistance(GetEntityCoords(GetAllObjects()[i]), GetEntityCoords(entity)) <= 6.0 && GetEntityModel(GetAllObjects()[i]) == 'prop_airbag_01') {
+            DeleteEntity(GetAllObjects()[i]);
+          }
+        }
+      }
+    }
+  })
+
   onNet('orion:vehicle:s:spawnNewVehicle', async (model, name = '', coords, pedHead) => {
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
@@ -51,7 +78,7 @@
     }
   });
 
-  onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, pedHead, _source) => {
+  onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, _source) => {
 
     const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
@@ -60,7 +87,7 @@
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
-      let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, pedHead);
+      let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, coords.Heading);
       while (!DoesEntityExist(vehicleSpawn)) {
         await exports['orion'].delay(0)
       }

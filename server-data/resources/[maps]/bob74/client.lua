@@ -22,7 +22,7 @@ Citizen.CreateThread(function()
     TrevorsTrailer.LoadDefault()
 
     -- Bahama Mamas: -1388.0013, -618.41967, 30.819599
-    BahamaMamas.Enable(true)
+    BahamaMamas.Enable(false)
 
     -- Pillbox hospital: 307.1680, -590.807, 43.280
     PillboxHospital.Enable(false)

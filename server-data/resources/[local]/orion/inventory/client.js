@@ -50,6 +50,7 @@
     on('__cfx_nui:useItem', (data, cb) => {
         if (data.id == undefined) return;
         emitNet('orion:inventory:s:useItem', data.id);
+        emit('orion:inventory:c:close');
         cb({ ok: true });
     });
 
@@ -60,6 +61,7 @@
         const targetPlayer = exports['orion'].findNearbyPlayers(3)[0];
         if (!targetPlayer) return emit('orion:showNotification', 'Aucun joueur à proximité');
         emitNet('orion:inventory:s:giveItem', data.id, targetPlayer);
+        emit('orion:inventory:c:close');
         cb({ ok: true });
     });
 
