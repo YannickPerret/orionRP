@@ -92,7 +92,8 @@
 
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
-    RegisterCommand('target', function (source, args) {
+    RegisterCommand('playerTarget', function (source, args) {
+        console.log("dddd")
         activeTarget = !activeTarget
         if (activeTarget) {
             SetNuiFocus(true, true)
