@@ -110,9 +110,9 @@
     }
     const RotationToDirection = (rotation) => {
         let adjustedRotation = {
-            x: (Math.PI() / 180) * rotation.x,
-            y: (Math.PI() / 180) * rotation.y,
-            z: (Math.PI() / 180) * rotation.z
+            x: (Math.PI / 180) * rotation.x,
+            y: (Math.PI / 180) * rotation.y,
+            z: (Math.PI / 180) * rotation.z
         }
         let direction = {
             x: -Math.sin(adjustedRotation.z) * Math.abs(math.cos(adjustedRotation.x)),
