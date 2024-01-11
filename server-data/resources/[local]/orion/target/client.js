@@ -52,7 +52,6 @@
             y: cameraCoord[1] + direction.y * distance,
             z: cameraCoord[2] + direction.z * distance
         }
-        console.log(cameraRotation, cameraCoord, direction, destination)
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             return [hit, coords, entity];
@@ -62,7 +61,6 @@
         }
     }
     const RotationToDirection = (rotation) => {
-        console.log("ici", rotation)
         let adjustedRotation = {
             x: (Math.PI / 180) * rotation[0],
             y: (Math.PI / 180) * rotation[1],
@@ -92,6 +90,7 @@
     setTick(async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
+            console.log(rayCastGamePlayCamera(15))
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
             //get type of entity and set targetValue by type
             if (haveHit) {
