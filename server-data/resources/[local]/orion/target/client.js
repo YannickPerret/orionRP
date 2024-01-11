@@ -102,6 +102,7 @@
                     let entity = NetworkGetPlayerIndexFromPed(entityHit);
                     if (entity == -1) {
                         // if ped
+                        console.log("is a ped")
                         entityOptions = targetValue[entityType] = {
                             id: entity,
                             name: GetPlayerName(entity),
@@ -110,6 +111,7 @@
                     }
                     else {
                         // if player
+                        console.log("is a player")
                         entityOptions = targetValue['player'] = {
                             id: entity,
                             name: GetPlayerName(entity),
@@ -121,7 +123,7 @@
 
                 else if (entityType == 2) {
                     // if vehicle, get vehicle model and hash
-                    //get vehicle net id
+                    console.log("is a vehicle")
                     let entity = NetworkGetNetworkIdFromEntity(entityHit);
                     let entityModel = GetEntityModel(entityHit);
                     let entityHash = GetHashKey(entityModel);
@@ -136,6 +138,7 @@
 
                 else if (entityType == 3) {
                     // if object, know type, hash 
+                    console.log("is a object")
                     entityOptions = targetValue[entityType] = {
                         id: entity,
                         hash: entityHit,
