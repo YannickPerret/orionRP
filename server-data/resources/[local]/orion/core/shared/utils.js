@@ -12,6 +12,7 @@ function getDistanceBetweenCoords(point1, point2, useZ = true) {
     if (!useZ) {
         return Math.sqrt(dx * dx + dy * dy);
     }
+    console.log(Math.sqrt(dx * dx + dy * dy + dz * dz))
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
