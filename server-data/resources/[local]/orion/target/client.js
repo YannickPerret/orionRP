@@ -115,8 +115,8 @@
             z: (Math.PI / 180) * rotation.z
         }
         let direction = {
-            x: -Math.sin(adjustedRotation.z) * Math.abs(math.cos(adjustedRotation.x)),
-            y: Math.cos(adjustedRotation.z) * Math.abs(math.cos(adjustedRotation.x)),
+            x: -Math.sin(adjustedRotation.z) * Math.abs(Math.cos(adjustedRotation.x)),
+            y: Math.cos(adjustedRotation.z) * Math.abs(Math.cos(adjustedRotation.x)),
             z: Math.sin(adjustedRotation.x)
         }
         return direction;
