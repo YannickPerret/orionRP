@@ -53,7 +53,7 @@
             z: cameraCoord[2] + direction.z * distance
         }
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
-        console.log(exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance)
+        console.log(exports['orion'].getDistanceBetweenCoords(cameraCoord, coords))
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             console.log(hit, coords, entity)
             return [hit, coords, entity];
