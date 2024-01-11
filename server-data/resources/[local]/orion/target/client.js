@@ -88,8 +88,12 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget) {
+        if (activeTarget && !IsPauseMenuActive()) {
             let playerPed = PlayerPedId();
+            DisableControlAction(0, 24, true)
+            DisableControlAction(0, 142, true)
+            DisablePlayerFiring(PlayerId(), true)
+
             if (IsPedInAnyVehicle(playerPed, false)) {
                 console.log("is in vehicle")
                 let playerVehicle = GetVehiclePedIsIn(playerPed, false);
@@ -111,12 +115,10 @@
                     let entityType = GetEntityType(entityHit);
                     entityOptions = targetValue[entityType];
                     if (entityType == 0) {
-                        // is self player
-                        console.log("is self player")
+                        // all entity
                         entityOptions = targetValue[entityType] = {
-                            id: NetworkGetNetworkIdFromEntity(playerPed),
-                            name: GetPlayerName(PlayerId()),
-                            coords: entityCoords,
+                            id: entityHit,
+                            coords: entityCoords
                         }
                     }
                     else if (entityType == 1) {
@@ -166,6 +168,17 @@
                         }
                     }
                 }
+                else {
+                    console.log("is self player")
+                    entityOptions = targetValue[entityType] = {
+                        id: NetworkGetNetworkIdFromEntity(playerPed),
+                        name: GetPlayerName(PlayerId()),
+                        coords: entityCoords,
+                    }
+                }
+            }
+            if (IsDisabledControlJustReleased(0, 24)) {
+                //OnClick()
             }
         }
         await exports['orion'].delay(100);
