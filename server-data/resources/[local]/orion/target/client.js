@@ -125,6 +125,7 @@
                 }
             }
         }
+        await exports['orion'].delay(100);
     })
 
     // Register commande
