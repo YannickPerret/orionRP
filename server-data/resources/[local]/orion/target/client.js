@@ -75,12 +75,20 @@
         return direction;
     }
 
-    const showEyesTarget = () => {
+    const showEyesTarget = (activeTarget, targetValue) => {
+        SetNuiFocus(activeTarget, activeTarget)
 
+        SendNuiMessage(JSON.stringify({
+            action: 'showTarget',
+            payload: {
+                activeTarget: activeTarget,
+                targetValue: targetValue
+            }
+        }))
     }
 
     //threds
-    (async () => {
+    setTick(async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
@@ -127,26 +135,13 @@
             }
         }
         await exports['orion'].delay(100);
-    })()
+    })
 
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
     RegisterCommand('playerTarget', function (source, args) {
         activeTarget = !activeTarget
         console.log(activeTarget)
-        if (activeTarget) {
-            SetNuiFocus(true, true)
-        }
-        else {
-            SetNuiFocus(false, false)
-        }
-        SendNuiMessage(JSON.stringify({
-            action: 'showTarget',
-            payload: {
-                activeTarget: activeTarget,
-                targetValue: targetValue
-            }
-        }))
     })
 
 })();   
