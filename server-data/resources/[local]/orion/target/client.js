@@ -83,7 +83,6 @@
     setTick(async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
-            console.log(rayCastGamePlayCamera(15))
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
             //get type of entity and set targetValue by type
             if (haveHit) {
@@ -133,6 +132,7 @@
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
     RegisterCommand('playerTarget', function (source, args) {
         activeTarget = !activeTarget
+        console.log(activeTarget)
         if (activeTarget) {
             SetNuiFocus(true, true)
         }
