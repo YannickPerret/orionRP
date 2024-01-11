@@ -112,6 +112,7 @@
                     entityOptions = targetValue[entityType];
                     if (entityType == 0) {
                         // is self player
+                        console.log("is self player")
                         entityOptions = targetValue[entityType] = {
                             id: NetworkGetNetworkIdFromEntity(playerPed),
                             name: GetPlayerName(PlayerId()),
