@@ -63,6 +63,7 @@ client_scripts{
     'voice/client.js',
     'inventory/client.js',
     'garage/client.js',
+    'target/client.js',
 
 }
 
