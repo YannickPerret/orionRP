@@ -15,8 +15,6 @@
     let currentTarget = {}
     let keyToOpen = 'LMENU'
     let menuControlKey = 238
-
-    console.log("target loaded")
     //threds
     setTick(async () => {
         if (activeTarget) {
