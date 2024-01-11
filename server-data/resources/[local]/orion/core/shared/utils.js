@@ -1,4 +1,5 @@
 function getDistanceBetweenCoords(point1, point2, useZ = true) {
+    console.log(point1, point2, useZ)
     // is X ou [0] is Y ou [1] is Z ou [2]
     const x1 = point1[0] || point1.x || point1.X;
     const y1 = point1[1] || point1.y || point1.Y;
