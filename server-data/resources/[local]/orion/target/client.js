@@ -52,12 +52,13 @@
             y: cameraCoord.y + direction.y * distance,
             z: cameraCoord.z + direction.z * distance
         }
+        console.log("gvgfSS")
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             return [hit, coords, entity];
         }
         else {
-            return false;
+            return [0, [0, 0, 0], 0];
         }
     }
     const RotationToDirection = (rotation) => {
@@ -72,24 +73,6 @@
             z: Math.sin(adjustedRotation.x)
         }
         return direction;
-    }
-
-    const getEntityTargeted = (distance) => {
-        // get the entity player is looking at with camera
-        const playerPed = PlayerPedId();
-        let playerCoords = GetEntityCoords(playerPed);
-
-        const [rayPos, rayDir] = ScreenPositionToCameraRay();
-        const destination = rayPos + distance * rayDir;
-        const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, -1, playerPed, 0);
-
-        let [result, hit, endCoords, surface, entityHit] = GetShapeTestResult(rayHandle);
-        if (result !== 1) {
-            return [hit, endCoords, entityHit];
-        }
-        else {
-            return [0, 0, 0];
-        }
     }
 
     const showEyesTarget = () => {
