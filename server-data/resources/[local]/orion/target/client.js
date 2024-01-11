@@ -52,7 +52,6 @@
             y: cameraCoord[1] + direction.y * distance,
             z: cameraCoord[2] + direction.z * distance
         }
-        console.log("cameraCoord", cameraCoord, "destintion", destination)
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             console.log(hit, coords, entity)
@@ -90,7 +89,7 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget) {
+        if (activeTarget && ) {
             let playerPed = PlayerPedId();
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
             //get type of entity and set targetValue by type
@@ -122,6 +121,16 @@
 
                 else if (entityType == 2) {
                     // if vehicle, get vehicle model and hash
+                    //get vehicle net id
+                    let entity = NetworkGetNetworkIdFromEntity(entityHit);
+                    let entityModel = GetEntityModel(entityHit);
+                    let entityHash = GetHashKey(entityModel);
+                    entityOptions = targetValue[entityType] = {
+                        id: entity,
+                        model: entityModel,
+                        hash: entityHash,
+                        coords: entityCoords
+                    }
 
                 }
 
@@ -129,7 +138,7 @@
                     // if object, know type, hash 
                     entityOptions = targetValue[entityType] = {
                         id: entity,
-                        hash: GetEntityModel(entityHit),
+                        hash: entityHit,
                         coords: entityCoords
                     }
                 }
