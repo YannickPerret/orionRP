@@ -90,58 +90,78 @@
     setTick(async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
-            let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
-            //get type of entity and set targetValue by type
-            if (haveHit) {
-                let entityType = GetEntityType(entityHit);
-                entityOptions = targetValue[entityType];
+            if (IsPedInAnyVehicle(playerPed, false)) {
+                console.log("is in vehicle")
+                let playerVehicle = GetVehiclePedIsIn(playerPed, false);
+                let playerVehicleModel = GetEntityModel(playerVehicle);
+                let playerVehicleHash = GetHashKey(playerVehicleModel);
+                let playerVehicleCoords = GetEntityCoords(playerVehicle);
+                entityOptions = targetValue['inVehicle'] = {
+                    id: playerVehicle,
+                    model: playerVehicleModel,
+                    hash: playerVehicleHash,
+                    coords: playerVehicleCoords
+                }
+            }
+            else {
+                let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(10);
+                //get type of entity and set targetValue by type
+                if (haveHit) {
+                    let entityType = GetEntityType(entityHit);
+                    entityOptions = targetValue[entityType];
+                    if (entityType == 0) {
+                        // is self player
+                        entityOptions = targetValue[entityType] = {
+                            id: NetworkGetNetworkIdFromEntity(playerPed),
+                            name: GetPlayerName(PlayerId()),
+                            coords: entityCoords,
+                        }
+                    }
+                    else if (entityType == 1) {
+                        // if ped, test if ped normal or player
+                        let entity = NetworkGetPlayerIndexFromPed(entityHit);
+                        if (entity == -1) {
+                            // if ped
+                            console.log("is a ped")
+                            entityOptions = targetValue[entityType] = {
+                                id: entity,
+                                name: GetPlayerName(entity),
+                                coords: entityCoords
+                            }
+                        }
+                        else {
+                            // if a player
+                            console.log("is a player")
+                            entityOptions = targetValue['player'] = {
+                                id: NetworkGetNetworkIdFromEntity(entityHit),
+                                name: GetPlayerName(entity),
+                                coords: NetworkGetPlayerCoords(GetPlayerFromServerId(entity))
+                            }
 
-                if (entityType == 1) {
-                    // if ped, test if ped normal or player
-                    let entity = NetworkGetPlayerIndexFromPed(entityHit);
-                    if (entity == -1) {
-                        // if ped
-                        console.log("is a ped")
+                        }
+                    }
+                    else if (entityType == 2) {
+                        // if vehicle, get vehicle model and hash
+                        console.log("is a vehicle")
+                        let entity = NetworkGetNetworkIdFromEntity(entityHit);
+                        let entityModel = GetEntityModel(entityHit);
+                        let entityHash = GetHashKey(entityModel);
                         entityOptions = targetValue[entityType] = {
                             id: entity,
-                            name: GetPlayerName(entity),
+                            model: entityModel,
+                            hash: entityHash,
                             coords: entityCoords
                         }
+
                     }
-                    else {
-                        // if player
-                        console.log("is a player")
-                        entityOptions = targetValue['player'] = {
+                    else if (entityType == 3) {
+                        // if object, know type, hash 
+                        console.log("is a object")
+                        entityOptions = targetValue[entityType] = {
                             id: entity,
-                            name: GetPlayerName(entity),
+                            hash: entityHit,
                             coords: entityCoords
                         }
-
-                    }
-                }
-
-                else if (entityType == 2) {
-                    // if vehicle, get vehicle model and hash
-                    console.log("is a vehicle")
-                    let entity = NetworkGetNetworkIdFromEntity(entityHit);
-                    let entityModel = GetEntityModel(entityHit);
-                    let entityHash = GetHashKey(entityModel);
-                    entityOptions = targetValue[entityType] = {
-                        id: entity,
-                        model: entityModel,
-                        hash: entityHash,
-                        coords: entityCoords
-                    }
-
-                }
-
-                else if (entityType == 3) {
-                    // if object, know type, hash 
-                    console.log("is a object")
-                    entityOptions = targetValue[entityType] = {
-                        id: entity,
-                        hash: entityHit,
-                        coords: entityCoords
                     }
                 }
             }
