@@ -17,55 +17,7 @@
     let menuControlKey = 238
 
 
-    //threds
-    setTick(async () => {
-        if (activeTarget) {
-            let playerPed = PlayerPedId();
-            let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
-            console.log(haveHit, entityCoords, entityHit)
-            //get type of entity and set targetValue by type
-            if (haveHit) {
-                let entityType = GetEntityType(entityHit);
-                entityOptions = targetValue[entityType];
 
-                if (entityType == 1) {
-                    // if ped, test if ped normal or player
-                    let entity = NetworkGetPlayerIndexFromPed(entityHit);
-                    if (entity == -1) {
-                        // if ped
-                        entityOptions = targetValue[entityType] = {
-                            id: entity,
-                            name: GetPlayerName(entity),
-                            coords: entityCoords
-                        }
-                    }
-                    else {
-                        // if player
-                        entityOptions = targetValue['player'] = {
-                            id: entity,
-                            name: GetPlayerName(entity),
-                            coords: entityCoords
-                        }
-
-                    }
-                }
-
-                else if (entityType == 2) {
-                    // if vehicle, get vehicle model and hash
-
-                }
-
-                else if (entityType == 3) {
-                    // if object, know type, hash 
-                    entityOptions = targetValue[entityType] = {
-                        id: entity,
-                        hash: GetEntityModel(entityHit),
-                        coords: entityCoords
-                    }
-                }
-            }
-        }
-    })
     //events
     onNet('orion:target:c:registerNewOptions', (options) => {
 
@@ -144,6 +96,55 @@
 
     }
 
+    //threds
+    setTick(async () => {
+        if (activeTarget) {
+            let playerPed = PlayerPedId();
+            console.log(rayCastGamePlayCamera(15))
+            let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
+            //get type of entity and set targetValue by type
+            if (haveHit) {
+                let entityType = GetEntityType(entityHit);
+                entityOptions = targetValue[entityType];
+
+                if (entityType == 1) {
+                    // if ped, test if ped normal or player
+                    let entity = NetworkGetPlayerIndexFromPed(entityHit);
+                    if (entity == -1) {
+                        // if ped
+                        entityOptions = targetValue[entityType] = {
+                            id: entity,
+                            name: GetPlayerName(entity),
+                            coords: entityCoords
+                        }
+                    }
+                    else {
+                        // if player
+                        entityOptions = targetValue['player'] = {
+                            id: entity,
+                            name: GetPlayerName(entity),
+                            coords: entityCoords
+                        }
+
+                    }
+                }
+
+                else if (entityType == 2) {
+                    // if vehicle, get vehicle model and hash
+
+                }
+
+                else if (entityType == 3) {
+                    // if object, know type, hash 
+                    entityOptions = targetValue[entityType] = {
+                        id: entity,
+                        hash: GetEntityModel(entityHit),
+                        coords: entityCoords
+                    }
+                }
+            }
+        }
+    })
 
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
