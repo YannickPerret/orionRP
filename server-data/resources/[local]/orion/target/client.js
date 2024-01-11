@@ -70,6 +70,15 @@
     })
 
     //function
+    const ScreenPositionToCameraRay = () => {
+        const [screenX, screenY] = GetNuiCursorPosition();
+        const [camX, camY, camZ] = GetGameplayCamCoord();
+        const [worldX, worldY, worldZ] = ScreenRelToWorld(screenX, screenY, 1.0);
+        const [rayX, rayY, rayZ] = StartShapeTestRay(camX, camY, camZ, worldX, worldY, worldZ, 17, PlayerPedId(), 0);
+        return [[camX, camY, camZ], [rayX, rayY, rayZ]];
+    }
+
+
     const getEntityTargeted = (distance) => {
         const [rayPos, rayDir] = ScreenPositionToCameraRay();
         const destination = rayPos + distance * rayDir;
@@ -91,7 +100,6 @@
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
     RegisterCommand('playerTarget', function (source, args) {
-        console.log("dddd")
         activeTarget = !activeTarget
         if (activeTarget) {
             SetNuiFocus(true, true)
