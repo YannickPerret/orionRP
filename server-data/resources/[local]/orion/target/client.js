@@ -15,11 +15,13 @@
     let currentTarget = {}
     let keyToOpen = 'LMENU'
     let menuControlKey = 238
+
+
     //threds
     setTick(async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
-            let [haveHit, entityCoords, entityHit] = getEntityTargeted(15);
+            let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
             console.log(haveHit, entityCoords, entityHit)
             //get type of entity and set targetValue by type
             if (haveHit) {
@@ -69,20 +71,66 @@
 
     })
 
-    //function
-    const ScreenPositionToCameraRay = () => {
-        const [screenX, screenY] = GetNuiCursorPosition();
-        const [camX, camY, camZ] = GetGameplayCamCoord();
-        const [worldX, worldY, worldZ] = ScreenRelToWorld(screenX, screenY, 1.0);
-        const [rayX, rayY, rayZ] = StartShapeTestRay(camX, camY, camZ, worldX, worldY, worldZ, 17, PlayerPedId(), 0);
-        return [[camX, camY, camZ], [rayX, rayY, rayZ]];
+    //functions
+    const getAllObjects = () => {
+        return GetGamePool('CObject')
+    }
+    const getAllVehicles = () => {
+        return GetGamePool('CVehicle')
+    }
+    const GetPeds = () => {
+        let peds = [];
+        let playerPed = PlayerPedId();
+        let pools = [GetGamePool('CPed')]
+
+        for (let i = 0; i < pools.length; i++) {
+            if (pools[i] != playerPed) {
+                peds.push(pools[i])
+            }
+        }
+        return peds;
     }
 
+    const rayCastGamePlayCamera = (distance) => {
+        let cameraRotation = GetGameplayCamRot();
+        let cameraCoord = GetGameplayCamCoord();
+        let direction = RotationToDirection(cameraRotation);
+        let destination = {
+            x: cameraCoord.x + direction.x * distance,
+            y: cameraCoord.y + direction.y * distance,
+            z: cameraCoord.z + direction.z * distance
+        }
+        let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
+        if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < Range) {
+            return [hit, coords, entity];
+        }
+        else {
+            return;
+        }
+    }
+    const RotationToDirection = (rotation) => {
+        let adjustedRotation = {
+            x: (math.pi / 180) * rotation.x,
+            y: (math.pi / 180) * rotation.y,
+            z: (math.pi / 180) * rotation.z
+        }
+        let direction = {
+            x: -math.sin(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+            y: math.cos(adjustedRotation.z) * math.abs(math.cos(adjustedRotation.x)),
+            z: math.sin(adjustedRotation.x)
+        }
+        return direction;
+    }
 
     const getEntityTargeted = (distance) => {
+        // get the entity player is looking at with camera
+        const playerPed = PlayerPedId();
+        let playerCoords = GetEntityCoords(playerPed);
+
         const [rayPos, rayDir] = ScreenPositionToCameraRay();
         const destination = rayPos + distance * rayDir;
-        const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0);
+        const rayHandle = StartShapeTestLosProbe(rayPos.x, rayPos.y, rayPos.z, destination.x, destination.y, destination.z, -1, playerPed, 0);
+
         let [result, hit, endCoords, surface, entityHit] = GetShapeTestResult(rayHandle);
         if (result !== 1) {
             return [hit, endCoords, entityHit];
