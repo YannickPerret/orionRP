@@ -48,9 +48,9 @@
         let cameraCoord = GetGameplayCamCoord();
         let direction = RotationToDirection(cameraRotation);
         let destination = {
-            x: cameraCoord.x + direction.x * distance,
-            y: cameraCoord.y + direction.y * distance,
-            z: cameraCoord.z + direction.z * distance
+            x: cameraCoord[0] + direction.x * distance,
+            y: cameraCoord[1] + direction.y * distance,
+            z: cameraCoord[2] + direction.z * distance
         }
         console.log(cameraRotation, cameraCoord, direction, destination)
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z, destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
@@ -64,9 +64,9 @@
     const RotationToDirection = (rotation) => {
         console.log("ici", rotation)
         let adjustedRotation = {
-            x: (Math.PI / 180) * rotation.x,
-            y: (Math.PI / 180) * rotation.y,
-            z: (Math.PI / 180) * rotation.z
+            x: (Math.PI / 180) * rotation[0],
+            y: (Math.PI / 180) * rotation[1],
+            z: (Math.PI / 180) * rotation[2]
         }
         let direction = {
             x: -Math.sin(adjustedRotation.z) * Math.abs(Math.cos(adjustedRotation.x)),
