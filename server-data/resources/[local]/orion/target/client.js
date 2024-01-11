@@ -89,7 +89,7 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget && ) {
+        if (activeTarget) {
             let playerPed = PlayerPedId();
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
             //get type of entity and set targetValue by type
