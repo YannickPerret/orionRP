@@ -57,7 +57,7 @@
             return [hit, coords, entity];
         }
         else {
-            return;
+            return false;
         }
     }
     const RotationToDirection = (rotation) => {
@@ -88,7 +88,7 @@
             return [hit, endCoords, entityHit];
         }
         else {
-            return;
+            return [0, 0, 0];
         }
     }
 
