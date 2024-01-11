@@ -170,7 +170,7 @@
                 }
                 else {
                     console.log("is self player")
-                    entityOptions = targetValue[entityType] = {
+                    entityOptions = targetValue['player'] = {
                         id: NetworkGetNetworkIdFromEntity(playerPed),
                         name: GetPlayerName(PlayerId()),
                         coords: entityCoords,
