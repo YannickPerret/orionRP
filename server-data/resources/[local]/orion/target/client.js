@@ -62,6 +62,7 @@
         }
     }
     const RotationToDirection = (rotation) => {
+        console.log("ici", rotation)
         let adjustedRotation = {
             x: (Math.PI / 180) * rotation.x,
             y: (Math.PI / 180) * rotation.y,
