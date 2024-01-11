@@ -15,6 +15,7 @@
     let currentTarget = {}
     let keyToOpen = 'LMENU'
     let menuControlKey = 238
+    let isInteract = false;
 
 
 
@@ -42,7 +43,6 @@
         }
         return peds;
     }
-
     const rayCastGamePlayCamera = (distance) => {
         let cameraRotation = GetGameplayCamRot();
         let cameraCoord = GetGameplayCamCoord();
@@ -73,7 +73,6 @@
         }
         return direction;
     }
-
     const showEyesTarget = (activeTarget, targetValue) => {
         SetNuiFocus(activeTarget, activeTarget)
 
@@ -84,6 +83,9 @@
                 targetValue: targetValue
             }
         }))
+    }
+    const Close = () => {
+        activeTarget = false;
     }
 
     //threds
@@ -110,8 +112,7 @@
             else {
                 let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(6);
                 //get type of entity and set targetValue by type
-                console.log(haveHit)
-                if (haveHit) {
+                if (haveHit && !isInteract) {
                     let entityType = GetEntityType(entityHit);
                     entityOptions = targetValue[entityType];
                     if (entityType == 0) {
@@ -173,22 +174,31 @@
                     entityOptions = targetValue['player'] = {
                         id: NetworkGetNetworkIdFromEntity(playerPed),
                         name: GetPlayerName(PlayerId()),
-                        coords: entityCoords,
+                        coords: GetEntityCoords(playerPed),
                     }
                 }
             }
             if (IsDisabledControlJustReleased(0, 24)) {
+                isInteract = true;
                 //OnClick()
             }
         }
         await exports['orion'].delay(100);
     })
 
+    //Nui Callback
+    RegisterNUICallback("Trigger", (data, cb) => {
+        onNet(data.event, data.data, data.args)
+    })
+
+    RegisterNUICallback("Close", () => {
+        Close()
+    })
+
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
     RegisterCommand('playerTarget', function (source, args) {
         activeTarget = !activeTarget
-        console.log(activeTarget)
     })
 
 })();   
