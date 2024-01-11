@@ -6,9 +6,6 @@ function getDistanceBetweenCoords(point1, point2, useZ = true) {
     const x2 = point2[0] || point2.x || point2.X || point2["x"] || point2["X"];
     const y2 = point2[1] || point2.y || point2.Y || point2["y"] || point2["Y"];
     const z2 = point2[2] || point2.z || point2.Z || point2["z"] || point2["Z"];
-    console.log("1", x1, y1, z1)
-    console.log("2", x2, y2, z2)
-
     const dx = x1 - x2;
     const dy = y1 - y2;
     const dz = z1 - z2;
