@@ -91,7 +91,6 @@
     setTick(async () => {
         if (activeTarget) {
             let playerPed = PlayerPedId();
-            console.log(rayCastGamePlayCamera(15))
             let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(15);
             //get type of entity and set targetValue by type
             if (haveHit) {
