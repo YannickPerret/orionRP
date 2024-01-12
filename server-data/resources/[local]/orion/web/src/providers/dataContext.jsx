@@ -38,6 +38,7 @@ const initialState = {
   isPlayerDead: false,
   playerDeadMessage: '',
   dialogData: {},
+  targetOptions: [],
 };
 
 export const DataProvider = ({ children }) => {

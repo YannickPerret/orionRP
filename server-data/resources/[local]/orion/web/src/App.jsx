@@ -18,6 +18,7 @@ import Inventory from './window/inventory/Inventory';
 import DialogBox from './components/dialogBox/dialogBox';
 import Garage from './window/garage/Garage';
 import PlayerHud from './window/player/playerHud';
+import TargetEyes from './window/target/targetEyes';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -87,8 +88,9 @@ const App = () => {
           setVisible(prevState => ({ ...prevState, garageHUD: payload.garageHUD }));
           setData(prevData => ({ ...prevData, garage: payload.garage }));
           break;
-        case "showTarget": {
-          setData(prevData => ({ ...prevData, target: payload.target }));
+        case "targetShowOptions": {
+          setVisible(prevState => ({ ...prevState, targetEyesHUD: payload.targetEyesHUD }));
+          setData(prevData => ({ ...prevData, targetOptions: payload.target }));
           break;
         }
         default:
@@ -170,6 +172,13 @@ const App = () => {
       {visible.dialogHUD && (
         <DialogBox />
       )}
+      {/*}
+    {visible.targetEyesHUD && (
+        <TargetEyes />
+      )}
+      */
+      }
+      <TargetEyes />
     </>
   );
 };

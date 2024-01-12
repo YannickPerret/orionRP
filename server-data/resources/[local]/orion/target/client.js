@@ -102,11 +102,11 @@
         return direction;
     }
     const showMenuWheel = () => {
-        console.log("show menu", entityOptions)
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
             payload: {
-                entityOptions: entityOptions
+                targetEyesHUD: true,
+                targetOptions: entityOptions
             }
         }))
     }

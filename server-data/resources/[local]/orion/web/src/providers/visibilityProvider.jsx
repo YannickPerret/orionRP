@@ -19,6 +19,7 @@ export const VisibilityProvider = ({ children }) => {
     inventoryHUD: false,
     dialogHUD: false,
     garageHUD: false,
+    targetEyesHUD: false,
   });
 
   // Utiliser useNuiEvent pour écouter les événements NUI spécifiques et mettre à jour la visibilité
@@ -58,6 +59,7 @@ export const VisibilityProvider = ({ children }) => {
       atmHUD: false,
       dialogHUD: false,
       garageHUD: false,
+      targetEyesHUD: false,
     });
     if (sendToNui) {
       await sendNui("hideFrame");
