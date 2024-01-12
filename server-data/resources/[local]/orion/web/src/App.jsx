@@ -90,7 +90,7 @@ const App = () => {
           break;
         case "targetShowOptions": {
           setVisible(prevState => ({ ...prevState, targetEyesHUD: payload.targetEyesHUD }));
-          setData(prevData => ({ ...prevData, targetOptions: payload.target }));
+          setData(prevData => ({ ...prevData, targetOptions: payload.targetOptions }));
           break;
         }
         default:
