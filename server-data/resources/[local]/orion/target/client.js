@@ -106,6 +106,9 @@
     const showMenuWheel = () => {
         targetOpen = !targetOpen;
 
+        SetNuiFocus(targetOpen, targetOpen)
+        SetNuiFocusKeepInput(targetOpen)
+
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
             payload: {
