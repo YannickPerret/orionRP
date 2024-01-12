@@ -127,6 +127,7 @@
             SetDrawOrigin(GetEntityCoords(playerPed), 0);
             DrawSprite(dict, texture, 0.0, 0.0, 0.02, 0.02, 0.0, 255, 255, 255, 255);
             ClearDrawOrigin();
+            console.log("is active")
 
 
             if (IsPedInAnyVehicle(playerPed, false)) {
