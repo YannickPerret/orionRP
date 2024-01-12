@@ -130,7 +130,7 @@
             /*SetDrawOrigin(GetEntityCoords(playerPed), 0);
             DrawSprite(dict, texture, 0, 0, 0.02, 0.035, 0, 255, 255, 255, 255);
             ClearDrawOrigin();*/
-            DrawSprite(dict, texture, 0.5, 0.5, 0.1, 0.1, 0, 255, 255, 255, 255)
+            DrawSprite(dict, texture, 0.5, 0.5, 0.03, 0.03, 0, 255, 255, 255, 255)
 
             console.log("is active")
 
@@ -234,7 +234,7 @@
         else {
             activeTarget = false;
         }
-        await exports['orion'].delay(100);
+        await exports['orion'].delay(10);
     });
 
     //Nui Callback
