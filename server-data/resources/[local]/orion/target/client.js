@@ -104,7 +104,7 @@
         return direction;
     }
     const showMenuWheel = () => {
-        targetOpen = !targetOpen;
+        targetOpen = true;
 
         SetNuiFocus(targetOpen, targetOpen)
         SetNuiFocusKeepInput(targetOpen)
@@ -118,10 +118,20 @@
         }))
     }
 
-    const Close = () => {
+    const close = () => {
         activeTarget = false;
         isInteract = false;
-        showMenuWheel()
+        targetOpen = false;
+
+        SetNuiFocus(false, false)
+        SetNuiFocusKeepInput(false)
+
+        SendNuiMessage(JSON.stringify({
+            action: 'targetShowOptions',
+            payload: {
+                targetEyesHUD: false,
+            }
+        }))
     }
 
     //threds
@@ -264,7 +274,7 @@
 
     RegisterNuiCallbackType("Close")
     on("__cfx_nui:Close", (data, cb) => {
-        Close()
+        close()
         cb({ ok: true })
     });
 
@@ -273,7 +283,7 @@
     RegisterCommand('playerTarget', function (source, args) {
         activeTarget = !activeTarget
         if (!activeTarget) {
-            Close()
+            close()
         }
     })
 
