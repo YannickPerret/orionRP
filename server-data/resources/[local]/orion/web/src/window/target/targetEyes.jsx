@@ -54,7 +54,7 @@ export default function TargetEyes() {
                     iconName={option.icon}
                     color={option.color}
                     index={index}
-                    totalOptions={option.length} />
+                    totalOptions={option.action.length} />
             ))}
         </nav >
     )
