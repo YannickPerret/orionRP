@@ -12,6 +12,8 @@
     let entityOptions = targetValue[0];
 
     let activeTarget = false;
+    let targetOpen = false;
+
     let currentTarget = {}
     let keyToOpen = 'LMENU'
     let menuControlKey = 238
@@ -114,6 +116,7 @@
     const Close = () => {
         activeTarget = false;
         isInteract = false;
+        targetOpen = false;
     }
 
     //threds
@@ -227,8 +230,9 @@
                             actions: targetPlayersArray
                         }
                     }
-                    if (!isInteract && targetValue[entityType]) {
+                    if (!isInteract && targetValue[entityType] && !targetOpen) {
                         isInteract = true
+                        targetOpen = true;
                         showMenuWheel()
                     }
                 }
