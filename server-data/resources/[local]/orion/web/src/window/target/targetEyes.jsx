@@ -25,10 +25,11 @@ function OptionItem({ name, iconName, color, totalOptions, index }) {
     };
 
 
+    console.log(itemStyle)
     return (
         <li className={style.menu__item} style={itemStyle}>
             <a title={name}>
-                <IconComponent size={30} color={color} />
+                <IconComponent size={30} />
             </a>
         </li>
     );
