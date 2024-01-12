@@ -272,19 +272,22 @@
     //Nui Callback
     RegisterNuiCallbackType("targetSelect")
     on("__cfx_nui:targetSelect", (data, cb) => {
-        if (data.type == 'client') {
-            emit(data.event)
+        if (data.action) {
+            if (data.action.type == 'client') {
+                emit(data.action.event)
+            }
+            else if (data.action.type == 'server') {
+                emitNet(data.action.event)
+            }
+            else if (data.action.type == 'command') {
+                ExecuteCommand(data.action.event)
+            }
+            else {
+                console.log("no action")
+                cb({ ok: false })
+            }
         }
-        else if (data.type == 'server') {
-            emitNet(data.event)
-        }
-        else if (data.type == 'command') {
-            ExecuteCommand(data.event)
-        }
-        else {
-            console.log("no action")
-            cb({ ok: false })
-        }
+
         cb({ ok: true })
     });
 
