@@ -479,7 +479,8 @@ let playerData = {};
           }
         },
       ];
-      emit('orion:target:c:registerNewOptions', "player", targetOptions)
+
+      emit('orion:target:c:registerNewOptions', "player", JSON.stringify(targetOptions));
     }
     catch (e) {
       console.log(e)
