@@ -272,9 +272,14 @@
     //Nui Callback
     RegisterNuiCallbackType("targetSelect")
     on("__cfx_nui:targetSelect", (data, cb) => {
-        console.log(data)
-        if (data.action) {
-            data.action()
+        if (data.type == 'client') {
+            emit(data.event)
+        }
+        else if (data.type == 'server') {
+            emitNet(data.event)
+        }
+        else if (data.type == 'command') {
+            ExecuteCommand(data.event)
         }
         else {
             console.log("no action")
