@@ -113,7 +113,7 @@
         }
     });
 
-    (async () => {
+    /*(async () => {
         emit('orion:target:c:registerNewOptions', "otherPlayer", [
             {
                 label: 'Fouiller',
@@ -146,6 +146,6 @@
                 }
             }
         ]);
-    })();
+    })();*/
 
 })();

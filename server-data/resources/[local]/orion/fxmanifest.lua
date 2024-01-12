@@ -43,6 +43,7 @@ shared_scripts {
 
 
 client_scripts{
+    'target/client.js',
     'client.js',
     'core/client/client.js',
     'player/client.js',
@@ -63,7 +64,6 @@ client_scripts{
     'voice/client.js',
     'inventory/client.js',
     'garage/client.js',
-    'target/client.js',
 
 }
 
