@@ -41,14 +41,14 @@
 
 .menu {
     overflow: hidden;
-    background: #E6E6FA;
+    //background: #E6E6FA;
     //background: linear-gradient(to right, #b24592, #f15f79);
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50vw;
-    height: 50vw;
+    width: 100%;
+    height: 100%;
 }
 
 .menu__toggler {

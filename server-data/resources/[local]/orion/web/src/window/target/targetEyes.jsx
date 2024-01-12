@@ -11,6 +11,7 @@ const icons = {
 
 // Composant pour afficher une option
 function OptionItem({ name, iconName, color, totalOptions, index }) {
+    console.log(name, iconName, color, totalOptions, index)
     const IconComponent = icons[iconName];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -25,7 +26,6 @@ function OptionItem({ name, iconName, color, totalOptions, index }) {
     };
 
 
-    console.log(itemStyle)
     return (
         <li className={style.menu__item} style={itemStyle}>
             <a title={name}>
