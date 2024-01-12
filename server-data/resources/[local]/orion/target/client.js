@@ -16,12 +16,41 @@
     let keyToOpen = 'LMENU'
     let menuControlKey = 238
     let isInteract = false;
-
+    let targetModelsArray = []
+    let targetPedsArray = []
+    let targetVehiclesArray = []
+    let targetObjectsArray = []
+    let targetPlayersArray = []
+    let targetOtherPlayersArray = []
+    let targetInAVehicleArray = []
 
 
     //events
-    onNet('orion:target:c:registerNewOption', (type, options) => {
-        targetValue[type] = options;
+    onNet('orion:target:c:registerNewOptions', (type, options = []) => {
+        options.map((option) => {
+            //add new value and keep old or replace
+            if (type == 'otherPlayer') {
+                targetOtherPlayersArray.push(option)
+            }
+            if (type == 'ped') {
+                targetPedsArray.push(option)
+            }
+            if (type == 'vehicle') {
+                targetVehiclesArray.push(option)
+            }
+            if (type == 'object') {
+                targetObjectsArray.push(option)
+            }
+            if (type == 'all') {
+                targetModelsArray.push(options)
+            }
+            if (type == 'player') {
+                targetPlayersArray.push(option)
+            }
+            if (type == 'inVehicle') {
+                targetInAVehicleArray.push(option)
+            }
+        })
     })
 
     //functions
@@ -89,11 +118,16 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget && !IsPauseMenuActive()) {
+        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6)) {
             let playerPed = PlayerPedId();
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
             DisablePlayerFiring(PlayerId(), true)
+
+            SetDrawOrigin(GetEntityCoords(playerPed), 0);
+            DrawSprite(dict, texture, 0.0, 0.0, 0.02, 0.02, 0.0, 255, 255, 255, 255);
+            ClearDrawOrigin();
+
 
             if (IsPedInAnyVehicle(playerPed, false)) {
                 console.log("is in vehicle")
@@ -105,20 +139,25 @@
                     id: playerVehicle,
                     model: playerVehicleModel,
                     hash: playerVehicleHash,
-                    coords: playerVehicleCoords
+                    coords: playerVehicleCoords,
+                    actions: targetInAVehicleArray
                 }
             }
             else {
                 let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(6);
                 //get type of entity and set targetValue by type
+                let entityType = GetEntityType(entityHit);
+
                 if (haveHit && !isInteract) {
-                    let entityType = GetEntityType(entityHit);
                     entityOptions = targetValue[entityType];
                     if (entityType == 0) {
                         // all entity
                         entityOptions = targetValue[entityType] = {
                             id: entityHit,
-                            coords: entityCoords
+                            coords: entityCoords,
+                            model: GetEntityModel(entityHit),
+                            hash: GetHashKey(GetEntityModel(entityHit)),
+                            actions: targetModelsArray
                         }
                     }
                     else if (entityType == 1) {
@@ -131,7 +170,8 @@
                                 id: entity,
                                 coords: GetEntityCoords(entityHit),
                                 model: GetEntityModel(entityHit),
-                                hash: GetHashKey(GetEntityModel(entityHit))
+                                hash: GetHashKey(GetEntityModel(entityHit)),
+                                actions: targetPedsArray
                             }
                         }
                         else {
@@ -140,7 +180,8 @@
                             entityOptions = targetValue['player'] = {
                                 id: entity,
                                 name: GetPlayerName(entity),
-                                coords: NetworkGetPlayerCoords(GetPlayerFromServerId(entity))
+                                coords: NetworkGetPlayerCoords(GetPlayerFromServerId(entity)),
+                                actions: targetOtherPlayersArray
                             }
 
                         }
@@ -155,7 +196,8 @@
                             id: entity,
                             model: entityModel,
                             hash: entityHash,
-                            coords: entityCoords
+                            coords: entityCoords,
+                            actions: targetVehiclesArray
                         }
 
                     }
@@ -165,7 +207,8 @@
                         entityOptions = targetValue[entityType] = {
                             id: NetToObj(entityHit),
                             hash: entityHit,
-                            coords: entityCoords
+                            coords: entityCoords,
+                            actions: targetObjectsArray
                         }
                     }
                 }
@@ -175,19 +218,29 @@
                         id: NetworkGetNetworkIdFromEntity(playerPed),
                         name: GetPlayerName(PlayerId()),
                         coords: GetEntityCoords(playerPed),
-                        actions: []
+                        actions: targetPlayersArray
                     }
                 }
                 isInteract = true
                 showMenuWheel(entityOptions)
             }
         }
+        else {
+            activeTarget = false;
+        }
         await exports['orion'].delay(100);
-    })
+    });
 
     //Nui Callback
-    RegisterNUICallback("Trigger", (data, cb) => {
-        onNet(data.event, data.data, data.args)
+    RegisterNUICallback("selectTarget", (data, cb) => {
+        if (data) {
+            data.action()
+        }
+        else {
+            console.log("no action")
+            cb({ ok: false })
+        }
+        cb({ ok: true })
     })
 
     RegisterNUICallback("Close", () => {

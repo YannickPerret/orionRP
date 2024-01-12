@@ -112,4 +112,40 @@
             DisableControlAction(0, 273, inventoryUiOpen);
         }
     });
+
+    (async () => {
+        emit('orion:target:c:registerNewOptions', "otherPlayer", [
+            {
+                label: 'Fouiller',
+                icon: 'search',
+                color: 'white',
+                action: (entity) => {
+                    emitNet('orion:inventory:s:loadInventory', GetPlayerServerId(entity));
+                }
+            }
+        ]);
+
+        emit('orion:target:c:registerNewOptions', "player", [
+            {
+                label: 'Inventory',
+                icon: 'briefcase',
+                color: 'white',
+                action: () => {
+                    emitNet('orion:inventory:s:loadInventory');
+                }
+            }
+        ]);
+
+        emit('orion:target:c:registerNewOptions', "vehicle", [
+            {
+                label: 'Fouiller',
+                icon: 'briefcase',
+                color: 'white',
+                action: () => {
+                    emitNet('orion:inventory:s:loadInventory', GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId(), false)));
+                }
+            }
+        ]);
+    })();
+
 })();
