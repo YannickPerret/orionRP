@@ -243,6 +243,7 @@
                     }
                     else {
                         console.log("is self player")
+                        console.log(targetPlayersArray)
 
                         entityOptions = targetValue['player'] = {
                             id: NetworkGetNetworkIdFromEntity(playerPed),

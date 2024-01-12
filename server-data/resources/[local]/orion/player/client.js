@@ -424,7 +424,7 @@ let playerData = {};
     if (mug) UnregisterPedheadshot(mug);
   });
 
-  onNet('orion:player:s:showIdCard', () => {
+  onNet('orion:player:c:showIdCard', () => {
     console.log('showIdCard')
   })
 
@@ -475,7 +475,7 @@ let playerData = {};
           icon: 'CircleUserRound',
           color: 'black',
           action: () => {
-            emitNet('orion:player:s:showIdCard');
+            emit('orion:player:c:showIdCard');
           }
         },
       ];
