@@ -53,7 +53,7 @@ export default function TargetEyes() {
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
             <img src={openEyes} alt="Open Eyes" />
             <label htmlFor="menu-toggler"></label>
-            {data.targetOptions?.actions?.map((option, index) => (
+            {data.targetOptions.actions?.map((option, index) => (
                 <OptionItem
                     key={index}
                     label={option.label}
