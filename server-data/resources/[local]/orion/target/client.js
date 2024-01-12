@@ -112,6 +112,8 @@
         SetNuiFocus(targetOpen, targetOpen)
         SetNuiFocusKeepInput(targetOpen)
 
+        console.log("entityOptions", entityOptions)
+
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
             payload: {
@@ -237,12 +239,18 @@
                         else if (entityType == 3) {
                             // if object, know type, hash 
                             console.log("is a object")
-                            entityOptions = targetValue[entityType] = {
-                                id: NetToObj(entityHit),
-                                hash: entityHit,
-                                coords: entityCoords,
-                                actions: targetObjectsArray
-                            }
+
+                            targetObjectsArray.forEach((object) => {
+                                if (object.hash.includes(GetEntityModel(entityHit))) {
+                                    entityOptions = targetValue[entityType] = {
+                                        id: NetworkGetNetworkIdFromEntity(entityHit),
+                                        model: GetEntityModel(entityHit),
+                                        hash: GetHashKey(GetEntityModel(entityHit)),
+                                        coords: entityCoords,
+                                        actions: targetObjectsArray
+                                    }
+                                }
+                            })
                         }
                     }
                     else {

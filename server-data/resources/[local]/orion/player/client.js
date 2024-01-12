@@ -493,8 +493,53 @@ let playerData = {};
         }
       ];
 
+      const targetOptionsObjects = [
+        {
+          label: 'Acheter une boisson pour 5$',
+          icon: 'CupSoda',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_vend_soda_01'),
+            GetHashKey('prop_vend_soda_02'),
+            GetHashKey('prop_vend_coffe_01')
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:shop:s:buyDrink',
+          }
+        },
+        {
+          label: 'Acheter un snack pour 5$',
+          icon: 'Sandwich',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_vend_snak_01'),
+            GetHashKey('prop_vend_snak_02')
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:shop:s:buySnack',
+          }
+        },
+        {
+          label: 'Jeter à la poubelle',
+          icon: 'Trash2',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_bin_01a'),
+            GetHashKey('prop_bin_01b'),
+            GetHashKey('prop_cs_bin_03')
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:inventory:c:dropItem',
+          }
+        }
+      ]
+
       emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
       emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
+      emit('orion:target:c:registerNewOptions', "object", targetOptionsObjects);
     }
     catch (e) {
       console.log(e)
