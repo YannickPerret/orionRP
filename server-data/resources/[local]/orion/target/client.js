@@ -85,7 +85,7 @@
             z: cameraCoord[2] + direction.z * distance
         }
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestLosProbe(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
-        console.log(a)
+        console.log(hit)
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             return [hit, coords, entity];
         }
