@@ -40,6 +40,7 @@ export default function TargetEyes() {
 
     const { data } = useData();
     const [checked, setChecked] = React.useState(true);
+    console.log(data.targetOptions.actions.length)
 
 
     return (
@@ -54,7 +55,7 @@ export default function TargetEyes() {
                     iconName={option.icon}
                     color={option.color}
                     index={index}
-                    totalOptions={option.action.length} />
+                    totalOptions={data.targetOptions.actions.length} />
             ))}
         </nav >
     )
