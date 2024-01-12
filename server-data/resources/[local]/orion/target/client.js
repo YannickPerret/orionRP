@@ -123,7 +123,7 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6) && !targetOpen) {
+        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6)) {
             let playerPed = PlayerPedId();
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
