@@ -101,11 +101,12 @@
         }
         return direction;
     }
-    const showMenuWheel = (options) => {
+    const showMenuWheel = () => {
+        console.log("show menu", entityOptions)
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
             payload: {
-                options: options
+                entityOptions: entityOptions
             }
         }))
     }
@@ -220,6 +221,7 @@
                 }
                 else {
                     console.log("is self player")
+
                     entityOptions = targetValue['player'] = {
                         id: NetworkGetNetworkIdFromEntity(playerPed),
                         name: GetPlayerName(PlayerId()),
@@ -227,8 +229,10 @@
                         actions: targetPlayersArray
                     }
                 }
-                isInteract = true
-                showMenuWheel(entityOptions)
+                if (haveHit && !isInteract && entityOptions.length > 0) {
+                    isInteract = true
+                    showMenuWheel()
+                }
             }
         }
         else {
