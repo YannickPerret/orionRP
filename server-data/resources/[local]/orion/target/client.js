@@ -225,7 +225,7 @@
                         actions: targetPlayersArray
                     }
                 }
-                if (haveHit && !isInteract) {
+                if (!isInteract && targetValue[entityType]) {
                     isInteract = true
                     showMenuWheel()
                 }
