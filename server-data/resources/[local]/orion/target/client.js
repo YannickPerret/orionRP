@@ -104,6 +104,8 @@
         return direction;
     }
     const showMenuWheel = () => {
+        targetOpen = true;
+
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
             payload: {
@@ -121,7 +123,7 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6)) {
+        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6) && !targetOpen) {
             let playerPed = PlayerPedId();
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
@@ -232,7 +234,6 @@
                     }
                     if (!isInteract && targetValue[entityType] && !targetOpen) {
                         isInteract = true
-                        targetOpen = true;
                         showMenuWheel()
                     }
                 }

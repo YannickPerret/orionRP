@@ -40,7 +40,6 @@ export default function TargetEyes() {
 
     const { data } = useData();
     const [checked, setChecked] = React.useState(true);
-    console.log(data.targetOptions.actions.length)
 
 
     return (
