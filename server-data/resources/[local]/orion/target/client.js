@@ -104,12 +104,12 @@
         return direction;
     }
     const showMenuWheel = () => {
-        targetOpen = true;
+        targetOpen = !targetOpen;
 
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
             payload: {
-                targetEyesHUD: true,
+                targetEyesHUD: targetOpen,
                 targetOptions: entityOptions
             }
         }))
@@ -118,7 +118,7 @@
     const Close = () => {
         activeTarget = false;
         isInteract = false;
-        targetOpen = false;
+        showMenuWheel()
     }
 
     //threds
@@ -269,6 +269,9 @@
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
     RegisterCommand('playerTarget', function (source, args) {
         activeTarget = !activeTarget
+        if (!activeTarget) {
+            Close()
+        }
     })
 
 })();   
