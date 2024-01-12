@@ -287,6 +287,7 @@
             }
         }
 
+        close()
         cb({ ok: true })
     });
 

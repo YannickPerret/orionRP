@@ -469,7 +469,7 @@ let playerData = {};
 
   (async () => {
     try {
-      const targetOptions = [
+      const targetOptionsPlayer = [
         {
           label: 'Voir la carte d\'identité',
           icon: 'CircleUserRound',
@@ -481,7 +481,20 @@ let playerData = {};
         },
       ];
 
-      emit('orion:target:c:registerNewOptions', "player", targetOptions);
+      const targetOptionsOtherPlayer = [
+        {
+          label: 'Montrer la carte d\'identité',
+          icon: 'CircleUserRound',
+          color: 'black',
+          action: {
+            type: 'client',
+            event: 'orion:player:c:showIdCard',
+          }
+        }
+      ];
+
+      emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
+      emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
     }
     catch (e) {
       console.log(e)
