@@ -443,7 +443,7 @@ let playerData = {};
         }
       }
     }
-  })
+  });
 
   setTick(async () => {
     await exports['orion'].delay(0)
@@ -461,18 +461,18 @@ let playerData = {};
         }
       }
     }
-  })
+  });
 
-    (async () => {
-      emit('orion:target:c:registerNewOptions', "player", [
-        {
-          label: 'Voir la carte d\'identité',
-          icon: 'id-card',
-          color: 'white',
-          action: () => {
-            emitNet('orion:player:s:showIdCard');
-          }
-        },
-      ])
-    })()
+  (async () => {
+    emit('orion:target:c:registerNewOptions', "player", [
+      {
+        label: 'Voir la carte d\'identité',
+        icon: 'id-card',
+        color: 'white',
+        action: () => {
+          emitNet('orion:player:s:showIdCard');
+        }
+      },
+    ])
+  })()
 })()
