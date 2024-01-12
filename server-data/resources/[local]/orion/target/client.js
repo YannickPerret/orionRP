@@ -84,7 +84,7 @@
             y: cameraCoord[1] + direction.y * distance,
             z: cameraCoord[2] + direction.z * distance
         }
-        let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
+        let [a, hit, coords, d, entity] = GetShapeTestResult(StartExpensiveSynchronousShapeTestLosProbe(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
         if (exports['orion'].getDistanceBetweenCoords(cameraCoord, coords) < distance) {
             return [hit, coords, entity];
         }
@@ -177,7 +177,7 @@
                     }
                 }
                 else {
-                    let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(8);
+                    let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(10);
                     //get type of entity and set targetValue by type
                     let entityType = GetEntityType(entityHit);
 
