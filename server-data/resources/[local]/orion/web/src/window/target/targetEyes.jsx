@@ -34,7 +34,9 @@ function OptionItem({ label, iconName, color, totalOptions, index, action }) {
 
     const handleClick = () => {
         console.log('action', action)
-        sendNui('targetSelect', { action: action })
+        sendNui('targetSelect', {
+            action: action
+        })
     }
 
     return (

@@ -474,13 +474,14 @@ let playerData = {};
           label: 'Voir la carte d\'identité',
           icon: 'CircleUserRound',
           color: 'black',
-          action: () => {
-            emit('orion:player:c:showIdCard');
+          action: {
+            type: 'client',
+            event: 'orion:player:c:showIdCard',
           }
         },
       ];
 
-      emit('orion:target:c:registerNewOptions', "player", JSON.stringify(targetOptions));
+      emit('orion:target:c:registerNewOptions', "player", targetOptions);
     }
     catch (e) {
       console.log(e)
