@@ -27,7 +27,6 @@
 
     //events
     onNet('orion:target:c:registerNewOptions', (type, options = []) => {
-        console.log("register new options", type, options)
         options.map((option) => {
             if (type == 'otherPlayer') {
                 targetOtherPlayersArray.push(option)

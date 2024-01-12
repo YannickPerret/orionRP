@@ -476,7 +476,6 @@ let playerData = {};
         },
       ];
       emit('orion:target:c:registerNewOptions', "player", targetOptions)
-      console.log('Player : registerNewOptions')
     }
     catch (e) {
       console.log(e)
