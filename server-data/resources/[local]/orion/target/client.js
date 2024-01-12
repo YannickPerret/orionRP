@@ -124,6 +124,7 @@
         activeTarget = false;
         isInteract = false;
         targetOpen = false;
+        entityOptions = targetValue[0];
 
         SetNuiFocus(false, false)
         SetNuiFocusKeepInput(false)
