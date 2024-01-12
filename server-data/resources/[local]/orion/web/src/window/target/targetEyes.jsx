@@ -2,10 +2,10 @@ import React from 'react'
 import style from './targetEyes.module.scss'
 import openEyes from '../../assets/images/target/openEyes.svg'
 import { useData } from '../../providers/dataContext'
-import { Cat, Cookie, Bird, CircleUserRound } from 'lucide-react'
+import { CircleUserRound } from 'lucide-react'
 
 const icons = {
-    Cat, Cookie, Bird, CircleUserRound
+    CircleUserRound
 };
 
 

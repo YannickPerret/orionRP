@@ -173,8 +173,9 @@ const App = () => {
         <DialogBox />
       )}
 
-      <TargetEyes />
-
+      {visible.targetEyesHUD && (
+        <TargetEyes />
+      )}
 
     </>
   );
