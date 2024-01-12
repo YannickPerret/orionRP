@@ -465,7 +465,7 @@ let playerData = {};
 
   (async () => {
     console.log('registering new options')
-    emit('orion:target:c:registerNewOptions', "player", [
+    emit('orion:target:c:registerNewOptions', ("player", [
       {
         label: 'Voir la carte d\'identité',
         icon: 'id-card',
@@ -475,5 +475,6 @@ let playerData = {};
         }
       },
     ])
+    )
   })();
 })()
