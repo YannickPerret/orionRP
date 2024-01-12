@@ -50,6 +50,9 @@
                 targetInAVehicleArray.push(option)
             }
         })
+
+        console.log("options", options)
+        console.log("player", targetPlayersArray)
     })
 
     //functions
@@ -118,7 +121,7 @@
 
     //threds
     setTick(async () => {
-        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6)) {
+        if (activeTarget && !IsPauseMenuActive() && !IsPedArmed(PlayerPedId(), 6) && !isInteract) {
             let playerPed = PlayerPedId();
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
