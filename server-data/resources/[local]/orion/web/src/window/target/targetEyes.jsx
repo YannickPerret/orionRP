@@ -3,6 +3,7 @@ import style from './targetEyes.module.scss'
 import openEyes from '../../assets/images/target/openEyes.svg'
 import { useData } from '../../providers/dataContext'
 import { CircleUserRound } from 'lucide-react'
+import { sendNui } from '../../utils/fetchNui'
 
 const icons = {
     CircleUserRound
@@ -10,7 +11,7 @@ const icons = {
 
 
 // Composant pour afficher une option
-function OptionItem({ label, iconName, color, totalOptions, index }) {
+function OptionItem({ label, iconName, color, totalOptions, index, action }) {
     const IconComponent = icons[iconName];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -31,9 +32,12 @@ function OptionItem({ label, iconName, color, totalOptions, index }) {
         transform: `rotate(${iconRotation}deg)`,
     };
 
+    const handleClick = () => {
+        sendNui('targetSelect', { action })
+    }
 
     return (
-        <li className={style.menu__item} style={itemStyle}>
+        <li className={style.menu__item} style={itemStyle} onClick={handleClick}>
             <a title={label} alt={label}>
                 <IconComponent size={30} color={color} style={iconStyle} />
             </a>
@@ -60,7 +64,9 @@ export default function TargetEyes() {
                     iconName={option.icon}
                     color={option.color}
                     index={index}
+                    action={option.action}
                     totalOptions={data.targetOptions.actions.length} />
+
             ))}
         </nav >
     )

@@ -424,6 +424,10 @@ let playerData = {};
     if (mug) UnregisterPedheadshot(mug);
   });
 
+  onNet('orion:player:s:showIdCard', () => {
+    console.log('showIdCard')
+  })
+
 
   setTick(async () => {
     await exports['orion'].delay(1000)
