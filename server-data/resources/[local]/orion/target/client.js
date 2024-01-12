@@ -133,9 +133,6 @@
             ClearDrawOrigin();*/
             DrawSprite(dict, texture, 0.5, 0.5, 0.01, 0.01, 0, 255, 255, 255, 255)
 
-            console.log("is active")
-
-
             if (IsPedInAnyVehicle(playerPed, false)) {
                 console.log("is in vehicle")
                 let playerVehicle = GetVehiclePedIsIn(playerPed, false);
@@ -229,7 +226,7 @@
                         actions: targetPlayersArray
                     }
                 }
-                if (haveHit && !isInteract && entityOptions.length > 0) {
+                if (haveHit && !isInteract) {
                     isInteract = true
                     showMenuWheel()
                 }
