@@ -233,7 +233,7 @@
     });
 
     //Nui Callback
-    RegisterNUICallback("targetSelect")
+    RegisterNuiCallbackType("targetSelect")
     on("__cfx_nui:targetSelect", (data, cb) => {
         if (data) {
             data.action()
@@ -245,7 +245,7 @@
         cb({ ok: true })
     });
 
-    RegisterNUICallback("Close")
+    RegisterNuiCallbackType("Close")
     on("__cfx_nui:Close", (data, cb) => {
         Close()
         cb({ ok: true })
