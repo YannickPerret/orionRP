@@ -469,7 +469,7 @@ let playerData = {};
         {
           label: 'Voir la carte d\'identité',
           icon: 'CircleUserRound',
-          color: 'white',
+          color: 'black',
           action: () => {
             emitNet('orion:player:s:showIdCard');
           }

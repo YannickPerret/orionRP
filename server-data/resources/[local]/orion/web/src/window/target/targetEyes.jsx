@@ -10,8 +10,7 @@ const icons = {
 
 
 // Composant pour afficher une option
-function OptionItem({ name, iconName, color, totalOptions, index }) {
-    console.log(name, iconName, color, totalOptions, index)
+function OptionItem({ label, iconName, color, totalOptions, index }) {
     const IconComponent = icons[iconName];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -19,17 +18,24 @@ function OptionItem({ name, iconName, color, totalOptions, index }) {
     // Calculer l'angle de rotation pour chaque élément
     const rotationAngle = 360 / totalOptions;
     const rotation = rotationAngle * index;
+    // Rotation inverse pour l'icône
+    const iconRotation = -rotation;
 
     // Définir les styles pour la rotation et la translation
     const itemStyle = {
         transform: `rotate(${rotation}deg) translateX(-110px)`,
     };
 
+    // Styles pour la rotation de l'icône SVG
+    const iconStyle = {
+        transform: `rotate(${iconRotation}deg)`,
+    };
+
 
     return (
         <li className={style.menu__item} style={itemStyle}>
-            <a title={name}>
-                <IconComponent size={30} />
+            <a title={label} alt={label}>
+                <IconComponent size={30} color={color} style={iconStyle} />
             </a>
         </li>
     );
@@ -46,11 +52,11 @@ export default function TargetEyes() {
         <nav className={style.menu}>
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
             <img src={openEyes} alt="Open Eyes" />
-            <label for="menu-toggler"></label>
-            {data.targetOptions.actions.map((option, index) => (
+            <label htmlFor="menu-toggler"></label>
+            {data.targetOptions?.actions?.map((option, index) => (
                 <OptionItem
                     key={index}
-                    name={option.label}
+                    label={option.label}
                     iconName={option.icon}
                     color={option.color}
                     index={index}
