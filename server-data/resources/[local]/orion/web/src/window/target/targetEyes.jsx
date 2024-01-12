@@ -38,6 +38,7 @@ function OptionItem({ name, iconName }) {
 export default function TargetEyes() {
 
     const { data } = useData();
+    console.log(data.targetOptions)
     const [checked, setChecked] = React.useState(true);
     const totalOptions = data.targetOptions.length;
 
