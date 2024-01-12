@@ -1,0 +1,40 @@
+.eye {
+    text-align: center;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #ffffff;
+    border-radius: 100%;
+    position: absolute;
+    top: calc(50% - 4px);
+    left: calc(50% - 4px);
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    z-index: 200;
+}
+
+.eye.active {
+    text-align: center;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #2575ff;
+    border-radius: 100%;
+    background-color: #2575ff;
+    position: absolute;
+    top: calc(50% - 4px);
+    left: calc(50% - 4px);
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    z-index: 200;
+}
+
+.eye.active img {
+    width: 10px;
+    height: 10px;
+    top: 50%;
+}
+
+.eye img {
+    visibility: hidden;
+}

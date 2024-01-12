@@ -1,5 +1,5 @@
 (async () => {
-    let dict = 'shared'
+    let dict = 'Shared'
     let texture = 'emptydot_32'
     let targetValue = {
         [0]: {},
@@ -28,7 +28,6 @@
     //events
     onNet('orion:target:c:registerNewOptions', (type, options = []) => {
         options.map((option) => {
-            //add new value and keep old or replace
             if (type == 'otherPlayer') {
                 targetOtherPlayersArray.push(option)
             }
@@ -123,13 +122,16 @@
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
             DisablePlayerFiring(PlayerId(), true)
-            while (!HasStreamedTextureDictLoaded("shared")) {
+            while (!HasStreamedTextureDictLoaded(dict)) {
                 await exports['orion'].delay(10);
-                RequestStreamedTextureDict("shared", true)
+                RequestStreamedTextureDict(dict, true)
             }
-            SetDrawOrigin(GetEntityCoords(playerPed), 0);
-            DrawSprite(dict, texture, 0.0, 0.0, 0.02, 0.02, 0.0, 255, 255, 255, 255);
-            ClearDrawOrigin();
+            // draw sprite in middle of screen camera
+            /*SetDrawOrigin(GetEntityCoords(playerPed), 0);
+            DrawSprite(dict, texture, 0, 0, 0.02, 0.035, 0, 255, 255, 255, 255);
+            ClearDrawOrigin();*/
+            DrawSprite(dict, texture, 0.5, 0.5, 0.1, 0.1, 0, 255, 255, 255, 255)
+
             console.log("is active")
 
 

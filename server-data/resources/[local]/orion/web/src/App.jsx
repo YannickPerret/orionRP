@@ -87,6 +87,10 @@ const App = () => {
           setVisible(prevState => ({ ...prevState, garageHUD: payload.garageHUD }));
           setData(prevData => ({ ...prevData, garage: payload.garage }));
           break;
+        case "showTarget": {
+          setData(prevData => ({ ...prevData, target: payload.target }));
+          break;
+        }
         default:
           break;
       }
