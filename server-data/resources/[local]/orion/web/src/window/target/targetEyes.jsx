@@ -38,9 +38,9 @@ function OptionItem({ name, iconName }) {
 export default function TargetEyes() {
 
     const { data } = useData();
-    console.log(data.targetOptions)
+    console.log(data.targetOptions.actions)
     const [checked, setChecked] = React.useState(true);
-    const totalOptions = data.targetOptions.length;
+    const totalOptions = data.targetOptions.actions.length;
 
 
     return (
@@ -48,7 +48,7 @@ export default function TargetEyes() {
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
             <img src={openEyes} alt="Open Eyes" />
             <label for="menu-toggler"></label>
-            {data.targetOptions.map((option, index) => (
+            {data.targetOptions.options.map((option, index) => (
                 <OptionItem
                     key={index}
                     name={option.label}
