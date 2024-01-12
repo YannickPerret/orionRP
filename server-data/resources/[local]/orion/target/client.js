@@ -123,7 +123,10 @@
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
             DisablePlayerFiring(PlayerId(), true)
-
+            while (!HasStreamedTextureDictLoaded("shared")) {
+                await exports['orion'].delay(10);
+                RequestStreamedTextureDict("shared", true)
+            }
             SetDrawOrigin(GetEntityCoords(playerPed), 0);
             DrawSprite(dict, texture, 0.0, 0.0, 0.02, 0.02, 0.0, 255, 255, 255, 255);
             ClearDrawOrigin();
