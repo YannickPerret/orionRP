@@ -468,7 +468,7 @@ let playerData = {};
       const targetOptions = [
         {
           label: 'Voir la carte d\'identité',
-          icon: 'id-card',
+          icon: 'CircleUserRound',
           color: 'white',
           action: () => {
             emitNet('orion:player:s:showIdCard');
