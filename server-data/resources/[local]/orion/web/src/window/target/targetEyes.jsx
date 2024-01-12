@@ -10,7 +10,7 @@ const icons = {
 
 
 // Composant pour afficher une option
-function OptionItem({ name, iconName }) {
+function OptionItem({ name, iconName, color }) {
     const IconComponent = icons[iconName];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -28,7 +28,7 @@ function OptionItem({ name, iconName }) {
     return (
         <li className={style.menu__item} style={itemStyle}>
             <a title={name}>
-                <IconComponent size={30} />
+                <IconComponent size={30} color={color} />
             </a>
         </li>
     );
@@ -48,11 +48,12 @@ export default function TargetEyes() {
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
             <img src={openEyes} alt="Open Eyes" />
             <label for="menu-toggler"></label>
-            {data.targetOptions.options.map((option, index) => (
+            {data.targetOptions.actions.map((option, index) => (
                 <OptionItem
                     key={index}
                     name={option.label}
                     iconName={option.icon}
+                    color={option.color}
                     index={index}
                     totalOptions={totalOptions} />
             ))}
