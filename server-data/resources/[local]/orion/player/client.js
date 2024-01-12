@@ -198,7 +198,7 @@ let playerData = {};
     return playerData;
   });
 
-  emitNet('orion:player:c:setPlayerData', data => {
+  onNet('orion:player:c:setPlayerData', data => {
     playerData = data;
   });
 
@@ -464,17 +464,21 @@ let playerData = {};
   });
 
   (async () => {
-    console.log('registering new options')
-    emit('orion:target:c:registerNewOptions', ("player", [
-      {
-        label: 'Voir la carte d\'identité',
-        icon: 'id-card',
-        color: 'white',
-        action: () => {
-          emitNet('orion:player:s:showIdCard');
-        }
-      },
-    ])
-    )
+    try {
+      const targetOptions = [
+        {
+          label: 'Voir la carte d\'identité',
+          icon: 'id-card',
+          color: 'white',
+          action: () => {
+            emitNet('orion:player:s:showIdCard');
+          }
+        },
+      ];
+      emit('orion:target:c:registerNewOptions', "player", targetOptions)
+    }
+    catch (e) {
+      console.log(e)
+    }
   })();
 })()
