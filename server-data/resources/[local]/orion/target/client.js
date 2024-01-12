@@ -29,7 +29,8 @@
 
     //events
     onNet('orion:target:c:registerNewOptions', (type, options = []) => {
-        options.map((option) => {
+        console.log(options)
+        options.forEach((option) => {
             if (type == 'otherPlayer') {
                 targetOtherPlayersArray.push(option)
             }
@@ -51,6 +52,8 @@
             if (type == 'inVehicle') {
                 targetInAVehicleArray.push(option)
             }
+
+
         })
     })
 
