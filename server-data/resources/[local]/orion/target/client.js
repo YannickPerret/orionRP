@@ -155,13 +155,13 @@
                 if (haveHit && !isInteract) {
                     entityOptions = targetValue[entityType];
                     if (entityType == 0) {
-                        // all entity
-                        entityOptions = targetValue[entityType] = {
-                            id: entityHit,
-                            coords: entityCoords,
-                            model: GetEntityModel(entityHit),
-                            hash: GetHashKey(GetEntityModel(entityHit)),
-                            actions: targetModelsArray
+                        // Nothing
+                        console.log("nothing, is self player")
+                        entityOptions = targetValue['player'] = {
+                            id: NetworkGetNetworkIdFromEntity(playerPed),
+                            name: GetPlayerName(PlayerId()),
+                            coords: GetEntityCoords(playerPed),
+                            actions: targetPlayersArray
                         }
                     }
                     else if (entityType == 1) {
@@ -182,8 +182,7 @@
                             // if a player
                             console.log("is a other player")
                             entityOptions = targetValue['player'] = {
-                                id: entity,
-                                name: GetPlayerName(entity),
+                                id: GetPlayerFromServerId(entity),
                                 coords: NetworkGetPlayerCoords(GetPlayerFromServerId(entity)),
                                 actions: targetOtherPlayersArray
                             }
