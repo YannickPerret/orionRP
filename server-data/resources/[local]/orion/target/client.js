@@ -140,7 +140,13 @@
             let playerPed = PlayerPedId();
             DisableControlAction(0, 24, true)
             DisableControlAction(0, 142, true)
+            //disable camera movement
+            DisableControlAction(0, 1, true)
+            DisableControlAction(0, 2, true)
+
             DisablePlayerFiring(PlayerId(), true)
+
+
             while (!HasStreamedTextureDictLoaded(dict)) {
                 await exports['orion'].delay(10);
                 RequestStreamedTextureDict(dict, true)
