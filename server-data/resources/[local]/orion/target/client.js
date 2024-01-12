@@ -268,6 +268,7 @@
     //Nui Callback
     RegisterNuiCallbackType("targetSelect")
     on("__cfx_nui:targetSelect", (data, cb) => {
+        console.log(data, cb)
         if (data.action) {
             data.action()
         }
