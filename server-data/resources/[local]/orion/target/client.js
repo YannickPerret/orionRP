@@ -233,7 +233,8 @@
     });
 
     //Nui Callback
-    RegisterNUICallback("selectTarget", (data, cb) => {
+    RegisterNUICallback("selectTarget")
+    on("__cfx_nui:targetSelect", (data, cb) => {
         if (data) {
             data.action()
         }
@@ -242,11 +243,13 @@
             cb({ ok: false })
         }
         cb({ ok: true })
-    })
+    });
 
-    RegisterNUICallback("Close", () => {
+    RegisterNUICallback("Close")
+    on("__cfx_nui:targetClose", (data, cb) => {
         Close()
-    })
+        cb({ ok: true })
+    });
 
     // Register commande
     RegisterKeyMapping("playerTarget", "Toggle targeting", "keyboard", keyToOpen)
