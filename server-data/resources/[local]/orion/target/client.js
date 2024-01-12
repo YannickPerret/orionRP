@@ -181,8 +181,8 @@
                     //get type of entity and set targetValue by type
                     let entityType = GetEntityType(entityHit);
 
+                    console, log("entityType", entityType, "entityHit", entityHit)
                     if (haveHit) {
-                        entityOptions = targetValue[entityType];
                         if (entityType == 0) {
                             // Nothing
                             console.log("nothing, is self player")
