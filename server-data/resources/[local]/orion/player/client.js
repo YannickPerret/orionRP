@@ -14,6 +14,7 @@ let playerData = {};
   let hunger = 100;
   let thirst = 100;
   let drawnObjects = [];
+  let playerIsSitting = false;
 
 
   const objectTypes = [
@@ -381,6 +382,35 @@ let playerData = {};
       NetworkResurrectLocalPlayer(GetEntityCoords(ped, false), GetEntityHeading(ped), true, false);
     }
   })
+  onNet('orion:player:c:sitDown', async (entity, coords) => {
+    //test is chair exist and not occupied
+    if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
+      if (IsPositionOccupied(coords.x, coords.y, coords.z, 0.5, false, false, false, false, false, 0, false)) {
+        return;
+      }
+      //attach player to chair
+      AttachEntityToEntity(PlayerPedId(), entity, 0, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, false, false, false, false, 0, true);
+      //set player rotation
+      SetEntityRotation(PlayerPedId(), 0.0, 0.0, coords.w, 2, true);
+
+      //set player animation
+      RequestAnimDict('anim@heists@ornate_bank@hack')
+      while (!HasAnimDictLoaded('anim@heists@ornate_bank@hack')) {
+        await exports['orion'].delay(100);
+      }
+      TaskPlayAnim(PlayerPedId(), 'anim@heists@ornate_bank@hack', 'hack_enter', 8.0, -8.0, -1, 50, 0, false, false, false);
+
+      //set player position
+      SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z, false, false, false, false);
+
+      //set player heading
+      SetEntityHeading(PlayerPedId(), coords.w);
+
+      //set player is sitting
+      playerIsSitting = true;
+    }
+
+  })
 
   setInterval(() => {
     //const ped = PlayerPedId();
@@ -537,10 +567,74 @@ let playerData = {};
             type: 'client',
             event: 'orion:inventory:c:dropItem',
           }
+        },
+        {
+          label: 'S\'asseoir',
+          icon: 'Chair',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_wheelchair_01'),
+            GetHashKey('prop_rock_chair_01'),
+            GetHashKey('p_yacht_chair_01_s'),
+            GetHashKey('prop_off_chair_04_s'),
+            GetHashKey('prop_cs_office_chair'),
+            GetHashKey('prop_direct_chair_01'),
+            GetHashKey('prop_direct_chair_02'),
+            GetHashKey('prop_yaught_chair_01'),
+            GetHashKey('prop_gc_chair02'),
+            GetHashKey('prop_armchair_01'),
+            GetHashKey('prop_chair_01a'),
+            GetHashKey('prop_chair_08'),
+            GetHashKey('prop_clown_chair'),
+            GetHashKey('prop_chair_04a'),
+            GetHashKey('prop_chateau_chair_01'),
+            GetHashKey('prop_chair_02'),
+            GetHashKey('prop_chair_05'),
+            GetHashKey('prop_chair_07'),
+            GetHashKey('prop_chair_01b'),
+            GetHashKey('prop_chair_10'),
+            GetHashKey('prop_chair_04b'),
+            GetHashKey('prop_old_wood_chair'),
+            GetHashKey('prop_chair_03'),
+            GetHashKey('prop_chair_09'),
+            GetHashKey('prop_chair_06'),
+            GetHashKey('prop_off_chair_01'),
+            GetHashKey('prop_off_chair_04b'),
+            GetHashKey('prop_off_chair_04'),
+            GetHashKey('v_corp_offchair'),
+            GetHashKey('prop_off_chair_05'),
+            GetHashKey('v_club_officechair'),
+            GetHashKey('prop_sol_chair'),
+            GetHashKey('hei_prop_heist_off_chair'),
+            GetHashKey('p_armchair_01_s'),
+            GetHashKey('p_clb_officechair_s'),
+            GetHashKey('p_ilev_p_easychair_s'),
+            GetHashKey('p_soloffchair_s'),
+            GetHashKey('v_ilev_m_dinechair'),
+            GetHashKey('v_ilev_chair02_ped'),
+            GetHashKey('prop_waiting_seat_01'),
+            GetHashKey('prop_bench_06'),
+            GetHashKey('prop_air_bench_01'),
+            GetHashKey('prop_fib_3b_bench'),
+            GetHashKey('prop_bench_09'),
+            GetHashKey('prop_bench_08'),
+            GetHashKey('prop_bench_01c'),
+            GetHashKey('prop_bench_05'),
+            GetHashKey('prop_bench_01a'),
+            GetHashKey('prop_bench_02'),
+            GetHashKey('prop_bench_10'),
+            GetHashKey('prop_bench_01b'),
+            GetHashKey('prop_bench_03'),
+            GetHashKey('prop_bench_07'),
+
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+          }
         }
       ]
 
-      console.log(GetHashKey('prop_vend_coffe_01'))
       emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
       emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
       emit('orion:target:c:registerNewOptions', "object", targetOptionsObjects);
