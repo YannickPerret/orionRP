@@ -182,7 +182,7 @@
                     }
                 }
                 else {
-                    let [haveHit, entityCoords, entityHit] = rayCastGamePlayCamera(10);
+                    let [haveHit, entityCoords, entityHit] = await rayCastGamePlayCamera(10);
                     //get type of entity and set targetValue by type
                     let entityType = GetEntityType(entityHit);
 
