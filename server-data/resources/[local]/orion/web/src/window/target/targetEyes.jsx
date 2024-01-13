@@ -12,7 +12,6 @@ const icons = {
 
 // Composant pour afficher une option
 function OptionItem({ totalOptions, index, option, args }) {
-    console.log("option", option, "args", args)
     const IconComponent = icons[option.icon];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -34,7 +33,6 @@ function OptionItem({ totalOptions, index, option, args }) {
     };
 
     const handleClick = async () => {
-        console.log("ffff")
         await sendNui('targetSelect', {
             action: option.action,
             args: args || null

@@ -284,7 +284,6 @@
     //Nui Callback
     RegisterNuiCallbackType("targetSelect")
     on("__cfx_nui:targetSelect", (data, cb) => {
-        console.log("targetSelect", data)
         if (data.action) {
             if (data.action.type == 'client') {
                 console.log(data)
