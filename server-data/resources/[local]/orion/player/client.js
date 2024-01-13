@@ -387,26 +387,27 @@ let playerData = {};
     console.log('sitDown', coords, entity)
     //test is chair exist and not occupied
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
-      if (IsPositionOccupied(coords.x, coords.y, coords.z, 0.5, false, false, false, false, false, 0, false)) {
+      if (IsPositionOccupied(coords[0], coords[1], coords[2], 0.5, false, false, false, false, false, 0, false)) {
         return;
       }
       let sitAnimation = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+      let objectHeading = GetEntityHeading(entity);
       //attach player to chair
-      AttachEntityToEntity(PlayerPedId(), entity, 0, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, false, false, false, false, 0, true);
+      AttachEntityToEntity(PlayerPedId(), entity, 0, coords[0], coords[1], coords[2], 0.0, 0.0, 0.0, false, false, false, false, 0, true);
       //set player rotation
-      SetEntityRotation(PlayerPedId(), 0.0, 0.0, coords.w, 2, true);
+      SetEntityRotation(PlayerPedId(), 0.0, 0.0, objectHeading, 2, true);
 
       //set player animation
       RequestAnimDict(sitAnimation);
       while (!HasAnimDictLoaded(sitAnimation)) {
         await exports['orion'].delay(100);
       }
-      TaskStartScenarioAtPosition(PlayerPedId(), sitAnimation, coords.x, coords.y, coords.z, coords.w, -1, false, true, 0, false);
+      TaskStartScenarioAtPosition(PlayerPedId(), sitAnimation, coords[0], coords[1], coords[2], objectHeading, -1, false, true, 0, false);
       //set player position
-      SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z, false, false, false, false);
+      SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2], false, false, false, false);
 
       //set player heading
-      SetEntityHeading(PlayerPedId(), coords.w);
+      SetEntityHeading(PlayerPedId(), objectHeading);
 
       //set player is sitting
       playerIsSitting = true;
