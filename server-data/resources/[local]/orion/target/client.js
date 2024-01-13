@@ -85,7 +85,6 @@
             z: cameraCoord[2] + direction.z * distance
         }
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
-        console.log(entity, exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())))
         if (exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())) < 1.5) {
             return [hit, coords, entity];
         }
@@ -108,6 +107,7 @@
     }
 
     const showMenuWheel = () => {
+        console.log("test", entityOptions)
         targetOpen = true;
 
         SetNuiFocus(targetOpen, targetOpen)
@@ -242,17 +242,38 @@
                             console.log("is a object")
                             console.log(entityHit)
 
-                            targetObjectsArray.forEach((object) => {
-                                if (object.hash.includes(GetEntityModel(entityHit))) {
-                                    entityOptions = targetValue[entityType] = {
-                                        id: NetworkGetNetworkIdFromEntity(entityHit),
-                                        model: GetEntityModel(entityHit),
-                                        hash: GetHashKey(GetEntityModel(entityHit)),
-                                        coords: entityCoords,
-                                        actions: targetObjectsArray
-                                    }
-                                }
+                            //get targetObjectsArray data if hash == entityHash
+                            let entityModel = GetEntityModel(entityHit);
+                            let entityHash = GetHashKey(entityModel);
+                            /*
+                             {
+                            label: 'Acheter une boisson pour 5$',
+                            icon: 'CupSoda',
+                            color: 'black',
+                            hash: [
+                                GetHashKey('prop_vend_soda_01'),
+                                GetHashKey('prop_vend_soda_02'),
+                                GetHashKey('prop_vend_coffe_01')
+                            ],
+                            action: {
+                                type: 'client',
+                                event: 'orion:shop:s:buyDrink',
+                            }
+                            },
+                            */
+                            let targetObject = targetObjectsArray.find((object) => {
+                                return object.hash.includes(entityHash)
                             })
+
+                            if (targetObject) {
+                                entityOptions = targetValue[entityType] = {
+                                    id: entityHit,
+                                    model: entityModel,
+                                    hash: entityHash,
+                                    coords: entityCoords,
+                                    actions: [targetObject]
+                                }
+                            }
                         }
                     }
                     else {
