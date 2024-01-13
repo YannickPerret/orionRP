@@ -537,7 +537,7 @@ let playerData = {};
         }
       ]
 
-      console.log(GetHashKey('prop_bin_01a'))
+      console.log(GetHashKey('prop_vend_coffe_01'))
       emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
       emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
       emit('orion:target:c:registerNewOptions', "object", targetOptionsObjects);
