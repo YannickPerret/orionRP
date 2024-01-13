@@ -272,7 +272,7 @@
                                     model: entityModel,
                                     hash: entityHash,
                                     coords: entityCoords,
-                                    actions: [targetObject]
+                                    actions: targetObject
                                 }
                             }
                         }
