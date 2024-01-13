@@ -251,7 +251,7 @@
                                 entityOptions = targetValue[entityType] = {
                                     actions: [targetObject],
                                     args: {
-                                        id: entityHit,
+                                        entity: entityHit,
                                         coords: entityCoords,
                                     },
                                 }

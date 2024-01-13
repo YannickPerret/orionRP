@@ -384,7 +384,7 @@ let playerData = {};
   })
   onNet('orion:player:c:sitDown', async ({ coords, entity }) => {
 
-    console.log('sitDown')
+    console.log('sitDown', coords, entity)
     //test is chair exist and not occupied
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
       if (IsPositionOccupied(coords.x, coords.y, coords.z, 0.5, false, false, false, false, false, 0, false)) {
