@@ -11,7 +11,7 @@ const icons = {
 
 
 // Composant pour afficher une option
-function OptionItem({ totalOptions, index, action, option }) {
+function OptionItem({ totalOptions, index, action, option, args }) {
     const IconComponent = icons[option.icon];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -33,10 +33,9 @@ function OptionItem({ totalOptions, index, action, option }) {
     };
 
     const handleClick = () => {
-        console.log('action', option)
         sendNui('targetSelect', {
-            action: option.action,
-            args: option.args || null
+            action: action,
+            args: args || null
         })
     }
 
@@ -62,10 +61,11 @@ export default function TargetEyes() {
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
             <img src={openEyes} alt="Open Eyes" />
             <label htmlFor="menu-toggler"></label>
-            {data.targetOptions?.map((option, index) => (
+            {data.targetOptions.actions?.map((option, index) => (
                 <OptionItem
                     key={index}
                     option={option}
+                    args={data.targetOptions.args}
                     index={index}
                     action={option.action}
                     totalOptions={data.targetOptions.length} />

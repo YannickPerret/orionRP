@@ -120,7 +120,7 @@
             action: 'targetShowOptions',
             payload: {
                 targetEyesHUD: targetOpen,
-                targetOptions: entityOptions.actions,
+                targetOptions: entityOptions
             }
         }))
     }
@@ -250,15 +250,11 @@
 
                             if (targetObject) {
                                 entityOptions = targetValue[entityType] = {
-                                    id: entityHit,
-                                    hash: entityHash,
-                                    actions: {
-                                        ...[targetObject],
-                                        args: {
-                                            entity: entityHit,
-                                            coords: entityCoords
-                                        }
-                                    }
+                                    actions: [targetObject],
+                                    args: {
+                                        id: entityHit,
+                                        coords: entityCoords,
+                                    },
                                 }
                             }
                         }
@@ -291,7 +287,8 @@
     on("__cfx_nui:targetSelect", (data, cb) => {
         if (data.action) {
             if (data.action.type == 'client') {
-                emit(data.action.event, data.action.args)
+                console.log(data)
+                emit(data.action.event, data.args)
             }
             else if (data.action.type == 'server') {
                 emitNet(data.action.event)
