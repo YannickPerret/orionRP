@@ -55,6 +55,7 @@ export default function TargetEyes() {
     const [checked, setChecked] = React.useState(true);
 
 
+    console.log('data', data.targetOptions)
     return (
         <nav className={style.menu}>
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
