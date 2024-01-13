@@ -11,7 +11,8 @@ const icons = {
 
 
 // Composant pour afficher une option
-function OptionItem({ totalOptions, index, action, option, args }) {
+function OptionItem({ totalOptions, index, option, args }) {
+    console.log("option", option, "args", args)
     const IconComponent = icons[option.icon];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
@@ -35,7 +36,7 @@ function OptionItem({ totalOptions, index, action, option, args }) {
     const handleClick = async () => {
         console.log("ffff")
         await sendNui('targetSelect', {
-            action: action,
+            action: option.action,
             args: args || null
         })
     }
@@ -66,7 +67,6 @@ export default function TargetEyes() {
                     option={option}
                     args={data.targetOptions.args}
                     index={index}
-                    action={option.action}
                     totalOptions={data.targetOptions.length} />
             ))}
         </nav >
