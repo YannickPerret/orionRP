@@ -241,8 +241,6 @@
                         else if (entityType == 3) {
                             // if object, know type, hash 
                             console.log("is a object")
-                            console.log(entityHit)
-
                             //get targetObjectsArray data if hash == entityHash
                             let entityModel = GetEntityModel(entityHit);
                             let entityHash = GetHashKey(entityModel);
