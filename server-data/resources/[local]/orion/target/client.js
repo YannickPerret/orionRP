@@ -84,11 +84,7 @@
             y: cameraCoord[1] + direction.y * distance,
             z: cameraCoord[2] + direction.z * distance
         }
-        console.log("destination", destination.x, destination.y, destination.z, "direction", direction.x, direction.y, direction.z)
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
-        console.log("entity", entity)
-        console.log(exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())))
-
         if (exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())) < 1.5) {
             return [hit, coords, entity];
         }
@@ -243,6 +239,7 @@
                         else if (entityType == 3) {
                             // if object, know type, hash 
                             console.log("is a object")
+                            console.log(entityHit)
 
                             targetObjectsArray.forEach((object) => {
                                 if (object.hash.includes(GetEntityModel(entityHit))) {
