@@ -85,7 +85,8 @@
             z: cameraCoord[2] + direction.z * distance
         }
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestLosProbe(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
-        console.log(hit)
+        console.log("entity", entity)
+        console.log(exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())))
         if (exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())) < distance) {
             return [hit, coords, entity];
         }
@@ -255,8 +256,6 @@
                     }
                     else {
                         console.log("is self player")
-                        console.log(targetPlayersArray)
-
                         entityOptions = targetValue['player'] = {
                             id: NetworkGetNetworkIdFromEntity(playerPed),
                             name: GetPlayerName(PlayerId()),
