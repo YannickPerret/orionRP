@@ -85,7 +85,7 @@
             z: cameraCoord[2] + direction.z * distance
         }
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
-        console.log(entity)
+        console.log(entity, exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())))
         if (exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())) < 1.5) {
             return [hit, coords, entity];
         }
@@ -113,7 +113,7 @@
         SetNuiFocus(targetOpen, targetOpen)
         SetNuiFocusKeepInput(targetOpen)
 
-        console.log("entityOptions", entityOptions)
+        // console.log("entityOptions", entityOptions)
 
         SendNuiMessage(JSON.stringify({
             action: 'targetShowOptions',
