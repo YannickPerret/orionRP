@@ -382,7 +382,9 @@ let playerData = {};
       NetworkResurrectLocalPlayer(GetEntityCoords(ped, false), GetEntityHeading(ped), true, false);
     }
   })
-  onNet('orion:player:c:sitDown', async (entity, coords) => {
+  onNet('orion:player:c:sitDown', async (coords, entity) => {
+
+    console.log('sitDown')
     //test is chair exist and not occupied
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
       if (IsPositionOccupied(coords.x, coords.y, coords.z, 0.5, false, false, false, false, false, 0, false)) {

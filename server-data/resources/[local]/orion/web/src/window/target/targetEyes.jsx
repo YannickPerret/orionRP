@@ -11,8 +11,8 @@ const icons = {
 
 
 // Composant pour afficher une option
-function OptionItem({ label, iconName, color, totalOptions, index, action }) {
-    const IconComponent = icons[iconName];
+function OptionItem({ totalOptions, index, action, option }) {
+    const IconComponent = icons[option.icon];
 
     if (!IconComponent) return null; // Si l'icône n'existe pas, ne rien rendre
 
@@ -33,16 +33,17 @@ function OptionItem({ label, iconName, color, totalOptions, index, action }) {
     };
 
     const handleClick = () => {
-        console.log('action', action)
+        console.log('action', option)
         sendNui('targetSelect', {
-            action: action
+            action: action,
+            args: option.args || null
         })
     }
 
     return (
         <li className={style.menu__item} style={itemStyle} onClick={handleClick}>
-            <a title={label} alt={label}>
-                <IconComponent size={30} color={color} style={iconStyle} />
+            <a title={option.label} alt={option.label}>
+                <IconComponent size={30} color={option.color} style={iconStyle} />
             </a>
         </li>
     );
@@ -61,16 +62,13 @@ export default function TargetEyes() {
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
             <img src={openEyes} alt="Open Eyes" />
             <label htmlFor="menu-toggler"></label>
-            {data.targetOptions.actions?.map((option, index) => (
+            {data.targetOptions?.map((option, index) => (
                 <OptionItem
                     key={index}
-                    label={option.label}
-                    iconName={option.icon}
-                    color={option.color}
+                    option={option}
                     index={index}
                     action={option.action}
-                    totalOptions={data.targetOptions.actions.length} />
-
+                    totalOptions={data.targetOptions.length} />
             ))}
         </nav >
     )
