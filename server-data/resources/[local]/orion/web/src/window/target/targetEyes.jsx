@@ -32,8 +32,9 @@ function OptionItem({ totalOptions, index, action, option, args }) {
         transform: `rotate(${iconRotation}deg)`,
     };
 
-    const handleClick = () => {
-        sendNui('targetSelect', {
+    const handleClick = async () => {
+        console.log("ffff")
+        await sendNui('targetSelect', {
             action: action,
             args: args || null
         })
@@ -54,8 +55,6 @@ export default function TargetEyes() {
     const { data } = useData();
     const [checked, setChecked] = React.useState(true);
 
-
-    console.log('data', data.targetOptions)
     return (
         <nav className={style.menu}>
             <input type="checkbox" checked={checked} className={style.menu__toggler} onChange={(e) => setChecked(e.target.checked)} />
