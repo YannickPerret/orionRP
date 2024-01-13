@@ -75,7 +75,7 @@
         }
         return peds;
     }
-    const rayCastGamePlayCamera = (distance) => {
+    const rayCastGamePlayCamera = async (distance) => {
         let cameraRotation = GetGameplayCamRot();
         let cameraCoord = GetGameplayCamCoord();
         let direction = RotationToDirection(cameraRotation);
@@ -85,6 +85,7 @@
             z: cameraCoord[2] + direction.z * distance
         }
         let [a, hit, coords, d, entity] = GetShapeTestResult(StartShapeTestRay(cameraCoord[0], cameraCoord[1], cameraCoord[2], destination.x, destination.y, destination.z, -1, PlayerPedId(), 0));
+        await exports['orion'].delay(10);
         if (exports['orion'].getDistanceBetweenCoords(coords, GetEntityCoords(PlayerPedId())) < 1.5) {
             return [hit, coords, entity];
         }
