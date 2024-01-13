@@ -570,7 +570,7 @@ let playerData = {};
         },
         {
           label: 'S\'asseoir',
-          icon: 'Chair',
+          icon: 'Sofa',
           color: 'black',
           hash: [
             GetHashKey('prop_wheelchair_01'),
