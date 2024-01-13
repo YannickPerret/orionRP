@@ -241,25 +241,9 @@
                         else if (entityType == 3) {
                             // if object, know type, hash 
                             console.log("is a object")
-                            //get targetObjectsArray data if hash == entityHash
                             let entityModel = GetEntityModel(entityHit);
                             let entityHash = GetHashKey(entityModel);
-                            /*
-                             {
-                            label: 'Acheter une boisson pour 5$',
-                            icon: 'CupSoda',
-                            color: 'black',
-                            hash: [
-                                GetHashKey('prop_vend_soda_01'),
-                                GetHashKey('prop_vend_soda_02'),
-                                GetHashKey('prop_vend_coffe_01')
-                            ],
-                            action: {
-                                type: 'client',
-                                event: 'orion:shop:s:buyDrink',
-                            }
-                            },
-                            */
+
                             let targetObject = targetObjectsArray.find((object) => {
                                 return object.hash.includes(entityModel)
                             })
@@ -270,7 +254,7 @@
                                     model: entityModel,
                                     hash: entityHash,
                                     coords: entityCoords,
-                                    actions: targetObject
+                                    actions: [targetObject]
                                 }
                             }
                         }
