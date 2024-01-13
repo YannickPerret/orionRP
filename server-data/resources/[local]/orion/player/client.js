@@ -501,7 +501,9 @@ let playerData = {};
           hash: [
             GetHashKey('prop_vend_soda_01'),
             GetHashKey('prop_vend_soda_02'),
-            GetHashKey('prop_vend_coffe_01')
+            GetHashKey('prop_vend_coffe_01'),
+            GetHashKey('prop_vend_fridge01'),
+            GetHashKey('prop_vend_water_01'),
           ],
           action: {
             type: 'client',
@@ -514,7 +516,8 @@ let playerData = {};
           color: 'black',
           hash: [
             GetHashKey('prop_vend_snak_01'),
-            GetHashKey('prop_vend_snak_02')
+            GetHashKey('prop_vend_snak_02'),
+            GetHashKey('prop_vend_snak_01_tu')
           ],
           action: {
             type: 'client',

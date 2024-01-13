@@ -263,7 +263,7 @@
                             },
                             */
                             let targetObject = targetObjectsArray.find((object) => {
-                                return object.hash.includes(entityHash)
+                                return object.hash.includes(entityModel)
                             })
 
                             if (targetObject) {
