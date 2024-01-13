@@ -390,18 +390,18 @@ let playerData = {};
       if (IsPositionOccupied(coords.x, coords.y, coords.z, 0.5, false, false, false, false, false, 0, false)) {
         return;
       }
+      let sitAnimation = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
       //attach player to chair
       AttachEntityToEntity(PlayerPedId(), entity, 0, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, false, false, false, false, 0, true);
       //set player rotation
       SetEntityRotation(PlayerPedId(), 0.0, 0.0, coords.w, 2, true);
 
       //set player animation
-      RequestAnimDict('anim@heists@ornate_bank@hack')
-      while (!HasAnimDictLoaded('anim@heists@ornate_bank@hack')) {
+      RequestAnimDict(sitAnimation);
+      while (!HasAnimDictLoaded(sitAnimation)) {
         await exports['orion'].delay(100);
       }
-      TaskPlayAnim(PlayerPedId(), 'anim@heists@ornate_bank@hack', 'hack_enter', 8.0, -8.0, -1, 50, 0, false, false, false);
-
+      TaskStartScenarioAtPosition(PlayerPedId(), sitAnimation, coords.x, coords.y, coords.z, coords.w, -1, false, true, 0, false);
       //set player position
       SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z, false, false, false, false);
 
