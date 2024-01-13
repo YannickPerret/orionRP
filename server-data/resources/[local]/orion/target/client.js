@@ -253,7 +253,7 @@
                                     id: entityHit,
                                     hash: entityHash,
                                     actions: {
-                                        ...targetObject,
+                                        ...[targetObject],
                                         args: {
                                             entity: entityHit,
                                             coords: entityCoords
