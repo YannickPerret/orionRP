@@ -537,6 +537,7 @@ let playerData = {};
         }
       ]
 
+      console.log(GetHashKey('prop_bin_01a'))
       emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
       emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
       emit('orion:target:c:registerNewOptions', "object", targetOptionsObjects);
