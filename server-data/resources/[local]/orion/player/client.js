@@ -175,12 +175,13 @@ let playerData = {};
 
     if (IsControlJustPressed(1, 323)) {
       if (!handsUp) {
+        ClearPedTasks(playerPed);
+        FreezeEntityPosition(playerPed, false)
         TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
       }
       else {
         ClearPedTasks(playerPed);
         ClearPedTasksImmediately(playerPed);
-        FreezeEntityPosition(playerPed, false)
       }
     }
     handsUp = !handsUp;
