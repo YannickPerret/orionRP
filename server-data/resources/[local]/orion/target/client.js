@@ -253,6 +253,7 @@
                                     args: {
                                         entity: entityHit,
                                         coords: entityCoords,
+                                        ...targetObject.args
                                     },
                                 }
                             }

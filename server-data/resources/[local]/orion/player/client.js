@@ -1,6 +1,7 @@
 //https://github.com/tringuyenk19/skincreator/blob/master/client.lua
 //ReportCrime
 //GetPedCauseOfDeath
+//prop_ld_health_pack
 let playerData = {};
 
 (async () => {
@@ -390,26 +391,68 @@ let playerData = {};
       NetworkResurrectLocalPlayer(GetEntityCoords(ped, false), GetEntityHeading(ped), true, false);
     }
   })
-  onNet('orion:player:c:sitDown', async ({ coords, entity }) => {
+
+  onNet('orion:player:c:sitDown', async ({ coords, entity, type }) => {
 
     console.log('sitDown', coords, entity)
-    //test is chair exist and not occupied
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
       if (IsPositionOccupied(coords[0], coords[1], coords[2], 0.5, false, false, false, false, false, 0, false)) {
         return;
       }
-      let scenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
 
-      let objectHeading = GetEntityHeading(entity);
-      lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
-      FreezeEntityPosition(PlayerPedId(), true);
-      FreezeEntityPosition(entity, true);
-      currentObject = entity;
-      //set player is sitting*/
-      SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
-      SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+      if (type == 'bed') {
+        let bedAnimation = 'WORLD_HUMAN_SUNBATHE_BACK';
+        let objectHeading = GetEntityHeading(entity);
+        lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
+        FreezeEntityPosition(PlayerPedId(), true);
+        FreezeEntityPosition(entity, true);
+        currentObject = entity;
+        //set player is sitting*/
+        SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
+        SetEntityHeading(PlayerPedId(), (objectHeading - 180));
 
-      TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), bedAnimation, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+      }
+      else if (type == 'chair') {
+        let scenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+
+        let objectHeading = GetEntityHeading(entity);
+        lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
+        FreezeEntityPosition(PlayerPedId(), true);
+        FreezeEntityPosition(entity, true);
+        currentObject = entity;
+        //set player is sitting*/
+        SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
+        SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+
+        TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+
+      }
+      else if (type == 'bench') {
+        let scenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+        //seat posiiton in bench
+        let seatPosition = {
+          x: 0.0,
+          y: 0.0,
+          z: 0.0
+        };
+        let objectHeading = GetEntityHeading(entity);
+        lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
+        FreezeEntityPosition(PlayerPedId(), true);
+        FreezeEntityPosition(entity, true);
+        currentObject = entity;
+        //set player is sitting*/
+        SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
+        SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+
+
+        //test is seat position is occupied
+        if (IsPositionOccupied(seatPosition.x, seatPosition.y, seatPosition.z, 0.5, false, false, false, false, false, 0, false)) {
+          return;
+        }
+
+        TaskStartScenarioAtPosition(PlayerPedId(), scenario, seatPosition.x, seatPosition.y, seatPosition.z, (objectHeading - 180), -1, false, true, 0, false);
+      }
 
       playerIsSitting = true;
     }
@@ -635,6 +678,27 @@ let playerData = {};
           action: {
             type: 'client',
             event: 'orion:player:c:sitDown',
+            args: {
+              type: 'chair'
+            }
+          }
+        },
+        {
+          label: 'Se coucher sur le lit',
+          icon: 'BedSingle',
+          color: 'black',
+          hash: [
+            GetHashKey('p_mbbed_s'),
+            GetHashKey('p_v_res_tt_bed_s'),
+            GetHashKey('v_res_msonbed_s'),
+            GetHashKey('p_lestersbed_s')
+          ],
+          event: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+            args: {
+              type: 'bed'
+            }
           }
         }
       ]
