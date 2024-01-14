@@ -14,8 +14,12 @@ let playerData = {};
   let hunger = 100;
   let thirst = 100;
   let drawnObjects = [];
+
+  // sit down
   let playerIsSitting = false;
   let lastPositionPlayer = false;
+  let currentObject = false;
+
 
 
   const objectTypes = [
@@ -392,11 +396,13 @@ let playerData = {};
       if (IsPositionOccupied(coords[0], coords[1], coords[2], 0.5, false, false, false, false, false, 0, false)) {
         return;
       }
-      let sitAnimation = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+      let scenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+
       let objectHeading = GetEntityHeading(entity);
       lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
       FreezeEntityPosition(PlayerPedId(), true);
       FreezeEntityPosition(entity, true);
+      currentObject = entity;
       /*
       //attach player to chair
       AttachEntityToEntity(PlayerPedId(), entity, 0, coords[0], coords[1], coords[2], 0.0, 0.0, 0.0, false, false, false, false, 0, true);
@@ -416,8 +422,6 @@ let playerData = {};
       SetEntityHeading(PlayerPedId(), objectHeading);
 
       //set player is sitting*/
-      console.log('sitDown', coords)
-
       SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
       SetEntityHeading(PlayerPedId(), (objectHeading - 180));
 
@@ -426,10 +430,7 @@ let playerData = {};
         await exports['orion'].delay(100);
       }
       if (objectHeading > 180) {
-        TaskPlayAnim(PlayerPedId(), sitAnimation, 'sit_b', 8.0, -8.0, -1, 50, 0, false, false, false);
-      }
-      else {
-        TaskPlayAnim(PlayerPedId(), sitAnimation, 'sit_a', 8.0, -8.0, -1, 50, 0, false, false, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
       }
 
       playerIsSitting = true;
