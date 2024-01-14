@@ -447,7 +447,7 @@ let playerData = {};
         /*SetEntityCoords(PlayerPedId(), seatPosition.x, seatPosition.y, seatPosition.z + 0.5);
         SetEntityHeading(PlayerPedId(), (objectHeading - 180));*/
 
-        TaskStartScenarioAtPosition(PlayerPedId(), scenario, seatPosition[0], seatPosition[1], seatPosition[2], (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), scenario, seatPosition[0], seatPosition[1], seatPosition[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
       }
 
       playerIsSitting = true;
