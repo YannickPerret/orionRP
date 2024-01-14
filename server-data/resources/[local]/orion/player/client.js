@@ -497,226 +497,227 @@ let playerData = {};
 
   onNet('orion:player:c:showIdCard', () => {
     console.log('showIdCard')
-  })
+  });
 
 
-    /*setTick(async () => {
-      await exports['orion'].delay(1000)
-      const pedCoords = GetEntityCoords(PlayerPedId(), true);
-      const distance = 15;
-      drawnObjects = [];
-      if (!playerIsDead) {
-        for (const objectType of objectTypes) {
-          for (const object of objectType.objects) {
-            if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, object, false, false, false) !== 0) {
-              const drawnObject = { object: object, message: objectType.message };
-              if (objectType.action) {
-                drawnObject.action = objectType.action;
-              }
-              drawnObjects.push(drawnObject);
+  /*setTick(async () => {
+    await exports['orion'].delay(1000)
+    const pedCoords = GetEntityCoords(PlayerPedId(), true);
+    const distance = 15;
+    drawnObjects = [];
+    if (!playerIsDead) {
+      for (const objectType of objectTypes) {
+        for (const object of objectType.objects) {
+          if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, object, false, false, false) !== 0) {
+            const drawnObject = { object: object, message: objectType.message };
+            if (objectType.action) {
+              drawnObject.action = objectType.action;
             }
+            drawnObjects.push(drawnObject);
           }
         }
       }
-    });
-  
-    setTick(async () => {
-      await exports['orion'].delay(0)
-      const distance = 0.5;
-      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
-      for (const object of drawnObjects) {
-        if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object.object, false, false, false) !== 0) {
-          if (object.message) {
-            emit('orion:showText', object.message);
-          }
-          if (IsControlJustReleased(0, 38)) {
-            if (object.action) {
-              object.action();
-            }
+    }
+  });
+ 
+  setTick(async () => {
+    await exports['orion'].delay(0)
+    const distance = 0.5;
+    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
+    for (const object of drawnObjects) {
+      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object.object, false, false, false) !== 0) {
+        if (object.message) {
+          emit('orion:showText', object.message);
+        }
+        if (IsControlJustReleased(0, 38)) {
+          if (object.action) {
+            object.action();
           }
         }
       }
-    });*/
+    }
+  });*/
 
-    (async () => {
-      try {
-        const targetOptionsPlayer = [
-          {
-            label: 'Voir la carte d\'identité',
-            icon: 'CircleUserRound',
-            color: 'black',
-            action: {
-              type: 'client',
-              event: 'orion:player:c:showIdCard',
-            }
-          },
-        ];
-
-        const targetOptionsOtherPlayer = [
-          {
-            label: 'Montrer la carte d\'identité',
-            icon: 'CircleUserRound',
-            color: 'black',
-            action: {
-              type: 'client',
-              event: 'orion:player:c:showIdCard',
-            }
+  (async () => {
+    try {
+      const targetOptionsPlayer = [
+        {
+          label: 'Voir la carte d\'identité',
+          icon: 'CircleUserRound',
+          color: 'black',
+          action: {
+            type: 'client',
+            event: 'orion:player:c:showIdCard',
           }
-        ];
+        },
+      ];
 
-        const targetOptionsObjects = [
-          {
-            label: 'Acheter une boisson pour 5$',
-            icon: 'CupSoda',
-            color: 'black',
-            hash: [
-              GetHashKey('prop_vend_soda_01'),
-              GetHashKey('prop_vend_soda_02'),
-              GetHashKey('prop_vend_coffe_01'),
-              GetHashKey('prop_vend_fridge01'),
-              GetHashKey('prop_vend_water_01'),
-            ],
-            action: {
-              type: 'client',
-              event: 'orion:shop:s:buyDrink',
-            }
-          },
-          {
-            label: 'Acheter un snack pour 5$',
-            icon: 'Sandwich',
-            color: 'black',
-            hash: [
-              GetHashKey('prop_vend_snak_01'),
-              GetHashKey('prop_vend_snak_02'),
-              GetHashKey('prop_vend_snak_01_tu')
-            ],
-            action: {
-              type: 'client',
-              event: 'orion:shop:s:buySnack',
-            }
-          },
-          {
-            label: 'Jeter à la poubelle',
-            icon: 'Trash2',
-            color: 'black',
-            hash: [
-              GetHashKey('prop_bin_01a'),
-              GetHashKey('prop_bin_01b'),
-              GetHashKey('prop_cs_bin_03')
-            ],
-            action: {
-              type: 'client',
-              event: 'orion:inventory:c:dropItem',
-            }
-          },
-          {
-            label: 'S\'asseoir',
-            icon: 'Sofa',
-            color: 'black',
-            hash: [
-              GetHashKey('prop_wheelchair_01'),
-              GetHashKey('prop_rock_chair_01'),
-              GetHashKey('p_yacht_chair_01_s'),
-              GetHashKey('prop_off_chair_04_s'),
-              GetHashKey('prop_cs_office_chair'),
-              GetHashKey('prop_direct_chair_01'),
-              GetHashKey('prop_direct_chair_02'),
-              GetHashKey('prop_yaught_chair_01'),
-              GetHashKey('prop_gc_chair02'),
-              GetHashKey('prop_armchair_01'),
-              GetHashKey('prop_chair_01a'),
-              GetHashKey('prop_chair_08'),
-              GetHashKey('prop_clown_chair'),
-              GetHashKey('prop_chair_04a'),
-              GetHashKey('prop_chateau_chair_01'),
-              GetHashKey('prop_chair_02'),
-              GetHashKey('prop_chair_05'),
-              GetHashKey('prop_chair_07'),
-              GetHashKey('prop_chair_01b'),
-              GetHashKey('prop_chair_10'),
-              GetHashKey('prop_chair_04b'),
-              GetHashKey('prop_old_wood_chair'),
-              GetHashKey('prop_chair_03'),
-              GetHashKey('prop_chair_09'),
-              GetHashKey('prop_chair_06'),
-              GetHashKey('prop_off_chair_01'),
-              GetHashKey('prop_off_chair_04b'),
-              GetHashKey('prop_off_chair_04'),
-              GetHashKey('v_corp_offchair'),
-              GetHashKey('prop_off_chair_05'),
-              GetHashKey('v_club_officechair'),
-              GetHashKey('prop_sol_chair'),
-              GetHashKey('hei_prop_heist_off_chair'),
-              GetHashKey('p_armchair_01_s'),
-              GetHashKey('p_clb_officechair_s'),
-              GetHashKey('p_ilev_p_easychair_s'),
-              GetHashKey('p_soloffchair_s'),
-              GetHashKey('v_ilev_m_dinechair'),
-              GetHashKey('v_ilev_chair02_ped'),
-              GetHashKey('prop_waiting_seat_01'),
-              GetHashKey('prop_air_bench_01'),
-              GetHashKey('prop_fib_3b_bench'),
-            ],
-            action: {
-              type: 'client',
-              event: 'orion:player:c:sitDown',
-              args: {
-                type: 'chair'
-              }
-            }
-          },
-          {
-            label: 'Se coucher sur le lit',
-            icon: 'BedSingle',
-            color: 'black',
-            hash: [
-              GetHashKey('p_mbbed_s'),
-              GetHashKey('p_v_res_tt_bed_s'),
-              GetHashKey('v_res_msonbed_s'),
-              GetHashKey('p_lestersbed_s')
-            ],
-            event: {
-              type: 'client',
-              event: 'orion:player:c:sitDown',
-            },
-            args: {
-              type: 'bed'
-            }
-          },
-          {
-            label: 'S\'asseoir sur le banc',
-            icon: 'BedDouble',
-            color: 'black',
-            hash: [
-              GetHashKey('prop_bench_09'),
-              GetHashKey('prop_bench_08'),
-              GetHashKey('prop_bench_01c'),
-              GetHashKey('prop_bench_05'),
-              GetHashKey('prop_bench_01a'),
-              GetHashKey('prop_bench_02'),
-              GetHashKey('prop_bench_10'),
-              GetHashKey('prop_bench_01b'),
-              GetHashKey('prop_bench_03'),
-              GetHashKey('prop_bench_07'),
-              GetHashKey('prop_bench_06'),
-
-            ],
-            action: {
-              type: 'client',
-              event: 'orion:player:c:sitDown',
-            },
-            args: {
-              type: 'bench'
-            }
+      const targetOptionsOtherPlayer = [
+        {
+          label: 'Montrer la carte d\'identité',
+          icon: 'CircleUserRound',
+          color: 'black',
+          action: {
+            type: 'client',
+            event: 'orion:player:c:showIdCard',
           }
-        ]
+        }
+      ];
 
-        emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
-        emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
-        emit('orion:target:c:registerNewOptions', "object", targetOptionsObjects);
-      }
-      catch (e) {
-        console.log(e)
-      }
-    })();
+      const targetOptionsObjects = [
+        {
+          label: 'Acheter une boisson pour 5$',
+          icon: 'CupSoda',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_vend_soda_01'),
+            GetHashKey('prop_vend_soda_02'),
+            GetHashKey('prop_vend_coffe_01'),
+            GetHashKey('prop_vend_fridge01'),
+            GetHashKey('prop_vend_water_01'),
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:shop:s:buyDrink',
+          }
+        },
+        {
+          label: 'Acheter un snack pour 5$',
+          icon: 'Sandwich',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_vend_snak_01'),
+            GetHashKey('prop_vend_snak_02'),
+            GetHashKey('prop_vend_snak_01_tu')
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:shop:s:buySnack',
+          }
+        },
+        {
+          label: 'Jeter à la poubelle',
+          icon: 'Trash2',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_bin_01a'),
+            GetHashKey('prop_bin_01b'),
+            GetHashKey('prop_cs_bin_03')
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:inventory:c:dropItem',
+          }
+        },
+        {
+          label: 'S\'asseoir',
+          icon: 'Sofa',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_wheelchair_01'),
+            GetHashKey('prop_rock_chair_01'),
+            GetHashKey('p_yacht_chair_01_s'),
+            GetHashKey('prop_off_chair_04_s'),
+            GetHashKey('prop_cs_office_chair'),
+            GetHashKey('prop_direct_chair_01'),
+            GetHashKey('prop_direct_chair_02'),
+            GetHashKey('prop_yaught_chair_01'),
+            GetHashKey('prop_gc_chair02'),
+            GetHashKey('prop_armchair_01'),
+            GetHashKey('prop_chair_01a'),
+            GetHashKey('prop_chair_08'),
+            GetHashKey('prop_clown_chair'),
+            GetHashKey('prop_chair_04a'),
+            GetHashKey('prop_chateau_chair_01'),
+            GetHashKey('prop_chair_02'),
+            GetHashKey('prop_chair_05'),
+            GetHashKey('prop_chair_07'),
+            GetHashKey('prop_chair_01b'),
+            GetHashKey('prop_chair_10'),
+            GetHashKey('prop_chair_04b'),
+            GetHashKey('prop_old_wood_chair'),
+            GetHashKey('prop_chair_03'),
+            GetHashKey('prop_chair_09'),
+            GetHashKey('prop_chair_06'),
+            GetHashKey('prop_off_chair_01'),
+            GetHashKey('prop_off_chair_04b'),
+            GetHashKey('prop_off_chair_04'),
+            GetHashKey('v_corp_offchair'),
+            GetHashKey('prop_off_chair_05'),
+            GetHashKey('v_club_officechair'),
+            GetHashKey('prop_sol_chair'),
+            GetHashKey('hei_prop_heist_off_chair'),
+            GetHashKey('p_armchair_01_s'),
+            GetHashKey('p_clb_officechair_s'),
+            GetHashKey('p_ilev_p_easychair_s'),
+            GetHashKey('p_soloffchair_s'),
+            GetHashKey('v_ilev_m_dinechair'),
+            GetHashKey('v_ilev_chair02_ped'),
+            GetHashKey('prop_waiting_seat_01'),
+            GetHashKey('prop_air_bench_01'),
+            GetHashKey('prop_fib_3b_bench'),
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+          },
+          args: {
+            type: 'chair'
+          }
+        },
+        {
+          label: 'Se coucher sur le lit',
+          icon: 'BedSingle',
+          color: 'black',
+          hash: [
+            GetHashKey('p_mbbed_s'),
+            GetHashKey('p_v_res_tt_bed_s'),
+            GetHashKey('v_res_msonbed_s'),
+            GetHashKey('p_lestersbed_s')
+          ],
+          event: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+          },
+          args: {
+            type: 'bed'
+          }
+        },
+        {
+          label: 'S\'asseoir sur le banc',
+          icon: 'BedDouble',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_bench_09'),
+            GetHashKey('prop_bench_08'),
+            GetHashKey('prop_bench_01c'),
+            GetHashKey('prop_bench_05'),
+            GetHashKey('prop_bench_01a'),
+            GetHashKey('prop_bench_02'),
+            GetHashKey('prop_bench_10'),
+            GetHashKey('prop_bench_01b'),
+            GetHashKey('prop_bench_03'),
+            GetHashKey('prop_bench_07'),
+            GetHashKey('prop_bench_06'),
+
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+          },
+          args: {
+            type: 'bench'
+          }
+        }
+      ]
+
+      emit('orion:target:c:registerNewOptions', "player", targetOptionsPlayer);
+      emit('orion:target:c:registerNewOptions', "otherPlayer", targetOptionsOtherPlayer);
+      emit('orion:target:c:registerNewOptions', "object", targetOptionsObjects);
+    }
+    catch (e) {
+      console.log(e)
+    }
+  })();
+
 })()
