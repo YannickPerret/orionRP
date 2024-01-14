@@ -452,6 +452,13 @@ let playerData = {};
 
       playerIsSitting = true;
     }
+    else {
+      FreezeEntityPosition(PlayerPedId(), false);
+      FreezeEntityPosition(currentObject, false);
+      ClearPedTasks(PlayerPedId());
+      SetEntityCoords(PlayerPedId(), lastPositionPlayer[0], lastPositionPlayer[1], lastPositionPlayer[2]);
+      playerIsSitting = false;
+    }
 
   })
 
