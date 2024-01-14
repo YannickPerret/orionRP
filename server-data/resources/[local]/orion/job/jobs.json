@@ -1,6 +1,7 @@
 {
     "jobs": [
         {
+            "initial": "lspd",
             "name": "Los Santos Police Department",
             "blips": {
                 "x": 467.54,

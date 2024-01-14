@@ -7,6 +7,7 @@ module.exports = {
         jobs.jobs.forEach(async (job, index) => {
             await db.insert('jobs', {
                 name: job.name,
+                initial: job.initial,
                 position: job.blips,
                 markers: job.markers,
                 storages: job.storages,
