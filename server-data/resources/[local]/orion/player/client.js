@@ -15,6 +15,7 @@ let playerData = {};
   let thirst = 100;
   let drawnObjects = [];
   let playerIsSitting = false;
+  let lastPositionPlayer = false;
 
 
   const objectTypes = [
@@ -174,6 +175,7 @@ let playerData = {};
       }
       else {
         ClearPedTasks(playerPed);
+        ClearPedTasksImmediately(playerPed);
       }
     }
     handsUp = !handsUp;
@@ -392,6 +394,10 @@ let playerData = {};
       }
       let sitAnimation = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
       let objectHeading = GetEntityHeading(entity);
+      lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
+      FreezeEntityPosition(PlayerPedId(), true);
+      FreezeEntityPosition(entity, true);
+      /*
       //attach player to chair
       AttachEntityToEntity(PlayerPedId(), entity, 0, coords[0], coords[1], coords[2], 0.0, 0.0, 0.0, false, false, false, false, 0, true);
       //set player rotation
@@ -409,7 +415,18 @@ let playerData = {};
       //set player heading
       SetEntityHeading(PlayerPedId(), objectHeading);
 
-      //set player is sitting
+      //set player is sitting*/
+      console.log('sitDown', coords)
+
+      SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
+      SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+
+      RequestAnimDict(sitAnimation);
+      while (!HasAnimDictLoaded(sitAnimation)) {
+        await exports['orion'].delay(100);
+      }
+
+      TaskPlayAnim(PlayerPedId(), sitAnimation, 'player_enter', 8.0, 1.0, -1, 1, 0, 0, 0, 0);
       playerIsSitting = true;
     }
 
