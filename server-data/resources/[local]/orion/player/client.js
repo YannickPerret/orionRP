@@ -425,8 +425,13 @@ let playerData = {};
       while (!HasAnimDictLoaded(sitAnimation)) {
         await exports['orion'].delay(100);
       }
+      if (objectHeading > 180) {
+        TaskPlayAnim(PlayerPedId(), sitAnimation, 'sit_b', 8.0, -8.0, -1, 50, 0, false, false, false);
+      }
+      else {
+        TaskPlayAnim(PlayerPedId(), sitAnimation, 'sit_a', 8.0, -8.0, -1, 50, 0, false, false, false);
+      }
 
-      TaskPlayAnim(PlayerPedId(), sitAnimation, 'player_enter', 8.0, 1.0, -1, 1, 0, 0, 0, 0);
       playerIsSitting = true;
     }
 
