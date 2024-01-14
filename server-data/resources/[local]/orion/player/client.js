@@ -2,6 +2,7 @@
 //ReportCrime
 //GetPedCauseOfDeath
 //prop_ld_health_pack
+//PlaceObjectOnGroundProperly
 let playerData = {};
 
 (async () => {
@@ -429,9 +430,9 @@ let playerData = {};
 
       }
       else if (type == 'bench') {
-        let scenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+        let scenario = 'PROP_HUMAN_SEAT_BENCH';
         //seat posiiton in bench
-        let seatPosition = GetOffsetFromEntityInWorldCoords(entity, 0.0, -0.5, 0.0);
+        let seatPosition = GetEntityCoords(entity, true);
         let objectHeading = GetEntityHeading(entity);
         lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
         if (IsPositionOccupied(seatPosition[0], seatPosition[1], seatPosition[2], 0.5, false, false, false, false, false, 0, false)) {
@@ -440,12 +441,13 @@ let playerData = {};
 
         FreezeEntityPosition(PlayerPedId(), true);
         FreezeEntityPosition(entity, true);
+
         currentObject = entity;
         //set player is sitting*/
-        SetEntityCoords(PlayerPedId(), seatPosition.x, seatPosition.y, seatPosition.z + 0.5);
-        SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+        /*SetEntityCoords(PlayerPedId(), seatPosition.x, seatPosition.y, seatPosition.z + 0.5);
+        SetEntityHeading(PlayerPedId(), (objectHeading - 180));*/
 
-        TaskStartScenarioAtPosition(PlayerPedId(), scenario, seatPosition.x, seatPosition.y, seatPosition.z, (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), scenario, seatPosition[0], seatPosition[1], seatPosition[2], (objectHeading - 180), -1, false, true, 0, false);
       }
 
       playerIsSitting = true;
