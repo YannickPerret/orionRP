@@ -660,20 +660,8 @@ let playerData = {};
             GetHashKey('v_ilev_m_dinechair'),
             GetHashKey('v_ilev_chair02_ped'),
             GetHashKey('prop_waiting_seat_01'),
-            GetHashKey('prop_bench_06'),
             GetHashKey('prop_air_bench_01'),
             GetHashKey('prop_fib_3b_bench'),
-            GetHashKey('prop_bench_09'),
-            GetHashKey('prop_bench_08'),
-            GetHashKey('prop_bench_01c'),
-            GetHashKey('prop_bench_05'),
-            GetHashKey('prop_bench_01a'),
-            GetHashKey('prop_bench_02'),
-            GetHashKey('prop_bench_10'),
-            GetHashKey('prop_bench_01b'),
-            GetHashKey('prop_bench_03'),
-            GetHashKey('prop_bench_07'),
-
           ],
           action: {
             type: 'client',
@@ -698,6 +686,32 @@ let playerData = {};
             event: 'orion:player:c:sitDown',
             args: {
               type: 'bed'
+            }
+          }
+        },
+        {
+          label: 'S\'asseoir sur le banc',
+          icon: 'BedDouble',
+          color: 'black',
+          hash: [
+            GetHashKey('prop_bench_09'),
+            GetHashKey('prop_bench_08'),
+            GetHashKey('prop_bench_01c'),
+            GetHashKey('prop_bench_05'),
+            GetHashKey('prop_bench_01a'),
+            GetHashKey('prop_bench_02'),
+            GetHashKey('prop_bench_10'),
+            GetHashKey('prop_bench_01b'),
+            GetHashKey('prop_bench_03'),
+            GetHashKey('prop_bench_07'),
+            GetHashKey('prop_bench_06'),
+
+          ],
+          action: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+            args: {
+              type: 'bench'
             }
           }
         }

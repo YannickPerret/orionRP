@@ -2,11 +2,11 @@ import React from 'react'
 import style from './targetEyes.module.scss'
 import openEyes from '../../assets/images/target/openEyes.svg'
 import { useData } from '../../providers/dataContext'
-import { CircleUserRound, Trash2, Sandwich, CupSoda, Sofa } from 'lucide-react'
+import { CircleUserRound, Trash2, Sandwich, CupSoda, Sofa, BedSingle, BedDouble } from 'lucide-react'
 import { sendNui } from '../../utils/fetchNui'
 
 const icons = {
-    CircleUserRound, Trash2, Sandwich, CupSoda, Sofa
+    CircleUserRound, Trash2, Sandwich, CupSoda, Sofa, BedSingle, BedDouble
 };
 
 
