@@ -17,6 +17,7 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
     'garage/garages.json',
+    'core/job/jobs.json',
 
     'core/server/migrations/*',
     'core/server/database.js',
@@ -35,6 +36,7 @@ files {
     'inventory/item.js',
     'inventory/inventory.js',
     'garage/garage.js',
+    'job/job.js',
 }
 shared_scripts {
     'core/shared/notifications.js',
@@ -64,6 +66,7 @@ client_scripts{
     'voice/client.js',
     'inventory/client.js',
     'garage/client.js',
+    'job/client.js',
 
 }
 
@@ -78,6 +81,7 @@ server_scripts{
     'bank/server/server.js',
     'inventory/server.js',
     'garage/server.js',
+    'job/server.js',
     'admin/server/server.js',
     'admin/server/commands.js',
 }
