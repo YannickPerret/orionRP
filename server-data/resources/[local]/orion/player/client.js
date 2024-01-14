@@ -392,7 +392,7 @@ let playerData = {};
     }
   })
 
-  onNet('orion:player:c:sitDown', async ({ coords, entity, type }) => {
+  onNet('orion:player:c:sitDown', async ({ entity, coords, type }) => {
 
     console.log('sitDown', coords, entity)
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
@@ -684,9 +684,9 @@ let playerData = {};
           event: {
             type: 'client',
             event: 'orion:player:c:sitDown',
-            args: {
-              type: 'bed'
-            }
+          },
+          args: {
+            type: 'bed'
           }
         },
         {
