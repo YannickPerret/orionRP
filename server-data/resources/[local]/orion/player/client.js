@@ -710,9 +710,9 @@ let playerData = {};
           action: {
             type: 'client',
             event: 'orion:player:c:sitDown',
-            args: {
-              type: 'bench'
-            }
+          },
+          args: {
+            type: 'bench'
           }
         }
       ]
