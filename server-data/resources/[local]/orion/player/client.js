@@ -515,7 +515,7 @@ let playerData = {};
     console.log('showIdCard')
   });
 
-  setick(async () => {
+  setTick(async () => {
     //get all object around 10 distance of player
     await exports['orion'].delay(100)
     const pedCoords = GetEntityCoords(PlayerPedId(), true);
