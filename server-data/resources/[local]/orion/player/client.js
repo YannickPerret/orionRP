@@ -397,6 +397,7 @@ let playerData = {};
   onNet('orion:player:c:sitDown', async ({ entity, coords, type }) => {
 
     console.log('sitDown', coords, entity, type)
+    const playerPed = PlayerPedId();
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
       if (IsPositionOccupied(coords[0], coords[1], coords[2], 0.5, false, false, false, false, false, 0, false)) {
         return;
@@ -405,29 +406,29 @@ let playerData = {};
       if (type == 'bed') {
         currentScenario = 'WORLD_HUMAN_SUNBATHE_BACK';
         let objectHeading = GetEntityHeading(entity);
-        lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
-        FreezeEntityPosition(PlayerPedId(), true);
+        lastPositionPlayer = GetEntityCoords(playerPed, true);
+        FreezeEntityPosition(playerPed, true);
         FreezeEntityPosition(entity, true);
         currentObject = entity;
         //set player is sitting*/
-        SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
-        SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+        SetEntityCoords(playerPed, coords[0], coords[1], coords[2] + 0.5);
+        SetEntityHeading(playerPed, (objectHeading - 180));
 
-        TaskStartScenarioAtPosition(PlayerPedId(), currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(playerPed, currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
       }
       else if (type == 'chair') {
         currentScenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
 
         let objectHeading = GetEntityHeading(entity);
-        lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
-        FreezeEntityPosition(PlayerPedId(), true);
+        lastPositionPlayer = GetEntityCoords(playerPed, true);
+        FreezeEntityPosition(playerPed, true);
         FreezeEntityPosition(entity, true);
         currentObject = entity;
         //set player is sitting*/
-        SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
-        SetEntityHeading(PlayerPedId(), (objectHeading - 180));
+        SetEntityCoords(playerPed, coords[0], coords[1], coords[2] + 0.5);
+        SetEntityHeading(playerPed, (objectHeading - 180));
 
-        TaskStartScenarioAtPosition(PlayerPedId(), currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(playerPed, currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
 
       }
       else if (type == 'bench') {
@@ -435,17 +436,17 @@ let playerData = {};
         //seat posiiton in bench
         let seatPosition = GetEntityCoords(entity, true);
         let objectHeading = GetEntityHeading(entity);
-        lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
+        lastPositionPlayer = GetEntityCoords(playerPed, true);
         if (IsPositionOccupied(seatPosition[0], seatPosition[1], seatPosition[2], 0.5, false, false, false, false, false, 0, false)) {
           return;
         }
 
-        FreezeEntityPosition(PlayerPedId(), true);
+        FreezeEntityPosition(playerPed, true);
         FreezeEntityPosition(entity, true);
 
         currentObject = entity;
 
-        TaskStartScenarioAtPosition(PlayerPedId(), currentScenario, seatPosition[0], seatPosition[1], seatPosition[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(playerPed, currentScenario, seatPosition[0], seatPosition[1], seatPosition[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
       }
 
       playerIsSitting = true;
@@ -453,14 +454,14 @@ let playerData = {};
     else {
 
       TaskStartScenarioAtPosition(playerPed, currentScenario, 0.0, 0.0, 0.0, 180.0, 2, true, false)
-      while (IsPedUsingScenario(PlayerPedId(), currentScenario)) {
+      while (IsPedUsingScenario(playerPed, currentScenario)) {
         exports['orion'].delay(100)
       }
 
-      ClearPedTasks(PlayerPedId());
+      ClearPedTasks(playerPed);
 
 
-      FreezeEntityPosition(PlayerPedId(), false);
+      FreezeEntityPosition(playerPed, false);
       FreezeEntityPosition(currentObject, false);
       playerIsSitting = false;
     }
