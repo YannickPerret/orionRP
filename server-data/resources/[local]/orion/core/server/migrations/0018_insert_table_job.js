@@ -3,6 +3,7 @@ module.exports = {
     version: 18,
     migrate: async (db) => {
         // your code here
+        console.log(jobs)
         jobs.forEach(async (job, index) => {
             await db.insert('jobs', {
                 name: job.name,
