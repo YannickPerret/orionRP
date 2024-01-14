@@ -455,7 +455,7 @@ let playerData = {};
 
       TaskStartScenarioAtPosition(playerPed, currentScenario, 0.0, 0.0, 0.0, 180.0, 2, true, false)
       while (IsPedUsingScenario(playerPed, currentScenario)) {
-        exports['orion'].delay(100)
+        await exports['orion'].delay(100)
       }
 
       ClearPedTasks(playerPed);
