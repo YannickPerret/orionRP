@@ -438,7 +438,7 @@ let playerData = {};
         let seatPosition = GetEntityCoords(entity, true);
         let objectHeading = GetEntityHeading(entity);
         lastPositionPlayer = GetEntityCoords(playerPed, true);
-        if (IsPositionOccupied(seatPosition[0], seatPosition[1], seatPosition[2], 0.5, false, false, false, false, false, 0, false)) {
+        if (IsPositionOccupied(seatPosition[0], seatPosition[1], seatPosition[2] + 0.5, 0.5, false, false, false, false, false, 0, false)) {
           return;
         }
 
