@@ -180,6 +180,7 @@ let playerData = {};
       else {
         ClearPedTasks(playerPed);
         ClearPedTasksImmediately(playerPed);
+        FreezeEntityPosition(playerPed, false)
       }
     }
     handsUp = !handsUp;
