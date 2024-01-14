@@ -405,33 +405,11 @@ let playerData = {};
       FreezeEntityPosition(PlayerPedId(), true);
       FreezeEntityPosition(entity, true);
       currentObject = entity;
-      /*
-      //attach player to chair
-      AttachEntityToEntity(PlayerPedId(), entity, 0, coords[0], coords[1], coords[2], 0.0, 0.0, 0.0, false, false, false, false, 0, true);
-      //set player rotation
-      SetEntityRotation(PlayerPedId(), 0.0, 0.0, objectHeading, 2, true);
-
-      //set player animation
-      RequestAnimDict(sitAnimation);
-      while (!HasAnimDictLoaded(sitAnimation)) {
-        await exports['orion'].delay(100);
-      }
-      TaskStartScenarioAtPosition(PlayerPedId(), sitAnimation, coords[0], coords[1], coords[2], objectHeading, -1, false, true, 0, false);
-      //set player position
-      SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2], false, false, false, false);
-
-      //set player heading
-      SetEntityHeading(PlayerPedId(), objectHeading);
-
       //set player is sitting*/
       SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
       SetEntityHeading(PlayerPedId(), (objectHeading - 180));
 
-      /*RequestAnimDict(sitAnimation);
-      while (!HasAnimDictLoaded(sitAnimation)) {
-        await exports['orion'].delay(100);
-      }*/
-      TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
+      TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
 
       playerIsSitting = true;
     }
