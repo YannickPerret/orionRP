@@ -3,7 +3,7 @@ const { v4: uuid } = require('uuid');
 
 
 class Player {
-  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin, inventoryId }) {
+  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin, inventoryId, jobId }) {
     this.id = id || uuid();
     this.source = source;
     this.steamId = steamId || '';
@@ -27,7 +27,7 @@ class Player {
     this.mugshot = mugshot || '';
     this.role = role || false;
     this.skin = skin || [];
-    this.jobId = false;
+    this.jobId = jobId || null;
   }
 
   #isDead = false;

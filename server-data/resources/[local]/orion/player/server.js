@@ -104,6 +104,7 @@
           lastname: playerData[0].lastname,
           phone: playerData[0].phone,
           money: playerData[0].money,
+          jobId: playerData[0].jobId,
           accountId: playerData[0].accountId,
           position: playerData[0].position,
           license: playerData[0].license,
@@ -162,7 +163,7 @@
           firstname: firstname,
           lastname: lastname,
           phone: Number(phoneNumber),
-          jobs: 
+          jobId: null,
           money: 500,
           accountId: null,
           position: {
