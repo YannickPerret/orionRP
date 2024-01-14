@@ -1,4 +1,4 @@
-const jobs = LoadResourceFile(GetCurrentResourceName(), 'job/jobs.json');
+const jobs = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'job/jobs.json'));
 module.exports = {
     version: 18,
     migrate: async (db) => {
