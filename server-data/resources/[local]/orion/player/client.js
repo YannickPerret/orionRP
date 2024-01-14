@@ -526,7 +526,7 @@ let playerData = {};
     for (const object of allObjects) {
       if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, GetEntityModel(object), false, false, false) !== 0) {
         const objectCoords = GetEntityCoords(object, true);
-        DrawText3D(objectCoords[0], objectCoords[1], objectCoords[2] + 1.0, GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(object))));
+        exports['orion'].draw3DText(objectCoords[0], objectCoords[1], objectCoords[2] + 1.0, (GetEntityModel(object)) + ' ' + object, 255, 255, 255, 255, 0.25);
       }
     }
   })
