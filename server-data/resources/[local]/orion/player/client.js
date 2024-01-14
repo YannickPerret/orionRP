@@ -426,13 +426,11 @@ let playerData = {};
       SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
       SetEntityHeading(PlayerPedId(), (objectHeading - 180));
 
-      RequestAnimDict(sitAnimation);
+      /*RequestAnimDict(sitAnimation);
       while (!HasAnimDictLoaded(sitAnimation)) {
         await exports['orion'].delay(100);
-      }
-      if (objectHeading > 180) {
-        TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
-      }
+      }*/
+      TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
 
       playerIsSitting = true;
     }
