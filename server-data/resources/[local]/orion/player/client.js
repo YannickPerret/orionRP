@@ -515,22 +515,6 @@ let playerData = {};
     console.log('showIdCard')
   });
 
-  setTick(async () => {
-    //get all object around 10 distance of player
-    await exports['orion'].delay(100)
-    const pedCoords = GetEntityCoords(PlayerPedId(), true);
-    const distance = 10;
-    const allObjects = GetGamePool('CObject');
-
-    //drawtext on object with model and entity
-    for (const object of allObjects) {
-      if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, GetEntityModel(object), false, false, false) !== 0) {
-        const objectCoords = GetEntityCoords(object, true);
-        exports['orion'].draw3DText(objectCoords[0], objectCoords[1], objectCoords[2] + 1.0, (GetEntityModel(object)) + ' ' + object, 255, 255, 255, 255, 0.25);
-      }
-    }
-  });
-
   /*setTick(async () => {
     await exports['orion'].delay(1000)
     const pedCoords = GetEntityCoords(PlayerPedId(), true);
