@@ -429,6 +429,7 @@ let playerData = {};
         SetEntityHeading(playerPed, (objectHeading - 180));
 
         TaskStartScenarioAtPosition(playerPed, currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+        await exports['orion'].delay(100)
 
       }
       else if (type == 'bench') {
@@ -655,6 +656,7 @@ let playerData = {};
             GetHashKey('prop_chair_09'),
             GetHashKey('prop_chair_06'),
             GetHashKey('prop_off_chair_01'),
+            GetHashKey('prop_off_chair_03'),
             GetHashKey('prop_off_chair_04b'),
             GetHashKey('prop_off_chair_04'),
             GetHashKey('v_corp_offchair'),
@@ -662,6 +664,7 @@ let playerData = {};
             GetHashKey('v_club_officechair'),
             GetHashKey('prop_sol_chair'),
             GetHashKey('hei_prop_heist_off_chair'),
+            GetHashKey('hei_prop_hei_skid_chair'),
             GetHashKey('p_armchair_01_s'),
             GetHashKey('p_clb_officechair_s'),
             GetHashKey('p_ilev_p_easychair_s'),
@@ -671,6 +674,31 @@ let playerData = {};
             GetHashKey('prop_waiting_seat_01'),
             GetHashKey('prop_air_bench_01'),
             GetHashKey('prop_fib_3b_bench'),
+            GetHashKey('v_club_stagechair'),
+            GetHashKey('prop_old_deck_chair'),
+            GetHashKey('prop_skid_chair_01'),
+            GetHashKey('prop_skid_chair_02'),
+            GetHashKey('prop_skid_chair_03'),
+            GetHashKey('prop_wheelchair_01_s'),
+            GetHashKey('p_dinechair_01_s'),
+            GetHashKey('v_corp_bk_chair3'),
+            GetHashKey('v_corp_cd_chair'),
+            GetHashKey('v_ilev_hd_chair'),
+            GetHashKey('v_ilev_p_easychair'),
+            GetHashKey('v_ret_gc_chair03'),
+            GetHashKey('prop_ld_farm_chair01'),
+            GetHashKey('prop_table_04_chr'),
+            GetHashKey('prop_table_05_chr'),
+            GetHashKey('prop_table_06_chr'),
+            GetHashKey('v_ilev_leath_chr'),
+            GetHashKey('prop_table_01_chr_a'),
+            GetHashKey('prop_table_01_chr_b'),
+            GetHashKey('prop_table_02_chr'),
+            GetHashKey('prop_table_03b_chr'),
+            GetHashKey('prop_table_03_chr'),
+            GetHashKey('prop_torture_ch_01'),
+            GetHashKey('v_ilev_fh_dineeamesa'),
+
           ],
           action: {
             type: 'client',
@@ -689,6 +717,7 @@ let playerData = {};
             GetHashKey('p_v_res_tt_bed_s'),
             GetHashKey('v_res_msonbed_s'),
             GetHashKey('p_lestersbed_s')
+
           ],
           event: {
             type: 'client',
@@ -714,7 +743,7 @@ let playerData = {};
             GetHashKey('prop_bench_03'),
             GetHashKey('prop_bench_07'),
             GetHashKey('prop_bench_06'),
-
+            GetHashKey('prop_rub_couch01'),
           ],
           action: {
             type: 'client',
