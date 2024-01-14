@@ -21,6 +21,7 @@ let playerData = {};
   let playerIsSitting = false;
   let lastPositionPlayer = false;
   let currentObject = false;
+  let currentScenario = {};
 
 
 
@@ -402,7 +403,7 @@ let playerData = {};
       }
 
       if (type == 'bed') {
-        let bedAnimation = 'WORLD_HUMAN_SUNBATHE_BACK';
+        currentScenario = 'WORLD_HUMAN_SUNBATHE_BACK';
         let objectHeading = GetEntityHeading(entity);
         lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
         FreezeEntityPosition(PlayerPedId(), true);
@@ -412,10 +413,10 @@ let playerData = {};
         SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
         SetEntityHeading(PlayerPedId(), (objectHeading - 180));
 
-        TaskStartScenarioAtPosition(PlayerPedId(), bedAnimation, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
       }
       else if (type == 'chair') {
-        let scenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
+        currentScenario = 'PROP_HUMAN_SEAT_CHAIR_MP_PLAYER';
 
         let objectHeading = GetEntityHeading(entity);
         lastPositionPlayer = GetEntityCoords(PlayerPedId(), true);
@@ -426,11 +427,11 @@ let playerData = {};
         SetEntityCoords(PlayerPedId(), coords[0], coords[1], coords[2] + 0.5);
         SetEntityHeading(PlayerPedId(), (objectHeading - 180));
 
-        TaskStartScenarioAtPosition(PlayerPedId(), scenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), currentScenario, coords[0], coords[1], coords[2], (objectHeading - 180), -1, false, true, 0, false);
 
       }
       else if (type == 'bench') {
-        let scenario = 'PROP_HUMAN_SEAT_BENCH';
+        currentScenario = 'PROP_HUMAN_SEAT_BENCH';
         //seat posiiton in bench
         let seatPosition = GetEntityCoords(entity, true);
         let objectHeading = GetEntityHeading(entity);
@@ -444,16 +445,23 @@ let playerData = {};
 
         currentObject = entity;
 
-        TaskStartScenarioAtPosition(PlayerPedId(), scenario, seatPosition[0], seatPosition[1], seatPosition[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
+        TaskStartScenarioAtPosition(PlayerPedId(), currentScenario, seatPosition[0], seatPosition[1], seatPosition[2] + 0.5, (objectHeading - 180), -1, false, true, 0, false);
       }
 
       playerIsSitting = true;
     }
     else {
+
+      TaskStartScenarioAtPosition(playerPed, currentScenario, 0.0, 0.0, 0.0, 180.0, 2, true, false)
+      while (IsPedUsingScenario(PlayerPedId(), currentScenario)) {
+        exports['orion'].delay(100)
+      }
+
+      ClearPedTasks(PlayerPedId());
+
+
       FreezeEntityPosition(PlayerPedId(), false);
       FreezeEntityPosition(currentObject, false);
-      ClearPedTasks(PlayerPedId());
-      SetEntityCoords(PlayerPedId(), lastPositionPlayer[0], lastPositionPlayer[1], lastPositionPlayer[2]);
       playerIsSitting = false;
     }
 
