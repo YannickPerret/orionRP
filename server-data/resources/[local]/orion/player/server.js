@@ -162,6 +162,7 @@
           firstname: firstname,
           lastname: lastname,
           phone: Number(phoneNumber),
+          jobs: 
           money: 500,
           accountId: null,
           position: {

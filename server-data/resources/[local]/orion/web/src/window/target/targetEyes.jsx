@@ -41,7 +41,7 @@ function OptionItem({ totalOptions, index, option, args }) {
 
     return (
         <li className={style.menu__item} style={itemStyle} onClick={handleClick}>
-            <a title={option.label} alt={option.label}>
+            <a title={option.label} alt={option.label} onClick={handleClick}>
                 <IconComponent size={30} color={option.color} style={iconStyle} />
             </a>
         </li>

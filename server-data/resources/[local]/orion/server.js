@@ -1,7 +1,5 @@
 (async () => {
     const PlayerManagerServer = require('./core/server/playerManager.js');
-    const Garage = require('./garage/garage.js');
-    const GarageManager = require('./core/server/garageManager.js');
     const { db, r } = require('./core/server/database.js');
 
     db.initializeMigration().then(async () => {

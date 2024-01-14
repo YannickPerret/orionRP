@@ -395,8 +395,6 @@ let playerData = {};
   })
 
   onNet('orion:player:c:sitDown', async ({ entity, coords, type }) => {
-
-    console.log('sitDown', coords, entity, type)
     const playerPed = PlayerPedId();
     if (entity && !IsEntityAttachedToAnyPed(entity) && coords && !playerIsSitting) {
       if (IsPositionOccupied(coords[0], coords[1], coords[2], 0.5, false, false, false, false, false, 0, false)) {
@@ -515,44 +513,6 @@ let playerData = {};
     console.log('showIdCard')
   });
 
-  /*setTick(async () => {
-    await exports['orion'].delay(1000)
-    const pedCoords = GetEntityCoords(PlayerPedId(), true);
-    const distance = 15;
-    drawnObjects = [];
-    if (!playerIsDead) {
-      for (const objectType of objectTypes) {
-        for (const object of objectType.objects) {
-          if (GetClosestObjectOfType(pedCoords[0], pedCoords[1], pedCoords[2], distance, object, false, false, false) !== 0) {
-            const drawnObject = { object: object, message: objectType.message };
-            if (objectType.action) {
-              drawnObject.action = objectType.action;
-            }
-            drawnObjects.push(drawnObject);
-          }
-        }
-      }
-    }
-  });
- 
-  setTick(async () => {
-    await exports['orion'].delay(0)
-    const distance = 0.5;
-    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
-    for (const object of drawnObjects) {
-      if (GetClosestObjectOfType(playerPositionX, playerPositionY, playerPositionZ, distance, object.object, false, false, false) !== 0) {
-        if (object.message) {
-          emit('orion:showText', object.message);
-        }
-        if (IsControlJustReleased(0, 38)) {
-          if (object.action) {
-            object.action();
-          }
-        }
-      }
-    }
-  });*/
-
   (async () => {
     try {
       const targetOptionsPlayer = [
@@ -566,6 +526,17 @@ let playerData = {};
           }
         },
       ];
+      if (playerIsSitting) {
+        targetOptionsPlayer.push({
+          label: 'Se lever',
+          icon: 'Sofa',
+          color: 'black',
+          action: {
+            type: 'client',
+            event: 'orion:player:c:sitDown',
+          }
+        })
+      }
 
       const targetOptionsOtherPlayer = [
         {
