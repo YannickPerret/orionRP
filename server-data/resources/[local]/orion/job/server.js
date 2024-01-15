@@ -4,9 +4,17 @@
     const PlayerManager = require('./core/server/playerManager');
 
     onNet('orion:job:s:init', async () => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        let jobMakers = [];
         await Jobs.getAll().then(async jobDb => {
             jobDb.forEach(job => {
                 JobsManager.addJob(job);
+                if (job.id === player.jobId) {
+                    job.markers.forEach(marker => {
+                        console.log(marker);
+                    })
+                }
             });
         });
     })
