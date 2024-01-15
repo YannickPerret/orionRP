@@ -5,6 +5,7 @@
     db.initializeMigration().then(async () => {
         //initialize garages
         emit('orion:garage:s:init')
+        emit('orion:station:s:init')
         emit('orion:jobs:s:init')
 
     }).catch(error => {

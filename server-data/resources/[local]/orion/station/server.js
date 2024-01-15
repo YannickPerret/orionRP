@@ -41,7 +41,21 @@
     })
 
     onNet('orion:station:s:init', async () => {
-        const source = global.source;
+        let stationMakers = [];
+        let stationBlips = [];
+        const stations = await Station.getAll();
+        stations.forEach(station => {
+            stationBlips.push({
+                name: "Station service",
+                color: 1,
+                scale: 0.8,
+                position: station.position,
+                sprite: 361,
+            })
+        })
+
+        emitNet('orion:marker:c:registerMarkers', stationMakers);
+
     })
 
 })()

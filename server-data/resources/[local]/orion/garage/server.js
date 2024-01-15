@@ -113,7 +113,7 @@
                     },
                     options: {
                         color: { r: 0, g: 128, b: 0 },
-                        scale: [3.0, 3.0, 2.0],
+                        scale: [1.0, 1.0, 1.0],
                         type: 27,
                         noText: false
                     }
