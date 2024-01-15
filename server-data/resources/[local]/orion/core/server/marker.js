@@ -4,7 +4,7 @@
 
     onNet('orion:markers:s:initializeMarkers', async () => {
         const source = global.source;
-        const jobs = JobsManager.getJobs();
+        /*const jobs = JobsManager.getJobs();
         // add in marker the garage spawnPosition
 
         jobs.markers.forEach((jobId) => {
@@ -16,14 +16,14 @@
                 position: job.marker,
                 type: 'job'
             });
-        });
+        });*/
 
-        const markersArray = Array.from(MarkerManager.getMarkers().values());
+        /*const markersArray = Array.from(MarkerManager.getMarkers().values());
 
         if (markersArray.length <= 0) {
             emit('orion:showNotification', source, "Aucun marker n'a été trouvé");
             return;
         }
-        emitNet('orion:marker:c:initializeMarkers', source, markersArray);
+        emitNet('orion:marker:c:initializeMarkers', source, markersArray);*/
     });
 })()
