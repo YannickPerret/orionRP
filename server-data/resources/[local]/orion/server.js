@@ -4,8 +4,8 @@
 
     db.initializeMigration().then(async () => {
         //initialize garages
-        emitNet('orion:garage:s:init')
-        emitNet('orion:jobs:s:init')
+        emit('orion:garage:s:init')
+        emit('orion:jobs:s:init')
 
     }).catch(error => {
         // Gérer les erreurs éventuelles de la migration
