@@ -3,9 +3,9 @@
 //GetPedCauseOfDeath
 //prop_ld_health_pack
 //PlaceObjectOnGroundProperly
-let playerData = {};
 
 (async () => {
+  let playerData = {};
 
   let handsUp = false;
   let playerIsDead = false;
@@ -15,7 +15,6 @@ let playerData = {};
   let playerIsConnected = false;
   let hunger = 100;
   let thirst = 100;
-  let drawnObjects = [];
 
   // sit down
   let playerIsSitting = false;
@@ -363,6 +362,8 @@ let playerData = {};
 
     emitNet('orion:blips:s:initializeBlips')
     emitNet('orion:markers:s:initializeMarkers')
+    emit('orion:target:c:initializeTargets')
+    emitNet('orion:jobs:s:initializeJobs')
 
     setInterval(() => {
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);

@@ -17,6 +17,33 @@ class Job {
         this.maxGrade = maxGrade || 1;
     }
 
+    static async getAll() {
+        let result;
+        try {
+            result = await db.getAllWithMerge('jobs', 'jobs_grade', 'id');
+        }
+        catch (error) {
+            console.error(error);
+        }
+        return result;
+    }
+
+    async save() {
+        let result;
+        try {
+            if (await db.getById('jobs', this.id)) {
+                result = await db.update('jobs', this.id, this);
+            }
+            else {
+                result = await db.insert('jobs', this);
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+        return result;
+    }
+
 }
 
 class JobGrade {

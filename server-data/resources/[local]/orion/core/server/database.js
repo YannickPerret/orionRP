@@ -274,6 +274,48 @@ class Database {
       });
   }
 
+  async getWithMerge(table, field, value, mergeTable, mergeField) {
+    if (!this.connection) {
+      await this.initConnection();
+    }
+
+    return r.table(table)
+      .filter(r.row(field).eq(value))
+      .merge(doc => {
+        return {
+          [mergeTable]: r.table(mergeTable).get(doc(mergeField))
+        };
+      })
+      .run(this.connection)
+      .then(cursor => cursor.toArray())
+      .then(results => results.length > 0 ? results[0] : null)
+      .catch(err => {
+        console.error('Erreur lors de la récupération du document:', err);
+        throw err;
+      });
+  }
+
+  async getAllWithMerge(table, mergeTable, mergeField) {
+    if (!this.connection) {
+      await this.initConnection();
+    }
+
+    return r.table(table)
+      .merge(doc => {
+        return {
+          [mergeTable]: r.table(mergeTable).get(doc(mergeField))
+        };
+      })
+      .run(this.connection)
+      .then(cursor => cursor.toArray())
+      .then(results => results.length > 0 ? results : [])
+      .catch(err => {
+        console.error('Erreur lors de la recherche des documents:', err);
+        throw err;
+      });
+  }
+
+
   async remove(table, id) {
     if (!this.connection) {
       await this.initConnection();
