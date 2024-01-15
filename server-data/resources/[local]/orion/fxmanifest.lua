@@ -35,6 +35,7 @@ files {
     'phone/phone.js',
     'inventory/item.js',
     'inventory/inventory.js',
+    'station/station.js',
     'garage/garage.js',
     'job/job.js',
 }
