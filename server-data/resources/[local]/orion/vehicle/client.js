@@ -302,7 +302,7 @@
       const targetOptionInVehicle = []
 
       //if engine is on or off
-      if (IsVehicleEngineOn(vehicle)) {
+      if (IsVehicleEngineOn(GetVehiclePedIsIn(PlayerPedId(), false))) {
         //if engine is on
         targetOptionInVehicle.push(
           {

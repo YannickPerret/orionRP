@@ -360,10 +360,10 @@
 
     //emitNet('orion:jobs:s:initializeJobs')
 
-    emitNet('orion:markers:s:initializeMarkers')
-    emitNet('orion:blips:s:initializeBlips')
+    //emitNet('orion:markers:s:initializeMarkers')
+    //emitNet('orion:blips:s:initializeBlips')
 
-    emit('orion:target:c:initializeTargets')
+    //emit('orion:target:c:initializeTargets')
 
 
     setInterval(() => {
