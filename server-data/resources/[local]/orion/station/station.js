@@ -1,4 +1,4 @@
-const { db, r } = require('./core/server/database.js');
+const { db, r } = require('../core/server/database.js');
 const { v4: uuidv4 } = require('uuid');
 
 class Station {
