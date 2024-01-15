@@ -42,7 +42,6 @@
 
     onNet('orion:station:s:init', async () => {
         const source = global.source;
-        await 
     })
 
 })()
