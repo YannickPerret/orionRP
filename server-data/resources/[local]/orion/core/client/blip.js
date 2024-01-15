@@ -51,9 +51,11 @@
         return blip;
     }
 
-    onNet('orion:blips:c:createBlips', async (blips) => {
-        blips.forEach(blip => {
-            createBlip(blip.position, blip.sprite, blip.color, blip.text);
+    onNet('orion:blips:c:initialize', async () => {
+        console.log(blipsRegistered.length)
+        blipsRegistered.forEach(blip => {
+            let blips = createBlip(blip.position, blip.sprite, blip.color, blip.name);
+            blip.blips = blips;
         });
     });
 
