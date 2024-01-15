@@ -1,6 +1,6 @@
 (async () => {
     const PlayerManager = require('./core/server/playerManager.js');
-    const Station = require('./station/station.js');
+    const { Station } = require('./station/station.js');
 
     onNet('orion:station:s:attachRope', (netIdProp, coordPumps, model) => {
         const source = global.source;
