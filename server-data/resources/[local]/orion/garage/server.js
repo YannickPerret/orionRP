@@ -99,6 +99,8 @@
 
     onNet('orion:garage:s:init', async () => {
         let garageMarker = [];
+        let garageBlip = [];
+
         await Garage.getAll().then((garageDB) => {
             garageDB.forEach(garage => {
                 GarageManager.addGarage(garage.id, garage);
@@ -116,13 +118,18 @@
                         noText: false
                     }
                 })
+                garageBlip.push({
+                    name: garage.name,
+                    position: garage.marker,
+                    sprite: 326,
+                    color: 4,
+                })
+
             })
         })
 
         emitNet('orion:marker:c:registerMarkers', garageMarker);
-
-
-
+        emitNet('orion:blips:c:registerBlips', garageBlip);
     })
 
 })();

@@ -1,11 +1,9 @@
 (async () => {
     const MarkerManager = require('./core/server/markerManager.js');
-    const GarageManager = require('./core/server/garageManager.js');
     const JobsManager = require('./core/server/jobManager.js');
 
     onNet('orion:markers:s:initializeMarkers', async () => {
         const source = global.source;
-        const garages = GarageManager.getGarages();
         const jobs = JobsManager.getJobs();
         // add in marker the garage spawnPosition
 
