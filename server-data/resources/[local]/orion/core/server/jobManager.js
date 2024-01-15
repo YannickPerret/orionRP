@@ -11,8 +11,18 @@ class JobManager {
         this.jobs.set(jobId, job);
     }
 
-    getJob(id) {
+    getJobById(id) {
         return this.jobs.get(id);
+    }
+
+    getJobByPlayerId(playerId) {
+        let result;
+        this.jobs.forEach(job => {
+            if (job.players.has(playerId)) {
+                result = job;
+            }
+        });
+        return result;
     }
 
     getJobs() {

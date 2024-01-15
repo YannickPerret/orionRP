@@ -325,7 +325,6 @@
         )
       }
 
-
       const targetOptionVehicle = [
         {
           label: 'Ouvrir le coffre',

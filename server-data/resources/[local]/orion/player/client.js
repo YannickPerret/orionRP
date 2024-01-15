@@ -358,12 +358,13 @@
     SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
     SetEntityHeading(GetPlayerPed(-1), parseFloat(playerData.position.heading));
 
-    //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
+    //emitNet('orion:jobs:s:initializeJobs')
 
-    emitNet('orion:blips:s:initializeBlips')
     emitNet('orion:markers:s:initializeMarkers')
+    emitNet('orion:blips:s:initializeBlips')
+
     emit('orion:target:c:initializeTargets')
-    emitNet('orion:jobs:s:initializeJobs')
+
 
     setInterval(() => {
       const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);

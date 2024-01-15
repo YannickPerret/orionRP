@@ -3,11 +3,15 @@
     let isOnService = false;
     let currentSkin = {};
     let lastSkin = {};
-    let defaultJob = 'unemployed';
+    let job = {};
 
     // Net events
-    onNet('orion:job:c:intialize', () => {
-        emitNet('orion:job:s:intialize', source, defaultJob);
+    onNet('orion:job:c:getJob', (job) => {
+        job = job;
+    });
+
+    exports('getJob', () => {
+        return job;
     });
 
     onNet('orion:job:c:takeService', () => {
@@ -36,6 +40,7 @@
 
 
     // threads
+
 
 
 })();

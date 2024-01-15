@@ -17,6 +17,17 @@ class Job {
         this.maxGrade = maxGrade || 1;
     }
 
+    static async getById(id) {
+        let result;
+        try {
+            result = await db.getById('jobs', id);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        return result;
+    }
+
     static async getAll() {
         let result;
         try {

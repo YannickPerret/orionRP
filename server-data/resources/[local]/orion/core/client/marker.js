@@ -42,28 +42,28 @@
         markers[zone][name] = null
     }
 
-    const createMarker = (position, color, icon, scale) => {
-        DrawMarker(icon, position.X, position.Y, position.Z, 0.0, 0.0, 0.0, 0.0, 180.0, 0, scale.X, scale.Y, scale.Z, color.r, color.g, color.b, 50, false, true, 2, false, false, false, false)
-    }
-
-    exports('createMarker', createMarker)
-
-    onNet('orion:marker:c:initializeMarkers', async (markers) => {
-        //map markers map to create marker
-        setTick(async () => {
-            let playerPed = PlayerPedId();
-            let playerCoords = GetEntityCoords(playerPed);
-            markers.forEach(async marker => {
-                if (exports['orion'].getDistanceBetweenCoords(playerCoords, marker.position) <= 13.0) {
-                    createMarker(marker.position, marker.color, marker.icon, marker.scale);
-                    await exports['orion'].delay(5);
-                }
-                else {
-                    await exports['orion'].delay(500);
-                }
-            });
-        })
-    })
+    /* const createMarker = (position, color, icon, scale) => {
+         DrawMarker(icon, position.X, position.Y, position.Z, 0.0, 0.0, 0.0, 0.0, 180.0, 0, scale.X, scale.Y, scale.Z, color.r, color.g, color.b, 50, false, true, 2, false, false, false, false)
+     }
+ 
+     exports('createMarker', createMarker)
+ 
+     onNet('orion:marker:c:initializeMarkers', async (markers) => {
+         //map markers map to create marker
+         setTick(async () => {
+             let playerPed = PlayerPedId();
+             let playerCoords = GetEntityCoords(playerPed);
+             markers.forEach(async marker => {
+                 if (exports['orion'].getDistanceBetweenCoords(playerCoords, marker.position) <= 13.0) {
+                     createMarker(marker.position, marker.color, marker.icon, marker.scale);
+                     await exports['orion'].delay(5);
+                 }
+                 else {
+                     await exports['orion'].delay(500);
+                 }
+             });
+         })
+     })*/
 
 
     onNet('orion:marker:c:registerMarker', (name, text, coords, maxDist, interactDist, cb, options) => {
@@ -72,6 +72,7 @@
     onNet('orion:marker:c:unregisterMarker', (name) => {
         unregisterMarker(name)
     })
+
 
     exports('registerMarker', registerMarker)
     exports('unregisterMarker', unregisterMarker)
