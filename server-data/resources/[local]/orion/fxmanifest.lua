@@ -17,7 +17,7 @@ files {
     'station/gasStations.json',
     'bank/bank.json',
     'garage/garages.json',
-    'core/job/jobs.json',
+    'job/jobs.json',
 
     'core/server/migrations/*',
     'core/server/database.js',
