@@ -74,16 +74,16 @@
         const zone = GetZoneAtCoords(pedCoords);
         const maxDistance = 15;
         drawnMarkers = [];
-        if (!playerIsDead) {
-            if (markers[zone] != null) {
-                for (marker in markers[zone]) {
-                    let distanceToMarker = exports['orion'].getDistanceBetweenCoords(pedCoords, markers[zone][marker].coords);
-                    if (distanceToMarker < maxDistance) {
-                        drawnMarkers.push(marker);
-                    }
+        //if (!playerIsDead) {
+        if (markers[zone] != null) {
+            for (marker in markers[zone]) {
+                let distanceToMarker = exports['orion'].getDistanceBetweenCoords(pedCoords, markers[zone][marker].coords);
+                if (distanceToMarker < maxDistance) {
+                    drawnMarkers.push(marker);
                 }
             }
         }
+        // }
     });
 
     setTick(async () => {
