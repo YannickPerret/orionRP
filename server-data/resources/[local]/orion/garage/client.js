@@ -87,29 +87,4 @@
         showGarage(garage)
     })
 
-    setTick(async () => {
-        let playerPed = PlayerPedId();
-        let playerCoords = GetEntityCoords(playerPed);
-
-        garageJson.garages.forEach(garage => {
-            if (!showGarageHUD) {
-                if (exports['orion'].getDistanceBetweenCoords(playerCoords, garage.marker) <= 1.8) {
-                    emit('orion:showText', `Appuyez sur ~g~E~w~ pour ouvrir le garage`)
-                    if (!IsPedInAnyVehicle(playerPed, false)) {
-                        if (IsControlJustReleased(0, 38)) {
-                            emitNet('orion:garage:s:openGarage', garage.marker)
-                        }
-                    }
-                }
-                else {
-                    if (showGarageHUD) {
-                        emit('orion:garage:c:closeGarage')
-                    }
-                }
-            }
-        })
-        await exports['orion'].delay(10)
-    });
-
-
 })();

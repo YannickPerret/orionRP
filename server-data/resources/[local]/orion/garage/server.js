@@ -17,10 +17,10 @@
         return Math.round((price * (hoursParked - 1)).toFixed(0));
     }
 
-    onNet('orion:garage:s:openGarage', async (garageMarker) => {
+    onNet('orion:garage:s:openGarage', async (garageId) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        const garage = GarageManager.getGarageByMarkerPosition(garageMarker)
+        const garage = GarageManager.getGarageById(garageId);
 
         const vehicles = await garage.getVehicles();
         vehicles.forEach(vehicle => {
@@ -98,11 +98,31 @@
     })
 
     onNet('orion:garage:s:init', async () => {
+        let garageMarker = [];
         await Garage.getAll().then((garageDB) => {
             garageDB.forEach(garage => {
                 GarageManager.addGarage(garage.id, garage);
+                garageMarker.push({
+                    name: garage.name,
+                    text: "Appuyez sur ~g~E~w~ pour ouvrir le garage",
+                    coords: garage.marker,
+                    cb: () => {
+                        emitNet('orion:garage:s:openGarage', garage.id);
+                    },
+                    options: {
+                        color: { r: 0, g: 128, b: 0 },
+                        scale: [3.0, 3.0, 2.0],
+                        type: 27,
+                        noText: false
+                    }
+                })
             })
         })
+
+        emitNet('orion:marker:c:registerMarkers', garageMarker);
+
+
+
     })
 
 })();

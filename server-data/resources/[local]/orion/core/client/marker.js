@@ -1,7 +1,10 @@
 (async () => {
-    markers = {}
+    let markers = {}
+    let drawnMarkers = [];
+    let currentMarker = null;
 
-    const registerMarker = (name, text, coords, maxDist, interactDist, cb, options) => {
+
+    const registerMarker = (name, text, coords, maxDist = 15, interactDist = 0.8, cb, options) => {
         let zone = GetZoneAtCoords(coords.X, coords.Y, coords.Z);
         if (markers[zone] == null) {
             markers[zone] = {}
@@ -38,43 +41,68 @@
     }
 
     const unregisterMarker = (name) => {
-        let zone = GetZoneAtCoords(markers[name].coords.X, markers[name].coords.Y, markers[name].coords.Z);
-        markers[zone][name] = null
+        for (zone in markers) {
+            if (markers[zone][name] != null) {
+                delete markers[zone][name]
+            }
+        }
     }
 
-    /* const createMarker = (position, color, icon, scale) => {
-         DrawMarker(icon, position.X, position.Y, position.Z, 0.0, 0.0, 0.0, 0.0, 180.0, 0, scale.X, scale.Y, scale.Z, color.r, color.g, color.b, 50, false, true, 2, false, false, false, false)
-     }
- 
-     exports('createMarker', createMarker)
- 
-     onNet('orion:marker:c:initializeMarkers', async (markers) => {
-         //map markers map to create marker
-         setTick(async () => {
-             let playerPed = PlayerPedId();
-             let playerCoords = GetEntityCoords(playerPed);
-             markers.forEach(async marker => {
-                 if (exports['orion'].getDistanceBetweenCoords(playerCoords, marker.position) <= 13.0) {
-                     createMarker(marker.position, marker.color, marker.icon, marker.scale);
-                     await exports['orion'].delay(5);
-                 }
-                 else {
-                     await exports['orion'].delay(500);
-                 }
-             });
-         })
-     })*/
-
+    exports('registerMarker', registerMarker)
+    exports('unregisterMarker', unregisterMarker)
 
     onNet('orion:marker:c:registerMarker', (name, text, coords, maxDist, interactDist, cb, options) => {
         registerMarker(name, text, coords, maxDist, interactDist, cb, options)
     })
+    onNet('orion:marker:c:registerMarkers', (markers) => {
+        if (markers == null) return
+        if (markers.length <= 0) return
+
+        for (marker in markers) {
+            registerMarker(marker.name, marker.text, marker.coords, marker.maxDist, marker.interactDist, marker.cb, marker.options)
+        }
+    })
+
     onNet('orion:marker:c:unregisterMarker', (name) => {
         unregisterMarker(name)
     })
 
 
-    exports('registerMarker', registerMarker)
-    exports('unregisterMarker', unregisterMarker)
+    setTick(async () => {
+        await exports['orion'].delay(1000)
+        const pedCoords = GetEntityCoords(PlayerPedId(), true);
+        const zone = GetZoneAtCoords(pedCoords);
+        const maxDistance = 15;
+        drawnMarkers = [];
+        if (!playerIsDead) {
+            if (markers[zone] != null) {
+                for (marker in markers[zone]) {
+                    let distanceToMarker = exports['orion'].getDistanceBetweenCoords(pedCoords, markers[zone][marker].coords);
+                    if (distanceToMarker < maxDistance) {
+                        drawnMarkers.push(marker);
+                    }
+                }
+            }
+        }
+    });
+
+    setTick(async () => {
+        const interactDistance = 0.8;
+        const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(PlayerPedId(), true);
+        for (const marker of drawnMarkers) {
+            DrawMarker(markers.type, markers.coords.X, markers.coords.Y, marker.coords.Z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 180.0, 0, markers.scale[0], markers.color.r, markers.color.g, markers.color.b, marker.color.a, false, true, 2, false, false, false, false)
+            if (exports['orion'].getDistanceBetweenCoords(playerPositionX, playerPositionY, playerPositionZ, markers.coords.X, markers.coords.Y, markers.coords.Z) < interactDistance) {
+                if (currenMarker != marker) {
+                    currentMarker = marker;
+                }
+                if (marker.hasText) {
+                    exports['orion'].draw3DText(markers.coords.X, markers.coords.Y, markers.coords.Z + 1.0, markers.text);
+                }
+                if (IsControlJustPressed(0, 38)) {
+                    markers.cb();
+                }
+            }
+        }
+    });
 
 })()
