@@ -120,8 +120,8 @@
         emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
 
         //Load all blips and markers for the player
-        emitNet('orion:marker:c:registerMarkers', newPlayer.source, exports['orion'].checkMarkersVisibleForPlayer(newPlayer.source));
-
+        await emitNet('orion:marker:c:registerMarkers', newPlayer.source, exports['orion'].checkMarkersVisibleForPlayer(newPlayer.source));
+        //emitNet('orion:blip:c:registerBlips', newPlayer.source, exports['orion'].checkBlipsVisibleForPlayer(newPlayer.source));
         emitNet('orion:player:c:playerConnected', source, newPlayer);
         //deferrals.done();
       } else {
@@ -187,6 +187,7 @@
           PlayerManager.addPlayer(source, newPlayer);
           //Load all blips and markers to the player
 
+          await emitNet('orion:marker:c:registerMarkers', newPlayer.source, exports['orion'].checkMarkersVisibleForPlayer(newPlayer.source));
           emitNet('orion:player:c:playerConnected', source, newPlayer);
         } else {
           emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);

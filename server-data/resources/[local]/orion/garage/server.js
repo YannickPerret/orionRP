@@ -127,11 +127,9 @@
                     sprite: 326,
                     color: 4,
                 })
-
             })
         })
         MarkerManager.addMarkers(garageMarker);
-
-    })()
+    })();
 
 })();

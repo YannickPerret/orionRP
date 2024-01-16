@@ -4,7 +4,7 @@
     let currentMarker = null;
 
 
-    const registerMarker = (name, text, coords, maxDist = 15, interactDist = 0.8, cb, options) => {
+    const registerMarker = ({ name, text, coords, maxDist = 15, interactDist = 0.8, cb, options }) => {
         let zone = GetZoneAtCoords(coords.X, coords.Y, coords.Z);
         if (markers[zone] == null) {
             markers[zone] = {}
@@ -51,8 +51,8 @@
     exports('registerMarker', registerMarker)
     exports('unregisterMarker', unregisterMarker)
 
-    onNet('orion:marker:c:registerMarker', (name, text, coords, maxDist, interactDist, cb, options) => {
-        registerMarker(name, text, coords, maxDist, interactDist, cb, options)
+    onNet('orion:marker:c:registerMarker', (name, text, coords, cb, options) => {
+        registerMarker({ name, text, coords, cb, options })
     })
     onNet('orion:marker:c:registerMarkers', (markers) => {
         if (markers == null) return
