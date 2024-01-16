@@ -87,6 +87,19 @@
     cb({ ok: true });
   });
 
+  RegisterNuiCallbackType('giveAmount');
+  on('__cfx_nui:giveAmount', (data, cb) => {
+    const amount = parseInt(data.amount);
+    const nearbyPlayers = exports['orion'].findNearbyPlayers(3);
+
+    if (nearbyPlayers.length > 0) {
+      emitNet('orion:player:s:giveAmount', nearbyPlayers[0], amount);
+    } else {
+      emit('orion:showNotification', 'Aucun joueur à proximité');
+    }
+    cb({ ok: true });
+  });
+
 
   setTick(async () => {
     await exports['orion'].delay(5);

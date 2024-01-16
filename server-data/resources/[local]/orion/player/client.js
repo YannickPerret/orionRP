@@ -5,24 +5,25 @@
 //PlaceObjectOnGroundProperly
 
 (async () => {
-  let playerData = {};
+  let playerData = {
+    playerNeedsActivated: false,
+    playerIsConnected: false,
+    handsUp: false,
+    hunger: 100,
+    thirst: 100,
+  };
 
   let handsUp = false;
   let playerIsDead = false;
   let mug = false;
-  let playerNeedsActivated = false;
   let playerIsCuffed = false;
-  let playerIsConnected = false;
   let hunger = 100;
   let thirst = 100;
 
   // sit down
   let playerIsSitting = false;
-  let lastPositionPlayer = false;
   let currentObject = false;
   let currentScenario = {};
-
-
 
   const objectTypes = [
     {
@@ -176,7 +177,7 @@
     }
 
     if (IsControlJustPressed(1, 323)) {
-      if (!handsUp) {
+      if (!playerData.handsUp) {
         ClearPedTasks(playerPed);
         FreezeEntityPosition(playerPed, false)
         TaskPlayAnim(playerPed, dict, anim, 8.0, -8.0, -1, 50, 0, false, false, false);
@@ -186,13 +187,9 @@
         ClearPedTasksImmediately(playerPed);
       }
     }
-    handsUp = !handsUp;
+    playerData.handsUp = !playerData.handsUp;
 
   })
-
-  exports('getPlayerIsConnected', () => {
-    return playerIsConnected;
-  });
 
   on('onClientGameTypeStart', () => {
     exports.spawnmanager.setAutoSpawn(false);
@@ -203,18 +200,6 @@
       return;
     }
     getMugshot();
-  });
-
-  exports("getPlayerData", () => {
-    return playerData;
-  });
-
-  onNet('orion:player:c:setPlayerData', data => {
-    playerData = data;
-  });
-
-  exports("setPlayerData", (data) => {
-    playerData = data;
   });
 
   onNet('orion:player:c:modifyNeeds', async (duration, hungerValue, thirstValue) => {
@@ -243,62 +228,11 @@
     });
   })
 
-  RegisterCommand('tpto', (source, args) => {
-    const playerPed = GetPlayerPed(-1);
-    const blip = GetFirstBlipInfoId(8); // ID 8 correspond à un waypoint
-    if (blip !== 0) {
-      const coord = GetBlipInfoIdCoord(blip);
-      RequestCollisionAtCoord(coord[0], coord[1], coord[2]);
-
-      // Attendre que la hauteur du sol soit chargée
-      let groundZ = 0;
-      let groundCheck = false;
-
-      setTimeout(() => {
-        [groundCheck, groundZ] = GetGroundZFor_3dCoord(coord[0], coord[1], coord[2], 0, false);
-        if (groundCheck) {
-          SetEntityCoordsNoOffset(playerPed, coord[0], coord[1], groundZ + 1.0, false, false, true);
-        } else {
-          SetEntityCoords(playerPed, coord[0], coord[1], coord[2], false, false, false, true);
-        }
-      }, 1000);
-    } else {
-      console.log('Aucun waypoint trouvé.');
-    }
-  },
-    false
-  );
-
   RegisterNuiCallbackType('identityCard');
   on('__cfx_nui:identityCard', (data, cb) => {
     cb({ ok: true });
   });
 
-  RegisterNuiCallbackType('giveAmount');
-  on('__cfx_nui:giveAmount', (data, cb) => {
-    const amount = parseInt(data.amount);
-    const nearbyPlayers = exports['orion'].findNearbyPlayers(3);
-
-    if (nearbyPlayers.length > 0) {
-      emitNet('orion:player:s:giveAmount', nearbyPlayers[0], amount);
-    } else {
-      emit('orion:showNotification', 'Aucun joueur à proximité');
-    }
-    cb({ ok: true });
-  });
-
-  RegisterCommand('revive', (source, args) => {
-    const myPlayer = GetPlayerServerId(PlayerId());
-
-    SetEntityHealth(PlayerPedId(), 200);
-    ClearPedBloodDamage(PlayerPedId());
-    StopScreenEffect('DeathFailOut');
-
-    let ped = PlayerPedId();
-    let coords = GetEntityCoords(ped, false);
-    let heading = GetEntityHeading(ped);
-    NetworkResurrectLocalPlayer(coords[0], coords[1], coords[2], heading, true, false);
-  });
 
   RegisterNuiCallbackType('validateSkin');
   on('__cfx_nui:validateSkin', (data, cb) => {
@@ -333,17 +267,6 @@
     cb({ ok: true });
   });
 
-  onNet('orion:player:c:playerDied', message => {
-    SetEntityHealth(PlayerPedId(), 0);
-    StartScreenEffect('DeathFailOut', 0, false);
-
-    SendNUIMessage({
-      action: 'showDeathMessage',
-      data: {
-        message,
-      },
-    });
-  });
 
   onNet('orion:c:player:createNewPlayer', () => {
     emit('orion:customization:c:ShowSkinCreator', true);
@@ -351,17 +274,18 @@
 
   onNet('orion:player:c:playerConnected', (playerData) => {
 
-    exports['orion'].setPlayerData(playerData);
-    playerNeedsActivated = true;
-    playerIsConnected = true;
+    playerData = { ...playerData }
+    playerData.playerNeedsActivated = true;
+    playerData.playerIsConnected = true;
 
     SetEntityCoords(GetPlayerPed(-1), parseFloat(playerData.position.x), parseFloat(playerData.position.y), parseFloat(playerData.position.z), false, false, false, false);
     SetEntityHeading(GetPlayerPed(-1), parseFloat(playerData.position.heading));
+    exports['orion'].applySkin(playerData.skin);
 
     //emitNet('orion:jobs:s:initializeJobs')
 
-    //emitNet('orion:markers:s:initializeMarkers')
-    emit('orion:blips:c:initialize')
+    emitNet('orion:markers:s:initializeMarkers')
+    emitNet('orion:blips:s:initializeBlips')
 
     //emit('orion:target:c:initializeTargets')
 
@@ -470,7 +394,6 @@
   })
 
   setInterval(() => {
-    //const ped = PlayerPedId();
     SendNUIMessage({
       action: 'updatePlayerStatus',
       payload: {
@@ -482,23 +405,24 @@
   }, 100);
 
   setInterval(() => {
-    if (playerNeedsActivated && !playerIsDead) {
-      hunger = hunger - exports['orion'].getRandomBetween(1, 5);
-      thirst = thirst - exports['orion'].getRandomBetween(1, 5);
-      if (hunger <= 0) {
-        hunger = 0;
+    if (playerData.playerNeedsActivated && !playerIsDead) {
+      playerData.hunger -= exports['orion'].getRandomBetween(1, 5);
+      playerData.thirst -= exports['orion'].getRandomBetween(1, 5);
+
+      if (playerData.hunger <= 0) {
+        playerData.hunger = 0;
         emit('orion:player:c:playerDead', true);
       }
-      if (thirst <= 0) {
-        thirst = 0;
+      if (playerData.thirst <= 0) {
+        playerData.thirst = 0;
         emit('orion:player:c:playerDead', true);
       }
 
       SendNUIMessage({
         action: 'updatePlayerStatus',
         payload: {
-          hunger: hunger,
-          thirst: thirst,
+          hunger: playerData.hunger,
+          thirst: playerData.thirst,
         },
       });
     }
@@ -509,10 +433,6 @@
       return;
     }
     if (mug) UnregisterPedheadshot(mug);
-  });
-
-  onNet('orion:player:c:showIdCard', () => {
-    console.log('showIdCard')
   });
 
   (async () => {

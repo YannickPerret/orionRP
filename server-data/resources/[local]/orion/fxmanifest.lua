@@ -26,7 +26,6 @@ files {
     'core/server/vehicleManager.js',
     'core/server/garageManager.js',
 
-
     'player/player.js',
     'vehicle/vehicle.js',
     'bank/class/account.js',
@@ -44,8 +43,8 @@ shared_scripts {
     'core/shared/utils.js',
 }
 
-
 client_scripts{
+    'core/client/loading.js',
     'target/client.js',
     'client.js',
     'core/client/client.js',
@@ -68,7 +67,6 @@ client_scripts{
     'inventory/client.js',
     'garage/client.js',
     'job/client.js',
-
 }
 
 server_scripts{

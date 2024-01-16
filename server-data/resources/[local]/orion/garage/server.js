@@ -3,6 +3,7 @@
     const GarageManager = require('./core/server/garageManager.js');
     const VehicleManager = require('./core/server/vehicleManager.js');
     const PlayerManager = require('./core/server/playerManager.js');
+
     const Garage = require('./garage/garage.js');
     const Vehicle = require('./vehicle/vehicle.js');
 
@@ -105,6 +106,7 @@
             garageDB.forEach(garage => {
                 GarageManager.addGarage(garage.id, garage);
                 garageMarker.push({
+                    id: garage.id,
                     name: garage.name,
                     text: "Appuyez sur ~g~E~w~ pour ouvrir le garage",
                     coords: garage.marker,
@@ -128,8 +130,9 @@
             })
         })
 
-        emitNet('orion:marker:c:registerMarkers', garageMarker);
-        emitNet('orion:blips:c:registerBlips', garageBlip);
+        emit('orion:marker:c:registerMarkers', garageMarker);
+
+
     })
 
 })();

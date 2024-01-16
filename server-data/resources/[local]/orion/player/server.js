@@ -76,7 +76,7 @@
     emitNet('orion:showNotification', global.source, `Vous avez donné ${amount} $ !`);
   });
 
-  onNet('orion:player:s:playerSpawned', async () => {
+  onNet('orion:player:s:initialConnection', async () => {
     //deferrals.defer();
 
     const source = global.source;

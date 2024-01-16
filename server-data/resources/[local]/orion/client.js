@@ -8,7 +8,7 @@
 
     SetCanAttackFriendly(PlayerPedId(), true, false);
     NetworkSetFriendlyFireOption(true);
-    emitNet('orion:player:s:playerSpawned');
+    emitNet('orion:player:s:initialConnection');
   };
 
   exports('spawnLogin', spawnLogin);
