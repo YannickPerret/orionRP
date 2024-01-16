@@ -316,4 +316,18 @@
         }
     })
 
+
+    exports('playerPaidWithMoney', async (source, money) => {
+        const playerData = PlayerManager.getPlayerBySource(source);
+        if (playerData) {
+            if (playerData.money >= money) {
+                playerData.money -= money;
+                await playerData.save();
+                return true
+            }
+            else {
+                return false
+            }
+        }
+    })
 })();

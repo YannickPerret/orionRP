@@ -15,8 +15,8 @@
 
 
   on('playerSpawned', () => {
+    //test si le serveur est ouvert au joueur
     spawnLogin();
-    //SendNuiMessage(JSON.stringify({ action: 'connectVoice' }));
   });
 
 })()

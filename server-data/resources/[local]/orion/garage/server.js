@@ -3,6 +3,7 @@
     const GarageManager = require('./core/server/garageManager.js');
     const VehicleManager = require('./core/server/vehicleManager.js');
     const PlayerManager = require('./core/server/playerManager.js');
+    const MarkerManager = require('./core/server/markerManager.js');
 
     const Garage = require('./garage/garage.js');
     const Vehicle = require('./vehicle/vehicle.js');
@@ -98,41 +99,39 @@
         }
     })
 
-    onNet('orion:garage:s:init', async () => {
-        let garageMarker = [];
-        let garageBlip = [];
+        (async () => {
+            let garageMarker = [];
+            let garageBlip = [];
 
-        await Garage.getAll().then((garageDB) => {
-            garageDB.forEach(garage => {
-                GarageManager.addGarage(garage.id, garage);
-                garageMarker.push({
-                    id: garage.id,
-                    name: garage.name,
-                    text: "Appuyez sur ~g~E~w~ pour ouvrir le garage",
-                    coords: garage.marker,
-                    cb: () => {
-                        emitNet('orion:garage:s:openGarage', garage.id);
-                    },
-                    options: {
-                        color: { r: 0, g: 128, b: 0 },
-                        scale: [1.0, 1.0, 1.0],
-                        type: 27,
-                        noText: false
-                    }
-                })
-                garageBlip.push({
-                    name: garage.name,
-                    position: garage.marker,
-                    sprite: 326,
-                    color: 4,
-                })
+            await Garage.getAll().then((garageDB) => {
+                garageDB.forEach(garage => {
+                    GarageManager.addGarage(garage.id, garage);
+                    garageMarker.push({
+                        id: garage.id,
+                        name: garage.name,
+                        text: garage.text || "Appuyez sur ~g~E~w~ pour ouvrir le garage",
+                        coords: garage.marker,
+                        cb: () => {
+                            emitNet('orion:garage:s:openGarage', garage.id);
+                        },
+                        options: {
+                            color: { r: 0, g: 128, b: 0 },
+                            scale: [1.0, 1.0, 1.0],
+                            type: 27,
+                            noText: false
+                        },
+                    })
+                    garageBlip.push({
+                        name: garage.name,
+                        position: garage.marker,
+                        sprite: 326,
+                        color: 4,
+                    })
 
+                })
             })
-        })
+            MarkerManager.addMarkers(garageMarker);
 
-        emit('orion:marker:c:registerMarkers', garageMarker);
-
-
-    })
+        })()
 
 })();

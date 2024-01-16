@@ -276,9 +276,6 @@
     SetEntityHeading(GetPlayerPed(-1), parseFloat(playerData.position.heading));
     exports['orion'].applySkin(playerData.skin);
 
-    //emitNet('orion:jobs:s:initializeJobs')
-
-    emitNet('orion:markers:s:initializeMarkers')
     emitNet('orion:blips:s:initializeBlips')
 
     //emit('orion:target:c:initializeTargets')

@@ -91,6 +91,7 @@
 
     try {
       //const filters = { steamId: steamId, license: license };
+      //ajouter si le joueur est active
       const playerData = await db.getByWithFilter('players', { license: license });
 
       if (playerData.length > 0) {
@@ -117,6 +118,10 @@
         PlayerManager.addPlayer(newPlayer.source, newPlayer);
 
         emitNet('orion:showNotification', source, `Bienvenue ${newPlayer.firstname} sur Orion !`);
+
+        //Load all blips and markers for the player
+        emitNet('orion:marker:c:registerMarkers', newPlayer.source, exports['orion'].checkMarkersVisibleForPlayer(newPlayer.source));
+
         emitNet('orion:player:c:playerConnected', source, newPlayer);
         //deferrals.done();
       } else {
@@ -180,6 +185,8 @@
 
         if (await newPlayer.save()) {
           PlayerManager.addPlayer(source, newPlayer);
+          //Load all blips and markers to the player
+
           emitNet('orion:player:c:playerConnected', source, newPlayer);
         } else {
           emitNet('orion:showNotification', source, `Erreur lors de la création du joueur`);
@@ -239,20 +246,6 @@
       }
     }
   });
-
-  exports('playerPaidWithMoney', async (source, money) => {
-    const playerData = PlayerManager.getPlayerBySource(source);
-    if (playerData) {
-      if (playerData.money >= money) {
-        playerData.money -= money;
-        await playerData.save();
-        return true
-      }
-      else {
-        return false
-      }
-    }
-  })
 
 
   RegisterCommand('giveMoney', async (source, args) => {
