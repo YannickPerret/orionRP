@@ -122,7 +122,7 @@
       } else {
         console.log("Le joueur n'existe pas, création en cours...");
         // Emit on client to open new player menu
-        emitNet('orion:c:player:createNewPlayer', source);
+        emitNet('orion:customization:c:ShowSkinCreator', source, true);
       }
     } catch (erreur) {
       // deferalls.done('Erreur lors de la récupération/création du joueur');

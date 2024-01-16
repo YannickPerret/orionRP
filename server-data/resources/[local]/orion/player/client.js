@@ -267,13 +267,7 @@
     cb({ ok: true });
   });
 
-
-  onNet('orion:c:player:createNewPlayer', () => {
-    emit('orion:customization:c:ShowSkinCreator', true);
-  })
-
   onNet('orion:player:c:playerConnected', (playerData) => {
-
     playerData = { ...playerData }
     playerData.playerNeedsActivated = true;
     playerData.playerIsConnected = true;
@@ -291,8 +285,10 @@
 
 
     setInterval(() => {
-      const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
-      emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
+      if (playerData.playerIsConnected) {
+        const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
+        emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
+      }
     }, 900000);
 
   });
