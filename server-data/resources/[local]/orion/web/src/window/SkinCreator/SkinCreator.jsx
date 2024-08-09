@@ -7,53 +7,43 @@ import Hair from './Components/Morphology/Hair';
 import Eyes from './Components/Morphology/Eyes';
 import Beard from './Components/Morphology/Beard';
 import { sendNui } from '../../utils/fetchNui';
+import { useData } from '../../providers/dataContext';
 
 export default function SkinCreator() {
 
+    const { data, setData } = useData();
+
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+    const [skin, setSkin] = useState(data.player.skin.skin);
+    const [face, setFace] = useState(data.player.skin.face);
+    const [hair, setHair] = useState(data.player.skin.hair);
+    const [beard, setBeard] = useState(data.player.skin.beard);
+    const [makeup, setMakeup] = useState(data.player.skin.makeup);
 
-    const [dad, setDad] = useState(0);
-    const [mom, setMom] = useState(0);
-    const [sex, setSex] = useState(0);
+    const [debug, setDebug] = useState(true);
 
-    const [heritage, setHeritage] = useState(5);
-    const [skinColor, setSkinColor] = useState(0);
-    const [acne, setAcne] = useState(0);
-    const [skinProblem, setSkinProblem] = useState(0);
-    const [freckle, setFreckle] = useState(0);
-    const [wrinkle, setWrinkle] = useState(0);
-    const [wrinkleIntensity, setWrinkleIntensity] = useState(10);
-    const [hairColor, setHairColor] = useState(0);
-    const [hair, setHair] = useState(0);
-    const [eyeBrow, setEyeBrow] = useState(0);
-    const [eyeColor, setEyeColor] = useState(0);
-    const [eyebrowThickness, setEyebrowThickness] = useState(0);
-    const [beard, setBeard] = useState(0);
-    const [beardColor, setBeardColor] = useState(0);
-    const [beardThickness, setBeardThickness] = useState(0);
+    const handleFatherChange = (father) => {
+        setSkin(prevSkin => ({
+            ...prevSkin,
+            father: father
+        }));
+    };
+
+    const handleMotherChange = (mother) => {
+        setSkin(prevSkin => ({
+            ...prevSkin,
+            mother: mother
+        }));
+    };
 
     const handleSubmit = async () => {
         await sendNui('updateSkin', {
-            sex: sex,
-            dad: dad,
-            mom: mom,
-            heritage: heritage,
-            skin: skinColor,
-            acne: acne,
-            skinProblem: skinProblem,
-            freckle: freckle,
-            wrinkle: wrinkle,
-            wrinkleIntensity: wrinkleIntensity,
-            eyeColor: eyeColor,
-            hairColor: hairColor,
+            skin: skin,
+            face: face,
             hair: hair,
-            highlight: 0,
-            eyeBrow: eyeBrow,
-            eyebrowThickness: eyebrowThickness,
             beard: beard,
-            beardColor: beardColor,
-            beardThickness: beardThickness
+            makeup: makeup
         });
     };
 
@@ -71,26 +61,11 @@ export default function SkinCreator() {
     }
 
     const handleReset = async () => {
-        setFirstname('');
-        setLastname('');
-        setDad(0);
-        setMom(0);
-        setSex(0);
-        setHeritage(5);
-        setSkinColor(0);
-        setAcne(0);
-        setSkinProblem(0);
-        setFreckle(0);
-        setWrinkle(0);
-        setWrinkleIntensity(10);
-        setHairColor(0);
-        setHair(0);
-        setEyeBrow(0);
-        setEyeColor(0);
-        setEyebrowThickness(0);
-        setBeard(0);
-        setBeardColor(0);
-        setBeardThickness(0);
+        setSkin(data.player.skin.skin);
+        setFace(data.player.skin.face);
+        setHair(data.player.skin.hair);
+        setBeard(data.player.skin.Beard);
+        setMakeup(data.player.skin.Makeup);
         await sendNui('resetSkin');
     }
 
@@ -98,82 +73,83 @@ export default function SkinCreator() {
         await sendNui('validateSkin', {
             firstname: firstname,
             lastname: lastname,
-            dad: dad,
-            mom: mom,
-            sex: sex,
-            heritage: heritage,
-            skin: skinColor,
-            acne: acne,
-            skinProblem: skinProblem,
-            freckle: freckle,
-            wrinkle: wrinkle,
-            wrinkleIntensity: wrinkleIntensity,
-            eyeColor: eyeColor,
-            hairColor: hairColor,
+            skin: skin,
+            face: face,
             hair: hair,
-            highlight: 0,
-            eyeBrow: eyeBrow,
-            eyebrowThickness: eyebrowThickness,
             beard: beard,
-            beardColor: beardColor,
-            beardThickness: beardThickness
+            makeup: makeup
         });
     }
 
     useEffect(() => {
         handleSubmit();
-    }, [dad, mom, sex, heritage, skinColor, eyeColor, eyebrowThickness, hairColor, hair, eyeBrow, beard, beardColor, acne, skinProblem, freckle, wrinkle, wrinkleIntensity]);
+    }, [skin, face, hair, beard, makeup]);
 
-    useEffect(() => {
-        console.log('SkinCreator mounted');
-    }, []);
     return (
         <div className="skinCreator">
-            <div className="sideLeft">
-                <h2>Morphology</h2>
+            {debug &&
+                <div className="skinCreator__debug">
+                    {JSON.stringify(skin)}
+                    <br />
+                    {JSON.stringify(face)}
+                    <br />
+                    {JSON.stringify(hair)}
+                    <br />
+                    {JSON.stringify(beard)}
+                    <br />
+                    {JSON.stringify(makeup)}
+                </div>}
+
+            <div className="skinCreator__sideLeft">
+
                 <div className="input">
-                    <div className="label">Sex</div>
-                    <div className="label-value" data-legend=""></div>
-                    <div className="type-range">
-                        <a href="#" className="arrow arrow-left">&nbsp;</a>
-                        <input value={sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSex(e.target.value)} />
-                        <a href="#" className="arrow arrow-right">&nbsp;</a>
+                    <header>
+                        <h3>Ped</h3>
+                    </header>
+                    <div>
+                        <div className="label">Sex</div>
+                        <div className="label-value" data-legend=""></div>
+                        <div className="type-range">
+                            <a href="#" className="arrow arrow-left">&nbsp;</a>
+                            <input value={skin.sex} type="range" className="gent" min="0" max="1" onChange={(e) => setSkin(prevData => ({ ...prevData, sex: Number(e.target.value) }))} />
+                            <a href="#" className="arrow arrow-right">&nbsp;</a>
+                        </div>
                     </div>
                 </div>
-                <Father handleFatherChange={setDad} />
-                <Mother handleMotherChange={setMom} />
+
+
+                <Father handleFatherChange={handleFatherChange} />
+                <Mother handleMotherChange={handleMotherChange} />
+
+
                 <div className="input">
+                    <header>
+                        <h3>Héritage</h3>
+                    </header>
                     <div className="label">Parent Genetic rate</div>
                     <div className="label-value" data-legend=""></div>
                     <div className="type-range">
                         <a href="#" className="arrow arrow-left">&nbsp;</a>
-                        <input value={heritage} type="range" className="morphologie" min="0" max="100" onChange={(e) => setHeritage(e.target.value)} />
+                        <input value={skin.shapeMix} type="range" className="morphologie" max="1.0" min="0.0" step="0.1" onChange={(e) => setSkin(prevData => ({ ...prevData, shapeMix: e.target.value }))} />
                         <a href="#" className="arrow arrow-right" >&nbsp;</a>
                     </div>
                 </div>
-                <SkinTone handleSkinToneChange={(skinToneData) => {
-                    setSkinColor(skinToneData.skinColor);
-                    setAcne(skinToneData.acne);
-                    setSkinProblem(skinToneData.skinProblem);
-                    setFreckle(skinToneData.freckle);
-                    setWrinkle(skinToneData.wrinkle);
-                    setWrinkleIntensity(skinToneData.wrinkleIntensity);
+
+
+                <SkinTone _acne={face.acne} _freckle={face.freckle} _skinColor={skin.skinColor} _wrinkle={face.wrinkle} _wrinkleOpcity={face.wrinkleOpacity} _ageing={face.ageingType} _sunDamage={face.sunDamageType} handleSkinToneChange={(skinToneData) => {
+                    setSkin(prevData => ({ ...prevData, skinColor: skinToneData.skinColor }));
+                    setFace(prevData => ({ ...prevData, acne: skinToneData.acne, freckle: skinToneData.freckle, wrinkle: skinToneData.wrinkle, wrinkleOpacity: skinToneData.wrinkleIntensity, ageingType: skinToneData.ageing, sunDamageType: skinToneData.sunDamage }));
                 }} />
 
-                <Hair handleHairChange={(hairData) => {
-                    setHairColor(hairData.hairColor);
-                    setHair(hairData.hair);
+                <Hair _hair={hair.hair} _hairColor={hair.hairColor} _sex={skin.sex} handleHairChange={(hairData) => {
+                    setHair(prevData => ({ ...prevData, hairColor: hairData.hairColor, hair: hairData.hair }));
                 }} />
 
-                <Eyes handleEyesChange={(eyes => {
-                    setEyeColor(eyes.eyeColor);
-                    setEyeBrow(eyes.eyeBrow);
-                    setEyebrowThickness(eyes.eyebrowThickness);
+                <Eyes _eyeColor={face.eyeColor} _eyeBrowType={face.eyebrowType} _eyeBrowOpacity={face.eyebrowOpacity} _eyebrowColor={face.eyebrowColor} handleEyesChange={(eyes => {
+                    setFace(prevData => ({ ...prevData, eyeColor: eyes.eyeColor, eyebrowType: eyes.eyeBrow, eyebrowOpacity: eyes.eyebrowThickness, eyebrowColor: eyes.eyeBrowColor }));
                 })} />
-                <Beard handleBeardChange={(beard) => {
-                    setBeard(beard.beard);
-                    setBeardColor(beard.beardColor);
-                    setBeardThickness(beard.beardThickness);
+                <Beard _beard={beard.beard} _beardColor={beard.beardColor} handleBeardChange={(beard) => {
+                    setBeard(prevData => ({ ...prevData, beard: beard.beard, beardColor: beard.beardColor }));
                 }} />
             </div>
 

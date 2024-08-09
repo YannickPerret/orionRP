@@ -1,115 +1,120 @@
+const MAX_WEIGHT = 10000;
+const MAX_HEIGHT_WITH_BAG = 250;
+const { db, r } = require('../core/server/database.js');
+const { v4: uuid } = require('uuid');
+const { Item, UsableItem } = require('./item.js');
+
 class Inventory {
-    constructor({ id, maxWeight, maxSlots, items }) {
-        this.id = id;
+    constructor({ id, maxWeight, items }) {
+        this.id = id || uuid();
         this.maxWeight = maxWeight;
         this.items = items || [];
         this.weight = 0;
     }
 
-    addItem(item) {
+    addItem(item, quantity, metadata = {}) {
         if (this.weight + item.weight > this.maxWeight) {
+            console.log("Poids max atteint")
             return false;
         }
+        if (this.hasItem(item.id)) {
+            this.items = this.items.map(i => {
+                if (i.itemId === item.id) {
+                    i.quantity += quantity;
+                }
+                return i;
+            });
+        } else {
+            this.items.push({ itemId: item.id, quantity: quantity, metadata: metadata, useable: item.useable });
+        }
 
-        this.items.push(item);
-        this.weight += item.weight;
         return true;
     }
 
-    removeItem(item) {
-        this.items = this.items.filter(i => i.id !== item.id);
-        this.weight -= item.weight;
+    removeItem(itemId, quantity = 1) {
+        const item = this.items.find(i => i.itemId === itemId);
+        if (item) {
+            item.quantity -= quantity;
+
+            if (item.quantity <= 0) {
+                this.items = this.items.filter(i => i.itemId !== itemId);
+            }
+            this.calculateWeight();
+        }
     }
+
+    isFull(weight = false) {
+        if (weight) {
+            return this.weight + weight >= this.maxWeight;
+        }
+        return this.weight >= this.maxWeight;
+    }
+
 
     hasItem(item) {
-        return this.items.some(i => i.id === item.id);
+        return this.items.some(i => i.itemId === item.id);
     }
 
-    getItems() {
-        return this.items;
-    }
-
-    getWeight() {
-        return this.weight;
-    }
-
-    getMaxWeight() {
-        return this.maxWeight;
-    }
-
-    toJSON() {
-        return {
-            id: this.id,
-            maxWeight: this.maxWeight,
-            maxSlots: this.maxSlots,
-            items: this.items
-        };
-    }
-
-    static fromJSON(json) {
-        return new Inventory(json);
-    }
-
-    static create(id, maxWeight, maxSlots) {
-        return new Inventory({ id, maxWeight, maxSlots });
-    }
-}
-
-
-class Item {
-    constructor({ id, name, weight, description, usable, usableData }) {
-        this.id = id;
-        this.name = name;
-        this.weight = weight;
-        this.description = description;
-        this.usable = usable || false;
-        this.usableData = usableData;
-    }
-
-    use() {
-        if (!this.usable) {
-            return;
+    async getItem(itemId) {
+        const itemDb = await db.getById('items', itemId);
+        let item
+        if (itemDb.useable) {
+            item = await UsableItem.getById(itemId);
         }
-
-        emitNet('orion:inventory:useItem', this.id);
+        else {
+            item = await Item.getById(itemId);
+        }
+        item.quantity = this.items.find(i => i.itemId === itemId).quantity;
+        return item
     }
 
-    toJSON() {
-        return {
-            id: this.id,
-            name: this.name,
-            weight: this.weight,
-            description: this.description,
-            usable: this.usable,
-            usableData: this.usableData
-        };
+    async calculateWeight() {
+        const fullItems = await this.getFullItems();
+        this.weight = fullItems.reduce((totalWeight, item) => {
+            return totalWeight + (item.weight * item.quantity);
+        }, 0);
     }
 
-    static fromJSON(json) {
-        return new Item(json);
+    /**
+     * Récupère les détails complets des objets dans l'inventaire.
+     * @returns {Promise<Item[]>} Une promesse résolue avec un tableau d'objets `Item`.
+     */
+    async getFullItems() {
+        let itemDetails
+        const fullItems = await Promise.all(this.items.map(async (item) => {
+            if (item.useable) {
+                itemDetails = await UsableItem.getById(item.itemId);
+            }
+            else {
+                itemDetails = await Item.getById(item.itemId);
+            }
+            return {
+                ...itemDetails,
+                quantity: item.quantity
+            };
+        }));
+
+        return fullItems;
     }
 
-    static create(id, name, weight, description, usable, usableData) {
-        return new Item({ id, name, weight, description, usable, usableData });
+    static createEmpty() {
+        return new Inventory({ maxWeight: MAX_WEIGHT, items: [] });
+    }
+
+    static async getById(id) {
+        const inventoryDB = await db.getById('inventories', id);
+        const inventory = new Inventory({ id: inventoryDB.id, maxWeight: inventoryDB.maxWeight, items: inventoryDB.items });
+        inventory.calculateWeight();
+        return inventory;
+    }
+
+    async save() {
+        if (await db.getById('inventories', this.id)) {
+            return await db.update('inventories', this);
+        } else {
+            return await db.insert('inventories', this);
+        }
     }
 }
 
-class UsableItem extends Item {
-    constructor({ id, name, weight, description, usable, usableData }) {
-        super({ id, name, weight, description, usable, usableData });
-    }
-
-    create() {
-        emitNet('orion:inventory:createUsableItem', this.toJSON());
-    }
-
-    destroy() {
-        emitNet('orion:inventory:removeUsableItem', this.id);
-    }
-}
-
-module.exports = {
-    Inventory,
-    Item,
-    UsableItem,
-};
+module.exports = Inventory

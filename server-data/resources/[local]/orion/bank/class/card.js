@@ -1,6 +1,9 @@
+const { db, r } = require('../../core/server/database.js');
+const { v4: uuid } = require('uuid');
+
 class Card {
-    constructor(id, accountId, code) {
-        this.id = id;
+    constructor({ id, accountId, code }) {
+        this.id = id || uuid();
         this.accountId = accountId;
         this.code = code;
     }
@@ -23,6 +26,11 @@ class Card {
         }
     }
 
+    static async getById(id) {
+        const cardDB = await db.getById('cards', id);
+        return new Card(cardDB);
+    }
+
     static getRandomCode() {
         return Math.floor(Math.random() * 1000);
     }
@@ -30,10 +38,10 @@ class Card {
 
     async save() {
         let result;
-        if (await db.get('cards', this.id)) {
-          result = await db.update('cards', this);
+        if (await db.getById('cards', this.id)) {
+            result = await db.update('cards', this);
         } else {
-          result = await db.insert('cards', this);
+            result = await db.insert('cards', this);
         }
         return result;
     }

@@ -1,108 +1,142 @@
 (async () => {
   const bankCoordsJson = JSON.parse(LoadResourceFile(GetCurrentResourceName(), 'bank/bank.json'));
-  const atmModelHash = [-1364697528, 506770882, -870868698, -1126237515];
-
-
-  let bankIsOpen = false
   let showBankInterface = false;
-  let showConseillerInterface = false;
+  let maxWithdraw = 0;
 
-  const showATMdisplay = () => {
+  const showManagementDialog = (playerName) => {
+    return {
+      1: {
+        text: `Bonjour ${playerName}, je suis Amanda, ravie de vous aider aujourd'hui. Que puis-je faire pour vous ?`,
+        title: "Conseillière Amanda",
+        options: [
+          { text: "Ouvrir un nouveau compte", nextPageId: null, action: "orion:bank:s:createAccount" },
+          { text: "Demande de renouvellement de carte bancaire", nextPageId: null, action: "orion:bank:s:renewCard" },
+          { text: "Rien, merci", nextPageId: null, action: 'orion:bank:c:bankCloseMessage', actionType: "client" }
+        ]
+      }
+    }
+  }
 
+  onNet('orion:bank:c:showBankInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
-    //SendNuiMessage(JSON.stringify({ showATMInterface: showBankInterface }));
-    SetNuiFocus(showBankInterface, showBankInterface);
-  }
+    SendNuiMessage(JSON.stringify({
+      action: 'showBankInterface',
+      payload: {
+        type: 'bank',
+        bankHUD: showBankInterface,
+        player: player,
+        account: account,
+        card: card,
+        maxWithdraw: maxWithdraw
+      }
+    }));
 
-  const showBankDisplay = () => {
+    SetNuiFocus(showBankInterface, showBankInterface);
+  })
+
+  onNet('orion:bank:c:showATMInterface', (player, account, card) => {
     showBankInterface = !showBankInterface;
-    //SendNuiMessage(JSON.stringify({ showBankInterface: showBankInterface }));
+    SendNuiMessage(JSON.stringify({
+      action: 'showBankInterface',
+      payload: {
+        type: 'atm',
+        atmHUD: showBankInterface,
+        player: player,
+        account: account,
+        card: card,
+        maxWithdraw: maxWithdraw
+      }
+    }));
     SetNuiFocus(showBankInterface, showBankInterface);
-  }
+  })
 
-  const showConseillerDisplay = () => {
-    //showConseillerInterface = !showConseillerInterface;
-    /*SendNuiMessage(JSON.stringify({ showConseillerInterface: showConseillerInterface }));
-    SetNuiFocus(showConseillerInterface, showConseillerInterface);*/
+  onNet('orion:bank:c:bankCloseMessage', (message = undefined) => {
+    showBankInterface = false;
+    console.log('showNoAccountInterface', message)
+    if (message) emit('orion:showNotification', message);
+  })
 
-    console.log('showConseillerDisplay')
-    emitNet('orion:bank:c:showConseillerInterface');
-    emitNet('orion:bank:s:createAccount');
-  }
+  RegisterNuiCallbackType('cancelBank');
+  on('__cfx_nui:cancelBank', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    cb({ ok: true });
+  });
 
+  RegisterNuiCallbackType('deposit');
+  on('__cfx_nui:deposit', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    emitNet('orion:bank:s:deposit', data.amount);
+    cb({ ok: true });
+  });
 
-  const renewCard = () => {
-    console.log('renewCard');
-    // create new item cards with id
-    // set new card id into account
-    // delete old card
-    // save new account
-  }
+  RegisterNuiCallbackType('withdraw');
+  on('__cfx_nui:withdraw', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    emitNet('orion:bank:s:withdraw', data.amount);
+    cb({ ok: true });
+  });
 
-  const topUpMoneyBank = (bank, amount) => {
-    console.log('topUpMoneyBank', bank, amount);
-  }
+  RegisterNuiCallbackType('transfer');
+  on('__cfx_nui:transfer', (data, cb) => {
+    showBankInterface = false;
+    SetNuiFocus(false, false);
+    emitNet('orion:bank:s:transfer', data.amount, data.target);
+    cb({ ok: true });
+  });
 
-  const withdrawMoneyBank = (bank, amount) => {
-    console.log('withdrawMoneyBank', bank, amount);
-  }
+  RegisterNuiCallbackType('giveAmount');
+  on('__cfx_nui:giveAmount', (data, cb) => {
+    const amount = parseInt(data.amount);
+    const nearbyPlayers = exports['orion'].findNearbyPlayers(3);
 
-  const transferMoneyBank = (bank, amount) => {
-    console.log('transferMoneyBank', bank, amount);
-  }
-
-  const createAccountBank = (bank, amount) => {
-    emitNet('orion:bank:s:createAccount', bank, amount);
-  }
-
+    if (nearbyPlayers.length > 0) {
+      emitNet('orion:player:s:giveAmount', nearbyPlayers[0], amount);
+    } else {
+      emit('orion:showNotification', 'Aucun joueur à proximité');
+    }
+    cb({ ok: true });
+  });
 
 
   setTick(async () => {
+    await exports['orion'].delay(5);
+    let playerCoords = GetEntityCoords(PlayerPedId(), false);
 
-    const bankBlips = [];
-    for (const bankCoords of bankCoordsJson.bank) {
-      exports['orion'].createBlip(bankCoords.coords, 108, 0, 'Banque');
-      bankBlips.push(bankCoords.coords);
+    for (let banksNational of bankCoordsJson.bank_nation) {
+      if (exports['orion'].getDistanceBetweenCoords(playerCoords, banksNational.coords) <= 1.3) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque nationale');
+          if (IsControlJustReleased(0, 38)) {
+            emitNet('orion:bank:s:getAccountInterface', "bank");
+            maxWithdraw = 100000000;
+          }
+        }
+      }
     }
 
-    while (true) {
-      await exports['orion'].delay(5);
-      let playerCoords = GetEntityCoords(PlayerPedId(), false);
-      for (let bankCoords of bankCoordsJson.bank) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], bankCoords.coords.X, bankCoords.coords.Y, bankCoords.coords.Z, true)
-        if (distance <= 1.3) {
-          if (!bankIsOpen) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
-            if (IsControlJustReleased(0, 38)) {
-              showBankDisplay();
-              bankIsOpen = true;
-            }
+    for (let bankCoords of bankCoordsJson.banks) {
+      if (exports['orion'].getDistanceBetweenCoords(playerCoords, bankCoords.coords) <= 1.3) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à la banque');
+          if (IsControlJustReleased(0, 38)) {
+            emitNet('orion:bank:s:getAccountInterface', "bank");
+            maxWithdraw = 1000000;
           }
         }
       }
+    }
 
-      for (let atmCoords of bankCoordsJson.atm) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], atmCoords.X, atmCoords.Y, atmCoords.Z, true)
-        if (distance <= 2) {
-          if (!bankIsOpen) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder à l\'ATM');
-
-            if (IsControlJustReleased(0, 38)) {
-              showATMdisplay();
-              bankIsOpen = true;
-            }
-          }
-        }
-      }
-
-      for (const mangement of bankCoordsJson.management) {
-        let distance = GetDistanceBetweenCoords(playerCoords[0], playerCoords[1], playerCoords[2], mangement.coords.X, mangement.coords.Y, mangement.coords.Z, true)
-        if (distance <= 2) {
-          if (!bankIsOpen) {
-            emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
-            if (IsControlJustReleased(0, 38)) {
-              showConseillerDisplay();
-            }
+    for (const mangement of bankCoordsJson.managements) {
+      if (exports['orion'].getDistanceBetweenCoords(playerCoords, mangement.coords) <= 1.3) {
+        if (!showBankInterface) {
+          emit('orion:showText', 'Appuyez sur ~g~E~w~ pour accéder au conseiller');
+          if (IsControlJustReleased(0, 38)) {
+            const player = exports['orion'].getPlayerData();
+            exports['orion'].createPnjDialog(showManagementDialog(`${player.firstname} ${player.lastname}`));
+            showBankInterface = true;
           }
         }
       }

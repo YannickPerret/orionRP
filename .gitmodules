@@ -1,0 +1,9 @@
+[submodule "server-data/resources/[local]/orion_phone"]
+	path = server-data/resources/[local]/orion_phone
+	url = https://github.com/YannickPerret/orionRP-phone.git
+[submodule "server-data/resources/[libs]/screenshot-basic"]
+	path = server-data/resources/[libs]/screenshot-basic
+	url = https://github.com/project-error/screenshot-basic.git
+[submodule "server-data/resources/[libs]/Valkyrie"]
+	path = server-data/resources/[libs]/Valkyrie
+	url = https://github.com/NotSomething0/Valkyrie.git

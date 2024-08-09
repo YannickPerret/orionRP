@@ -22,7 +22,7 @@ class Migration {
   }
 
   async isMigrationApplied(migrationId) {
-    const result = await this.db.get('migration', migrationId);
+    const result = await this.db.getById('migration', migrationId);
     return !!result;
   }
 

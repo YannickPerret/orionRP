@@ -1,29 +1,33 @@
 const { db, r } = require('../core/server/database.js');
+const { v4: uuid } = require('uuid');
+
 
 class Player {
-  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin}) {
-    this.id = id;
+  constructor({ id, source, accountId, steamId, firstname, lastname, phone, money, position, license, discord, role, mugshot, skin, inventoryId, jobId }) {
+    this.id = id || uuid();
     this.source = source;
-    this.accountId = accountId || false;
-    this.faim = 100;
-    this.soif = 100;
     this.steamId = steamId || '';
+    this.license = license || '';
+    this.discord = discord || '';
+    this.accountId = accountId || false;
+    this.hunger = 100;
+    this.thirst = 100;
+    this.fatigue = 0;
+    this.inventoryId = inventoryId || '';
     this.position = {
       x: position.x || 0,
       y: position.y || 0,
       z: position.z || 0,
+      heading: position.heading || 0,
     };
-    this.fatigue = 0;
     this.firstname = firstname;
     this.lastname = lastname;
     this.phone = phone;
     this.money = money || 500;
     this.mugshot = mugshot || '';
-    this.license = license || '';
-    this.discord = discord || '';
     this.role = role || false;
     this.skin = skin || [];
-    this.job = false;
+    this.jobId = jobId || null;
   }
 
   #isDead = false;
@@ -36,38 +40,26 @@ class Player {
     this.#isDead = value;
   }
 
-  manger(quantite) {
-    this.faim = Math.min(this.faim + quantite, 100);
+  eat(value) {
+    this.faim = Math.min(this.faim + value, 100);
   }
 
-  boire(quantite) {
-    this.soif = Math.min(this.soif + quantite, 100);
-  }
-
-  changeFaim(value = undefined) {
-    if (value) {
-      this.faim = Math.max(this.faim + value, 0);
-      return;
-    }
-    return new Error('Valeur invalide');
-  }
-
-  changeSoif(value = undefined) {
-    if (value) {
-      this.soif = Math.max(this.soif + value, 0);
-      return;
-    }
-    return new Error('Valeur invalide');
+  drink(value) {
+    this.soif = Math.min(this.soif + value, 100);
   }
 
   setAccountId(accountId) {
     this.accountId = accountId;
   }
 
+  setMoney(money) {
+    this.money = this.money + money;
+  }
+
   async save() {
     let result;
     //if id exists in database
-    if (await db.get('players', this.id)) {
+    if (await db.getById('players', this.id)) {
       result = await db.update('players', this);
     } else {
       result = await db.insert('players', this);

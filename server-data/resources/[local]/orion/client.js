@@ -1,40 +1,22 @@
-const spawnLogin = () => {
-  const ped = GetPlayerPed(-1);
-  SetPlayerInvincible(ped, false);
-  SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
-  SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
+(async () => {
 
-  SetCanAttackFriendly(PlayerPedId(), true, false);
-  NetworkSetFriendlyFireOption(true);
+  const spawnLogin = () => {
+    const ped = GetPlayerPed(-1);
+    SetPlayerInvincible(ped, false);
+    SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0);
+    SetEntityCoordsNoOffset(ped, parseFloat(-1037.0), parseFloat(-2738.0), parseFloat(20.0), false, false, false, true);
 
-  emitNet('orion:player:s:playerSpawned');
-};
+    SetCanAttackFriendly(PlayerPedId(), true, false);
+    NetworkSetFriendlyFireOption(true);
+    emitNet('orion:player:s:initialConnection');
+  };
 
-exports('spawnLogin', spawnLogin);
+  exports('spawnLogin', spawnLogin);
 
 
-on('playerSpawned', () => {
-  spawnLogin();
-  //SendNuiMessage(JSON.stringify({ action: 'connectVoice' }));
+  on('playerSpawned', () => {
+    //test si le serveur est ouvert au joueur
+    spawnLogin();
+  });
 
-});
-
-onNet('orion:playerConnected', playerData => {
-  SetEntityCoords(
-    GetPlayerPed(-1),
-    parseFloat(playerData.position.x),
-    parseFloat(playerData.position.y),
-    parseFloat(playerData.position.z),
-    false,
-    false,
-    false,
-    false
-  );
-
-  //SendNuiMessage(JSON.stringify({ action: 'switchToIngame' }));
-
-  setInterval(() => {
-    const [playerPositionX, playerPositionY, playerPositionZ] = GetEntityCoords(GetPlayerPed(-1), true);
-    emitNet('orion:savePlayerPosition', playerPositionX, playerPositionY, playerPositionZ);
-  }, 900000);
-});
+})()

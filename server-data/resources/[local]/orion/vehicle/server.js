@@ -1,21 +1,53 @@
-(() => {
+(async () => {
   const VehicleManager = require('./core/server/vehicleManager.js');
   const Vehicle = require('./vehicle/vehicle.js');
   const PlayerManager = require('./core/server/playerManager.js');
-  const {db} = require('./core/server/database.js');
-  
-  onNet('orion:vehicle:s:spawnNewVehicle', async (model, coords, pedHead) => {
+  const { db } = require('./core/server/database.js');
+
+  onNet('vehicle:airbags:s:setState', (vehicleNetId, state) => {
+    const vehicle = VehicleManager.getVehicleById(vehicleNetId);
+    if (vehicle) {
+      vehicle.airbags = state;
+      Entity(NetworkGetNetworkIdFromEntity(vehicleNetId)).state.ariaBags = state;
+    }
+  });
+
+  onNet('vehicle:airbags:s:getState', (vehicleNetId) => {
+    const vehicle = VehicleManager.getVehicleById(vehicleNetId);
+    if (vehicle) {
+      emitNet('vehicle:airbags:c:setState', source, Entity(NetworkGetNetworkIdFromEntity(vehicleNetId)).state.ariaBags);
+    }
+  });
+
+  onNet('vehicle:airbags:s:entityRemoved', (entity) => {
+    if (GetEntityType(entity) == 2) {
+      if (Entity(entity).state.ariaBags) {
+        for (let i = 0; i < GetAllObjects().length; i++) {
+          if (exports['orion'].getDistance(GetEntityCoords(GetAllObjects()[i]), GetEntityCoords(entity)) <= 6.0 && GetEntityModel(GetAllObjects()[i]) == 'prop_airbag_01') {
+            DeleteEntity(GetAllObjects()[i]);
+          }
+        }
+      }
+    }
+  })
+
+  onNet('orion:vehicle:s:spawnNewVehicle', async (model, name = '', coords, pedHead) => {
     const source = global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
     if (player) {
       let vehicleSpawn = CreateVehicleServerSetter(model, 'automobile', coords[0], coords[1], coords[2], pedHead);
+
+      while (!DoesEntityExist(vehicleSpawn)) {
+        await exports['orion'].delay(0)
+      }
+
       SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
 
-    
       let vehicleObj = new Vehicle({
-        id: vehicleSpawn,
-        netId: NetworkGetNetworkIdFromEntity(vehicleSpawn), 
+        netId: NetworkGetNetworkIdFromEntity(vehicleSpawn),
+        spawnId: vehicleSpawn,
+        title: name,
         model: model,
         owner: player.id,
         plate: GetVehicleNumberPlateText(vehicleSpawn),
@@ -25,96 +57,137 @@
         pearlescentColor: GetVehicleExtraColours(vehicleSpawn)[1],
         bodyHealth: GetVehicleBodyHealth(vehicleSpawn),
         dirtLevel: GetVehicleDirtLevel(vehicleSpawn),
-        doorsBroken: [ 0, 0, 0, 0, 0, 0, 0 ],
+        doorsBroken: [0, 0, 0, 0, 0, 0, 0],
+        fuel: 100,
+        interiorColor: GetVehicleInteriorColour(vehicleSpawn),
       });
 
-      await exports['orion'].delay(300)
-  
+      await vehicleObj.save();
+
       TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-      //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-  
-      VehicleManager.addVehicle(vehicleSpawn, vehicleObj);
-      emitNet('orion:vehicle:c:createVehicle', source,  vehicleObj);
+
+      VehicleManager.addVehicle(vehicleObj.netId, vehicleObj);
+
+      emitNet('orion:vehicle:c:setVehicleProperties', source, vehicleObj.netId, {
+        fuel: vehicleObj.fuel,
+        interiorColor: vehicleObj.interiorColor,
+      });
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
     }
   });
 
-  onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, pedHead) => {
-    const source = global.source;
+  onNet('orion:vehicle:s:spawnVehicle', async (vehicleId, coords, _source) => {
+
+    const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
 
-    const vehicleDb = await db.get('vehicles', vehicleId);
+    const vehicleDb = await Vehicle.getById(vehicleId);
     const vehicle = new Vehicle(vehicleDb);
 
     if (player && vehicle) {
-      let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords[0], coords[1], coords[2], pedHead);
-      vehicle.netId = NetworkGetNetworkIdFromEntity(vehicleSpawn);
-      await vehicle.save();
-
-      SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
-
-      SetVehicleBodyHealth(vehicleSpawn, vehicle.bodyHealth);
-      SetVehicleColours(vehicleSpawn, vehicle.primaryColor, vehicle.secondaryColor);
-      SetVehiclePlateText(vehicleSpawn, vehicle.plate);
-      SetVehicleDirtLevel(vehicleSpawn, vehicle.dirtLevel);
-      for (let doors = 0; doors < 7; doors++) {
-        SetVehicleDoorBroken(vehicleSpawn, vehicle.doorsBroken[doors], false);
+      let vehicleSpawn = CreateVehicleServerSetter(vehicle.model, 'automobile', coords.X, coords.Y, coords.Z, coords.Heading);
+      while (!DoesEntityExist(vehicleSpawn)) {
+        await exports['orion'].delay(0)
       }
 
-      await exports['orion'].delay(300)
-  
-      TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-      //SetPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
-  
-      VehicleManager.addVehicle(vehicleSpawn, vehicle);
-      emitNet('orion:vehicle:c:createVehicle', source, vehicle);
+      if (vehicleSpawn) {
+
+        SetEntityDistanceCullingRadius(vehicleSpawn, 1000.0);
+
+        SetVehicleBodyHealth(vehicleSpawn, vehicle.bodyHealth);
+        SetVehicleColours(vehicleSpawn, vehicle.primaryColor, vehicle.secondaryColor);
+        SetVehicleNumberPlateText(vehicleSpawn, vehicle.plate);
+        SetVehicleDirtLevel(vehicleSpawn, vehicle.dirtLevel);
+
+        for (let doors = 0; doors <= vehicle.doorsBroken.length; doors++) {
+          SetVehicleDoorBroken(vehicleSpawn, doors, vehicle.doorsBroken[doors]);
+        }
+
+        vehicle.netId = NetworkGetNetworkIdFromEntity(vehicleSpawn);
+        vehicle.spawnId = vehicleSpawn;
+        await vehicle.save();
+
+        TaskWarpPedIntoVehicle(GetPlayerPed(source), vehicleSpawn, -1);
+
+        VehicleManager.addVehicle(vehicle.netId, vehicle);
+
+        emitNet('orion:vehicle:c:setVehicleProperties', source, vehicle.spawnId, {
+          fuel: vehicle.fuel,
+          interiorColor: vehicle.interiorColor,
+        });
+      }
+      else {
+        emitNet('orion:showNotification', source, 'Vehicle not found!')
+      }
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
     }
   });
 
-  onNet('orion:vehicle:s:dispawnVehicle', async (vehicle) => {
-    const source = global.source;
+  onNet('orion:vehicle:s:dispawnVehicle', async (vehicleNetId, vehicleProperties = {}, _source) => {
+    const source = _source || global.source;
     const player = PlayerManager.getPlayerBySource(source);
+    let vehicle = VehicleManager.getVehicleById(vehicleNetId);
 
     if (player) {
-      let vehicleObj = VehicleManager.getVehicleById(vehicle);
-      if (vehicleObj) {
-        vehicleObj.colours = GetVehicleColours(vehicleObj.id);
-        vehicleObj.pearlescentColor = GetVehicleExtraColours(vehicleObj.id)[1];
-        vehicleObj.bodyHealth = GetVehicleBodyHealth(vehicleObj.id);
-        vehicleObj.dirtLevel = GetVehicleDirtLevel(vehicleObj.id);
-        vehicleObj.plate = GetVehicleNumberPlateText(vehicleObj.id);
-        for (let doors = 0; doors < 7; doors++) {
-          vehicleObj.doorsBroken[doors] = IsVehicleDoorDamaged(vehicleObj.id, doors);
-        }
-        await vehicleObj.save();
+      if (vehicle) {
+        vehicle.colours = GetVehicleColours(vehicle.spawnId);
+        vehicle.pearlescentColor = GetVehicleExtraColours(vehicle.spawnId)[1];
+        vehicle.bodyHealth = GetVehicleBodyHealth(vehicle.spawnId);
+        vehicle.dirtLevel = GetVehicleDirtLevel(vehicle.spawnId);
+        vehicle.plate = GetVehicleNumberPlateText(vehicle.spawnId);
+        vehicle.position = GetEntityCoords(vehicle.spawnId);
+        vehicle.doorsBroken = vehicleProperties.doorsBroken;
+        vehicle.interiorColor = vehicleProperties.interiorColor;
+        vehicle.fuel = vehicleProperties.fuel;
+        //GetVehicleTyreSmokeColor
+        //TaskDriveBy
 
-        DeleteEntity(vehicleObj.id);
-        VehicleManager.remove(vehicleObj.id);
-        delete vehicleObj;
+        await vehicle.save();
+
+        VehicleManager.remove(vehicle.netId);
+
       }
     }
     else {
       emitNet('orion:showNotification', source, 'You are not logged in!')
     }
+
+    DeleteEntity(vehicle.spawnId);
+    delete vehicle;
   });
-  
+
   onNet('orion:vehicle:saveVehicle', async vehicle => {
     let vehicleObj = VehicleManager.getVehicleById(vehicle.id);
     await vehicleObj.save();
   });
-  
-  onNet('orion:vehicle:deleteVehicle', async vehicle => {
-    let vehicleObj = VehicleManager.getVehicleById(vehicle.id);
 
-    VehicleManager.remove(vehicleObj.id);
-    delete vehicleObj;
+  onNet('orion:vehicle:s:deleteVehicle', async (vehicleId, _source) => {
+    const source = _source || global.source;
+    if (typeof vehicleId === 'number' && vehicleId > 0) {
+      let vehicleObj = VehicleManager.getVehicleBySpawnId(vehicleId);
+      VehicleManager.remove(vehicleObj.id);
+      delete vehicleObj;
+    }
   });
-  
+
+
+  RegisterCommand('delveh', async (source, args) => {
+    if (source > 0) {
+      const player = PlayerManager.getPlayerBySource(source);
+      if (player) {
+
+        if (GetVehiclePedIsIn(GetPlayerPed(source), false)) {
+          const vehicleId = GetVehiclePedIsIn(GetPlayerPed(source), false);
+          emit('orion:vehicle:s:deleteVehicle', vehicleId, source);
+        }
+      }
+    }
+  }, false);
+
 
 })()
 

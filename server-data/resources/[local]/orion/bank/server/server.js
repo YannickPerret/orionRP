@@ -4,58 +4,130 @@
 (async () => {
     const Account = require('./bank/class/account.js');
     const PlayerManager = require('./core/server/playerManager.js');
+    const Inventory = require('./inventory/inventory.js');
+    const { Item } = require('./inventory/item.js');
     const Invoice = require('./bank/class/invoice.js');
     const Card = require('./bank/class/card.js');
     const { v4: uuidv4 } = require('uuid');
+
+    onNet('orion:bank:s:getAccountInterface', async (type) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const inventory = await Inventory.getById(player.inventoryId);
+
+        if (player) {
+            if (player.accountId) {
+                const account = await Account.getById(player.accountId);
+                if (account) {
+                    if (inventory.hasItem(await Item.getByName('bank_card'))) {
+                        const card = await Card.getById(account.cardId);
+                        if (card) {
+                            if (type == "bank")
+                                emitNet('orion:bank:c:showBankInterface', source, player, account, card);
+                            else if (type == "atm")
+                                emitNet('orion:bank:c:showATMInterface', source, player, account, card);
+                        }
+                        else {
+                            emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de carte bancaire!");
+                        }
+                    }
+                    else {
+                        emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de carte bancaire!");
+                    }
+                }
+                else {
+                    emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire!");
+                }
+            }
+            else {
+                emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire!");
+            }
+        }
+    })
 
 
     onNet('orion:bank:s:createAccount', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
+        const cardItem = await Item.getByName('bank_card');
+        const inventory = await Inventory.getById(player.inventoryId);
 
-        if (player) {
-            if (player.accountId) {
-                emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
-                return;
-            }
-            let uuid = uuidv4( )
-            const account = new Account(uuid, 100, player.id, [], false, [], null);
-            uuid = uuidv4()
-            const card = new Card(uuid, account.id, Card.getRandomCode());
-            await card.save();
-            account.setNewCardId(card.id);
-            await account.save();
-            player.setAccountId(account.id);
-            await player.save();
-            emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
+        if (!player) {
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            return;
         }
+        if (!inventory) {
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous devez être connecté pour interagir avec le conseiller !");
+            return;
+        }
+
+        if (player.accountId) {
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous avez déjà un compte bancaire !");
+            return;
+        }
+
+        if (inventory.hasItem(cardItem)) {
+            emitNet('orion:bank:c:bankCloseMessage', source, 'Vous avez déjà une carte bancaire !');
+            return;
+        }
+
+        const account = new Account({ balance: 100, owner: player.id });
+        await account.save();
+
+        const card = new Card({ accountId: account.id, code: Card.getRandomCode() });
+        await card.save();
+
+        account.setNewCardId(card.id);
+        await account.save();
+
+        player.setAccountId(account.id);
+        await player.save();
+
+        inventory.addItem(cardItem, 1, { cardId: card.id });
+        await inventory.save();
+
+        emitNet('orion:bank:c:bankCloseMessage', source, 'Vous venez de créer votre compte bancaire !');
     })
 
     onNet('orion:bank:s:renewCard', async () => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
-        let itemProcuration = true;
-        //const itemProcuration = player.inventory.find(item => item.name === 'procuration');
-
         if (player) {
             if (player.accountId) {
-                emitNet('orion:showNotification', source, 'Vous avez déjà un compte bancaire !');
-                return;
-            }
-            if (itemProcuration) {
-                let uuid = uuidv4()
-                const card = new Card(uuid, player.accountId, Card.getRandomCode());
-                const account = await Account.getById(player.accountId);
-                await card.save();
-                account.setNewCardId(card.id);
-                await account.save();
+                const PlayerAccount = await Account.getById(player.accountId);
+                const inventory = await Inventory.getById(player.inventoryId);
+                const itemProcuration = await Item.getByName('procuration_bank');
+                if (PlayerAccount) {
+                    if (inventory.hasItem(itemProcuration)) {
+                        const cardItem = await Item.getByName('bank_card');
+                        const card = new Card({ accountId: player.accountId, code: Card.getRandomCode() });
+                        await card.save();
 
-                itemProcuration = false;
-                emitNet('orion:showNotification', source, 'Vous venez de créer votre compte bancaire !');
+                        PlayerAccount.setNewCardId(card.id);
+                        await PlayerAccount.save();
+
+                        inventory.removeItem(itemProcuration.id, 1);
+                        await inventory.save();
+
+                        inventory.addItem(cardItem, 1, { cardId: card.id });
+                        await inventory.save();
+
+                        emitNet('orion:bank:c:bankCloseMessage', source, 'Vous venez de récupérer ou créer votre compte !');
+                    }
+                    else {
+                        emitNet('orion:bank:c:bankCloseMessage', source, 'Il vous faut une procuration pour créer un compte !');
+                    }
+                }
+                else {
+                    emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire !");
+                }
             }
             else {
-                emitNet('orion:showNotification', source, 'Il vous faut une procuration pour créer un compte !');
+                emitNet('orion:bank:c:bankCloseMessage', source, "Vous n'avez pas de compte bancaire !");
             }
+        }
+        else {
+            emitNet('orion:bank:c:bankCloseMessage', source, "Vous devez être connecté pour interagir avec le conseiller !");
         }
     })
 
@@ -81,7 +153,7 @@
                     else {
                         throw new Error(`Le type de facture est incorrect`);
                     }
-                    
+
                     if (typeof amount != Number && amount <= 0) {
                         throw new Error(`Le montant de la facture est incorrect`);
                     }
@@ -132,7 +204,7 @@
         }
     })
 
-    onNet('orion:invoice:s:cancel',async  (invoiceId) => {
+    onNet('orion:invoice:s:cancel', async (invoiceId) => {
         const source = global.source;
         const player = PlayerManager.getPlayerBySource(source);
         const invoice = Invoice.getById(invoiceId);
@@ -141,9 +213,121 @@
             if (invoice) {
                 invoice.paid(false);
                 await invoice.save();
-                emitNet('orion:showNotification', source, `Vous avez refusé la facture de ${invoice.price}€`);
+                emitNet('orion:showNotification', source, `Vous avez refusé la facture de ${invoice.price} $`);
             }
         }
     })
 
+    // Bank actions 
+
+    onNet('orion:bank:s:deposit', async (amount) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const account = await Account.getById(player.accountId);
+        const amountNumber = Number(amount);
+
+        if (player) {
+            if (account) {
+                if (amountNumber > 0) {
+                    if (player.money >= amountNumber) {
+                        account.setBalance(amountNumber);
+                        await account.save();
+                        player.setMoney(-amountNumber);
+                        await player.save();
+                        emitNet('orion:showNotification', source, `Vous avez déposé ${amountNumber} $`);
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur votre compte`);
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Le montant est incorrect`);
+                }
+            }
+            else {
+                emitNet('orion:showNotification', source, `Vous n'avez pas de compte bancaire`);
+            }
+        }
+    })
+
+    onNet('orion:bank:s:withdraw', async (amount) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const account = await Account.getById(player.accountId);
+        const amountNumber = Number(amount);
+
+        if (player) {
+            if (account) {
+                if (amountNumber > 0) {
+                    if (account.balance >= amountNumber) {
+                        account.setBalance(-amountNumber);
+                        await account.save();
+                        player.setMoney(amountNumber);
+                        await player.save();
+                        emitNet('orion:showNotification', source, `Vous avez retiré ${amountNumber} $`);
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur vous`);
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Le montant est incorrect`);
+                }
+            }
+            else {
+                emitNet('orion:showNotification', source, `Vous n'avez pas de compte bancaire`);
+            }
+        }
+    })
+
+    onNet('orion:bank:s:transfer', async (amount, targetId) => {
+        const source = global.source;
+        const player = PlayerManager.getPlayerBySource(source);
+        const account = await Account.getById(player.accountId);
+        const target = PlayerManager.getPlayerById(targetId);
+        const amountNumber = Number(amount);
+
+        if (player) {
+            if (account) {
+                if (target) {
+                    if (amountNumber > 0) {
+                        if (account.balance >= amountNumber) {
+                            account.setBalence(-amountNumber);
+                            await account.save();
+                            target.setMoney(amountNumber);
+                            await target.save();
+                            emitNet('orion:showNotification', source, `Vous avez transféré ${amountNumber}€`);
+                        }
+                        else {
+                            emitNet('orion:showNotification', source, `Vous n'avez pas assez d'argent sur votre compte`);
+                        }
+                    }
+                    else {
+                        emitNet('orion:showNotification', source, `Le montant est incorrect`);
+                    }
+                }
+                else {
+                    emitNet('orion:showNotification', source, `Le joueur n'est pas connecté`);
+                }
+            }
+            else {
+                emitNet('orion:showNotification', source, `Vous n'avez pas de compte bancaire`);
+            }
+        }
+    })
+
+
+    exports('playerPaidWithMoney', async (source, money) => {
+        const playerData = PlayerManager.getPlayerBySource(source);
+        if (playerData) {
+            if (playerData.money >= money) {
+                playerData.money -= money;
+                await playerData.save();
+                return true
+            }
+            else {
+                return false
+            }
+        }
+    })
 })();

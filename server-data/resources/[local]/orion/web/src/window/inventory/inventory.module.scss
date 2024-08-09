@@ -1,0 +1,108 @@
+.inventory {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 40%;
+    background: #304e607a;
+    padding: 1%;
+    position: absolute;
+    top: 30vh;
+    left: 5vw;
+
+    &__close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-basis: calc(20% - 15px);
+        height: 150px;
+        width: 100px;
+        background: #364b6932;
+        border: 0.5 solid #364b69;
+        position: relative;
+
+        &__actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        &__icon {
+            height: 50px;
+            width: 50px;
+
+            margin: 0 auto;
+
+            & img {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+
+
+        /* &__description {
+            display: flex;
+            opacity: 0;
+            flex-direction: column;
+            position: absolute;
+            height: 25px;
+            width: fit-content;
+            bottom: 0;
+            left: 0;
+            background: #364b69;
+        }
+
+        &:hover~.inventory__item__description {
+            opacity: 1;
+        }*/
+
+    }
+
+    &__modalQuantity {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        position: absolute;
+
+        &__container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 30%;
+            width: 60%;
+        }
+    }
+}

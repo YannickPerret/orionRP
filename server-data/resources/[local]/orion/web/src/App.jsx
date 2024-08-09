@@ -11,9 +11,14 @@ import Seatbelt from './components/vehicle/Seatbelt';
 import Fuel from './components/vehicle/fuel';
 import Bank from './window/bank/Bank';
 import Voice from './voice/Voice';
-import { useData } from './utils/dataContext';
+import { useData } from './providers/dataContext';
 import { useVisibility } from './providers/visibilityProvider';
 import Speed from './components/vehicle/speed';
+import Inventory from './window/inventory/Inventory';
+import DialogBox from './components/dialogBox/dialogBox';
+import Garage from './window/garage/Garage';
+import PlayerHud from './window/player/playerHud';
+import TargetEyes from './window/target/targetEyes';
 
 const App = () => {
   const { visible, setVisible, closeAllMenus } = useVisibility();
@@ -27,8 +32,21 @@ const App = () => {
         case "showPlayerMenu":
           setVisible('playerMenu', true);
           break;
+        case "updatePlayerStatus":
+          setVisible(prevData => ({ ...prevData, showPlayerHUD: payload.showPlayerHUD }));
+          if (payload.hunger && payload.thirst) {
+            setData(prevData => ({ ...prevData, player: { ...prevData.player, hunger: payload.hunger, thirst: payload.thirst } }));
+          }
+          break;
         case "showJobMenu":
           setVisible('jobMenu', true);
+          break;
+        case "inventoryHUD":
+          setVisible(prevData => ({ ...prevData, inventoryHUD: payload.inventoryHUD }));
+          setData(prevData => ({ ...prevData, inventory: payload.inventory }));
+          break;
+        case "updateInventory":
+          setData(prevData => ({ ...prevData, inventory: payload.inventory }));
           break;
         case "closeMenus":
           closeAllMenus();
@@ -37,11 +55,17 @@ const App = () => {
           setVisible('amountMenu', true);
           break;
         case "showSkinCreator":
-          console.log("test", payload.skinCreator);
           setVisible(prevState => ({ ...prevState, skinCreator: payload.skinCreator }));
+          setData(prevData => ({ ...prevData, player: { ...prevData.player, skin: payload.skin } }))
           break;
         case "showBankInterface":
-          setVisible('bankInterface', true);
+          if (payload.type == 'bank') {
+            setVisible(prevState => ({ ...prevState, bankHUD: payload.bankHUD }));
+          }
+          else if (payload.type == 'atm') {
+            setVisible(prevState => ({ ...prevState, atmHUD: payload.atmHUD }));
+          }
+          setData(prevData => ({ ...prevData, bankMaxWithdraw: payload.maxWithdraw, player: { ...prevData.player, money: payload.player.money, lastname: payload.player.lastname, firstname: payload.player.firstname, account: payload.account, card: payload.card } }))
           break;
         case "playSound":
           playSound(data);
@@ -50,14 +74,25 @@ const App = () => {
           setVisible(prevState => ({ ...prevState, vehicleHUD: payload.pedInVehicle }));
           setData(prevData => ({ ...prevData, vehicle: { isDriver: payload.isDriver, seatbelt: payload.seatbelt, speed: payload.speed, fuel: payload.fuel } }));
           break;
-        case "speedometer":
-        // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, speed: payload.speed } }));
-        case "fuel":
-          // setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, fuel: payload.fuel } }));
-          break;
         case "seatbelt":
           setData(prevData => ({ ...prevData, vehicle: { ...prevData.vehicle, seatbelt: payload.seatbelt } }));
           break;
+        case "hideFrame":
+          closeAllMenus();
+          break;
+        case "pnjDialog":
+          setVisible(prevState => ({ ...prevState, dialogHUD: payload.dialogHUD }));
+          setData(prevData => ({ ...prevData, dialogData: payload.dialogData }));
+          break;
+        case "showGarage":
+          setVisible(prevState => ({ ...prevState, garageHUD: payload.garageHUD }));
+          setData(prevData => ({ ...prevData, garage: payload.garage }));
+          break;
+        case "targetShowOptions": {
+          setVisible(prevState => ({ ...prevState, targetEyesHUD: payload.targetEyesHUD }));
+          setData(prevData => ({ ...prevData, targetOptions: payload.targetOptions }));
+          break;
+        }
         default:
           break;
       }
@@ -80,10 +115,18 @@ const App = () => {
 
   return (
     <>
+      {visible.showPlayerHUD && (
+        <PlayerHud />
+      )}
+
       {visible.playerMenu && (
         <SideMenu>
           <PlayerMenu onCloseMenu={() => handleCloseMenu('playerMenu')} />
         </SideMenu>
+      )}
+
+      {visible.inventoryHUD && (
+        <Inventory />
       )}
 
       {visible.jobMenu && (
@@ -102,8 +145,12 @@ const App = () => {
         <SkinCreator onClose={() => closeAllMenus} />
       )}
 
-      {visible.bankInterface && (
+      {visible.bankHUD && (
         <Bank onClose={() => handleCloseMenu('bankInterface')} />
+      )}
+
+      {visible.garageHUD && (
+        <Garage />
       )}
 
       {visible.vehicleHUD && (
@@ -121,6 +168,15 @@ const App = () => {
       )}
       {// <Voice />
       }
+
+      {visible.dialogHUD && (
+        <DialogBox />
+      )}
+
+      {visible.targetEyesHUD && (
+        <TargetEyes />
+      )}
+
     </>
   );
 };

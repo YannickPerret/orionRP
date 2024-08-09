@@ -1,0 +1,26 @@
+.progress__circle {
+    position: relative;
+    width: 100px; // Largeur réduite de moitié
+    height: 50px; // Hauteur réduite de moitié
+    overflow: hidden;
+
+    .progress__svg {
+        width: 100px; // Largeur du SVG réduite de moitié
+        height: 100px; // Hauteur du SVG réduite de moitié
+        transform: rotate(-90deg) scaleX(-1);
+
+        circle {
+            cx: 50; // Coordonnée X du centre du cercle ajustée
+            cy: 50; // Coordonnée Y du centre du cercle ajustée
+            r: 45; // Rayon ajusté pour garder la proportion
+            stroke-width: 10; // Épaisseur de la bordure ajustée
+        }
+    }
+
+    .icon__container {
+        position: absolute;
+        top: 66%;
+        left: 50%;
+        transform: translate(-50%, -48%);
+    }
+}

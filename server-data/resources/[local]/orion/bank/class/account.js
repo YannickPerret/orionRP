@@ -1,12 +1,15 @@
+const { db, r } = require('../../core/server/database.js');
+const { v4: uuid } = require('uuid');
+
 class Account {
-    constructor(id, balance, owner, observer, freeze, history, cardId) {
-        this.id = id;
-        this.balance = balance;
-        this.playerId = owner;
-        this.observer = new Map(observer);
-        this.freeze = freeze;
-        this.history = history;
-        this.cardId = cardId;
+    constructor({ id, balance, owner, observer, freeze, history, cardId }) {
+        this.id = id || uuid();
+        this.balance = balance || 0;
+        this.playerId = owner || null;
+        this.observer = observer || [];
+        this.freeze = freeze || false;
+        this.history = history || [];
+        this.cardId = cardId || null;
         this.maxCardWithdraw = 10000;
     }
 
@@ -15,35 +18,12 @@ class Account {
     }
 
     setBalance(balance) {
-        this.balance += balance;
+        this.balance = this.balance + balance;
     }
 
-    getOwner() {
-        return this.owner;
-    }
-
-    setOwner(owner) {
-        this.owner = owner;
-    }
-
-    getObserver() {
-        return this.observer;
-    }
-
-    setObserver(observer) {
-        this.observer = observer;
-    }
-
-    getFreeze() {
-        return this.freeze;
-    }
-
-    setFreeze(freeze) {
-        this.freeze = freeze;
-    }
-
-    getcardId() {
-        return this.cardId;
+    static async getById(id) {
+        const accountDB = await db.getById('accounts', id);
+        return new Account(accountDB);
     }
 
     setNewCardId(cardId) {
@@ -51,10 +31,10 @@ class Account {
     }
     async save() {
         let result;
-        if (await db.get('accounts', this.id)) {
-          result = await db.update('accounts', this);
+        if (await db.getById('accounts', this.id)) {
+            result = await db.update('accounts', this);
         } else {
-          result = await db.insert('accounts', this);
+            result = await db.insert('accounts', this);
         }
         return result;
     }

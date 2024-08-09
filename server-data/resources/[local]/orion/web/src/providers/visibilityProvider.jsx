@@ -9,11 +9,17 @@ export const VisibilityProvider = ({ children }) => {
   const [visible, setVisible] = useState({
     main: false,
     playerMenu: false,
+    showPlayerHUD: false,
     jobMenu: false,
     amountMenu: false,
     skinCreator: false,
-    bankInterface: false,
+    bankHUD: false,
+    atmHUD: false,
     vehicleHUD: false,
+    inventoryHUD: false,
+    dialogHUD: false,
+    garageHUD: false,
+    targetEyesHUD: false,
   });
 
   // Utiliser useNuiEvent pour écouter les événements NUI spécifiques et mettre à jour la visibilité
@@ -25,9 +31,9 @@ export const VisibilityProvider = ({ children }) => {
     if (!visible) return;
 
     const keyHandler = (e) => {
-      if (["Backspace", "Escape"].includes(e.code)) {
-        sendNui("hideFrame");
-        // Mettre à jour la visibilité si nécessaire
+      // "Backspace", 
+      if (["Escape"].includes(e.code)) {
+        closeAllMenus();
       }
     };
 
@@ -39,16 +45,25 @@ export const VisibilityProvider = ({ children }) => {
   }, [visible]);
 
   // Fonction pour fermer tous les menus
-  const closeAllMenus = () => {
-    setVisibility({
+  const closeAllMenus = async (sendToNui = true) => {
+    setVisible({
       main: false,
+      showPlayerHUD: false,
       playerMenu: false,
       jobMenu: false,
       amountMenu: false,
       skinCreator: false,
-      bankInterface: false,
+      inventoryHUD: false,
       vehicleHUD: false,
+      bankHUD: false,
+      atmHUD: false,
+      dialogHUD: false,
+      garageHUD: false,
+      targetEyesHUD: false,
     });
+    if (sendToNui) {
+      await sendNui("hideFrame");
+    }
   };
 
   return (
