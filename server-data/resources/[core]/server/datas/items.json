@@ -1,0 +1,21 @@
+[
+    {
+      "name": "Pain",
+      "description": "Un délicieux pain frais.",
+      "image": "images/bread.png",
+      "stackable": true,
+      "usable": true,
+      "giveable": true,
+      "effects": [{"type": "hunger", "amount": 20}]
+    },
+    {
+      "name": "Eau",
+      "description": "Une bouteille d'eau pure.",
+      "image": "images/water.png",
+      "stackable": true,
+      "usable": true,
+      "giveable": true,
+      "effects": [{"type": "thirst", "amount": 20}]
+    }
+  ]
+  
