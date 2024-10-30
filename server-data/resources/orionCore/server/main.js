@@ -1,4 +1,3 @@
-// server/main.js
 require('reflect-metadata');
 const { DataSource } = require('typeorm');
 const db = require('./db.js');
