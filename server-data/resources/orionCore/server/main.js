@@ -1,4 +1,3 @@
-    const AppDataSource = require('./databases/database.js');
 
     // Initialisation du serveur
     on('onServerResourceStart', (resourceName) => {
