@@ -1,5 +1,3 @@
-(async () => {
-
     require('reflect-metadata');
     const { DataSource } = require('typeorm');
     const {dbConfig} = require('./database.js');
@@ -38,5 +36,3 @@
             console.log('Le serveur est prêt');
         }).catch(error => console.log('Erreur de connexion à la base de données:', error));
     });
-
-})();
