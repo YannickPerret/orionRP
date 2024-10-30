@@ -1,7 +1,5 @@
 // server/models/Player.js
-const { EntitySchema } = require('typeorm');
-
-module.exports = new EntitySchema({
+const player = new EntitySchema({
     name: 'Player',
     tableName: 'players',
     columns: {
@@ -40,3 +38,5 @@ module.exports = new EntitySchema({
         },
     },
 });
+
+module.exports = player;

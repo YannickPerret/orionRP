@@ -1,7 +1,5 @@
 // server/models/InventoryItem.js
-const { EntitySchema } = require('typeorm');
-
-module.exports = new EntitySchema({
+const inventoryItem = new EntitySchema({
     name: 'InventoryItem',
     tableName: 'inventory_items',
     columns: {
@@ -29,3 +27,5 @@ module.exports = new EntitySchema({
         },
     },
 });
+
+module.exports = inventoryItem;
