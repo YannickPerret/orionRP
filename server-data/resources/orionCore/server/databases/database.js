@@ -1,8 +1,5 @@
 require('reflect-metadata');
 const { DataSource } = require('typeorm');
-const path = require('path');
-console.log('where im i?', path.dirname())
-
 
 const User = require('../models/User.js');
 const Inventory = require('../models/Inventory.js');
