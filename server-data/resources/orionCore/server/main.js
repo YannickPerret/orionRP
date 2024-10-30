@@ -1,12 +1,4 @@
-    require('reflect-metadata');
-    const { DataSource } = require('typeorm');
-
-    // Créer une instance de DataSource
-    const AppDataSource = new DataSource(dbConfig);
-
-    // Exporter AppDataSource pour l'utiliser dans d'autres modules
-    module.exports = { AppDataSource };
-
+    
     // Initialisation du serveur
     on('onServerResourceStart', (resourceName) => {
         if (GetCurrentResourceName() !== resourceName) return;

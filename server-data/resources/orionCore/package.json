@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "cd web && npm run dev"
+    "dev": "cd web && npm run dev",
+    "typeorm": "typeorm-ts-node-commonjs",
+"migration:generate": "typeorm migration:generate server/databases/migrations -d server/databases/database.js --outputJs",
+"migration:run": "typeorm migration:run -d server/databases/database.js",
+"migration:revert": "typeorm migration:revert -d server/databases/database.js"
   },
   "keywords": [],
   "author": "",

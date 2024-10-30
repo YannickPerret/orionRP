@@ -1,4 +1,3 @@
-// server/controllers/itemController.js
 const { AppDataSource } = require('../main');
 const Item = require('../models/Item');
 const inventoryController = require('./Inventory');
@@ -20,7 +19,7 @@ module.exports = {
         }
 
         // Retirer l'item de l'inventaire du joueur
-        const playerRepository = AppDataSource.getRepository('Player');
+        const playerRepository = AppDataSource.getRepository('Character');
         const player = await playerRepository.findOne({ where: { id: playerId }, relations: ['inventory'] });
 
         if (player) {
@@ -39,4 +38,21 @@ module.exports = {
         await itemRepository.save(item);
         return item;
     },
+
+    async getItemMetadata(itemId) {
+        const itemRepository = AppDataSource.getRepository('Item');
+        const item = await itemRepository.findOne({ where: { id: itemId } });
+
+        if (!item) {
+            console.log(`Item introuvable: ${itemId}`);
+            return null;
+        }
+
+        return item.metadata || {};
+    },
+
+    async hasMetadata(itemId, key) {
+        const metadata = await this.getItemMetadata(itemId);
+        return metadata && metadata.hasOwnProperty(key);
+    }
 };

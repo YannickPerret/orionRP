@@ -1,40 +1,39 @@
-// server/models/Item.js
-const item = new EntitySchema({
-    name: 'Item',
-    tableName: 'items',
-    columns: {
-        id: {
-            type: Number,
-            primary: true,
-            generated: true,
-        },
-        name: {
-            type: String,
-            unique: true,
-        },
-        description: {
-            type: String,
-        },
-        image: {
-            type: String,
-        },
-        stackable: {
-            type: Boolean,
-            default: true,
-        },
-        usable: {
-            type: Boolean,
-            default: false,
-        },
-        giveable: {
-            type: Boolean,
-            default: true,
-        },
-        effects: {
-            type: 'simple-json',
-            nullable: true,
-        },
-    },
-});
+const { EntitySchema } = require('typeorm');
 
-module.exports = item;
+module.exports = new EntitySchema({
+  name: "Item",
+  tableName: "items",
+  columns: {
+    id: {
+      primary: true,
+      type: "int",
+      generated: true,
+    },
+    name: {
+      type: "varchar",
+      unique: true,
+    },
+    description: {
+      type: "text",
+    },
+    image: {
+      type: "varchar",
+    },
+    stackable: {
+      type: "boolean",
+      default: true,
+    },
+    usable: {
+      type: "boolean",
+      default: false,
+    },
+    effects: {
+      type: "simple-json",
+      nullable: true,
+    },
+    metadata: {
+      type: "simple-json",
+      nullable: true,
+    },
+  },
+});
