@@ -33,5 +33,5 @@
 
 
             console.log('Le serveur est prêt');
-        }).catch(error => console.log('Erreur de connexion à la base de données:', error));
+        }).catch(error => console.log('Erreur :', error));
     });

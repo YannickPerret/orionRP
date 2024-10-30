@@ -11,6 +11,7 @@ files {
     'html/ui/style.css',
     'html/ui/script.js',
     'server/datas/items.json',
+    'server/scripts/*.js',
     'server/database.js',
 }
 
