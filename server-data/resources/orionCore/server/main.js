@@ -8,7 +8,7 @@ const AppDataSource = require('./server/databases/database.js');
             console.log('Connecté à la base de données MySQL avec TypeORM');
 
             // Initialiser les items
-            const initItems = require('./server/scripts/initItems.js');
+            const initItems = require('./scripts/initItems.js');
             await initItems();
 
             // Importer les événements serveur
