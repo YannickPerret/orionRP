@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = async function initItems() {
+async function initItems() {
     const itemRepository = AppDataSource.getRepository('Item');
 
     // Déterminer le chemin absolu vers le fichier items.json
@@ -28,3 +28,5 @@ module.exports = async function initItems() {
         }
     }
 };
+
+module.exports = initItems;
