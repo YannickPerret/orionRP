@@ -21,6 +21,7 @@ client_scripts {
 
 server_scripts {
     '@orionCore/node_modules/reflect-metadata/Reflect.js',
+    'server/database.js',
     'server/main.js',
 }
 
