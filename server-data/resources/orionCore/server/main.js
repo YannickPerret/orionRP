@@ -16,9 +16,7 @@
             console.log('Connecté à la base de données MySQL avec TypeORM');
 
             // Initialiser les items
-            const resourceName = GetCurrentResourceName();
-            const initItems = require(`@${resourceName}/server/scripts/initItems.js`);
-        
+            const initItems = require('./scripts/initItems.js');
             await initItems();
 
             // Importer les événements serveur
