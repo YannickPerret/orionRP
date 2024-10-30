@@ -1,38 +1,42 @@
-require('reflect-metadata');
-const { DataSource } = require('typeorm');
-const db = require('./database.js');
+(async () => {
 
-// Créer une instance de DataSource
-const AppDataSource = new DataSource(db);
+    require('reflect-metadata');
+    const { DataSource } = require('typeorm');
+    const db = require('./database.js');
 
-// Exporter AppDataSource pour l'utiliser dans d'autres modules
-module.exports = { AppDataSource };
+    // Créer une instance de DataSource
+    const AppDataSource = new DataSource(db);
 
-// Initialisation du serveur
-on('onServerResourceStart', (resourceName) => {
-    if (GetCurrentResourceName() !== resourceName) return;
+    // Exporter AppDataSource pour l'utiliser dans d'autres modules
+    module.exports = { AppDataSource };
 
-    // Initialisation de la base de données
-    AppDataSource.initialize().then(async () => {
-        console.log('Connecté à la base de données MySQL avec TypeORM');
+    // Initialisation du serveur
+    on('onServerResourceStart', (resourceName) => {
+        if (GetCurrentResourceName() !== resourceName) return;
 
-        // Initialiser les items
-        const initItems = require('./scripts/initItems.js');
-        await initItems();
+        // Initialisation de la base de données
+        AppDataSource.initialize().then(async () => {
+            console.log('Connecté à la base de données MySQL avec TypeORM');
 
-        // Importer les événements serveur
-        require('./events/playerEvents.js');
-        require('./events/itemEvents.js');
-        require('./events/inventoryEvents.js');
+            // Initialiser les items
+            const initItems = require('./scripts/initItems.js');
+            await initItems();
 
-        const playerController = require('./controllers/Player.js');
+            // Importer les événements serveur
+            require('./events/playerEvents.js');
+            require('./events/itemEvents.js');
+            require('./events/inventoryEvents.js');
 
-
-        setInterval(async () => {
-            await playerController.decreasePlayerNeeds();
-        }, 60000);
+            const playerController = require('./controllers/Player.js');
 
 
-        console.log('Le serveur est prêt');
-    }).catch(error => console.log('Erreur de connexion à la base de données:', error));
-});
+            setInterval(async () => {
+                await playerController.decreasePlayerNeeds();
+            }, 60000);
+
+
+            console.log('Le serveur est prêt');
+        }).catch(error => console.log('Erreur de connexion à la base de données:', error));
+    });
+
+})();
