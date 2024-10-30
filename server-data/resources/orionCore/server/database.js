@@ -8,10 +8,10 @@ const dbConfig = {
     synchronize: true, // Attention : à utiliser uniquement en développement
     logging: false,
     entities: [
-        'server/models/*.js'
+        './models/*.js'
     ],
     migrations: [],
     subscribers: [],
 }
 
-module.exports = dbConfig;
+module.exports = {dbConfig};
