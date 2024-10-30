@@ -1,4 +1,5 @@
 // server/models/Inventory.js
+const { EntitySchema } = require('typeorm');
 const inventory = new EntitySchema({
     name: 'Inventory',
     tableName: 'inventories',
