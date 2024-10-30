@@ -2,12 +2,12 @@ require('reflect-metadata');
 const { DataSource } = require('typeorm');
 const path = require('path');
 
-const User = require('../models/User');
-const Inventory = require('../models/Inventory');
-const InventoryItem = require('../models/InventoryItem');
-const Item = require('../models/Item');
-const Vehicle = require('../models/Vehicle');
-const Character = require('../models/Character');
+const User = require('../models/User.js');
+const Inventory = require('../models/Inventory.js');
+const InventoryItem = require('../models/InventoryItem.js');
+const Item = require('../models/Item.js');
+const Vehicle = require('../models/Vehicle.js');
+const Character = require('../models/Character.js');
 
 const dbConfig = {
     type: 'mysql',
