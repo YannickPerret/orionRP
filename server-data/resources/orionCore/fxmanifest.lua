@@ -11,7 +11,6 @@ files {
     'html/ui/style.css',
     'html/ui/script.js',
     'server/datas/items.json',
-    'server/models/*.js',
 }
 
 client_scripts {
