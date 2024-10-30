@@ -20,7 +20,7 @@ const dbConfig = {
     logging: true,
     entities: [User, Inventory, InventoryItem, Item, Vehicle, Character],
     migrations: [
-        path.join(__dirname, 'migrations', '*.js')
+        './server/databases/migrations/*.js',
     ],
     migrationsTableName: "migration_versions",
 };
