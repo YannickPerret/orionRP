@@ -1,6 +1,4 @@
 // server/scripts/initItems.js
-const { AppDataSource } = require('../main.js');
-const Item = require('../models/Item.js');
 const fs = require('fs');
 const path = require('path');
 
