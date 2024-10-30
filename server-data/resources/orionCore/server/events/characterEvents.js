@@ -1,10 +1,8 @@
-const userController = require('../controllers/User');
-const characterController = require('../controllers/Character');
+const userController = require('../controllers/User.js');
 
 on('playerConnecting', (name, setKickReason, deferrals) => {
   deferrals.defer();
   const _source = global.source;
-
   userController.handleUserConnecting(_source, name, deferrals);
 });
 

@@ -1,7 +1,6 @@
-const { AppDataSource } = require('../main');
-const Item = require('../models/Item');
-const inventoryController = require('./Inventory');
-const playerController = require('./Player');
+const AppDataSource = require('../databases/database.js');
+const inventoryController = require('./Inventory.js');
+const characterController = require('./Character.js');
 
 module.exports = {
     async useItem(playerId, itemId) {
@@ -15,12 +14,12 @@ module.exports = {
 
         // Appliquer les effets de l'item sur les besoins du joueur
         if (item.effects) {
-            await playerController.applyItemEffects(playerId, item.effects);
+            await characterController.applyItemEffects(playerId, item.effects);
         }
 
         // Retirer l'item de l'inventaire du joueur
-        const playerRepository = AppDataSource.getRepository('Character');
-        const player = await playerRepository.findOne({ where: { id: playerId }, relations: ['inventory'] });
+        const characterRepository = AppDataSource.getRepository('Character');
+        const player = await characterRepository.findOne({ where: { id: playerId }, relations: ['inventory'] });
 
         if (player) {
             await inventoryController.removeItemFromInventory(player.inventory, itemId, 1);

@@ -1,4 +1,4 @@
-const { AppDataSource } = require('../main');
+const AppDataSource = require('../databases/database.js');
 const Character = require('../models/Character');
 
 module.exports = {

@@ -20,13 +20,15 @@ files {
     'server/models/Item.js',
     'server/models/Vehicle.js',
     'server/models/Character.js',
+     'server/controllers/*.js',
+    'server/events/*.js',
+    'server/utils/*.js',
     'server/databases/database.js',
     'server/scripts/initItems.js',
 }
 
 client_scripts {
     'client/main.js',
-    'client/*.js',
 }
 
 server_scripts {

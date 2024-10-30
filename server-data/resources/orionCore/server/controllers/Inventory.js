@@ -1,8 +1,5 @@
 // server/controllers/inventoryController.js
-const { AppDataSource } = require('../main');
-const Inventory = require('../models/Inventory');
-const InventoryItem = require('../models/InventoryItem');
-const Item = require('../models/Item');
+const AppDataSource = require('../databases/database.js');
 
 module.exports = {
     async createInventory() {

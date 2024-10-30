@@ -1,6 +1,5 @@
-const { AppDataSource } = require('../main');
-const User = require('../models/User');
-const inventoryController = require('./Inventory');
+const AppDataSource = require('../databases/database.js');
+const inventoryController = require('./Inventory.js');
 
 module.exports = {
   async handleUserConnecting(playerId, name, deferrals) {

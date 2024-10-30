@@ -5,22 +5,22 @@ const AppDataSource = require('./server/databases/database.js');
 
         // Initialisation de la base de données
         AppDataSource.initialize().then(async () => {
-            console.log('Connecté à la base de données MySQL avec TypeORM');
+            console.log('Connecté à la base de données de Orion');
 
             // Initialiser les items
-            const initItems = require('./scripts/initItems.js');
+            const initItems = require('./server/scripts/initItems.js');
             await initItems();
 
             // Importer les événements serveur
-            require('./server/events/playerEvents.js');
+            require('./server/events/characterEvents.js');
             require('./server/events/itemEvents.js');
             require('./server/events/inventoryEvents.js');
 
-            const playerController = require('./server/controllers/Player.js');
+            const characterController = require('./server/controllers/Character.js');
 
 
             setInterval(async () => {
-                await playerController.decreasePlayerNeeds();
+                await characterController.decreasePlayerNeeds();
             }, 60000);
 
 
