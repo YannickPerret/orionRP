@@ -1,7 +1,7 @@
 // server/main.js
 require('reflect-metadata');
 const { DataSource } = require('typeorm');
-const ormconfig = require('./db.js');
+const ormconfig = require('./db');
 
 // Créer une instance de DataSource
 const AppDataSource = new DataSource(ormconfig);
@@ -28,7 +28,7 @@ on('onServerResourceStart', (resourceName) => {
 
         const playerController = require('./controllers/Player.js');
 
-        
+
         setInterval(async () => {
             await playerController.decreasePlayerNeeds();
         }, 60000);

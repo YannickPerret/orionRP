@@ -1,4 +1,4 @@
-export const config = {
+export default config = {
     hunger: {
         max: 100,
         decayRate: 0.5, // Diminution de la faim par minute
