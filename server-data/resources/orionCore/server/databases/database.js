@@ -8,6 +8,8 @@ const Item = require('../models/Item.js');
 const Vehicle = require('../models/Vehicle.js');
 const Character = require('../models/Character.js');
 
+console.log('where im i?', __dirname)
+
 const dbConfig = {
     type: 'mysql',
     host: 'localhost',
