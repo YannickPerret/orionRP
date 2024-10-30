@@ -8,7 +8,7 @@ const dbConfig = {
     synchronize: true, // Attention : à utiliser uniquement en développement
     logging: false,
     entities: [
-        './models/*.js'
+        './server/models/*.js'
     ],
     migrations: [],
     subscribers: [],

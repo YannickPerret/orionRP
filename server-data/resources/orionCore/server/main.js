@@ -20,11 +20,11 @@
             await initItems();
 
             // Importer les événements serveur
-            require('./events/playerEvents.js');
-            require('./events/itemEvents.js');
-            require('./events/inventoryEvents.js');
+            require('./server/events/playerEvents.js');
+            require('./server/events/itemEvents.js');
+            require('./server/events/inventoryEvents.js');
 
-            const playerController = require('./controllers/Player.js');
+            const playerController = require('./server/controllers/Player.js');
 
 
             setInterval(async () => {
