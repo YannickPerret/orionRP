@@ -1,5 +1,5 @@
     require('reflect-metadata');
-    const { DataSource } = require('typeorm');
+    const { DataSource, EntitySchema } = require('typeorm');
 
     // Créer une instance de DataSource
     const AppDataSource = new DataSource(dbConfig);
