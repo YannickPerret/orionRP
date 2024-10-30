@@ -1,5 +1,4 @@
-
-module.exports = {
+const db = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
@@ -13,4 +12,6 @@ module.exports = {
     ],
     migrations: [],
     subscribers: [],
-  };
+}
+
+module.exports = {db};

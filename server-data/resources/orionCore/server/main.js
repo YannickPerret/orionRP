@@ -1,10 +1,10 @@
 // server/main.js
 require('reflect-metadata');
 const { DataSource } = require('typeorm');
-const ormconfig = require('./db');
+const {db} = require('./db.js');
 
 // Créer une instance de DataSource
-const AppDataSource = new DataSource(ormconfig);
+const AppDataSource = new DataSource(db);
 
 // Exporter AppDataSource pour l'utiliser dans d'autres modules
 module.exports = { AppDataSource };
