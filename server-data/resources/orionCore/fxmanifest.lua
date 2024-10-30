@@ -10,7 +10,6 @@ files {
     'html/ui/index.html',
     'html/ui/style.css',
     'html/ui/script.js',
-    'server/models/*.js',
     'server/datas/items.json',
 }
 
