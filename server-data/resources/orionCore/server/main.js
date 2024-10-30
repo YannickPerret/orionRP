@@ -1,9 +1,8 @@
     require('reflect-metadata');
     const { DataSource } = require('typeorm');
-    const {lol} = require('./database.js');
 
     // Créer une instance de DataSource
-    const AppDataSource = new DataSource(lol);
+    const AppDataSource = new DataSource(dbConfig);
 
     // Exporter AppDataSource pour l'utiliser dans d'autres modules
     module.exports = { AppDataSource };
