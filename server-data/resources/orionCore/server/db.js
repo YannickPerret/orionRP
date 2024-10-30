@@ -1,4 +1,4 @@
-const db = {
+const dbConfig = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
@@ -14,4 +14,4 @@ const db = {
     subscribers: [],
 }
 
-module.exports = db;
+module.exports = dbConfig;
