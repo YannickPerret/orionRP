@@ -4,6 +4,9 @@ game 'gta5'
 author 'Tchoune'
 description 'Core du serveur FiveM'
 
+ui_page 'html/ui/index.html'
+
+
 shared_script 'config/config.js'
 
 files {
@@ -31,5 +34,4 @@ server_scripts {
     'server/main.js',
 }
 
-ui_page 'html/ui/index.html'
 
