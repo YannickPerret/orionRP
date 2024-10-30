@@ -24,5 +24,5 @@ files {
     'html/ui/style.css',
     'html/ui/script.js',
     'html/ui/images/*.*',
-    'server/data/items.json',
+    'server/datas/items.json',
 }
