@@ -15,9 +15,13 @@ client_scripts {
 }
 
 server_scripts {
-    '@[core]/node_modules/reflect-metadata/Reflect.js', 
-    'server/app.js',
-    'server/**/*.js',
+    '@[core]/node_modules/reflect-metadata/Reflect.js',
+    'server/main.js',
+    'server/controllers/*.js',
+    'server/models/*.js',
+    'server/events/*.js',
+    'server/scripts/*.js',
+    'server/utils/*.js',
 }
 
 ui_page 'html/ui/index.html'

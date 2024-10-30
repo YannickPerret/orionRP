@@ -25,9 +25,10 @@ on('onServerResourceStart', (resourceName) => {
         require('./events/playerEvents.js');
         require('./events/itemEvents.js');
         require('./events/inventoryEvents.js');
-        // ... importer d'autres événements si nécessaire
 
-        const playerController = require('./controllers/playerController.js');
+        const playerController = require('./controllers/Player.js');
+
+        
         setInterval(async () => {
             await playerController.decreasePlayerNeeds();
         }, 60000);

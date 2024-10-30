@@ -1,7 +1,7 @@
 // server/controllers/playerController.js
 const { AppDataSource } = require('../main');
 const Player = require('../models/Player');
-const inventoryController = require('./inventory');
+const inventoryController = require('./Inventory');
 
 module.exports = {
     async handlePlayerConnecting(playerId, name, deferrals) {
