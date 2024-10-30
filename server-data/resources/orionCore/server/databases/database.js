@@ -1,5 +1,7 @@
 require('reflect-metadata');
 const { DataSource } = require('typeorm');
+console.log('where im i?', __dirname)
+
 
 const User = require('../models/User.js');
 const Inventory = require('../models/Inventory.js');
@@ -8,7 +10,6 @@ const Item = require('../models/Item.js');
 const Vehicle = require('../models/Vehicle.js');
 const Character = require('../models/Character.js');
 
-console.log('where im i?', __dirname)
 
 const dbConfig = {
     type: 'mysql',

@@ -12,7 +12,6 @@ files {
     'html/ui/script.js',
     'server/datas/items.json',
     'server/models/*.js',
-    'server/scripts/initItems.js',
 }
 
 client_scripts {
@@ -22,6 +21,13 @@ client_scripts {
 
 server_scripts {
     '@orionCore/node_modules/reflect-metadata/Reflect.js',
+    'server/models/User.js',
+    'server/models/Inventory.js',
+    'server/models/InventoryItem.js',
+    'server/models/Item.js',
+    'server/models/Vehicle.js',
+    'server/models/Character.js',
+    'server/scripts/initItems.js',
     'server/databases/database.js',
     'server/main.js',
 }
