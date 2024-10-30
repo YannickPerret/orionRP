@@ -1,7 +1,6 @@
 // server/scripts/initItems.js
 const fs = require('fs');
 const path = require('path');
-const Item = require('./server/models/Item.js');
 
 async function initItems() {
     const itemRepository = AppDataSource.getRepository(Item);
