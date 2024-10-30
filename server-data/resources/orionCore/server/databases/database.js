@@ -19,7 +19,7 @@ const dbConfig = {
     logging: true,
     entities: [User, Inventory, InventoryItem, Item, Vehicle, Character],
     migrations: [
-        './server/databases/migrations/*.js',
+        './server/databases/migrations/1730285117518-migrations.js',
     ],
     migrationsTableName: "migration_versions",
 };
