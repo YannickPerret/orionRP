@@ -8,10 +8,10 @@ const db = {
     synchronize: true, // Attention : à utiliser uniquement en développement
     logging: false,
     entities: [
-        __dirname + '/models/*.js'
+        'server/models/*.js'
     ],
     migrations: [],
     subscribers: [],
 }
 
-module.exports = {db};
+module.exports = db;

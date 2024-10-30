@@ -1,7 +1,7 @@
 // server/main.js
 require('reflect-metadata');
 const { DataSource } = require('typeorm');
-const {db} = require('./db.js');
+const db = require('./db.js');
 
 // Créer une instance de DataSource
 const AppDataSource = new DataSource(db);
