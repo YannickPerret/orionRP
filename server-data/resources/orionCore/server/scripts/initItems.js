@@ -1,9 +1,10 @@
 // server/scripts/initItems.js
 const fs = require('fs');
 const path = require('path');
+const Item = require('../models/Item');
 
 async function initItems() {
-    const itemRepository = AppDataSource.getRepository('Item');
+    const itemRepository = AppDataSource.getRepository(Item);
 
     // Déterminer le chemin absolu vers le fichier items.json
     const itemsFilePath = path.join(__dirname, '..', 'datas', 'items.json');
