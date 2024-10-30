@@ -6,7 +6,7 @@ async function initItems() {
     const itemRepository = AppDataSource.getRepository('Item');
 
     // Déterminer le chemin absolu vers le fichier items.json
-    const itemsFilePath = path.join(__dirname, '..', 'data', 'items.json');
+    const itemsFilePath = path.join(__dirname, '..', 'datas', 'items.json');
 
     // Vérifier si le fichier existe
     if (!fs.existsSync(itemsFilePath)) {
