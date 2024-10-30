@@ -11,8 +11,11 @@ client_scripts {
     'client/*.js',
 }
 
-server_script 'server/main.js'
-
+server_scripts {
+    '@orionCore/node_modules/reflect-metadata/Reflect.js',
+    'server/db.js',
+    'server/main.js',
+}
 
 ui_page 'html/ui/index.html'
 
