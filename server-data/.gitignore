@@ -2,3 +2,4 @@ cache/
 .replxx_history
 build/
 package-lock.json
+.idea
