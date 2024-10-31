@@ -1,3 +1,23 @@
+on('onClientGameTypeStart', () => {
+    exports.spawnmanager.setAutoSpawnCallback(() => {
+        exports.spawnmanager.spawnPlayer({
+            x: spawnPos[0],
+            y: spawnPos[1],
+            z: spawnPos[2],
+            model: 'a_m_m_skater_01'
+        }, () => {
+            emit('chat:addMessage', {
+                args: [
+                    'Welcome to the party!~'
+                ]
+            })
+        });
+    });
+
+    exports.spawnmanager.setAutoSpawn(true)
+    exports.spawnmanager.forceRespawn()
+});
+
 on('onClientResourceStart', (resourceName) => {
     if (GetCurrentResourceName() !== resourceName) return;
     console.log('Ressource client démarrée : ' + resourceName);
@@ -33,33 +53,12 @@ on('onClientResourceStart', (resourceName) => {
 });
 
 on('playerSpawned', () => {
-    setTick(async () => {
+    let tick = setTick(async () => {
         if (NetworkIsSessionStarted()) {
-            emitNet('orionCore:requestCharacterData');
+            emitNet('orionCore:server:requestPlayerData');
+            clearTick(tick);
             return false;
         }
         await Wait(1000);
     });
-});
-
-onNet('orionCore:sendCharacterData', (characterData) => {
-    const playerPed = PlayerPedId();
-
-    // Appliquer la position du personnage
-    SetEntityCoords(playerPed, characterData.position.x, characterData.position.y, characterData.position.z, false, false, false, true);
-
-    // Apparence et habits
-    SetPedComponentVariation(playerPed, characterData.model);
-    characterData.clothes.forEach(part => SetPedComponentVariation(playerPed, part.componentId, part.drawableId, part.textureId, 0));
-
-    // Armes
-    characterData.weapons.forEach(weapon => GiveWeaponToPed(playerPed, GetHashKey(weapon), 250, false, true));
-
-    console.log("Données de personnage appliquées côté client après spawn");
-});
-
-// Gère l'ouverture de l'interface de création de personnage si aucun personnage n'existe
-onNet('orionCore:openCharacterCreation', () => {
-    console.log("Ouvrir l'interface de création de personnage");
-    // Code pour afficher l'interface de création de personnage
 });

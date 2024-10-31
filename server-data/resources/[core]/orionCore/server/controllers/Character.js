@@ -1,4 +1,8 @@
 const AppDataSource = require('../databases/database.js');
+const User = require("../models/User");
+const Character = require("../models/Character");
+const PlayerManagerService = require("../services/PlayerManagerServices");
+
 module.exports = {
   async createCharacter(userId, characterData) {
     const characterRepository = AppDataSource.getRepository('Character');
@@ -67,4 +71,30 @@ module.exports = {
       emitNet('core:updateCharacterNeeds', characterId, character);
     }
   },
+
+  async loginToCharacter(playerId, identifier) {
+    if (!playerId) throw new Error('Erreur: `playerId` est null ou non défini');
+    if (!identifier) throw new Error(`Erreur: identifiant introuvable pour le playerId ${playerId}`);
+
+    try {
+      const userRepository = AppDataSource.getRepository(User);
+      const user = await userRepository.findOne({
+        where: { identifier },
+        relations: ['characters', 'role'],
+      });
+
+      if (user && user.activeCharacter) {
+        const characterRepository = AppDataSource.getRepository(Character);
+        const character = await characterRepository.findOne({ where: { id: user.activeCharacter } });
+        if (character) {
+          PlayerManagerService.addPlayer(playerId, user);
+          return character;
+        }
+      }
+      throw new Error(`Aucun personnage actif trouvé pour l'utilisateur ${user ? user.username : 'inconnu'}`);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données du personnage:', error);
+      throw error;
+    }
+  }
 };

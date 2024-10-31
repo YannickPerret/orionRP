@@ -1,7 +1,5 @@
 const AppDataSource = require('../databases/database.js');
 const PlayerManagerService = require('../services/PlayerManagerServices.js');
-const CharacterController = require('./Character.js');
-
 
 module.exports = {
   isAdmin(playerId) {
@@ -32,16 +30,15 @@ module.exports = {
 
       let user = await userRepository.findOne({
         where: { identifier },
-        relations: ['characters', 'role'],
+        relations: ['role'],
       });
 
       if (!user) {
         deferrals.done('Vous n\'êtes pas enregistré sur la whitelist.');
         return;
       }
-      user.source = playerId;
-      PlayerManagerService.addPlayer(playerId, user);
 
+      console.log(`Utilisateur ${user.role.name}:${name} connecté avec succès`);
       deferrals.update(`Bienvenue, ${name}. Connexion en cours...`);
       deferrals.done();
     } catch (error) {

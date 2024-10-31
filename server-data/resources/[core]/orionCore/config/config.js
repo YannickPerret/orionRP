@@ -4,6 +4,19 @@ global.config = {
         halloween: true,
     },
     character: {
+        defaultPosition: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        creator:{
+            position: {
+                x: -817.160462,
+                y: -931.239562,
+                z: 15.642456,
+            },
+            headingPosition : 235.275588,
+        },
         monney: 500,
         bank: 0,
         healthRegen: 0.0,

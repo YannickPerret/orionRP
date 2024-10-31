@@ -1,5 +1,4 @@
 const PlayerManagerService = require("./server/services/PlayerManagerServices.js");
-const { handleUserConnecting } = require("./server/controllers/User.js");
 
 RegisterCommand('login', async (source) => {
     const playerId = source;

@@ -21,6 +21,10 @@ class PlayerManagerService {
     getPlayer(playerId) {
         return this.players.get(playerId);
     }
+
+    getAllPlayers() {
+        return this.players;
+    }
 }
 
 module.exports = new PlayerManagerService();

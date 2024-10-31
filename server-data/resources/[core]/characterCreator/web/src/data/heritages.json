@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Father1",
+    "image": "/images/heritages/father1.png",
+    "type": "dad"
+  },
+  {
+    "name": "Mother1",
+    "image": "/images/heritages/mother1.png",
+    "type": "mom"
+  },
+  {
+    "name": "Father2",
+    "image": "/images/heritages/father2.png",
+    "type": "dad"
+  },
+  {
+    "name": "Mother2",
+    "image": "/images/heritages/mother2.png",
+    "type": "mom"
+  }
+]

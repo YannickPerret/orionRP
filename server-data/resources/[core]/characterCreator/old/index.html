@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Creation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white">
+
+<div id="character-creation" class="absolute right-10 top-1/4 max-w-xs space-y-6">
+    <!-- Step Header -->
+    <div class="text-center text-2xl font-semibold">
+        <span id="step-title">Step 1: DNA</span>
+    </div>
+
+    <!-- Step 1: DNA -->
+    <div id="step-1" class="step">
+        <div class="space-y-4">
+            <div class="flex justify-between">
+                <button class="w-1/2 py-2 text-center bg-green-600 hover:bg-green-700" onclick="setGender('Male')">Male</button>
+                <button class="w-1/2 py-2 text-center bg-green-600 hover:bg-green-700" onclick="setGender('Female')">Female</button>
+            </div>
+            <input type="text" id="first-name" placeholder="First Name" class="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none">
+            <input type="text" id="last-name" placeholder="Last Name" class="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none">
+            <input type="text" id="height" placeholder="Height" class="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none">
+            <input type="date" id="birth-date" class="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none">
+            <div class="space-y-2">
+                <label class="block text-sm">Heritage</label>
+                <select id="heritage-dad" class="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none">
+                    <!-- Add heritage options here -->
+                </select>
+                <select id="heritage-mom" class="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none">
+                    <!-- Add heritage options here -->
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Appearance & Hairiness -->
+    <div id="step-2" class="step hidden space-y-4">
+        <label class="block text-sm">Hair Style</label>
+        <input type="range" min="0" max="80" value="0" class="w-full slider" id="hair-style">
+
+        <label class="block text-sm">Primary Hair Color</label>
+        <input type="range" min="0" max="63" value="0" class="w-full slider" id="hair-primary-color">
+
+        <label class="block text-sm">Secondary Hair Color</label>
+        <input type="range" min="0" max="63" value="0" class="w-full slider" id="hair-secondary-color">
+
+        <label class="block text-sm">Eyebrow Style</label>
+        <input type="range" min="0" max="20" value="0" class="w-full slider" id="eyebrow-style">
+
+        <label class="block text-sm">Beard Style</label>
+        <input type="range" min="0" max="20" value="0" class="w-full slider" id="beard-style">
+    </div>
+
+    <!-- Step 3: Facial Features -->
+    <div id="step-3" class="step hidden space-y-4">
+        <label class="block text-sm">Nose Width</label>
+        <input type="range" min="0" max="10" value="5" class="w-full slider" id="nose-width">
+
+        <label class="block text-sm">Nose Height</label>
+        <input type="range" min="0" max="10" value="5" class="w-full slider" id="nose-height">
+
+        <label class="block text-sm">Nose Length</label>
+        <input type="range" min="0" max="10" value="5" class="w-full slider" id="nose-length">
+
+        <label class="block text-sm">Eyebrow Depth</label>
+        <input type="range" min="0" max="10" value="5" class="w-full slider" id="eyebrow-depth">
+
+        <label class="block text-sm">Lip Fullness</label>
+        <input type="range" min="0" max="10" value="5" class="w-full slider" id="lip-fullness">
+    </div>
+
+    <!-- Step 4: Clothing -->
+    <div id="step-4" class="step hidden space-y-4">
+        <label class="block text-sm">T-shirt Style</label>
+        <input type="range" min="0" max="200" value="0" class="w-full slider" id="tshirt-style">
+
+        <label class="block text-sm">Torso Style</label>
+        <input type="range" min="0" max="100" value="0" class="w-full slider" id="torso-style">
+
+        <label class="block text-sm">Legs Style</label>
+        <input type="range" min="0" max="100" value="0" class="w-full slider" id="legs-style">
+
+        <label class="block text-sm">Shoes Style</label>
+        <input type="range" min="0" max="50" value="0" class="w-full slider" id="shoes-style">
+    </div>
+
+    <!-- Confirm Button -->
+    <div class="flex justify-center mt-4">
+        <button id="confirm-button" class="px-6 py-2 bg-green-600 hover:bg-green-700 rounded" onclick="confirmCharacter()">Confirm</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

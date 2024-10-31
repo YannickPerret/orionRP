@@ -2,8 +2,7 @@ const userController = require('../controllers/User.js');
 
 on('playerConnecting', (name, setKickReason, deferrals) => {
     deferrals.defer();
-    const _source = global.source;
-    userController.handleUserConnecting(_source, name, deferrals);
+    userController.handleUserConnecting(source, name, deferrals);
 });
 
 on('playerDropped', (reason) => {
