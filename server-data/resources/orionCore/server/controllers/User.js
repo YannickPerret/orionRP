@@ -1,7 +1,30 @@
 const AppDataSource = require('../databases/database.js');
-const inventoryController = require('./Inventory.js');
+const PlayerManagerService = require('../services/PlayerManagerServices.js');
+const CharacterController = require('./Character.js');
+
 
 module.exports = {
+  isAdmin(playerId) {
+    return PlayerManagerService.isAdmin(playerId);
+  },
+
+  async assignRoleToUser(userId, roleName) {
+    const userRepository = AppDataSource.getRepository('User');
+    const roleRepository = AppDataSource.getRepository('Role');
+
+    const user = await userRepository.findOne({ where: { id: userId } });
+    const role = await roleRepository.findOne({ where: { name: roleName } });
+
+    if (user && role) {
+      user.role = role;
+      await userRepository.save(user);
+      console.log(`Rôle ${roleName} assigné à l'utilisateur ${user.username}`);
+      return true;
+    }
+    console.log('Utilisateur ou rôle introuvable');
+    return false;
+  },
+
   async handleUserConnecting(playerId, name, deferrals) {
     try {
       const identifier = getPlayerIdentifier(playerId);
@@ -9,24 +32,17 @@ module.exports = {
 
       let user = await userRepository.findOne({
         where: { identifier },
-        relations: ['inventory'],
+        relations: ['characters', 'role'],
       });
 
       if (!user) {
-        // Créer un nouvel utilisateur avec des informations initiales
-        user = userRepository.create({
-          identifier,
-          name,
-          email: '',
-          password: '', // À renseigner lors de l'enregistrement
-          username: name,
-        });
-
-        // Créer l'inventaire de l'utilisateur
-        user.inventory = await inventoryController.createInventory();
-        await userRepository.save(user);
+        deferrals.done('Vous n\'êtes pas enregistré sur la whitelist.');
+        return;
       }
+      user.source = playerId;
+      PlayerManagerService.addPlayer(playerId, user);
 
+      deferrals.update(`Bienvenue, ${name}. Connexion en cours...`);
       deferrals.done();
     } catch (error) {
       console.log('Erreur lors de la connexion de l\'utilisateur:', error);
@@ -41,8 +57,12 @@ module.exports = {
       let user = await userRepository.findOne({ where: { identifier } });
 
       if (user) {
+        userRepository.position = GetEntityCoords(playerId);
         await userRepository.save(user);
       }
+
+      PlayerManagerService.removePlayer(playerId);
+
     } catch (error) {
       console.log('Erreur lors de la déconnexion de l\'utilisateur:', error);
     }
@@ -52,7 +72,7 @@ module.exports = {
 function getPlayerIdentifier(playerId) {
   for (let i = 0; i < GetNumPlayerIdentifiers(playerId); i++) {
     const identifier = GetPlayerIdentifier(playerId, i);
-    if (identifier.includes('license:')) {
+    if (identifier.includes('licence:')) {
       return identifier;
     }
   }

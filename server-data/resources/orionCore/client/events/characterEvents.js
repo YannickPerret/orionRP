@@ -1,0 +1,21 @@
+onNet('orionCore:applyCharacterData', (data) => {
+    const playerPed = PlayerPedId();
+
+    // Position
+    SetEntityCoords(playerPed, data.position.x, data.position.y, data.position.z, false, false, false, true);
+
+    // Apparence et habits
+    SetPedComponentVariation(playerPed, data.model);
+    data.clothes.forEach(part => SetPedComponentVariation(playerPed, part.componentId, part.drawableId, part.textureId, 0));
+
+    // Armes
+    data.weapons.forEach(weapon => GiveWeaponToPed(playerPed, GetHashKey(weapon), 250, false, true));
+
+    console.log("Données de personnage appliquées côté client");
+});
+
+onNet('orionCore:openCharacterCreation', () => {
+    // Ici, vous pouvez afficher une interface côté client pour créer un personnage
+    console.log("Ouvrir l'interface de création de personnage");
+    // Après la création, envoyez les données au serveur
+});

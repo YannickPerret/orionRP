@@ -1,3 +1,6 @@
+const PlayerManagerService = require("./server/services/PlayerManagerServices.js");
+const { handleUserConnecting } = require("./server/controllers/User.js");
+
 RegisterCommand('login', async (source) => {
     const playerId = source;
     const identifier = getPlayerIdentifier(playerId);
@@ -9,13 +12,11 @@ RegisterCommand('login', async (source) => {
     });
 
     if (user) {
-        // Vérifier le rôle et authentifier
-        const isAdmin = user.role.name === 'admin';
-        if (isAdmin) {
-            emitNet('chat:addMessage', playerId, { args: ["Admin", `Reconnexion réussie pour ${user.username}.`] });
-        } else {
-            emitNet('chat:addMessage', playerId, { args: ["Erreur", "Permission refusée pour cette action."] });
-        }
+        PlayerManagerService.removePlayer(playerId);
+        user.source = playerId;
+        PlayerManagerService.addPlayer(playerId, user);
+
+        emitNet('chat:addMessage', playerId, { args: ["Admin", `Reconnexion réussie pour ${user.username}.`] });
     } else {
         emitNet('chat:addMessage', playerId, { args: ["Erreur", "Utilisateur non trouvé."] });
     }

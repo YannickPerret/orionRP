@@ -7,6 +7,7 @@ const InventoryItem = require('../models/InventoryItem.js');
 const Item = require('../models/Item.js');
 const Vehicle = require('../models/Vehicle.js');
 const Character = require('../models/Character.js');
+const Role = require('../models/Role.js');
 
 
 const dbConfig = {
@@ -17,10 +18,10 @@ const dbConfig = {
     password: 'Suplivent27',
     database: 'orion',
     synchronize: false,
-    logging: true,
-    entities: [User, Inventory, InventoryItem, Item, Vehicle, Character],
+    logging: false,
+    entities: [User, Inventory, InventoryItem, Item, Vehicle, Character, Role],
     migrations: [
-        './server/databases/migrations/1730285117518-migrations.js',
+        './server/databases/migrations/*-migrations.js',
     ],
     migrationsTableName: "migration_versions",
 };
@@ -28,3 +29,5 @@ const dbConfig = {
 const AppDataSource = new DataSource(dbConfig)
 
 module.exports = AppDataSource;
+
+//npm run migration:generate -- -- server/databases/migrations/InitialMigration

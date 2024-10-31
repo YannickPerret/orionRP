@@ -1,6 +1,4 @@
 const AppDataSource = require('../databases/database.js');
-const Character = require('../models/Character');
-
 module.exports = {
   async createCharacter(userId, characterData) {
     const characterRepository = AppDataSource.getRepository('Character');
@@ -21,6 +19,23 @@ module.exports = {
 
     await characterRepository.save(character);
     return character;
+  },
+
+  async loadCharacter(playerId, character) {
+    const { x, y, z } = character.position || { x: 0, y: 0, z: 0 };
+
+    // Émettre les données de personnage vers le client pour l'appliquer
+    emitNet('orionCore:applyCharacterData', playerId, {
+      position: { x, y, z },
+      model: character.model,
+      appearance: character.appearance,
+      clothes: character.clothes,
+      weapons: character.weapons,
+      money: character.money,
+      bank: character.bank,
+    });
+
+    console.log(`Données de ${character.name} appliquées pour le joueur ID ${playerId}`);
   },
 
   async decreaseCharacterNeeds() {

@@ -16,13 +16,29 @@ module.exports = new EntitySchema({
     name: {
       type: "varchar",
     },
+    model: {
+      type: "varchar",
+      nullable: true,
+    },
     appearance: {
       type: "simple-json",
       nullable: true,
     },
-    habits: {
+    clothes: {
       type: "simple-json",
       nullable: true,
+    },
+    weapons: {
+      type: "simple-json",
+      nullable: true,
+    },
+    money: {
+      type: "int",
+      default: 500,
+    },
+    bank: {
+      type: "int",
+      default: 0,
     },
     position: {
       type: "simple-json",
@@ -44,13 +60,9 @@ module.exports = new EntitySchema({
       type: "float",
       default: 0,
     },
-    money: {
-      type: "int",
-      default: 0,
-    },
-    bank: {
-      type: "int",
-      default: 0,
+    isDead: {
+      type: "boolean",
+      default: false,
     },
     createdAt: {
       type: "timestamp",

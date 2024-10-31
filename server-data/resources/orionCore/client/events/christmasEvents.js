@@ -1,9 +1,6 @@
 // server/scripts/christmasEvent.j
-const config = require('../../config/config.js');
-
-
 // Activer la météo "Neige"
-const setChristmasWeather = () => {
+const _setChristmasWeather = () => {
     setTick(() => {
         SetWeatherTypeNowPersist("XMAS")
         SetWeatherTypeNow("XMAS")
@@ -16,7 +13,7 @@ const setChristmasWeather = () => {
 
 const startChristmasEvent = () => {
     if(config.events.christmas){
-        setChristmasWeather();
+        _setChristmasWeather();
     }
 };
 

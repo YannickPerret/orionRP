@@ -1,11 +1,22 @@
-const { AppDataSource } = require('./database');
+const AppDataSource = require('../database.js');
 const bcrypt = require('bcrypt');
-const User = require('../models/User');
+const User = require('../../models/User.js');
+const Role = require('../../models/Role.js');
 
 async function seed() {
     try {
         // Initialisez la connexion
         await AppDataSource.initialize();
+
+        // Créez le rôle administrateur si non existant
+        const roleRepository = AppDataSource.getRepository(Role);
+        let adminRole = await roleRepository.findOne({ where: { name: 'admin' } });
+
+        if (!adminRole) {
+            adminRole = roleRepository.create({ name: 'admin' });
+            await roleRepository.save(adminRole);
+            console.log('Role admin created');
+        }
 
         // Créez un compte administrateur si non existant
         const userRepository = AppDataSource.getRepository(User);
@@ -14,13 +25,13 @@ async function seed() {
         if (!adminExists) {
             const hashedPassword = await bcrypt.hash('28469', 10);
             const adminUser = userRepository.create({
-                identifier: 'admin_id',
+                identifier: 'license:4c669f4aa1ab1c27139642bb0a44857aa8949549',
                 username: 'admin',
                 email: 'games@yannickperret.com',
                 password: hashedPassword,
                 active: true,
-                license: 'admin_license',
-                steamId: 'admin_steam_id',
+                steamId: 'steam:110000108f4ff2d',
+                role: adminRole,
             });
 
             await userRepository.save(adminUser);

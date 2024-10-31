@@ -11,19 +11,11 @@ const AppDataSource = require('./server/databases/database.js');
             const initItems = require('./server/scripts/initItems.js');
             await initItems();
 
-            // Importer les événements serveur
-            require('./server/events/characterEvents.js');
-            require('./server/events/itemEvents.js');
-            require('./server/events/inventoryEvents.js');
 
-            const characterController = require('./server/controllers/Character.js');
+            // Initialiser les accounts
+            require('./server/events/accountEvents.js')
+            require('./server/events/characterEvents.js')
 
-
-            setInterval(async () => {
-                await characterController.decreasePlayerNeeds();
-            }, 60000);
-
-
-            console.log('Le serveur est prêt');
+            console.log('Le serveur Orion est prêt');
         }).catch(error => console.log('Erreur :', error));
     });

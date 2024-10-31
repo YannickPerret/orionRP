@@ -20,6 +20,7 @@
     "luxon": "^3.5.0",
     "mysql2": "^3.11.3",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "0.3.17"
+    "typeorm": "0.3.17",
+    "bcrypt": "^5.0.1"
   }
 }

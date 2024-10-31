@@ -16,6 +16,15 @@
       "usable": true,
       "giveable": true,
       "effects": [{"type": "thirst", "amount": 20}]
+    },
+    {
+      "name": "Gps",
+      "description": "Un gps pour vous aider à vous repérer",
+      "image": "images/gps.png",
+      "stackable": false,
+      "usable": false,
+      "giveable": true,
+      "effects": []
     }
-  ]
+]
   
