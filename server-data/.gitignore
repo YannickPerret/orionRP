@@ -1,4 +1,4 @@
-./cache
+cache/
 .replxx_history
-./build
+build/
 package-lock.json
