@@ -1,4 +1,15 @@
-const {loginToCharacter} = require('../controllers/Character.js')
+const {loginToCharacter, registerCharacter, loadCharacter} = require('../controllers/Character.js')
+const PlayerManagerService = require('../services/PlayerManagerServices.js')
+
+onNet('orionCore:server:registerCharacter', async (characterData, cb) => {
+    const playerId = source;
+    const identifier =  getPlayerIdentifier(playerId)
+    await registerCharacter(identifier, characterData).then((user) => {
+        // load character
+        cb({status:'ok'})
+        loadCharacter(playerId, user)
+    })
+});
 
 onNet('orionCore:server:requestPlayerData', async () => {
     const playerId = source;
@@ -9,15 +20,8 @@ onNet('orionCore:server:requestPlayerData', async () => {
 
     try {
         const identifier = getPlayerIdentifier(playerId);
-
         const character = await loginToCharacter(playerId, identifier);
-        emitNet('orionCore:client:sendCharacterInfo', playerId, {
-            position: character.position,
-            appearance: character.appearance,
-            clothes: character.clothes,
-            weapons: character.weapons,
-        });
-        console.log(`Données du personnage ${character.name} envoyées au joueur.`);
+        await loadCharacter(playerId, character)
     } catch (error) {
         console.error(error.message);
         emitNet('characterCreator:client:startCharacterCreation', playerId);

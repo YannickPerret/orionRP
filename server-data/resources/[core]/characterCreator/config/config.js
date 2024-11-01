@@ -5,7 +5,7 @@ global.config = {
             y: -931.239562,
             z: 15.642456,
         },
-        spawnHeading: 235.275588,
+        spawnHeading: 185.275588,
     },
     defaultSkin: {
         sex: 0,

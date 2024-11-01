@@ -4,10 +4,10 @@ global.config = {
         halloween: true,
     },
     character: {
-        defaultPosition: {
-            x: 0,
-            y: 0,
-            z: 0,
+        spawnPosition: {
+            x: 205.316,
+            y: 1167.378,
+            z: 227.005,
         },
         creator:{
             position: {

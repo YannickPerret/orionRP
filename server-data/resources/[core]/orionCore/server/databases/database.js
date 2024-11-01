@@ -31,3 +31,4 @@ const AppDataSource = new DataSource(dbConfig)
 module.exports = AppDataSource;
 
 //npm run migration:generate -- -- server/databases/migrations/InitialMigration
+// mettre module.exports = {AppDataSource};

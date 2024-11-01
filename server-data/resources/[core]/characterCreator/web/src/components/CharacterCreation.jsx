@@ -13,83 +13,127 @@ const CharacterCreation = () => {
         lastName: '',
         height: '',
         birthDate: '',
-        gender: '',
-        hairStyle: 0,
-        hairPrimaryColor: 0,
-        hairSecondaryColor: 0,
-        skinProblem: 0,
-        opacity: 0,
-        beardStyle: 0,
-        eyebrowStyle: 0,
-        makeupStyle: 0,
-        noseWidth: 5,
-        noseHeight: 5,
-        noseLength: 5,
-        eyebrowDepth: 5,
-        lipFullness: 5,
-        tshirtStyle: 0,
-        tshirtColor: 0,
-        torsoStyle: 0,
-        torsoColor: 0,
-        armsStyle: 0,
-        armsColor: 0,
-        pantsStyle: 0,
-        pantsColor: 0,
-        shoesStyle: 0,
-        shoesColor: 0,
-        glassesStyle: 0,
-        dad: 1,
-        mom: 1
+        gender: 'male',
+        appearance: {
+            hairStyle: 0,
+            hairPrimaryColor: 0,
+            hairSecondaryColor: 0,
+            skinProblem: 0,
+            opacity: 0,
+            beardStyle: 0,
+            eyebrowStyle: 0,
+            makeupStyle: 0,
+            noseWidth: 5,
+            noseHeight: 5,
+            noseLength: 5,
+            eyebrowDepth: 5,
+            lipFullness: 5,
+        },
+        clothes: {
+            tshirtStyle: 0,
+            tshirtColor: 0,
+            torsoStyle: 0,
+            torsoColor: 0,
+            armsStyle: 0,
+            armsColor: 0,
+            pantsStyle: 0,
+            pantsColor: 0,
+            shoesStyle: 0,
+            shoesColor: 0,
+            glassesStyle: 0,
+        },
+        heritage: {
+            dad: 0,
+            mom: 0,
+            shapeMix: 0.0,
+            skinMix: 0.0,
+        },
     });
 
     const getStepTitle = (step) => {
         switch (step) {
-            case 1:
-                return "DNA";
-            case 2:
-                return "Appearance & Hairiness";
-            case 3:
-                return "Facial Features";
-            case 4:
-                return "Clothing";
-            default:
-                return "";
+            case 1: return "DNA";
+            case 2: return "Appearance & Hairiness";
+            case 3: return "Facial Features";
+            case 4: return "Clothing";
+            default: return "";
         }
     };
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        setCharacterData(prevData => {
-            const updatedData = { ...prevData, [id]: value };
 
-            if (!['firstName', 'lastName', 'height', 'birthDate'].includes(id)) {
-                send("applySkin", {updatedData} )
+        setCharacterData((prevData) => {
+            let updatedData = { ...prevData };
+
+            // Check if the changed field is part of 'appearance'
+            if (prevData.appearance.hasOwnProperty(id)) {
+                updatedData.appearance = {
+                    ...prevData.appearance,
+                    [id]: value,
+                };
+                send("applySkin", { appearance: { [id]: value } });
+
+                // Check if the changed field is part of 'clothes'
+            } else if (prevData.clothes.hasOwnProperty(id)) {
+                updatedData.clothes = {
+                    ...prevData.clothes,
+                    [id]: value,
+                };
+                send("applySkin", { clothes: { [id]: value } });
+
+                // Check if the changed field is part of 'heritage'
+            } else if (prevData.heritage.hasOwnProperty(id)) {
+                updatedData.heritage = {
+                    ...prevData.heritage,
+                    [id]: parseFloat(value),  // Ensure numerical values for heritage data
+                };
+                // Send the entire 'heritage' object whenever a 'heritage' field changes
+                send("applySkin", { heritage: updatedData.heritage });
+
+                // Handle other direct fields (e.g., firstName, lastName)
+            } else {
+                updatedData = { ...prevData, [id]: value };
+                if (!['firstName', 'lastName', 'height', 'birthDate'].includes(id)) {
+                    send("applySkin", { [id]: value });
+                }
             }
+
             return updatedData;
         });
     };
 
     const handleGenderSelect = (gender) => {
-        setCharacterData((prevData) => {
-            const newData = { ...prevData, gender };
-            send("applySkin", { gender });
-            return newData;
-        });
+        setCharacterData((prevData) => ({
+            ...prevData,
+            gender,
+        }));
+        send("applySkin", { gender });
     };
 
-    const handleHeritageSelect = (type, heritage) => {
-        setCharacterData((prevData) => {
-            const newData = { ...prevData, [type]: heritage };
-            send("applySkin", { [type]: heritage });
-            return newData;
-        });
+    const handleHeritageSelect = (type, heritageId) => {
+        setCharacterData((prevData) => ({
+            ...prevData,
+            heritage: {
+                ...prevData.heritage,
+                [type]: heritageId,
+            },
+        }));
+        send("applySkin", { [type]: heritageId });
     };
 
     const confirmCharacter = () => {
-        if (window.confirm("Êtes-vous sûr ? Il ne sera plus possible de modifier l'apparence du personnage en jeu.")) {
-            send("register-character", { characterData });
-            console.log("Character Data:", characterData);
-        }
+        const { firstName, lastName, gender, appearance, clothes } = characterData;
+        const characterPayload = {
+            firstName,
+            lastName,
+            model: gender === 'male' ? 'mp_m_freemode_01' : 'mp_f_freemode_01',
+            appearance,
+            clothes,
+        };
+
+        send("register-character", characterPayload);
+        console.log("Character Data:", characterPayload);
     };
 
     return (
@@ -113,34 +157,24 @@ const CharacterCreation = () => {
             {/* Step 1: DNA */}
             {currentStep === 1 && (
                 <div className="space-y-4">
-                    <div className="text-lg font-bold">Gender</div>
-                    <div className="text-sm text-gray-400 mb-4">
-                        Fill in the details related to your DNA, <span className="text-green-500">attention</span> no
-                        returns will be possible.
-                    </div>
-
                     <div className="flex justify-between space-x-4">
                         <button
-                            className={`flex flex-col items-center justify-center w-1/2 py-4 border-2 rounded-lg ${
-                                characterData.gender === 'Male' ? 'border-green-500 bg-gray-800' : 'border-gray-600'
-                            }`}
-                            onClick={() => handleGenderSelect('Male')}
+                            className={`flex flex-col items-center justify-center w-1/2 py-4 border-2 rounded-lg ${characterData.gender === 'male' ? 'border-green-500 bg-gray-800' : 'border-gray-600'}`}
+                            onClick={() => handleGenderSelect('male')}
                         >
                             <span className="text-2xl">👨</span>
                             <span className="mt-2 text-white">Homme</span>
                         </button>
                         <button
-                            className={`flex flex-col items-center justify-center w-1/2 py-4 border-2 rounded-lg ${
-                                characterData.gender === 'Female' ? 'border-green-500 bg-gray-800' : 'border-gray-600'
-                            }`}
-                            onClick={() => handleGenderSelect('Female')}
+                            className={`flex flex-col items-center justify-center w-1/2 py-4 border-2 rounded-lg ${characterData.gender === 'female' ? 'border-green-500 bg-gray-800' : 'border-gray-600'}`}
+                            onClick={() => handleGenderSelect('female')}
                         >
                             <span className="text-2xl">👩</span>
                             <span className="mt-2 text-white">Femme</span>
                         </button>
                     </div>
 
-                    <label className="block text-sm mt-4">Prénom</label>
+                    <label className="block text-sm mt-4">First Name</label>
                     <input
                         type="text"
                         id="firstName"
@@ -150,7 +184,7 @@ const CharacterCreation = () => {
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
                     />
 
-                    <label className="block text-sm mt-4">Nom de famille</label>
+                    <label className="block text-sm mt-4">Last Name</label>
                     <input
                         type="text"
                         id="lastName"
@@ -160,17 +194,19 @@ const CharacterCreation = () => {
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
                     />
 
-                    <label className="block text-sm mt-4">Taille</label>
+                    <label className="block text-sm mt-4">Height</label>
                     <input
-                        type="text"
+                        type="number"
                         id="height"
                         placeholder="Height (cm)"
+                        max={"220"}
+                        min={"50"}
                         value={characterData.height}
                         onChange={handleInputChange}
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
                     />
 
-                    <label className="block text-sm mt-4">Date de naissance</label>
+                    <label className="block text-sm mt-4">Birth Date</label>
                     <input
                         type="date"
                         id="birthDate"
@@ -180,7 +216,8 @@ const CharacterCreation = () => {
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
                     />
 
-                    <label className="block text-md mt-4">Apparence de vos parents</label>
+
+                    <label className="block text-md mt-4">Parental Heritage</label>
                     <div className="mt-6">
                         <div className="flex space-x-4">
                             <button
@@ -197,21 +234,53 @@ const CharacterCreation = () => {
                             </button>
                         </div>
 
-                        {/* Grille des personnages hérités avec overflow */}
                         <div className="grid grid-cols-3 gap-4 mt-4 max-h-96 overflow-y-auto">
                             {heritagesData
-                                .filter(h => h.type === selectedHeritageType)
+                                .filter(h => h.type === selectedHeritageType) // Filter items based on the selected heritage type (dad or mom)
                                 .map((heritage, index) => (
                                     <button
                                         key={index}
-                                        className={`border-2 p-2 rounded-lg ${characterData[selectedHeritageType] === heritage ? 'border-green-500' : 'border-gray-600'}`}
-                                        onClick={() => handleHeritageSelect(selectedHeritageType, heritage)}>
-                                        <img src={heritage.image} alt={heritage.name}
-                                             className="w-full h-38 object-cover rounded-md"/>
+                                        className={`border-2 p-2 rounded-lg ${
+                                            characterData.heritage[selectedHeritageType] === heritage.id
+                                                ? 'border-green-500' 
+                                                : 'border-gray-600'
+                                        }`}
+                                        onClick={() => handleHeritageSelect(selectedHeritageType, heritage.id)}
+                                    >
+                                        <img
+                                            src={heritage.image}
+                                            alt={heritage.name}
+                                            className="w-full h-38 object-cover rounded-md"
+                                        />
                                         <span className="block mt-2 text-center text-white">{heritage.name}</span>
                                     </button>
                                 ))}
                         </div>
+                        <label className="block text-md mt-4">Ressemblance</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.1"
+                            value={characterData.heritage.shapeMix}
+                            onChange={handleInputChange}
+                            id="shapeMix"
+                            className="w-full slider"
+                        />
+
+                        <label className="block text-md mt-4">Skin Mix</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.1"
+                            value={characterData.heritage.skinMix}
+                            onChange={handleInputChange}
+                            id="skinMix"
+                            className="w-full slider"
+                        />
+
+
                     </div>
                 </div>
             )}
@@ -226,7 +295,7 @@ const CharacterCreation = () => {
 
                     {/* Onglets pour les sections */}
                     <div className="flex space-x-4 mt-4">
-                        {['Hair', 'Beard', 'Eyebrow', 'Torso', 'Makeup'].map(tab => (
+                        {['Hair', 'Beard', 'Eyebrow', 'Makeup'].map(tab => (
                             <button
                                 key={tab}
                                 className={`flex-1 py-2 text-center border-2 rounded-lg ${activeTab === tab ? 'border-green-500 bg-gray-800' : 'border-gray-600'}`}
@@ -246,29 +315,29 @@ const CharacterCreation = () => {
                                     type="range"
                                     min="0"
                                     max="80"
-                                    value={characterData.hairStyle}
+                                    value={characterData.appearance.hairStyle}
                                     onChange={handleInputChange}
                                     id="hairStyle"
                                     className="w-full slider"
                                 />
                                 <label className="block text-md">Primary
-                                    colors: {characterData.hairPrimaryColor}/63</label>
+                                    colors: {characterData.appearance.hairPrimaryColor}/63</label>
                                 <input
                                     type="range"
                                     min="0"
                                     max="63"
-                                    value={characterData.hairPrimaryColor}
+                                    value={characterData.appearance.hairPrimaryColor}
                                     onChange={handleInputChange}
                                     id="hairPrimaryColor"
                                     className="w-full slider"
                                 />
                                 <label className="block text-md">Secondary
-                                    colors: {characterData.hairSecondaryColor}/63</label>
+                                    colors: {characterData.appearance.hairSecondaryColor}/63</label>
                                 <input
                                     type="range"
                                     min="0"
                                     max="63"
-                                    value={characterData.hairSecondaryColor}
+                                    value={characterData.appearance.hairSecondaryColor}
                                     onChange={handleInputChange}
                                     id="hairSecondaryColor"
                                     className="w-full slider"
@@ -277,12 +346,12 @@ const CharacterCreation = () => {
                         )}
                         {activeTab === 'Beard' && (
                             <>
-                                <label className="block text-md">Beard Style: {characterData.beardStyle}/20</label>
+                                <label className="block text-md">Beard Style: {characterData.appearance.beardStyle}/20</label>
                                 <input
                                     type="range"
                                     min="0"
                                     max="20"
-                                    value={characterData.beardStyle}
+                                    value={characterData.appearance.beardStyle}
                                     onChange={handleInputChange}
                                     id="beardStyle"
                                     className="w-full slider"
@@ -291,40 +360,27 @@ const CharacterCreation = () => {
                         )}
                         {activeTab === 'Eyebrow' && (
                             <>
-                                <label className="block text-md">Eyebrow Style: {characterData.eyebrowStyle}/10</label>
+                                <label className="block text-md">Eyebrow Style: {characterData.appearance.eyebrowStyle}/10</label>
                                 <input
                                     type="range"
                                     min="0"
                                     max="10"
-                                    value={characterData.eyebrowStyle}
+                                    value={characterData.appearance.eyebrowStyle}
                                     onChange={handleInputChange}
                                     id="eyebrowStyle"
                                     className="w-full slider"
                                 />
                             </>
                         )}
-                        {activeTab === 'Torso' && (
-                            <>
-                                <label className="block text-md">Torso Style: {characterData.torsoStyle}/15</label>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="15"
-                                    value={characterData.torsoStyle}
-                                    onChange={handleInputChange}
-                                    id="torsoStyle"
-                                    className="w-full slider"
-                                />
-                            </>
-                        )}
+
                         {activeTab === 'Makeup' && (
                             <>
-                                <label className="block text-md">Makeup Style: {characterData.makeupStyle}/20</label>
+                                <label className="block text-md">Makeup Style: {characterData.appearance.makeupStyle}/20</label>
                                 <input
                                     type="range"
                                     min="0"
                                     max="20"
-                                    value={characterData.makeupStyle}
+                                    value={characterData.appearance.makeupStyle}
                                     onChange={handleInputChange}
                                     id="makeupStyle"
                                     className="w-full slider"
@@ -349,7 +405,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.noseWidth}
+                        value={characterData.appearance.noseWidth}
                         onChange={handleInputChange}
                         id="noseWidth"
                         className="w-full slider"
@@ -360,7 +416,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.noseHeight}
+                        value={characterData.appearance.noseHeight}
                         onChange={handleInputChange}
                         id="noseHeight"
                         className="w-full slider"
@@ -371,7 +427,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.noseLength}
+                        value={characterData.appearance.noseLength}
                         onChange={handleInputChange}
                         id="noseLength"
                         className="w-full slider"
@@ -382,7 +438,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.noseLowering}
+                        value={characterData.appearance.noseLowering}
                         onChange={handleInputChange}
                         id="noseLowering"
                         className="w-full slider"
@@ -393,7 +449,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.nosePeakLowering}
+                        value={characterData.appearance.nosePeakLowering}
                         onChange={handleInputChange}
                         id="nosePeakLowering"
                         className="w-full slider"
@@ -404,7 +460,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.noseTwist}
+                        value={characterData.appearance.noseTwist}
                         onChange={handleInputChange}
                         id="noseTwist"
                         className="w-full slider"
@@ -415,7 +471,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.eyebrowHeight}
+                        value={characterData.appearance.eyebrowHeight}
                         onChange={handleInputChange}
                         id="eyebrowHeight"
                         className="w-full slider"
@@ -426,7 +482,7 @@ const CharacterCreation = () => {
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.eyebrowDepth}
+                        value={characterData.appearance.eyebrowDepth}
                         onChange={handleInputChange}
                         id="eyebrowDepth"
                         className="w-full slider"
@@ -439,123 +495,134 @@ const CharacterCreation = () => {
                 <div className="space-y-4">
                     <div className="text-lg font-bold">Select and define your clothing preferences.</div>
 
+                    <label className="block text-md">Torso Style: {characterData.clothes.torsoStyle}/15</label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="15"
+                        value={characterData.clothes.torsoStyle}
+                        onChange={handleInputChange}
+                        id="torsoStyle"
+                        className="w-full slider"
+                    />
+
                     {/* T-shirt */}
-                    <label className="block text-md">T-shirt: {characterData.tshirtStyle}/198</label>
+                    <label className="block text-md">T-shirt: {characterData.clothes.tshirtStyle}/198</label>
                     <input
                         type="range"
                         min="0"
                         max="198"
-                        value={characterData.tshirtStyle}
+                        value={characterData.clothes.tshirtStyle}
                         onChange={handleInputChange}
                         id="tshirtStyle"
                         className="w-full slider"
                     />
-                    <label className="block text-md">Colors: {characterData.tshirtColor}/10</label>
+                    <label className="block text-md">Colors: {characterData.clothes.tshirtColor}/10</label>
                     <input
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.tshirtColor}
+                        value={characterData.clothes.tshirtColor}
                         onChange={handleInputChange}
                         id="tshirtColor"
                         className="w-full slider"
                     />
 
                     {/* Torso */}
-                    <label className="block text-md">Torso: {characterData.torsoStyle}/494</label>
+                    <label className="block text-md">Torso: {characterData.clothes.torsoStyle}/494</label>
                     <input
                         type="range"
                         min="0"
                         max="494"
-                        value={characterData.torsoStyle}
+                        value={characterData.clothes.torsoStyle}
                         onChange={handleInputChange}
                         id="torsoStyle"
                         className="w-full slider"
                     />
-                    <label className="block text-md">Colors: {characterData.torsoColor}/3</label>
+                    <label className="block text-md">Colors: {characterData.clothes.torsoColor}/3</label>
                     <input
                         type="range"
                         min="0"
                         max="3"
-                        value={characterData.torsoColor}
+                        value={characterData.clothes.torsoColor}
                         onChange={handleInputChange}
                         id="torsoColor"
                         className="w-full slider"
                     />
 
                     {/* Arms */}
-                    <label className="block text-md">Arms: {characterData.armsStyle}/210</label>
+                    <label className="block text-md">Arms: {characterData.clothes.armsStyle}/210</label>
                     <input
                         type="range"
                         min="0"
                         max="210"
-                        value={characterData.armsStyle}
+                        value={characterData.clothes.armsStyle}
                         onChange={handleInputChange}
                         id="armsStyle"
                         className="w-full slider"
                     />
-                    <label className="block text-md">Colors: {characterData.armsColor}/10</label>
+                    <label className="block text-md">Colors: {characterData.clothes.armsColor}/10</label>
                     <input
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.armsColor}
+                        value={characterData.clothes.armsColor}
                         onChange={handleInputChange}
                         id="armsColor"
                         className="w-full slider"
                     />
 
                     {/* Pants */}
-                    <label className="block text-md">Pants: {characterData.pantsStyle}/176</label>
+                    <label className="block text-md">Pants: {characterData.clothes.pantsStyle}/176</label>
                     <input
                         type="range"
                         min="0"
                         max="176"
-                        value={characterData.pantsStyle}
+                        value={characterData.clothes.pantsStyle}
                         onChange={handleInputChange}
                         id="pantsStyle"
                         className="w-full slider"
                     />
-                    <label className="block text-md">Colors: {characterData.pantsColor}/10</label>
+                    <label className="block text-md">Colors: {characterData.clothes.pantsColor}/10</label>
                     <input
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.pantsColor}
+                        value={characterData.clothes.pantsColor}
                         onChange={handleInputChange}
                         id="pantsColor"
                         className="w-full slider"
                     />
 
                     {/* Shoes */}
-                    <label className="block text-md">Shoes: {characterData.shoesStyle}/137</label>
+                    <label className="block text-md">Shoes: {characterData.clothes.shoesStyle}/137</label>
                     <input
                         type="range"
                         min="0"
                         max="137"
-                        value={characterData.shoesStyle}
+                        value={characterData.clothes.shoesStyle}
                         onChange={handleInputChange}
                         id="shoesStyle"
                         className="w-full slider"
                     />
-                    <label className="block text-md">Colors: {characterData.shoesColor}/10</label>
+                    <label className="block text-md">Colors: {characterData.clothes.shoesColor}/10</label>
                     <input
                         type="range"
                         min="0"
                         max="10"
-                        value={characterData.shoesColor}
+                        value={characterData.clothes.shoesColor}
                         onChange={handleInputChange}
                         id="shoesColor"
                         className="w-full slider"
                     />
 
                     {/* Glasses */}
-                    <label className="block text-md">Glasses: {characterData.glassesStyle}/58</label>
+                    <label className="block text-md">Glasses: {characterData.clothes.glassesStyle}/58</label>
                     <input
                         type="range"
                         min="0"
                         max="58"
-                        value={characterData.glassesStyle}
+                        value={characterData.clothes.glassesStyle}
                         onChange={handleInputChange}
                         id="glassesStyle"
                         className="w-full slider"

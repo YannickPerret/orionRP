@@ -69,9 +69,8 @@ onNet('admin:revivePlayer', () => {
     console.log("Vous avez été réanimé par un administrateur.");
 });
 
-onNet('orionCore:sendCharacterData', (characterData) => {
+onNet('orionCore:client:loadCharacter', (characterData) => {
     const playerPed = PlayerPedId();
-
     // Position
     SetEntityCoords(playerPed, characterData.position.x, characterData.position.y, characterData.position.z, false, false, false, true);
 
@@ -81,9 +80,39 @@ onNet('orionCore:sendCharacterData', (characterData) => {
 
     // Armes
     characterData.weapons.forEach(weapon => GiveWeaponToPed(playerPed, GetHashKey(weapon), 250, false, true));
-
     console.log("Données de personnage appliquées côté client après spawn");
 });
+
+onNet('orionCore:client:applyCharacterModel', async (model, cb) => {
+    const modelHash = GetHashKey(model)
+    RequestModel(modelHash)
+    while (!HasModelLoaded(modelHash)) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    if (IsModelInCdimage(modelHash) && IsModelValid(modelHash)) {
+        SetPlayerModel(PlayerId(), modelHash)
+        const playerPed = PlayerPedId();
+
+        SetPedComponentVariation(playerPed, 0, 0, 0, 2)
+        SetPedComponentVariation(playerPed, 2, 11, 4, 2)
+        SetPedComponentVariation(playerPed, 4, 1, 5, 2)
+        SetPedComponentVariation(playerPed, 6, 1, 0, 2)
+        SetPedComponentVariation(playerPed, 11, 7, 2, 2)
+    }
+    SetModelAsNoLongerNeeded(modelHash)
+})
+
+onNet('orionCore:client:applyCharacterClothes', (clothes) => {
+    const playerPed = PlayerPedId();
+    clothes.forEach((clothe) => {
+        SetPedComponentVariation(playerPed, clothe.componentId, clothes.drawableId, clothe.textureId, 0);
+    })
+})
+
+onNet('orionCore:client:applyCharacterAppearance', (appearance) => {
+    const playerPed = PlayerPedId();
+    SetPedComponentVariation(playerPed, appearance.model)
+})
 
 onNet('orionCore:openCharacterCreation', () => {
     console.log("Ouvrir l'interface de création de personnage");
@@ -101,3 +130,4 @@ on('onClientResourceStart', (resourceName) => {
         ClearPlayerWantedLevel(playerId);
     });
 });
+

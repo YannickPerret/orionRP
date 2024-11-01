@@ -6,7 +6,6 @@ function App() {
     const [showCharacterCreation, setShowCharacterCreation] = useState(false);
 
     useNuiEvent("characterCreator", "openCharacterCreation", (data) => {
-        console.log("oui", data)
         setShowCharacterCreation(data);
     });
 

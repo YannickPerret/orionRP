@@ -4,42 +4,49 @@ const Character = require("../models/Character");
 const PlayerManagerService = require("../services/PlayerManagerServices");
 
 module.exports = {
-  async createCharacter(userId, characterData) {
-    const characterRepository = AppDataSource.getRepository('Character');
+  async registerCharacter(identifier, characterData) {
+    const userRepository = AppDataSource.getRepository(User);
+    const characterRepository = AppDataSource.getRepository(Character);
 
-    const character = characterRepository.create({
-      ...characterData,
-      userId,
-      hunger: 100,
-      thirst: 100,
-      health: 100,
-      armor: 0,
-      money: 0,
-      bank: 0,
-      appearance: characterData.appearance || {},
-      habits: characterData.habits || {},
-      position: characterData.position || { x: 0, y: 0, z: 0 },
-    });
+    try {
+      const user = await userRepository.findOne({ where: { identifier } });
 
-    await characterRepository.save(character);
-    return character;
+      if (!user) {
+        throw new Error(`Utilisateur avec l'identifiant ${identifier} introuvable`);
+      }
+
+      console.log(characterData)
+      const newCharacter = characterRepository.create({
+        userId: user.id,
+        firstName: characterData.firstName,
+        lastName: characterData.lastName,
+        model: characterData.model,
+        appearance: characterData.appearance,
+        clothes: characterData.clothes,
+        position: {x: config.character.spawnPosition.x, y:config.character.spawnPosition.y, z:config.character.spawnPosition.z},
+      });
+
+      await characterRepository.save(newCharacter);
+
+      user.activeCharacter = newCharacter.id;
+      await userRepository.save(user);
+      console.log(`Personnage ${newCharacter.firstName} ${newCharacter.lastName}  enregistré pour l'utilisateur ${user.username}`);
+      return user;
+    } catch (error) {
+      console.error('Erreur lors de l\'enregistrement du personnage:', error);
+      throw error;
+    }
   },
 
   async loadCharacter(playerId, character) {
-    const { x, y, z } = character.position || { x: 0, y: 0, z: 0 };
 
-    // Émettre les données de personnage vers le client pour l'appliquer
-    emitNet('orionCore:applyCharacterData', playerId, {
-      position: { x, y, z },
+    emitNet('orionCore:client:loadCharacter', playerId, {
       model: character.model,
       appearance: character.appearance,
       clothes: character.clothes,
       weapons: character.weapons,
-      money: character.money,
-      bank: character.bank,
+      position: character.position,
     });
-
-    console.log(`Données de ${character.name} appliquées pour le joueur ID ${playerId}`);
   },
 
   async decreaseCharacterNeeds() {

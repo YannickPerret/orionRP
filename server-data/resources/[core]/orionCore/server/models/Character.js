@@ -1,4 +1,8 @@
 const { EntitySchema } = require('typeorm');
+const UserGender = {
+  MALE: 'male',
+  FEMALE: 'female'
+}
 
 module.exports = new EntitySchema({
   name: "Character",
@@ -13,8 +17,18 @@ module.exports = new EntitySchema({
       type: "int",
       nullable: false,
     },
-    name: {
+    firstName: {
       type: "varchar",
+      nullable: false,
+    },
+    lastName: {
+      type: 'varchar',
+      nullable: false,
+    },
+    gender:{
+      type: "enum",
+      enum: Object.values(UserGender),
+      default: UserGender.MALE,
     },
     model: {
       type: "varchar",
@@ -42,7 +56,7 @@ module.exports = new EntitySchema({
     },
     position: {
       type: "simple-json",
-      nullable: true,
+      nullable: false,
     },
     hunger: {
       type: "float",
