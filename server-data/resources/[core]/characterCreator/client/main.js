@@ -141,12 +141,21 @@ on("__cfx_nui:applySkin", async (data, cb) => {
             SetPlayerModel(PlayerId(), model);
             const playerPed = PlayerPedId();
 
-            // Set default clothing
-            SetPedComponentVariation(playerPed, 0, 0, 0, 2);
-            SetPedComponentVariation(playerPed, 2, 11, 4, 2);
-            SetPedComponentVariation(playerPed, 4, 1, 5, 2);
-            SetPedComponentVariation(playerPed, 6, 1, 0, 2);
-            SetPedComponentVariation(playerPed, 11, 7, 2, 2);
+            if (model === GetHashKey('mp_m_freemode_01')) {
+                SetPedComponentVariation(playerPed, 3, 15, 0, 2)
+                SetPedComponentVariation(playerPed, 11, 15, 0, 2)
+                SetPedComponentVariation(playerPed, 8, 15, 0, 2)
+                SetPedComponentVariation(playerPed, 4, 61, 4, 2)
+                SetPedComponentVariation(playerPed, 6, 34, 0, 2)
+
+            }
+            else if(model === GetHashKey('mp_f_freemode_01')) {
+                SetPedComponentVariation(playerPed, 3, 15, 0, 2)
+                SetPedComponentVariation(playerPed, 11, 5, 0, 2)
+                SetPedComponentVariation(playerPed, 8, 15, 0, 2)
+                SetPedComponentVariation(playerPed, 4, 57, 0, 2)
+                SetPedComponentVariation(playerPed, 6, 35, 0, 2)
+            }
         }
         SetModelAsNoLongerNeeded(model);
 
@@ -171,24 +180,63 @@ on("__cfx_nui:applySkin", async (data, cb) => {
         if (data.appearance.hairPrimaryColor !== undefined && data.appearance.hairSecondaryColor !== undefined) {
             SetPedHairTint(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor));
         }
+
         // Beard
-        if (data.appearance.beardStyle !== undefined) {
-            SetPedHeadOverlay(playerPed, 1, parseInt(data.appearance.beardStyle), 1.0); // Beard style
+        if (appearance.beardStyle !== undefined) {
+            SetPedHeadOverlay(playerPed, 1, parseInt(appearance.beardStyle), 1.0);
+        }
+        if (appearance.beardColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 1, 1, parseInt(appearance.beardColor), parseInt(appearance.beardColor)); // colorType 1 for beard
         }
 
         // Eyebrows
-        if (data.appearance.eyebrowStyle !== undefined) {
-            SetPedHeadOverlay(playerPed, 2, parseInt(data.appearance.eyebrowStyle), 1.0); // Eyebrow style
+        if (appearance.eyebrowStyle !== undefined) {
+            SetPedHeadOverlay(playerPed, 2, parseInt(appearance.eyebrowStyle), 1.0);
+        }
+        if (appearance.eyebrowColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 2, 1, parseInt(appearance.eyebrowColor), parseInt(appearance.eyebrowColor)); // colorType 1 for eyebrows
         }
 
         // Makeup
-        if (data.appearance.makeupStyle !== undefined) {
-            SetPedHeadOverlay(playerPed, 4, parseInt(data.appearance.makeupStyle), 1.0); // Makeup style
+        if (appearance.makeupStyle !== undefined) {
+            SetPedHeadOverlay(playerPed, 4, parseInt(appearance.makeupStyle), 1.0);
+        }
+        if (appearance.makeupColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 4, 2, parseInt(appearance.makeupColor), parseInt(appearance.makeupColor)); // colorType 2 for makeup
         }
 
         // Skin problems (like freckles, acne, etc.)
-        if (data.appearance.skinProblem !== undefined) {
-            SetPedHeadOverlay(playerPed, 9, parseInt(data.appearance.skinProblem), parseFloat(data.appearance.opacity || 1.0)); // Skin problem
+        if (appearance.skinProblem !== undefined) {
+            SetPedHeadOverlay(playerPed, 9, parseInt(appearance.skinProblem), parseFloat(appearance.opacity || 1.0));
+        }
+
+        if (appearance.blemishes !== undefined) {
+            SetPedHeadOverlay(playerPed, 0, parseInt(appearance.blemishes), 1.0);
+        }
+        if (appearance.sunDamage !== undefined) {
+            SetPedHeadOverlay(playerPed, 7, parseInt(appearance.sunDamage), 1.0);
+        }
+        if (appearance.freckles !== undefined) {
+            SetPedHeadOverlay(playerPed, 9, parseInt(appearance.freckles), 1.0);
+        }
+        if (appearance.moles !== undefined) {
+            SetPedHeadOverlay(playerPed, 12, parseInt(appearance.moles), 1.0);
+        }
+
+        // Chest Hair
+        if (appearance.chestHair !== undefined) {
+            SetPedHeadOverlay(playerPed, 10, parseInt(appearance.chestHair), 1.0);
+        }
+        if (appearance.chestHairColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 10, 1, parseInt(appearance.chestHairColor), parseInt(appearance.chestHairColor));
+        }
+
+        // Blush
+        if (appearance.blush !== undefined) {
+            SetPedHeadOverlay(playerPed, 5, parseInt(appearance.blush), 1.0);
+        }
+        if (appearance.blushColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 5, 2, parseInt(appearance.blushColor), parseInt(appearance.blushColor));
         }
 
         // Nose features
@@ -232,14 +280,12 @@ on("__cfx_nui:register-character", async (data, cb) => {
         clothes: data.clothes,
     };
 
-    // Envoyer les données du personnage au serveur
     emitNet('orionCore:server:registerCharacter', characterData, (status) => {
         if(status === 'ok'){
             closeCharacterCreationUI()
         }
     });
 
-    // Callback pour notifier que le processus est terminé côté client
     cb({ status: "ok" });
 })
 

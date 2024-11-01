@@ -21,13 +21,24 @@ const CharacterCreation = () => {
             skinProblem: 0,
             opacity: 0,
             beardStyle: 0,
+            beardColor: 0,
             eyebrowStyle: 0,
             makeupStyle: 0,
+            makeupColor: 0,
             noseWidth: 5,
             noseHeight: 5,
             noseLength: 5,
             eyebrowDepth: 5,
+            eyebrowColor: 0,
             lipFullness: 5,
+            blemishes: 0,
+            sunDamage:0,
+            freckles: 0,
+            chestHair:0,
+            chestHairColor:0,
+            blush:0,
+            blushColor:0,
+            moles:0
         },
         clothes: {
             tshirtStyle: 0,
@@ -242,7 +253,7 @@ const CharacterCreation = () => {
                                         key={index}
                                         className={`border-2 p-2 rounded-lg ${
                                             characterData.heritage[selectedHeritageType] === heritage.id
-                                                ? 'border-green-500' 
+                                                ? 'border-green-500'
                                                 : 'border-gray-600'
                                         }`}
                                         onClick={() => handleHeritageSelect(selectedHeritageType, heritage.id)}
@@ -295,7 +306,7 @@ const CharacterCreation = () => {
 
                     {/* Onglets pour les sections */}
                     <div className="flex space-x-4 mt-4">
-                        {['Hair', 'Beard', 'Eyebrow', 'Makeup'].map(tab => (
+                        {['Hair', 'Beard', 'Eyebrow', 'Makeup', 'Skin'].map(tab => (
                             <button
                                 key={tab}
                                 className={`flex-1 py-2 text-center border-2 rounded-lg ${activeTab === tab ? 'border-green-500 bg-gray-800' : 'border-gray-600'}`}
@@ -346,7 +357,7 @@ const CharacterCreation = () => {
                         )}
                         {activeTab === 'Beard' && (
                             <>
-                                <label className="block text-md">Beard Style: {characterData.appearance.beardStyle}/20</label>
+                                <label className="block text-md">Beard Style</label>
                                 <input
                                     type="range"
                                     min="0"
@@ -356,11 +367,21 @@ const CharacterCreation = () => {
                                     id="beardStyle"
                                     className="w-full slider"
                                 />
+                                <label className="block text-md">Beard Color</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="63"
+                                    value={characterData.appearance.beardColor}
+                                    onChange={handleInputChange}
+                                    id="beardColor"
+                                    className="w-full slider"
+                                />
                             </>
                         )}
                         {activeTab === 'Eyebrow' && (
                             <>
-                                <label className="block text-md">Eyebrow Style: {characterData.appearance.eyebrowStyle}/10</label>
+                                <label className="block text-md">Eyebrow Style</label>
                                 <input
                                     type="range"
                                     min="0"
@@ -370,12 +391,22 @@ const CharacterCreation = () => {
                                     id="eyebrowStyle"
                                     className="w-full slider"
                                 />
+                                <label className="block text-md">Eyebrow Color</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="63"
+                                    value={characterData.appearance.eyebrowColor}
+                                    onChange={handleInputChange}
+                                    id="eyebrowColor"
+                                    className="w-full slider"
+                                />
                             </>
                         )}
 
                         {activeTab === 'Makeup' && (
                             <>
-                                <label className="block text-md">Makeup Style: {characterData.appearance.makeupStyle}/20</label>
+                                <label className="block text-md">Makeup Style</label>
                                 <input
                                     type="range"
                                     min="0"
@@ -383,6 +414,132 @@ const CharacterCreation = () => {
                                     value={characterData.appearance.makeupStyle}
                                     onChange={handleInputChange}
                                     id="makeupStyle"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Makeup Color</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="63"
+                                    value={characterData.appearance.makeupColor}
+                                    onChange={handleInputChange}
+                                    id="makeupColor"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Lip Fullness</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="10"
+                                    value={characterData.appearance.lipFullness}
+                                    onChange={handleInputChange}
+                                    id="lipFullness"
+                                    className="w-full slider"
+                                />
+                            </>
+
+                        )}
+                        {activeTab === 'Skin' && (
+                            <>
+                                <label className="block text-md">Skin Problem</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="10"
+                                    value={characterData.appearance.skinProblem}
+                                    onChange={handleInputChange}
+                                    id="skinProblem"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Opacity</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="1"
+                                    step="0.1"
+                                    value={characterData.appearance.opacity}
+                                    onChange={handleInputChange}
+                                    id="opacity"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Blemishes</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="20"
+                                    value={characterData.appearance.blemishes}
+                                    onChange={handleInputChange}
+                                    id="blemishes"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Sun Damage</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="20"
+                                    value={characterData.appearance.sunDamage}
+                                    onChange={handleInputChange}
+                                    id="sunDamage"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Freckles</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="20"
+                                    value={characterData.appearance.freckles}
+                                    onChange={handleInputChange}
+                                    id="freckles"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Chest Hair</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="20"
+                                    value={characterData.appearance.chestHair}
+                                    onChange={handleInputChange}
+                                    id="chestHair"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Chest Hair Color</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="63"
+                                    value={characterData.appearance.chestHairColor}
+                                    onChange={handleInputChange}
+                                    id="chestHairColor"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Blush</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="10"
+                                    value={characterData.appearance.blush}
+                                    onChange={handleInputChange}
+                                    id="blush"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Blush Color</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="63"
+                                    value={characterData.appearance.blushColor}
+                                    onChange={handleInputChange}
+                                    id="blushColor"
+                                    className="w-full slider"
+                                />
+                                <label className="block text-md">Moles</label>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="10"
+                                    value={characterData.appearance.moles}
+                                    onChange={handleInputChange}
+                                    id="moles"
                                     className="w-full slider"
                                 />
                             </>
@@ -437,58 +594,58 @@ const CharacterCreation = () => {
                     <input
                         type="range"
                         min="0"
-                        max="10"
-                        value={characterData.appearance.noseLowering}
-                        onChange={handleInputChange}
-                        id="noseLowering"
-                        className="w-full slider"
-                    />
+                            max="10"
+                            value={characterData.appearance.noseLowering}
+                            onChange={handleInputChange}
+                            id="noseLowering"
+                            className="w-full slider"
+                        />
 
-                    <label className="block text-md">Nose Peak Lowering</label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="10"
-                        value={characterData.appearance.nosePeakLowering}
-                        onChange={handleInputChange}
-                        id="nosePeakLowering"
-                        className="w-full slider"
-                    />
+                        <label className="block text-md">Nose Peak Lowering</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="10"
+                            value={characterData.appearance.nosePeakLowering}
+                            onChange={handleInputChange}
+                            id="nosePeakLowering"
+                            className="w-full slider"
+                        />
 
-                    <label className="block text-md">Nose Twist</label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="10"
-                        value={characterData.appearance.noseTwist}
-                        onChange={handleInputChange}
-                        id="noseTwist"
-                        className="w-full slider"
-                    />
+                        <label className="block text-md">Nose Twist</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="10"
+                            value={characterData.appearance.noseTwist}
+                            onChange={handleInputChange}
+                            id="noseTwist"
+                            className="w-full slider"
+                        />
 
-                    <label className="block text-md">Eyebrow Height</label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="10"
-                        value={characterData.appearance.eyebrowHeight}
-                        onChange={handleInputChange}
-                        id="eyebrowHeight"
-                        className="w-full slider"
-                    />
+                        <label className="block text-md">Eyebrow Height</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="10"
+                            value={characterData.appearance.eyebrowHeight}
+                            onChange={handleInputChange}
+                            id="eyebrowHeight"
+                            className="w-full slider"
+                        />
 
-                    <label className="block text-md">Eyebrow Depth</label>
-                    <input
-                        type="range"
-                        min="0"
-                        max="10"
-                        value={characterData.appearance.eyebrowDepth}
-                        onChange={handleInputChange}
-                        id="eyebrowDepth"
-                        className="w-full slider"
-                    />
-                </div>
-            )}
+                        <label className="block text-md">Eyebrow Depth</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="10"
+                            value={characterData.appearance.eyebrowDepth}
+                            onChange={handleInputChange}
+                            id="eyebrowDepth"
+                            className="w-full slider"
+                        />
+                    </div>
+                )}
 
             {/* Step 4: Clothing */}
             {currentStep === 4 && (
