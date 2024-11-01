@@ -3,10 +3,10 @@ import { NuiProvider, useNuiEvent } from "fivem-nui-react-lib";
 import CharacterCreation from "./components/CharacterCreation";
 
 function App() {
-    const [showCharacterCreation, setShowCharacterCreation] = useState(true);
+    const [showCharacterCreation, setShowCharacterCreation] = useState(false);
 
-    useNuiEvent("orion", "openCharacterCreation", (data) => {
-        console.log(data)
+    useNuiEvent("characterCreator", "openCharacterCreation", (data) => {
+        console.log("oui", data)
         setShowCharacterCreation(data);
     });
 

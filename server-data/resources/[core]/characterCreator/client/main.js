@@ -42,8 +42,9 @@ function startCreationCamera() {
 
 
 onNet('characterCreator:client:startCharacterCreation', () => {
+    console.log('Starting character creation')
     const playerPed = PlayerPedId();
-    SetEntityCoords(playerPed, config.characterCreator.spawn)
+    SetEntityCoords(playerPed, config.characterCreator.spawn.x, config.characterCreator.spawn.y, config.characterCreator.spawn.z, false, false, false, true);
     SetEntityHeading(playerPed, config.characterCreator.spawnHeading);
 
     SetEntityInvincible(playerPed, true);
@@ -59,7 +60,7 @@ const openCharacterCreationUI = () => {
 
     SendNuiMessage(
         JSON.stringify({
-            app: "orion",
+            app: "characterCreator",
             method: "openCharacterCreation",
             data: true,
         })
@@ -72,16 +73,53 @@ RegisterNuiCallbackType("applySkin");
 on("__cfx_nui:applySkin", (data, cb) => {
     const playerPed = PlayerPedId();
 
-    // Example: Update hair style and color
+    // Hair
     SetPedComponentVariation(playerPed, 2, parseInt(data.hairStyle), 0, 0); // Hair style
     SetPedHairColor(playerPed, parseInt(data.hairPrimaryColor), parseInt(data.hairSecondaryColor)); // Hair color
 
-    // Update other components based on data
-    SetPedComponentVariation(playerPed, 8, parseInt(data.tshirtStyle), 0, 0);  // T-shirt
-    SetPedComponentVariation(playerPed, 11, parseInt(data.torsoStyle), 0, 0); // Torso
-    SetPedComponentVariation(playerPed, 4, parseInt(data.legsStyle), 0, 0);   // Pants
-    SetPedComponentVariation(playerPed, 6, parseInt(data.shoesStyle), 0, 0);  // Shoes
+    // Beard
+    if (data.beardStyle !== undefined) {
+        SetPedHeadOverlay(playerPed, 1, parseInt(data.beardStyle), 1.0); // Beard style
+    }
 
-    console.log("Applied skin changes in real-time");
-    cb({ status: "ok" }); // Send a response back to NUI
+    // Eyebrows
+    if (data.eyebrowStyle !== undefined) {
+        SetPedHeadOverlay(playerPed, 2, parseInt(data.eyebrowStyle), 1.0); // Eyebrow style
+    }
+
+    // Makeup
+    if (data.makeupStyle !== undefined) {
+        SetPedHeadOverlay(playerPed, 4, parseInt(data.makeupStyle), 1.0); // Makeup style
+    }
+
+    // Skin problems (like freckles, acne, etc.)
+    if (data.skinProblem !== undefined) {
+        SetPedHeadOverlay(playerPed, 9, parseInt(data.skinProblem), parseFloat(data.opacity || 1.0)); // Skin problem
+    }
+
+    // Nose features
+    if (data.noseWidth !== undefined) SetPedFaceFeature(playerPed, 0, (parseFloat(data.noseWidth) - 5) / 10);
+    if (data.noseHeight !== undefined) SetPedFaceFeature(playerPed, 1, (parseFloat(data.noseHeight) - 5) / 10);
+    if (data.noseLength !== undefined) SetPedFaceFeature(playerPed, 2, (parseFloat(data.noseLength) - 5) / 10);
+    if (data.noseLowering !== undefined) SetPedFaceFeature(playerPed, 3, (parseFloat(data.noseLowering) - 5) / 10);
+    if (data.nosePeakLowering !== undefined) SetPedFaceFeature(playerPed, 4, (parseFloat(data.nosePeakLowering) - 5) / 10);
+    if (data.noseTwist !== undefined) SetPedFaceFeature(playerPed, 5, (parseFloat(data.noseTwist) - 5) / 10);
+
+    // Eyebrow features
+    if (data.eyebrowHeight !== undefined) SetPedFaceFeature(playerPed, 6, (parseFloat(data.eyebrowHeight) - 5) / 10);
+    if (data.eyebrowDepth !== undefined) SetPedFaceFeature(playerPed, 7, (parseFloat(data.eyebrowDepth) - 5) / 10);
+
+    // Clothing components
+    SetPedComponentVariation(playerPed, 8, parseInt(data.tshirtStyle || 0), parseInt(data.tshirtColor || 0), 0);  // T-shirt
+    SetPedComponentVariation(playerPed, 11, parseInt(data.torsoStyle || 0), parseInt(data.torsoColor || 0), 0); // Torso
+    SetPedComponentVariation(playerPed, 4, parseInt(data.legsStyle || 0), parseInt(data.pantsColor || 0), 0);   // Pants
+    SetPedComponentVariation(playerPed, 6, parseInt(data.shoesStyle || 0), parseInt(data.shoesColor || 0), 0);  // Shoes
+
+    // Additional components (like arms and glasses)
+    SetPedComponentVariation(playerPed, 3, parseInt(data.armsStyle || 0), parseInt(data.armsColor || 0), 0);    // Arms
+    SetPedPropIndex(playerPed, 1, parseInt(data.glassesStyle || -1), 0, true); // Glasses (remove if style is -1)
+
+    console.log("Applied full skin changes in real-time");
+    cb( { status : 'ok' })
 });
+

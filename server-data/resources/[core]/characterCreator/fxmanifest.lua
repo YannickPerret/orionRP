@@ -18,6 +18,7 @@ server_scripts {
 }
 
 files {
+    'web/build/images/heritages/*.*',
     'web/build/static/**/*.*',
     'web/build/static/**/*.*',
     'web/build/index.html',

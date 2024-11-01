@@ -4,15 +4,10 @@ game 'gta5'
 author 'Tchoune'
 description 'Core du serveur FiveM'
 
-ui_page 'html/ui/index.html'
-
 
 shared_script 'config/config.js'
 
 files {
-    'html/ui/index.html',
-    'html/ui/style.css',
-    'html/ui/script.js',
     'server/datas/items.json',
     'server/services/*.js',
     'server/models/User.js',
