@@ -1,14 +1,16 @@
 const {loginToCharacter, registerCharacter, loadCharacter} = require('../controllers/Character.js')
-const PlayerManagerService = require('../services/PlayerManagerServices.js')
 
-onNet('orionCore:server:registerCharacter', async (characterData, cb) => {
+onNet('orionCore:server:registerCharacter', async (characterData) => {
     const playerId = source;
-    const identifier =  getPlayerIdentifier(playerId)
-    await registerCharacter(identifier, characterData).then((user) => {
-        // load character
-        cb({status:'ok'})
-        loadCharacter(playerId, user)
-    })
+    const identifier = getPlayerIdentifier(playerId);
+
+    try {
+        const user = await registerCharacter(identifier, characterData);
+        loadCharacter(playerId, user);
+        emitNet('characterCreator:client:closeCharacterCreation', playerId);
+    } catch (error) {
+        console.error('Erreur lors de l\'enregistrement du personnage:', error);
+    }
 });
 
 onNet('orionCore:server:requestPlayerData', async () => {

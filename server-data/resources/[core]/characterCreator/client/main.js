@@ -1,4 +1,5 @@
 let creationCam = null;
+let isFaceZoomActive = false;
 
 async function startCreationCamera() {
     const playerPed = PlayerPedId();
@@ -19,6 +20,43 @@ async function startCreationCamera() {
     RenderScriptCams(true, false, 0, true, false);
     console.log("Caméra de création positionnée face au personnage");
 }
+
+function toggleFaceCameraZoom() {
+    if (!creationCam) return;
+
+    const playerPed = PlayerPedId();
+    const [x, y, z] = GetEntityCoords(playerPed, true);
+
+    if (isFaceZoomActive) {
+        // Revenir à la position de caméra par défaut
+        const camDistance = 3.5;
+        const camHeightOffset = 0.5;
+        const [rightVector, forwardVector] = GetEntityMatrix(playerPed);
+
+        const camX = x + rightVector[0] * camDistance;
+        const camY = y + rightVector[1] * camDistance;
+        const camZ = z + camHeightOffset;
+
+        SetCamCoord(creationCam, camX, camY, camZ);
+        PointCamAtCoord(creationCam, x, y, z + camHeightOffset);
+    } else {
+        // Zoomer sur le visage
+        const faceDistance = 0.8; // Distance plus proche pour zoomer sur le visage
+        const faceHeightOffset = 1.8
+
+        const [rightVector, forwardVector] = GetEntityMatrix(playerPed);
+
+        const camX = x + rightVector[0] * faceDistance;
+        const camY = y + rightVector[1] * faceDistance;
+        const camZ = z + faceHeightOffset;
+
+        SetCamCoord(creationCam, camX, camY, camZ);
+        PointCamAtEntity(creationCam, playerPed, 0, 0, 0, true);
+    }
+
+    isFaceZoomActive = !isFaceZoomActive;
+}
+
 
 function maintainCameraPosition() {
     if (creationCam && IsCamActive(creationCam)) {
@@ -58,11 +96,6 @@ else {
     }
 }
 
-function closeCharacterCreationUI() {
-    SetNuiFocus(false, false);
-    EnableAllControlActions(0)
-    stopCreationCamera();
-}
 
 async function applyDefaultSkin() {
     const skin = config.defaultSkin;
@@ -127,6 +160,23 @@ const openCharacterCreationUI = () => {
     );
 }
 
+onNet('characterCreator:client:closeCharacterCreation', () => {
+    closeCharacterCreationUI()
+})
+
+function closeCharacterCreationUI() {
+    SetNuiFocus(false, false);
+    EnableAllControlActions(0)
+    stopCreationCamera();
+}
+
+
+RegisterNuiCallbackType("toggleFaceZoom");
+on("__cfx_nui:toggleFaceZoom", (data, cb) => {
+    toggleFaceCameraZoom();
+    cb({ status: "ok" });
+});
+
 RegisterNuiCallbackType("applySkin");
 on("__cfx_nui:applySkin", async (data, cb) => {
     console.log(data)
@@ -139,7 +189,10 @@ on("__cfx_nui:applySkin", async (data, cb) => {
         }
         if (IsModelInCdimage(model) && IsModelValid(model)) {
             SetPlayerModel(PlayerId(), model);
+            SetPedDefaultComponentVariation(PlayerPedId())
+
             const playerPed = PlayerPedId();
+
 
             if (model === GetHashKey('mp_m_freemode_01')) {
                 SetPedComponentVariation(playerPed, 3, 15, 0, 2)
@@ -176,67 +229,70 @@ on("__cfx_nui:applySkin", async (data, cb) => {
     if (data.appearance !== undefined){
         if (data.appearance.hairStyle !== undefined) {
             SetPedComponentVariation(playerPed, 2, parseInt(data.appearance.hairStyle),0,0);
+            console.log("change hair")
         }
         if (data.appearance.hairPrimaryColor !== undefined && data.appearance.hairSecondaryColor !== undefined) {
-            SetPedHairTint(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor));
+            setPedHairColor(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor))
+            //SetPedHairTint(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor));
+            console.log("change hair color")
         }
 
         // Beard
-        if (appearance.beardStyle !== undefined) {
-            SetPedHeadOverlay(playerPed, 1, parseInt(appearance.beardStyle), 1.0);
+        if (data.appearance.beardStyle !== undefined) {
+            SetPedHeadOverlay(playerPed, 1, parseInt(data.appearance.beardStyle), 1.0);
         }
-        if (appearance.beardColor !== undefined) {
-            SetPedHeadOverlayColor(playerPed, 1, 1, parseInt(appearance.beardColor), parseInt(appearance.beardColor)); // colorType 1 for beard
+        if (data.appearance.beardColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 1, 1, parseInt(data.appearance.beardColor), parseInt(data.appearance.beardColor)); // colorType 1 for beard
         }
 
         // Eyebrows
-        if (appearance.eyebrowStyle !== undefined) {
-            SetPedHeadOverlay(playerPed, 2, parseInt(appearance.eyebrowStyle), 1.0);
+        if (data.appearance.eyebrowStyle !== undefined) {
+            SetPedHeadOverlay(playerPed, 2, parseInt(data.appearance.eyebrowStyle), 1.0);
         }
-        if (appearance.eyebrowColor !== undefined) {
-            SetPedHeadOverlayColor(playerPed, 2, 1, parseInt(appearance.eyebrowColor), parseInt(appearance.eyebrowColor)); // colorType 1 for eyebrows
+        if (data.appearance.eyebrowColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 2, 1, parseInt(data.appearance.eyebrowColor), parseInt(data.appearance.eyebrowColor)); // colorType 1 for eyebrows
         }
 
         // Makeup
-        if (appearance.makeupStyle !== undefined) {
-            SetPedHeadOverlay(playerPed, 4, parseInt(appearance.makeupStyle), 1.0);
+        if (data.appearance.makeupStyle !== undefined) {
+            SetPedHeadOverlay(playerPed, 4, parseInt(data.appearance.makeupStyle), 1.0);
         }
-        if (appearance.makeupColor !== undefined) {
-            SetPedHeadOverlayColor(playerPed, 4, 2, parseInt(appearance.makeupColor), parseInt(appearance.makeupColor)); // colorType 2 for makeup
+        if (data.appearance.makeupColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 4, 2, parseInt(data.appearance.makeupColor), parseInt(data.appearance.makeupColor)); // colorType 2 for makeup
         }
 
         // Skin problems (like freckles, acne, etc.)
-        if (appearance.skinProblem !== undefined) {
-            SetPedHeadOverlay(playerPed, 9, parseInt(appearance.skinProblem), parseFloat(appearance.opacity || 1.0));
+        if (data.appearance.skinProblem !== undefined) {
+            SetPedHeadOverlay(playerPed, 9, parseInt(data.appearance.skinProblem), parseFloat(data.appearance.opacity || 1.0));
         }
 
-        if (appearance.blemishes !== undefined) {
-            SetPedHeadOverlay(playerPed, 0, parseInt(appearance.blemishes), 1.0);
+        if (data.appearance.blemishes !== undefined) {
+            SetPedHeadOverlay(playerPed, 0, parseInt(data.appearance.blemishes), 1.0);
         }
-        if (appearance.sunDamage !== undefined) {
-            SetPedHeadOverlay(playerPed, 7, parseInt(appearance.sunDamage), 1.0);
+        if (data.appearance.sunDamage !== undefined) {
+            SetPedHeadOverlay(playerPed, 7, parseInt(data.appearance.sunDamage), 1.0);
         }
-        if (appearance.freckles !== undefined) {
-            SetPedHeadOverlay(playerPed, 9, parseInt(appearance.freckles), 1.0);
+        if (data.appearance.freckles !== undefined) {
+            SetPedHeadOverlay(playerPed, 9, parseInt(data.appearance.freckles), 1.0);
         }
-        if (appearance.moles !== undefined) {
-            SetPedHeadOverlay(playerPed, 12, parseInt(appearance.moles), 1.0);
+        if (data.appearance.moles !== undefined) {
+            SetPedHeadOverlay(playerPed, 12, parseInt(data.appearance.moles), 1.0);
         }
 
         // Chest Hair
-        if (appearance.chestHair !== undefined) {
-            SetPedHeadOverlay(playerPed, 10, parseInt(appearance.chestHair), 1.0);
+        if (data.appearance.chestHair !== undefined) {
+            SetPedHeadOverlay(playerPed, 10, parseInt(data.appearance.chestHair), 1.0);
         }
-        if (appearance.chestHairColor !== undefined) {
-            SetPedHeadOverlayColor(playerPed, 10, 1, parseInt(appearance.chestHairColor), parseInt(appearance.chestHairColor));
+        if (data.appearance.chestHairColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 10, 1, parseInt(data.appearance.chestHairColor), parseInt(data.appearance.chestHairColor));
         }
 
         // Blush
-        if (appearance.blush !== undefined) {
-            SetPedHeadOverlay(playerPed, 5, parseInt(appearance.blush), 1.0);
+        if (data.appearance.blush !== undefined) {
+            SetPedHeadOverlay(playerPed, 5, parseInt(data.appearance.blush), 1.0);
         }
-        if (appearance.blushColor !== undefined) {
-            SetPedHeadOverlayColor(playerPed, 5, 2, parseInt(appearance.blushColor), parseInt(appearance.blushColor));
+        if (data.appearance.blushColor !== undefined) {
+            SetPedHeadOverlayColor(playerPed, 5, 2, parseInt(data.appearance.blushColor), parseInt(data.appearance.blushColor));
         }
 
         // Nose features
@@ -272,6 +328,11 @@ on("__cfx_nui:applySkin", async (data, cb) => {
 RegisterNuiCallbackType('register-character')
 on("__cfx_nui:register-character", async (data, cb) => {
     // Préparer les données du personnage
+    if (data.firstName === '' || data.lastName === '' || data.height < 50 || data.height > 220 || data.birthDate === '') {
+        cb({ status : "error", message: "Veuillez remplir les champs d'ADN"})
+        return
+    }
+
     const characterData = {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -280,13 +341,7 @@ on("__cfx_nui:register-character", async (data, cb) => {
         clothes: data.clothes,
     };
 
-    emitNet('orionCore:server:registerCharacter', characterData, (status) => {
-        if(status === 'ok'){
-            closeCharacterCreationUI()
-        }
-    });
-
-    cb({ status: "ok" });
+    emitNet('orionCore:server:registerCharacter', characterData);
 })
 
 on('onResourceStop', () => {

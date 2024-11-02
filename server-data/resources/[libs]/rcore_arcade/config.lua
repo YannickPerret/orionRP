@@ -1,7 +1,7 @@
 Config = {}
 
 -- Which translation you wish to use ?
-Config.Locale = "en"
+Config.Locale = "fr"
 
 Config.Framework = {
     -- 0 = standalone
@@ -127,10 +127,10 @@ Config.RetroMachine = {
         name = "DOOM",
         link = string.format("nui://rcore_arcade/html/msdos.html?url=%s&params=%s", "https://www.retrogames.cz/dos/zip/Doom.zip", "./DOOM.EXE"),
     },
-    {
+    /*{
         name = "Duke Nukem 3D",
         link = string.format("nui://rcore_arcade/html/msdos.html?url=%s&params=%s", "https://www.retrogames.cz/dos/zip/duke3d.zip", "./DUKE3D.EXE"),
-    },
+    },*/
     {
         name = "Wolfenstein 3D",
         link = string.format("nui://rcore_arcade/html/msdos.html?url=%s&params=%s", "https://www.retrogames.cz/dos/zip/Wolfenstein3D.zip", "./WOLF3D.EXE"),

@@ -2,12 +2,14 @@
 import { useNuiRequest } from "fivem-nui-react-lib";
 import React, { useState } from 'react';
 import heritagesData from '../data/heritages.json'
+import { FaSync } from 'react-icons/fa';
 
 const CharacterCreation = () => {
     const { send } = useNuiRequest({ resource: 'characterCreator'})
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedHeritageType, setSelectedHeritageType] = useState('dad');
     const [activeTab, setActiveTab] = useState('Hair');
+    const [isFaceZoomed, setIsFaceZoomed] = useState(false);
     const [characterData, setCharacterData] = useState({
         firstName: '',
         lastName: '',
@@ -69,6 +71,11 @@ const CharacterCreation = () => {
             case 4: return "Clothing";
             default: return "";
         }
+    };
+
+    const toggleFaceZoom = () => {
+        setIsFaceZoomed(!isFaceZoomed);
+        send("toggleFaceZoom", { zoom: !isFaceZoomed });
     };
 
     const handleInputChange = (e) => {
@@ -142,13 +149,16 @@ const CharacterCreation = () => {
             appearance,
             clothes,
         };
-
         send("register-character", characterPayload);
-        console.log("Character Data:", characterPayload);
     };
 
     return (
         <div className="absolute left-10 top-1/4 max-w-ms space-y-6 text-white bg-gray-900 p-4 rounded-md">
+            <div className="absolute top-2 right-2">
+                <button onClick={toggleFaceZoom} className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full">
+                    <FaSync size={20} className="text-white"/>
+                </button>
+            </div>
             <div className="flex justify-center space-x-4 mb-4">
                 {[1, 2, 3, 4].map(step => (
                     <button
@@ -193,6 +203,7 @@ const CharacterCreation = () => {
                         value={characterData.firstName}
                         onChange={handleInputChange}
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
+                        required={true}
                     />
 
                     <label className="block text-sm mt-4">Last Name</label>
@@ -203,6 +214,7 @@ const CharacterCreation = () => {
                         value={characterData.lastName}
                         onChange={handleInputChange}
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
+                        required={true}
                     />
 
                     <label className="block text-sm mt-4">Height</label>
@@ -215,6 +227,7 @@ const CharacterCreation = () => {
                         value={characterData.height}
                         onChange={handleInputChange}
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
+                        required={true}
                     />
 
                     <label className="block text-sm mt-4">Birth Date</label>
@@ -225,6 +238,7 @@ const CharacterCreation = () => {
                         value={characterData.birthDate}
                         onChange={handleInputChange}
                         className="w-full py-2 px-3 bg-gray-800 border border-gray-700 focus:outline-none"
+                        required={true}
                     />
 
 
@@ -594,58 +608,58 @@ const CharacterCreation = () => {
                     <input
                         type="range"
                         min="0"
-                            max="10"
-                            value={characterData.appearance.noseLowering}
-                            onChange={handleInputChange}
-                            id="noseLowering"
-                            className="w-full slider"
-                        />
+                        max="10"
+                        value={characterData.appearance.noseLowering}
+                        onChange={handleInputChange}
+                        id="noseLowering"
+                        className="w-full slider"
+                    />
 
-                        <label className="block text-md">Nose Peak Lowering</label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="10"
-                            value={characterData.appearance.nosePeakLowering}
-                            onChange={handleInputChange}
-                            id="nosePeakLowering"
-                            className="w-full slider"
-                        />
+                    <label className="block text-md">Nose Peak Lowering</label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="10"
+                        value={characterData.appearance.nosePeakLowering}
+                        onChange={handleInputChange}
+                        id="nosePeakLowering"
+                        className="w-full slider"
+                    />
 
-                        <label className="block text-md">Nose Twist</label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="10"
-                            value={characterData.appearance.noseTwist}
-                            onChange={handleInputChange}
-                            id="noseTwist"
-                            className="w-full slider"
-                        />
+                    <label className="block text-md">Nose Twist</label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="10"
+                        value={characterData.appearance.noseTwist}
+                        onChange={handleInputChange}
+                        id="noseTwist"
+                        className="w-full slider"
+                    />
 
-                        <label className="block text-md">Eyebrow Height</label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="10"
-                            value={characterData.appearance.eyebrowHeight}
-                            onChange={handleInputChange}
-                            id="eyebrowHeight"
-                            className="w-full slider"
-                        />
+                    <label className="block text-md">Eyebrow Height</label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="10"
+                        value={characterData.appearance.eyebrowHeight}
+                        onChange={handleInputChange}
+                        id="eyebrowHeight"
+                        className="w-full slider"
+                    />
 
-                        <label className="block text-md">Eyebrow Depth</label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="10"
-                            value={characterData.appearance.eyebrowDepth}
-                            onChange={handleInputChange}
-                            id="eyebrowDepth"
-                            className="w-full slider"
-                        />
-                    </div>
-                )}
+                    <label className="block text-md">Eyebrow Depth</label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="10"
+                        value={characterData.appearance.eyebrowDepth}
+                        onChange={handleInputChange}
+                        id="eyebrowDepth"
+                        className="w-full slider"
+                    />
+                </div>
+            )}
 
             {/* Step 4: Clothing */}
             {currentStep === 4 && (
