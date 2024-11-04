@@ -7,7 +7,7 @@ my-fivem-server/
 │   │   │   │   └── ... (autres scripts clients)
 │   │   │   ├── server/
 │   │   │   │   ├── main.js                 // Point d'entrée du serveur (app.js renommé)
-│   │   │   │   ├── ormconfig.js            // Configuration TypeORM
+│   │   │   │   ├── databases               // Configuration database TypeORM
 │   │   │   │   ├── models/                 // Modèles TypeORM (entités)
 │   │   │   │   │   ├── Player.js
 │   │   │   │   │   ├── Inventory.js
