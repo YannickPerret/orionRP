@@ -7,20 +7,28 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "cd web && npm run dev",
+    "build": "babel server -d dist",
     "typeorm": "typeorm-ts-node-commonjs",
-"migration:generate": "typeorm migration:generate server/databases/migrations -d server/databases/database.js --outputJs",
-"migration:run": "typeorm migration:run -d server/databases/database.js",
-"migration:revert": "typeorm migration:revert -d server/databases/database.js"
+    "migration:generate": "typeorm migration:generate server/databases/migrations -d server/databases/database.js --outputJs",
+    "migration:run": "typeorm migration:run -d server/databases/database.js",
+    "migration:revert": "typeorm migration:revert -d server/databases/database.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "ioredis": "^5.4.1",
     "luxon": "^3.5.0",
     "mysql2": "^3.11.3",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "0.3.17",
-    "bcrypt": "^5.0.1"
+    "typeorm": "0.3.17"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/plugin-proposal-decorators": "^7.25.9",
+    "@babel/preset-env": "^7.26.0"
   }
 }

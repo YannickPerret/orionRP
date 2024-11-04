@@ -10,10 +10,5 @@ setTick(() => {
         SetEntityInvincible(playerPed, true);
         SetPedToRagdoll(playerPed, 1000, 1000, 0, false, false, false);
 
-        // Envoyer un événement au serveur
-        emitNet('core:playerInComa');
-
-        // Afficher un message ou une interface de coma
-        // Exemple : afficher un écran noir ou un message d'aide
     }
 });

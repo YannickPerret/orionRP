@@ -15,7 +15,6 @@ module.exports = {
         throw new Error(`Utilisateur avec l'identifiant ${identifier} introuvable`);
       }
 
-      console.log(characterData)
       const newCharacter = characterRepository.create({
         userId: user.id,
         firstName: characterData.firstName,
@@ -38,14 +37,14 @@ module.exports = {
     }
   },
 
-  async loadCharacter(playerId, character) {
-
+  loadCharacter(playerId, character) {
     emitNet('orionCore:client:loadCharacter', playerId, {
       model: character.model,
       appearance: character.appearance,
       clothes: character.clothes,
       weapons: character.weapons,
       position: character.position,
+      jobs: character.jobs
     });
   },
 
@@ -103,5 +102,5 @@ module.exports = {
       console.error('Erreur lors de la récupération des données du personnage:', error);
       throw error;
     }
-  }
+  },
 };

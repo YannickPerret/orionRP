@@ -6,7 +6,8 @@ onNet('orionCore:server:registerCharacter', async (characterData) => {
 
     try {
         const user = await registerCharacter(identifier, characterData);
-        loadCharacter(playerId, user);
+        const character = user.characters.find(char => char.id === user.activeCharacter);
+        loadCharacter(playerId, character);
         emitNet('characterCreator:client:closeCharacterCreation', playerId);
     } catch (error) {
         console.error('Erreur lors de l\'enregistrement du personnage:', error);
@@ -23,7 +24,7 @@ onNet('orionCore:server:requestPlayerData', async () => {
     try {
         const identifier = getPlayerIdentifier(playerId);
         const character = await loginToCharacter(playerId, identifier);
-        await loadCharacter(playerId, character)
+        loadCharacter(playerId, character)
     } catch (error) {
         console.error(error.message);
         emitNet('characterCreator:client:startCharacterCreation', playerId);

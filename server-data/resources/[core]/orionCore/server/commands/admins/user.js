@@ -1,4 +1,5 @@
-const PlayerManagerService = require("./server/services/PlayerManagerServices.js");
+const PlayerManagerService = require("./server/services/PlayerManagerServices.js")
+const { loadCharacter } = require('./server/controllers/Character.js')
 
 RegisterCommand('login', async (source) => {
     const playerId = source;
@@ -7,7 +8,7 @@ RegisterCommand('login', async (source) => {
     const userRepository = AppDataSource.getRepository('User');
     const user = await userRepository.findOne({
         where: { identifier },
-        relations: ['role'],
+        relations: ['role', 'characters'],
     });
 
     if (user) {
@@ -15,6 +16,8 @@ RegisterCommand('login', async (source) => {
         user.source = playerId;
         PlayerManagerService.addPlayer(playerId, user);
 
+        const character = user.characters.find(char => char.id === user.activeCharacter);
+        loadCharacter(playerId, character);
         emitNet('chat:addMessage', playerId, { args: ["Admin", `Reconnexion réussie pour ${user.username}.`] });
     } else {
         emitNet('chat:addMessage', playerId, { args: ["Erreur", "Utilisateur non trouvé."] });

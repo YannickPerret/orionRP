@@ -134,7 +134,7 @@ const applyCharacterClothes = (clothes) => {
 
         // Additional components (like arms and glasses)
         SetPedComponentVariation(playerPed, 3, parseInt(clothes.armsStyle || 0), parseInt(clothes.armsColor || 0), 0);    // Arms
-        SetPedPropIndex(playerPed, 1, parseInt(data.clothes.glassesStyle || -1), 0, true);
+        SetPedPropIndex(playerPed, 1, parseInt(clothes.glassesStyle || -1), 0, true);
     }
 }
 

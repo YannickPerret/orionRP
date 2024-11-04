@@ -232,6 +232,7 @@ on("__cfx_nui:applySkin", async (data, cb) => {
             console.log("change hair")
         }
         if (data.appearance.hairPrimaryColor !== undefined && data.appearance.hairSecondaryColor !== undefined) {
+            SetPedHairColor(GetPlayerPed(-1), hair_color, 0)
             setPedHairColor(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor))
             //SetPedHairTint(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor));
             console.log("change hair color")

@@ -1,3 +1,5 @@
+let playerSpawned = false
+
 on('onClientResourceStart', (resourceName) => {
     if (GetCurrentResourceName() !== resourceName) return;
 
@@ -16,6 +18,9 @@ on('onClientResourceStart', (resourceName) => {
         SetCanAttackFriendly(PlayerPedId(), true, false);
         SetPedDropsWeaponsWhenDead(PlayerPedId(), false);
 
+        HideHudComponentThisFrame(3);
+        HideHudComponentThisFrame(4);
+
         const gangGroups = [
             "AMBIENT_GANG_HILLBILLY", "AMBIENT_GANG_BALLAS", "AMBIENT_GANG_MEXICAN",
             "AMBIENT_GANG_FAMILY", "AMBIENT_GANG_MARABUNTE", "AMBIENT_GANG_SALVA",
@@ -29,6 +34,11 @@ on('onClientResourceStart', (resourceName) => {
 });
 
 on('playerSpawned', () => {
+    if (!playerSpawned) {
+        ShutdownLoadingScreenNui()
+        playerSpawned = true
+    }
+
     let tick = setTick(async () => {
         if (NetworkIsSessionStarted()) {
             emitNet('orionCore:server:requestPlayerData');

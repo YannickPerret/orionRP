@@ -4,6 +4,9 @@ game 'gta5'
 author 'Tchoune'
 description 'Core du serveur FiveM'
 
+loadscreen 'index.html'
+loadscreen_manual_shutdown 'yes'
+loadscreen_cursor 'false'
 
 shared_script 'config/config.js'
 
@@ -28,8 +31,8 @@ client_scripts {
     'client/helpers/*.js',
     'client/events/*.js',
     'client/commands/*.js',
+    'client/gazStation.js',
     'client/vehicle.js',
-    'client/hud.js',
     'client/player.js',
     'client/main.js',
 }

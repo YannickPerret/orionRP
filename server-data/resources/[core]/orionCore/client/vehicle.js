@@ -46,19 +46,27 @@ onNet('orionCore:spawnVehicle', async (vehicleName) => {
 });
 
 
-setTick(() => {
+
+
+setTick(async () => {
     const playerPed = PlayerPedId();
     const vehicle = GetVehiclePedIsIn(playerPed, false);
 
     if (vehicle) {
-        // Désactiver les contrôles si le véhicule est en l'air ou sur le côté/à l'envers
+
+        const speed = GetEntitySpeed(vehicle);
+        const speedKmh = Math.floor(speed * 3.6);
+
+        // Afficher le texte de la vitesse
+        exports['orionCore'].DrawText(`Vitesse: ${speedKmh} km/h`, 0.9, 0.9, 0.5, 255, 255, 255, 200);
+
         if (!IsVehicleOnAllWheels(vehicle)) {
             DisableControlAction(2, 59)
             DisableControlAction(2, 60)
         }
     }
 
-    Wait(100);
+    await exports['orionCore'].Delay(100);
 });
 
 onNet('orionCore:goToGPSWithVehicle', () => {
@@ -106,10 +114,10 @@ setTick(async () => {
         lastVelocity = 0;
     }
 
-    await Wait(100); // Intervalle pour éviter de surcharger la boucle
+    await exports['orionCore'].Delay(100); // Intervalle pour éviter de surcharger la boucle
 });
 
-setTick(() => {
+setTick(async () => {
     const playerPed = PlayerPedId();
     const isInVehicle = IsPedInAnyVehicle(playerPed, false);
 
@@ -128,7 +136,7 @@ setTick(() => {
         DisableControlAction(0, 0x0F39D54E, true); // Désactiver la touche de changement de vue
     }
 
-    Wait(50); // Délai pour optimiser les performances
+    await exports['orionCore'].Delay(50); // Délai pour optimiser les performances
 });
 
 
@@ -163,3 +171,73 @@ function IsWeatherSnowy() {
     const currentWeather = GetPrevWeatherTypeHashName();
     return currentWeather === GetHashKey("XMAS") || currentWeather === GetHashKey("SNOW");
 }
+
+
+/*********** GESTION FUEL ***********/
+
+function drawFuelGauge(fuelLevel, maxFuel) {
+    const x = 0.85; // Position X de la jauge
+    const y = 0.95; // Position Y de la jauge
+    const width = 0.1; // Largeur de la jauge
+    const height = 0.02; // Hauteur de la jauge
+    const padding = 0.002; // Espace autour de la jauge
+
+    // Calculer la largeur de la jauge de remplissage en fonction du niveau de carburant
+    const filledWidth = (fuelLevel / maxFuel) * width;
+
+    // Dessiner le fond de la jauge (gris)
+    DrawRect(x + width / 2, y, width, height, 100, 100, 100, 200);
+    // Dessiner la partie remplie de la jauge (vert)
+    DrawRect(x + filledWidth / 2, y, filledWidth, height, 0, 255, 0, 200);
+}
+
+
+
+let lastFuelLevel = 100; // Niveau d'essence initial (peut être modifié)
+const globalFuelConsumptionRateMultiplier = 1.0; // Multiplicateur global pour ajuster la consommation
+
+// Fonction pour calculer et appliquer la consommation de carburant
+function consumeFuel(vehicle) {
+    const rpm = GetVehicleCurrentRpm(vehicle);
+    const fuelLevel = GetVehicleFuelLevel(vehicle);
+    const fuelConsumptionRate = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolConsumptionRate") || 0.5;
+
+    // Calcul de la consommation de carburant en fonction des RPM
+    const consumption = GetFrameTime() * rpm * fuelConsumptionRate * globalFuelConsumptionRateMultiplier;
+
+    // Mettre à jour le niveau de carburant
+    const newFuelLevel = Math.max(fuelLevel - consumption, 0);
+    SetVehicleFuelLevel(vehicle, newFuelLevel);
+
+    return newFuelLevel;
+}
+
+// Boucle principale de gestion de l'essence
+setTick(async () => {
+    const playerPed = PlayerPedId();
+    const vehicle = GetVehiclePedIsIn(playerPed, false);
+
+    if (vehicle && DoesVehicleUseFuel(vehicle)) {
+        // Consomme le carburant et récupère le niveau actuel
+        const currentFuelLevel = consumeFuel(vehicle);
+
+        // Récupère le volume du réservoir pour calculer la jauge
+        const maxFuelLevel = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume");
+
+        // Affiche la jauge d'essence
+        drawFuelGauge(currentFuelLevel, maxFuelLevel);
+
+        // Vérifie si le joueur est à une station d'essence (appel depuis gasStation.js)
+        const vehicleCoords = GetEntityCoords(vehicle);
+        const atGasStation = exports['orionCore'].isVehicleAtGasStation(vehicleCoords);
+
+        // Affiche le message pour remplir le réservoir si le joueur est à une station d'essence
+        if (atGasStation) {
+            exports['orionCore'].DisplayFuelMessage(vehicle, currentFuelLevel);
+        }
+
+        lastFuelLevel = currentFuelLevel;
+    }
+
+    await exports['orionCore'].Delay(1000);
+});
