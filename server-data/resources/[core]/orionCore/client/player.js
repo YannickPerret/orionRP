@@ -209,7 +209,6 @@ onNet('orionCore:client:applyCharacterModel', async (model) => {
     await applyCharacterModel(model)
 })
 
-
 onNet('orionCore:client:applyCharacterClothes', (clothes) => {
     const playerPed = PlayerPedId();
     clothes.forEach((clothe) => {
@@ -217,17 +216,11 @@ onNet('orionCore:client:applyCharacterClothes', (clothes) => {
     })
 })
 
-
 on('onClientResourceStart', (resourceName) => {
     if (GetCurrentResourceName() !== resourceName) return;
-    console.log('Ressource client démarrée : ' + resourceName);
-
     setTick(() => {
         const playerId = PlayerId();
-        SetPoliceIgnorePlayer(playerId, true);
-        SetDispatchCopsForPlayer(playerId, false);
-        SetMaxWantedLevel(0);
-        ClearPlayerWantedLevel(playerId);
+
     });
 });
 

@@ -28,7 +28,6 @@ function toggleFaceCameraZoom() {
     const [x, y, z] = GetEntityCoords(playerPed, true);
 
     if (isFaceZoomActive) {
-        // Revenir à la position de caméra par défaut
         const camDistance = 3.5;
         const camHeightOffset = 0.5;
         const [rightVector, forwardVector] = GetEntityMatrix(playerPed);
@@ -40,8 +39,7 @@ function toggleFaceCameraZoom() {
         SetCamCoord(creationCam, camX, camY, camZ);
         PointCamAtCoord(creationCam, x, y, z + camHeightOffset);
     } else {
-        // Zoomer sur le visage
-        const faceDistance = 0.8; // Distance plus proche pour zoomer sur le visage
+        const faceDistance = 0.8;
         const faceHeightOffset = 1.8
 
         const [rightVector, forwardVector] = GetEntityMatrix(playerPed);
@@ -57,23 +55,6 @@ function toggleFaceCameraZoom() {
     isFaceZoomActive = !isFaceZoomActive;
 }
 
-
-function maintainCameraPosition() {
-    if (creationCam && IsCamActive(creationCam)) {
-        const playerPed = PlayerPedId();
-        const [x, y, z] = GetEntityCoords(playerPed, true);
-
-        const camOffset = 2.0;
-        const camX = x + camOffset;
-        const camY = y;
-        const camZ = z + 0.5;
-
-        // Mettre à jour la position de la caméra
-        SetCamCoord(creationCam, camX, camY, camZ);
-        PointCamAtEntity(creationCam, playerPed, 0, 0, 0, true);
-    }
-}
-
 function stopCreationCamera() {
     if (creationCam) {
         RenderScriptCams(false, false, 0, true, false);
@@ -81,21 +62,6 @@ function stopCreationCamera() {
         creationCam = null;
     }
 }
-
-function CreateSkinCam(camera) {
-    if (camSkin){
-        let newCam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Camera[camera].x, Camera[camera].y, Camera[camera].z, 0.00, 0.00, 0.00, Camera[camera].fov, false, 0)
-        PointCamAtCoord(newCam, Camera[camera].x, Camera[camera].y, Camera[camera].z)
-        SetCamActiveWithInterp(newCam, camSkin, 2000, true, true)
-        camSkin = newCam
-    }
-else {
-        camSkin = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", Camera[camera].x, Camera[camera].y, Camera[camera].z, 0.00, 0.00, 0.00, Camera[camera].fov, false, 0)
-        SetCamActive(cam2, true)
-        RenderScriptCams(true, false, 2000, true, true)
-    }
-}
-
 
 async function applyDefaultSkin() {
     const skin = config.defaultSkin;
@@ -190,9 +156,7 @@ on("__cfx_nui:applySkin", async (data, cb) => {
         if (IsModelInCdimage(model) && IsModelValid(model)) {
             SetPlayerModel(PlayerId(), model);
             SetPedDefaultComponentVariation(PlayerPedId())
-
             const playerPed = PlayerPedId();
-
 
             if (model === GetHashKey('mp_m_freemode_01')) {
                 SetPedComponentVariation(playerPed, 3, 15, 0, 2)
@@ -200,7 +164,6 @@ on("__cfx_nui:applySkin", async (data, cb) => {
                 SetPedComponentVariation(playerPed, 8, 15, 0, 2)
                 SetPedComponentVariation(playerPed, 4, 61, 4, 2)
                 SetPedComponentVariation(playerPed, 6, 34, 0, 2)
-
             }
             else if(model === GetHashKey('mp_f_freemode_01')) {
                 SetPedComponentVariation(playerPed, 3, 15, 0, 2)
@@ -211,7 +174,6 @@ on("__cfx_nui:applySkin", async (data, cb) => {
             }
         }
         SetModelAsNoLongerNeeded(model);
-
         console.log("change skin")
     }
 
@@ -237,7 +199,6 @@ on("__cfx_nui:applySkin", async (data, cb) => {
             //SetPedHairTint(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor));
             console.log("change hair color")
         }
-
         // Beard
         if (data.appearance.beardStyle !== undefined) {
             SetPedHeadOverlay(playerPed, 1, parseInt(data.appearance.beardStyle), 1.0);
@@ -303,11 +264,9 @@ on("__cfx_nui:applySkin", async (data, cb) => {
         if (data.appearance.noseLowering !== undefined) SetPedFaceFeature(playerPed, 3, (parseFloat(data.appearance.noseLowering) - 5) / 10);
         if (data.appearance.nosePeakLowering !== undefined) SetPedFaceFeature(playerPed, 4, (parseFloat(data.appearance.nosePeakLowering) - 5) / 10);
         if (data.appearance.noseTwist !== undefined) SetPedFaceFeature(playerPed, 5, (parseFloat(data.appearance.noseTwist) - 5) / 10);
-
         // Eyebrow features
         if (data.appearance.eyebrowHeight !== undefined) SetPedFaceFeature(playerPed, 6, (parseFloat(data.appearance.eyebrowHeight) - 5) / 10);
         if (data.appearance.eyebrowDepth !== undefined) SetPedFaceFeature(playerPed, 7, (parseFloat(data.appearance.eyebrowDepth) - 5) / 10);
-
     }
 
     if (data.clothes !== undefined) {
@@ -321,10 +280,8 @@ on("__cfx_nui:applySkin", async (data, cb) => {
         SetPedComponentVariation(playerPed, 3, parseInt(data.clothes.armsStyle || 0), parseInt(data.clothes.armsColor || 0), 0);    // Arms
         SetPedPropIndex(playerPed, 1, parseInt(data.clothes.glassesStyle || -1), 0, true);
     }
-
     cb({ status: "ok" });
 });
-
 
 RegisterNuiCallbackType('register-character')
 on("__cfx_nui:register-character", async (data, cb) => {

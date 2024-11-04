@@ -1,6 +1,6 @@
 let playerSpawned = false
 
-on('onClientResourceStart', (resourceName) => {
+on('onClientResourceStart', async (resourceName) => {
     if (GetCurrentResourceName() !== resourceName) return;
 
     setTick(() => {
@@ -20,6 +20,12 @@ on('onClientResourceStart', (resourceName) => {
 
         HideHudComponentThisFrame(3);
         HideHudComponentThisFrame(4);
+        HideHudComponentThisFrame(14);
+
+        SetPoliceIgnorePlayer(playerId, true);
+        SetDispatchCopsForPlayer(playerId, false);
+        SetMaxWantedLevel(0);
+        ClearPlayerWantedLevel(playerId);
 
         const gangGroups = [
             "AMBIENT_GANG_HILLBILLY", "AMBIENT_GANG_BALLAS", "AMBIENT_GANG_MEXICAN",
@@ -31,6 +37,9 @@ on('onClientResourceStart', (resourceName) => {
             SetRelationshipBetweenGroups(1, GetHashKey(gang), GetHashKey("PLAYER"));
         });
     });
+
+    await exports['orionCore'].Delay(5);
+
 });
 
 on('playerSpawned', () => {
@@ -45,6 +54,6 @@ on('playerSpawned', () => {
             clearTick(tick);
             return false;
         }
-        await Wait(1000);
+        await exports['orionCore'].Delay(1000);
     });
 });

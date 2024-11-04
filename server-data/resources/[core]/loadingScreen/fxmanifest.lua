@@ -13,7 +13,7 @@ files {
      'web/build/index.html',
      'web/build/static/css/*.*',
      'web/build/static/js/*.*',
-     'web/build/songs/*.*',
+     'web/build/sounds/*.*',
      'web/build/images/*.*'
 }
 

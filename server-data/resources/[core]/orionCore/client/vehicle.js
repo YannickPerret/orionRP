@@ -57,8 +57,11 @@ setTick(async () => {
         const speed = GetEntitySpeed(vehicle);
         const speedKmh = Math.floor(speed * 3.6);
 
-        // Afficher le texte de la vitesse
         exports['orionCore'].DrawText(`Vitesse: ${speedKmh} km/h`, 0.9, 0.9, 0.5, 255, 255, 255, 200);
+
+        const currentFuelLevel = consumeFuel(vehicle);
+        const maxFuelLevel = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume");
+        drawFuelGauge(currentFuelLevel, maxFuelLevel);
 
         if (!IsVehicleOnAllWheels(vehicle)) {
             DisableControlAction(2, 59)
@@ -66,7 +69,6 @@ setTick(async () => {
         }
     }
 
-    await exports['orionCore'].Delay(100);
 });
 
 onNet('orionCore:goToGPSWithVehicle', () => {
@@ -79,14 +81,6 @@ onNet('orionCore:goToGPSWithVehicle', () => {
         emit('chat:addMessage', { args: ["Admin", "Vous avez été téléporté au point GPS avec votre véhicule."] });
     } else {
         emit('chat:addMessage', { args: ["Admin", "Aucun point GPS trouvé."] });
-    }
-});
-
-setTick(() => {
-    if (IsControlJustPressed(0, 29)) { // Touche "B" pour activer/désactiver la ceinture
-        seatbeltOn = !seatbeltOn;
-        const message = seatbeltOn ? 'Ceinture attachée.' : 'Ceinture détachée.';
-        emitNet('chat:addMessage', { args: ["Système", message] });
     }
 });
 
@@ -114,7 +108,7 @@ setTick(async () => {
         lastVelocity = 0;
     }
 
-    await exports['orionCore'].Delay(100); // Intervalle pour éviter de surcharger la boucle
+    await exports['orionCore'].Delay(100)
 });
 
 setTick(async () => {
@@ -122,21 +116,21 @@ setTick(async () => {
     const isInVehicle = IsPedInAnyVehicle(playerPed, false);
 
     if (isInVehicle) {
+        if (IsControlJustPressed(0, 29)) {
+            seatbeltOn = !seatbeltOn;
+            const message = seatbeltOn ? 'Ceinture attachée.' : 'Ceinture détachée.';
+            emitNet('chat:addMessage', { args: ["Système", message] });
+        }
         // Si le joueur est dans un véhicule, forcer la vue à la première personne
         SetFollowVehicleCamViewMode(4); // Mode 4 = première personne
         wasInVehicle = true;
     } else if (wasInVehicle) {
-        // Si le joueur est sorti du véhicule, revenir en vue à la troisième personne
-        SetFollowPedCamViewMode(1); // Mode 1 = troisième personne
+        SetFollowPedCamViewMode(1);
+        DisableControlAction(0, 0x0F39D54E, true);
         wasInVehicle = false;
     }
 
-    // Désactiver uniquement la touche de changement de vue tant que le joueur est dans un véhicule
-    if (wasInVehicle) {
-        DisableControlAction(0, 0x0F39D54E, true); // Désactiver la touche de changement de vue
-    }
-
-    await exports['orionCore'].Delay(50); // Délai pour optimiser les performances
+    await exports['orionCore'].Delay(50);
 });
 
 
@@ -171,6 +165,29 @@ function IsWeatherSnowy() {
     const currentWeather = GetPrevWeatherTypeHashName();
     return currentWeather === GetHashKey("XMAS") || currentWeather === GetHashKey("SNOW");
 }
+
+/************** LOCK VEHICLE ***************/
+const lockVehicle = async (vehicleId) => {
+    if (!vehicleId) return;
+    exports['orionCore'].PlayAnimation(PlayerId(), 'anim@mp_player_intmenu@key_fob@', 'fob_click', 1000, false)
+
+    const vehicle = vehicleId;
+    const locked = GetVehicleDoorLockStatus(vehicle);
+
+    if (locked === 1 || locked === 0) {
+        // Verrouiller le véhicule
+        SetVehicleDoorsLocked(vehicle, 2);
+        PlayVehicleDoorCloseSound(vehicle, 1);
+        console.log('Véhicule verrouillé');
+    } else {
+        // Déverrouiller le véhicule
+        SetVehicleDoorsLocked(vehicle, 1);
+        PlayVehicleDoorOpenSound(vehicle, 0);
+        console.log('Véhicule déverrouillé');
+    }
+};
+
+
 
 
 /*********** GESTION FUEL ***********/
@@ -224,9 +241,6 @@ setTick(async () => {
         // Récupère le volume du réservoir pour calculer la jauge
         const maxFuelLevel = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume");
 
-        // Affiche la jauge d'essence
-        drawFuelGauge(currentFuelLevel, maxFuelLevel);
-
         // Vérifie si le joueur est à une station d'essence (appel depuis gasStation.js)
         const vehicleCoords = GetEntityCoords(vehicle);
         const atGasStation = exports['orionCore'].isVehicleAtGasStation(vehicleCoords);
@@ -241,3 +255,8 @@ setTick(async () => {
 
     await exports['orionCore'].Delay(1000);
 });
+
+
+
+/*********** EXPORTS ************/
+exports('LockVehicle', lockVehicle)

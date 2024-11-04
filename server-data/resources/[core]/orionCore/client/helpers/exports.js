@@ -35,7 +35,6 @@ function screenPositionToCameraRay() {
 async function raycastCamera(flag = -1) {
     const { camPos, forwardVector } = screenPositionToCameraRay();
 
-    // Set destination point based on forward vector
     const destination = {
         x: camPos[0] + forwardVector.x * 16,
         y: camPos[1] + forwardVector.y * 16,
@@ -88,7 +87,35 @@ async function loadTextureDict(dict) {
     });
 }
 
+playAnimation = async (playerId, animDict, animName, duration = 60000, loop = false, forceStop = false, freeze = false) => {
+    const playerPed = GetPlayerPed(playerId);
+    if (forceStop) {
+        ClearPedTasksImmediately(playerPed);
+    }
+    if (!animDict) {
+        return;
+    }
+    RequestAnimDict(animDict);
+    const interval = setInterval(() => {
+        if (HasAnimDictLoaded(animDict)) {
+            clearInterval(interval);
+
+            const animFlag = (loop ? 1 : 0) | (freeze ? 32 : 0); // 1 pour boucle, 32 pour figé
+            TaskPlayAnim(playerPed, animDict, animName, 8.0, 8.0, duration, animFlag, 0, false, false, false);
+
+            if (!loop && duration > 0) {
+                setTimeout(() => {
+                    ClearPedTasks(playerPed);
+                }, duration);
+            }
+        }
+    }, 100);
+}
+
+
+
 exports('Delay', delay)
 exports('DrawText', drawText)
 exports('RaycastCamera', raycastCamera)
 exports('LoadTextureDict', loadTextureDict)
+exports('PlayAnimation', playAnimation)
