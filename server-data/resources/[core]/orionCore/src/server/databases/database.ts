@@ -10,10 +10,6 @@ import { Vehicle } from '../models/Vehicle';
 import { Character } from '../models/Character';
 import { Role } from '../models/Role';
 
-dotenv.config({
-    path: '.env'
-});
-
 const dbConfig = {
     type: process.env.DATABASE_DRIVER as any,
     host: process.env.DATABASE_HOST,

@@ -1,7 +1,6 @@
 // resources/orionCore/server/databases/seeds/role.js
 const AppDataSource = require('../database.ts');
-const { RoleType } = require('../../models/schemas/Role.js');
-const Role = require('../../models/schemas/Role.js');
+const { RoleType, Role } = require('../../models/Role');
 
 async function seed() {
     try {
