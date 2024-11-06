@@ -4,31 +4,39 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
     "dev": "cd web && npm run dev",
-    "build": "babel server -d dist",
+    "build": "webpack --mode production --config webpack.config.js",
+    "clearbuild": "rimraf ./build",
+    "typecheck": "tsc --noEmit -p src/client/tsconfig.json && tsc --noEmit -p tsconfig.json",
     "typeorm": "typeorm-ts-node-commonjs",
-    "migration:generate": "typeorm migration:generate server/databases/migrations -d server/databases/database.js --outputJs",
-    "migration:run": "typeorm migration:run -d server/databases/database.js",
-    "migration:revert": "typeorm migration:revert -d server/databases/database.js"
+    "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d src/server/databases/database.ts -o src/server/databases/migrations/InitialMigration",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d src/server/databases/database.ts",
+    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d src/server/databases/database.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Tchoune",
+  "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "@swc/core": "^1.8.0",
+    "bcrypt": "^5.1.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "ioredis": "^5.4.1",
     "luxon": "^3.5.0",
     "mysql2": "^3.11.3",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "0.3.17"
+    "typeorm": "0.3.17",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.26.0",
-    "@babel/node": "^7.26.0",
-    "@babel/plugin-proposal-decorators": "^7.25.9",
-    "@babel/preset-env": "^7.26.0"
+    "@citizenfx/client": "^2.0.10778-1",
+    "@citizenfx/server": "^2.0.10778-1",
+    "@types/node": "^22.9.0",
+    "esbuild": "^0.20.2",
+    "rimraf": "^5.0.1",
+    "swc-loader": "^0.2.6",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
   }
 }

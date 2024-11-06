@@ -1,6 +1,6 @@
 node_modules
-.env
+src/server/.env
 .env.*
-/dist
+/build
 package-lock.json
 yarn.lock

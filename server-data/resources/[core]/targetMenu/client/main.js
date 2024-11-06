@@ -1,17 +1,18 @@
+// resources/[core]/targetMenu/client/main.js
+
 let isTargetModeActive = false;
 let currentTarget = null;
-const dict = 'Shared'
-const texture = 'emptydot_32'
+const dict = 'Shared';
+const texture = 'emptydot_32';
 let isMenuOpen = false;
-
-
+let controlDisabler = null;
 
 const hasPermission = (permission) => {
     const playerState = Entity(PlayerPedId()).state;
 
     if (!permission) return true;
     const userJob = getPlayerJob();
-    const userRank = playerState.role.name
+    const userRank = playerState.role.name;
     return (
         (!permission.job || permission.job === userJob) &&
         (!permission.rank || permission.rank === userRank)
@@ -19,7 +20,7 @@ const hasPermission = (permission) => {
 };
 
 const hasRole = (requiredRole) => {
-    //const userRole = getPlayerRole();
+    // const userRole = getPlayerRole();
     return !requiredRole || requiredRole === userRole;
 };
 
@@ -53,35 +54,24 @@ RegisterCommand('playerTarget', async function (source, args) {
         isTargetModeActive = true;
 
         // Fonction anonyme pour détecter la cible
-        (async () => {
-            DisableControlAction(0, 1, true);
-            DisableControlAction(0, 2, true);
-            DisablePlayerFiring(PlayerPedId(), true);
-            DisableControlAction(0, 24, true);  // Désactiver l'attaque (clic gauche)
-            DisableControlAction(0, 25, true);  // Désactiver le ciblage (clic droit)
-            DisableControlAction(0, 142, true); // Désactiver l'attaque de mêlée alternative
-            DisableControlAction(0, 257, true); // Désactiver l'attaque 2
-            DisableControlAction(0, 263, true); // Désactiver la mêlée
-            DisableControlAction(0, 140, true); // Désactiver l'attaque de mêlée légère
-            DisableControlAction(0, 141, true); // Désactiver l'attaque de mêlée lourde
-            DisableControlAction(0, 143, true); // Désactiver l'attaque de mêlée
-            HideHudComponentThisFrame(14);
+        await (async () => {
+            const playerPed = PlayerPedId();
+            const coords = GetEntityCoords(playerPed, true);
 
-            const { entityHit, entityType, endCoords } = await exports['orionCore'].RaycastCamera(30);
+            const {entityHit, entityType, endCoords} = await exports['orionCore'].RaycastCamera(30);
             let actions = [];
 
             if (entityHit && entityHit !== 0) {
-                const coords = GetEntityCoords(PlayerPedId(), true);
                 let boneData = null;
 
                 const targetActions = config.targetMenu.targetActions;
                 if (entityType === 1) { // Joueur
                     actions = targetActions.player.filter(action => hasPermission(action.permission));
-                    currentTarget = { id: entityHit, type: entityType, actions };
+                    currentTarget = {id: entityHit, type: entityType, actions};
                 } else if (entityType === 2) { // Véhicule
                     boneData = checkBones(coords, entityHit, config.targetMenu.boneList.vehicle);
                     actions = targetActions.vehicle.filter(action => hasPermission(action.permission));
-                    currentTarget = { id: entityHit, type: entityType, actions, boneData };
+                    currentTarget = {id: entityHit, type: entityType, actions, boneData};
                 } else if (entityType === 3) { // Objet
                     const modelHash = GetEntityModel(entityHit);
                     actions = targetActions.object.filter(action => {
@@ -89,12 +79,12 @@ RegisterCommand('playerTarget', async function (source, args) {
                     });
 
                     if (actions.length > 0) {
-                        currentTarget = { id: entityHit, type: entityType, actions };
+                        currentTarget = {id: entityHit, type: entityType, actions};
                     }
                 }
             } else {
                 actions = config.targetMenu.targetActions.myself;
-                currentTarget = { id: null, type: "myself", actions };
+                currentTarget = {id: null, type: "myself", actions};
             }
 
             if (actions.length > 0) {
@@ -102,13 +92,12 @@ RegisterCommand('playerTarget', async function (source, args) {
                 SendNuiMessage(JSON.stringify({
                     app: "targetMenu",
                     method: "updateTargetData",
-                    data: { target: currentTarget },
+                    data: {target: currentTarget},
                 }));
             } else {
                 console.log("Aucune entité détectée ou aucune action disponible.");
                 isTargetModeActive = false;
             }
-
         })();
     }
 });
@@ -116,7 +105,7 @@ RegisterCommand('playerTarget', async function (source, args) {
 function openTargetMode() {
     if (isMenuOpen) return;
     SetNuiFocus(true, true);
-    //SetNuiFocusKeepInput(true);
+    SetNuiFocusKeepInput(true); // Permet au jeu de recevoir les entrées clavier
     SetCursorLocation(0.5, 0.5);
     SendNuiMessage(JSON.stringify({
         app: "targetMenu",
@@ -124,6 +113,9 @@ function openTargetMode() {
         data: { show: true, target: currentTarget },
     }));
     isMenuOpen = true;
+
+    // Démarrer la désactivation des contrôles
+    startControlDisabler();
 }
 
 function closeTargetMode() {
@@ -138,13 +130,45 @@ function closeTargetMode() {
         SetEntityDrawOutline(currentTarget.id, false);
     }
     isMenuOpen = false;
+    isTargetModeActive = false;
+
+    // Arrêter la désactivation des contrôles
+    if (controlDisabler) {
+        clearTick(controlDisabler);
+        controlDisabler = null;
+    }
+}
+
+function startControlDisabler() {
+    if (controlDisabler) return; // Évite de créer plusieurs ticks
+    controlDisabler = setTick(() => {
+        if (!isMenuOpen) {
+            clearTick(controlDisabler);
+            controlDisabler = null;
+            return;
+        }
+        // Désactiver les contrôles de la caméra et des attaques
+        DisableControlAction(0, 1, true);  // LookLeftRight
+        DisableControlAction(0, 2, true);  // LookUpDown
+        DisableControlAction(0, 24, true); // Attack
+        DisableControlAction(0, 25, true); // Aim
+        DisableControlAction(0, 68, true); // VehicleAttack
+        DisableControlAction(0, 69, true); // VehicleAttack2
+        DisableControlAction(0, 70, true); // Vehicle Aim
+        DisableControlAction(0, 91, true); // PassengerAim
+        DisableControlAction(0, 92, true); // PassengerAttack
+        DisableControlAction(0, 257, true); // Attack2
+        DisableControlAction(0, 263, true); // MeleeAttack1
+        DisableControlAction(0, 264, true); // MeleeAttack2
+        DisableControlAction(0, 331, true); // Phone
+        // Vous pouvez ajouter d'autres contrôles à désactiver si nécessaire
+    });
 }
 
 RegisterNuiCallbackType('handleAction');
 on('__cfx_nui:handleAction', (data, cb) => {
     const { action, targetId, targetType } = data;
     closeTargetMode();
-    isTargetModeActive = false;
 
     if (action) {
         if (action.type === 'client') {

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2020",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "experimentalDecorators": true,    // Activer les décorateurs (nécessaire pour TypeORM)
+    "emitDecoratorMetadata": true,     // Émettre les métadonnées des décorateurs (nécessaire pour TypeORM)
+    "skipLibCheck": true,              // Ignorer la vérification des fichiers de définition de type
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "types": ["@citizenfx/server", "@citizenfx/client", "@types/node", "reflect-metadata"],
+    "lib": ["ES2020"]
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["**/node_modules", "**/__tests__/*"],
+  "ts-node": {
+    "swc": true
+  }
+}
