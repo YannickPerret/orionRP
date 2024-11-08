@@ -1,5 +1,8 @@
 let creationCam = null;
 let isFaceZoomActive = false;
+let hair = 0;
+let haircolor = 0;
+let haircolor2 = 0;
 
 async function startCreationCamera() {
     const playerPed = PlayerPedId();
@@ -39,8 +42,10 @@ function toggleFaceCameraZoom() {
         SetCamCoord(creationCam, camX, camY, camZ);
         PointCamAtCoord(creationCam, x, y, z + camHeightOffset);
     } else {
-        const faceDistance = 0.8;
-        const faceHeightOffset = 1.8
+        const faceDistance = 1.4;
+        const faceHeightOffset = 0.6
+
+        const camPoint = GetOffsetFromEntityInWorldCoords(playerPed, 0, 0, 0.6);
 
         const [rightVector, forwardVector] = GetEntityMatrix(playerPed);
 
@@ -49,7 +54,8 @@ function toggleFaceCameraZoom() {
         const camZ = z + faceHeightOffset;
 
         SetCamCoord(creationCam, camX, camY, camZ);
-        PointCamAtEntity(creationCam, playerPed, 0, 0, 0, true);
+        // PointCamAtEntity(creationCam, playerPed, 0, 0, 0.6, true);
+        PointCamAtCoord(creationCam, camPoint.x, camPoint.y, camPoint.z);
     }
 
     isFaceZoomActive = !isFaceZoomActive;
@@ -191,14 +197,23 @@ on("__cfx_nui:applySkin", async (data, cb) => {
     if (data.appearance !== undefined){
         if (data.appearance.hairStyle !== undefined) {
             SetPedComponentVariation(playerPed, 2, parseInt(data.appearance.hairStyle),0,0);
+            hair = parseInt(data.appearance.hairStyle)
             console.log("change hair")
         }
-        if (data.appearance.hairPrimaryColor !== undefined && data.appearance.hairSecondaryColor !== undefined) {
-            SetPedHairColor(GetPlayerPed(-1), hair_color, 0)
-            setPedHairColor(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor))
-            //SetPedHairTint(playerPed, parseInt(data.appearance.hairPrimaryColor), parseInt(data.appearance.hairSecondaryColor));
-            console.log("change hair color")
+
+
+        if (data.appearance.hairPrimaryColor !== undefined ) {
+            SetPedComponentVariation(playerPed, 2, parseInt(hair), parseInt(data.appearance.hairPrimaryColor), parseInt(haircolor2));
+            haircolor = parseInt(data.appearance.hairPrimaryColor);
+            console.log("change hair color 2")
         }
+
+        if (data.appearance.hairSecondaryColor !== undefined) {
+            SetPedComponentVariation(playerPed, 2, parseInt(hair), parseInt(haircolor), parseInt(data.appearance.hairSecondaryColor));
+            haircolor2 = parseInt(data.appearance.hairSecondaryColor);
+            console.log("change hair color 2")
+        }
+
         // Beard
         if (data.appearance.beardStyle !== undefined) {
             SetPedHeadOverlay(playerPed, 1, parseInt(data.appearance.beardStyle), 1.0);
