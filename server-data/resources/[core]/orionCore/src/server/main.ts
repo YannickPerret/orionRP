@@ -1,20 +1,40 @@
-import "@citizenfx/server";
-import { AppDataSource } from "./databases/database";
-import initItems from './scripts/initItems'
-import './events/accountEvents';
-import './events/characterEvents';
+import 'reflect-metadata'
+import AppDataSource from "./core/database/database";
+import {UserController} from "./modules/users/user.controller";
+import {CharacterController} from "./modules/characters/character.controller";
+import {InventoryController} from "./modules/inventories/inventory.controller";
+import {RoleController} from "./modules/roles/role.controller";
+import {ItemController} from "./modules/items/item.controller";
+import initItems from "./core/scripts/initItems";
+import {VehicleController} from "./modules/vehicles/vehicle.controller";
 
-// Initialisation du serveur
-on('onServerResourceStart', (resourceName: string) => {
-    if (GetCurrentResourceName() !== resourceName) return;
+async function bootstrap() {
+    try {
+        // Initialiser la base de données
+        AppDataSource.initialize()
+            .then(() => {
+                console.log('Data Source has been initialized!');
+            })
+            .catch((err) => {
+                console.error('Error during Data Source initialization:', err);
+            });
 
-    // Initialisation de la base de données
-    AppDataSource.initialize().then(async () => {
-        console.log('Connecté à la base de données de Orion');
 
-        // Initialiser les items
-        await initItems();
+        // Initialiser les contrôleurs
+        new RoleController()
+        new InventoryController()
+        new ItemController()
+        new UserController();
+        new CharacterController();
+        new VehicleController()
 
-        console.log('Le serveur Orion est prêt');
-    }).catch((error: any) => console.log('Erreur :', error));
-});
+        /* Initialiser */
+        await initItems()
+
+        console.log("Serveur démarré");
+    } catch (error) {
+        console.error("Erreur lors du démarrage:", error);
+    }
+}
+
+bootstrap();
