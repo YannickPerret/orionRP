@@ -6,7 +6,26 @@ export class VehicleService {
     @Inject(PrismaService)
     private prisma!: PrismaService;
 
-    async createVehicle(characterId: number, vehicleData: Partial<any>) {
+    async spawnNewVehicle(playerId: number, modelHash: string) {
+            const modelHashValue = typeof modelHash === 'string' ? GetHashKey(modelHash) : modelHash;
+
+            const player = global.source
+            const ped = GetPlayerPed(player);
+            const [playerX, playerY, playerZ] = GetEntityCoords(ped);
+            const heading = GetEntityHeading(ped)
+            const vehicleType = GetVehicleType(modelHashValue)
+
+            const vehicle = CreateVehicleServerSetter(modelHashValue, vehicleType, playerX, playerY, playerZ, heading);
+
+            if (vehicle === 0) {
+                throw new Error('Échec du spawn du véhicule.');
+            }
+
+            console.log(`Véhicule spawné: ${modelHash} pour le joueur ${playerId} aux coordonnées (${playerX}, ${playerY}, ${playerZ}).`);
+            return vehicle;
+    }
+
+    async registerNewVehicle(characterId: number, vehicleData: Partial<any>) {
         const character = await this.prisma.character.findUnique({ where: { id: characterId } });
         if (!character) {
             throw new Error('Personnage non trouvé');
@@ -36,12 +55,10 @@ export class VehicleService {
     }
 
     async updateVehicle(vehicleId: string, updateData: Partial<any>) {
-        const vehicle = await this.prisma.vehicle.update({
-            where: { id: vehicleId },
+        return this.prisma.vehicle.update({
+            where: {id: vehicleId},
             data: updateData,
         });
-
-        return vehicle;
     }
 
     async deleteVehicle(vehicleId: string): Promise<void> {

@@ -5,7 +5,7 @@ import {config} from "./config/config";
 export class WorldClientService {
 
     @Tick()
-    private initialize() {
+    initialize() {
         const playerId = PlayerId();
         SetPoliceIgnorePlayer(playerId, true);
         SetDispatchCopsForPlayer(playerId, false);

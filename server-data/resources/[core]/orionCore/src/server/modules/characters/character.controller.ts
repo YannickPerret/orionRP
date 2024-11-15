@@ -1,8 +1,9 @@
 import '@citizenfx/server';
-import { ServerEvent, Inject } from '../../../core/decorators';
+import {ServerEvent, Inject, Tick, TickInterval} from '../../../core/decorators';
 import { CharacterService } from './character.service';
 import { PlayerManagerService } from '../playerManager/playerManager.service';
 import {UserService} from "../users/user.service";
+import {Interval} from "luxon";
 
 export class CharacterController {
   @Inject(CharacterService)
@@ -40,9 +41,9 @@ export class CharacterController {
   }
 
   @ServerEvent('character:save')
-  async handleSaveCharacter(playerId: number): Promise<void> {
+  async handleSaveCharacter(playerId: number, position: { x: number, y: number, z: number }, heading: number): Promise<void> {
     try {
-      await this.characterService.saveCharacter(playerId);
+      await this.characterService.saveCharacter(playerId, position, heading);
       console.log(`Personnage du joueur ${playerId} sauvegardé.`);
     } catch (error) {
       console.error('Erreur lors de la sauvegarde du personnage:', error);
@@ -58,6 +59,19 @@ export class CharacterController {
       }
     } catch (error) {
       console.error('Erreur lors de l\'application des effets:', error);
+    }
+  }
+
+  @Tick(TickInterval.EVERY_15_MINUTE)
+  handleSaveCharacters() : void {
+    const players = this.playerManager.getAllPlayers()
+    console.log(`update ${players.size} players`)
+    if (players.size > 0) {
+      players.forEach(async player => {
+        const [x, y, z] = GetEntityCoords(player.source)
+        const playerHeading = GetEntityHeading(player.source)
+        await this.characterService.saveCharacter(player.id, {x, y, z}, playerHeading)
+      })
     }
   }
 }

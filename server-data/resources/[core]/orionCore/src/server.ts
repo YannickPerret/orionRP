@@ -10,14 +10,12 @@ import {VehicleController} from "./server/modules/vehicles/vehicle.controller";
 async function bootstrap() {
     try {
         // Initialiser les contrôleurs
+        new VehicleController()
         new RoleController()
         new CharacterController();
         new UserController();
-
-         new InventoryController()
-         new ItemController()
-         new VehicleController()
-
+        new InventoryController()
+        new ItemController()
 
         console.log("Serveur démarré");
     } catch (error) {

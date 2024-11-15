@@ -31,8 +31,3 @@ onNet('orionCore:applyCharacterData', (data) => {
     console.log("Données de personnage appliquées côté client");
 });
 
-onNet('orionCore:openCharacterCreation', () => {
-    // Ici, vous pouvez afficher une interface côté client pour créer un personnage
-    console.log("Ouvrir l'interface de création de personnage");
-    // Après la création, envoyez les données au serveur
-});

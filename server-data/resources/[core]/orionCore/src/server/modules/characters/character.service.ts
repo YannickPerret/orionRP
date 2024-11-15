@@ -58,14 +58,13 @@ export class CharacterService {
                 throw new Error('Personnage non trouvé');
             }
             emitNet('orionCore:client:loadCharacter', playerId, {position: character.position, model: character.model, appearance: character.appearance, clothes: character.clothes})
-
             return character;
         } catch (error) {
             throw new Error(`Erreur lors du chargement du personnage: ${error.message}`);
         }
     }
 
-    async saveCharacter(playerId: number): Promise<void> {
+    async saveCharacter(playerId: number, position: { x: number, y: number, z: number }, heading: number): Promise<void> {
         try {
             const player = this.playerManager.getPlayer(playerId);
             if (!player || !player.activeCharacter) {
@@ -80,18 +79,10 @@ export class CharacterService {
                 throw new Error('Personnage non trouvé');
             }
 
-            // Sauvegarder la position actuelle
-            const ped = GetPlayerPed(playerId);
-            const [x, y, z] = GetEntityCoords(ped);
-            const health = GetEntityHealth(ped);
-            const armor = GetPedArmour(ped);
-
             await this.prisma.character.update({
                 where: { id: character.id },
                 data: {
-                    position: { x, y, z },
-                    health,
-                    armor,
+                    position: position,
                 },
             });
 

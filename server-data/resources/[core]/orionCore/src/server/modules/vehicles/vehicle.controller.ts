@@ -1,6 +1,7 @@
 import '@citizenfx/server';
-import { ServerEvent, Inject } from '../../../core/decorators';
+import {ServerEvent, Inject, Command} from '../../../core/decorators';
 import { VehicleService } from './vehicle.service';
+import {RoleType} from "../roles/role.enum";
 
 export class VehicleController {
     @Inject(VehicleService)
@@ -9,7 +10,7 @@ export class VehicleController {
     @ServerEvent('vehicle:create')
     async handleCreateVehicle(playerId: number, characterId: number, vehicleData: Partial<any>): Promise<void> {
         try {
-            const vehicle = await this.vehicleService.createVehicle(characterId, vehicleData);
+            const vehicle = await this.vehicleService.registerNewVehicle(characterId, vehicleData);
             console.log(`Véhicule créé : ${vehicle.model} pour le personnage ${characterId}`);
             emitNet('orionCore:client:vehicleCreated', playerId, vehicle);
         } catch (error) {
@@ -66,6 +67,24 @@ export class VehicleController {
             console.error('Erreur lors de la suppression du véhicule:', error);
         }
     }
-}
 
-export default new VehicleController();
+    @Command({
+        name: 'spawnVehicle',
+        description: 'Commande pour spawn un véhicule',
+        role: RoleType.ADMIN,
+    })
+    async spawnVehicleCommand(source: number, args: string[]): Promise<void> {
+        try {
+            const vehicleName = args[0];
+            if (!vehicleName) {
+                emitNet('chat:addMessage', source, { args: ["Admin", "Vous devez spécifier un nom de véhicule."] });
+                return;
+            }
+            console.log("llllss")
+            await this.vehicleService.spawnNewVehicle(source, vehicleName)
+        }
+        catch (error) {
+            console.error(`Erreur lors du spawn du véhicule: ${error}`)
+        }
+    }
+}

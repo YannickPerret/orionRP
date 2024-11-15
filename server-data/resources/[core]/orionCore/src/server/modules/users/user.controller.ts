@@ -43,11 +43,8 @@ export class UserController {
 
   @GameEvent('playerDropped')
   async handleUserDropped(reason: string): Promise<void> {
-    const playerId = source;
     try {
-      await this.userService.saveUserPosition(playerId);
-      await this.characterService.saveCharacter(playerId);
-      this.playerManager.removePlayer(playerId);
+      this.playerManager.removePlayer(source);
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     }

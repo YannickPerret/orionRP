@@ -44,28 +44,6 @@ export class UserService {
         return null;
     }
 
-    async saveUserPosition(playerId: number): Promise<void> {
-        const license = this.getPlayerIdentifier(playerId);
-        if (!license) return;
-
-        const user = await this.findUserByLicense(license);
-        if (!user?.activeCharacter) return;
-
-        const character = await this.prisma.character.findUnique({
-            where: { id: user.activeCharacter },
-        });
-
-        if (character) {
-            const [x, y, z] = GetEntityCoords(GetPlayerPed(playerId));
-            await this.prisma.character.update({
-                where: { id: character.id },
-                data: {
-                    position: { x, y, z },
-                },
-            });
-        }
-    }
-
     async handleLoginCommand(playerId: number) {
         const license = this.getPlayerIdentifier(playerId);
 

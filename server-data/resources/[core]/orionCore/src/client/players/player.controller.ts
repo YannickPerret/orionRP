@@ -1,6 +1,7 @@
-import {ClientEvent, Command, Inject, Injectable} from '../../core/decorators';
+import {ClientEvent, Command, GameEvent, Inject, Injectable} from '../../core/decorators';
 import { PlayerModelService } from './player.model.service';
 import {PlayerService} from "./player.service";
+import {Delay} from "../../utils/fivem";
 
 @Injectable()
 export class PlayerController {
@@ -9,6 +10,8 @@ export class PlayerController {
 
     @Inject(PlayerModelService)
     private playerModelService!: PlayerModelService;
+
+    private playerSpawned = false
 
     initialize() {
         console.log('PlayerController initialized');
@@ -54,6 +57,15 @@ export class PlayerController {
         console.log('Vous avez été réanimé par un administrateur.');
     }
 
+    @Command({name: 'save', description: "Sauvegarde les données du joueur", role: null})
+    savePlayer() {
+        const playerPed = PlayerPedId()
+        const [x, y, z] = GetEntityCoords(playerPed)
+        const heading = GetEntityHeading(playerPed)
+
+        emitNet('orionCore:server:character:save', {x, y, z}, heading)
+    }
+
     @ClientEvent('loadCharacter')
     async loadCharacter(characterData: any) {
         const playerPed = PlayerPedId();
@@ -92,5 +104,24 @@ export class PlayerController {
     @ClientEvent('revivePlayer')
     revivePlayerEvent() {
         this.revivePlayer();
+    }
+
+    @GameEvent('playerSpawned')
+    async onPlayerSpawned() {
+        console.log("oui")
+
+        if (!this.playerSpawned) {
+            ShutdownLoadingScreenNui()
+            this.playerSpawned = true
+        }
+
+        let tick = setTick(async () => {
+            if (NetworkIsSessionStarted()) {
+                emitNet('orionCore:server:character:load');
+                clearTick(tick);
+                return false;
+            }
+            await Delay(1000)
+        });
     }
 }
