@@ -141,11 +141,13 @@ const CharacterCreation = () => {
     };
 
     const confirmCharacter = () => {
-        const { firstName, lastName, gender, appearance, clothes } = characterData;
+        const { firstName, lastName, gender, appearance, clothes, birthDate, height } = characterData;
         const characterPayload = {
             firstName,
             lastName,
-            model: gender === 'male' ? 'mp_m_freemode_01' : 'mp_f_freemode_01',
+            gender,
+            birthDate,
+            height,
             appearance,
             clothes,
         };
@@ -153,7 +155,7 @@ const CharacterCreation = () => {
     };
 
     return (
-        <div className="absolute left-10 top-1/4 max-w-ms space-y-6 text-white bg-gray-900 p-4 rounded-md">
+        <div className="absolute left-10 top-8 max-w-screen-sm space-y-6 text-white bg-gray-900 p-6 rounded-md overflow-y-auto">
             <div className="absolute top-2 right-2">
                 <button onClick={toggleFaceZoom} className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full">
                     <FaSync size={20} className="text-white"/>

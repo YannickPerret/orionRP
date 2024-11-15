@@ -1,21 +1,17 @@
 import '@citizenfx/server';
-import { ServerEvent } from '../../core/decorators';
+import { ServerEvent, Inject } from '../../../core/decorators';
 import { ItemService } from './item.service';
 import { CharacterService } from '../characters/character.service';
-import {Character} from "../characters/character.entity";
-
 
 export class ItemController {
-    private itemService: ItemService;
-    private characterService: CharacterService;
+    @Inject(ItemService)
+    private itemService!: ItemService;
 
-    constructor() {
-        this.itemService = new ItemService();
-        this.characterService = new CharacterService();
-    }
+    @Inject(CharacterService)
+    private characterService!: CharacterService;
 
     @ServerEvent('item:use')
-    async handleUseItem(playerId: number, itemId: number): Promise<void> {
+    async handleUseItem(playerId: number, itemId: string): Promise<void> {
         try {
             const item = await this.itemService.getItemById(itemId);
 
@@ -26,11 +22,11 @@ export class ItemController {
 
             // Appliquer les effets de l'item sur les besoins du joueur
             if (item.effects) {
-                await this.characterService.applyItemEffects(playerId, item.effects);
+                //await this.characterService.applyItemEffects(playerId, item.effects);
             }
 
             // Retirer l'item de l'inventaire du joueur
-            const character = await Character.findOne({ where: { id: playerId }, relations: ['inventory'] });
+            const character = await this.characterService.loadCharacter(playerId, itemId); // Adapter selon votre logique
 
             if (character && character.inventory) {
                 await this.itemService.removeItemFromInventory(character.inventory.id, itemId, 1);
@@ -42,5 +38,3 @@ export class ItemController {
         }
     }
 }
-
-export default new ItemController();

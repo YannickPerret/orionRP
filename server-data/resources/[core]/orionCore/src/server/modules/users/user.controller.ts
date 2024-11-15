@@ -1,16 +1,19 @@
-import { UserService } from './user.service';
-import { GameEvent } from '../../core/decorators';
-import { CharacterService } from '../characters/character.service';
-import {PlayerManagerService} from "../playerManager/playerManager.service";
+import {UserService} from './user.service';
+import {Command, GameEvent, Inject, Injectable} from '../../../core/decorators';
+import {CharacterService} from '../characters/character.service';
+import {PlayerManagerService} from '../playerManager/playerManager.service';
+import {RoleType} from "../roles/role.enum";
 
+@Injectable()
 export class UserController {
-  private userService: UserService;
-  private characterService: CharacterService;
+  @Inject(UserService)
+  private userService!: UserService;
 
-  constructor() {
-    this.userService = new UserService();
-    this.characterService = new CharacterService();
-  }
+  @Inject(CharacterService)
+  private characterService!: CharacterService;
+
+  @Inject(PlayerManagerService)
+  private playerManager!: PlayerManagerService;
 
   @GameEvent('playerConnecting')
   async handleUserConnecting(name: string, setKickReason: any, deferrals: any): Promise<void> {
@@ -24,7 +27,7 @@ export class UserController {
         return;
       }
 
-      const user = await this.userService.findUserByIdentifier(identifier);
+      const user = await this.userService.findUserByLicense(identifier);
       if (!user) {
         deferrals.done('Vous n\'êtes pas enregistré sur la whitelist.');
         return;
@@ -34,7 +37,6 @@ export class UserController {
       deferrals.update(`Bienvenue, ${name}. Connexion en cours...`);
       deferrals.done();
     } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
       deferrals.done('Erreur lors de la connexion au serveur.');
     }
   }
@@ -45,9 +47,18 @@ export class UserController {
     try {
       await this.userService.saveUserPosition(playerId);
       await this.characterService.saveCharacter(playerId);
-      PlayerManagerService.getInstance().removePlayer(playerId);
+      this.playerManager.removePlayer(playerId);
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     }
+  }
+
+  @Command({
+    name: 'login',
+    description: 'Connecte l\'utilisateur au serveur.',
+    role: RoleType.ADMIN,
+  })
+  async loginCommand(source: number) {
+    await this.userService.handleLoginCommand(source);
   }
 }

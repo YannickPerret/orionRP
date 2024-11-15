@@ -42,7 +42,7 @@ function toggleFaceCameraZoom() {
         SetCamCoord(creationCam, camX, camY, camZ);
         PointCamAtCoord(creationCam, x, y, z + camHeightOffset);
     } else {
-        const faceDistance = 1.4;
+        const faceDistance = 1.2;
         const faceHeightOffset = 0.6
 
         const camPoint = GetOffsetFromEntityInWorldCoords(playerPed, 0, 0, 0.6);
@@ -54,7 +54,6 @@ function toggleFaceCameraZoom() {
         const camZ = z + faceHeightOffset;
 
         SetCamCoord(creationCam, camX, camY, camZ);
-        // PointCamAtEntity(creationCam, playerPed, 0, 0, 0.6, true);
         PointCamAtCoord(creationCam, camPoint.x, camPoint.y, camPoint.z);
     }
 
@@ -201,11 +200,10 @@ on("__cfx_nui:applySkin", async (data, cb) => {
             console.log("change hair")
         }
 
-
         if (data.appearance.hairPrimaryColor !== undefined ) {
             SetPedComponentVariation(playerPed, 2, parseInt(hair), parseInt(data.appearance.hairPrimaryColor), parseInt(haircolor2));
             haircolor = parseInt(data.appearance.hairPrimaryColor);
-            console.log("change hair color 2")
+            console.log("change hair color 1")
         }
 
         if (data.appearance.hairSecondaryColor !== undefined) {
@@ -301,7 +299,7 @@ on("__cfx_nui:applySkin", async (data, cb) => {
 RegisterNuiCallbackType('register-character')
 on("__cfx_nui:register-character", async (data, cb) => {
     // Préparer les données du personnage
-    if (data.firstName === '' || data.lastName === '' || data.height < 50 || data.height > 220 || data.birthDate === '') {
+    if (data.firstName === '' || data.lastName === '' || data.height < 50 || data.height > 230 || data.birthDate === '') {
         cb({ status : "error", message: "Veuillez remplir les champs d'ADN"})
         return
     }
@@ -309,12 +307,16 @@ on("__cfx_nui:register-character", async (data, cb) => {
     const characterData = {
         firstName: data.firstName,
         lastName: data.lastName,
+        height: data.height,
+        birthDate: data.birthDate,
+        gender: data.gender,
         model: data.gender === 'male' ? 'mp_m_freemode_01' : 'mp_f_freemode_01',
         appearance: data.appearance,
         clothes: data.clothes,
     };
 
-    emitNet('orionCore:server:registerCharacter', characterData);
+
+    emitNet('orionCore:server:character:register', characterData);
 })
 
 on('onResourceStop', () => {

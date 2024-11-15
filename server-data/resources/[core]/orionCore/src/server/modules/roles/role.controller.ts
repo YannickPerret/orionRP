@@ -1,14 +1,12 @@
 import '@citizenfx/server';
-import { ServerEvent } from '../../core/decorators';
+import { ServerEvent, Inject } from '../../../core/decorators';
 import { RoleService } from './role.service';
-import { RoleType } from './role.entity';
+import {RoleType} from "./role.enum";
+
 
 export class RoleController {
-    private roleService: RoleService;
-
-    constructor() {
-        this.roleService = new RoleService();
-    }
+    @Inject(RoleService)
+    private roleService!: RoleService;
 
     @ServerEvent('role:getAll')
     async handleGetAllRoles(playerId: number): Promise<void> {
@@ -34,7 +32,7 @@ export class RoleController {
     }
 
     @ServerEvent('role:delete')
-    async handleDeleteRole(playerId: number, roleId: number): Promise<void> {
+    async handleDeleteRole(playerId: number, roleId: string): Promise<void> {
         try {
             await this.roleService.deleteRoleById(roleId);
             emitNet('orionCore:client:roleDeleted', playerId, roleId);
@@ -45,5 +43,3 @@ export class RoleController {
         }
     }
 }
-
-export default new RoleController();

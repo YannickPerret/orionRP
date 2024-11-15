@@ -1,32 +1,26 @@
-import {User} from "../users/user.entity";
-import {RoleType} from "../roles/role.entity";
+import {Injectable} from "../../../core/decorators";
+import {User} from "@prisma/client";
 
+@Injectable()
 export class PlayerManagerService {
-    private static instance: PlayerManagerService;
     private readonly players: Map<number, User>;
 
-    private constructor() {
+    constructor() {
         this.players = new Map<number, User>();
-    }
-
-    static getInstance(): PlayerManagerService {
-        if (!PlayerManagerService.instance) {
-            PlayerManagerService.instance = new PlayerManagerService();
-        }
-        return PlayerManagerService.instance;
     }
 
     addPlayer(playerId: number, user: User): void {
         this.players.set(playerId, user);
+        console.log(`Joueur ajouté : ${user.username} (ID: ${playerId})`);
     }
 
     removePlayer(playerId: number): void {
-        this.players.delete(playerId);
-    }
-
-    isAdmin(playerId: number): boolean {
-        const player = this.players.get(playerId);
-        return player !== undefined && player.role !== undefined && player.role.name === RoleType.ADMIN;
+        const removed = this.players.delete(playerId);
+        if (removed) {
+            console.log(`Joueur supprimé avec l'ID : ${playerId}`);
+        } else {
+            console.log(`Aucun joueur trouvé avec l'ID : ${playerId}`);
+        }
     }
 
     getPlayer(playerId: number): User | undefined {

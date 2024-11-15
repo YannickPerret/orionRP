@@ -1,29 +1,6 @@
 const PlayerManagerService = require("./server/services/PlayerManagerServices.js")
 const { loadCharacter, saveCharacter } = require('./server/controllers/Character.js')
 
-RegisterCommand('login', async (source) => {
-    const playerId = source;
-    const identifier = getPlayerIdentifier(playerId);
-
-    const userRepository = AppDataSource.getRepository('User');
-    const user = await userRepository.findOne({
-        where: { identifier },
-        relations: ['role', 'characters'],
-    });
-
-    if (user) {
-        PlayerManagerService.removePlayer(playerId);
-        user.source = playerId;
-        PlayerManagerService.addPlayer(playerId, user);
-
-        const character = user.characters.find(char => char.id === user.activeCharacter);
-        loadCharacter(playerId, character);
-        emitNet('chat:addMessage', playerId, { args: ["Admin", `Reconnexion réussie pour ${user.username}.`] });
-    } else {
-        emitNet('chat:addMessage', playerId, { args: ["Erreur", "Utilisateur non trouvé."] });
-    }
-}, false);
-
 RegisterCommand('loginAs', async (source, args) => {
     if (!await UserController.isAdmin(source)) {
         emitNet('chat:addMessage', source, { args: ["Erreur", "Permission refusée pour cette action."] });

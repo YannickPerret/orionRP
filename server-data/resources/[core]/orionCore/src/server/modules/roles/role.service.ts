@@ -1,22 +1,31 @@
-import { getRepository } from 'typeorm';
-import { Role, RoleType } from './role.entity';
+import { Inject, Injectable } from '../../../core/decorators';
+import {PrismaService} from "../../../core/database/PrismaService";
+import {RoleType} from "./role.enum";
 
+@Injectable()
 export class RoleService {
-    async getAllRoles(): Promise<Role[]> {
-        return await getRepository(Role).find();
+    @Inject(PrismaService)
+    private prisma!: PrismaService;
+
+    async getAllRoles() {
+        return this.prisma.role.findMany();
     }
 
-    async getRoleByName(name: RoleType): Promise<Role | undefined> {
-        return await getRepository(Role).findOne({ where: { name } });
+    async getRoleByName(name: RoleType) {
+        return this.prisma.role.findUnique({
+            where: {name},
+        });
     }
 
-    async createRole(roleData: Partial<Role>): Promise<Role> {
-        const role = getRepository(Role).create(roleData);
-        await getRepository(Role).save(role);
-        return role;
+    async createRole(roleData: { name: RoleType }) {
+        return this.prisma.role.create({
+            data: roleData,
+        });
     }
 
-    async deleteRoleById(roleId: number): Promise<void> {
-        await getRepository(Role).delete(roleId);
+    async deleteRoleById(roleId: string): Promise<void> {
+        await this.prisma.role.delete({
+            where: { id: roleId },
+        });
     }
 }

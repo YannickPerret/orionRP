@@ -1,43 +1,52 @@
-import { getRepository } from 'typeorm';
-import { Vehicle } from './vehicle.entity';
-import { Character } from '../characters/character.entity';
+import { Injectable, Inject } from '../../../core/decorators';
+import {PrismaService} from "../../../core/database/PrismaService";
 
+@Injectable()
 export class VehicleService {
-    async createVehicle(characterId: number, vehicleData: Partial<Vehicle>): Promise<Vehicle> {
-        const character = await getRepository(Character).findOne(characterId);
+    @Inject(PrismaService)
+    private prisma!: PrismaService;
+
+    async createVehicle(characterId: number, vehicleData: Partial<any>) {
+        const character = await this.prisma.character.findUnique({ where: { id: characterId } });
         if (!character) {
             throw new Error('Personnage non trouvé');
         }
 
-        const vehicle = getRepository(Vehicle).create({
-            ...vehicleData,
-            character: character,
+        return this.prisma.vehicle.create({
+            data: {
+                ...vehicleData,
+                character: {
+                    connect: {id: characterId},
+                },
+            },
         });
-        await getRepository(Vehicle).save(vehicle);
+    }
+
+    async getVehicleById(vehicleId: string) {
+        return this.prisma.vehicle.findUnique({
+            where: { id: vehicleId },
+            include: { character: true },
+        });
+    }
+
+    async getVehiclesByCharacter(characterId: string) {
+        return this.prisma.vehicle.findMany({
+            where: { characterId },
+        });
+    }
+
+    async updateVehicle(vehicleId: string, updateData: Partial<any>) {
+        const vehicle = await this.prisma.vehicle.update({
+            where: { id: vehicleId },
+            data: updateData,
+        });
+
         return vehicle;
     }
 
-    async getVehicleById(vehicleId: number): Promise<Vehicle | undefined> {
-        return await getRepository(Vehicle).findOne({ where: { id: vehicleId }, relations: ['character'] });
-    }
-
-    async getVehiclesByCharacter(characterId: number): Promise<Vehicle[]> {
-        return await getRepository(Vehicle).find({ where: { character: { id: characterId } }, relations: ['character'] });
-    }
-
-    async updateVehicle(vehicleId: number, updateData: Partial<Vehicle>): Promise<Vehicle | null> {
-        const vehicleRepo = getRepository(Vehicle);
-        const vehicle = await vehicleRepo.findOne(vehicleId);
-        if (!vehicle) {
-            return null;
-        }
-
-        Object.assign(vehicle, updateData);
-        await vehicleRepo.save(vehicle);
-        return vehicle;
-    }
-
-    async deleteVehicle(vehicleId: number): Promise<void> {
-        await getRepository(Vehicle).delete(vehicleId);
+    async deleteVehicle(vehicleId: string): Promise<void> {
+        await this.prisma.vehicle.delete({
+            where: { id: vehicleId },
+        });
     }
 }

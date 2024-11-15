@@ -1,0 +1,123 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["metrics"]
+  binaryTargets   = ["native", "linux-musl", "debian-openssl-3.0.x"]
+  engineType      = "binary"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum CharacterGender {
+  MALE
+  FEMALE
+}
+
+enum RoleType {
+  ADMIN
+  HELPER
+  DEVELOPER
+  GUEST
+  USER
+}
+
+model User {
+  id              String      @id @default(uuid()) @db.Char(36)
+  license         String      @unique @db.VarChar(255)
+  steamId         String?     @unique @db.VarChar(255)
+  ip              String?     @db.VarChar(45)
+  lastConnection  DateTime?
+  email           String      @unique @db.VarChar(255)
+  password        String      @db.VarChar(255)
+  username        String      @unique @db.VarChar(255)
+  active          Boolean     @default(false)
+  source          Int?
+  activeCharacter String?
+  createdAt       DateTime    @default(now())
+  roleId          String      @db.Char(36)
+  role            Role        @relation(fields: [roleId], references: [id])
+  characters      Character[]
+
+  @@index([id], map: "id")
+  @@index([license], map: "licences")
+}
+
+model Role {
+  id    String   @id @default(uuid()) @db.Char(36)
+  name  RoleType @unique
+  users User[]
+}
+
+model Character {
+  id         String          @id @default(uuid()) @db.Char(36)
+  userId     String          @db.Char(36)
+  citizenid  String          @unique @db.VarChar(50)
+  firstName  String          @db.VarChar(255)
+  lastName   String          @db.VarChar(255)
+  gender     CharacterGender @default(MALE)
+  model      String?         @db.VarChar(255)
+  appearance Json?
+  clothes    Json?
+  weapons    Json?
+  money      Int             @default(500)
+  bank       Int             @default(0)
+  position   Json
+  hunger     Float           @default(100)
+  thirst     Float           @default(100)
+  health     Float           @default(100)
+  armor      Float           @default(0)
+  isDead     Boolean         @default(false)
+  createdAt  DateTime        @default(now())
+  user       User            @relation(fields: [userId], references: [id])
+  inventory  Inventory?
+  vehicles   Vehicle[]
+
+  @@index([id], map: "id")
+  @@index([userId], map: "userId")
+  @@index([citizenid], map: "citizenid")
+}
+
+model Inventory {
+  id          String          @id @default(uuid()) @db.Char(36)
+  weight      Float           @default(0)
+  character   Character?      @relation(fields: [characterId], references: [id])
+  characterId String?         @unique @db.Char(36)
+  items       InventoryItem[]
+}
+
+model Item {
+  id             String          @id @default(uuid()) @db.Char(36)
+  name           String          @unique @db.VarChar(255)
+  description    String          @db.Text
+  image          String          @db.VarChar(255)
+  stackable      Boolean         @default(true)
+  usable         Boolean         @default(false)
+  effects        Json?
+  metadata       Json?
+  inventoryItems InventoryItem[]
+}
+
+model InventoryItem {
+  id          Int       @id @default(autoincrement())
+  quantity    Int
+  inventoryId String    @db.Char(36)
+  itemId      String    @db.Char(36)
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  item        Item      @relation(fields: [itemId], references: [id])
+}
+
+model Vehicle {
+  id          String    @id @default(uuid()) @db.Char(36)
+  model       String    @db.VarChar(255)
+  plate       String    @db.VarChar(255)
+  positionX   Float
+  positionY   Float
+  positionZ   Float
+  isImpounded Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  characterId String    @db.Char(36)
+  character   Character @relation(fields: [characterId], references: [id])
+}

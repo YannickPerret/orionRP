@@ -1,19 +1,24 @@
 import '@citizenfx/server';
-import { ServerEvent } from '../../core/decorators';
-import {InventoryService} from './inventory.service';
-import { Character } from '../characters/character.entity';
+import { ServerEvent, Inject } from '../../../core/decorators';
+import { InventoryService } from './inventory.service';
+import {PrismaService} from "../../../core/database/PrismaService";
 
 export class InventoryController {
     private inventoryService: InventoryService;
 
+    @Inject(PrismaService)
+    private prisma!: PrismaService;
+
     constructor() {
-        this.inventoryService = new InventoryService()
+        this.inventoryService = new InventoryService();
     }
 
     @ServerEvent('inventory:create')
     async handleCreateInventory(playerId: number, characterId: number): Promise<void> {
         try {
-            const character = await Character.findOne({ where: { id: characterId } });
+            const character = await this.prisma.character.findUnique({
+                where: { id: characterId },
+            });
 
             if (!character) {
                 throw new Error(`Personnage avec l'ID ${characterId} introuvable.`);
@@ -22,8 +27,7 @@ export class InventoryController {
             const newInventory = await this.inventoryService.createInventory(character);
             console.log(`Inventaire créé pour le personnage ${character.firstName} ${character.lastName}.`);
 
-            // Envoi de l'inventaire au client
-            emitNet('orionCore:client:inventoryCreated', playerId, newInventory);
+             emitNet('orionCore:client:inventoryCreated', playerId, newInventory);
         } catch (error) {
             console.error('Erreur lors de la création de l\'inventaire:', error);
             emitNet('orionCore:client:inventoryError', playerId, 'Erreur lors de la création de l\'inventaire');
@@ -36,7 +40,6 @@ export class InventoryController {
             await this.inventoryService.addItemToInventory(inventoryId, itemId, quantity);
             console.log(`Item ajouté à l'inventaire ${inventoryId}.`);
 
-            // Envoi d'une notification de succès au client
             emitNet('orionCore:client:itemAdded', playerId, itemId, quantity);
         } catch (error) {
             console.error('Erreur lors de l\'ajout de l\'item:', error);
@@ -47,12 +50,17 @@ export class InventoryController {
     @ServerEvent('inventory:getItems')
     async handleGetItems(playerId: number, inventoryId: number): Promise<void> {
         try {
-            const inventory = await InventoryService.getInventoryWithItems(inventoryId);
+            const inventory = await this.prisma.inventory.findUnique({
+                where: { id: inventoryId },
+                include: {
+                    items: true,
+                },
+            });
+
             if (!inventory) {
                 throw new Error(`Inventaire avec l'ID ${inventoryId} introuvable.`);
             }
 
-            // Envoi des items de l'inventaire au client
             emitNet('orionCore:client:inventoryItems', playerId, inventory.items);
         } catch (error) {
             console.error('Erreur lors de la récupération des items de l\'inventaire:', error);

@@ -1,28 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const createConfig = (entry, isProduction, variables = {}, port = undefined, target = undefined) => {
+
+const createConfig = (entry, outputPath, isProduction, variables = {}, port = undefined, target = undefined) => {
     const plugins = [
         new webpack.DefinePlugin({
             ...variables,
-            IS_PRODUCTION: JSON.stringify(isProduction),
+            IS_PRODUCTION: isProduction,
         }),
-        new webpack.IgnorePlugin({
-            resourceRegExp: /^mssql$|^mysql$|^mongodb$|^oracledb$|^sqlite3$|^pg-native$|^better-sqlite3$|^hdb-pool$|^@sap\/hana-client$|^typeorm-aurora-data-api-driver$|^redis$|^react-native-sqlite-storage$|^pg$|^pg-query-stream$|^@google-cloud\/spanner$|^sql\.js$/,
-        }),
-        new webpack.ContextReplacementPlugin(
-            /typeorm$/,
-            (data) => {
-                if (Array.isArray(data.dependencies)) {
-                    data.dependencies.forEach((dependency) => {
-                        if (dependency.critical) {
-                            delete dependency.critical;
-                        }
-                    });
-                }
-                return data;
-            }
-        ),
     ];
 
     return {
@@ -31,26 +16,14 @@ const createConfig = (entry, isProduction, variables = {}, port = undefined, tar
         output: {
             filename: '[name].js',
             path: path.resolve(__dirname, 'build'),
-            library: {
-                type: 'commonjs2',
-            },
         },
         resolve: {
             extensions: ['.ts', '.js', '.json'],
             fallback: {
                 fs: false,
-                path: require.resolve('path-browserify'),
+                path: 'path-browserify',
             },
         },
-        externals: [
-            {
-                typeorm: 'commonjs typeorm',
-                pg: 'commonjs pg',
-                'pg-query-stream': 'commonjs pg-query-stream',
-                '@google-cloud/spanner': 'commonjs @google-cloud/spanner',
-                'sql.js': 'commonjs sql.js',
-            },
-        ],
         plugins,
         module: {
             rules: [
@@ -66,13 +39,24 @@ const createConfig = (entry, isProduction, variables = {}, port = undefined, tar
                                     tsx: false,
                                     decorators: true,
                                 },
-                                transform: {
-                                    legacyDecorator: true,
-                                    decoratorMetadata: true,
-                                },
                                 target: 'es2020',
+                                transform: {
+                                    optimizer: {
+                                        simplify: true,
+                                        globals: {
+                                            vars: {
+                                                ...variables,
+                                                IS_PRODUCTION: JSON.stringify(isProduction),
+                                            },
+                                        },
+                                    },
+                                },
                                 keepClassNames: true,
-                                baseUrl: path.resolve(__dirname),
+                                baseUrl: '.',
+                                paths: {
+                                    '@public/*': ['src/*'],
+                                    '@core/*': ['src/core/*'],
+                                }
                             },
                             sourceMaps: !isProduction,
                             minify: isProduction,
@@ -81,30 +65,27 @@ const createConfig = (entry, isProduction, variables = {}, port = undefined, tar
                 },
             ],
         },
-        optimization: {
-            usedExports: true,
-        },
     };
 };
 
 module.exports = (env, argv) => {
-    const buildPath = path.resolve(__dirname, 'build');
-
-    return [
-        createConfig(
-            { client: './src/client/main.ts' },
-            argv.mode === 'production',
+    const isProduction = argv.mode === 'production';
+    return [createConfig(
+            { client: './src/client.ts' },
+            path.resolve(__dirname, 'build/client'),
+            isProduction,
             { IS_SERVER: 'false', IS_CLIENT: 'true' },
             undefined,
-            'node'
+            'web'
         ),
         createConfig(
-            { server: './src/server/main.ts' },
-            argv.mode === 'production',
+            { server: './src/server.ts' },
+            path.resolve(__dirname, 'build/server'),
+            isProduction,
             {
                 IS_SERVER: 'true',
                 IS_CLIENT: 'false',
-                __dirname: '"' + buildPath + '"'
+                __dirname: '"' + path.resolve(__dirname, 'build') + '"',
             },
             undefined,
             'node'

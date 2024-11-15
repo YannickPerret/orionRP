@@ -1,0 +1,146 @@
+import 'reflect-metadata';
+import {register, resolve} from "./container";
+import {RoleType} from "../server/modules/roles/role.enum";
+import "@citizenfx/server";
+
+export enum TickInterval {
+    EVERY_FRAME = 0,
+    EVERY_SECOND = 1000,
+    EVERY_MINUTE = 60000,
+    EVERY_5_MINUTE = 300000,
+    EVERY_10_MINUTE = 600000,
+    EVERY_15_MINUTE = 900000,
+    EVERY_30_MINUTE = 1800000,
+    EVERY_HOUR = 3600000,
+}
+
+type CommandOptions = {
+    name: string;
+    description: string;
+    role: RoleType | null;
+    passthroughNuiFocus?: boolean;
+    passthroughPauseMenu?: boolean;
+    toggle?: boolean;
+};
+
+
+export function Injectable(): ClassDecorator {
+    return (target: any) => {
+        const instance = new target();
+        register(target, instance);
+        if (typeof instance.initialize === 'function') {
+            instance.initialize();
+        }
+    };
+}
+
+export function Inject(token: any): PropertyDecorator {
+    return (target, propertyKey) => {
+        Object.defineProperty(target, propertyKey, {
+            get: () => resolve(token),
+            enumerable: true,
+            configurable: true,
+        });
+    };
+}
+
+export function ServerEvent(eventName: string) {
+    const prefixedEventName = `orionCore:server:${eventName}`;
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        const original = descriptor.value;
+        descriptor.value = function (...args: any[]) {
+            return original.apply(this, [source, ...args]);
+        };
+        onNet(prefixedEventName, (...args: any[]) => {
+            descriptor.value.apply(target, args);
+        });
+        return descriptor;
+    };
+}
+
+export function ClientEvent(eventName: string, scope: string = 'public') {
+    const prefixedEventName = `orionCore:client:${eventName}`;
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        const original = descriptor.value;
+        if (scope === 'public') {
+            onNet(prefixedEventName, async (...args: any[]) => {
+                await original.apply(target, args);
+            });
+        }
+        else {
+            on(prefixedEventName, async (...args: any[]) => {
+                await original.apply(target, args);
+            });
+        }
+        return descriptor;
+    };
+}
+
+export function GameEvent(eventName: string) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        const original = descriptor.value;
+        on(eventName, async (...args: any[]) => {
+            await original.apply(target, args);
+        });
+        return descriptor;
+    };
+}
+
+export function Command(options: CommandOptions) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        const original = descriptor.value;
+
+        RegisterCommand(
+            options.name,
+            async (source: number, args: string[], rawCommand: string) => {
+                console.log(`Commande ${options.name} appelée par le joueur ${source}`);
+                if (options.role) {
+                    console.log(`Rôles requis : ${JSON.stringify(options.role)}`);
+                }
+
+                await original.apply(resolve(target.constructor), [source, args, rawCommand]);
+            },
+            false
+        );
+
+        console.log(`Commande ${options.name} enregistrée avec la description : "${options.description}"`);
+        return descriptor;
+    };
+}
+
+
+
+export function NuiCallback(eventName: string): MethodDecorator {
+    return (target, propertyKey, descriptor: PropertyDescriptor) => {
+        const originalMethod = descriptor.value;
+
+        RegisterNuiCallbackType(eventName);
+        on(`__cfx_nui:${eventName}`, async (data: any, cb: (result: any) => void) => {
+            try {
+                // Appel de la méthode originale et envoi du résultat via cb
+                const result = await originalMethod.apply(target, [data]);
+                cb({ status: 'ok', data: result });
+            } catch (error) {
+                console.error(`Erreur lors du traitement de l'événement NUI "${eventName}":`, error);
+                cb({ status: 'error', message: error.message });
+            }
+        });
+        return descriptor;
+    };
+}
+
+export function Tick(interval: number = TickInterval.EVERY_SECOND): MethodDecorator {
+    return function (target, propertyKey, descriptor: PropertyDescriptor) {
+        const originalMethod = descriptor.value;
+
+        setInterval(() => {
+            try {
+                originalMethod.apply(target);
+            } catch (error) {
+                console.error(`Erreur lors de l'exécution du tick ${propertyKey.toString()}:`, error);
+            }
+        }, interval);
+
+        return descriptor;
+    };
+}

@@ -1,17 +1,13 @@
 import '@citizenfx/server';
-import { ServerEvent } from '../../core/decorators';
+import { ServerEvent, Inject } from '../../../core/decorators';
 import { VehicleService } from './vehicle.service';
-import {Vehicle} from "./vehicle.entity";
 
 export class VehicleController {
-    private vehicleService: VehicleService;
-
-    constructor() {
-        this.vehicleService = new VehicleService();
-    }
+    @Inject(VehicleService)
+    private vehicleService!: VehicleService;
 
     @ServerEvent('vehicle:create')
-    async handleCreateVehicle(playerId: number, characterId: number, vehicleData: Partial<Vehicle>): Promise<void> {
+    async handleCreateVehicle(playerId: number, characterId: number, vehicleData: Partial<any>): Promise<void> {
         try {
             const vehicle = await this.vehicleService.createVehicle(characterId, vehicleData);
             console.log(`Véhicule créé : ${vehicle.model} pour le personnage ${characterId}`);
@@ -23,7 +19,7 @@ export class VehicleController {
     }
 
     @ServerEvent('vehicle:getById')
-    async handleGetVehicleById(playerId: number, vehicleId: number): Promise<void> {
+    async handleGetVehicleById(playerId: number, vehicleId: string): Promise<void> {
         try {
             const vehicle = await this.vehicleService.getVehicleById(vehicleId);
             if (vehicle) {
@@ -37,7 +33,7 @@ export class VehicleController {
     }
 
     @ServerEvent('vehicle:getByCharacter')
-    async handleGetVehiclesByCharacter(playerId: number, characterId: number): Promise<void> {
+    async handleGetVehiclesByCharacter(playerId: number, characterId: string): Promise<void> {
         try {
             const vehicles = await this.vehicleService.getVehiclesByCharacter(characterId);
             emitNet('orionCore:client:vehicleList', playerId, vehicles);
@@ -47,7 +43,7 @@ export class VehicleController {
     }
 
     @ServerEvent('vehicle:update')
-    async handleUpdateVehicle(playerId: number, vehicleId: number, updateData: Partial<Vehicle>): Promise<void> {
+    async handleUpdateVehicle(playerId: number, vehicleId: string, updateData: Partial<any>): Promise<void> {
         try {
             const vehicle = await this.vehicleService.updateVehicle(vehicleId, updateData);
             if (vehicle) {
@@ -61,7 +57,7 @@ export class VehicleController {
     }
 
     @ServerEvent('vehicle:delete')
-    async handleDeleteVehicle(playerId: number, vehicleId: number): Promise<void> {
+    async handleDeleteVehicle(playerId: number, vehicleId: string): Promise<void> {
         try {
             await this.vehicleService.deleteVehicle(vehicleId);
             emitNet('orionCore:client:vehicleDeleted', playerId, vehicleId);

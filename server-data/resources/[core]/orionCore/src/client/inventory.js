@@ -12,7 +12,7 @@ onNet('core:updateInventory', (newInventory) => {
 
 // Ouvrir l'inventaire avec une touche (par exemple, la touche "I")
 setTick(() => {
-    if (IsControlJustReleased(0, 0x49)) { // 0x49 est la touche "I"
+    if (IsControlJustReleased(0, 0x49)) {
         SetNuiFocus(true, true);
         SendNUIMessage({ action: 'showInventory' });
     }

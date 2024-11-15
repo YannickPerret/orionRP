@@ -1,27 +1,56 @@
-import { Item } from './item.entity';
-import { getRepository } from 'typeorm';
+import { Inject, Injectable } from '../../../core/decorators';
+import {PrismaService} from "../../../core/database/PrismaService";
 
+@Injectable()
 export class ItemService {
-    async getItemById(itemId: number): Promise<Item | undefined> {
-        return await getRepository(Item).findOne({ where: { id: itemId } });
+    @Inject(PrismaService)
+    private prisma!: PrismaService;
+
+    async getItemById(itemId: string) {
+        return this.prisma.item.findUnique({
+            where: {id: itemId},
+        });
     }
 
-    async getAllItems(): Promise<Item[]> {
-        return await getRepository(Item).find();
+    async getAllItems() {
+        return this.prisma.item.findMany();
     }
 
-    async createItem(itemData: Partial<Item>): Promise<Item> {
-        const item = getRepository(Item).create(itemData);
-        await getRepository(Item).save(item);
-        return item;
+    async createItem(itemData: Partial<any>) {
+        return this.prisma.item.create({
+            data: itemData,
+        });
     }
 
-    async removeItemFromInventory(inventoryId: number, itemId: number, quantity: number): Promise<void> {
-        // Implémenter la logique de suppression de l'item de l'inventaire
+    async removeItemFromInventory(inventoryId: string, itemId: string, quantity: number): Promise<void> {
+        // Récupérer l'item dans l'inventaire
+        const inventoryItem = await this.prisma.inventoryItem.findFirst({
+            where: {
+                inventoryId,
+                itemId,
+            },
+        });
+
+        if (!inventoryItem) {
+            console.log(`Item ${itemId} non trouvé dans l'inventaire ${inventoryId}`);
+            return;
+        }
+
+        if (inventoryItem.quantity > quantity) {
+            await this.prisma.inventoryItem.update({
+                where: { id: inventoryItem.id },
+                data: { quantity: inventoryItem.quantity - quantity },
+            });
+        } else {
+            await this.prisma.inventoryItem.delete({
+                where: { id: inventoryItem.id },
+            });
+        }
+
         console.log(`Item ${itemId} retiré de l'inventaire ${inventoryId}`);
     }
 
-    async getItemMetadata(itemId: number): Promise<any | null> {
+    async getItemMetadata(itemId: string) {
         const item = await this.getItemById(itemId);
 
         if (!item) {
@@ -32,7 +61,7 @@ export class ItemService {
         return item.metadata || {};
     }
 
-    async hasMetadata(itemId: number, key: string): Promise<boolean> {
+    async hasMetadata(itemId: string, key: string): Promise<boolean> {
         const metadata = await this.getItemMetadata(itemId);
         return metadata && key in metadata;
     }
