@@ -28,7 +28,7 @@ export const uuidv4 = (): string => {
     return uuid;
 };
 
-export async function getGroundLevel(x: number, y: number, z: number): Promise<number> {
+export async function getGroundLevel(x: number, y: number, z: number): Promise<unknown> {
     return new Promise((resolve) => {
         const interval = setInterval(() => {
             const [foundGround, groundZ] = GetGroundZFor_3dCoord(x, y, z, false);

@@ -1,7 +1,14 @@
-import {ClientEvent, Command, GameEvent, Inject, Injectable, Tick, TickInterval} from '../../core/decorators';
+import {
+    ClientEvent,
+    Command,
+    GameEvent,
+    Inject,
+    Injectable,
+} from '../../core/decorators';
 import { PlayerModelService } from './player.model.service';
 import {PlayerService} from "./player.service";
 import {Delay} from "../../utils/fivem";
+import {MenuServices} from "../menu/menu.services";
 
 
 @Injectable()
@@ -12,33 +19,13 @@ export class PlayerController {
     @Inject(PlayerModelService)
     private playerModelService!: PlayerModelService;
 
+    @Inject(MenuServices)
+    private menuServices!: MenuServices;
+
     private playerSpawned = false;
 
     initialize() {
         console.log('PlayerController initialized');
-    }
-
-    @Command({ name: 'sendMoney', description: 'Envoie de l\'argent au joueur le plus proche', role: null })
-    async sendMoneyCommand(amount: number) {
-        if (!amount || isNaN(amount) || amount <= 0) {
-            console.error('Montant invalide.');
-            emit('chat:addMessage', { args: ['Système', 'Veuillez spécifier un montant valide.'] });
-            return;
-        }
-
-        const closestPlayer = this.playerService.getClosestPlayer(10.0);
-        if (closestPlayer !== null) {
-            const playerId = GetPlayerServerId(closestPlayer);
-            if (playerId) {
-                console.log(`Envoi de ${amount} unités à ${playerId}`);
-                emitNet('orionCore:server:money:send', playerId, amount);
-                emit('chat:addMessage', { args: ['Système', `Vous avez envoyé ${amount} unités au joueur ${playerId}.`] });
-            } else {
-                emit('chat:addMessage', { args: ['Système', 'Joueur le plus proche introuvable.'] });
-            }
-        } else {
-            emit('chat:addMessage', { args: ['Système', 'Aucun joueur à proximité.'] });
-        }
     }
 
     @Command({ name: 'teleportToGPS', description: 'Téléporte le joueur au GPS', role: null })
@@ -93,7 +80,7 @@ export class PlayerController {
     @ClientEvent('loadCharacter')
     async loadCharacter(characterData: any) {
         const playerPed = PlayerPedId();
-        console.log(characterData);
+        this.playerService.setPlayerData(characterData);
 
         SetEntityCoords(playerPed, characterData.position.x, characterData.position.y, characterData.position.z, false, false, false, true);
 
@@ -147,6 +134,4 @@ export class PlayerController {
             await Delay(5000)
         });
     }
-    
-    
 }

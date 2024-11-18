@@ -1,9 +1,18 @@
 import { Injectable } from '../../core/decorators';
-import { Delay } from '../../utils/fivem';
+import {Delay} from '../../utils/fivem';
 
 @Injectable()
 export class PlayerService {
     private playerSpawned: boolean = false;
+    private playerData: any = null;
+
+    setPlayerData(data: any) {
+        this.playerData = data;
+    }
+
+    getPlayerData() {
+        return this.playerData;
+    }
 
     async handlePlayerSpawn() {
         if (!this.playerSpawned) {
@@ -76,25 +85,34 @@ export class PlayerService {
         return closestPed;
     }
 
-    getClosestPlayer(radius: number = 10.0): number | null {
+    getClosestPlayer(radius: number = 10.0): { closestPlayer: number | null, closestDistance: number } {
+        const players = GetActivePlayers();
+        let closestDistance = -1;
+        let closestPlayer: number | null = null;
         const playerPed = PlayerPedId();
-        const playerCoords = GetEntityCoords(playerPed);
-        let closestPlayer = null;
-        let closestDistance = radius;
+        const playerCoords = GetEntityCoords(playerPed, true);
 
-        for (let i = 0; i < GetNumberOfPlayers(); i++) {
-            const targetPlayer = GetPlayerFromIndex(i);
-            if (targetPlayer !== PlayerId()) {
-                const targetPed = GetPlayerPed(targetPlayer);
-                const targetCoords = GetEntityCoords(targetPed);
-                const distance = Vdist(playerCoords[0], playerCoords[1], playerCoords[2], targetCoords[0], targetCoords[1], targetCoords[2]);
+        for (const playerId of players) {
+            if (playerId !== PlayerId()) {
+                const targetPed = GetPlayerPed(playerId);
+                const targetCoords = GetEntityCoords(targetPed, true);
+                const distance = Vdist(
+                    playerCoords[0], playerCoords[1], playerCoords[2],
+                    targetCoords[0], targetCoords[1], targetCoords[2]
+                );
 
-                if (distance < closestDistance) {
+                if ((closestDistance === -1 || distance < closestDistance) && distance <= radius) {
+                    closestPlayer = playerId;
                     closestDistance = distance;
-                    closestPlayer = targetPlayer;
                 }
             }
         }
-        return closestPlayer;
+        if (closestDistance === -1 || closestDistance > radius) {
+            return { closestPlayer: null, closestDistance: -1 };
+        }
+
+        return { closestPlayer, closestDistance };
     }
+
 }
+

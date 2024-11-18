@@ -5,6 +5,8 @@ import { PlayerManagerService } from '../playerManager/playerManager.service';
 import {UserService} from "../users/user.service";
 import {Character, User} from "@prisma/client";
 import {NotifierService} from "../notifiers/notifier.service";
+import {getClosestPlayer} from "../../../utils/fivem";
+import {LoggerService} from "../../../core/modules/logger/logger.service";
 
 export class CharacterController {
   @Inject(CharacterService)
@@ -18,6 +20,9 @@ export class CharacterController {
 
   @Inject(NotifierService)
     private notifierService!: NotifierService
+
+  @Inject(LoggerService)
+    private logger!: LoggerService
 
   @ServerEvent('character:login')
   async handleLoginCharacter(source: number): Promise<void> {
@@ -81,13 +86,15 @@ export class CharacterController {
     }
   }
 
-  @ServerEvent('orionCore:server:money:send')
-  handleSendMoney(source: number, targetPlayerId: number, amount: number): void {
-    console.log(`Le joueur ${source} envoie ${amount} unités au joueur ${targetPlayerId}`);
-    this.characterService.modifyMoney(source, targetPlayerId, amount);
-
-    emitNet('chat:addMessage', targetPlayerId, { args: ['Système', `Vous avez reçu ${amount} unités de la part du joueur ${source}.`] });
-    emitNet('chat:addMessage', source, { args: ['Système', `Vous avez envoyé ${amount} unités au joueur ${targetPlayerId}.`] });
+  @ServerEvent('money:send')
+  handleSendMoney(targetPlayer:number, amount: number): void {
+    if (targetPlayer) {
+      console.log(`Le joueur ${source} envoie ${amount} $ au joueur ${targetPlayer}`);
+      this.characterService.modifyMoney(source, targetPlayer, amount);
+    }
+    else {
+      this.logger.error('Aucun joueur à proximité pour envoyer de l\'argent');
+    }
   }
 
   @ServerEvent('character:applyItemEffects')

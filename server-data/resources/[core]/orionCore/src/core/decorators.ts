@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import {register, resolve} from "./container";
 import {RoleType} from "../server/modules/roles/role.enum";
 import "@citizenfx/server";
+import "@citizenfx/client";
 
 export enum TickInterval {
     EVERY_FRAME = 0,
@@ -85,6 +86,32 @@ export function GameEvent(eventName: string) {
         return descriptor;
     };
 }
+
+export function KeyMapping(commandName: string, description: string, device: string, defaultKey: string) {
+    if (!commandName || !description || !device || !defaultKey) {
+        throw new Error(`Invalid arguments for KeyMapping: commandName=${commandName}, description=${description}, device=${device}, defaultKey=${defaultKey}`);
+    }
+
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        // Enregistre la commande avec le KeyMapping
+        RegisterCommand(commandName, async (source: number, args: string[], rawCommand: string) => {
+            const originalMethod = descriptor.value;
+            console.log(`Commande ${commandName} appelée par le joueur ${source}`);
+            await originalMethod.apply(resolve(target.constructor), [source, args, rawCommand]);
+        }, false);
+
+        // Enregistre la touche par défaut
+        try {
+            RegisterKeyMapping(commandName, description, device, defaultKey);
+            console.log(`KeyMapping enregistré : ${commandName} - ${description} [${device}:${defaultKey}]`);
+        } catch (error) {
+            console.error(`Erreur lors de l'enregistrement du KeyMapping : ${error.message}`);
+        }
+
+        return descriptor;
+    };
+}
+
 
 export function Command(options: CommandOptions) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {

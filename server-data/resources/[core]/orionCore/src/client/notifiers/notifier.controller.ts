@@ -4,7 +4,7 @@ import { Injectable, ClientEvent } from '../../core/decorators';
 @Injectable()
 export class NotifierController {
 
-    @ClientEvent('orionCore:client:drawNotification')
+    @ClientEvent('notifier:draw')
     public handleDrawNotification(message: string, type: 'error' | 'success' | 'warning' | 'info' = 'success', delay: number = 5000): void {
         try {
             let colorCode = 2;

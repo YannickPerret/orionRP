@@ -136,7 +136,7 @@ export class CoraUI {
 	public static drawHeader() {
 		let Glare = RequestScaleformMovie("MP_MENU_GLARE");
 
-		if (this.Menu.Opened == true) {
+		if (this.Menu.Opened && this.CurrentMenu && Array.isArray(this.CurrentMenu.buttons)) {
 			DrawRect(
 				this.Config.x,
 				this.Config.y,
@@ -745,19 +745,7 @@ export class CoraUI {
 	}
 
 	public static DrawHeritagePanel() {
-        const indexHeritagePanel = this.CurrentMenu.indexHeritagePanel || [0, 0, 0, 0] 
-        // DrawRect(
-        //     this.Config.x,
-        //     this.Config.y +
-        //         (this.Config.bottomHeight + 0.0055) +
-        //         (this.Config.bottomHeight * (i - startIndex + 1) + 0.033),
-        //     this.Config.width,
-        //     this.Config.bottomHeight + 0.0011,
-        //     color[0],
-        //     color[1],
-        //     color[2],
-        //     color[3]
-        // );
+        const indexHeritagePanel = this.CurrentMenu.indexHeritagePanel || [0, 0, 0, 0]
 
 		DrawSprite("pause_menu_pages_char_mom_dad", "mumdadbg", 
         this.Config.x, 
@@ -953,9 +941,6 @@ export class CoraUI {
 			this.drawHeader();
 			this.drawButtons();
 			this.controlMenu();
-
-			//this.DrawPercentagePanel("Pipi, caca");
-			//this.DrawColorPanel();
 		}
 	}
 

@@ -145,30 +145,40 @@ export class CharacterService {
         }
     }
 
-    async modifyMoney(sourcePlayerId:number, targetPlayerId: number, amount: number): Promise<number> {
+    async modifyMoney(playerId: number, amount: number): Promise<number> {
         return this.prisma.$transaction(async (prisma) => {
+            // Récupérer le joueur via le PlayerManagerService
+            const player = this.playerManager.getPlayer(playerId);
+            if (!player || !player.activeCharacter) {
+                throw new Error('Aucun personnage actif trouvé pour le joueur');
+            }
+
+            // Rechercher le personnage actif dans la base de données
             const character = await prisma.character.findUnique({
-                where: {id: characterId},
-                select: {money: true},
+                where: { id: player.activeCharacter },
+                select: { money: true },
             });
 
             if (!character) {
                 throw new Error('Personnage non trouvé');
             }
 
+            // Calculer le nouveau solde
             const newBalance = character.money + amount;
             if (newBalance < 0) {
                 throw new Error('Fonds insuffisants');
             }
+
+            // Mettre à jour le solde du personnage
             const updatedCharacter = await prisma.character.update({
-                where: {id: characterId},
+                where: { id: player.activeCharacter },
                 data: {
                     money: newBalance,
                 },
-                select: {money: true},
+                select: { money: true },
             });
 
-            console.log(`Le nouveau solde pour le personnage ${characterId} est de ${updatedCharacter.money} unités.`);
+            console.log(`Le nouveau solde pour le personnage ${player.activeCharacter} est de ${updatedCharacter.money} unités.`);
 
             return updatedCharacter.money;
         });

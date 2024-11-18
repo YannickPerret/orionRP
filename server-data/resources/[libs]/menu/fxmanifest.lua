@@ -1,11 +1,17 @@
 fx_version 'cerulean'
-game 'gta5'
+game 'common'
 
-name "Menucora"
+name "menu"
 description 'A script can open menu with a lot of features'
 
-ui_page 'html/index.html'
+client_scripts {
+    'client/*.js',
+}
 
-client_script {
-  "client/client.js",
+exports {
+    'CreateMenu',
+    'CreateSubmenu',
+    'CloseMenu',
+    'CloseSubmenu',
+    'ResetMenu'
 }

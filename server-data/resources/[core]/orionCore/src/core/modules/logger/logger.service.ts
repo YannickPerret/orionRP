@@ -12,7 +12,7 @@ export class LoggerService {
         });
     }
 
-    public log(message: string, ...args: any[]): void {
+    public log(message: any, ...args: any[]): void {
         this.logger.info(message, ...args);
     }
 
