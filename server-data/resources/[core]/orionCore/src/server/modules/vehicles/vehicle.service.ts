@@ -1,31 +1,33 @@
 import { Injectable, Inject } from '../../../core/decorators';
 import {PrismaService} from "../../../core/database/PrismaService";
+import {Vehicle} from "@prisma/client";
 
 @Injectable()
 export class VehicleService {
     @Inject(PrismaService)
     private prisma!: PrismaService;
 
-    async spawnNewVehicle(playerId: number, modelHash: string) {
-            const modelHashValue = typeof modelHash === 'string' ? GetHashKey(modelHash) : modelHash;
+    async spawnNewVehicle(playerId: number, modelName: string) {
+        const ped = GetPlayerPed(playerId);
+        if (!ped) {
+            throw new Error('Le joueur spécifié est invalide ou introuvable.');
+        }
 
-            const player = global.source
-            const ped = GetPlayerPed(player);
-            const [playerX, playerY, playerZ] = GetEntityCoords(ped);
-            const heading = GetEntityHeading(ped)
-            const vehicleType = GetVehicleType(modelHashValue)
+        const [playerX, playerY, playerZ] = GetEntityCoords(ped);
+        const heading = GetEntityHeading(ped);
+        const vehicleType = GetVehicleType(GetHashKey(modelName));
 
-            const vehicle = CreateVehicleServerSetter(modelHashValue, vehicleType, playerX, playerY, playerZ, heading);
+        const vehicle = CreateVehicleServerSetter(modelName, vehicleType, playerX, playerY, playerZ, heading);
 
-            if (vehicle === 0) {
-                throw new Error('Échec du spawn du véhicule.');
-            }
+        if (vehicle === 0) {
+            throw new Error('Échec du spawn du véhicule.');
+        }
 
-            console.log(`Véhicule spawné: ${modelHash} pour le joueur ${playerId} aux coordonnées (${playerX}, ${playerY}, ${playerZ}).`);
-            return vehicle;
+        console.log(`Véhicule spawné: ${modelName} pour le joueur ${playerId} aux coordonnées (${playerX}, ${playerY}, ${playerZ}).`);
+        return vehicle;
     }
 
-    async registerNewVehicle(characterId: number, vehicleData: Partial<any>) {
+    async registerNewVehicle(characterId: number, vehicleData: Partial<any>): Promise<Vehicle> {
         const character = await this.prisma.character.findUnique({ where: { id: characterId } });
         if (!character) {
             throw new Error('Personnage non trouvé');

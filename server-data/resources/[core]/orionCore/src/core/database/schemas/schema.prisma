@@ -24,17 +24,17 @@ enum RoleType {
 }
 
 model User {
-  id              String      @id @default(uuid()) @db.Char(36)
+  id              String @id @default(uuid()) @db.Char(36)
+  username        String @unique @db.VarChar(255)
   license         String      @unique @db.VarChar(255)
   steamId         String?     @unique @db.VarChar(255)
   ip              String?     @db.VarChar(45)
   lastConnection  DateTime?
   email           String      @unique @db.VarChar(255)
   password        String      @db.VarChar(255)
-  username        String      @unique @db.VarChar(255)
   active          Boolean     @default(false)
   source          Int?
-  activeCharacter String?
+  activeCharacter String?     @db.Char(36)
   createdAt       DateTime    @default(now())
   roleId          String      @db.Char(36)
   role            Role        @relation(fields: [roleId], references: [id])

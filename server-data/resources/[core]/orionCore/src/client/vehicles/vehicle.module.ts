@@ -1,11 +1,7 @@
-import {VehicleService} from "./vehicle.service";
-import {VehicleFuelService} from "./vehicle.fuel.service";
-import {VehicleSnowService} from "./vehicle.snow.service";
+import {VehicleController} from "./vehicle.controller";
 
 export class VehicleModule {
     constructor() {
-        new VehicleService()
-        new VehicleFuelService()
-        new VehicleSnowService()
+        new VehicleController()
     }
 }

@@ -2,7 +2,7 @@ import {Inject, Injectable} from '../../../core/decorators';
 import {PlayerManagerService} from '../playerManager/playerManager.service';
 import {PrismaService} from "../../../core/database/PrismaService";
 import {randomUUID} from "node:crypto";
-import {CharacterGender} from "@prisma/client";
+import {Character, CharacterGender} from "@prisma/client";
 
 @Injectable()
 export class CharacterService {
@@ -143,5 +143,34 @@ export class CharacterService {
         } catch (error) {
             throw new Error(`Erreur lors du changement de personnage: ${error.message}`);
         }
+    }
+
+    async modifyMoney(sourcePlayerId:number, targetPlayerId: number, amount: number): Promise<number> {
+        return this.prisma.$transaction(async (prisma) => {
+            const character = await prisma.character.findUnique({
+                where: {id: characterId},
+                select: {money: true},
+            });
+
+            if (!character) {
+                throw new Error('Personnage non trouvé');
+            }
+
+            const newBalance = character.money + amount;
+            if (newBalance < 0) {
+                throw new Error('Fonds insuffisants');
+            }
+            const updatedCharacter = await prisma.character.update({
+                where: {id: characterId},
+                data: {
+                    money: newBalance,
+                },
+                select: {money: true},
+            });
+
+            console.log(`Le nouveau solde pour le personnage ${characterId} est de ${updatedCharacter.money} unités.`);
+
+            return updatedCharacter.money;
+        });
     }
 }

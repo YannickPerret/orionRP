@@ -12,7 +12,7 @@
     "prisma:generate": "npx prisma generate --schema src/core/database/schemas/schema.prisma"
   },
   "prisma": {
-    "seed": "tsx src/server/core/database/seeds/seeds.ts"
+    "seed": "tsx src/core/database/seeds/seeds.ts"
   },
   "keywords": [],
   "author": "Tchoune",
@@ -29,6 +29,7 @@
     "luxon": "^3.5.0",
     "mysql2": "^3.11.3",
     "path-browserify": "^1.0.1",
+    "pino": "^9.5.0",
     "reflect-metadata": "^0.2.2",
     "uuid": "^11.0.2"
   },

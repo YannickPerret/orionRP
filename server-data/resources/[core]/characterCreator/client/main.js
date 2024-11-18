@@ -138,6 +138,13 @@ onNet('characterCreator:client:closeCharacterCreation', () => {
 function closeCharacterCreationUI() {
     SetNuiFocus(false, false);
     EnableAllControlActions(0)
+    SendNuiMessage(
+        JSON.stringify({
+            app: "characterCreator",
+            method: "openCharacterCreation",
+            data: false,
+        })
+    );
     stopCreationCamera();
 }
 
@@ -298,7 +305,6 @@ on("__cfx_nui:applySkin", async (data, cb) => {
 
 RegisterNuiCallbackType('register-character')
 on("__cfx_nui:register-character", async (data, cb) => {
-    // Préparer les données du personnage
     if (data.firstName === '' || data.lastName === '' || data.height < 50 || data.height > 230 || data.birthDate === '') {
         cb({ status : "error", message: "Veuillez remplir les champs d'ADN"})
         return
@@ -323,6 +329,5 @@ on('onResourceStop', () => {
     const playerPed = PlayerPedId();
     FreezeEntityPosition(playerPed, false);
     SetEntityInvincible(playerPed, false);
-    SetNuiFocus(false, false);
-
+    closeCharacterCreationUI()
 })

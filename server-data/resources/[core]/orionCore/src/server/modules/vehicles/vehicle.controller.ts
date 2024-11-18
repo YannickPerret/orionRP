@@ -1,11 +1,24 @@
 import '@citizenfx/server';
-import {ServerEvent, Inject, Command} from '../../../core/decorators';
+import {ServerEvent, Inject, Command, Injectable} from '../../../core/decorators';
 import { VehicleService } from './vehicle.service';
 import {RoleType} from "../roles/role.enum";
+import {UserService} from "../users/user.service";
+import {PlayerManagerService} from "../playerManager/playerManager.service";
+import {LoggerService} from "../../../core/modules/logger/logger.service";
 
+@Injectable()
 export class VehicleController {
     @Inject(VehicleService)
     private vehicleService!: VehicleService;
+
+    @Inject(UserService)
+    private userService!: UserService;
+
+    @Inject(PlayerManagerService)
+    private playerManagerService!: PlayerManagerService;
+
+    @Inject(LoggerService)
+    private loggerService!: LoggerService;
 
     @ServerEvent('vehicle:create')
     async handleCreateVehicle(playerId: number, characterId: number, vehicleData: Partial<any>): Promise<void> {
@@ -74,17 +87,22 @@ export class VehicleController {
         role: RoleType.ADMIN,
     })
     async spawnVehicleCommand(source: number, args: string[]): Promise<void> {
-        try {
-            const vehicleName = args[0];
-            if (!vehicleName) {
-                emitNet('chat:addMessage', source, { args: ["Admin", "Vous devez spécifier un nom de véhicule."] });
-                return;
-            }
-            console.log("llllss")
-            await this.vehicleService.spawnNewVehicle(source, vehicleName)
+        const vehicleName = args[0];
+        if (!vehicleName) {
+            emitNet('chat:addMessage', source, { args: ["Admin", "Vous devez spécifier un nom de véhicule."] });
+            return;
         }
-        catch (error) {
-            console.error(`Erreur lors du spawn du véhicule: ${error}`)
+        const user = await this.playerManagerService.getPlayer(source)
+        if (!user) {
+            this.loggerService.error(`Le joueur ${source} a tenté de spawn un véhicule sans être connecté.`);
+            emitNet('chat:addMessage', source, { args: ["Admin", "Vous n'êtes pas connecté."] });
+            return;
         }
+        if(!await this.userService.hasRoleOf(user.id, RoleType.ADMIN)) {
+            this.loggerService.error(`Le joueur ${user.id} a tenté de spawn un véhicule sans les permissions.`);
+            emitNet('chat:addMessage', source, { args: ["Admin", "Vous n'avez pas les permissions pour utiliser cette commande."] });
+            return;
+        }
+        emitNet('orionCore:client:vehicle:spawn', source, vehicleName);
     }
 }

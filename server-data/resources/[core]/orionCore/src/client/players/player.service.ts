@@ -49,4 +49,52 @@ export class PlayerService {
         EnableAllControlActions(0);
         console.log('Player revived.');
     }
+
+    getClosestPed(radius: number = 10.0): number | null {
+        const playerPed = PlayerPedId();
+        const playerCoords = GetEntityCoords(playerPed, true);
+        let closestPed = null;
+        let closestDistance = radius;
+
+        const [handle, ped] = FindFirstPed();
+        let finished = false;
+
+        do {
+            if (!IsPedAPlayer(ped) && DoesEntityExist(ped) && !IsEntityDead(ped)) {
+                const pedCoords = GetEntityCoords(ped, true);
+                const distance = Vdist(playerCoords[0], playerCoords[1], playerCoords[2], pedCoords[0], pedCoords[1], pedCoords[2]);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestPed = ped;
+                }
+            }
+            finished = !FindNextPed(handle);
+        } while (!finished);
+
+        EndFindPed(handle);
+        return closestPed;
+    }
+
+    getClosestPlayer(radius: number = 10.0): number | null {
+        const playerPed = PlayerPedId();
+        const playerCoords = GetEntityCoords(playerPed);
+        let closestPlayer = null;
+        let closestDistance = radius;
+
+        for (let i = 0; i < GetNumberOfPlayers(); i++) {
+            const targetPlayer = GetPlayerFromIndex(i);
+            if (targetPlayer !== PlayerId()) {
+                const targetPed = GetPlayerPed(targetPlayer);
+                const targetCoords = GetEntityCoords(targetPed);
+                const distance = Vdist(playerCoords[0], playerCoords[1], playerCoords[2], targetCoords[0], targetCoords[1], targetCoords[2]);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestPlayer = targetPlayer;
+                }
+            }
+        }
+        return closestPlayer;
+    }
 }

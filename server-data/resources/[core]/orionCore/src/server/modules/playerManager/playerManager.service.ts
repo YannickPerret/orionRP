@@ -1,5 +1,5 @@
 import {Injectable} from "../../../core/decorators";
-import {User} from "@prisma/client";
+import { User } from '@prisma/client';
 
 @Injectable()
 export class PlayerManagerService {
@@ -10,8 +10,9 @@ export class PlayerManagerService {
     }
 
     addPlayer(playerId: number, user: User): void {
-        this.players.set(playerId, user);
         console.log(`Joueur ajouté : ${user.username} (ID: ${playerId})`);
+
+        this.players.set(playerId, user);
     }
 
     removePlayer(playerId: number): void {
@@ -24,7 +25,11 @@ export class PlayerManagerService {
     }
 
     getPlayer(playerId: number): User | undefined {
-        return this.players.get(playerId);
+        const user = this.players.get(playerId);
+        if (!user) {
+            console.log(`Aucun utilisateur trouvé pour l'ID de joueur : ${playerId}`);
+        }
+        return user;
     }
 
     getAllPlayers(): Map<number, User> {

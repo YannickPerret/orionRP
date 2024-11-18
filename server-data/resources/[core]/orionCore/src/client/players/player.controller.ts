@@ -17,6 +17,29 @@ export class PlayerController {
         console.log('PlayerController initialized');
     }
 
+    @Command({ name: 'sendMoney', description: 'Envoie de l\'argent au joueur le plus proche', role: null })
+    async sendMoneyCommand(amount: number) {
+        if (!amount || isNaN(amount) || amount <= 0) {
+            console.error('Montant invalide.');
+            emit('chat:addMessage', { args: ['Système', 'Veuillez spécifier un montant valide.'] });
+            return;
+        }
+
+        const closestPlayer = this.playerService.getClosestPlayer(10.0);
+        if (closestPlayer !== null) {
+            const playerId = GetPlayerServerId(closestPlayer);
+            if (playerId) {
+                console.log(`Envoi de ${amount} unités à ${playerId}`);
+                emitNet('orionCore:server:money:send', playerId, amount);
+                emit('chat:addMessage', { args: ['Système', `Vous avez envoyé ${amount} unités au joueur ${playerId}.`] });
+            } else {
+                emit('chat:addMessage', { args: ['Système', 'Joueur le plus proche introuvable.'] });
+            }
+        } else {
+            emit('chat:addMessage', { args: ['Système', 'Aucun joueur à proximité.'] });
+        }
+    }
+
     @Command({ name: 'teleportToGPS', description: 'Téléporte le joueur au GPS', role: null })
     async teleportToGPS() {
         const playerPed = PlayerPedId();
@@ -108,8 +131,6 @@ export class PlayerController {
 
     @GameEvent('playerSpawned')
     async onPlayerSpawned() {
-        console.log("oui")
-
         if (!this.playerSpawned) {
             ShutdownLoadingScreenNui()
             this.playerSpawned = true
@@ -117,11 +138,12 @@ export class PlayerController {
 
         let tick = setTick(async () => {
             if (NetworkIsSessionStarted()) {
-                emitNet('orionCore:server:character:load');
+                console.log('Session started')
+                emitNet('orionCore:server:character:login');
                 clearTick(tick);
-                return false;
+                return;
             }
-            await Delay(1000)
+            await Delay(5000)
         });
     }
 }

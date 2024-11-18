@@ -3,7 +3,8 @@ import {ServerEvent, Inject, Tick, TickInterval} from '../../../core/decorators'
 import { CharacterService } from './character.service';
 import { PlayerManagerService } from '../playerManager/playerManager.service';
 import {UserService} from "../users/user.service";
-import {Interval} from "luxon";
+import {Character, User} from "@prisma/client";
+import {NotifierService} from "../notifiers/notifier.service";
 
 export class CharacterController {
   @Inject(CharacterService)
@@ -14,6 +15,36 @@ export class CharacterController {
 
   @Inject(UserService)
   private userService!: UserService
+
+  @Inject(NotifierService)
+    private notifierService!: NotifierService
+
+  @ServerEvent('character:login')
+  async handleLoginCharacter(source: number): Promise<void> {
+    try {
+      const license = this.userService.getPlayerIdentifier(source);
+      const user = await this.userService.findUserByLicense(license);
+
+      if (!user) {
+        console.log(`Utilisateur introuvable avec la licence ${license}`);
+        return;
+      }
+
+      if (user.characters && user.characters.length > 0) {
+        const character: Character = await this.userService.getActiveCharacter(user.id);
+        emitNet('orionCore:client:loadCharacter', source, character);
+        this.playerManager.addPlayer(source, user)
+        this.notifierService.notify(source, `Bienvenue ${character.firstName} ${character.lastName} !`, 'info')
+
+      } else {
+        console.log(`Aucun personnage actif trouvé pour l'utilisateur ${user.username}`);
+        emitNet('characterCreator:client:openCharacterCreation', source);
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement du personnage:', error);
+    }
+  }
+
 
   @ServerEvent('character:register')
   async handleRegisterCharacter(playerId: number, characterData: any): Promise<void> {
@@ -48,6 +79,15 @@ export class CharacterController {
     } catch (error) {
       console.error('Erreur lors de la sauvegarde du personnage:', error);
     }
+  }
+
+  @ServerEvent('orionCore:server:money:send')
+  handleSendMoney(source: number, targetPlayerId: number, amount: number): void {
+    console.log(`Le joueur ${source} envoie ${amount} unités au joueur ${targetPlayerId}`);
+    this.characterService.modifyMoney(source, targetPlayerId, amount);
+
+    emitNet('chat:addMessage', targetPlayerId, { args: ['Système', `Vous avez reçu ${amount} unités de la part du joueur ${source}.`] });
+    emitNet('chat:addMessage', source, { args: ['Système', `Vous avez envoyé ${amount} unités au joueur ${targetPlayerId}.`] });
   }
 
   @ServerEvent('character:applyItemEffects')

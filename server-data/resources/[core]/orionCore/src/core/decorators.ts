@@ -89,7 +89,6 @@ export function GameEvent(eventName: string) {
 export function Command(options: CommandOptions) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const original = descriptor.value;
-
         RegisterCommand(
             options.name,
             async (source: number, args: string[], rawCommand: string) => {
@@ -102,7 +101,6 @@ export function Command(options: CommandOptions) {
             },
             false
         );
-
         console.log(`Commande ${options.name} enregistrée avec la description : "${options.description}"`);
         return descriptor;
     };

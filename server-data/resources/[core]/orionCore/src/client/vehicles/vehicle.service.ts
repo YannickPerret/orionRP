@@ -62,4 +62,46 @@ export class VehicleService {
             await Delay(100);
         });
     }
+
+    async spawnVehicle(model: string, x: number, y: number, z: number, heading: number) {
+        const modelHash = GetHashKey(model);
+        RequestModel(modelHash);
+
+        while (!HasModelLoaded(modelHash)) {
+            await Delay(100);
+        }
+
+        const vehicle = CreateVehicle(modelHash, x, y, z, heading, true, false);
+        SetVehicleNumberPlateText(vehicle, 'FIVEM');
+        SetPedIntoVehicle(PlayerPedId(), vehicle, -1);
+        SetModelAsNoLongerNeeded(modelHash);
+
+        return vehicle;
+    }
+
+    getClosestVehicle(radius: number = 10.0): number | null {
+        const playerPed = PlayerPedId();
+        const playerCoords = GetEntityCoords(playerPed, true);
+        let closestVehicle = null;
+        let closestDistance = radius;
+
+        const [handle, vehicle] = FindFirstVehicle();
+        let finished = false;
+
+        do {
+            if (DoesEntityExist(vehicle)) {
+                const vehicleCoords = GetEntityCoords(vehicle, true);
+                const distance = Vdist(playerCoords[0], playerCoords[1], playerCoords[2], vehicleCoords[0], vehicleCoords[1], vehicleCoords[2]);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestVehicle = vehicle;
+                }
+            }
+            finished = !FindNextVehicle(handle);
+        } while (!finished);
+
+        EndFindVehicle(handle);
+        return closestVehicle;
+    }
 }

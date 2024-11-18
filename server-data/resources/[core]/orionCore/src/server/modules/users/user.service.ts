@@ -3,6 +3,7 @@ import {CharacterService} from "../characters/character.service";
 import {PrismaService} from "../../../core/database/PrismaService";
 import {RoleType} from "../roles/role.enum";
 import {PlayerManagerService} from "../playerManager/playerManager.service";
+import {Character, User} from "@prisma/client";
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,7 @@ export class UserService {
     @Inject(PlayerManagerService)
     private playerManager!: PlayerManagerService;
 
-    async findUserByLicense(license: string) {
+    async findUserByLicense(license: string) : Promise<User | null> {
         return this.prisma.user.findUnique({
             where: {license: license},
             include: {
@@ -23,15 +24,6 @@ export class UserService {
                 characters: true,
             },
         });
-    }
-
-    async isAdmin(userId: string): Promise<boolean> {
-        const user = await this.prisma.user.findUnique({
-            where: { id: userId },
-            include: { role: true },
-        });
-
-        return user?.role?.name === RoleType.ADMIN;
     }
 
     getPlayerIdentifier(playerId: number): string | null {
@@ -73,7 +65,6 @@ export class UserService {
                 if (character) {
                    await this.characterServices.loadCharacter(playerId, character.id);
                     this.playerManager.addPlayer(playerId, user);
-
                     emitNet('chat:addMessage', playerId, { args: ['Admin', `Reconnexion réussie pour ${user.username}.`] });
                     return;
                 } else {
@@ -88,5 +79,27 @@ export class UserService {
             console.error('Erreur lors de la connexion de l\'utilisateur:', error);
             emitNet('chat:addMessage', playerId, { args: ['Erreur', 'Une erreur s\'est produite lors de la connexion.'] });
         }
+    }
+    async getActiveCharacter(userId: string): Promise<Character | null> {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                characters: true,
+            },
+        });
+
+        if (!user) {
+            return null;
+        }
+        return user.characters.find((char) => char.id === user.activeCharacter) || null;
+    }
+
+    async hasRoleOf(userId: string, roleName: RoleType): Promise<boolean> {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: { role: true },
+        });
+        console.log(user.role.name, roleName)
+        return user.role.name === roleName;
     }
 }
