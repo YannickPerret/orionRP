@@ -8,7 +8,6 @@ export class LoggerService {
 
     constructor() {
         this.logger = pino({
-            level: process.env.LOG_LEVEL || 'info',
             prettyPrint: !IS_PRODUCTION ? { colorize: true } : false,
         });
     }

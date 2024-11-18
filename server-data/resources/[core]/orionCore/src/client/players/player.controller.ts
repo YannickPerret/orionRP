@@ -1,7 +1,8 @@
-import {ClientEvent, Command, GameEvent, Inject, Injectable} from '../../core/decorators';
+import {ClientEvent, Command, GameEvent, Inject, Injectable, Tick, TickInterval} from '../../core/decorators';
 import { PlayerModelService } from './player.model.service';
 import {PlayerService} from "./player.service";
 import {Delay} from "../../utils/fivem";
+
 
 @Injectable()
 export class PlayerController {
@@ -11,7 +12,7 @@ export class PlayerController {
     @Inject(PlayerModelService)
     private playerModelService!: PlayerModelService;
 
-    private playerSpawned = false
+    private playerSpawned = false;
 
     initialize() {
         console.log('PlayerController initialized');
@@ -146,4 +147,6 @@ export class PlayerController {
             await Delay(5000)
         });
     }
+    
+    
 }

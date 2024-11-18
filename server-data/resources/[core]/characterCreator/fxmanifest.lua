@@ -9,11 +9,11 @@ ui_page 'web/build/index.html'
 shared_script 'config/config.js'
 
 client_scripts {
+    '@menuv/menuv.lua',
     'client/main.js',
 }
 
 server_scripts {
-    'server/commands.js',
     'server/main.js',
 }
 

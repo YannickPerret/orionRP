@@ -5,10 +5,12 @@ import {SoundService} from "./client/sound.service";
 import {PlayerModule} from "./client/players/player.module";
 import {VehicleModule} from "./client/vehicles/vehicle.module";
 import {GasStationModule} from "./client/gasStation/gasStation.module";
+import {MenuController} from "./client/vmenu/menu.controller";
 
 
 async function bootstrap() {
 
+    new MenuController()
     new WorldClientService()
     new SoundService()
     new GasStationModule()
