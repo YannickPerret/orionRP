@@ -29,6 +29,13 @@ export class MenuController {
         this.openSingleMenu(playerMenu);
     }
 
+    @Command({ name: 'openInventoryMenu', description: 'Ouvrir le menu du joueur', role: null })
+    @KeyMapping('openInventoryMenu', 'Ouvre l inventaire du joueur', 'keyboard', 'I')
+    openInventoryMenu() {
+        const playerMenu = this.menuService.getInventoryMenu();
+        this.openSingleMenu(playerMenu);
+    }
+
     @Command({ name: 'openVehicleMenu', description: 'Ouvrir le menu du véhicule', role: null })
     openVehicleMenu() {
         const vehicleMenu = this.menuService.getVehicleMenu();

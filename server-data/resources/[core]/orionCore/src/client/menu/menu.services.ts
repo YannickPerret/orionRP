@@ -55,6 +55,27 @@ export class MenuServices {
         };
     }
 
+    public getInventoryMenu(): any {
+        const inventory = this.playerService.getPlayerData()?.inventory || [];
+        return {
+            name : 'Menu Inventaire',
+            subtitle : 'Contenu de l\'inventaire',
+            glare : true,
+            closable : true,
+            buttons: [
+                inventory.map((item: any) => {
+                    return {
+                        name: item.name,
+                        description: item.description,
+                        onClick: () => {
+                            emit('orionCore:server:inventory:use', item.id);
+                        }
+                    }
+                })
+            ]
+        }
+    }
+
     public getVehicleMenu(): any {
         return {
             name: 'Menu Véhicule',

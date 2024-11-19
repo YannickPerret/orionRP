@@ -134,11 +134,11 @@ export function Command(options: CommandOptions) {
 }
 
 
-
-export function NuiCallback(eventName: string): MethodDecorator {
+export function OnNuiEvent(eventName: string): MethodDecorator {
     return (target, propertyKey, descriptor: PropertyDescriptor) => {
         const originalMethod = descriptor.value;
 
+        // Enregistrement de l'événement NUI
         RegisterNuiCallbackType(eventName);
         on(`__cfx_nui:${eventName}`, async (data: any, cb: (result: any) => void) => {
             try {
@@ -150,6 +150,7 @@ export function NuiCallback(eventName: string): MethodDecorator {
                 cb({ status: 'error', message: error.message });
             }
         });
+
         return descriptor;
     };
 }

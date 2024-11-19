@@ -1,17 +1,18 @@
 import { Injectable } from '../../core/decorators';
 import {Delay} from '../../utils/fivem';
+import {PlayerData} from "../../shared/player";
 
 @Injectable()
 export class PlayerService {
     private playerSpawned: boolean = false;
-    private playerData: any = null;
+    private player: PlayerData | null = null;
 
-    setPlayerData(data: any) {
-        this.playerData = data;
+    setPlayerData(data: PlayerData) {
+        this.player = data;
     }
 
-    getPlayerData() {
-        return this.playerData;
+    public getPlayer(): PlayerData | null {
+        return this.player;
     }
 
     async handlePlayerSpawn() {
@@ -110,9 +111,7 @@ export class PlayerService {
         if (closestDistance === -1 || closestDistance > radius) {
             return { closestPlayer: null, closestDistance: -1 };
         }
-
         return { closestPlayer, closestDistance };
     }
-
 }
 
