@@ -1,11 +1,23 @@
 import { Injectable } from '../../core/decorators';
 import {Delay} from '../../utils/fivem';
-import {PlayerData} from "../../shared/player";
+import {PlayerClientState, PlayerData} from "../../shared/player";
 
 @Injectable()
 export class PlayerService {
     private playerSpawned: boolean = false;
     private player: PlayerData | null = null;
+
+    private state: PlayerClientState = {
+        isDead: false,
+        isEscorted: false,
+        isEscorting: false,
+        isHandcuffed: false,
+        disableMoneyCase: false,
+        isZipped: false,
+        hasPrisonerClothes: false,
+        isWearingPatientOutfit: false,
+        escorting: null,
+    }
 
     setPlayerData(data: PlayerData) {
         this.player = data;
@@ -33,7 +45,7 @@ export class PlayerService {
         });
     }
 
-    async setupPlayerConfig(playerId: number) {
+    setupPlayerConfig(playerId: number) {
         SetPlayerHealthRechargeMultiplier(playerId, 0.0);
         NetworkSetFriendlyFireOption(true);
         SetCanAttackFriendly(PlayerPedId(), true, true);

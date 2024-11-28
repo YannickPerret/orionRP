@@ -25,9 +25,7 @@ export class InventoryController {
             }
 
             const newInventory = await this.inventoryService.createInventory(character);
-            console.log(`Inventaire créé pour le personnage ${character.firstName} ${character.lastName}.`);
-
-             emitNet('orionCore:client:inventoryCreated', playerId, newInventory);
+            emitNet('orionCore:client:inventoryCreated', playerId, newInventory);
         } catch (error) {
             console.error('Erreur lors de la création de l\'inventaire:', error);
             emitNet('orionCore:client:inventoryError', playerId, 'Erreur lors de la création de l\'inventaire');

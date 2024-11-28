@@ -2,8 +2,6 @@ export const Delay = (ms: number): Promise<boolean> => {
     return new Promise(resolve => setTimeout(() => resolve(true), ms));
 };
 
-// Credits to d0p3t
-// https://github.com/d0p3t/fivem-js/blob/master/src/utils/UUIDV4.ts
 export const uuidv4 = (): string => {
     let uuid = '';
     for (let ii = 0; ii < 32; ii += 1) {

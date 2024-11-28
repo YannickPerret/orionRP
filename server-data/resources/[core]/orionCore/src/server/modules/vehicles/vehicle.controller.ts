@@ -5,6 +5,7 @@ import {RoleType} from "../roles/role.enum";
 import {UserService} from "../users/user.service";
 import {PlayerManagerService} from "../playerManager/playerManager.service";
 import {LoggerService} from "../../../core/modules/logger/logger.service";
+import {NotifierService} from "../notifiers/notifier.service";
 
 @Injectable()
 export class VehicleController {
@@ -19,6 +20,9 @@ export class VehicleController {
 
     @Inject(LoggerService)
     private loggerService!: LoggerService;
+
+    @Inject(NotifierService)
+    private notifierService!: NotifierService;
 
     @ServerEvent('vehicle:create')
     async handleCreateVehicle(playerId: number, characterId: number, vehicleData: Partial<any>): Promise<void> {
@@ -81,6 +85,59 @@ export class VehicleController {
         }
     }
 
+    @ServerEvent('vehicle:fuel:checkFunds')
+    async handleRequestRefuel(fuelNeeded: number, vehicleNetId: number, pricePerLiter: number) {
+        try {
+            const source = global.source;
+            const user = await this.playerManagerService.getPlayer(source);
+            if (!user) {
+                this.loggerService.error(`Joueur introuvable pour le ravitaillement: ${source}`);
+                return;
+            }
+
+            const character = await this.userService.getActiveCharacter(user.id);
+            if (character.money <= 0) {
+                this.notifierService.notify(source, "Fonds insuffisants", "error");
+            }
+
+            const vehicle = NetworkGetEntityFromNetworkId(vehicleNetId);
+            if (vehicle === 0 || !DoesEntityExist(vehicle)) {
+                this.loggerService.error(`Véhicule introuvable pour Net ID: ${vehicleNetId}`);
+                return;
+            }
+
+            const maxFuelPossible = Math.min(fuelNeeded, Math.floor(character.money / pricePerLiter));
+
+            if (maxFuelPossible <= 0) {
+                this.loggerService.error(`Fonds insuffisants pour ravitailler le véhicule ${vehicleNetId}`);
+                return;
+            }
+            emitNet('orionCore:client:vehicle:fuel:start', source, maxFuelPossible, pricePerLiter, vehicleNetId);
+        }
+        catch (error) {
+            this.loggerService.error(`Erreur lors de la demande de ravitaillement: ${error}`);
+        }
+    }
+
+    @ServerEvent('vehicle:fuel:stopRefuel')
+    async handleStopRefuel(totalFuelAdded: number, pricePerLiter: number) {
+        const user = await this.playerManagerService.getPlayer(source);
+        if (!user) {
+            this.loggerService.error(`Joueur introuvable pour le paiement: ${source}`);
+            return;
+        }
+
+        const totalCost = Math.ceil(totalFuelAdded * pricePerLiter);
+        if (user.character.money.money < totalCost) {
+            this.loggerService.error(`Fonds insuffisants détectés après ravitaillement pour le joueur ${source}`);
+            return;
+        }
+        user.character.money.money -= totalCost;
+        await
+        this.playerManagerService.updatePlayer(user);
+        this.loggerService.log(`Joueur ${source} a payé $${totalCost} pour le ravitaillement.`);
+    }
+
     @Command({
         name: 'spawnVehicle',
         description: 'Commande pour spawn un véhicule',
@@ -89,20 +146,19 @@ export class VehicleController {
     async spawnVehicleCommand(source: number, args: string[]): Promise<void> {
         const vehicleName = args[0];
         if (!vehicleName) {
-            emitNet('chat:addMessage', source, { args: ["Admin", "Vous devez spécifier un nom de véhicule."] });
+            this.loggerService.error(`Le joueur ${source} a tenté de spawn un véhicule sans spécifier de nom.`);
             return;
         }
         const user = await this.playerManagerService.getPlayer(source)
         if (!user) {
             this.loggerService.error(`Le joueur ${source} a tenté de spawn un véhicule sans être connecté.`);
-            emitNet('chat:addMessage', source, { args: ["Admin", "Vous n'êtes pas connecté."] });
             return;
         }
-        if(!await this.userService.hasRoleOf(user.id, RoleType.ADMIN)) {
+        if (!await this.userService.hasRoleOf(user.id, RoleType.ADMIN)) {
             this.loggerService.error(`Le joueur ${user.id} a tenté de spawn un véhicule sans les permissions.`);
-            emitNet('chat:addMessage', source, { args: ["Admin", "Vous n'avez pas les permissions pour utiliser cette commande."] });
             return;
         }
-        emitNet('orionCore:client:vehicle:spawn', source, vehicleName);
+        const [vehicleNetId, vehicle] = await this.vehicleService.spawnNewVehicle(source, vehicleName, GetEntityCoords(GetPlayerPed(source)), true)
+        emitNet('orionCore:client:vehicle:applyProperties', source, {fuelLevel: 100.0, plate: this.vehicleService.generateVehiclePlate()}, vehicleNetId);
     }
 }

@@ -2,7 +2,12 @@ import {Inject, Injectable} from '../../../core/decorators';
 import {PlayerManagerService} from '../playerManager/playerManager.service';
 import {PrismaService} from "../../../core/database/PrismaService";
 import {randomUUID} from "node:crypto";
-import {Character, CharacterGender} from "@prisma/client";
+import {CharacterGender} from "@prisma/client";
+import {config} from "../../config/config";
+import {CharInfo, PlayerData, Skin} from "../../../shared/player";
+import {LoggerService} from "../../../core/modules/logger/logger.service";
+import {UserService} from "../users/user.service";
+import {RoleType} from "../roles/role.enum";
 
 @Injectable()
 export class CharacterService {
@@ -11,6 +16,69 @@ export class CharacterService {
 
     @Inject(PlayerManagerService)
     private playerManager!: PlayerManagerService;
+
+    @Inject(LoggerService)
+    private logger!: LoggerService;
+
+    @Inject(UserService)
+    private userService!: UserService;
+
+    async loginCharacter(source: number, user): Promise<PlayerData | null> {
+        const license = this.userService.getPlayerIdentifier(source);
+        const user = await this.userService.findUserByLicense(license);
+
+        if (!user) {
+            this.logger.error(`Utilisateur introuvable avec la licence ${license}`);
+            return null;
+        }
+
+        if (user.characters && user.characters.length > 0) {
+            const activeCharacter = user.characters.find((char) => char.id === user.activeCharacter) || null;
+
+            if (!activeCharacter) {
+                this.logger.log('Aucun personnage actif trouvé pour cet utilisateur.');
+                return null;
+            }
+
+            const skin = activeCharacter.appearance as Skin;
+            const position = activeCharacter.position as { x: number; y: number; z: number };
+
+            const playerData: PlayerData = {
+                id: user.id,
+                license: user.license,
+                username: user.username,
+                steamId: user.steamId || null,
+                active: user.active,
+                role: user.role.name as RoleType,
+                source: source,
+                activeCharacter: activeCharacter.id,
+                character: {
+                    citizenid: activeCharacter.citizenid,
+                    firstName: activeCharacter.firstName,
+                    lastName: activeCharacter.lastName,
+                    user_id: activeCharacter.userId,
+                    gender: activeCharacter.gender,
+                    phone: activeCharacter.phone || null,
+                    money: {
+                        marked_money: 0,
+                        money: activeCharacter.money,
+                    },
+                    bank: activeCharacter.bank,
+                    skin: skin,
+                    position: position,
+                    health: activeCharacter.health,
+                    armor: activeCharacter.armor,
+                    hunger: activeCharacter.hunger,
+                    thirst: activeCharacter.thirst,
+                },
+            };
+
+            return playerData;
+        } else {
+            this.logger.log(`Aucun personnage actif trouvé pour l'utilisateur ${user.username}`);
+            return null;
+        }
+    }
 
     async createCharacter(license: string, characterData: any) {
         try {
@@ -31,8 +99,8 @@ export class CharacterService {
                     clothes: characterData.clothes,
                     model: characterData.model || 'mp_m_freemode_01',
                     position: { x: -1037.79, y: -2737.87, z: 13.77 },
-                    money: 500,
-                    bank: 1000,
+                    money: config.character.money,
+                    bank: config.character.bank,
                 },
             });
 
@@ -64,29 +132,31 @@ export class CharacterService {
         }
     }
 
-    async saveCharacter(playerId: number, position: { x: number, y: number, z: number }, heading: number): Promise<void> {
+    async saveCharacter(playerId: number, character: CharInfo): Promise<void> {
         try {
-            const player = this.playerManager.getPlayer(playerId);
-            if (!player || !player.activeCharacter) {
-                throw new Error('Aucun personnage actif trouvé');
-            }
 
-            const character = await this.prisma.character.findUnique({
-                where: { id: player.activeCharacter },
-            });
-
-            if (!character) {
-                throw new Error('Personnage non trouvé');
-            }
+            const characterData = {
+                firstName: character.firstName,
+                lastName: character.lastName,
+                userId: character.user_id,
+                gender: character.gender,
+                phone: character.phone,
+                money: character.money.money,
+                bank: character.bank,
+                appearance: character.skin,
+                position: character.position,
+                health: character.health,
+                armor: character.armor,
+                hunger: character.hunger,
+                thirst: character.thirst,
+            };
 
             await this.prisma.character.update({
-                where: { id: character.id },
-                data: {
-                    position: position,
-                },
+                where: { citizenid: character.citizenid },
+                data: characterData,
             });
 
-            console.log(`Personnage sauvegardé pour le joueur ${playerId}`);
+            this.logger.log(`Personnage sauvegardé pour le joueur ${playerId}`);
         } catch (error) {
             throw new Error(`Erreur lors de la sauvegarde du personnage: ${error.message}`);
         }
@@ -145,42 +215,29 @@ export class CharacterService {
         }
     }
 
-    async modifyMoney(playerId: number, amount: number): Promise<number> {
-        return this.prisma.$transaction(async (prisma) => {
-            // Récupérer le joueur via le PlayerManagerService
+    async updateCharacterAndCache(
+        playerId: number,
+        characterId: string,
+        updateData: Partial<any>
+    ): Promise<void> {
+        try {
+            const updatedCharacter = await this.prisma.character.update({
+                where: { id: characterId },
+                data: updateData,
+            });
+
             const player = this.playerManager.getPlayer(playerId);
-            if (!player || !player.activeCharacter) {
-                throw new Error('Aucun personnage actif trouvé pour le joueur');
+            if (player && player.activeCharacter === characterId) {
+                const updatedUser = {
+                    ...player,
+                    activeCharacterData: updatedCharacter,
+                };
+                this.playerManager.addPlayer(playerId, updatedUser)
             }
 
-            // Rechercher le personnage actif dans la base de données
-            const character = await prisma.character.findUnique({
-                where: { id: player.activeCharacter },
-                select: { money: true },
-            });
-
-            if (!character) {
-                throw new Error('Personnage non trouvé');
-            }
-
-            // Calculer le nouveau solde
-            const newBalance = character.money + amount;
-            if (newBalance < 0) {
-                throw new Error('Fonds insuffisants');
-            }
-
-            // Mettre à jour le solde du personnage
-            const updatedCharacter = await prisma.character.update({
-                where: { id: player.activeCharacter },
-                data: {
-                    money: newBalance,
-                },
-                select: { money: true },
-            });
-
-            console.log(`Le nouveau solde pour le personnage ${player.activeCharacter} est de ${updatedCharacter.money} unités.`);
-
-            return updatedCharacter.money;
-        });
+            console.log(`Personnage ${characterId} mis à jour pour le joueur ${playerId}`);
+        } catch (error) {
+            throw new Error(`Erreur lors de la mise à jour du personnage ${characterId} : ${error.message}`);
+        }
     }
 }

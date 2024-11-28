@@ -1,13 +1,44 @@
 import {InventoryItem} from "./item";
 import {ClothConfig} from "./clothes";
+import {RoleType} from "../server/modules/roles/role.enum";
+import {CharacterGender} from "@prisma/client";
 
-export type PlayerCharInfo = {
-    firstname: string;
-    lastname: string;
-    account: string;
-    gender: number;
-    phone: string;
+export type PlayerClientState = {
+    isDead: boolean;
+    isZipped: boolean;
+    isEscorted: boolean;
+    isEscorting: boolean;
+    escorting: number | null;
+    disableMoneyCase: boolean;
+    hasPrisonerClothes: boolean;
+    isWearingPatientOutfit: boolean;
+    isHandcuffed: boolean;
 };
+
+export type CharInfo = {
+    citizenid: string;
+    firstName: string;
+    lastName: string;
+    user_id: string;
+    gender: CharacterGender;
+    phone: string;
+    money: {
+        marked_money: number;
+        money: number;
+    };
+    bank: number;
+    skin: Skin;
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    health: number;
+    armor: number;
+    hunger: number;
+    thirst: number;
+};
+
 
 export type PlayerJob = {
     onduty: boolean;
@@ -16,27 +47,25 @@ export type PlayerJob = {
 };
 
 export type PlayerData = {
-    address: string;
-    apartment: | {
+    //address: string;
+    /*apartment: | {
         id: number;
         property_id: number;
         tier: number;
         price: number;
         owner: string;
-    } | null | undefined;
-    citizenid: string;
+    } | null | undefined;*/
+    id: string;
     license: string;
-    name: string;
-    money: {
-        marked_money: number;
-        money: number;
-    };
-    charinfo: PlayerCharInfo;
-    role: string;
-    job: PlayerJob;
-    items: Record<string, InventoryItem> | InventoryItem[];
-    skin: Skin;
-    cloth_config: ClothConfig;
+    character: CharInfo | null;
+    role: RoleType;
+    username: string;
+    steamId?: string;
+    active: boolean;
+    activeCharacter: string | null;
+
+    //job: PlayerJob;
+    //items: Record<string, InventoryItem> | InventoryItem[];
     source: number;
 };
 
@@ -87,7 +116,7 @@ export const PlayerPedHash = {
     Female: -1667301416,
 };
 
-export const TenueComponents = {
+export const ClotheComponents = {
     [1]: { label: 'Chapeau', propId: 0, value: 'HideHead' },
     [2]: { label: 'Masque', componentId: 1, value: 'HideMask' },
     [3]: { label: 'Lunettes', propId: 1, value: 'HideGlasses' },

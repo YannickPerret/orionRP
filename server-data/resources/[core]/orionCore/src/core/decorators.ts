@@ -38,7 +38,14 @@ export function Injectable(): ClassDecorator {
 export function Inject(token: any): PropertyDecorator {
     return (target, propertyKey) => {
         Object.defineProperty(target, propertyKey, {
-            get: () => resolve(token),
+            get: () => {
+                try {
+                    return resolve(token);
+                } catch (error) {
+                    console.error(`Erreur lors de la résolution de ${token.name}: ${error.message}`);
+                    throw error;
+                }
+            },
             enumerable: true,
             configurable: true,
         });

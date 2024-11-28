@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '../../core/decorators';
 import { PlayerService } from '../players/player.service';
 import { LoggerService } from "../../core/modules/logger/logger.service";
+import {VehicleService} from "../vehicles/vehicle.service";
 
 @Injectable()
 export class MenuServices {
@@ -10,8 +11,40 @@ export class MenuServices {
     @Inject(LoggerService)
     private logger: LoggerService;
 
-    public getPlayerMenu(): any {
-        const money = this.playerService.getPlayerData()?.money || 0;
+    @Inject(VehicleService)
+    private vehicleService: VehicleService;
+
+    private currentMenu: any = null;
+
+    public openMenu(menu: any) {
+        if (this.currentMenu) {
+            this.closeMenu();
+        }
+        this.currentMenu = menu;
+        exports['menu'].CreateMenu(menu);
+        this.logger.log(`Menu ouvert : ${menu.name}`);
+    }
+
+    public closeMenu() {
+        if (this.currentMenu) {
+            exports['menu'].CloseMenu();
+            this.logger.log(`Menu fermé : ${this.currentMenu.name}`);
+            this.currentMenu = null;
+        }
+    }
+
+    public openSubmenu(submenuKey: string) {
+        if (this.currentMenu && this.currentMenu.submenus?.[submenuKey]) {
+            console.log(this.currentMenu.submenus)
+            exports['menu'].CreateSubmenu(this.currentMenu.submenus[submenuKey]);
+            this.logger.log(`Sous-menu ouvert : ${submenuKey}`);
+        } else {
+            this.logger.error(`Sous-menu introuvable : ${submenuKey}`);
+        }
+    }
+
+    public openPlayerMenu(): any {
+        const money = this.playerService.getPlayer().character.money.money
         return {
             name: 'Menu Joueur',
             subtitle: 'Options du joueur',
@@ -26,7 +59,7 @@ export class MenuServices {
                     name: "Donner de l'argent",
                     description: "Donner de l'argent à un joueur",
                     onClick: async () => {
-                        const amount = await this.openDialogBox('Donner de l\'argent', 'Entrez le montant à donner:', 'number', []);
+                        const amount = await this.openDialogBox('Donner de l\'argent', 'Entrez le montant à donner:', 'number');
                         if (amount > 0) {
                             const { closestPlayer } = this.playerService.getClosestPlayer();
                             if (closestPlayer === null) {
@@ -55,7 +88,7 @@ export class MenuServices {
         };
     }
 
-    public getInventoryMenu(): any {
+    public openInventoryMenu(): any {
         const inventory = this.playerService.getPlayerData()?.inventory || [];
         return {
             name : 'Menu Inventaire',
@@ -76,32 +109,107 @@ export class MenuServices {
         }
     }
 
-    public getVehicleMenu(): any {
+    public openVehicleMenu() {
+        const playerPed = PlayerPedId();
+        const vehicle = GetVehiclePedIsIn(playerPed, false);
+
+        if (vehicle && GetPedInVehicleSeat(vehicle, -1) === playerPed) {
+            const vehicleMenu = {
+                name: 'Menu Véhicule',
+                subtitle: 'Options du véhicule',
+                glare: true,
+                closable: true,
+                buttons: [
+                    {
+                        name: 'Allumer/Éteindre Moteur',
+                        description: 'Allume ou éteint le moteur du véhicule',
+                        onClick: () => {
+                            const engineStatus = GetIsVehicleEngineRunning(vehicle);
+                            SetVehicleEngineOn(vehicle, !engineStatus, false, true);
+                        }
+                    },
+                    {
+                        name: 'Menu Portières',
+                        onClick: () => { this.openSubmenu('vehicleDoorsMenu'); }
+                    },
+                    {
+                        name: 'Menu Limitateur',
+                        onClick: () => { this.openSubmenu('vehicleLimitsMenu'); }
+                    },
+                    {
+                        name: 'Fermer le menu',
+                        onClick: () => this.closeMenu(),
+                    }
+                ],
+                submenus: {
+                    'vehicleDoorsMenu': this.getVehicleDoorsMenu(vehicle),
+                    'vehicleLimitsMenu': this.getVehicleLimitsMenu(vehicle)
+                }
+            };
+
+            this.openMenu(vehicleMenu);
+        } else {
+            if (this.currentMenu === 'vehicleMenu')
+             this.closeMenu();
+        }
+    }
+
+    private getVehicleDoorsMenu(vehicle: number): any {
         return {
-            name: 'Menu Véhicule',
-            subtitle: 'Options du véhicule',
+            name: 'Menu Portières',
+            subtitle: 'Options des portières',
             glare: true,
-            closable: true,
             buttons: [
                 {
-                    name: 'Allumer/Éteindre Moteur',
-                    description: 'Allume ou éteint le moteur du véhicule',
+                    name: 'Ouvrir/Fermer toutes les portières',
                     onClick: () => {
-                        emit('chat:addMessage', { args: ['Système', 'Moteur allumé/éteint !'] });
+                        for (let i = 0; i < 6; i++) {
+                            if (GetVehicleDoorAngleRatio(vehicle, i) > 0) {
+                                SetVehicleDoorShut(vehicle, i, false);
+                            } else {
+                                SetVehicleDoorOpen(vehicle, i, false, false);
+                            }
+                        }
                     }
                 },
                 {
-                    name: 'Ouvrir/fermer Portières',
-                    description: 'Contrôle l\'ouverture des portières',
-                    onClick: () => {
-                        emit('chat:addMessage', { args: ['Système', 'Portières contrôlées !'] });
-                    }
+                    name: 'Retour',
+                    onClick: () => { this.openMenu(this.currentMenu); }
                 }
             ]
         };
     }
 
-    public getJobMenu(): any {
+    private getVehicleLimitsMenu(vehicle: number): any {
+        return {
+            name: 'Limitateur de vitesse',
+            subtitle: 'Options du limitateur de vitesse',
+            glare: true,
+            buttons: [
+                {
+                    name: 'Activer/Désactiver Limitateur',
+                    onClick: () => {
+                        this.vehicleService.toggleLimiterEnabled(true);
+                    }
+                },
+                {
+                    name: 'Régler la vitesse manuellement',
+                    onClick: async () => {
+                        const speed = await this.openDialogBox('Régler la vitesse', 'Entrez la vitesse à régler:', 'number');
+                        if (speed && speed > 0) {
+                            this.vehicleService.setMaxSpeed(vehicle, Number(speed));
+                        }
+                    }
+                },
+                {
+                    name: 'Retour',
+                    onClick: () => { this.openMenu(this.currentMenu); }
+                }
+            ]
+        };
+    }
+
+    public openJobMenu(): any {
         return {
             name: 'Menu Jobs',
             subtitle: 'Options de travail',
@@ -126,7 +234,7 @@ export class MenuServices {
         };
     }
 
-    private async openDialogBox(title: string, message: string, type: 'text' | 'number', buttons: any): Promise<unknown> {
+    private async openDialogBox(title: string, message: string, type: 'text' | 'number'): Promise<unknown> {
         return new Promise((resolve) => {
             let maxInputLength = type === 'text' ? 256 : 20;
 

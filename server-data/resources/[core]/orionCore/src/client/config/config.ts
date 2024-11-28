@@ -17,7 +17,7 @@ export const config = {
             },
             headingPosition: 235.275588,
         },
-        monney: 500,
+        money: 500,
         bank: 0,
         healthRegen: 0.0,
         needs: {

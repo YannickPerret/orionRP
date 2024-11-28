@@ -1,6 +1,7 @@
 import {Inject, Injectable, OnNuiEvent} from "../../core/decorators";
 import {PlayerData} from "../../shared/player"
 import {PlayerService} from "./player.service";
+import {Delay} from "../../utils/fivem";
 
 @Injectable
 export class PlayerIdentityProvider {
@@ -28,7 +29,7 @@ export class PlayerIdentityProvider {
         const mugshot = RegisterPedheadshot_3(ped);
 
         while (!IsPedheadshotReady(mugshot) || !IsPedheadshotValid(mugshot)) {
-            await wait(100);
+            await Delay(100);
         }
 
         const mugshotTxd = GetPedheadshotTxdString(mugshot);

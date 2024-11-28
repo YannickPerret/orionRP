@@ -3,17 +3,18 @@ import 'reflect-metadata'
 import {ItemController} from "./server/modules/items/item.controller";
 import {RoleController} from "./server/modules/roles/role.controller";
 import {InventoryController} from "./server/modules/inventories/inventory.controller";
-import {UserController} from "./server/modules/users/user.controller";
 import {CharacterController} from "./server/modules/characters/character.controller";
 import {VehicleController} from "./server/modules/vehicles/vehicle.controller";
+import {UserController} from "./server/modules/users/user.controller";
 
 async function bootstrap() {
     try {
+
         // Initialiser les contrôleurs
-        new VehicleController()
         new RoleController()
-        new CharacterController();
+        new VehicleController()
         new UserController();
+        new CharacterController();
         new InventoryController()
         new ItemController()
 

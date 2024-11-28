@@ -1,16 +1,17 @@
 import '@citizenfx/server';
-import {ServerEvent, Inject, Tick, TickInterval} from '../../../core/decorators';
+import {ServerEvent, Inject, Tick, TickInterval, Injectable, Command} from '../../../core/decorators';
 import { CharacterService } from './character.service';
 import { PlayerManagerService } from '../playerManager/playerManager.service';
 import {UserService} from "../users/user.service";
-import {Character, User} from "@prisma/client";
 import {NotifierService} from "../notifiers/notifier.service";
-import {getClosestPlayer} from "../../../utils/fivem";
 import {LoggerService} from "../../../core/modules/logger/logger.service";
+import {PlayerData} from "../../../shared/player";
+import {RoleType} from "../roles/role.enum";
 
+@Injectable()
 export class CharacterController {
   @Inject(CharacterService)
-  private characterService!: CharacterService;
+  private characterService: CharacterService;
 
   @Inject(PlayerManagerService)
   private playerManager!: PlayerManagerService;
@@ -25,38 +26,28 @@ export class CharacterController {
     private logger!: LoggerService
 
   @ServerEvent('character:login')
-  async handleLoginCharacter(source: number): Promise<void> {
+  async handleLoginCharacter(): Promise<void> {
+    const source = global.source;
     try {
-      const license = this.userService.getPlayerIdentifier(source);
-      const user = await this.userService.findUserByLicense(license);
+      const playerData = await this.characterService.loginCharacter(source);
 
-      if (!user) {
-        console.log(`Utilisateur introuvable avec la licence ${license}`);
-        return;
-      }
-
-      if (user.characters && user.characters.length > 0) {
-        const character: Character = await this.userService.getActiveCharacter(user.id);
-        emitNet('orionCore:client:loadCharacter', source, character);
-        this.playerManager.addPlayer(source, user)
-        this.notifierService.notify(source, `Bienvenue ${character.firstName} ${character.lastName} !`, 'info')
-
+      if (playerData) {
+        this.playerManager.addPlayer(playerData);
+        emitNet('orionCore:client:loadCharacter', source, playerData.character);
+        this.notifierService.notify(source, `Bienvenue ${playerData.character?.firstName} ${playerData.character?.lastName} !`, 'info');
       } else {
-        console.log(`Aucun personnage actif trouvé pour l'utilisateur ${user.username}`);
         emitNet('characterCreator:client:openCharacterCreation', source);
       }
     } catch (error) {
-      console.error('Erreur lors du chargement du personnage:', error);
+      this.logger.error(`Erreur lors du login du personnage : ${error.message}`);
     }
   }
-
 
   @ServerEvent('character:register')
   async handleRegisterCharacter(playerId: number, characterData: any): Promise<void> {
     const license = this.userService.getPlayerIdentifier(source)
     try {
       const character = await this.characterService.createCharacter(license, characterData);
-      console.log(`Personnage enregistré pour l'utilisateur ${character.firstName} ${character.lastName}`);
       emitNet('orionCharacter:client:loadCharacter', playerId, character)
       emitNet('characterCreator:client:closeCharacterCreation', playerId)
     } catch (error) {
@@ -77,23 +68,12 @@ export class CharacterController {
   }
 
   @ServerEvent('character:save')
-  async handleSaveCharacter(playerId: number, position: { x: number, y: number, z: number }, heading: number): Promise<void> {
+  async handleSaveCharacter(player: PlayerData): Promise<void> {
     try {
-      await this.characterService.saveCharacter(playerId, position, heading);
-      console.log(`Personnage du joueur ${playerId} sauvegardé.`);
+      await this.characterService.saveCharacter(player.source, player.character);
+      console.log(`Personnage du joueur ${player.source} sauvegardé.`);
     } catch (error) {
       console.error('Erreur lors de la sauvegarde du personnage:', error);
-    }
-  }
-
-  @ServerEvent('money:send')
-  handleSendMoney(targetPlayer:number, amount: number): void {
-    if (targetPlayer) {
-      console.log(`Le joueur ${source} envoie ${amount} $ au joueur ${targetPlayer}`);
-      this.characterService.modifyMoney(source, targetPlayer, amount);
-    }
-    else {
-      this.logger.error('Aucun joueur à proximité pour envoyer de l\'argent');
     }
   }
 
@@ -101,7 +81,7 @@ export class CharacterController {
   async handleApplyItemEffects(playerId: number, effects: any): Promise<void> {
     try {
       const character = this.playerManager.getPlayer(playerId);
-      if (character && character.activeCharacter) {
+      if (character && character.character) {
         console.log(`Effets appliqués au personnage du joueur ${playerId}`);
       }
     } catch (error) {
@@ -111,14 +91,29 @@ export class CharacterController {
 
   @Tick(TickInterval.EVERY_15_MINUTE)
   handleSaveCharacters() : void {
-    const players = this.playerManager.getAllPlayers()
-    console.log(`update ${players.size} players`)
-    if (players.size > 0) {
+    const players = this.playerManager.getPlayers()
+    if (players.length > 0) {
       players.forEach(async player => {
         const [x, y, z] = GetEntityCoords(player.source)
-        const playerHeading = GetEntityHeading(player.source)
-        await this.characterService.saveCharacter(player.id, {x, y, z}, playerHeading)
+        player.character.position = {x, y, z}
+        await this.characterService.saveCharacter(player.source, player.character)
       })
+    }
+  }
+
+  @Command({
+    name: 'login',
+    description: 'Connecte l\'utilisateur au serveur.',
+    role: RoleType.ADMIN,
+  })
+  async loginCommand(source: number) {
+    const user = this.userService
+    const playerData = await this.characterService.loginCharacter(source);
+    if (playerData) {
+      this.playerManager.addPlayer(playerData);
+      emitNet('orionCore:client:loadCharacter', source, playerData.character);
+    } else {
+      emitNet('characterCreator:client:openCharacterCreation', source);
     }
   }
 }

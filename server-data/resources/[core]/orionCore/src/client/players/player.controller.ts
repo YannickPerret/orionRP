@@ -24,10 +24,6 @@ export class PlayerController {
 
     private playerSpawned = false;
 
-    initialize() {
-        console.log('PlayerController initialized');
-    }
-
     @Command({ name: 'teleportToGPS', description: 'Téléporte le joueur au GPS', role: null })
     async teleportToGPS() {
         const playerPed = PlayerPedId();
@@ -126,7 +122,6 @@ export class PlayerController {
 
         let tick = setTick(async () => {
             if (NetworkIsSessionStarted()) {
-                console.log('Session started')
                 emitNet('orionCore:server:character:login');
                 clearTick(tick);
                 return;
