@@ -1,0 +1,79 @@
+services:
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: OrionRP-MySQL
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword123
+      MYSQL_DATABASE: orionrp
+      MYSQL_USER: fivem
+      MYSQL_PASSWORD: fivempassword123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d  # Scripts SQL d'initialisation
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - orionrp-network
+
+  # Serveur FiveM OrionRP
+  fivem:
+    build: .
+    container_name: OrionRP-Server
+    restart: on-failure
+    platform: linux/amd64  # Force l'architecture x86_64
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - LICENSE_KEY=cfxk_1ObcujxevK4ey79aidjsW_4aaD8
+      - RCON_PASSWORD=monmotdepasse123  # Optionnel
+      # Variables MySQL pour les scripts
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=orionrp
+      - MYSQL_USER=fivem
+      - MYSQL_PASSWORD=fivempassword123
+      # - NO_DEFAULT_CONFIG=1           # Décommentez pour txAdmin
+      # - NO_LICENSE_KEY=1              # Décommentez si licence dans config
+      # - NO_ONESYNC=1                  # Décommentez pour désactiver OneSync
+    ports:
+      - "30120:30120/tcp"
+      - "30120:30120/udp"
+      - "40120:40120/tcp"  # Pour txAdmin
+    volumes:
+      - ./volumes/fivem:/config
+      - ./volumes/txData:/txData
+    tty: true
+    stdin_open: true
+    networks:
+      - orionrp-network
+
+  # Adminer (Interface web pour MySQL) - Optionnel
+  adminer:
+    image: adminer:latest
+    container_name: OrionRP-Adminer
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - orionrp-network
+
+# Réseau pour la communication entre services
+networks:
+  orionrp-network:
+    driver: bridge
+
+# Volumes pour la persistance des données
+volumes:
+  mysql_data:
+  fivem_config:
+  tx_data:
