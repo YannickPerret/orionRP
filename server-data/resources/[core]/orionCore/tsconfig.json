@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2016",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "types": ["@citizenfx/server", "@citizenfx/client", "@types/node", "reflect-metadata"],
+    "outDir": "./build",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"],
+  "ts-node": {
+    "swc": true
+  }
+}

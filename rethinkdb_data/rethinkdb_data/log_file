@@ -1,8 +1,0 @@
-2023-11-12T12:25:33.536993623 0.027072s notice: Recursively removing directory /home/tchoune/orionRP/rethinkdb_data/rethinkdb_data/tmp
-2023-11-12T12:25:33.546349325 0.036426s notice: Initializing directory /home/tchoune/orionRP/rethinkdb_data/rethinkdb_data
-2023-11-12T12:25:33.546639449 0.036716s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/home/tchoune/orionRP/rethinkdb_data/rethinkdb_data' did not already exist or is empty.)
-2023-11-12T12:25:33.546740082 0.036816s notice: Running rethinkdb 2.4.3~0jammy (x86_64-linux-gnu) (GCC 11.3.0)...
-2023-11-12T12:25:33.551391169 0.041468s notice: Running on Linux 5.19.0-32-generic x86_64
-2023-11-12T12:25:33.551549346 0.041626s notice: Loading data from directory /home/tchoune/orionRP/rethinkdb_data/rethinkdb_data
-2023-11-12T12:25:33.607671734 0.097748s info: Automatically using cache size of 5972 MB
-2023-11-12T12:25:33.610606788 0.100683s error: TCP socket creation failed for port 29015: Address already in use.

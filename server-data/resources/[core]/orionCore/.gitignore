@@ -1,0 +1,6 @@
+node_modules
+src/server/.env
+.env.*
+/build
+package-lock.json
+yarn.lock

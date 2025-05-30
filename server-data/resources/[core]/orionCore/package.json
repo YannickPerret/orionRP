@@ -1,0 +1,52 @@
+{
+  "name": "orion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:web": "cd web && npm run dev",
+    "dev": "webpack --config webpack.config.dev.js --mode development",
+    "build": "webpack --mode production --config webpack.config.js",
+    "typecheck": "tsc --noEmit -p src/client/tsconfig.json && tsc --noEmit -p tsconfig.json",
+    "prisma:studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate --schema src/core/database/schemas/schema.prisma"
+  },
+  "prisma": {
+    "seed": "tsx src/core/database/seeds/seeds.ts"
+  },
+  "keywords": [],
+  "author": "Tchoune",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/luxon": "^3.4.2",
+    "@types/pg": "^8.11.10",
+    "bcrypt": "^5.1.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "ioredis": "^5.4.1",
+    "luxon": "^3.5.0",
+    "mysql2": "^3.11.3",
+    "path-browserify": "^1.0.1",
+    "pino": "^9.5.0",
+    "reflect-metadata": "^0.2.2",
+    "uuid": "^11.0.2"
+  },
+  "devDependencies": {
+    "@citizenfx/client": "^2.0.10778-1",
+    "@citizenfx/server": "^2.0.10778-1",
+    "@swc/core": "1.2.249",
+    "@types/node": "^22.9.0",
+    "eslint-webpack-plugin": "^4.2.0",
+    "prisma": "^5.22.0",
+    "swc-loader": "^0.2.6",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  }
+}
