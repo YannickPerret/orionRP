@@ -1,0 +1,35 @@
+# Ignorer les fichiers inutiles pour le build Docker
+.git
+.gitignore
+README.md
+*.md
+.DS_Store
+Thumbs.db
+
+# Volumes Docker (éviter la récursion)
+volumes/
+config-docker/
+txData/
+
+# Fichiers temporaires
+*.tmp
+*.log
+*.cache
+
+# Fichiers de développement
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Scripts de développement local
+*.local.sh
+get-latest-fivem.sh
+
+# Sauvegardes
+*.backup
+*.bak
+
+# Fichiers SQL (sauf ceux dans le dossier sql/)
+*.sql
+!sql/*.sql

@@ -24,6 +24,11 @@ type CommandOptions = {
     toggle?: boolean;
 };
 
+interface EventOptions {
+    validate?: (...args: any[]) => boolean;
+    rateLimit?: number;
+}
+
 
 export function Injectable(): ClassDecorator {
     return (target: any) => {
@@ -52,19 +57,33 @@ export function Inject(token: any): PropertyDecorator {
     };
 }
 
-export function ServerEvent(eventName: string) {
+export function ServerEvent(eventName: string, options?: EventOptions) {
     const prefixedEventName = `orionCore:server:${eventName}`;
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const original = descriptor.value;
+
         descriptor.value = function (...args: any[]) {
+            // Validation optionnelle
+            if (options?.validate && !options.validate(...args)) {
+                console.warn(`Event validation failed for ${eventName}`);
+                return;
+            }
+
             return original.apply(this, [source, ...args]);
         };
+
         onNet(prefixedEventName, (...args: any[]) => {
-            descriptor.value.apply(target, args);
+            try {
+                descriptor.value.apply(target, args);
+            } catch (error) {
+                console.error(`Error in event ${eventName}:`, error);
+            }
         });
+
         return descriptor;
     };
 }
+
 
 export function ClientEvent(eventName: string, scope: string = 'public') {
     const prefixedEventName = `orionCore:client:${eventName}`;

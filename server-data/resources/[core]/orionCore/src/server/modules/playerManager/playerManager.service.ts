@@ -1,67 +1,138 @@
-import {Injectable} from "../../../core/decorators";
-import {PlayerData} from "../../../shared/player";
+// src/server/modules/playerManager/playerManager.service.ts
+import { Injectable, Inject } from "../../../core/decorators";
+import { PlayerData } from "../../../shared/player";
+import { CacheService } from "../../../core/modules/cache/cache.service";
+import { LoggerService } from "../../../core/modules/logger/logger.service";
+import { ErrorHandler, HandleErrors } from "../../../core/modules/error/error.handler";
 
 @Injectable()
 export class PlayerManagerService {
-    // Gestion des joueurs connectés avec un Record.
-    private connectedPlayers: Record<number, PlayerData> = {};
+    @Inject(CacheService)
+    private cache: CacheService;
+
+    @Inject(LoggerService)
+    private logger: LoggerService;
+
+    @Inject(ErrorHandler)
+    private errorHandler: ErrorHandler;
+
+    private connectedPlayers: Map<number, PlayerData> = new Map();
 
     /**
-     * Récupère tous les joueurs connectés.
+     * Récupère tous les joueurs connectés avec cache
      */
-    public getPlayers(): PlayerData[] {
-        return Object.values(this.connectedPlayers);
+    async getPlayers(): Promise<PlayerData[]> {
+        return this.cache.getOrSet(
+            'all_players',
+            () => Promise.resolve(Array.from(this.connectedPlayers.values())),
+            30000 // 30 secondes
+        );
     }
 
     /**
-     * Ajoute un joueur au cache global.
-     * @param player Les données du joueur à ajouter.
+     * Ajoute un joueur avec validation et gestion d'erreurs
      */
-    public addPlayer(player: PlayerData): void {
-        if (this.connectedPlayers[player.source]) {
-            console.warn(`Le joueur avec la source ${player.source} est déjà ajouté.`);
+    @HandleErrors()
+    addPlayer(player: PlayerData): void {
+        if (!player?.source) {
+            this.logger.error('Invalid player data provided');
             return;
         }
-        this.connectedPlayers[player.source] = player;
-        console.log(`Joueur ajouté : ${player.character.firstname} (Source: ${player.source})`);
-    }
 
-    /**
-     * Récupère les informations d'un joueur par sa source.
-     * @param source La source du joueur.
-     * @returns Les données du joueur ou null si non trouvé.
-     */
-    public getPlayer(source: number): PlayerData | null {
-        const player = this.connectedPlayers[source] || null;
-        if (!player) {
-            console.warn(`Aucun joueur trouvé pour la source ${source}.`);
+        if (this.connectedPlayers.has(player.source)) {
+            this.logger.warn(`Player ${player.source} already exists, updating...`);
         }
-        return player;
+
+        this.connectedPlayers.set(player.source, player);
+        this.cache.delete('all_players'); // Invalider le cache
+
+        this.logger.log(`Player added: ${player.character?.firstName} (Source: ${player.source})`);
     }
 
     /**
-     * Met à jour les données d'un joueur existant.
-     * @param player Les nouvelles données du joueur.
+     * Récupère un joueur avec cache individuel
      */
-    public updatePlayer(player: PlayerData): void {
-        if (!this.connectedPlayers[player.source]) {
-            console.warn(`Impossible de mettre à jour : joueur avec la source ${player.source} introuvable.`);
+    async getPlayer(source: number): Promise<PlayerData | null> {
+        return this.cache.getOrSet(
+            `player_${source}`,
+            () => Promise.resolve(this.connectedPlayers.get(source) || null),
+            60000 // 1 minute
+        );
+    }
+
+    /**
+     * Met à jour un joueur avec invalidation de cache et gestion d'erreurs
+     */
+    @HandleErrors()
+    updatePlayer(player: PlayerData): void {
+        if (!this.connectedPlayers.has(player.source)) {
+            this.logger.warn(`Cannot update non-existent player: ${player.source}`);
             return;
         }
-        this.connectedPlayers[player.source] = player;
-        console.log(`Données mises à jour pour le joueur : ${player.character.firstname} (Source: ${player.source})`);
+
+        this.connectedPlayers.set(player.source, player);
+
+        // Invalider les caches pertinents
+        this.cache.delete(`player_${player.source}`);
+        this.cache.delete('all_players');
+
+        this.logger.log(`Player updated: ${player.character?.firstName} (Source: ${player.source})`);
     }
 
     /**
-     * Supprime un joueur du cache global.
-     * @param source La source du joueur à supprimer.
+     * Supprime un joueur avec nettoyage de cache
      */
-    public removePlayer(source: number): void {
-        if (!this.connectedPlayers[source]) {
-            console.warn(`Aucun joueur trouvé avec la source ${source} à supprimer.`);
-            return;
+    removePlayer(source: number): boolean {
+        const existed = this.connectedPlayers.delete(source);
+
+        if (existed) {
+            this.cache.delete(`player_${source}`);
+            this.cache.delete('all_players');
+            this.logger.log(`Player removed: ${source}`);
         }
-        delete this.connectedPlayers[source];
-        console.log(`Joueur supprimé avec la source ${source}.`);
+
+        return existed;
     }
+
+    /**
+     * Trouve des joueurs par critères
+     */
+    findPlayers(predicate: (player: PlayerData) => boolean): PlayerData[] {
+        return Array.from(this.connectedPlayers.values()).filter(predicate);
+    }
+
+    /**
+     * Statistiques des joueurs connectés
+     */
+    getStats(): PlayerStats {
+        const players = Array.from(this.connectedPlayers.values());
+
+        return {
+            total: players.length,
+            byRole: this.groupBy(players, p => p.role),
+            averagePlayTime: this.calculateAveragePlayTime(players)
+        };
+    }
+
+    private groupBy<T, K extends string | number>(
+        array: T[],
+        keyFn: (item: T) => K
+    ): Record<K, number> {
+        return array.reduce((acc, item) => {
+            const key = keyFn(item);
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+        }, {} as Record<K, number>);
+    }
+
+    private calculateAveragePlayTime(players: PlayerData[]): number {
+        // Implémentation basique - à améliorer selon vos besoins
+        return players.length > 0 ? 60 : 0; // Placeholder
+    }
+}
+
+interface PlayerStats {
+    total: number;
+    byRole: Record<string, number>;
+    averagePlayTime: number;
 }
